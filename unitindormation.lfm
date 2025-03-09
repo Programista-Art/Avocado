@@ -1,0 +1,7 @@
+object FormInfo: TFormInfo
+  Left = 350
+  Height = 240
+  Top = 250
+  Width = 320
+  Caption = 'FormInfo'
+end

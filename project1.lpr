@@ -1,0 +1,30 @@
+program project1;
+
+{$mode objfpc}{$H+}
+
+uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
+  {$IFDEF HASAMIGA}
+  athreads,
+  {$ENDIF}
+  Interfaces, // this includes the LCL widgetset
+  Forms, anchordockpkg, unit1, usettings, AvocadoTranslator, unitopcjeprojektu,
+  unitoprogramie, unitautor
+  { you can add units after this };
+
+{$R *.res}
+
+begin
+  RequireDerivedFormResource:=True;
+  Application.Scaled:=True;
+  Application.Initialize;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormSettingIntepreter, FormSettingIntepreter);
+  Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
+  Application.CreateForm(TFormOprogramie, FormOprogramie);
+  Application.CreateForm(TFormAutor, FormAutor);
+  Application.Run;
+end.
+

@@ -1,0 +1,173 @@
+object FormSettingIntepreter: TFormSettingIntepreter
+  Left = 436
+  Height = 193
+  Top = 389
+  Width = 469
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Ustawienia'
+  ClientHeight = 193
+  ClientWidth = 469
+  Color = 5197647
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  object Panel1: TPanel
+    Left = 0
+    Height = 32
+    Top = 161
+    Width = 469
+    Align = alBottom
+    BevelColor = 5197647
+    ClientHeight = 32
+    ClientWidth = 469
+    ParentBackground = False
+    TabOrder = 0
+    object BitBtn1: TBitBtn
+      Left = 438
+      Height = 30
+      Top = 1
+      Width = 30
+      Align = alRight
+      Caption = 'Ok'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Height = -13
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabOrder = 0
+      OnClick = BitBtn1Click
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Height = 80
+    Top = 0
+    Width = 469
+    Align = alTop
+    Caption = 'Link do Interpretatora'
+    ClientHeight = 60
+    ClientWidth = 465
+    Color = 5197647
+    Font.CharSet = EASTEUROPE_CHARSET
+    Font.Color = clWhite
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentBackground = False
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 1
+    object EditLinkInterpreter: TEdit
+      Left = 5
+      Height = 23
+      Top = 5
+      Width = 455
+      Align = alTop
+      BorderSpacing.Around = 5
+      Color = clInactiveBorder
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clBlack
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      TextHint = 'Link do interpretatora'
+    end
+    object SpeedButton1: TSpeedButton
+      Left = 8
+      Height = 22
+      Hint = 'Otwórz'
+      Top = 32
+      Width = 23
+      Images = ImageList1
+      ImageIndex = 1
+    end
+    object SpeedButton2: TSpeedButton
+      Left = 32
+      Height = 22
+      Hint = 'Zapisz'
+      Top = 32
+      Width = 23
+      Images = ImageList1
+      ImageIndex = 2
+      OnClick = SpeedButton2Click
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Height = 81
+    Top = 80
+    Width = 469
+    Align = alClient
+    Caption = 'Link do kompilatora FPC'
+    ClientHeight = 61
+    ClientWidth = 465
+    Color = 5197647
+    Font.CharSet = EASTEUROPE_CHARSET
+    Font.Color = clBlack
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentBackground = False
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 2
+    object EdtLinkFPC: TEdit
+      Left = 5
+      Height = 23
+      Top = 5
+      Width = 455
+      Align = alTop
+      BorderSpacing.Around = 5
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      TextHint = 'Link do FPC'
+    end
+    object SpeedButOpenLinkFPC: TSpeedButton
+      Left = 8
+      Height = 22
+      Top = 33
+      Width = 23
+      Images = ImageList1
+      ImageIndex = 1
+    end
+    object SpeedButSaveLInkFPC: TSpeedButton
+      Left = 32
+      Height = 22
+      Top = 33
+      Width = 23
+      Images = ImageList1
+      ImageIndex = 2
+      OnClick = SpeedButSaveLInkFPCClick
+    end
+  end
+  object ImageList1: TImageList
+    Left = 405
+    Top = 105
+    Bitmap = {
+      4C7A0300000010000000100000009F0200000000000078DADD55CB52135110ED
+      0A82024258A85FE0C6D2BDDFA03B1F0B9FECFC007C7D86B809E2D6B22C321332
+      502E289F0B17AE0816359921440574A1A00BB52C2B844CBCF6B9DE3BDE4C66F2
+      2ADCB03855333D7DEE3DDD7D3A11429088E08D43639E45E719D78B599A609C43
+      4CC4E49A58CED391A245F7193B8C6DC68A029E77DC2C4D2F5974388EEBCFD009
+      CEF9C828176DBAF0DAA241FD6DF1310DB1868BFCED1DE38397A3E331F782FBA4
+      344F233AEED9740AD0EF6F1FD2A86BD133CEDB307528CD6593ABE215C08CE10C
+      E8E073EFE95EC97A5973B4268E0B201AE7BE5EE27875D1A2347A8B3B5063A7FC
+      E507348C9EBA369DE59EDE448F650FB3741AE76A5E0CAAC85167AF720D37242C
+      2AF5C02F6B6FF4ACDFA233AA7F55CCB7533ED77C45F74FBD4F6326984DBBF981
+      C3F5AE31A6740C5E8027E00DF38CA87FE4BC2C7ACE585F7D44871A66CA9EC419
+      CA1B97CD7EA05E68C6BDE0BA33742C6E07A043D5821954311740BF738F32D17B
+      E3009DF0869ACF049E75AF761BBE337AD7B3FB02D3277E7EE813EB3EDA091FDC
+      FAF6BA10C1D7105FDCDBB5161E9400CF77C626A53F0C6EA7A857D644D1EEABF5
+      CA07427F46E29F0BD78497DBD75A7FAE9FB15FA1BFE1DB4A7E44D4BF3F15E2E7
+      AB44D4BF2DB0FE94049E5BE52621D4DF0377AFF03D3B15F4D2BFE06FFF6BBE73
+      701267B4F36BB37F5301CFF9CEFFD8C96E519A4F4FE91ABCD903D88B66CD1CF3
+      6607953F871778BF07FEED702AF8FDE385EC0BBC8CDD8ADB372F372090B7F1F2
+      E42F9C61FECE9B3331795BEEAD30A6F37086F9BFD02D3FCC8BE127E90F2AEFA5
+      FE76FCCDC278D33EEB7DDF5A1A6FCBEFC6BB51FE66E16AECDDA606E84BE227D5
+      1E9D6112BF93DFD286DC3DC2D7FE6FD73FED2199CB9C70FFE6D219CF4AD5E57E
+      C5ED9EB1833EEF27724B4E3AB31BBBFF074EA3DC52
+    }
+  end
+end

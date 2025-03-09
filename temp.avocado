@@ -1,0 +1,5 @@
+Liczbar x = 5.5
+Liczbar a = 5.5
+Liczbar suma = x+a
+druk(suma)
+
