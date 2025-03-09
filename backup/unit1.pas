@@ -12,6 +12,8 @@ uses
 type
   { TForm1 }
   TForm1 = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
     MemoLogs: TMemo;
     MemoOutPut: TMemo;
     MenuItem3: TMenuItem;
@@ -32,6 +34,8 @@ type
     MenuItemPaste: TMenuItem;
     MenuItemCopy: TMenuItem;
     Panel1: TPanel;
+    Panel2: TPanel;
+    PanelDolnynadKosnola: TPanel;
     PanelLewy: TPanel;
     PanelPrawy: TPanel;
     PopupMenuMemoLogs: TPopupMenu;
@@ -52,14 +56,11 @@ type
     PopupMenuKonsola: TPopupMenu;
     SD: TSaveDialog;
     Splitter1: TSplitter;
-    Splitter2: TSplitter;
     Splitter3: TSplitter;
     SynCompletion1: TSynCompletion;
     SynEditCode: TSynEdit;
-    SynEditConsole: TSynEdit;
     SynPopupMenuCode: TSynPopupMenu;
     ToolBar1: TToolBar;
-    ToolButStartCode: TToolButton;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     procedure FormCreate(Sender: TObject);
@@ -72,7 +73,6 @@ type
     procedure MenuItemCopyCodeClick(Sender: TObject);
     procedure MenuItemCutClick(Sender: TObject);
     procedure MenuItemCutCodeClick(Sender: TObject);
-    procedure MenuItemDeleteAllCodeClick(Sender: TObject);
     procedure MenuItemDeleteCodeClick(Sender: TObject);
     procedure MenuItemOutputCodeClearClick(Sender: TObject);
     procedure MenuItemPasteClick(Sender: TObject);
@@ -83,18 +83,13 @@ type
     procedure MenuOpenClick(Sender: TObject);
     procedure MenuSaveAsClick(Sender: TObject);
     procedure MenuUstawiniaClick(Sender: TObject);
-    procedure RunCodeExecute(Sender: TObject);
-    procedure ToolButStartCodeClick(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
     procedure ToolButton2Click(Sender: TObject);
   private
     FTranslator: TAvocadoTranslator;
     FTranslatedCode: TStringList;
-    //Laduje link do interpretatora
-    procedure LoadInterpreterPath;
     //Laduje link do FPC kompilatora
     procedure LoadFpc;
-    procedure RunInterpreter;
     procedure SaveCodeToFile;
     //Kompilacja kodu
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
@@ -125,10 +120,13 @@ var
   //Link do FPC
   FFpcPath: string;
   FTempFile: string;
+  //Tymczasowy plik.pas
+  FTempFiles: string;
   FPC_Path: string;
   FPC_Params: TStringList;
   //Nazwa pliku
   FileNamePr: String;
+  //Sciezka pliku
   SaveFileProject: String;
 
 implementation
@@ -142,10 +140,11 @@ uses
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  LoadInterpreterPath;
   LoadFpc;
   // Ustalanie ścieżki do pliku tymczasowego
-  FTempFile := ExtractFilePath(Application.ExeName) + 'temp.avocado';
+  //FTempFile := ExtractFilePath(Application.ExeName) + 'temp.avocado';
+  //Zapisuje plik tymaczosowy tam gdzie jest zapisany projekt
+  FTempFile := SaveFileProject + 'temp.avocado';
 end;
 
 constructor TForm1.Create(TheOwner: TComponent);
@@ -208,10 +207,6 @@ begin
   SynEditCode.CutToClipboard;
 end;
 
-procedure TForm1.MenuItemDeleteAllCodeClick(Sender: TObject);
-begin
-  SynEditConsole.ClearAll;
-end;
 
 procedure TForm1.MenuItemDeleteCodeClick(Sender: TObject);
 begin
@@ -272,17 +267,6 @@ begin
   FormSettingIntepreter.ShowModal;
 end;
 
-procedure TForm1.RunCodeExecute(Sender: TObject);
-begin
-   RunInterpreter;
-end;
-
-
-
-procedure TForm1.ToolButStartCodeClick(Sender: TObject);
-begin
-  RunInterpreter;
-end;
 
 procedure TForm1.ToolButton1Click(Sender: TObject);
 begin
@@ -329,15 +313,6 @@ begin
 
 end;
 
-procedure TForm1.LoadInterpreterPath;
-begin
-  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
-  try
-    FInterpreterPath := Ini.ReadString('main', 'interpretator', '');
-  finally
-    Ini.Free;
-  end;
-end;
 
 procedure TForm1.LoadFpc;
 begin
@@ -349,15 +324,7 @@ begin
   end;
 end;
 
-procedure TForm1.RunInterpreter;
-begin
-  // Zapisz kod z edytora do pliku tymczasowego
-  SynEditCode.Lines.SaveToFile(FTempFile);
-  // Wyczyść konsolę
-  SynEditConsole.Clear;
-  // Uruchom wątek do asynchronicznego odczytu wyjścia
-  TInterpreterThread.Create(FInterpreterPath, FTempFile, SynEditConsole);
-end;
+
 
 procedure TForm1.SaveCodeToFile;
 begin
@@ -380,35 +347,54 @@ var
   OutputLines: TStringList;
 begin
   if SaveFileProject = '' then
-  begin
-  end;
-  //TempFile := ChangeFileExt(Application.ExeName, '_projekt.pas');
-  TempFile := ChangeFileExt(SaveFileProject, '.pas');
+    begin
+      MemoLogs.Lines.Add('Błąd: Projekt nie został zapisany. Zapisz projekt przed kompilacją.');
+      Exit; // Wyjście z procedury
+    end;
+
+    TempFile := ChangeFileExt(SaveFileProject, '.pas');
 
     try
-      MemoOutPut.Lines.SaveToFile(TempFile);
+      // Zapis kodu do pliku tymczasowego
+      if PascalCode <> '' then
+      begin
+         OutputLines := TStringList.Create;
+        try
+          OutputLines.Text := PascalCode;
+          OutputLines.SaveToFile(TempFile);
+        finally
+          OutputLines.Free;
+        end;
+      end
+      else
+      begin
+         MemoOutPut.Lines.SaveToFile(TempFile); // Zapis z MemoOutPut jeśli PascalCode jest pusty
+      end;
+
       AProcess := TProcess.Create(nil);
       OutputLines := TStringList.Create;
       try
-        AProcess.Executable := FFpcPath; //link do fpc
-        AProcess.Parameters.Add(TempFile);
-        //AProcess.Parameters.Add('-o ' + OutputFile);
-        AProcess.Parameters.Add('-o' + Trim(OutputFile));
+        AProcess.Executable := FFpcPath;
+        if not FileExists(FFpcPath) then
+          raise Exception.Create('Nie znaleziono kompilatora Free Pascal w: ' + FFpcPath);
 
+        AProcess.Parameters.Add(TempFile);
+        AProcess.Parameters.Add('-o' + Trim(OutputFile));
         AProcess.Options := [poUsePipes, poStderrToOutput];
         AProcess.ShowWindow := swoHIDE;
 
         MemoLogs.Lines.Add('Rozpoczynanie kompilacji...');
 
         AProcess.Execute;
-        AProcess.WaitOnExit; // Czekaj na zakończenie kompilacji
+        AProcess.WaitOnExit;
         OutputLines.LoadFromStream(AProcess.Output);
         MemoLogs.Lines.AddStrings(OutputLines);
 
-
         if AProcess.ExitStatus = 0 then
-          MemoLogs.Lines.Add('Kompilacja udana! Plik wyjściowy: ' + OutputFile)
-          //DeleteFile(TempFile);
+        begin
+          MemoLogs.Lines.Add('Kompilacja udana! Plik wyjściowy: ' + OutputFile);
+          DeleteFile(TempFile); // Usuń plik tymczasowy
+        end
         else
           MemoLogs.Lines.Add('Błąd kompilacji. Kod: ' + IntToStr(AProcess.ExitStatus));
 
@@ -421,6 +407,7 @@ begin
         MemoLogs.Lines.Add('Błąd kompilacji: ' + E.Message);
     end;
   end;
+
 
 procedure TForm1.KompilacjaKoduwPascal(const Code, OutputFile: string);
 var

@@ -1,12 +1,12 @@
 object FormSettingIntepreter: TFormSettingIntepreter
   Left = 436
-  Height = 193
+  Height = 113
   Top = 389
   Width = 469
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Ustawienia'
-  ClientHeight = 193
+  ClientHeight = 113
   ClientWidth = 469
   Color = 5197647
   Position = poMainFormCenter
@@ -14,7 +14,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 161
+    Top = 81
     Width = 469
     Align = alBottom
     BevelColor = 5197647
@@ -38,66 +38,10 @@ object FormSettingIntepreter: TFormSettingIntepreter
       OnClick = BitBtn1Click
     end
   end
-  object GroupBox1: TGroupBox
-    Left = 0
-    Height = 80
-    Top = 0
-    Width = 469
-    Align = alTop
-    Caption = 'Link do Interpretatora'
-    ClientHeight = 60
-    ClientWidth = 465
-    Color = 5197647
-    Font.CharSet = EASTEUROPE_CHARSET
-    Font.Color = clWhite
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    ParentBackground = False
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 1
-    object EditLinkInterpreter: TEdit
-      Left = 5
-      Height = 23
-      Top = 5
-      Width = 455
-      Align = alTop
-      BorderSpacing.Around = 5
-      Color = clInactiveBorder
-      Font.CharSet = EASTEUROPE_CHARSET
-      Font.Color = clBlack
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 0
-      TextHint = 'Link do interpretatora'
-    end
-    object SpeedButton1: TSpeedButton
-      Left = 8
-      Height = 22
-      Hint = 'Otwórz'
-      Top = 32
-      Width = 23
-      Images = ImageList1
-      ImageIndex = 1
-    end
-    object SpeedButton2: TSpeedButton
-      Left = 32
-      Height = 22
-      Hint = 'Zapisz'
-      Top = 32
-      Width = 23
-      Images = ImageList1
-      ImageIndex = 2
-      OnClick = SpeedButton2Click
-    end
-  end
   object GroupBox2: TGroupBox
     Left = 0
     Height = 81
-    Top = 80
+    Top = 0
     Width = 469
     Align = alClient
     Caption = 'Link do kompilatora FPC'
@@ -111,7 +55,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     ParentBackground = False
     ParentColor = False
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
     object EdtLinkFPC: TEdit
       Left = 5
       Height = 23
