@@ -61,7 +61,7 @@ begin
   Result := StringReplace(Result, 'LiczbacWr(', 'Real(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWc(', 'Trunc(', [rfReplaceAll]);
   //nowe
-  Result := StringReplace(Result, 'LiczbacWlk(', 'Shortint(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Liczba_mała(', 'Shortint(', [rfReplaceAll]);
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -89,7 +89,7 @@ begin
         VarName := Trim(Parts[1]);
         // Dozwolone typy: liczbac, liczbar, logika, znak, tekst, tablicaliczb, tablicatekstów
         if (VarType = 'liczbac') or (VarType = 'liczbar') or
-           (VarType = 'logika') or (VarType = 'znak') or
+           (VarType = 'logika') or (VarType = 'znak') or (VarType = 'liczba_mała') or
            (VarType = 'tekst') or (VarType = 'tablicaliczb') or (VarType = 'tablicatekstów') then
         begin
           AddVariable(VarName, VarType);
@@ -365,6 +365,8 @@ begin
           PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
         else if LowerCase(FVariables[i].VarType) = 'liczbar' then
           PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+        else if LowerCase(FVariables[i].VarType) = 'liczba_mała' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': ShortInt;')
         else if LowerCase(FVariables[i].VarType) = 'logika' then
           PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
         else if LowerCase(FVariables[i].VarType) = 'znak' then
