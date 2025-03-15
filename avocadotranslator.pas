@@ -73,8 +73,8 @@ begin
       // Jeśli linia nie zawiera znaku "=", to nie jest deklaracją zmiennej
       if Pos('=', Line) = 0 then Exit;
       // Pomijamy linie zaczynające się od instrukcji, których nie chcemy traktować jako deklaracje
-      if (LowerCase(Trim(Line)).StartsWith('jeśli')) or
-         (LowerCase(Trim(Line)).StartsWith('druk(')) //or
+      if (LowerCase(Trim(Line)).StartsWith('jeśli')) //or
+         //(LowerCase(Trim(Line)).StartsWith('druk(')) //or
          //(Pos('wpr(', LowerCase(Line)) > 0)
          then Exit;
 

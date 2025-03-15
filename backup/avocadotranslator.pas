@@ -74,8 +74,9 @@ begin
       if Pos('=', Line) = 0 then Exit;
       // Pomijamy linie zaczynające się od instrukcji, których nie chcemy traktować jako deklaracje
       if (LowerCase(Trim(Line)).StartsWith('jeśli')) or
-         (LowerCase(Trim(Line)).StartsWith('druk(')) or
-         (Pos('wpr(', LowerCase(Line)) > 0) then Exit;
+         //(LowerCase(Trim(Line)).StartsWith('druk(')) //or
+         //(Pos('wpr(', LowerCase(Line)) > 0)
+         then Exit;
 
       Parts := Line.Split(['='], 2);
       VarName := Trim(Parts[0]);

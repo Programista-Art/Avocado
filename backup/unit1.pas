@@ -246,6 +246,8 @@ end;
 procedure TForm1.MenuNewFileClick(Sender: TObject);
 begin
    SynEditCode.Clear;
+   MemoOutPut.Clear;
+   MemoLogs.Clear;
 end;
 
 procedure TForm1.MenuOpcjeProjektuClick(Sender: TObject);
@@ -255,11 +257,14 @@ end;
 
 procedure TForm1.MenuOpenClick(Sender: TObject);
 begin
+  SynEditCode.Clear;
+  PopupMenuOutPutPascalCode.Clear;
+  MemoLogs.Clear;
   if OD.Execute then
   begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
-    ShowMessage(OpenFileProject);
+   // ShowMessage(OpenFileProject);
   end;
 end;
 
