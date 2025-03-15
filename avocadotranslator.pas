@@ -9,15 +9,15 @@ uses
 
 type
   TStringArray = array of string;
-
+  TAvocadoVariable = record
+    Name, VarType: string;
+  end;
 
   { TAvocadoTranslator }
 
   TAvocadoTranslator = class
   private
-    FVariables: array of record
-      Name, VarType: string;
-    end;
+    FVariables: array of TAvocadoVariable;
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
     procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
@@ -220,7 +220,12 @@ var
 begin
   TrimmedLine := Trim(Line);
 
-
+        // 0. Obsługa pętli for
+      if LowerCase(TrimmedLine).StartsWith('dla ') then
+      begin
+        ProcessForLoop(TrimmedLine, PascalCode);
+        Exit;
+      end;
     // 1. Najpierw obsługujemy instrukcje warunkowe
     if Pos('jeśli ', LowerCase(TrimmedLine)) = 1 then
     begin
