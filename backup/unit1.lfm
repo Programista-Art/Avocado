@@ -7,7 +7,6 @@ object Form1: TForm1
   ClientHeight = 572
   ClientWidth = 1086
   Color = 5197647
-  FormStyle = fsSystemStayOnTop
   Menu = MainMenu1
   Position = poMainFormCenter
   OnCreate = FormCreate
@@ -88,9 +87,14 @@ object Form1: TForm1
           Align = alClient
           Alignment = taCenter
           BorderSpacing.Around = 5
-          Caption = 'Translacja w Free Pascal'
-          Color = clForm
+          Caption = 'Transpilacja w Free Pascal'
+          Color = clWhite
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clWhite
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
           ParentColor = False
+          ParentFont = False
         end
       end
     end
@@ -658,6 +662,11 @@ object Form1: TForm1
         Align = alLeft
         BorderSpacing.Around = 5
         Caption = 'Debug'
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Color = clWhite
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        ParentFont = False
       end
     end
   end

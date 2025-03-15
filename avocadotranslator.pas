@@ -59,23 +59,43 @@ begin
   Result := StringReplace(Result, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbacWr(', 'Real(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWc(', 'Trunc(', [rfReplaceAll]);
+  //nowe
+  Result := StringReplace(Result, 'LiczbacWlk(', 'Shortint(', [rfReplaceAll]);
 end;
 
+//Deklaracja nowych typów zmienncyh
 procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
 var
   Parts: TStringArray;
   VarType, VarName: string;
 begin
-  Parts := Line.Split(['='], 2);
-  VarName := Trim(Parts[0]);
+    if Trim(Line) = '' then Exit;
+      // Jeśli linia nie zawiera znaku "=", to nie jest deklaracją zmiennej
+      if Pos('=', Line) = 0 then Exit;
+      // Pomijamy linie zaczynające się od instrukcji, których nie chcemy traktować jako deklaracje
+      if (LowerCase(Trim(Line)).StartsWith('jeśli')) or
+         (LowerCase(Trim(Line)).StartsWith('druk(')) //or
+         //(Pos('wpr(', LowerCase(Line)) > 0)
+         then Exit;
 
-  if Pos(' ', VarName) > 0 then
-  begin
-    Parts := VarName.Split([' '], 2);
-    VarType := Trim(Parts[0]);
-    VarName := Trim(Parts[1]);
-    AddVariable(VarName, VarType);
-  end;
+      Parts := Line.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      if Pos(' ', VarName) > 0 then
+      begin
+        Parts := VarName.Split([' '], 2);
+        if Length(Parts) < 2 then Exit;
+        VarType := LowerCase(Trim(Parts[0]));
+        VarName := Trim(Parts[1]);
+        // Dozwolone typy: liczbac, liczbar, logika, znak, tekst, tablicaliczb, tablicatekstów
+        if (VarType = 'liczbac') or (VarType = 'liczbar') or
+           (VarType = 'logika') or (VarType = 'znak') or
+           (VarType = 'tekst') or (VarType = 'tablicaliczb') or (VarType = 'tablicatekstów') then
+        begin
+          AddVariable(VarName, VarType);
+        end
+        else
+          raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
+      end;
 end;
 
 function TAvocadoTranslator.JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
@@ -146,8 +166,9 @@ var
 begin
   TrimmedLine := Trim(Line);
 
+
     // 1. Najpierw obsługujemy instrukcje warunkowe
-    if Pos('jesli ', LowerCase(TrimmedLine)) = 1 then
+    if Pos('jeśli ', LowerCase(TrimmedLine)) = 1 then
     begin
       InstrukcjaWarunkowa := TrimmedLine.Split(['wtedy'], 2);
       if Length(InstrukcjaWarunkowa) = 2 then
@@ -188,12 +209,14 @@ begin
       end;
     end
 
+
     // 2. Obsługa funkcji druk
     else if LowerCase(TrimmedLine).StartsWith('druk(') then
     begin
+       // Pobieramy zawartość między "druk(" a ostatnim znakiem
       Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
-      Value := StringReplace(Value, ')', '', [rfReplaceAll]);
       PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
+      //Exit;
     end
 
     // 3. Obsługa deklaracji zmiennych z wpr()
@@ -214,6 +237,18 @@ begin
       Value := Copy(Value, 5, Length(Value) - 5);
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
       PascalCode.Add('Readln(' + VarName + ');');
+    end
+
+         //Ustawieni długośći w tablice
+    else if LowerCase(TrimmedLine).StartsWith('ustaw długość(') then
+    begin
+      // Wycinamy zawartość nawiasów.
+      // Długość frazy "ustaw długość(" wynosi: Length('ustaw długość(')
+      Value := Copy(TrimmedLine, Length('ustaw długość(') + 1, Length(TrimmedLine) - Length('ustaw długość(') - 1);
+      Value := Trim(Value);
+      // Generujemy kod: SetLength( <argumenty> );
+      PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');');
+      //Exit;
     end
 
     // 4. Obsługa zwykłych przypisań
@@ -246,22 +281,64 @@ var
   PascalCode: TStringList;
   i: Integer;
 begin
-  SetLength(FVariables, 0);
+ SetLength(FVariables, 0);  // Czyści listę zmiennych
   PascalCode := TStringList.Create;
   try
-    PascalCode.Add('program ' + SaveFileProject + ';');
-    PascalCode.Add('uses SysUtils;');
-    PascalCode.Add('var');
+    if SaveFileProject = '' then
+      PascalCode.Add('program ' + OpenFileProject + ';')
+    else
+      PascalCode.Add('program ' + SaveFileProject + ';');
 
+    // Dodajemy moduły
+    PascalCode.Add('uses SysUtils;');
+    PascalCode.Add('');
+
+    // Najpierw wykrywamy deklaracje zmiennych!
     for i := 0 to AvocadoCode.Count - 1 do
       ProcessDeclaration(Trim(AvocadoCode[i]));
+    // Dodajemy sekcję var
+        if Length(FVariables) > 0 then
+    begin
+      PascalCode.Add('var');
+      for i := 0 to High(FVariables) do
+      begin
+        if LowerCase(FVariables[i].VarType) = 'liczbac' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
+        else if LowerCase(FVariables[i].VarType) = 'liczbar' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+        else if LowerCase(FVariables[i].VarType) = 'logika' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
+        else if LowerCase(FVariables[i].VarType) = 'znak' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
+        else if LowerCase(FVariables[i].VarType) = 'tablicaliczb' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': array of Integer;')
+        else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': array of String;')
+        else
+          PascalCode.Add('  ' + FVariables[i].Name + ': String;');
 
-    for i := 0 to High(FVariables) do
-      PascalCode.Add('  ' + FVariables[i].Name + ': ' +
-        IfThen(FVariables[i].VarType = 'Liczbac', 'Integer',
-          IfThen(FVariables[i].VarType = 'Liczbar', 'Real',
-            IfThen(FVariables[i].VarType = 'Logika', 'Boolean', 'String'))) + ';');
 
+        {
+        if FVariables[i].VarType = 'Liczbac' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
+        else if FVariables[i].VarType = 'Liczbar' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+        else if FVariables[i].VarType = 'Logika' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
+        else if FVariables[i].VarType = 'Znak' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
+        else if FVariables[i].VarType = 'TablicaLiczb' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': array of Integer;')
+        else if FVariables[i].VarType = 'TablicaTekstów' then
+          PascalCode.Add('  ' + FVariables[i].Name + ': array of String;')
+        else
+        }
+          //PascalCode.Add('  ' + FVariables[i].Name + ': String;');
+      end;
+      PascalCode.Add('');
+    end;
+
+    // Dodajemy kod programu
     PascalCode.Add('begin');
 
     for i := 0 to AvocadoCode.Count - 1 do

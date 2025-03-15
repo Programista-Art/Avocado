@@ -128,6 +128,8 @@ var
   FileNamePr: String;
   //Sciezka pliku
   SaveFileProject: String;
+  //Otwarta sciezka pliku
+  OpenFileProject: String;
 
 implementation
 
@@ -254,7 +256,11 @@ end;
 procedure TForm1.MenuOpenClick(Sender: TObject);
 begin
   if OD.Execute then
+  begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
+    OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
+   // ShowMessage(OpenFileProject);
+  end;
 end;
 
 procedure TForm1.MenuSaveAsClick(Sender: TObject);
@@ -336,7 +342,7 @@ begin
     SaveFileProject := ChangeFileExt(ExtractFileName(SD.FileName), '');
     //Zspisuje sciezke
     FileNamePr := SD.FileName;
-    ShowMessage(FileNamePr);
+    //ShowMessage(FileNamePr);
   end;
 end;
 

@@ -10,17 +10,22 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, anchordockpkg, unit1, usettings
+  Forms, anchordockpkg, unit1, usettings, AvocadoTranslator, unitopcjeprojektu,
+  unitoprogramie, unitautor
   { you can add units after this };
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource:=True;
+  Application.Title:='IDE Avocado';
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TFormSettingIntepreter, FormSettingIntepreter);
+  Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
+  Application.CreateForm(TFormOprogramie, FormOprogramie);
+  Application.CreateForm(TFormAutor, FormAutor);
   Application.Run;
 end.
 

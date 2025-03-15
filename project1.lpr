@@ -18,6 +18,7 @@ uses
 
 begin
   RequireDerivedFormResource:=True;
+  Application.Title:='IDE Avocado';
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
