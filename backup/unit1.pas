@@ -258,13 +258,14 @@ end;
 procedure TForm1.MenuOpenClick(Sender: TObject);
 begin
   SynEditCode.Clear;
-  PopupMenuOutPutPascalCode.Clear;
+  MemoOutPut.Clear;
   MemoLogs.Clear;
   if OD.Execute then
   begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
+   Caption := 'IDE Avocado V 1.0.0.0 ' + 'Otwarty projekt: ' + OpenFileProject;
   end;
 end;
 

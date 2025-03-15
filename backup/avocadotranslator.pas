@@ -17,7 +17,7 @@ type
     FVariables: array of record
       Name, VarType: string;
     end;
-
+    procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
     procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
@@ -73,7 +73,7 @@ begin
       // Jeśli linia nie zawiera znaku "=", to nie jest deklaracją zmiennej
       if Pos('=', Line) = 0 then Exit;
       // Pomijamy linie zaczynające się od instrukcji, których nie chcemy traktować jako deklaracje
-      if (LowerCase(Trim(Line)).StartsWith('jeśli')) or
+      if (LowerCase(Trim(Line)).StartsWith('jeśli')) //or
          //(LowerCase(Trim(Line)).StartsWith('druk(')) //or
          //(Pos('wpr(', LowerCase(Line)) > 0)
          then Exit;
@@ -96,6 +96,55 @@ begin
         else
           raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
       end;
+end;
+
+
+{ Przetwarzanie pętli for w formacie: }
+{   dla <zmienna> od <początek> do <koniec> { <ciało> } }
+procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
+var
+  WithoutFor, Header, Body: string;
+  VarName, StartValue, EndValue: string;
+  OpenBracketPos, CloseBracketPos: Integer;
+  HeaderParts: TArray<string>;
+  BodyStatements: TArray<string>;
+begin
+  // Usuwamy słowo "dla " (4 znaki) i przycinamy
+  WithoutFor := Trim(Copy(Line, 5, Length(Line)));
+  // Znajdź otwierający nawias klamrowy '{'
+  OpenBracketPos := Pos('{', WithoutFor);
+  if OpenBracketPos = 0 then
+    raise Exception.Create('Brak otwierającego nawiasu { w pętli for.');
+  // Znajdź zamykający nawias klamrowy '}'
+  CloseBracketPos := Pos('}', WithoutFor);
+  if CloseBracketPos = 0 then
+    raise Exception.Create('Brak zamykającego nawiasu } w pętli for.');
+  // Header: wszystko przed '{'
+  Header := Trim(Copy(WithoutFor, 1, OpenBracketPos - 1));
+  // Body: zawartość między '{' i '}'
+  Body := Trim(Copy(WithoutFor, OpenBracketPos + 1, CloseBracketPos - OpenBracketPos - 1));
+
+  // Nagłówek oczekiwany w formacie: "<zmienna> od <początek> do <koniec>"
+  HeaderParts := Header.Split([' ']);
+  if Length(HeaderParts) < 5 then
+    raise Exception.Create('Nieprawidłowy format nagłówka pętli for.');
+  VarName := HeaderParts[0];
+  if LowerCase(HeaderParts[1]) <> 'od' then
+    raise Exception.Create('Oczekiwano słowa "od" w pętli for.');
+  StartValue := HeaderParts[2];
+  if LowerCase(HeaderParts[3]) <> 'do' then
+    raise Exception.Create('Oczekiwano słowa "do" w pętli for.');
+  EndValue := HeaderParts[4];
+
+  // Generujemy kod pętli for w Pascalu
+  PascalCode.Add(Format('for %s := %s to %s do', [VarName, TranslateExpression(StartValue), TranslateExpression(EndValue)]));
+  PascalCode.Add('begin');
+  // Przetwarzamy ciało pętli – instrukcje oddzielone średnikami
+  BodyStatements := Body.Split([';']);
+  for var i := 0 to High(BodyStatements) do
+    if Trim(BodyStatements[i]) <> '' then
+      ProcessLine(Trim(BodyStatements[i]), PascalCode);
+  PascalCode.Add('end;');
 end;
 
 function TAvocadoTranslator.JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;

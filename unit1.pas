@@ -265,6 +265,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
+   Caption := 'IDE Avocado V 1.0.0.1 ' + 'Otwarty projekt: ' + OpenFileProject;
   end;
 end;
 
