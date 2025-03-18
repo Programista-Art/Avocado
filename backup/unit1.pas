@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, SynEdit, SynPopupMenu, SynCompletion,
-  laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator;
+  laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator,ShellAPI;
 
 type
   { TForm1 }
@@ -95,6 +95,7 @@ type
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
     //Kompilacja kodu release debug
     procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
+
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -231,9 +232,29 @@ begin
 end;
 
 procedure TForm1.MenuItemSaveFileClick(Sender: TObject);
+var
+  sFileName: string;
 begin
-//jesli imię znane to nie trzeba wywowywowylac SaveDialog
-//wtedy tylko SaveToFile.
+   if OD.FileName <> '' then
+    sFileName := OD.FileName
+  else if SD.FileName <> '' then
+    sFileName := SD.FileName
+  else
+    sFileName := '';
+
+  if sFileName <> '' then
+  begin
+    SynEditCode.Lines.SaveToFile(sFileName);
+    SynEditCode.Modified := False;
+  end
+  else
+    MenuSaveAsClick(Sender);
+  {
+  if OD.FileName <> '' then begin
+    SynEditCode.Lines.SaveToFile(OD.FileName);
+  end;
+   //jesli imię znane to nie trzeba wywowywowylac SaveDialog
+  //wtedy tylko SaveToFile.
   if SD.FileName <> '' then begin
     SynEditCode.Lines.SaveToFile(SD.FileName);
     //ustawiam Modified w false, tak jak zmiany juz zapisane
@@ -241,6 +262,7 @@ begin
   end //if
     //lub nazwa nie znan, odwolujemy sie do Zapisz Jak...:
   else MenuSaveAsClick(Sender);
+  }
 end;
 
 procedure TForm1.MenuNewFileClick(Sender: TObject);
@@ -263,9 +285,9 @@ begin
   if OD.Execute then
   begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
-    OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
-   // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado V 1.0.0.0 ' + 'Otwarty projekt: ' + OpenFileProject;
+    FileNamePr  := ChangeFileExt(ExtractFileName(OD.FileName), '');
+    ShowMessage(OpenFileProject);
+   Caption := 'IDE Avocado V 1.0.0.1 ' + 'Otwarty projekt: ' + OpenFileProject;
   end;
 end;
 
@@ -298,11 +320,46 @@ end;
 procedure TForm1.ToolButton2Click(Sender: TObject);
 var
   ExeName: string;
-  DlgResult: integer;
+  sFileName: string;
 begin
+ // Ustal nazwę pliku z OD.FileName lub, jeśli pusta, z SD.FileName
+  if FileNamePr = '' then
+    sFileName := OD.FileName
+  else if SD.FileName <> '' then
+    sFileName := SD.FileName
+  else
+    sFileName := '';
+
+  // Jeśli nie mamy nazwy pliku, wywołaj "Zapisz jako..."
+  if sFileName = '' then
+  begin
+    MenuSaveAsClick(Sender);
+    // Po zapisie, jeśli nazwa jest ustawiona, przypisz ją
+    if SD.FileName <> '' then
+      sFileName := SD.FileName
+    else
+      Exit; // brak nazwy pliku – nie można kompilować
+  end;
+
+  // Zapisz kod do pliku, aby mieć aktualną wersję
+  SynEditCode.Lines.SaveToFile(sFileName);
+  SynEditCode.Modified := False;
+
+  // Generujemy nazwę pliku .exe na podstawie nazwy pliku źródłowego
+  ExeName := ChangeFileExt(sFileName, '.exe');
+
+  // Kompilujemy kod – funkcja CompilePascalCode powinna przyjmować tekst kodu oraz nazwę pliku .exe
+  CompilePascalCode(SynEditCode.Lines.Text, ExeName);
+
+  // Jeśli plik .exe został wygenerowany, uruchamiamy go
+  if FileExists(ExeName) then
+    ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
+  else
+    MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
+  {
   if FTranslatedCode.Count = 0 then
     begin
-      ShowMessage('Najpierw przetłumacz kod Avocado!');
+      //ShowMessage('Najpierw przetłumacz kod Avocado!');
       MessageDlg('Uwaga!','Najpierw przetłumacz kod Avocado!',mtInformation, [mbOk, mbCancel],0);
       Exit;
     end;
@@ -322,7 +379,7 @@ begin
     //Niby release
     //KompilacjaKoduwPascal(FTranslatedCode.Text, ExeName);
   end;
-
+  }
 end;
 
 

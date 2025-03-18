@@ -26,6 +26,8 @@ begin
   Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
   Application.CreateForm(TFormOprogramie, FormOprogramie);
   Application.CreateForm(TFormAutor, FormAutor);
+
+
   Application.Run;
 end.
 

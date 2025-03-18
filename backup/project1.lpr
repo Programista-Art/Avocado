@@ -22,10 +22,15 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
+    // Jeśli uruchomiono z parametrem (np. dwuklik na pliku .avocado)
+  if ParamCount > 0 then
+    Form1.OpenFileClickExe(ParamStr(1));
   Application.CreateForm(TFormSettingIntepreter, FormSettingIntepreter);
   Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
   Application.CreateForm(TFormOprogramie, FormOprogramie);
   Application.CreateForm(TFormAutor, FormAutor);
+
+
   Application.Run;
 end.
 
