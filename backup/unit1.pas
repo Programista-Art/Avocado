@@ -127,6 +127,7 @@ var
   FPC_Params: TStringList;
   //Nazwa pliku
   FileNamePr: String;
+  ZapisanaNazwaPliku: String;
   //Sciezka pliku
   SaveFileProject: String;
   //Otwarta sciezka pliku
@@ -285,8 +286,8 @@ begin
   if OD.Execute then
   begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
-    FileNamePr  := ChangeFileExt(ExtractFileName(OD.FileName), '');
-    ShowMessage(OpenFileProject);
+    OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
+   // ShowMessage(OpenFileProject);
    Caption := 'IDE Avocado V 1.0.0.1 ' + 'Otwarty projekt: ' + OpenFileProject;
   end;
 end;
@@ -320,66 +321,95 @@ end;
 procedure TForm1.ToolButton2Click(Sender: TObject);
 var
   ExeName: string;
-  sFileName: string;
+   sFileName: string;
+   DlgResult: Integer;
 begin
- // Ustal nazwę pliku z OD.FileName lub, jeśli pusta, z SD.FileName
-  if FileNamePr = '' then
+ // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
+  if OD.FileName <> '' then
     sFileName := OD.FileName
   else if SD.FileName <> '' then
     sFileName := SD.FileName
   else
     sFileName := '';
 
-  // Jeśli nie mamy nazwy pliku, wywołaj "Zapisz jako..."
+  // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
   if sFileName = '' then
   begin
-    MenuSaveAsClick(Sender);
-    // Po zapisie, jeśli nazwa jest ustawiona, przypisz ją
-    if SD.FileName <> '' then
-      sFileName := SD.FileName
+    DlgResult := MessageDlg('Uwaga!', 'Projekt nie został zapisany. Zapisz projekt przed kompilacją?',
+                            mtConfirmation, [mbYes, mbNo], 0);
+    if DlgResult = mrYes then
+    begin
+      MenuSaveAsClick(Sender); // Wywołanie "Zapisz jako..."
+      if SD.FileName <> '' then
+        sFileName := SD.FileName // Aktualizacja nazwy pliku po zapisaniu
+      else
+      begin
+        MessageDlg('Błąd', 'Nie zapisano pliku. Kompilacja anulowana.', mtError, [mbOk], 0);
+        Exit; // Jeśli użytkownik anulował zapis, kończymy procedurę
+      end;
+    end
     else
-      Exit; // brak nazwy pliku – nie można kompilować
+    begin
+      MessageDlg('Błąd', 'Projekt nie został zapisany. Kompilacja anulowana.', mtError, [mbOk], 0);
+      Exit; // Jeśli użytkownik odmówił zapisu, kończymy procedurę
+    end;
   end;
 
-  // Zapisz kod do pliku, aby mieć aktualną wersję
-  SynEditCode.Lines.SaveToFile(sFileName);
-  SynEditCode.Modified := False;
-
-  // Generujemy nazwę pliku .exe na podstawie nazwy pliku źródłowego
+  // Ustawienie ExeName na podstawie zapisanego pliku
   ExeName := ChangeFileExt(sFileName, '.exe');
 
-  // Kompilujemy kod – funkcja CompilePascalCode powinna przyjmować tekst kodu oraz nazwę pliku .exe
-  CompilePascalCode(SynEditCode.Lines.Text, ExeName);
+  // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
+  CompilePascalCode(FTranslatedCode.Text, ExeName);
 
-  // Jeśli plik .exe został wygenerowany, uruchamiamy go
+  // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
   if FileExists(ExeName) then
     ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
   else
     MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
-  {
-  if FTranslatedCode.Count = 0 then
+      {
+  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
+    if OD.FileName <> '' then
+      sFileName := OD.FileName
+    else if SD.FileName <> '' then
+      sFileName := SD.FileName
+    else
+      sFileName := '';
+
+    // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
+    if sFileName = '' then
     begin
-      //ShowMessage('Najpierw przetłumacz kod Avocado!');
-      MessageDlg('Uwaga!','Najpierw przetłumacz kod Avocado!',mtInformation, [mbOk, mbCancel],0);
-      Exit;
+      DlgResult := MessageDlg('Uwaga!', 'Projekt nie został zapisany. Zapisz projekt przed kompilacją?',
+                              mtConfirmation, [mbYes, mbNo], 0);
+      if DlgResult = mrYes then
+      begin
+        MenuSaveAsClick(Sender); // Wywołanie "Zapisz jako..."
+        if SD.FileName <> '' then
+          sFileName := SD.FileName // Aktualizacja nazwy pliku po zapisaniu
+        else
+        begin
+          MessageDlg('Błąd', 'Nie zapisano pliku. Kompilacja anulowana.', mtError, [mbOk], 0);
+          Exit; // Jeśli użytkownik anulował zapis, kończymy procedurę
+        end;
+      end
+      else
+      begin
+        MessageDlg('Błąd', 'Projekt nie został zapisany. Kompilacja anulowana.', mtError, [mbOk], 0);
+        Exit; // Jeśli użytkownik odmówił zapisu, kończymy procedurę
+      end;
     end;
-  if SD.FileName = '' then
-  Begin
-    DlgResult := MessageDlg('Uwaga!','Zapisz projekt a dalej kompiluj',mtInformation, [mbOk, mbCancel],0); // Przypisujemy wynik do zmiennej
-    if DlgResult = mrOk then
-      SaveCodeToFile;
-  end
-  else
-  Begin
-    //ExeName := ChangeFileExt(Application.ExeName, SaveFileProject);
-    //ExeName := ChangeFileExt(SaveFileProject, '.exe');
-     ExeName := ChangeFileExt(FileNamePr, '.exe');
+
+    // Ustawienie ExeName na podstawie zapisanego pliku
+    ExeName := ChangeFileExt(sFileName, '.exe');
+
+    // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
     CompilePascalCode(FTranslatedCode.Text, ExeName);
-    //W trybie release
-    //Niby release
-    //KompilacjaKoduwPascal(FTranslatedCode.Text, ExeName);
-  end;
-  }
+
+    // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
+    if FileExists(ExeName) then
+      ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
+    else
+      MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
+      }
 end;
 
 
@@ -402,7 +432,7 @@ begin
   if SD.Execute then
   begin
     SynEditCode.Lines.SaveToFile(SD.FileName);
-    SaveFileProject := ChangeFileExt(ExtractFileName(SD.FileName), '');
+    ZapisanaNazwaPliku := ChangeFileExt(ExtractFileName(SD.FileName), '');
     //Zspisuje sciezke
     FileNamePr := SD.FileName;
     //ShowMessage(FileNamePr);
@@ -415,68 +445,91 @@ var
   TempFile: string;
   OutputLines: TStringList;
 begin
-  if SaveFileProject = '' then
-    begin
-      MemoLogs.Lines.Add('Błąd: Projekt nie został zapisany. Zapisz projekt przed kompilacją.');
-      Exit; // Wyjście z procedury
-    end;
+  {
+  // Sprawdzenie, czy projekt został zapisany (OpenFileProject i SaveFileProject nie są puste)
+   if OpenFileProject = '' then
+   begin
+     MemoLogs.Lines.Add('Błąd: OpenFileProject pusty. Projekt nie został zapisany. Zapisz projekt przed kompilacją.');
+     //Exit;
+   end
+   else if SaveFileProject = '' then
+   begin
+     MemoLogs.Lines.Add('Błąd: SaveFileProject pusty. Projekt nie został zapisany. Zapisz projekt przed kompilacją.');
+     Exit;
+   end
+   else
+   begin
+   }
+     // Ustalamy plik tymczasowy na podstawie SaveFileProject (zmiana rozszerzenia na .pas)
+    // TempFile := ChangeFileExt(SaveFileProject, '.pas');
+     // Ustalanie pliku tymczasowego na podstawie SaveFileProject lub, jeśli jest pusty, OpenFileProject
 
-    TempFile := ChangeFileExt(SaveFileProject, '.pas');
-
-    try
-      // Zapis kodu do pliku tymczasowego
-      if PascalCode <> '' then
-      begin
-         OutputLines := TStringList.Create;
-        try
-          OutputLines.Text := PascalCode;
-          OutputLines.SaveToFile(TempFile);
-        finally
-          OutputLines.Free;
-        end;
-      end
+  if SaveFileProject <> '' then
+        TempFile := ChangeFileExt(SaveFileProject, '.pas')
       else
-      begin
-         MemoOutPut.Lines.SaveToFile(TempFile); // Zapis z MemoOutPut jeśli PascalCode jest pusty
-      end;
+        TempFile := ChangeFileExt(OpenFileProject, '.pas');
 
-      AProcess := TProcess.Create(nil);
-      OutputLines := TStringList.Create;
-      try
-        AProcess.Executable := FFpcPath;
-        if not FileExists(FFpcPath) then
-          raise Exception.Create('Nie znaleziono kompilatora Free Pascal w: ' + FFpcPath);
-
-        AProcess.Parameters.Add(TempFile);
-        AProcess.Parameters.Add('-o' + Trim(OutputFile));
-        AProcess.Options := [poUsePipes, poStderrToOutput];
-        AProcess.ShowWindow := swoHIDE;
-
-        MemoLogs.Lines.Add('Rozpoczynanie kompilacji...');
-
-        AProcess.Execute;
-        AProcess.WaitOnExit;
-        OutputLines.LoadFromStream(AProcess.Output);
-        MemoLogs.Lines.AddStrings(OutputLines);
-
-        if AProcess.ExitStatus = 0 then
-        begin
-          MemoLogs.Lines.Add('Kompilacja udana! Plik wyjściowy: ' + OutputFile);
-          DeleteFile(TempFile); // Usuń plik tymczasowy
-        end
+     try
+       // Zapis kodu do pliku tymczasowego
+       if PascalCode <> '' then
+       begin
+         OutputLines := TStringList.Create;
+         try
+           OutputLines.Text := PascalCode;
+           OutputLines.SaveToFile(TempFile);
+         finally
+           OutputLines.Free;
+         end;
+       end
+       else
+         // Jeśli PascalCode jest pusty, zapisujemy zawartość MemoOutPut
+         //MemoOutPut.Lines.SaveToFile(TempFile);
+         if MemoOutPut.Lines.Count > 0 then
+          MemoOutPut.Lines.SaveToFile(TempFile)
         else
-          MemoLogs.Lines.Add('Błąd kompilacji. Kod: ' + IntToStr(AProcess.ExitStatus));
+        begin
+          MemoLogs.Lines.Add('Błąd: Brak kodu do kompilacji.');
+          Exit;
+        end;
 
-      finally
-        AProcess.Free;
-        OutputLines.Free;
-      end;
-    except
-      on E: Exception do
-        MemoLogs.Lines.Add('Błąd kompilacji: ' + E.Message);
-    end;
-  end;
+       // Utworzenie procesu kompilacji
+       AProcess := TProcess.Create(nil);
+       OutputLines := TStringList.Create;
+       try
+         // Sprawdzenie, czy kompilator Free Pascal (FFpcPath) istnieje
+         if not FileExists(FFpcPath) then
+           raise Exception.Create('Nie znaleziono kompilatora Free Pascal w: ' + FFpcPath);
+         AProcess.Executable := FFpcPath;
+         AProcess.Parameters.Add(TempFile);
+         AProcess.Parameters.Add('-o' + Trim(OutputFile));
+         AProcess.Options := [poUsePipes, poStderrToOutput];
+         AProcess.ShowWindow := swoHIDE;
 
+         MemoLogs.Lines.Add('Rozpoczynanie kompilacji...');
+         AProcess.Execute;
+         AProcess.WaitOnExit;
+
+         OutputLines.LoadFromStream(AProcess.Output);
+         MemoLogs.Lines.AddStrings(OutputLines);
+
+         if AProcess.ExitStatus = 0 then
+         begin
+           MemoLogs.Lines.Add('Kompilacja udana! Plik wyjściowy: ' + OutputFile);
+           if FileExists(TempFile) then
+             DeleteFile(TempFile); // Usuwamy plik tymczasowy
+         end
+         else
+           MemoLogs.Lines.Add('Błąd kompilacji. Kod: ' + IntToStr(AProcess.ExitStatus));
+       finally
+         AProcess.Free;
+         OutputLines.Free;
+       end;
+     except
+       on E: Exception do
+         MemoLogs.Lines.Add('Błąd kompilacji: ' + E.Message);
+     end;
+   end;
+end;
 
 procedure TForm1.KompilacjaKoduwPascal(const Code, OutputFile: string);
 var
