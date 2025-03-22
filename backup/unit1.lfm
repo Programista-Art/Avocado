@@ -23,17 +23,22 @@ object Form1: TForm1
     TabOrder = 0
     object ToolButton1: TToolButton
       Left = 1
-      Hint = 'Kompiluj'
+      Hint = 'Transpiluj'
       Top = 2
       Caption = 'ToolButton1'
       ImageIndex = 1
+      ParentShowHint = False
+      ShowHint = True
       OnClick = ToolButton1Click
     end
     object ToolButton2: TToolButton
       Left = 24
+      Hint = 'Kompiluj'
       Top = 2
       Caption = 'Kompiluj i zapisz'
       ImageIndex = 0
+      ParentShowHint = False
+      ShowHint = True
       OnClick = ToolButton2Click
     end
   end
@@ -686,17 +691,17 @@ object Form1: TForm1
       Caption = 'Plik'
       object MenuNewFile: TMenuItem
         Caption = 'Nowy'
-        ShortCut = 16462
+        ShortCut = 32846
         OnClick = MenuNewFileClick
       end
       object MenuOpen: TMenuItem
         Caption = 'Otwórz'
-        ShortCut = 16463
+        ShortCut = 32847
         OnClick = MenuOpenClick
       end
       object MenuItemSaveFile: TMenuItem
         Caption = 'Zapisz'
-        ShortCut = 16467
+        ShortCut = 32858
         OnClick = MenuItemSaveFileClick
       end
       object MenuSaveAs: TMenuItem
@@ -786,9 +791,26 @@ object Form1: TForm1
   object ActionList1: TActionList
     Left = 609
     Top = 85
-    object RunCode: TAction
-      Caption = 'RunCode'
+    object Kompiluj: TAction
+      Caption = 'Kompiluj'
       ShortCut = 120
+      OnExecute = KompilujExecute
+    end
+    object Transpiluj: TAction
+      Caption = 'Transpiluj'
+      ShortCut = 119
+      OnExecute = TranspilujExecute
+    end
+    object NowyPlik: TAction
+      Caption = 'NowyPLik'
+      Hint = 'Nowy Plik'
+      ShortCut = 32846
+      OnExecute = NowyPlikExecute
+    end
+    object ZapiszPlik: TAction
+      Caption = 'ZapiszPlik'
+      ShortCut = 32858
+      OnExecute = ZapiszPlikExecute
     end
   end
   object SynPopupMenuCode: TSynPopupMenu

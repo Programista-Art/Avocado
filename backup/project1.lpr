@@ -10,9 +10,8 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, anchordockpkg, unit1, usettings, AvocadoTranslator, unitopcjeprojektu,
-  unitoprogramie, unitautor
-  { you can add units after this };
+  Forms, anchordockpkg, lazcontrols, unit1, usettings, AvocadoTranslator,
+  unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide;
 
 {$R *.res}
 
@@ -26,8 +25,7 @@ begin
   Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
   Application.CreateForm(TFormOprogramie, FormOprogramie);
   Application.CreateForm(TFormAutor, FormAutor);
-
-
+  Application.CreateForm(TFinformacjaide, Finformacjaide);
   Application.Run;
 end.
 

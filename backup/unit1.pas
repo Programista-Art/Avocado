@@ -12,6 +12,9 @@ uses
 type
   { TForm1 }
   TForm1 = class(TForm)
+    Transpiluj: TAction;
+    ZapiszPlik: TAction;
+    NowyPlik: TAction;
     Label1: TLabel;
     Label2: TLabel;
     MemoLogs: TMemo;
@@ -43,7 +46,7 @@ type
     PopupMenuMemoLogs: TPopupMenu;
     PopupMenuOutPutPascalCode: TPopupMenu;
     PopupMenuCode: TPopupMenu;
-    RunCode: TAction;
+    Kompiluj: TAction;
     ActionList1: TActionList;
     ImageList1: TImageList;
     MainMenu1: TMainMenu;
@@ -65,6 +68,8 @@ type
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
+    procedure TranspilujExecute(Sender: TObject);
+    procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MenuAboutProgramClick(Sender: TObject);
@@ -87,8 +92,10 @@ type
     procedure MenuOpenClick(Sender: TObject);
     procedure MenuSaveAsClick(Sender: TObject);
     procedure MenuUstawiniaClick(Sender: TObject);
+    procedure KompilujExecute(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
     procedure ToolButton2Click(Sender: TObject);
+    procedure ZapiszPlikExecute(Sender: TObject);
   private
     FTranslator: TAvocadoTranslator;
     FTranslatedCode: TStringList;
@@ -144,7 +151,7 @@ var
 implementation
 
 uses
- usettings,unitopcjeprojektu,unitoprogramie,unitautor;
+ usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide;
 
 {$R *.lfm}
 
@@ -157,6 +164,16 @@ begin
   //FTempFile := ExtractFilePath(Application.ExeName) + 'temp.avocado';
   //Zapisuje plik tymaczosowy tam gdzie jest zapisany projekt
   FTempFile := SaveFileProject + 'temp.avocado';
+end;
+
+procedure TForm1.TranspilujExecute(Sender: TObject);
+begin
+  ToolButton1Click(sender);
+end;
+
+procedure TForm1.NowyPlikExecute(Sender: TObject);
+begin
+  MenuNewFileClick(sender);
 end;
 
 constructor TForm1.Create(TheOwner: TComponent);
@@ -329,6 +346,11 @@ begin
   FormSettingIntepreter.ShowModal;
 end;
 
+procedure TForm1.KompilujExecute(Sender: TObject);
+begin
+  ToolButton2Click(Sender);
+end;
+
 
 procedure TForm1.ToolButton1Click(Sender: TObject);
 begin
@@ -438,6 +460,11 @@ begin
     else
       MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
       }
+end;
+
+procedure TForm1.ZapiszPlikExecute(Sender: TObject);
+begin
+  SaveCodeToFile;
 end;
 
 

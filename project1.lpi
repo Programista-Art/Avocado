@@ -73,6 +73,18 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="RunTimeTypeInfoControls"/>
+      </Item>
+      <Item>
+        <PackageName Value="pascalscript"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazControls"/>
+      </Item>
+      <Item>
+        <PackageName Value="LazControlDsgn"/>
+      </Item>
+      <Item>
         <PackageName Value="laz.virtualtreeview_package"/>
       </Item>
       <Item>
@@ -132,6 +144,12 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormAutor"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uinformacjaoide.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Finformacjaide"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
