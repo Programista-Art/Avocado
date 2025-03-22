@@ -20,14 +20,16 @@ type
     SpeedButton2: TSpeedButton;
     SpeedButton3: TSpeedButton;
     SpeedButton4: TSpeedButton;
+    SpeedButton5: TSpeedButton;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
+    procedure SpeedButton5Click(Sender: TObject);
   private
-    procedure OpenLink(link: string);
-  public
 
+  public
+    procedure OpenLink(link: string);
   end;
 
 var
@@ -56,7 +58,12 @@ end;
 
 procedure TFormAutor.SpeedButton4Click(Sender: TObject);
 begin
-  OpenLink('https://dimitalart.pl/');
+  OpenLink('https://avocado.dimitalart.pl/');
+end;
+
+procedure TFormAutor.SpeedButton5Click(Sender: TObject);
+begin
+  OpenLink('https://t.me/avocado_language')
 end;
 
 procedure TFormAutor.OpenLink(link: string);

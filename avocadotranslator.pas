@@ -29,6 +29,7 @@ type
     function Translate(const AvocadoCode: TStrings): TStringList;
   end;
 
+
 implementation
 uses
   unit1;
@@ -46,6 +47,7 @@ begin
   FVariables[High(FVariables)].VarType := VarType;
 end;
 
+//KOnwersje
 function TAvocadoTranslator.TranslateExpression(const Expr: string): string;
 begin
   Result := Expr;
@@ -61,7 +63,14 @@ begin
   Result := StringReplace(Result, 'LiczbacWr(', 'Real(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWc(', 'Trunc(', [rfReplaceAll]);
   //nowe
+  Result := StringReplace(Result, 'LogicznyWTekst(', 'BoolToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'BajtWTekst(', 'ByteBool(Ord(', [rfReplaceAll]);
   Result := StringReplace(Result, 'Liczba_mała(', 'Shortint(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstLD(', 'StrToIntDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Zaokrąglij(', 'Round(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Słowo(', 'Word(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Liczba_długa_na_całkowitą(','LongInt(', [rfReplaceAll]);
+
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -126,7 +135,9 @@ begin
            (VarType = 'wskaźnik_na') or
            (VarType = 'wariant') or
            (VarType = 'wariant_ole') or
-           (VarType = 'tablicatekstów') then
+           (VarType = 'tablicatekstów') or
+           //Konwersje
+           (VarType = 'TekstLD') then
         begin
           AddVariable(VarName, VarType);
         end
@@ -392,10 +403,20 @@ begin
     PascalCode.Add('{$mode objfpc}');
     PascalCode.Add('{$H+}');// Domyślnie w Lazarusa: String = AnsiString
     //PascalCode.Add('{$codepage UTF8}');
+    //if SaveFileProject <> '' then
+    //  PascalCode.Add('program ' + SaveFileProject + ';')
+   // else if OpenFileProject <> '' then
+   //   PascalCode.Add('program ' + OpenFileProject + ';')
+   // else
+      PascalCode.Add('program ' + NameProgram + ';');
+    {
     if SaveFileProject = '' then
       PascalCode.Add('program ' + OpenFileProject + ';')
+    else if
+      PascalCode.Add('program ' + SaveFileProject + ';') then
     else
-      PascalCode.Add('program ' + SaveFileProject + ';');
+      PascalCode.Add('program ' + NameProgram + ';');
+      }
 
     // Dodajemy moduły
     PascalCode.Add('uses Windows, SysUtils;');

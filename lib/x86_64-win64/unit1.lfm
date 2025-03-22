@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 572
   Top = 221
   Width = 1086
-  Caption = 'IDE Avocado v 1.0.0.1'
+  Caption = 'IDE Avocado v 1.0.0.2'
   ClientHeight = 572
   ClientWidth = 1086
   Color = 5197647
@@ -23,17 +23,22 @@ object Form1: TForm1
     TabOrder = 0
     object ToolButton1: TToolButton
       Left = 1
-      Hint = 'Kompiluj'
+      Hint = 'Transpiluj'
       Top = 2
       Caption = 'ToolButton1'
       ImageIndex = 1
+      ParentShowHint = False
+      ShowHint = True
       OnClick = ToolButton1Click
     end
     object ToolButton2: TToolButton
       Left = 24
+      Hint = 'Kompiluj'
       Top = 2
       Caption = 'Kompiluj i zapisz'
       ImageIndex = 0
+      ParentShowHint = False
+      ShowHint = True
       OnClick = ToolButton2Click
     end
   end
@@ -707,6 +712,10 @@ object Form1: TForm1
         Caption = 'Zamknij'
         OnClick = MenuCloseClick
       end
+      object MenuItem4: TMenuItem
+        Caption = 'Nowy program'
+        OnClick = MenuItem4Click
+      end
     end
     object MenuProjekt: TMenuItem
       Caption = 'Projekt'
@@ -724,6 +733,10 @@ object Form1: TForm1
     end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'
+      object MenuItemDokumentacja: TMenuItem
+        Caption = 'Dokumentacja online'
+        OnClick = MenuItemDokumentacjaClick
+      end
       object MenuAboutProgram: TMenuItem
         Caption = 'O programie'
         OnClick = MenuAboutProgramClick

@@ -11,8 +11,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, anchordockpkg, unit1, usettings, AvocadoTranslator, unitopcjeprojektu,
-  unitoprogramie, unitautor
-  { you can add units after this };
+  unitoprogramie, unitautor;
 
 {$R *.res}
 
@@ -26,7 +25,6 @@ begin
   Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
   Application.CreateForm(TFormOprogramie, FormOprogramie);
   Application.CreateForm(TFormAutor, FormAutor);
-
 
   Application.Run;
 end.

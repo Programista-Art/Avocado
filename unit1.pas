@@ -19,6 +19,8 @@ type
     MenuItem3: TMenuItem;
     MenuAboutProgram: TMenuItem;
     MenuAutor: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItemDokumentacja: TMenuItem;
     MenuNewFile: TMenuItem;
     MenuItemSaveFile: TMenuItem;
     MenuItemDeleteMemoLogs: TMenuItem;
@@ -69,11 +71,13 @@ type
     procedure MenuAutorClick(Sender: TObject);
     procedure MenuCloseClick(Sender: TObject);
     procedure MenuItem3ClearCodeClick(Sender: TObject);
+    procedure MenuItem4Click(Sender: TObject);
     procedure MenuItemCopyClick(Sender: TObject);
     procedure MenuItemCopyCodeClick(Sender: TObject);
     procedure MenuItemCutClick(Sender: TObject);
     procedure MenuItemCutCodeClick(Sender: TObject);
     procedure MenuItemDeleteCodeClick(Sender: TObject);
+    procedure MenuItemDokumentacjaClick(Sender: TObject);
     procedure MenuItemOutputCodeClearClick(Sender: TObject);
     procedure MenuItemPasteClick(Sender: TObject);
     procedure MenuItemPasteCodeClick(Sender: TObject);
@@ -95,7 +99,9 @@ type
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
     //Kompilacja kodu release debug
     procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
-
+    //Dotyczy nazwy programu
+    procedure ExtractProgramFromSynEdit;
+    function ExtractProgramName(const Line: string): string;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -111,6 +117,7 @@ type
   protected
     procedure Execute; override;
   public
+
     constructor Create(const AInterpreterPath, ATempFile: string; AConsole: TSynEdit);
   end;
 
@@ -132,6 +139,7 @@ var
   SaveFileProject: String;
   //Otwarta sciezka pliku
   OpenFileProject: String;
+  NameProgram: String;
 
 implementation
 
@@ -191,6 +199,11 @@ begin
   SynEditCode.ClearAll;
 end;
 
+procedure TForm1.MenuItem4Click(Sender: TObject);
+begin
+  ExtractProgramFromSynEdit;
+end;
+
 procedure TForm1.MenuItemCopyClick(Sender: TObject);
 begin
   SynEditCode.CopyToClipboard;
@@ -215,6 +228,11 @@ end;
 procedure TForm1.MenuItemDeleteCodeClick(Sender: TObject);
 begin
     SynEditCode.ClearAll;
+end;
+
+procedure TForm1.MenuItemDokumentacjaClick(Sender: TObject);
+begin
+  FormAutor.OpenLink('https://avocado.dimitalart.pl/#dokumentacja');
 end;
 
 procedure TForm1.MenuItemOutputCodeClearClick(Sender: TObject);
@@ -268,9 +286,18 @@ end;
 
 procedure TForm1.MenuNewFileClick(Sender: TObject);
 begin
-   SynEditCode.Clear;
-   MemoOutPut.Clear;
-   MemoLogs.Clear;
+  if InputQuery('Nowy plik', 'Podaj nazwę programu:', NameProgram) then
+  begin
+    // Czyścimy edytor kodu oraz okna logów i outputu
+    SynEditCode.Clear;
+    MemoOutPut.Clear;
+    MemoLogs.Clear;
+    // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
+    SynEditCode.Lines.Add('program ' + NameProgram + ';');
+    // Przykładowo możemy też ustawić OpenFileProject lub inną zmienną
+    //OpenFileProject := NameProgram;
+  end;
+
 end;
 
 procedure TForm1.MenuOpcjeProjektuClick(Sender: TObject);
@@ -305,6 +332,7 @@ end;
 
 procedure TForm1.ToolButton1Click(Sender: TObject);
 begin
+   ExtractProgramFromSynEdit;
   //CompileToPascal;
   try
     MemoOutPut.Clear;
@@ -595,6 +623,47 @@ begin
     except
       on E: Exception do
         MemoLogs.Lines.Add('Błąd kompilacji: ' + E.Message);
+    end;
+end;
+
+procedure TForm1.ExtractProgramFromSynEdit;
+var
+i: Integer;
+NProgram: string;
+begin
+  NProgram := '';
+    // Przeszukujemy wszystkie linie w komponencie SynEditCode
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      NProgram := ExtractProgramName(SynEditCode.Lines[i]);
+      if NProgram <> '' then
+        Break;
+    end;
+    if NProgram <> '' then
+    begin
+      // Przykładowo, wyświetlamy wynik lub przypisujemy do zmiennej globalnej
+      //ShowMessage('Nazwa programu: ' + NProgram);
+      // Możesz też zapisać nazwę do jakiejś zmiennej globalnej lub innego pola
+      NameProgram := NProgram;
+    end
+    else
+      ShowMessage('Nie znaleziono deklaracji programu' + #10 + 'Dodaj na początku słowo kluczowe program i nazwe programu.');
+end;
+
+function TForm1.ExtractProgramName(const Line: string): string;
+var
+  Words: TStringList;
+begin
+  Result := '';
+    Words := TStringList.Create;
+    try
+      // Rozdzielamy ciąg na słowa - białe znaki jako separatory
+      ExtractStrings([' ', #9], [], PChar(Line), Words);
+      // Sprawdzamy czy pierwszy element to 'program' (niezależnie od wielkości liter)
+      if (Words.Count >= 2) and (LowerCase(Words[0]) = 'program') then
+        Result := Words[1];
+    finally
+      Words.Free;
     end;
 end;
 
