@@ -361,12 +361,13 @@ end;
 
 procedure TForm1.ToolButton1Click(Sender: TObject);
 begin
-   ExtractProgramFromSynEdit;
+ ExtractProgramFromSynEdit;
   //CompileToPascal;
   try
     MemoOutPut.Clear;
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
     MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+
     MemoOutPut.Lines.Add(FTranslatedCode.Text);
     //BtnCompile.Enabled := True;
   except

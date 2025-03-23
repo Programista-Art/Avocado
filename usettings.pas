@@ -17,11 +17,13 @@ type
     EdtLinkFPC: TEdit;
     GroupBox2: TGroupBox;
     ImageList1: TImageList;
+    OD: TOpenDialog;
     Panel1: TPanel;
     SpeedButOpenLinkFPC: TSpeedButton;
     SpeedButSaveLInkFPC: TSpeedButton;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure SpeedButOpenLinkFPCClick(Sender: TObject);
     procedure SpeedButSaveLInkFPCClick(Sender: TObject);
   private
 
@@ -46,6 +48,12 @@ end;
 procedure TFormSettingIntepreter.FormCreate(Sender: TObject);
 begin
   LoadFPCLink;
+end;
+
+procedure TFormSettingIntepreter.SpeedButOpenLinkFPCClick(Sender: TObject);
+begin
+  If OD.Execute then
+  EdtLinkFPC.Text := OD.FileName;
 end;
 
 procedure TFormSettingIntepreter.SpeedButSaveLInkFPCClick(Sender: TObject);

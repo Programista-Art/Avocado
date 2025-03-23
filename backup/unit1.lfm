@@ -737,6 +737,10 @@ object Form1: TForm1
         Caption = 'Dokumentacja online'
         OnClick = MenuItemDokumentacjaClick
       end
+      object MenuINformacjaIDE: TMenuItem
+        Caption = 'Informacja o IDE'
+        OnClick = MenuINformacjaIDEClick
+      end
       object MenuAboutProgram: TMenuItem
         Caption = 'O programie'
         OnClick = MenuAboutProgramClick

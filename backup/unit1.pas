@@ -12,6 +12,7 @@ uses
 type
   { TForm1 }
   TForm1 = class(TForm)
+    MenuINformacjaIDE: TMenuItem;
     Transpiluj: TAction;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
@@ -68,6 +69,7 @@ type
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
+    procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -169,6 +171,11 @@ end;
 procedure TForm1.TranspilujExecute(Sender: TObject);
 begin
   ToolButton1Click(sender);
+end;
+
+procedure TForm1.MenuINformacjaIDEClick(Sender: TObject);
+begin
+  Finformacjaide.ShowModal;
 end;
 
 procedure TForm1.NowyPlikExecute(Sender: TObject);
@@ -354,12 +361,13 @@ end;
 
 procedure TForm1.ToolButton1Click(Sender: TObject);
 begin
-   ExtractProgramFromSynEdit;
+   //ExtractProgramFromSynEdit;
   //CompileToPascal;
   try
     MemoOutPut.Clear;
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
     MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+
     MemoOutPut.Lines.Add(FTranslatedCode.Text);
     //BtnCompile.Enabled := True;
   except

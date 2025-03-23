@@ -75,6 +75,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 23
       Images = ImageList1
       ImageIndex = 1
+      OnClick = SpeedButOpenLinkFPCClick
     end
     object SpeedButSaveLInkFPC: TSpeedButton
       Left = 32
@@ -113,5 +114,11 @@ object FormSettingIntepreter: TFormSettingIntepreter
       1E9D6112BF93DFD286DC3DC2D7FE6FD73FED2199CB9C70FFE6D219CF4AD5E57E
       C5ED9EB1833EEF27724B4E3AB31BBBFF074EA3DC52
     }
+  end
+  object OD: TOpenDialog
+    FileName = 'fpc.exe'
+    Filter = 'FPC|*.exe'
+    Left = 245
+    Top = 59
   end
 end

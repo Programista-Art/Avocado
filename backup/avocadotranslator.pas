@@ -402,13 +402,15 @@ begin
   try
     PascalCode.Add('{$mode objfpc}');
     PascalCode.Add('{$H+}');// Domyślnie w Lazarusa: String = AnsiString
+    PascalCode.Add('program ' + NameProgram + ';');
+
     //PascalCode.Add('{$codepage UTF8}');
     //if SaveFileProject <> '' then
-    //  PascalCode.Add('program ' + SaveFileProject + ';')
-   // else if OpenFileProject <> '' then
-   //   PascalCode.Add('program ' + OpenFileProject + ';')
-   // else
-      PascalCode.Add('program ' + Form1.NameProgram + ';');
+    //  PascalCode.Add('program ' + NameProgram + ';')
+    //else if OpenFileProject <> '' then
+    //  PascalCode.Add('program ' + NameProgram + ';')
+    //else
+
     {
     if SaveFileProject = '' then
       PascalCode.Add('program ' + OpenFileProject + ';')
@@ -533,8 +535,21 @@ begin
     // Ustaw konsolę na UTF-8 (tylko Windows)
     PascalCode.Add('SetConsoleOutputCP(CP_UTF8);');
     PascalCode.Add('SetConsoleCP(CP_UTF8);');
+
+     // Przetwarzamy linie kodu wejściowego
     for i := 0 to AvocadoCode.Count - 1 do
-      ProcessLine(Trim(AvocadoCode[i]), PascalCode);
+    begin
+      trimmedLine := Trim(AvocadoCode[i]);
+      // Jeśli linia zaczyna się od "program " (bez względu na wielkość liter), pomijamy ją
+      if Copy(LowerCase(trimmedLine), 1, 8) = 'program ' then
+        Continue;
+      ProcessLine(trimmedLine, PascalCode);
+    end;
+
+    {for i := 0 to AvocadoCode.Count - 1 do
+      ProcessLine(Trim(AvocadoCode[i]), PascalCode);  }
+
+
 
     PascalCode.Add('Readln;');
     PascalCode.Add('end.');

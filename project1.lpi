@@ -150,6 +150,7 @@
         <Filename Value="uinformacjaoide.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Finformacjaide"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>

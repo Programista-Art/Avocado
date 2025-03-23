@@ -45,7 +45,6 @@ end;
 
 procedure TFormSettingIntepreter.FormCreate(Sender: TObject);
 begin
-  LoadIntrepreterLink;
   LoadFPCLink;
 end;
 
