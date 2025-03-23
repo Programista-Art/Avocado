@@ -317,7 +317,7 @@ begin
     MemoOutPut.Clear;
     MemoLogs.Clear;
     // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
-    SynEditCode.Lines.Add('program ' + NameProgram + ';');
+    SynEditCode.Lines.Add('program ' + NameProgram);
     // Przykładowo możemy też ustawić OpenFileProject lub inną zmienną
     //OpenFileProject := NameProgram;
   end;
@@ -378,11 +378,13 @@ end;
 
 procedure TForm1.ToolButton2Click(Sender: TObject);
 var
-  ExeName: string;
+   ExeName: string;
    sFileName: string;
    DlgResult: Integer;
+   OutputFolder: string;
 begin
  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
+
   if OD.FileName <> '' then
     sFileName := OD.FileName
   else if SD.FileName <> '' then
@@ -390,6 +392,11 @@ begin
   else
     sFileName := '';
 
+  //sFileName := NameProgram;
+
+
+
+ //NameProgram
   // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
   if sFileName = '' then
   begin
@@ -413,8 +420,15 @@ begin
     end;
   end;
 
+  // Wyodrębniamy folder, w którym zapisany został plik
+  OutputFolder := ExtractFilePath(sFileName);
+
+
+  // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
+  ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
   // Ustawienie ExeName na podstawie zapisanego pliku
-  ExeName := ChangeFileExt(sFileName, '.exe');
+  //ExeName := ChangeFileExt(NameProgram, '.exe');
+  //ExeName := ChangeFileExt(sFileName, '.exe');
 
   // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
   CompilePascalCode(FTranslatedCode.Text, ExeName);
@@ -424,50 +438,7 @@ begin
     ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
   else
     MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
-      {
-  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
-    if OD.FileName <> '' then
-      sFileName := OD.FileName
-    else if SD.FileName <> '' then
-      sFileName := SD.FileName
-    else
-      sFileName := '';
 
-    // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
-    if sFileName = '' then
-    begin
-      DlgResult := MessageDlg('Uwaga!', 'Projekt nie został zapisany. Zapisz projekt przed kompilacją?',
-                              mtConfirmation, [mbYes, mbNo], 0);
-      if DlgResult = mrYes then
-      begin
-        MenuSaveAsClick(Sender); // Wywołanie "Zapisz jako..."
-        if SD.FileName <> '' then
-          sFileName := SD.FileName // Aktualizacja nazwy pliku po zapisaniu
-        else
-        begin
-          MessageDlg('Błąd', 'Nie zapisano pliku. Kompilacja anulowana.', mtError, [mbOk], 0);
-          Exit; // Jeśli użytkownik anulował zapis, kończymy procedurę
-        end;
-      end
-      else
-      begin
-        MessageDlg('Błąd', 'Projekt nie został zapisany. Kompilacja anulowana.', mtError, [mbOk], 0);
-        Exit; // Jeśli użytkownik odmówił zapisu, kończymy procedurę
-      end;
-    end;
-
-    // Ustawienie ExeName na podstawie zapisanego pliku
-    ExeName := ChangeFileExt(sFileName, '.exe');
-
-    // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
-    CompilePascalCode(FTranslatedCode.Text, ExeName);
-
-    // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
-    if FileExists(ExeName) then
-      ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
-    else
-      MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
-      }
 end;
 
 procedure TForm1.ZapiszPlikExecute(Sender: TObject);

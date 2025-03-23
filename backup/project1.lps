@@ -43,7 +43,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
         <CursorPos Y="31"/>
-        <UsageCount Value="110"/>
+        <UsageCount Value="111"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -53,9 +53,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <TopLine Value="376"/>
-        <CursorPos X="2" Y="385"/>
-        <UsageCount Value="110"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="410"/>
+        <CursorPos X="39" Y="421"/>
+        <UsageCount Value="111"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -68,7 +69,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="45"/>
         <CursorPos X="33" Y="56"/>
-        <UsageCount Value="110"/>
+        <UsageCount Value="111"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -76,11 +77,10 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="527"/>
-        <CursorPos X="56" Y="550"/>
-        <UsageCount Value="100"/>
+        <TopLine Value="61"/>
+        <CursorPos X="44" Y="406"/>
+        <UsageCount Value="101"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -92,7 +92,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="3"/>
         <CursorPos Y="19"/>
-        <UsageCount Value="91"/>
+        <UsageCount Value="92"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -104,7 +104,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
         <CursorPos X="32" Y="19"/>
-        <UsageCount Value="90"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -116,7 +116,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
         <CursorPos X="15"/>
-        <UsageCount Value="89"/>
+        <UsageCount Value="90"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -129,7 +129,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="8"/>
         <CursorPos X="9" Y="40"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -157,18 +157,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="uinformacjaoide.pas"/>
-        <Caret Line="27"/>
-      </Position>
-      <Position>
-        <Filename Value="uinformacjaoide.pas"/>
-        <Caret Line="28"/>
-      </Position>
-      <Position>
-        <Filename Value="uinformacjaoide.pas"/>
-        <Caret Line="29"/>
-      </Position>
       <Position>
         <Filename Value="uinformacjaoide.pas"/>
         <Caret Line="28"/>
@@ -276,6 +264,18 @@
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="364" Column="2" TopLine="359"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="550" Column="56" TopLine="527"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="393" Column="4" TopLine="383"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="320" Column="51" TopLine="310"/>
       </Position>
     </JumpHistory>
     <RunParams>
