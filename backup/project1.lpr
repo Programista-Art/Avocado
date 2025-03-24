@@ -10,8 +10,9 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, anchordockpkg, lazcontrols, unit1, usettings, AvocadoTranslator,
-  unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide;
+  Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, pascalscript,
+  unit1, usettings, AvocadoTranslator, unitopcjeprojektu, unitoprogramie,
+  unitautor, uinformacjaoide, ukonwersje;
 
 {$R *.res}
 

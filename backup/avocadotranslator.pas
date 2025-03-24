@@ -10,7 +10,7 @@ uses
 type
   TStringArray = array of string;
   TAvocadoVariable = record
-    Name, VarType: string;
+  Name, VarType: string;
   end;
 
   { TAvocadoTranslator }
@@ -69,7 +69,43 @@ begin
   Result := StringReplace(Result, 'TekstLD(', 'StrToIntDef(', [rfReplaceAll]);
   Result := StringReplace(Result, 'Zaokrąglij(', 'Round(', [rfReplaceAll]);
   Result := StringReplace(Result, 'Słowo(', 'Word(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Liczba_długa_na_całkowitą(','LongInt(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Liczba_dc(','LongInt(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Kard(','Cardinal(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'FormatLiczby(','FloatToStrF(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWLzm(','FloatToStrF(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'LiczbarWR(','Double(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Liczba_rozszerzonaWPojedynczą(','Extended(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Liczba_pojedynczaWZm(','Single(', [rfReplaceAll]);
+  //Konwersje między typami znakowymi i stringami:
+  Result := StringReplace(Result, 'ZnakwASCII(','Chr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Ord(','Ord(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'ZnakWTekst(','Char(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWZnak(','String(', [rfReplaceAll]);
+  // Konwersje między typami logicznymi:
+  Result := StringReplace(Result, 'LogicznyWTekst(','BoolToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWLogiczny(','StrToBool(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWLogicznyDom(','StrToBoolDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'LogicznyZliczby(','Boolean(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'LiczbacZLogicznego(','Integer(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'LiczbacZWyliczenia(','Ord(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'ZwróćNazwęTekst(','GetEnumName(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'ZwróćLiczbac(','GetEnumValue(', [rfReplaceAll]);
+  //Konwersje związane z datą i czasem:
+  Result := StringReplace(Result, 'DataWTekst(','DateToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'CzasWTekst(','TimeToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'DataCzasWTekst(','DateTimeToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'DataCzasWTekstF(','FormatDateTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWDatę(','StrToDate(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWCzas(','StrToTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWDatęCzas(','StrToDateTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWDatęDom(','StrToDateDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWCzasDom(','StrToTimeDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'TekstWDatęCzasDom(','StrToDateTimeDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'DataCzasZ(','EncodeDate(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'CzasZ(','EncodeTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'RozłóżDatę(','DecodeDate(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'RozłóżCzas(','DecodeTime(', [rfReplaceAll]);
+  //Konwersje wskaźników:
 
 end;
 
@@ -396,6 +432,7 @@ function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
   PascalCode: TStringList;
   i: Integer;
+  trimmedLine: string;
 begin
  SetLength(FVariables, 0);  // Czyści listę zmiennych
   PascalCode := TStringList.Create;
