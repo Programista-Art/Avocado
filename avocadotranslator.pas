@@ -25,10 +25,13 @@ type
     procedure ProcessLine(const Line: string; PascalCode: TStringList);
     function JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
     function PrzetworzBlok(const Blok: string): string;
+    //Otrzumuje nazwy modulów
+    function GetImportedModules(const Code: string): string;
   public
     function Translate(const AvocadoCode: TStrings): TStringList;
   end;
-
+var
+Moduly: String;
 
 implementation
 uses
@@ -294,6 +297,41 @@ begin
     end;
 end;
 
+function TAvocadoTranslator.GetImportedModules(const Code: string): string;
+var
+  Lines: TStringList;
+  i: Integer;
+  Line, ModulesList: string;
+begin
+  ModulesList := ''; // Pusta lista modułów
+    Lines := TStringList.Create;
+    try
+      Lines.Text := Code; // Podziel kod na linie
+
+      for i := 0 to Lines.Count - 1 do
+      begin
+        Line := Trim(Lines[i]); // Usuń zbędne spacje
+
+        // Sprawdzenie, czy linia zaczyna się od "Importuj"
+        if Pos('Importuj', Line) = 1 then
+        begin
+          Delete(Line, 1, Length('Importuj')); // Usuń słowo "Importuj"
+          Line := Trim(Line); // Usuń spacje przed nazwami modułów
+
+          // Dodanie do listy modułów
+          if ModulesList = '' then
+            ModulesList := Line
+          else
+            ModulesList := ModulesList + ', ' + Line;
+        end;
+      end;
+
+      Result := ModulesList; // Zwrócenie wynikowej listy modułów
+    finally
+      Lines.Free;
+    end;
+end;
+
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
@@ -436,7 +474,7 @@ function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
   PascalCode: TStringList;
   i: Integer;
-  trimmedLine: string;
+  trimmedLine,ModulesStr: string;
 begin
  SetLength(FVariables, 0);  // Czyści listę zmiennych
   PascalCode := TStringList.Create;
@@ -460,10 +498,27 @@ begin
     else
       PascalCode.Add('program ' + NameProgram + ';');
       }
-
     // Dodajemy moduły
-    PascalCode.Add('uses Windows, SysUtils;');
+    //PascalCode.Add('uses Windows, SysUtils;');
+
+
+
+    // Wyodrębniamy moduły z całego kodu wejściowego (AvocadoCode)
+    ModulesStr := GetImportedModules(AvocadoCode.Text);
+    if ModulesStr <> '' then
+      PascalCode.Add('uses Windows, SysUtils, ' + ModulesStr + ';')
+    else
+      PascalCode.Add('uses Windows, SysUtils;');
     PascalCode.Add('');
+
+    {// Dodajemy sekcję uses wraz z modułami pobranymi z SynEditCode
+    ModulesStr := GetImportedModules(Form1.SynEditCode.Text);
+    if ModulesStr <> '' then
+      PascalCode.Add('uses Windows, SysUtils, ' + ModulesStr + ';')
+    else
+      PascalCode.Add('uses Windows, SysUtils;');
+    PascalCode.Add('');
+    }
 
     // Najpierw wykrywamy deklaracje zmiennych!
     for i := 0 to AvocadoCode.Count - 1 do
@@ -551,22 +606,6 @@ begin
           PascalCode.Add('  ' + FVariables[i].Name + ': String;');
 
 
-        {
-        if FVariables[i].VarType = 'Liczbac' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
-        else if FVariables[i].VarType = 'Liczbar' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
-        else if FVariables[i].VarType = 'Logika' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
-        else if FVariables[i].VarType = 'Znak' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
-        else if FVariables[i].VarType = 'TablicaLiczb' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': array of Integer;')
-        else if FVariables[i].VarType = 'TablicaTekstów' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': array of String;')
-        else
-        }
-          //PascalCode.Add('  ' + FVariables[i].Name + ': String;');
       end;
       PascalCode.Add('');
     end;
@@ -577,7 +616,19 @@ begin
     PascalCode.Add('SetConsoleOutputCP(CP_UTF8);');
     PascalCode.Add('SetConsoleCP(CP_UTF8);');
 
-     // Przetwarzamy linie kodu wejściowego
+
+    // Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od "program " lub "importuj"
+    for i := 0 to AvocadoCode.Count - 1 do
+    begin
+      trimmedLine := Trim(AvocadoCode[i]);
+      if Copy(LowerCase(trimmedLine), 1, 8) = 'program ' then
+        Continue;
+      if Copy(LowerCase(trimmedLine), 1, 8) = 'importuj' then
+        Continue;
+      ProcessLine(trimmedLine, PascalCode);
+    end;
+
+    { // Przetwarzamy linie kodu wejściowego
     for i := 0 to AvocadoCode.Count - 1 do
     begin
       trimmedLine := Trim(AvocadoCode[i]);
@@ -586,9 +637,7 @@ begin
         Continue;
       ProcessLine(trimmedLine, PascalCode);
     end;
-
-    {for i := 0 to AvocadoCode.Count - 1 do
-      ProcessLine(Trim(AvocadoCode[i]), PascalCode);  }
+    }
 
 
 

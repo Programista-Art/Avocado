@@ -149,6 +149,7 @@ var
   //Otwarta sciezka pliku
   OpenFileProject: String;
   NameProgram: String;
+  Moduly: String;
 
 implementation
 
@@ -225,7 +226,8 @@ end;
 
 procedure TForm1.MenuItem4Click(Sender: TObject);
 begin
-  ExtractProgramFromSynEdit;
+  //ExtractProgramFromSynEdit;
+  Moduly := GetImportedModules(FTranslatedCode.Text);
 end;
 
 procedure TForm1.MenuItemCopyClick(Sender: TObject);
@@ -378,9 +380,10 @@ end;
 
 procedure TForm1.ToolButton2Click(Sender: TObject);
 var
-  ExeName: string;
+   ExeName: string;
    sFileName: string;
    DlgResult: Integer;
+   OutputFolder: string;
 begin
  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
 
@@ -389,8 +392,10 @@ begin
   else if SD.FileName <> '' then
     sFileName := SD.FileName
   else
-    sFileName := NameProgram;
-    //sFileName := '';
+    sFileName := '';
+
+  //sFileName := NameProgram;
+
 
 
  //NameProgram
@@ -417,8 +422,14 @@ begin
     end;
   end;
 
+  // Wyodrębniamy folder, w którym zapisany został plik
+  OutputFolder := ExtractFilePath(sFileName);
+
+
+  // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
+  ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
   // Ustawienie ExeName na podstawie zapisanego pliku
-  ExeName := ChangeFileExt(NameProgram, '.exe');
+  //ExeName := ChangeFileExt(NameProgram, '.exe');
   //ExeName := ChangeFileExt(sFileName, '.exe');
 
   // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe

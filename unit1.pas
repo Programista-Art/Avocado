@@ -150,6 +150,7 @@ var
   OpenFileProject: String;
   NameProgram: String;
 
+
 implementation
 
 uses
@@ -225,7 +226,8 @@ end;
 
 procedure TForm1.MenuItem4Click(Sender: TObject);
 begin
-  ExtractProgramFromSynEdit;
+  //ExtractProgramFromSynEdit;
+
 end;
 
 procedure TForm1.MenuItemCopyClick(Sender: TObject);

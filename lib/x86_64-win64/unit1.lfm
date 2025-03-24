@@ -713,7 +713,7 @@ object Form1: TForm1
         OnClick = MenuCloseClick
       end
       object MenuItem4: TMenuItem
-        Caption = 'Nowy program'
+        Caption = 'Importuj moduly'
         OnClick = MenuItem4Click
       end
     end
