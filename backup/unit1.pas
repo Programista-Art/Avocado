@@ -7,12 +7,20 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, SynEdit, SynPopupMenu, SynCompletion,
-  laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator,ShellAPI;
+  SynMacroRecorder, SynPluginSyncroEdit, SynHighlighterHTML, SynHighlighterPas,
+  SynHighlighterTeX, SynHighlighterDiff, SynHighlighterMulti, SynHighlighterAny,
+  SynHighlighterPo, laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator,
+  ShellAPI;
 
 type
   { TForm1 }
   TForm1 = class(TForm)
     MenuINformacjaIDE: TMenuItem;
+    SynAnySyn1: TSynAnySyn;
+    SynAutoComplete1: TSynAutoComplete;
+    SynMacroRecorder1: TSynMacroRecorder;
+    SynMultiSyn1: TSynMultiSyn;
+    SynPoSyn1: TSynPoSyn;
     Transpiluj: TAction;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
@@ -149,7 +157,7 @@ var
   //Otwarta sciezka pliku
   OpenFileProject: String;
   NameProgram: String;
-  Moduly: String;
+
 
 implementation
 
@@ -167,6 +175,9 @@ begin
   //FTempFile := ExtractFilePath(Application.ExeName) + 'temp.avocado';
   //Zapisuje plik tymaczosowy tam gdzie jest zapisany projekt
   FTempFile := SaveFileProject + 'temp.avocado';
+  //Dodanie zanków polksich
+  SynAnySyn1.IdentifierChars := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyząćęłńóśźżĄĆĘŁŃÓŚŹŻ';
+  SynEditCode.Repaint; //Opcjonalne, ale czasami konieczne.
 end;
 
 procedure TForm1.TranspilujExecute(Sender: TObject);
@@ -227,7 +238,7 @@ end;
 procedure TForm1.MenuItem4Click(Sender: TObject);
 begin
   //ExtractProgramFromSynEdit;
-  Moduly := GetImportedModules(FTranslatedCode.Text);
+
 end;
 
 procedure TForm1.MenuItemCopyClick(Sender: TObject);

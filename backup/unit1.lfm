@@ -17,7 +17,7 @@ object Form1: TForm1
     Top = 0
     Width = 1086
     Caption = 'ToolBar1'
-    Color = 5197647
+    Color = 5588525
     Images = ImageList1
     ParentColor = False
     TabOrder = 0
@@ -70,6 +70,12 @@ object Form1: TForm1
         Top = 28
         Width = 245
         Align = alClient
+        Color = 2697513
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Color = clWhite
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        ParentFont = False
         PopupMenu = PopupMenuOutPutPascalCode
         ScrollBars = ssBoth
         TabOrder = 0
@@ -82,7 +88,9 @@ object Form1: TForm1
         Align = alTop
         ClientHeight = 27
         ClientWidth = 245
+        Color = 5588525
         ParentBackground = False
+        ParentColor = False
         TabOrder = 1
         object Label2: TLabel
           Left = 6
@@ -93,7 +101,7 @@ object Form1: TForm1
           Alignment = taCenter
           BorderSpacing.Around = 5
           Caption = 'Transpilacja w Free Pascal'
-          Color = clWhite
+          Color = 5588525
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
           Font.Pitch = fpVariable
@@ -122,7 +130,7 @@ object Form1: TForm1
       Width = 832
       Align = alClient
       BlockIndent = 1
-      Color = 5197647
+      Color = 2697513
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite
       Font.Height = -16
@@ -133,14 +141,15 @@ object Form1: TForm1
       ParentFont = False
       PopupMenu = PopupMenuCode
       TabOrder = 0
-      Gutter.Color = clWindowFrame
-      Gutter.Width = 61
+      Gutter.Color = clBlack
+      Gutter.Width = 51
       Gutter.MouseActions = <>
-      RightGutter.Color = cl3DDkShadow
+      RightGutter.Color = clBlack
       RightGutter.CurrentLineColor.Background = clActiveBorder
       RightGutter.CurrentLineColor.FrameColor = clActiveBorder
       RightGutter.Width = 0
       RightGutter.MouseActions = <>
+      Highlighter = SynAnySyn1
       Keystrokes = <      
         item
           Command = ecUp
@@ -565,8 +574,11 @@ object Form1: TForm1
       MouseActions = <>
       MouseTextActions = <>
       MouseSelActions = <>
+      Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoHalfPageScroll, eoHideRightMargin, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoDragDropEditing, eoDoubleClickSelectsLine, eoShowCtrlMouseLinks]
+      Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
+      MouseOptions = [emDragDropEditing, emDoubleClickSelectsLine, emShowCtrlMouseLinks]
       VisibleSpecialChars = [vscSpace, vscTabAtLast]
-      RightEdgeColor = clWindowText
+      RightEdgeColor = clGradientActiveCaption
       SelectedColor.Background = clGradientActiveCaption
       SelectedColor.Foreground = clGradientActiveCaption
       SelectedColor.FrameColor = clWhite
@@ -577,7 +589,7 @@ object Form1: TForm1
       SelectedColor.ItalicPriority = 50
       SelectedColor.UnderlinePriority = 50
       SelectedColor.StrikeOutPriority = 50
-      IncrementColor.Foreground = clGrayText
+      IncrementColor.Foreground = clWhite
       HighlightAllColor.Background = clBtnShadow
       HighlightAllColor.Foreground = cl3DDkShadow
       BracketHighlightStyle = sbhsBoth
@@ -587,24 +599,31 @@ object Form1: TForm1
       BracketMatchColor.Style = [fsBold]
       BracketMatchColor.StyleMask = [fsBold]
       FoldedCodeColor.Background = clActiveCaption
-      FoldedCodeColor.Foreground = clGray
+      FoldedCodeColor.Foreground = clRed
       FoldedCodeColor.FrameColor = clGray
       MouseLinkColor.Background = clNone
       MouseLinkColor.Foreground = clBlue
-      LineHighlightColor.Background = 3026478
-      LineHighlightColor.Foreground = clNone
+      LineHighlightColor.Background = 1513239
+      LineHighlightColor.Foreground = clWhite
+      LineHighlightColor.FrameColor = clWindowFrame
+      LineHighlightColor.FrameEdges = sfeBottom
       inline SynLeftGutterPartList1: TSynGutterPartList
         object SynGutterMarks1: TSynGutterMarks
           Width = 24
+          LeftOffset = -10
           MouseActions = <>
           MaxExtraMarksColums = 0
-          Options = [sgmoDeDuplicateMarksOnOverflow]
+          Options = [sgmoDeDuplicateMarks, sgmoDeDuplicateMarksOnOverflow]
+          MarkupInfoCurrentLine.Background = clHighlight
         end
         object SynGutterLineNumber1: TSynGutterLineNumber
           Width = 21
           MouseActions = <>
-          MarkupInfo.Background = clBtnFace
-          MarkupInfo.Foreground = clNone
+          MarkupInfo.Background = clBlack
+          MarkupInfo.Foreground = clWindow
+          MarkupInfo.FrameColor = 5197647
+          MarkupInfo.FrameEdges = sfeBottom
+          MarkupInfoCurrentLine.Background = clMenuText
           DigitCount = 2
           ShowOnlyLineNumbersMultiplesOf = 1
           ZeroStart = False
@@ -621,6 +640,7 @@ object Form1: TForm1
           MouseActions = <>
           MarkupInfo.Background = clWhite
           MarkupInfo.Foreground = clGray
+          MarkupInfoCurrentLine.Background = clMenuHighlight
         end
         object SynGutterCodeFolding1: TSynGutterCodeFolding
           MouseActions = <>
@@ -637,6 +657,12 @@ object Form1: TForm1
       Top = 408
       Width = 832
       Align = alBottom
+      Color = 2697513
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
       TabOrder = 1
     end
     object Splitter3: TSplitter
@@ -657,7 +683,9 @@ object Form1: TForm1
       Align = alBottom
       ClientHeight = 27
       ClientWidth = 832
+      Color = 5588525
       ParentBackground = False
+      ParentColor = False
       TabOrder = 3
       object Label1: TLabel
         Left = 6
@@ -685,8 +713,8 @@ object Form1: TForm1
     ResizeStyle = rsLine
   end
   object MainMenu1: TMainMenu
-    Left = 280
-    Top = 40
+    Left = 328
+    Top = 32
     object MenuItem1: TMenuItem
       Caption = 'Plik'
       object MenuNewFile: TMenuItem
@@ -860,23 +888,61 @@ object Form1: TForm1
   end
   object SynCompletion1: TSynCompletion
     ItemList.Strings = (
-      'Liczba'
+      'Pisz('''')'
+      'Czytaj('''')'
+      'Program'
+      'Importuj'
+      'Jeśli i = 0  wtedy  inaczej'
+      'Liczba_całkowita'
+      'Liczba_mała'
+      'Liczba_długa'
+      'Liczba64'
+      'Bajt'
+      'Liczba16'
+      'Liczba32'
+      'Liczba_zm'
       'Tekst'
-      'Druk'
-      'Wpr('''')'
+      'Liczba_pojedyncza'
+      'Liczba_podwójna'
+      'Liczba_rozszerzona'
+      'Liczba_zgodna_delphi'
+      'Liczba_waluta'
+      'Logiczny'
+      'Logiczny_bajt'
+      'Logiczne_słowo'
+      'Logiczny_długi'
+      'Znak'
+      'Znak_unicode'
+      'Tekst255'
+      'Tekst_ansi'
+      'Tekst_unicode'
+      'Tekst_systemowy'
+      'Tablica_stała'
+      'Tablica_dynamiczna'
+      'Kolekcja'
+      'Plik'
+      'Plik_tekstowy'
+      'Plik_binarny'
+      'Plik_struktur'
+      'Wskaźnik'
+      'Wskaźnik_na'
+      'Wariant'
+      'OleVariant'
     )
     Position = 0
-    LinesInWindow = 6
+    LinesInWindow = 3
     SelectedColor = clHighlight
     CaseSensitive = False
     Width = 262
+    LongLineHintTime = 2
     AutoUseSingleIdent = True
     ShortCut = 16416
     EndOfTokenChr = '()[].'
     ExecCommandID = ecSynCompletionExecute
+    Editor = SynEditCode
     ToggleReplaceWhole = False
-    Left = 152
-    Top = 120
+    Left = 80
+    Top = 40
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
     Left = 168
@@ -892,5 +958,114 @@ object Form1: TForm1
     object MenuItemDeleteMemoLogs: TMenuItem
       Caption = 'Usuń'
     end
+  end
+  object SynAutoComplete1: TSynAutoComplete
+    AutoCompleteList.Strings = (
+      'Pisz('''')'
+      'Czytaj('''')'
+      'Jeśli i = 0  wtedy  inaczej'
+    )
+    EndOfTokenChr = '()[].'
+    ShortCut = 8224
+    ExecCommandID = ecSynAutoCompletionExecute
+    Editor = SynEditCode
+    Left = 72
+    Top = 104
+  end
+  object SynMacroRecorder1: TSynMacroRecorder
+    RecordShortCut = 24658
+    PlaybackShortCut = 24656
+    Left = 79
+    Top = 199
+  end
+  object SynMultiSyn1: TSynMultiSyn
+    Enabled = False
+    Schemes = <>
+    Left = 296
+    Top = 152
+  end
+  object SynAnySyn1: TSynAnySyn
+    CommentAttri.Foreground = clGreen
+    CommentAttri.Style = [fsBold, fsItalic]
+    CommentAttri.StyleMask = [fsItalic, fsUnderline]
+    Comments = []
+    DetectPreprocessor = False
+    IdentifierAttri.Foreground = clInfoBk
+    IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
+    KeyAttri.Foreground = clSkyBlue
+    KeyAttri.FrameColor = clSkyBlue
+    KeyAttri.StyleMask = [fsBold]
+    ConstantAttri.Foreground = clMenuHighlight
+    ConstantAttri.FrameColor = clActiveCaption
+    ConstantAttri.StyleMask = [fsBold]
+    ObjectAttri.Foreground = clYellow
+    VariableAttri.Background = 7886547
+    KeyWords.Strings = (
+      ''
+      'IMPORTUJ'
+      'JEśLI WTEDY INACZEJ'
+      'PROGRAM'
+    )
+    Constants.Strings = (
+      'BAJT'
+      'KOLEKCJA'
+      'LICZBA_CAłKOWITA'
+      'LICZBA_DłUGA'
+      'LICZBA_MAłA'
+      'LICZBA_PODWóJNA'
+      'LICZBA_POJEDYNCZA'
+      'LICZBA_ROZSZERZONA'
+      'LICZBA_WALUTA'
+      'LICZBA_ZGODNA_DELPHI'
+      'LICZBA_ZM'
+      'LICZBA16'
+      'LICZBA32'
+      'LICZBA64'
+      'LOGICZNE_SłOWO'
+      'LOGICZNY'
+      'LOGICZNY_BAJT'
+      'LOGICZNY_DłUGI'
+      'OLEVARIANT'
+      'PLIK'
+      'PLIK_BINARNY'
+      'PLIK_STRUKTUR'
+      'PLIK_TEKSTOWY'
+      'TABLICA_DYNAMICZNA'
+      'TABLICA_STAłA'
+      'TEKST'
+      'TEKST_ANSI'
+      'TEKST_SYSTEMOWY'
+      'TEKST_UNICODE'
+      'TEKST255'
+      'WARIANT'
+      'WSKAźNIK'
+      'WSKAźNIK_NA'
+      'ZNAK'
+      'ZNAK_UNICODE'
+    )
+    Objects.Strings = (
+      'DLA '
+      'DO'
+      'INACZEJ'
+      'JEśLI '
+      'OD '
+      'WTEDY'
+    )
+    NumberAttri.Foreground = clAqua
+    PreprocessorAttri.Foreground = clTeal
+    StringAttri.Foreground = clFuchsia
+    SymbolAttri.Foreground = clWhite
+    Markup = False
+    Entity = True
+    DollarVariables = False
+    ActiveDot = False
+    Left = 200
+    Top = 168
+  end
+  object SynPoSyn1: TSynPoSyn
+    DefaultFilter = 'Pliki Po (*.po)|*.po'
+    Enabled = False
+    Left = 435
+    Top = 296
   end
 end
