@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 572
   Top = 221
   Width = 1086
-  Caption = 'IDE Avocado v 1.0.0.2'
+  Caption = 'IDE Avocado v 1.0.0.3'
   ClientHeight = 572
   ClientWidth = 1086
   Color = 5197647
@@ -985,6 +985,7 @@ object Form1: TForm1
     Top = 152
   end
   object SynAnySyn1: TSynAnySyn
+    Enabled = False
     CommentAttri.Foreground = clGreen
     CommentAttri.Style = [fsBold, fsItalic]
     CommentAttri.StyleMask = [fsItalic, fsUnderline]

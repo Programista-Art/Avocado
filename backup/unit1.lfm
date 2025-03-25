@@ -990,7 +990,7 @@ object Form1: TForm1
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
     Comments = []
     DetectPreprocessor = False
-    IdentifierAttri.Foreground = clInfoBk
+    IdentifierAttri.Foreground = clGradientActiveCaption
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
     KeyAttri.Foreground = clSkyBlue
     KeyAttri.FrameColor = clSkyBlue
