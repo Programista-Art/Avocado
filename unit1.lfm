@@ -149,6 +149,7 @@ object Form1: TForm1
       RightGutter.CurrentLineColor.FrameColor = clActiveBorder
       RightGutter.Width = 0
       RightGutter.MouseActions = <>
+      HideSelection = True
       Highlighter = SynAnySyn1
       Keystrokes = <      
         item
@@ -578,7 +579,7 @@ object Form1: TForm1
       Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
       MouseOptions = [emDragDropEditing, emDoubleClickSelectsLine, emShowCtrlMouseLinks]
       VisibleSpecialChars = [vscSpace, vscTabAtLast]
-      RightEdgeColor = clGradientActiveCaption
+      RightEdgeColor = clBlack
       SelectedColor.Background = clGradientActiveCaption
       SelectedColor.Foreground = clGradientActiveCaption
       SelectedColor.FrameColor = clWhite
@@ -591,14 +592,14 @@ object Form1: TForm1
       SelectedColor.StrikeOutPriority = 50
       IncrementColor.Foreground = clWhite
       HighlightAllColor.Background = clBtnShadow
-      HighlightAllColor.Foreground = cl3DDkShadow
+      HighlightAllColor.Foreground = clHotLight
       BracketHighlightStyle = sbhsBoth
       BracketMatchColor.Background = clNone
       BracketMatchColor.Foreground = clNone
       BracketMatchColor.FrameColor = clBackground
       BracketMatchColor.Style = [fsBold]
       BracketMatchColor.StyleMask = [fsBold]
-      FoldedCodeColor.Background = clActiveCaption
+      FoldedCodeColor.Background = clMenuHighlight
       FoldedCodeColor.Foreground = clRed
       FoldedCodeColor.FrameColor = clGray
       MouseLinkColor.Background = clNone
@@ -739,10 +740,6 @@ object Form1: TForm1
       object MenuClose: TMenuItem
         Caption = 'Zamknij'
         OnClick = MenuCloseClick
-      end
-      object MenuItem4: TMenuItem
-        Caption = 'Importuj moduly'
-        OnClick = MenuItem4Click
       end
     end
     object MenuProjekt: TMenuItem
@@ -900,6 +897,9 @@ object Form1: TForm1
       'Bajt'
       'Liczba16'
       'Liczba32'
+      'Dla .. od .. do{}'
+      '//'
+      'jeśli.. wtedy .. inaczej'
       'Liczba_zm'
       'Tekst'
       'Liczba_pojedyncza'
@@ -928,19 +928,64 @@ object Form1: TForm1
       'Wskaźnik_na'
       'Wariant'
       'OleVariant'
+      'TekstWLiczbac() '#9
+      'TekstWLiczbar() '#9
+      'LiczbarWTekst() '#9
+      'LiczbacWr() '#9
+      'LiczbarWc() '#9
+      'LiczbacWlk() '#9
+      'LogicznyWTekst() '#9
+      'TekstLD(tekst,wartość domyślna) '#9
+      'Zaokrąglij(liczba zmiennoprzecinkowa) '
+      'Słowo(większa liczba całkowita) '#9
+      'Liczba_dc(większa_liczba_całkowita)'
+      'Kard(liczba_całkowita)'
+      'FormatLiczby(liczba_zmiennoprzecinkowa, format, precyzja, cyfry)'
+      'TekstWLzm(string, wartość_domyślna)'
+      'LiczbarWR(Liczba_rozszerzona)'
+      'Liczba_pojedynczaWZm(liczba_podwójna/Liczba_rozszerzona) '
+      'Liczba_rozszerzonaWPojedynczą(Liczba_pojedyncza/liczba_podwójna) '
+      'ZnakwASCII(kod_ASCII)'
+      'Ord(znak)'
+      'TekstWZnak(Znak)'
+      'ZnakWTekst(Tekst[indeks])'
+      'LogicznyWTekst(wartość_logiczna, użyj wartości Prawda lub Falsz)'
+      'TekstWLogiczny(string)'
+      'TekstWLogicznyDom(string, wartość domyślna)'
+      'LogicznyZliczby(liczba)'
+      'LiczbacZLogicznego(Logiczny)'
+      'LiczbacZWyliczenia(wartość wyliczeniowa)'
+      'WyliczenieZLiczbac(liczba_całkowita)'
+      'ZwróćNazwęTekst(TypWyliczeniowy, Liczba(wartość wyliczeniowa))'
+      'ZwróćLiczbac(TypWyliczeniowy, Nazwa Wartości)'
+      'DataWTekst(data)'
+      'CzasWTekst(czas)'
+      'DataCzasWTekst(data i czas)'
+      'DataCzasWTekstF(format, data i czas)'
+      'TekstWDatę(tekst)'
+      'TekstWCzas(tekst)'
+      'TekstWDatęCzas(tekst)'
+      'TekstWDatęDom(tekst, wartość domyślna)'
+      'DataCzasZ(rok, miesiąc, dzień)'
+      'CzasZ(godzina, minuta, sekunda, milisekunda)'
+      'RozłóżDatę(data, rok, miesiąc, dzień)'
+      'RozłóżCzas(czas, godzina, minuta, sekunda, milisekunda)'
+      'NiebezpiecznyWskaźnikZAdresu(liczba całkowita)'
+      '@zmienna '
     )
     Position = 0
-    LinesInWindow = 3
-    SelectedColor = clHighlight
+    LinesInWindow = 10
+    SelectedColor = 5588525
     CaseSensitive = False
-    Width = 262
+    Width = 150
     LongLineHintTime = 2
+    ShowSizeDrag = True
     AutoUseSingleIdent = True
     ShortCut = 16416
     EndOfTokenChr = '()[].'
     ExecCommandID = ecSynCompletionExecute
     Editor = SynEditCode
-    ToggleReplaceWhole = False
+    ToggleReplaceWhole = True
     Left = 80
     Top = 40
   end
@@ -961,9 +1006,50 @@ object Form1: TForm1
   end
   object SynAutoComplete1: TSynAutoComplete
     AutoCompleteList.Strings = (
-      'Pisz('''')'
-      'Czytaj('''')'
-      'Jeśli i = 0  wtedy  inaczej'
+      'TekstWLiczbac() '#9
+      'TekstWLiczbar() '#9
+      'LiczbarWTekst() '#9
+      'LiczbacWr() '#9
+      'LiczbarWc() '#9
+      'LiczbacWlk() '#9
+      'LogicznyWTekst() '#9
+      'TekstLD(tekst,wartość domyślna) '#9
+      'Zaokrąglij(liczba zmiennoprzecinkowa) '
+      'Słowo(większa liczba całkowita) '#9
+      'Liczba_dc(większa_liczba_całkowita)'
+      'Kard(liczba_całkowita)'
+      'FormatLiczby(liczba_zmiennoprzecinkowa, format, precyzja, cyfry)'
+      'TekstWLzm(string, wartość_domyślna)'
+      'LiczbarWR(Liczba_rozszerzona)'
+      'Liczba_pojedynczaWZm(liczba_podwójna/Liczba_rozszerzona) '
+      'Liczba_rozszerzonaWPojedynczą(Liczba_pojedyncza/liczba_podwójna) '
+      'ZnakwASCII(kod_ASCII)'
+      'Ord(znak)'
+      'TekstWZnak(Znak)'
+      'ZnakWTekst(Tekst[indeks])'
+      'LogicznyWTekst(wartość_logiczna, użyj wartości Prawda lub Falsz)'
+      'TekstWLogiczny(string)'
+      'TekstWLogicznyDom(string, wartość domyślna)'
+      'LogicznyZliczby(liczba)'
+      'LiczbacZLogicznego(Logiczny)'
+      'LiczbacZWyliczenia(wartość wyliczeniowa)'
+      'WyliczenieZLiczbac(liczba_całkowita)'
+      'ZwróćNazwęTekst(TypWyliczeniowy, Liczba(wartość wyliczeniowa))'
+      'ZwróćLiczbac(TypWyliczeniowy, Nazwa Wartości)'
+      'DataWTekst(data)'
+      'CzasWTekst(czas)'
+      'DataCzasWTekst(data i czas)'
+      'DataCzasWTekstF(format, data i czas)'
+      'TekstWDatę(tekst)'
+      'TekstWCzas(tekst)'
+      'TekstWDatęCzas(tekst)'
+      'TekstWDatęDom(tekst, wartość domyślna)'
+      'DataCzasZ(rok, miesiąc, dzień)'
+      'CzasZ(godzina, minuta, sekunda, milisekunda)'
+      'RozłóżDatę(data, rok, miesiąc, dzień)'
+      'RozłóżCzas(czas, godzina, minuta, sekunda, milisekunda)'
+      'NiebezpiecznyWskaźnikZAdresu(liczba całkowita)'
+      '@zmienna '
     )
     EndOfTokenChr = '()[].'
     ShortCut = 8224

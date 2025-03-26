@@ -11,16 +11,18 @@
       <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
+        <TextName Value="ProgramistaArt.IDEAvocado.Avocado"/>
+        <TextDesc Value="IDE Avocado polski język programowania"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="2"/>
+      <BuildNr Value="3"/>
       <Language Value="0415"/>
       <Attributes pvaDebug="True" pvaPreRelease="True"/>
-      <StringTable Comments="IDE Avocado" CompanyName="Programista Art" FileDescription="IDE Avocado" InternalName="IDE Avocado" LegalCopyright="IDE Avocado" LegalTrademarks="IDE Avocado" OriginalFilename="IDE Avocado" ProductName="IDE Avocado" ProductVersion="1.0.0.2"/>
+      <StringTable Comments="IDE Avocado" CompanyName="Programista Art" FileDescription="IDE Avocado" InternalName="IDE Avocado" LegalCopyright="IDE Avocado" LegalTrademarks="IDE Avocado" OriginalFilename="IDE Avocado" ProductName="IDE Avocado" ProductVersion="1.0.0.3"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>

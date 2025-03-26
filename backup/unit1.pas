@@ -31,7 +31,6 @@ type
     MenuItem3: TMenuItem;
     MenuAboutProgram: TMenuItem;
     MenuAutor: TMenuItem;
-    MenuItem4: TMenuItem;
     MenuItemDokumentacja: TMenuItem;
     MenuNewFile: TMenuItem;
     MenuItemSaveFile: TMenuItem;
@@ -86,7 +85,6 @@ type
     procedure MenuAutorClick(Sender: TObject);
     procedure MenuCloseClick(Sender: TObject);
     procedure MenuItem3ClearCodeClick(Sender: TObject);
-    procedure MenuItem4Click(Sender: TObject);
     procedure MenuItemCopyClick(Sender: TObject);
     procedure MenuItemCopyCodeClick(Sender: TObject);
     procedure MenuItemCutClick(Sender: TObject);
@@ -235,11 +233,7 @@ begin
   SynEditCode.ClearAll;
 end;
 
-procedure TForm1.MenuItem4Click(Sender: TObject);
-begin
-  //ExtractProgramFromSynEdit;
 
-end;
 
 procedure TForm1.MenuItemCopyClick(Sender: TObject);
 begin
@@ -352,7 +346,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado V 1.0.0.1 ' + 'Otwarty projekt: ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.0.3 ' + 'Otwarty projekt: ' + OpenFileProject;
   end;
 end;
 
