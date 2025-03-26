@@ -5,12 +5,56 @@ unit matematyka;
 interface
 
 uses
-  Classes, SysUtils, fpexprpars,Math;
+  Classes, SysUtils, fpexprpars;
 
-function ObliczWyrazenie(const Expr: string): Double;
+  function ObliczWyrazenie(const Expr: string): Double;
+  //Tangens
+  procedure ExprTan(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //ArcSin(x: Extended): Extended;
+  procedure ExprArcSin(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //ArcCos(x: Extended): Extended;
+  procedure ExprArcCos(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //ArcTan(x: Extended): Extended;
+  procedure ExprArcTan(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //ArcTan2(y, x: Extended): Extended;
+  procedure ExprArcTan2(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //DegToRad(Degrees: Extended): Extended;
+  procedure ExprDegToRad(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Konwersja radianów na stopnie
+  procedure ExprRadToDeg(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //sec
+  procedure ExprSec(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Cotan(x: Extended): Extended;
+  procedure ExprCotan(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // SINH
+  procedure ExprSinh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // COSH
+  procedure ExprCosh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // TANH
+  procedure ExprTanh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // ARSINH
+  procedure ExprArcSinh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // ARCOSH (z obsługą błędu dla x < 1)
+  procedure ExprArcCosh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // ARTANH (z obsługą błędu dla |x| >= 1)
+  procedure ExprArcTanh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
 
 implementation
 
+uses
+  Math;
+
+// Deklaracje procedur obsługujących funkcje trygonometryczne cosinus
+procedure ExprCos(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Cos(ArgToFloat(Args[0]));
+end;
+
+//Sinus
+procedure ExprSin(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Sin(ArgToFloat(Args[0]));
+end;
 
 function ObliczWyrazenie(const Expr: string): Double;
 var
@@ -21,10 +65,34 @@ begin
   Parser := TFPExpressionParser.Create(nil);
   try
     try
-      Parser.Expression := Expr;
+      // Konfiguracja parsera
       Parser.BuiltIns := [bcMath];
+      Parser.Identifiers.AddFunction('cos', 'F', 'F', @ExprCos);
+      Parser.Identifiers.AddFunction('sin', 'F', 'F', @ExprSin);
+      Parser.Identifiers.AddFloatVariable('pi', Pi);
+      Parser.Identifiers.AddFunction('tan', 'F', 'F', @ExprTan);
+      Parser.Identifiers.AddFunction('arcsin', 'F', 'F', @ExprArcSin);
+      Parser.Identifiers.AddFunction('arccos', 'F', 'F', @ExprArcCos);
+      Parser.Identifiers.AddFunction('arctan', 'F', 'F', @ExprArcTan);
+      Parser.Identifiers.AddFunction('arctan2', 'F', 'FF', @ExprArcTan2);
+      Parser.Identifiers.AddFunction('degtorad', 'F', 'F', @ExprDegToRad);
+      Parser.Identifiers.AddFunction('radtodeg', 'F', 'F', @ExprRadToDeg);
+      Parser.Identifiers.AddFunction('sec', 'F', 'F', @ExprSec);
+      Parser.Identifiers.AddFunction('cotan', 'F', 'F', @ExprCotan);
+      Parser.Identifiers.AddFloatVariable('e', Exp(1));
+      // Hiperboliczne
+      Parser.Identifiers.AddFunction('sinh', 'F', 'F', @ExprSinh);
+      Parser.Identifiers.AddFunction('cosh', 'F', 'F', @ExprCosh);
+      Parser.Identifiers.AddFunction('tanh', 'F', 'F', @ExprTanh);
+
+      // Odwrotne hiperboliczne
+      Parser.Identifiers.AddFunction('arsinh', 'F', 'F', @ExprArcSinh);
+      Parser.Identifiers.AddFunction('arcosh', 'F', 'F', @ExprArcCosh);
+      Parser.Identifiers.AddFunction('artanh', 'F', 'F', @ExprArcTanh);
+      Parser.Expression := Expr;
       Res := Parser.Evaluate;
 
+      // Obsługa wyniku
       case Res.ResultType of
         rtInteger: Result := Res.ResInteger;
         rtFloat:   Result := Res.ResFloat;
@@ -32,18 +100,118 @@ begin
           raise Exception.Create('Nieobsługiwany typ wyniku');
       end;
 
-      // Dokładne zaokrąglenie do 2 miejsc po przecinku
-      Result := Round(Result * 100) / 100; // Klasyczne zaokrąglenie matematyczne
+      // Zaokrąglenie do 2 miejsc po przecinku
+      Result := Round(Result * 100) / 100;
     except
       on E: Exception do
       begin
-        WriteLn('Błąd przy obliczaniu wyrażenia: ' + E.Message);
+        WriteLn('Błąd: ' + E.Message);
         Result := 0;
       end;
     end;
   finally
     Parser.Free;
   end;
+end;
+
+procedure ExprTan(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Tan(ArgToFloat(Args[0]));
+end;
+
+procedure ExprArcSin(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := ArcSin(ArgToFloat(Args[0]));
+end;
+
+procedure ExprArcCos(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := ArcCos(ArgToFloat(Args[0]));
+end;
+
+procedure ExprArcTan(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := ArcTan(ArgToFloat(Args[0]));
+end;
+
+procedure ExprArcTan2(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := ArcTan2(ArgToFloat(Args[0]), ArgToFloat(Args[1]));
+end;
+
+procedure ExprDegToRad(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := DegToRad(ArgToFloat(Args[0])); // Konwersja stopni na radiany
+end;
+
+procedure ExprRadToDeg(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := RadToDeg(ArgToFloat(Args[0])); // Konwersja radianów na stopnie
+end;
+
+procedure ExprSec(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := 1 / Cos(ArgToFloat(Args[0]));
+end;
+
+procedure ExprCotan(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Cotan(ArgToFloat(Args[0]));
+end;
+
+procedure ExprSinh(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Sinh(ArgToFloat(Args[0]));
+end;
+
+procedure ExprCosh(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Cosh(ArgToFloat(Args[0]));
+end;
+
+procedure ExprTanh(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Tanh(ArgToFloat(Args[0]));
+end;
+
+procedure ExprArcSinh(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := ArcSinh(ArgToFloat(Args[0]));
+end;
+
+procedure ExprArcCosh(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+    if x < 1 then
+      raise Exception.Create('arcosh(x) wymaga x >= 1');
+    Result.ResFloat := ArcCosh(x);
+end;
+
+procedure ExprArcTanh(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+    if (x <= -1) or (x >= 1) then
+      raise Exception.Create('artanh(x) wymaga |x| < 1');
+    Result.ResFloat := ArcTanh(x);
 end;
 
 end.
