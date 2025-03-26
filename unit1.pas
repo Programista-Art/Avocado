@@ -143,6 +143,10 @@ var
   //Link do FPC
   FFpcPath: string;
   FTempFile: string;
+  FFpcBasePath:string;
+  FLclBasePath:string;
+  FModulsPath: string;
+  FTargetPlatform:string;
   //Tymczasowy plik.pas
   FTempFiles: string;
   FPC_Path: string;
@@ -456,9 +460,57 @@ end;
 
 procedure TForm1.LoadFpc;
 begin
+  MemoLogs.Lines.Add('Wczytywanie ustawień');
   Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
   try
     FFpcPath := Ini.ReadString('main', 'fpc', '');
+    FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
+    FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
+    FLclBasePath := Ini.ReadString('main', 'LclBasePath', ''); // Odczytaj, nawet jeśli opcjonalne
+    FModulsPath := Ini.ReadString('main', 'Units', '');
+
+   // --- Walidacja wczytanych ustawień (bez odgadywania) ---
+    if (FFpcPath = '') or not FileExists(FFpcPath) then
+    begin
+      MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka kompilatora FPC (FpcPath) nie istnieje lub nie jest ustawiona w ' + FFpcPath);
+      // Tutaj możesz rozważyć poważniejsze działania, np. zablokowanie możliwości kompilacji
+    end;
+
+    if FFpcBasePath = '' then
+    begin
+       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Ścieżka bazowa FPC (FpcBasePath) nie jest ustawiona w ' + FFpcBasePath + '. Standardowe jednostki FPC nie zostaną znalezione!');
+    end
+    else if not DirectoryExists(FFpcBasePath) then
+    begin
+       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Skonfigurowana ścieżka bazowa FPC (FpcBasePath) nie istnieje: ' + FFpcBasePath);
+       // FFpcBasePath := ''; // Można wyczyścić, aby dalsze operacje na pewno się nie udały
+    end;
+
+    if FTargetPlatform = '' then
+    begin
+       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Platforma docelowa (TargetPlatform) nie jest ustawiona w ' + FTargetPlatform + '. Nie można określić katalogu jednostek!');
+    end;
+
+    // Sprawdzenie LclBasePath (mniej krytyczne, chyba że LCL jest wymagany)
+    if (FLclBasePath <> '') and not DirectoryExists(FLclBasePath) then
+    begin
+        MemoLogs.Lines.Add('OSTRZEŻENIE: Skonfigurowana ścieżka LCL (LclBasePath) nie istnieje: ' + FLclBasePath);
+        // FLclBasePath := ''; // Opcjonalnie wyczyść
+    end;
+    //Sprawdza FModulsPath sciezke moduly
+    if FModulsPath = '' then
+       begin
+          MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: brak ustawionej ścieżki do modułów ' + FModulsPath + '. Nie można określić katalogu jednostek!');
+       end;
+
+
+    MemoLogs.Lines.Add('Ustawienia kompilatora wczytane.');
+    MemoLogs.Lines.Add(' FpcPath: ' + FFpcPath);
+    MemoLogs.Lines.Add(' FpcBasePath: ' + FFpcBasePath);
+    MemoLogs.Lines.Add(' TargetPlatform: ' + FTargetPlatform);
+    MemoLogs.Lines.Add(' Moduły: ' + FModulsPath);
+    if FLclBasePath <> '' then
+      MemoLogs.Lines.Add(' LclBasePath: ' + FLclBasePath);
   finally
     Ini.Free;
   end;
@@ -485,7 +537,37 @@ var
   AProcess: TProcess;
   TempFile: string;
   OutputLines: TStringList;
+  FpcUnitPath, LclUnitPath, SourceDir: string;
+  IdeDirectory, IdeModulesPath: string;
 begin
+   // --- Sprawdzenie krytycznych ustawień ---
+  if (FFpcPath = '') or not FileExists(FFpcPath) then
+  begin
+     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC (FpcPath) nie jest poprawnie skonfigurowana w pliku INI!');
+     Exit; // Przerwij kompilację
+  end;
+  if (FFpcBasePath = '') then // Sprawdź, czy BasePath jest ustawiony
+  begin
+     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka bazowa FPC (FpcBasePath) nie jest skonfigurowana w pliku INI!');
+     Exit; // Przerwij kompilację
+  end;
+  // Dodatkowe sprawdzenie, czy katalog BasePath istnieje (już mogło być w LoadSettings, ale dla pewności)
+  if not DirectoryExists(FFpcBasePath) then
+  begin
+     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Skonfigurowana ścieżka bazowa FPC (' + FFpcBasePath + ') nie istnieje!');
+     Exit; // Przerwij kompilację
+  end;
+  if FModulsPath = '' then // Sprawdź, czy moduly sa ustawione
+  begin
+     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: brak ustawionej ścieżki do modułów ' + FModulsPath + '. Nie można określić katalogu jednostek!');
+     Exit; // Przerwij kompilację
+  end;
+
+  if FTargetPlatform = '' then // Sprawdź, czy TargetPlatform jest ustawiony
+  begin
+     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Platforma docelowa (TargetPlatform) nie jest skonfigurowana w pliku INI!');
+     Exit; // Przerwij kompilację
+  end;
   {
   // Sprawdzenie, czy projekt został zapisany (OpenFileProject i SaveFileProject nie są puste)
    if OpenFileProject = '' then
@@ -537,16 +619,64 @@ begin
        AProcess := TProcess.Create(nil);
        OutputLines := TStringList.Create;
        try
-         // Sprawdzenie, czy kompilator Free Pascal (FFpcPath) istnieje
-         if not FileExists(FFpcPath) then
-           raise Exception.Create('Nie znaleziono kompilatora Free Pascal w: ' + FFpcPath);
-         AProcess.Executable := FFpcPath;
-         AProcess.Parameters.Add(TempFile);
+
+
+ {// Sprawdzenie, czy kompilator Free Pascal (FFpcPath) istnieje
+ if not FileExists(FFpcPath) then
+   raise Exception.Create('Nie znaleziono kompilatora Free Pascal w: ' + FFpcPath);
+   }
+           AProcess.Executable := FFpcPath;
+           AProcess.Parameters.Add(TempFile);
+
+           FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + FTargetPlatform;
+            if DirectoryExists(FpcUnitPath) then
+              AProcess.Parameters.Add('-Fu' + FpcUnitPath)
+            else
+            MemoLogs.Lines.Add('BŁĄD: Nie znaleziono wymaganego katalogu standardowych jednostek FPC: ' + FpcUnitPath);
+          // Można by tutaj przerwać, jeśli standardowe jednostki są absolutnie wymagane
+          // Exit;
+           // 2. Ścieżka do jednostek LCL (jeśli skonfigurowano i istnieje)
+        if (FLclBasePath <> '') and DirectoryExists(FLclBasePath) then
+        begin
+           // Mamy pewność, że FTargetPlatform nie jest pusty
+           LclUnitPath := IncludeTrailingPathDelimiter(FLclBasePath) + 'units' + PathDelim + FTargetPlatform;
+           if DirectoryExists(LclUnitPath) then
+              AProcess.Parameters.Add('-Fu' + LclUnitPath)
+           else
+             MemoLogs.Lines.Add('OSTRZEŻENIE: Nie znaleziono katalogu jednostek LCL (sprawdzono): ' + LclUnitPath);
+        end;
+
+        // 3. Ścieżka do katalogu z plikiem źródłowym (bez zmian)
+        SourceDir := ExtractFilePath(TempFile);
+        if SourceDir <> '' then
+           AProcess.Parameters.Add('-Fu' + SourceDir);
+
+        // === 4. DODAWANIE ŚCIEŻKI DO MODUŁÓW WZGLĘDEM PLIKU .EXE IDE ===
+      IdeDirectory := ExtractFilePath(Application.ExeName); // Pobierz katalog, gdzie jest .exe Twojego IDE
+
+      // *** WAŻNE: Zmień 'ModulyWlasne' na rzeczywistą nazwę Twojego folderu ***
+      IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'moduly';
+
+      MemoLogs.Lines.Add('Sprawdzanie katalogu własnych modułów IDE: ' + IdeModulesPath);
+      if DirectoryExists(IdeModulesPath) then
+      begin
+        AProcess.Parameters.Add('-Fu' + IdeModulesPath);
+        MemoLogs.Lines.Add(' - Dodano ścieżkę własnych modułów IDE: ' + IdeModulesPath);
+      end
+      else
+      begin
+         // Informacja, że katalogu nie znaleziono - nie musi to być błąd krytyczny
+         MemoLogs.Lines.Add(' - Informacja: Nie znaleziono katalogu własnych modułów IDE: ' + IdeModulesPath + '. Kompilator nie będzie tam szukał.');
+      end;
+
+         // --- KONIEC DODAWANIA ŚCIEŻEK ---
+
          AProcess.Parameters.Add('-o' + Trim(OutputFile));
          AProcess.Options := [poUsePipes, poStderrToOutput];
          AProcess.ShowWindow := swoHIDE;
 
-         MemoLogs.Lines.Add('Rozpoczynanie kompilacji...');
+         //MemoLogs.Lines.Add('Rozpoczynanie kompilacji...');
+         MemoLogs.Lines.Add('Rozpoczynanie kompilacji z parametrami: ' + AProcess.Parameters.Text);
          AProcess.Execute;
          AProcess.WaitOnExit;
 

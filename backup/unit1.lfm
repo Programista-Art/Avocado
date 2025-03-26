@@ -985,7 +985,7 @@ object Form1: TForm1
     EndOfTokenChr = '()[].'
     ExecCommandID = ecSynCompletionExecute
     Editor = SynEditCode
-    ToggleReplaceWhole = False
+    ToggleReplaceWhole = True
     Left = 80
     Top = 40
   end
