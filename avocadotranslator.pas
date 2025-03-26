@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils;
+  Classes, SysUtils, StrUtils,fpexprpars;
 
 type
   TStringArray = array of string;
@@ -25,8 +25,11 @@ type
     procedure ProcessLine(const Line: string; PascalCode: TStringList);
     function JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
     function PrzetworzBlok(const Blok: string): string;
-    //Otrzumuje nazwy modulów
+    //Otrzumuje nazwy modulów i wstawia do sekcji Interface
     function GetImportedModules(const Code: string): string;
+    //Otrzumuje nazwy modulów i wstawia do sekcji Implementation
+    function GetImplementationModules(const Code: string): string;
+   // function ObliczWyrazenie(const Expr: string): Double;
   public
     function Translate(const AvocadoCode: TStrings): TStringList;
   end;
@@ -332,6 +335,73 @@ begin
     end;
 end;
 
+function TAvocadoTranslator.GetImplementationModules(const Code: string
+  ): string;
+const
+  // --- WAŻNE ---
+  // Zmień 'Implementuj' na rzeczywiste słowo kluczowe, którego używasz
+  // do oznaczania modułów dla sekcji implementation w swoim kodzie.
+  ImplementationKeyword = 'ModułyPas';
+var
+  Lines: TStringList;
+  i: Integer;
+  Line, ModulesList: string;
+begin
+  ModulesList := ''; // Pusta lista modułów na start
+  Lines := TStringList.Create;
+  try
+    Lines.Text := Code; // Załaduj kod do listy linii
+
+    for i := 0 to Lines.Count - 1 do
+    begin
+      Line := Trim(Lines[i]); // Usuń białe znaki z początku i końca linii
+
+      // Sprawdź, czy linia zaczyna się od zdefiniowanego słowa kluczowego (ignorując wielkość liter)
+      if AnsiStartsText(ImplementationKeyword, Line) then
+      begin
+        // Usuń słowo kluczowe z początku linii i ewentualne dodatkowe spacje po nim
+        Line := Trim(Copy(Line, Length(ImplementationKeyword) + 1, MaxInt));
+
+        // Dodaj znalezione moduły do listy wynikowej, tylko jeśli coś zostało po usunięciu słowa kluczowego
+        if Line <> '' then
+        begin
+          if ModulesList = '' then
+            ModulesList := Line // Pierwszy moduł/grupa modułów
+          else
+            ModulesList := ModulesList + ', ' + Line; // Kolejne moduły/grupy, oddzielone przecinkiem i spacją
+        end;
+      end;
+    end;
+
+    Result := ModulesList; // Zwróć finalną listę modułów jako string
+  finally
+    Lines.Free; // Zawsze zwolnij pamięć po TStringList
+  end;
+end;
+{
+function TAvocadoTranslator.ObliczWyrazenie(const Expr: string): Double;
+var
+  Parser: TFPExpressionParser;
+begin
+  Parser := TFPExpressionParser.Create(nil);
+  try
+    try
+    Parser.Expression := Expr;
+    Parser.BuiltIns := [bcMath];  // Włączamy wbudowane funkcje matematyczne
+    // Bez jawnego wywołania metody parsującej – Evaluate samo dokona analizy
+    Result := Parser.Evaluate.ResFloat;
+  except
+    on E: Exception do
+    begin
+      WriteLn('Błąd przy obliczaniu wyrażenia: ' + E.Message);
+      Result := 0;
+    end;
+  end;
+  finally
+    Parser.Free;
+  end;
+end;
+}
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
@@ -403,6 +473,24 @@ begin
       //Exit;
     end
 
+     //oblicza wyrazenie
+     else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
+     begin
+       // Pobieramy zawartość między "oblicz(" a ostatnim znakiem
+       Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
+
+       // Generowanie poprawnego kodu Free Pascala
+       PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
+     end
+    {
+    else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
+    begin
+      // Pobieramy zawartość między "oblicz(" a ostatnim znakiem
+      Value := Copy(TrimmedLine, 7, Length(TrimmedLine) - 8); // Poprawiono indeks końcowy
+      // Generujemy kod: wywołanie funkcji ObliczWyrazenie z przekazanym wyrażeniem (jako string)
+      PascalCode.Add('Writeln(Translator.ObliczWyrazenie(''' + Value + '''));'); // Dodano cudzysłowy
+    end
+    }
     // 3. Obsługa deklaracji zmiennych z wpr()
     else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
     begin
@@ -475,6 +563,7 @@ var
   PascalCode: TStringList;
   i: Integer;
   trimmedLine,ModulesStr: string;
+  ModulPascalowy: String;
 begin
  SetLength(FVariables, 0);  // Czyści listę zmiennych
   PascalCode := TStringList.Create;
@@ -483,25 +572,10 @@ begin
     PascalCode.Add('{$H+}');// Domyślnie w Lazarusa: String = AnsiString
     PascalCode.Add('program ' + NameProgram + ';');
 
-    //PascalCode.Add('{$codepage UTF8}');
-    //if SaveFileProject <> '' then
-    //  PascalCode.Add('program ' + NameProgram + ';')
-    //else if OpenFileProject <> '' then
-    //  PascalCode.Add('program ' + NameProgram + ';')
-    //else
-
-    {
-    if SaveFileProject = '' then
-      PascalCode.Add('program ' + OpenFileProject + ';')
-    else if
-      PascalCode.Add('program ' + SaveFileProject + ';') then
-    else
-      PascalCode.Add('program ' + NameProgram + ';');
-      }
     // Dodajemy moduły
     //PascalCode.Add('uses Windows, SysUtils;');
 
-
+    //PascalCode.Add('interface');
 
     // Wyodrębniamy moduły z całego kodu wejściowego (AvocadoCode)
     ModulesStr := GetImportedModules(AvocadoCode.Text);
@@ -610,14 +684,64 @@ begin
       PascalCode.Add('');
     end;
 
+
+
+
+    //PascalCode.Add('implementation;');
+    //Importuje moduly wlasne pascalowe kod w implementation
+    ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
+    if ModulPascalowy <> '' then
+      PascalCode.Add('uses ' + ModulPascalowy + ';')
+    else
+      PascalCode.Add('');
+
+    PascalCode.Add('');
+
     // Dodajemy kod programu
     PascalCode.Add('begin');
     // Ustaw konsolę na UTF-8 (tylko Windows)
     PascalCode.Add('SetConsoleOutputCP(CP_UTF8);');
     PascalCode.Add('SetConsoleCP(CP_UTF8);');
+    {//Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od "program " lub "importuj"
+    for i := 0 to AvocadoCode.Count - 1 do
+    begin
+      trimmedLine := Trim(AvocadoCode[i]);
+      if Copy(LowerCase(trimmedLine), 1, 8) = 'program ' then
+        Continue;
+      if Copy(LowerCase(trimmedLine), 1, 8) = 'importuj' then
+        Continue;
+      if Copy(LowerCase(trimmedLine), 1, 8) = 'ModułyPas' then
+        Continue;
+      ProcessLine(trimmedLine, PascalCode);
+    end;
+    }
+    // Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od słów kluczowych
+  for i := 0 to AvocadoCode.Count - 1 do
+  begin
+    trimmedLine := Trim(AvocadoCode[i]); // Usuń białe znaki z początku i końca
 
+    // Opcjonalnie: Pomiń puste linie po Trim
+    if trimmedLine = '' then
+      Continue;
 
-    // Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od "program " lub "importuj"
+    // Sprawdź, czy linia zaczyna się od któregokolwiek ze słów kluczowych (ignorując wielkość liter)
+    // Używamy 'or', aby połączyć warunki - jeśli którykolwiek jest prawdziwy, pomijamy linię.
+    // AnsiStartsText(SłowoKluczowe, LiniaDoSprawdzenia)
+    if AnsiStartsText('program', trimmedLine) or  // Sprawdza 'program', 'PROGRAM', 'Program' itp.
+       AnsiStartsText('importuj', trimmedLine) or // Sprawdza 'importuj', 'IMPORTUJ' itp.
+       AnsiStartsText('ModułyPas', trimmedLine) then // Sprawdza 'ModułyPas', 'modułypas' itp.
+    begin
+      // Jeśli linia zaczyna się od jednego z powyższych, przejdź do następnej linii
+      Continue;
+    end
+    else
+    begin
+      // Jeśli linia NIE zaczyna się od żadnego ze słów kluczowych, przetwórz ją
+      ProcessLine(trimmedLine, PascalCode);
+    end;
+  end;
+
+    {// Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od "program " lub "importuj"
     for i := 0 to AvocadoCode.Count - 1 do
     begin
       trimmedLine := Trim(AvocadoCode[i]);
@@ -627,6 +751,7 @@ begin
         Continue;
       ProcessLine(trimmedLine, PascalCode);
     end;
+    }
 
     { // Przetwarzamy linie kodu wejściowego
     for i := 0 to AvocadoCode.Count - 1 do
