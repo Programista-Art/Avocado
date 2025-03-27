@@ -38,7 +38,22 @@ uses
   procedure ExprArcCosh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
   // ARTANH (z obsługą błędu dla |x| >= 1)
   procedure ExprArcTanh(var Result: TFPExpressionResult; const Args: TExprParameterArray);
-
+  // ArcCot(x) = ArcTan(1/x), z obsługą x = 0
+  procedure ExprArcCot(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // ArcSec(x) = ArcCos(1/x), z obsługą |x| < 1
+  procedure ExprArcSec(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // ArcCsc(x) = ArcSin(1/x), z obsługą |x| < 1
+  procedure ExprArcCsc(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //coth(x)
+  procedure ExprCoth(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //csch(x)
+  procedure ExprCsch(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //sech(x)
+  procedure ExprSech(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //cot
+  procedure ExprCot(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //csc(x)
+  procedure ExprCsc(var Result: TFPExpressionResult; const Args: TExprParameterArray);
 implementation
 
 uses
@@ -89,6 +104,14 @@ begin
       Parser.Identifiers.AddFunction('arsinh', 'F', 'F', @ExprArcSinh);
       Parser.Identifiers.AddFunction('arcosh', 'F', 'F', @ExprArcCosh);
       Parser.Identifiers.AddFunction('artanh', 'F', 'F', @ExprArcTanh);
+      Parser.Identifiers.AddFunction('arccot', 'F', 'F', @ExprArcCot);
+      Parser.Identifiers.AddFunction('arcsec', 'F', 'F', @ExprArcSec);
+      Parser.Identifiers.AddFunction('arccsc', 'F', 'F', @ExprArcCsc);
+      Parser.Identifiers.AddFunction('coth', 'F', 'F', @ExprCoth);
+      Parser.Identifiers.AddFunction('csch', 'F', 'F', @ExprCsch);
+      Parser.Identifiers.AddFunction('sech', 'F', 'F', @ExprSech);
+      Parser.Identifiers.AddFunction('cot', 'F', 'F', @ExprCot);
+      Parser.Identifiers.AddFunction('csc', 'F', 'F', @ExprCsc);
       Parser.Expression := Expr;
       Res := Parser.Evaluate;
 
@@ -212,6 +235,99 @@ begin
     if (x <= -1) or (x >= 1) then
       raise Exception.Create('artanh(x) wymaga |x| < 1');
     Result.ResFloat := ArcTanh(x);
+end;
+
+procedure ExprArcCot(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if IsZero(x) then
+    raise Exception.Create('arccot(x) nie jest zdefiniowany dla x=0');
+  Result.ResFloat := ArcTan(1 / x);
+end;
+
+procedure ExprArcSec(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if Abs(x) < 1 then
+    raise Exception.Create('arcsec(x) wymaga |x| >= 1');
+  Result.ResFloat := ArcCos(1 / x);
+end;
+
+procedure ExprArcCsc(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if Abs(x) < 1 then
+    raise Exception.Create('arccsc(x) wymaga |x| >= 1');
+  Result.ResFloat := ArcSin(1 / x);
+end;
+
+procedure ExprCoth(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+   if IsZero(x) then
+     raise Exception.Create('coth(x) nie jest zdefiniowany dla x=0');
+
+   // Ręczna implementacja coth(x) = 1 / tanh(x)
+   Result.ResFloat := 1 / Tanh(x);
+end;
+
+procedure ExprCsch(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+    if IsZero(x) then
+      raise Exception.Create('csch(x) nie jest zdefiniowany dla x=0');
+    Result.ResFloat := 1 / Sinh(x);
+end;
+
+procedure ExprSech(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := 1 / Cosh(ArgToFloat(Args[0])); // sech(x) = 1 / cosh(x)
+end;
+
+procedure ExprCot(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, tanX: Double;
+begin
+  x := ArgToFloat(Args[0]);
+   tanX := Tan(x);
+
+   // Sprawdź, czy tan(x) jest bliski zeru (uwzględniając precyzję zmiennoprzecinkową)
+   if IsZero(tanX, 1E-12) then
+     raise Exception.Create('cot(x) nie jest zdefiniowany dla x = kπ');
+
+   Result.ResFloat := 1 / tanX; // cot(x) = 1 / tan(x)
+end;
+
+procedure ExprCsc(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, sinX: Double;
+begin
+  x := ArgToFloat(Args[0]);
+   sinX := Sin(x);
+
+   // Sprawdź, czy sin(x) jest bliski zeru (z tolerancją 1E-12)
+   if IsZero(sinX, 1E-12) then
+     raise Exception.Create('csc(x) nie jest zdefiniowany dla x = kπ');
+
+   Result.ResFloat := 1 / sinX; // csc(x) = 1 / sin(x)
 end;
 
 end.

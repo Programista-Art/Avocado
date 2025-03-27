@@ -41,9 +41,10 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <CursorPos Y="31"/>
-        <UsageCount Value="149"/>
+        <UsageCount Value="154"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -55,7 +56,7 @@
         <UnitName Value="Unit1"/>
         <TopLine Value="656"/>
         <CursorPos X="3" Y="541"/>
-        <UsageCount Value="149"/>
+        <UsageCount Value="154"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -68,7 +69,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="45"/>
         <CursorPos X="33" Y="56"/>
-        <UsageCount Value="149"/>
+        <UsageCount Value="154"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -79,7 +80,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="464"/>
         <CursorPos X="7" Y="470"/>
-        <UsageCount Value="139"/>
+        <UsageCount Value="144"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -91,7 +92,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="3"/>
         <CursorPos Y="19"/>
-        <UsageCount Value="130"/>
+        <UsageCount Value="135"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -103,7 +104,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
         <CursorPos X="32" Y="19"/>
-        <UsageCount Value="129"/>
+        <UsageCount Value="134"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -115,7 +116,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
         <CursorPos X="15"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="133"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -128,9 +129,18 @@
         <EditorIndex Value="1"/>
         <TopLine Value="8"/>
         <CursorPos X="9" Y="40"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="66"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="matematyka.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="233"/>
+        <CursorPos X="5" Y="260"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4RC2\lcl\include\customform.inc"/>
@@ -160,21 +170,8 @@
         <EditorIndex Value="-1"/>
         <UsageCount Value="18"/>
       </Unit>
-      <Unit>
-        <Filename Value="matematyka.pas"/>
-        <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <CursorPos X="33" Y="10"/>
-        <UsageCount Value="30"/>
-        <Loaded Value="True"/>
-      </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="matematyka.pas"/>
-        <Caret Line="24" Column="30" TopLine="14"/>
-      </Position>
       <Position>
         <Filename Value="avocadotranslator.pas"/>
         <Caret Line="32" Column="24" TopLine="8"/>
@@ -237,10 +234,6 @@
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="13" Column="11" TopLine="153"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
         <Caret Line="465" Column="13" TopLine="457"/>
       </Position>
       <Position>
@@ -288,8 +281,16 @@
         <Caret Line="690" Column="11" TopLine="669"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="541" Column="3" TopLine="656"/>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="40" Column="30" TopLine="27"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="28" Column="16" TopLine="16"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="260" Column="5" TopLine="233"/>
       </Position>
     </JumpHistory>
     <RunParams>
