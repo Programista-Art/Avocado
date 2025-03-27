@@ -33,8 +33,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure SpbLoadFolderFPCClick(Sender: TObject);
     procedure SpeedButOpenLinkFPCClick(Sender: TObject);
-    procedure SpeedButSaveLInkFPCClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
   private
 
@@ -74,15 +72,6 @@ begin
   EdtLinkFPC.Text := OD.FileName;
 end;
 
-procedure TFormSettingIntepreter.SpeedButSaveLInkFPCClick(Sender: TObject);
-begin
-
-end;
-
-procedure TFormSettingIntepreter.SpeedButton1Click(Sender: TObject);
-begin
-
-end;
 
 procedure TFormSettingIntepreter.SpeedButton4Click(Sender: TObject);
 begin

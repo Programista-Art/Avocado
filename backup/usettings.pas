@@ -74,15 +74,6 @@ begin
   EdtLinkFPC.Text := OD.FileName;
 end;
 
-procedure TFormSettingIntepreter.SpeedButSaveLInkFPCClick(Sender: TObject);
-begin
-
-end;
-
-procedure TFormSettingIntepreter.SpeedButton1Click(Sender: TObject);
-begin
-
-end;
 
 procedure TFormSettingIntepreter.SpeedButton4Click(Sender: TObject);
 begin

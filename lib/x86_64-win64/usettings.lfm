@@ -10,6 +10,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
   ClientWidth = 469
   Color = clWhite
   Position = poMainFormCenter
+  LCLVersion = '4.0.0.2'
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
@@ -158,7 +159,6 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Enabled = False
       Images = ImageList1
       ImageIndex = 1
-      OnClick = SpeedButton1Click
     end
   end
   object GroupBox1: TGroupBox

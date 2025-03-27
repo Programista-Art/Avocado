@@ -460,7 +460,7 @@ end;
 
 procedure TForm1.LoadFpc;
 begin
-  MemoLogs.Lines.Add('Wczytywanie ustawień');
+  MemoLogs.Lines.Add(' Wczytywanie ustawień');
   Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
   try
     FFpcPath := Ini.ReadString('main', 'fpc', '');
@@ -472,13 +472,13 @@ begin
    // --- Walidacja wczytanych ustawień (bez odgadywania) ---
     if (FFpcPath = '') or not FileExists(FFpcPath) then
     begin
-      MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka kompilatora FPC (FpcPath) nie istnieje lub nie jest ustawiona w ' + FFpcPath);
+      MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC nie istnieje lub nie jest ustawiona w ' + FFpcPath);
       // Tutaj możesz rozważyć poważniejsze działania, np. zablokowanie możliwości kompilacji
     end;
 
     if FFpcBasePath = '' then
     begin
-       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Ścieżka bazowa FPC (FpcBasePath) nie jest ustawiona w ' + FFpcBasePath + '. Standardowe jednostki FPC nie zostaną znalezione!');
+       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Ścieżka bazowa do foldera kompilatora FPC nie jest ustawiona w ' + FFpcBasePath + '. Standardowe jednostki FPC nie zostaną znalezione!');
     end
     else if not DirectoryExists(FFpcBasePath) then
     begin
@@ -488,13 +488,13 @@ begin
 
     if FTargetPlatform = '' then
     begin
-       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Platforma docelowa (TargetPlatform) nie jest ustawiona w ' + FTargetPlatform + '. Nie można określić katalogu jednostek!');
+       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w ' + FTargetPlatform + '. Nie można określić katalogu jednostek!');
     end;
 
     // Sprawdzenie LclBasePath (mniej krytyczne, chyba że LCL jest wymagany)
     if (FLclBasePath <> '') and not DirectoryExists(FLclBasePath) then
     begin
-        MemoLogs.Lines.Add('OSTRZEŻENIE: Skonfigurowana ścieżka LCL (LclBasePath) nie istnieje: ' + FLclBasePath);
+        MemoLogs.Lines.Add('OSTRZEŻENIE: Skonfigurowana ścieżka LCL nie istnieje: ' + FLclBasePath);
         // FLclBasePath := ''; // Opcjonalnie wyczyść
     end;
     //Sprawdza FModulsPath sciezke moduly
@@ -504,10 +504,10 @@ begin
        end;
 
 
-    MemoLogs.Lines.Add('Ustawienia kompilatora wczytane.');
-    MemoLogs.Lines.Add(' FpcPath: ' + FFpcPath);
-    MemoLogs.Lines.Add(' FpcBasePath: ' + FFpcBasePath);
-    MemoLogs.Lines.Add(' TargetPlatform: ' + FTargetPlatform);
+    MemoLogs.Lines.Add(' Ustawienia kompilatora wczytane.');
+    MemoLogs.Lines.Add(' Link do kompilatora fpc.exe: ' + FFpcPath);
+    MemoLogs.Lines.Add(' Link do folderu kompilatora : ' + FFpcBasePath);
+    MemoLogs.Lines.Add(' Platforma: ' + FTargetPlatform);
     MemoLogs.Lines.Add(' Moduły: ' + FModulsPath);
     if FLclBasePath <> '' then
       MemoLogs.Lines.Add(' LclBasePath: ' + FLclBasePath);
