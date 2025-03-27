@@ -1,22 +1,25 @@
 object FormOpcjeProjektu: TFormOpcjeProjektu
   Left = 350
-  Height = 152
+  Height = 253
   Top = 250
   Width = 320
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Opcje Projektu'
-  ClientHeight = 152
+  ClientHeight = 253
   ClientWidth = 320
   Position = poMainFormCenter
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 120
+    Top = 221
     Width = 320
     Align = alBottom
     ClientHeight = 32
     ClientWidth = 320
+    Color = 5588525
+    ParentBackground = False
+    ParentColor = False
     TabOrder = 0
     object SpeedButton1: TSpeedButton
       Left = 289
@@ -34,11 +37,12 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
   end
   object Memo1: TMemo
     Left = 0
-    Height = 120
+    Height = 221
     Top = 0
     Width = 320
     Align = alClient
     Alignment = taCenter
+    Color = 2697513
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Height = -16
     Font.Pitch = fpVariable

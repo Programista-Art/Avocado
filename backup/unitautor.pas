@@ -27,9 +27,9 @@ type
     procedure SpeedButton4Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
   private
-    procedure OpenLink(link: string);
-  public
 
+  public
+    procedure OpenLink(link: string);
   end;
 
 var

@@ -1,26 +1,28 @@
 object FormSettingIntepreter: TFormSettingIntepreter
   Left = 436
-  Height = 113
+  Height = 365
   Top = 389
   Width = 469
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Ustawienia'
-  ClientHeight = 113
+  ClientHeight = 365
   ClientWidth = 469
-  Color = 5197647
+  Color = clWhite
   Position = poMainFormCenter
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 81
+    Top = 333
     Width = 469
     Align = alBottom
     BevelColor = 5197647
     ClientHeight = 32
     ClientWidth = 469
+    Color = 5588525
     ParentBackground = False
+    ParentColor = False
     TabOrder = 0
     object BitBtn1: TBitBtn
       Left = 438
@@ -37,19 +39,29 @@ object FormSettingIntepreter: TFormSettingIntepreter
       TabOrder = 0
       OnClick = BitBtn1Click
     end
+    object SpeedButton4: TSpeedButton
+      Left = 407
+      Height = 30
+      Top = 1
+      Width = 31
+      Align = alRight
+      Images = ImageList1
+      ImageIndex = 2
+      OnClick = SpeedButton4Click
+    end
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Height = 81
+    Height = 88
     Top = 0
     Width = 469
-    Align = alClient
-    Caption = 'Link do kompilatora FPC'
-    ClientHeight = 61
+    Align = alTop
+    Caption = 'LInk do fpc.exe'
+    ClientHeight = 68
     ClientWidth = 465
-    Color = 5197647
+    Color = 2697513
     Font.CharSet = EASTEUROPE_CHARSET
-    Font.Color = clBlack
+    Font.Color = clWhite
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     ParentBackground = False
@@ -63,28 +75,120 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
+      Color = clWhite
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clBlack
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-      TextHint = 'Link do FPC'
     end
     object SpeedButOpenLinkFPC: TSpeedButton
-      Left = 8
+      Left = 5
       Height = 22
-      Top = 33
+      Top = 35
       Width = 23
       Images = ImageList1
       ImageIndex = 1
       OnClick = SpeedButOpenLinkFPCClick
     end
-    object SpeedButSaveLInkFPC: TSpeedButton
-      Left = 32
+  end
+  object SpbSaveFolderFPC: TGroupBox
+    Left = 0
+    Height = 88
+    Top = 88
+    Width = 469
+    Align = alTop
+    Caption = 'Link do folderu FPC'
+    ClientHeight = 68
+    ClientWidth = 465
+    Color = 2697513
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 2
+    object EdtLinkFPCFolder: TEdit
+      Left = 5
+      Height = 23
+      Top = 5
+      Width = 455
+      Align = alTop
+      BorderSpacing.Around = 5
+      TabOrder = 0
+    end
+    object SpbLoadFolderFPC: TSpeedButton
+      Left = 5
       Height = 22
-      Top = 33
+      Top = 35
       Width = 23
       Images = ImageList1
-      ImageIndex = 2
-      OnClick = SpeedButSaveLInkFPCClick
+      ImageIndex = 1
+      OnClick = SpbLoadFolderFPCClick
+    end
+  end
+  object GroupBoxLinkLCL: TGroupBox
+    Left = 0
+    Height = 88
+    Top = 176
+    Width = 469
+    Align = alTop
+    Caption = 'Link do folderu LCL'
+    ClientHeight = 68
+    ClientWidth = 465
+    Color = 2697513
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 3
+    object EditLinkLCL: TEdit
+      Left = 5
+      Height = 23
+      Top = 5
+      Width = 455
+      Align = alTop
+      BorderSpacing.Around = 5
+      Enabled = False
+      TabOrder = 0
+    end
+    object SpeedButton1: TSpeedButton
+      Left = 5
+      Height = 22
+      Top = 35
+      Width = 23
+      Enabled = False
+      Images = ImageList1
+      ImageIndex = 1
+      OnClick = SpeedButton1Click
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Height = 69
+    Top = 264
+    Width = 469
+    Align = alClient
+    Caption = 'Platforma'
+    ClientHeight = 49
+    ClientWidth = 465
+    Color = 2697513
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 4
+    object ComboBoboxPlatforms: TComboBox
+      Left = 5
+      Height = 23
+      Top = 8
+      Width = 147
+      BorderStyle = bsSingle
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'x86_64-win64'
+      )
+      ReadOnly = True
+      Style = csDropDownList
+      TabOrder = 0
+      Text = 'x86_64-win64'
     end
   end
   object ImageList1: TImageList

@@ -14,21 +14,33 @@ type
 
   TFormSettingIntepreter = class(TForm)
     BitBtn1: TBitBtn;
+    ComboBoboxPlatforms: TComboBox;
+    EdtLinkFPCFolder: TEdit;
+    EditLinkLCL: TEdit;
     EdtLinkFPC: TEdit;
+    GroupBox1: TGroupBox;
+    GroupBoxLinkLCL: TGroupBox;
+    SpbSaveFolderFPC: TGroupBox;
     GroupBox2: TGroupBox;
     ImageList1: TImageList;
     OD: TOpenDialog;
     Panel1: TPanel;
     SpeedButOpenLinkFPC: TSpeedButton;
-    SpeedButSaveLInkFPC: TSpeedButton;
+    SpbLoadFolderFPC: TSpeedButton;
+    SpeedButton1: TSpeedButton;
+    SpeedButton4: TSpeedButton;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure SpbLoadFolderFPCClick(Sender: TObject);
     procedure SpeedButOpenLinkFPCClick(Sender: TObject);
     procedure SpeedButSaveLInkFPCClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton4Click(Sender: TObject);
   private
 
   public
     procedure LoadFPCLink;
+    procedure SaveFPCLink;
   end;
 
 var
@@ -50,6 +62,12 @@ begin
   LoadFPCLink;
 end;
 
+procedure TFormSettingIntepreter.SpbLoadFolderFPCClick(Sender: TObject);
+begin
+  If OD.Execute then
+  EdtLinkFPCFolder.Text := OD.FileName;
+end;
+
 procedure TFormSettingIntepreter.SpeedButOpenLinkFPCClick(Sender: TObject);
 begin
   If OD.Execute then
@@ -58,24 +76,45 @@ end;
 
 procedure TFormSettingIntepreter.SpeedButSaveLInkFPCClick(Sender: TObject);
 begin
-  Ini:= TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini'); //загружаем
-  try
-    ini.WriteString('main', 'fpc', EdtLinkFPC.Text);
-  finally
-    FreeAndNil(Ini);
-  end;
-  MessageDlg('Informacja','Link zapisany', mtConfirmation,[mbOK],0);
+
 end;
 
+procedure TFormSettingIntepreter.SpeedButton1Click(Sender: TObject);
+begin
+
+end;
+
+procedure TFormSettingIntepreter.SpeedButton4Click(Sender: TObject);
+begin
+  SaveFPCLink;
+end;
 
 procedure TFormSettingIntepreter.LoadFPCLink;
 begin
   Ini:= TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini'); //загружаем
   try
     EdtLinkFPC.Text := ini.ReadString('main', 'fpc','');
+    EdtLinkFPCFolder.Text := ini.ReadString('main', 'FpcBasePath','');
+    ComboBoboxPlatforms.Text := ini.ReadString('main', 'TargetPlatform','');
+    EditLinkLCL.Text := ini.ReadString('main', 'LclBasePath','')
+    //EditLinkLCL.Text := ini.ReadString('main', 'Units','')
   finally
     FreeAndNil(Ini);
   end;
+end;
+
+procedure TFormSettingIntepreter.SaveFPCLink;
+begin
+  Ini:= TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini'); //загружаем
+  try
+    ini.WriteString('main', 'fpc', EdtLinkFPC.Text);
+    ini.WriteString('main', 'FpcBasePath', EdtLinkFPCFolder.Text);
+    ini.WriteString('main', 'TargetPlatform', ComboBoboxPlatforms.Text);
+    ini.WriteString('main', 'LclBasePath', EditLinkLCL.Text);
+  finally
+    FreeAndNil(Ini);
+  end;
+  MessageDlg('Dane','Dane zapisane', mtInformation,[mbOk],0);
 end;
 
 end.

@@ -16,15 +16,17 @@ object FormOprogramie: TFormOprogramie
     Width = 320
     Align = alClient
     Alignment = taCenter
+    Color = 2697513
     Font.CharSet = EASTEUROPE_CHARSET
+    Font.Color = clWhite
     Font.Height = -16
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
       'IDE Avocado '
       'Środowisko programistyczne dla języka programowania Avocado'
-      'Aktualizacja 15.03.2025'
-      'dimitalart.pl'
+      'Aktualizacja 27.03.2025'
+      'avocado.dimitalart.pl'
     )
     ParentFont = False
     ReadOnly = True
@@ -49,7 +51,9 @@ object FormOprogramie: TFormOprogramie
       BevelColor = 5197647
       ClientHeight = 32
       ClientWidth = 318
+      Color = 5588525
       ParentBackground = False
+      ParentColor = False
       TabOrder = 0
       object SpeedButton1: TSpeedButton
         Left = 287

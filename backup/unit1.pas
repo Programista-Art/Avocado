@@ -538,6 +538,7 @@ var
   TempFile: string;
   OutputLines: TStringList;
   FpcUnitPath, LclUnitPath, SourceDir: string;
+  IdeDirectory, IdeModulesPath: string;
 begin
    // --- Sprawdzenie krytycznych ustawień ---
   if (FFpcPath = '') or not FileExists(FFpcPath) then
@@ -654,7 +655,7 @@ begin
       IdeDirectory := ExtractFilePath(Application.ExeName); // Pobierz katalog, gdzie jest .exe Twojego IDE
 
       // *** WAŻNE: Zmień 'ModulyWlasne' na rzeczywistą nazwę Twojego folderu ***
-      IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'ModulyWlasne';
+      IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'moduly';
 
       MemoLogs.Lines.Add('Sprawdzanie katalogu własnych modułów IDE: ' + IdeModulesPath);
       if DirectoryExists(IdeModulesPath) then

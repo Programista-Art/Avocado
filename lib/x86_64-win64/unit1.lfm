@@ -575,9 +575,9 @@ object Form1: TForm1
       MouseActions = <>
       MouseTextActions = <>
       MouseSelActions = <>
-      Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoHalfPageScroll, eoHideRightMargin, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoDragDropEditing, eoDoubleClickSelectsLine, eoShowCtrlMouseLinks]
+      Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoHalfPageScroll, eoHideRightMargin, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoDragDropEditing, eoShowCtrlMouseLinks]
       Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
-      MouseOptions = [emDragDropEditing, emDoubleClickSelectsLine, emShowCtrlMouseLinks]
+      MouseOptions = [emDragDropEditing, emShowCtrlMouseLinks]
       VisibleSpecialChars = [vscSpace, vscTabAtLast]
       RightEdgeColor = clBlack
       SelectedColor.Background = clGradientActiveCaption

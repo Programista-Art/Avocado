@@ -8,6 +8,7 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
   Caption = 'Opcje Projektu'
   ClientHeight = 253
   ClientWidth = 320
+  Color = 2697513
   Position = poMainFormCenter
   object Panel1: TPanel
     Left = 0
@@ -17,6 +18,9 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
     Align = alBottom
     ClientHeight = 32
     ClientWidth = 320
+    Color = 5588525
+    ParentBackground = False
+    ParentColor = False
     TabOrder = 0
     object SpeedButton1: TSpeedButton
       Left = 289
@@ -39,6 +43,7 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
     Width = 320
     Align = alClient
     Alignment = taCenter
+    Color = 2697513
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Height = -16
     Font.Pitch = fpVariable
