@@ -460,7 +460,7 @@ end;
 
 procedure TForm1.LoadFpc;
 begin
-  MemoLogs.Lines.Add('Wczytywanie ustawień');
+  MemoLogs.Lines.Add(' Wczytywanie ustawień');
   Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
   try
     FFpcPath := Ini.ReadString('main', 'fpc', '');

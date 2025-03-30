@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie;
 
 type
   TStringArray = array of string;
@@ -115,8 +115,15 @@ begin
   Result := StringReplace(Result, 'NiebezpiecznyWskaźnikZAdresu(','Ptr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'NiebezpiecznyAdresZWskaźnika(','Integer(', [rfReplaceAll]);
   Result := StringReplace(Result, '@(','@(', [rfReplaceAll]);
-
-
+  //Result := StringReplace(Result, 'pisznf(','WritelnFormat(', [rfReplaceAll]);
+  //Formatowanie tekstu
+  // Rozszerzenie funkcji o dodatkowe zamiany specyfikatorów formatu
+  // Przykład: zamieniamy niestandardowy specyfikator %l (dla liczb całkowitych) na standardowy %d.
+  //Result := StringReplace(Result, '%l', '%d', [rfReplaceAll]);
+  // Możesz dodać także inne zamiany – np. jeżeli chcesz obsłużyć inny specyfikator:
+  // Wynik z %.2f pozostawiamy bez zmian, jeśli Format obsługuje ten sam format,
+  // ale jeśli masz własny specyfikator, np. %.2g, możesz zamienić go na %.2f:
+  //Result := StringReplace(Result, '%.2g', '%.2f', [rfReplaceAll]);
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -379,29 +386,6 @@ begin
   end;
 end;
 
-function TAvocadoTranslator.ObliczWyrazenie(const Expr: string): Double;
-var
-  Parser: TFPExpressionParser;
-begin
-  Parser := TFPExpressionParser.Create(nil);
-  try
-    try
-    Parser.Expression := Expr;
-    Parser.BuiltIns := [bcMath];  // Włączamy wbudowane funkcje matematyczne
-    // Bez jawnego wywołania metody parsującej – Evaluate samo dokona analizy
-    Result := Parser.Evaluate.ResFloat;
-  except
-    on E: Exception do
-    begin
-      WriteLn('Błąd przy obliczaniu wyrażenia: ' + E.Message);
-      Result := 0;
-    end;
-  end;
-  finally
-    Parser.Free;
-  end;
-end;
-
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
@@ -412,6 +396,18 @@ var
    TempList: TStringList;
    Statements: TStringArray;
    Statement: string;
+   Start,EndPos: Integer;
+   pisznfStart,pisznfEndPos:Integer;
+   //Param: string;
+   //TranslatedParam: String;
+   // Do przechowywania argumentów pisznf
+   FullArgs: String;
+   // Do przechowywania wyodrębnionego stringu formatującego
+   FormatStringArg:String;
+   //Do przechowywania wyodrębnionej listy zmiennych jako string
+   VarListStringArg : String;
+   //Do przechowywania pozycji ostatniego przecinka
+   LastCommaPos:Integer;
 begin
   TrimmedLine := Trim(Line);
 
@@ -464,14 +460,31 @@ begin
     end
 
 
-    // 2. Obsługa funkcji pisz
-    else if LowerCase(TrimmedLine).StartsWith('pisz(') then
+    // 2. Obsługa funkcji pisznl
+    else if LowerCase(TrimmedLine).StartsWith('pisznl(') then
     begin
        // Pobieramy zawartość między "druk(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
+      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
       PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
       //Exit;
     end
+    // 2. Obsługa funkcji pisz
+    else if LowerCase(TrimmedLine).StartsWith('pisz(') then
+    begin
+      Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
+      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+      //Exit;
+    end
+
+   { //Pisz z formatowaniem
+    else if LowerCase(TrimmedLine).StartsWith('piszf(') then
+    begin
+      // Pobieramy zawartość między "piszf(" a ostatnim znakiem
+      Value := Copy(TrimmedLine, Length('piszf(') + 1, Length(TrimmedLine) - Length('piszf(') - 1);
+      // Generujemy kod Free Pascala z WriteLn – funkcja piszf ma wypisać i przejść do nowej linii
+      PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
+    end
+   }
 
      //oblicza wyrazenie
      else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
@@ -480,18 +493,10 @@ begin
        Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
 
        // Generowanie poprawnego kodu Free Pascala
-       PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '));');
+       PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
      end
-    {
-    else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
-    begin
-      // Pobieramy zawartość między "oblicz(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 7, Length(TrimmedLine) - 8); // Poprawiono indeks końcowy
-      // Generujemy kod: wywołanie funkcji ObliczWyrazenie z przekazanym wyrażeniem (jako string)
-      PascalCode.Add('Writeln(Translator.ObliczWyrazenie(''' + Value + '''));'); // Dodano cudzysłowy
-    end
-    }
-    // 3. Obsługa deklaracji zmiennych z wpr()
+
+    // 3. Obsługa deklaracji zmiennych z czytaj()
     else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
     begin
       Parts := TrimmedLine.Split(['='], 2);
@@ -514,14 +519,40 @@ begin
       if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
         Value := Copy(Value, 1, Length(Value) - 1);
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-      PascalCode.Add('Readln(' + VarName + ');');
-
-     // PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-
-      //PascalCode.Add('Readln(' + VarName + ');');
+      PascalCode.Add('Read(' + VarName + ');');
     end
 
-         //Ustawieni długośći w tablice
+    // Blok obsługi "czytajnl(...)"
+     else if Pos('czytajnl(', LowerCase(TrimmedLine)) > 0 then
+     begin
+       Parts := TrimmedLine.Split(['='], 2);
+       VarName := Trim(Parts[0]);
+       Value := Trim(Parts[1]);
+
+       if Pos(' ', VarName) > 0 then
+       begin
+         Parts := VarName.Split([' '], 2);
+         VarType := Parts[0];
+         VarName := Parts[1];
+         AddVariable(VarName, VarType);
+       end;
+       // Znajdź nawias otwierający i zamykający w Value dla czytajnl
+       Start := Pos('(', Value);
+       if Start = 0 then
+         raise Exception.Create('Brak otwierającego nawiasu w czytajnl');
+       EndPos := Length(Value);
+       while (EndPos > 0) and (Value[EndPos] <> ')') do
+         Dec(EndPos);
+       if EndPos = 0 then
+         raise Exception.Create('Brak zamykającego nawiasu w czytajnl');
+       // Wyciągnij parametr wewnątrz nawiasów
+       Value := Trim(Copy(Value, Start + 1, EndPos - Start - 1));
+
+       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+       PascalCode.Add('Readln(' + VarName + ');');
+     end
+
+   //Ustawieni długośći w tablice
     else if LowerCase(TrimmedLine).StartsWith('ustaw długość(') then
     begin
       // Wycinamy zawartość nawiasów.
@@ -558,6 +589,7 @@ begin
     end;
   end;
 
+
 function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
   PascalCode: TStringList;
@@ -580,7 +612,7 @@ begin
     // Wyodrębniamy moduły z całego kodu wejściowego (AvocadoCode)
     ModulesStr := GetImportedModules(AvocadoCode.Text);
     if ModulesStr <> '' then
-      PascalCode.Add('uses Windows, SysUtils, ' + ModulesStr + ';')
+      PascalCode.Add('uses Windows, SysUtils,formatowanie, ' + ModulesStr + ';')
     else
       PascalCode.Add('uses Windows, SysUtils;');
     PascalCode.Add('');
@@ -740,31 +772,6 @@ begin
       ProcessLine(trimmedLine, PascalCode);
     end;
   end;
-
-    {// Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od "program " lub "importuj"
-    for i := 0 to AvocadoCode.Count - 1 do
-    begin
-      trimmedLine := Trim(AvocadoCode[i]);
-      if Copy(LowerCase(trimmedLine), 1, 8) = 'program ' then
-        Continue;
-      if Copy(LowerCase(trimmedLine), 1, 8) = 'importuj' then
-        Continue;
-      ProcessLine(trimmedLine, PascalCode);
-    end;
-    }
-
-    { // Przetwarzamy linie kodu wejściowego
-    for i := 0 to AvocadoCode.Count - 1 do
-    begin
-      trimmedLine := Trim(AvocadoCode[i]);
-      // Jeśli linia zaczyna się od "program " (bez względu na wielkość liter), pomijamy ją
-      if Copy(LowerCase(trimmedLine), 1, 8) = 'program ' then
-        Continue;
-      ProcessLine(trimmedLine, PascalCode);
-    end;
-    }
-
-
 
     PascalCode.Add('Readln;');
     PascalCode.Add('end.');
