@@ -594,9 +594,216 @@ function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
   PascalCode: TStringList;
   i: Integer;
-  trimmedLine,ModulesStr: string;
-  ModulPascalowy: String;
+  trimmedLine, ModulesStr: string;
+  ModulPascalowy: string;
+  DetectedProgramName: string; // Do przechowania finalnej nazwy programu
+  UsesList: TStringList;     // Pomocnicza lista do budowania 'uses'
+  UName: string;             // Pomocnicza do sprawdzania duplikatów i w pętlach
+  ExistingUnits: TStringList;  // Do sprawdzania duplikatów
 begin
+  SetLength(FVariables, 0); // Czyści listę zmiennych
+    PascalCode := TStringList.Create;
+    UsesList := TStringList.Create; // Inicjalizacja listy uses
+    ExistingUnits := TStringList.Create; // Do śledzenia dodanych unitów
+
+    // --- Skanowanie dla standardowego 'program' ---
+    NameProgram := ''; // Resetuj zmienną globalną/pole
+    DetectedProgramName := 'ProgramBezNazwy'; // Domyślna nazwa
+
+    for i := 0 to AvocadoCode.Count - 1 do
+    begin
+      trimmedLine := Trim(AvocadoCode[i]);
+      // Szukaj tylko standardowego 'program'
+      if LowerCase(trimmedLine).StartsWith('program ') then
+      begin
+        NameProgram := Trim(Copy(trimmedLine, Length('program ') + 1, MaxInt));
+        if NameProgram = '' then NameProgram := 'ProgramBezNazwy';
+        DetectedProgramName := NameProgram;
+        Break; // Znaleziono deklarację, przerwij skanowanie
+      end;
+    end;
+    // --- KONIEC SKANOWANIA ---
+
+    try
+      PascalCode.Add('{$mode objfpc}');
+      PascalCode.Add('{$H+}');
+      PascalCode.Add('program ' + DetectedProgramName + ';'); // Użyj wykrytej nazwy
+
+      // --- UPROSZCZONA SEKCJA 'uses' ---
+      ModulesStr := GetImportedModules(AvocadoCode.Text);
+      ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
+
+      // Podstawowe moduły + Classes + Windows (dla konsoli). LCL użytkownik musi dodać sam przez Importuj.
+      UsesList.Add('SysUtils');
+      UsesList.Add('Classes');
+      UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
+
+      // Dodaj moduły użytkownika z 'Importuj'
+      if ModulesStr <> '' then
+      begin
+         for UName in ModulesStr.Split([',']) do UsesList.Add(Trim(UName));
+      end;
+      // Dodaj moduły z 'ModułyPas'
+      if ModulPascalowy <> '' then
+      begin
+         for UName in ModulPascalowy.Split([',']) do UsesList.Add(Trim(UName));
+      end;
+
+      // Generuj finalną klauzulę uses, usuwając duplikaty
+      PascalCode.Add('uses');
+      ExistingUnits.Clear;
+      ExistingUnits.CaseSensitive := False;
+      ExistingUnits.Sorted := True;
+
+      for i := 0 to UsesList.Count - 1 do
+      begin
+         UName := Trim(UsesList[i]);
+         if (UName <> '') and (ExistingUnits.IndexOf(UName) = -1) then
+         begin
+            if ExistingUnits.Count = 0 then
+               PascalCode.Add('  ' + UName)
+            else
+               PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ', ' + UName;
+            ExistingUnits.Add(UName);
+         end;
+      end;
+
+      if ExistingUnits.Count > 0 then
+         PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ';'
+      else
+         PascalCode.Delete(PascalCode.Count - 1); // Usuń pustą linię 'uses'
+      PascalCode.Add('');
+      // --- KONIEC SEKCJI 'uses' ---
+
+      // Wykryj deklaracje zmiennych
+      for i := 0 to AvocadoCode.Count - 1 do
+        ProcessDeclaration(Trim(AvocadoCode[i]));
+
+      // Generuj sekcję 'var' (PRZYWRÓCONO PEŁNĄ OBSŁUGĘ TYPÓW)
+      if Length(FVariables) > 0 then
+      begin
+        PascalCode.Add('var');
+        for i := 0 to High(FVariables) do
+        begin
+          // --- Przywrócono pełną listę typów ---
+          if LowerCase(FVariables[i].VarType) = 'liczba_całkowita' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_zm' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+          else if LowerCase(FVariables[i].VarType) = 'logiczny' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
+          else if LowerCase(FVariables[i].VarType) = 'znak' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_krótka' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': ShortInt;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_mała' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': SmallInt;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_długa' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': LongInt;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba64' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Int64;')
+          else if LowerCase(FVariables[i].VarType) = 'bajt' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Byte;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba16' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Word;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba32' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': LongWord;')
+          else if LowerCase(FVariables[i].VarType) = 'tekst' then
+             PascalCode.Add('  ' + FVariables[i].Name + ': String;') // Dodano obsługę 'tekst'
+          else if LowerCase(FVariables[i].VarType) = 'tablicaliczb' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': array of Integer;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_pojedyncza' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Single;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_podwójna' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Double;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_rozszerzona' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Extended;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_zgodna_delphi' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Comp;')
+          else if LowerCase(FVariables[i].VarType) = 'liczba_waluta' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Currency;')
+          else if LowerCase(FVariables[i].VarType) = 'logiczny_bajt' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': ByteBool;')
+          else if LowerCase(FVariables[i].VarType) = 'logiczne_słowo' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': WordBool;')
+          else if LowerCase(FVariables[i].VarType) = 'logiczny_długi' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': LongBool;')
+          else if LowerCase(FVariables[i].VarType) = 'znak_unicode' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': WideChar;')
+          else if LowerCase(FVariables[i].VarType) = 'tekst255' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': ShortString;')
+          else if LowerCase(FVariables[i].VarType) = 'tekst_ansi' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': AnsiString;')
+          else if LowerCase(FVariables[i].VarType) = 'tekst_unicode' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': UnicodeString;')
+          // Poniższe typy mogą wymagać bardziej złożonej obsługi niż prosta deklaracja
+          else if LowerCase(FVariables[i].VarType) = 'tablica_dynamiczna' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Array of Variant;') // Przykład: tablica wariantów
+          else if LowerCase(FVariables[i].VarType) = 'rekord' then
+            PascalCode.Add('  { TODO: Zdefiniuj typ rekordu dla ' + FVariables[i].Name + ' }')
+          else if LowerCase(FVariables[i].VarType) = 'kolekcja' then
+             PascalCode.Add('  ' + FVariables[i].Name + ': Set of Byte;') // Przykład: set of byte
+          else if LowerCase(FVariables[i].VarType) = 'plik' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': File;')
+          else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': TextFile;')
+          else if LowerCase(FVariables[i].VarType) = 'plik_binarny' then
+             PascalCode.Add('  ' + FVariables[i].Name + ': File;') // Lub File of Byte
+          else if LowerCase(FVariables[i].VarType) = 'plik_struktur' then
+             PascalCode.Add('  { TODO: Zdefiniuj typ pliku dla ' + FVariables[i].Name + ': File of ... }')
+          else if LowerCase(FVariables[i].VarType) = 'wskaźnik' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Pointer;')
+          else if LowerCase(FVariables[i].VarType) = 'wskaźnik_na' then
+             PascalCode.Add('  { TODO: Zdefiniuj typ wskazywany dla ' + FVariables[i].Name + ': ^... }')
+          else if LowerCase(FVariables[i].VarType) = 'wariant' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Variant;')
+          else if LowerCase(FVariables[i].VarType) = 'wariant_ole' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': OleVariant;')
+          else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
+             PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
+
+          else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
+             PascalCode.Add('  ' + FVariables[i].Name + ': String;');
+        end;
+        PascalCode.Add('');
+      end;
+
+      // Dodaj główny blok programu
+      PascalCode.Add('begin');
+      // Zawsze dodawaj ustawienia konsoli
+      PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
+      PascalCode.Add('  SetConsoleCP(CP_UTF8);');
+
+      // Przetwarzaj linie kodu wykonywalnego
+      for i := 0 to AvocadoCode.Count - 1 do
+      begin
+        trimmedLine := Trim(AvocadoCode[i]);
+        if trimmedLine = '' then Continue;
+
+        // Pomiń linie 'program', 'importuj', 'ModułyPas'
+        if AnsiStartsText('program ', trimmedLine) or
+           AnsiStartsText('importuj', trimmedLine) or
+           AnsiStartsText('ModułyPas', trimmedLine) then
+        begin
+          Continue;
+        end
+        else
+        begin
+          ProcessLine(trimmedLine, PascalCode);
+        end;
+      end;
+
+      // Zawsze dodawaj Readln
+      PascalCode.Add('  Readln;');
+      PascalCode.Add('end.');
+
+      Result := PascalCode;
+    finally
+      UsesList.Free;
+      ExistingUnits.Free;
+    end;
+  end;
+  {
  SetLength(FVariables, 0);  // Czyści listę zmiennych
   PascalCode := TStringList.Create;
   try
@@ -782,5 +989,7 @@ begin
     raise;
   end;
 end;
+}
+
 
 end.
