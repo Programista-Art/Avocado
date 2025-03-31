@@ -65,9 +65,10 @@
         <ComponentName Value="FormSettingIntepreter"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="24"/>
-        <CursorPos X="57" Y="35"/>
+        <TopLine Value="21"/>
+        <CursorPos X="57" Y="32"/>
         <UsageCount Value="174"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -76,10 +77,9 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="752"/>
-        <CursorPos X="9" Y="764"/>
+        <TopLine Value="16"/>
+        <CursorPos X="67" Y="31"/>
         <UsageCount Value="164"/>
         <Loaded Value="True"/>
       </Unit>
@@ -181,38 +181,6 @@
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="8" Column="54"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="554" Column="6" TopLine="539"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="525" Column="31" TopLine="519"/>
-      </Position>
-      <Position>
-        <Filename Value="formatowanie.pas"/>
-        <Caret Line="4" Column="13"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="15" Column="55"/>
-      </Position>
-      <Position>
-        <Filename Value="formatowanie.pas"/>
-        <Caret Line="46" Column="4" TopLine="32"/>
-      </Position>
-      <Position>
-        <Filename Value="formatowanie.pas"/>
-        <Caret Line="8" Column="29"/>
-      </Position>
-      <Position>
-        <Filename Value="formatowanie.pas"/>
-        <Caret Line="147" Column="46" TopLine="117"/>
-      </Position>
-      <Position>
         <Filename Value="formatowanie.pas"/>
         <Caret Line="8" Column="34"/>
       </Position>
@@ -299,6 +267,38 @@
       <Position>
         <Filename Value="avocadotranslator.pas"/>
         <Caret Line="805" Column="9" TopLine="785"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="35" Column="57" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="34" Column="57" TopLine="23"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="35" Column="50" TopLine="23"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="77" Column="3" TopLine="74"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="76" Column="3" TopLine="73"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="75" Column="3" TopLine="72"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="38" Column="23" TopLine="36"/>
+      </Position>
+      <Position>
+        <Filename Value="usettings.pas"/>
+        <Caret Line="100" Column="73" TopLine="84"/>
       </Position>
     </JumpHistory>
     <RunParams>

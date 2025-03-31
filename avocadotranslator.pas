@@ -29,7 +29,6 @@ type
     function GetImportedModules(const Code: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Implementation
     function GetImplementationModules(const Code: string): string;
-   // function ObliczWyrazenie(const Expr: string): Double;
   public
     function Translate(const AvocadoCode: TStrings): TStringList;
   end;
@@ -115,15 +114,7 @@ begin
   Result := StringReplace(Result, 'NiebezpiecznyWskaźnikZAdresu(','Ptr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'NiebezpiecznyAdresZWskaźnika(','Integer(', [rfReplaceAll]);
   Result := StringReplace(Result, '@(','@(', [rfReplaceAll]);
-  //Result := StringReplace(Result, 'pisznf(','WritelnFormat(', [rfReplaceAll]);
-  //Formatowanie tekstu
-  // Rozszerzenie funkcji o dodatkowe zamiany specyfikatorów formatu
-  // Przykład: zamieniamy niestandardowy specyfikator %l (dla liczb całkowitych) na standardowy %d.
-  //Result := StringReplace(Result, '%l', '%d', [rfReplaceAll]);
-  // Możesz dodać także inne zamiany – np. jeżeli chcesz obsłużyć inny specyfikator:
-  // Wynik z %.2f pozostawiamy bez zmian, jeśli Format obsługuje ten sam format,
-  // ale jeśli masz własny specyfikator, np. %.2g, możesz zamienić go na %.2f:
-  //Result := StringReplace(Result, '%.2g', '%.2f', [rfReplaceAll]);
+
 end;
 
 //Deklaracja nowych typów zmienncyh

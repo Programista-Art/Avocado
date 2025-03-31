@@ -1,21 +1,20 @@
 object FormSettingIntepreter: TFormSettingIntepreter
   Left = 436
-  Height = 365
+  Height = 273
   Top = 389
   Width = 469
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Ustawienia'
-  ClientHeight = 365
+  ClientHeight = 273
   ClientWidth = 469
   Color = clWhite
   Position = poMainFormCenter
-  LCLVersion = '4.0.0.2'
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 333
+    Top = 241
     Width = 469
     Align = alBottom
     BevelColor = 5197647
@@ -128,53 +127,19 @@ object FormSettingIntepreter: TFormSettingIntepreter
       OnClick = SpbLoadFolderFPCClick
     end
   end
-  object GroupBoxLinkLCL: TGroupBox
+  object GroupBox1: TGroupBox
     Left = 0
-    Height = 88
+    Height = 65
     Top = 176
     Width = 469
-    Align = alTop
-    Caption = 'Link do folderu LCL'
-    ClientHeight = 68
+    Align = alClient
+    Caption = 'Platforma'
+    ClientHeight = 45
     ClientWidth = 465
     Color = 2697513
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
-    object EditLinkLCL: TEdit
-      Left = 5
-      Height = 23
-      Top = 5
-      Width = 455
-      Align = alTop
-      BorderSpacing.Around = 5
-      Enabled = False
-      TabOrder = 0
-    end
-    object SpeedButton1: TSpeedButton
-      Left = 5
-      Height = 22
-      Top = 35
-      Width = 23
-      Enabled = False
-      Images = ImageList1
-      ImageIndex = 1
-      OnClick = SpeedButton1Click
-    end
-  end
-  object GroupBox1: TGroupBox
-    Left = 0
-    Height = 69
-    Top = 264
-    Width = 469
-    Align = alClient
-    Caption = 'Platforma'
-    ClientHeight = 49
-    ClientWidth = 465
-    Color = 2697513
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 4
     object ComboBoboxPlatforms: TComboBox
       Left = 5
       Height = 23

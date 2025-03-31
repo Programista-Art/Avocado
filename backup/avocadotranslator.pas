@@ -115,15 +115,7 @@ begin
   Result := StringReplace(Result, 'NiebezpiecznyWskaźnikZAdresu(','Ptr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'NiebezpiecznyAdresZWskaźnika(','Integer(', [rfReplaceAll]);
   Result := StringReplace(Result, '@(','@(', [rfReplaceAll]);
-  //Result := StringReplace(Result, 'pisznf(','WritelnFormat(', [rfReplaceAll]);
-  //Formatowanie tekstu
-  // Rozszerzenie funkcji o dodatkowe zamiany specyfikatorów formatu
-  // Przykład: zamieniamy niestandardowy specyfikator %l (dla liczb całkowitych) na standardowy %d.
-  //Result := StringReplace(Result, '%l', '%d', [rfReplaceAll]);
-  // Możesz dodać także inne zamiany – np. jeżeli chcesz obsłużyć inny specyfikator:
-  // Wynik z %.2f pozostawiamy bez zmian, jeśli Format obsługuje ten sam format,
-  // ale jeśli masz własny specyfikator, np. %.2g, możesz zamienić go na %.2f:
-  //Result := StringReplace(Result, '%.2g', '%.2f', [rfReplaceAll]);
+
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -761,8 +753,7 @@ begin
             PascalCode.Add('  ' + FVariables[i].Name + ': OleVariant;')
           else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
              PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
-          else if LowerCase(FVariables[i].VarType) = 'formularz' then
-              MemoLogs.Lines.Add('OSTRZEŻENIE: Typ "formularz" nie jest wspierany i został zignorowany.')
+
           else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
              PascalCode.Add('  ' + FVariables[i].Name + ': String;');
         end;

@@ -16,10 +16,8 @@ type
     BitBtn1: TBitBtn;
     ComboBoboxPlatforms: TComboBox;
     EdtLinkFPCFolder: TEdit;
-    EditLinkLCL: TEdit;
     EdtLinkFPC: TEdit;
     GroupBox1: TGroupBox;
-    GroupBoxLinkLCL: TGroupBox;
     SpbSaveFolderFPC: TGroupBox;
     GroupBox2: TGroupBox;
     ImageList1: TImageList;
@@ -27,7 +25,6 @@ type
     Panel1: TPanel;
     SpeedButOpenLinkFPC: TSpeedButton;
     SpbLoadFolderFPC: TSpeedButton;
-    SpeedButton1: TSpeedButton;
     SpeedButton4: TSpeedButton;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -73,6 +70,8 @@ begin
 end;
 
 
+
+
 procedure TFormSettingIntepreter.SpeedButton4Click(Sender: TObject);
 begin
   SaveFPCLink;
@@ -85,7 +84,6 @@ begin
     EdtLinkFPC.Text := ini.ReadString('main', 'fpc','');
     EdtLinkFPCFolder.Text := ini.ReadString('main', 'FpcBasePath','');
     ComboBoboxPlatforms.Text := ini.ReadString('main', 'TargetPlatform','');
-    EditLinkLCL.Text := ini.ReadString('main', 'LclBasePath','')
     //EditLinkLCL.Text := ini.ReadString('main', 'Units','')
   finally
     FreeAndNil(Ini);
@@ -99,7 +97,6 @@ begin
     ini.WriteString('main', 'fpc', EdtLinkFPC.Text);
     ini.WriteString('main', 'FpcBasePath', EdtLinkFPCFolder.Text);
     ini.WriteString('main', 'TargetPlatform', ComboBoboxPlatforms.Text);
-    ini.WriteString('main', 'LclBasePath', EditLinkLCL.Text);
   finally
     FreeAndNil(Ini);
   end;
