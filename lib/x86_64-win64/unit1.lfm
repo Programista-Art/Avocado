@@ -884,8 +884,10 @@ object Form1: TForm1
     end
   end
   object SynCompletion1: TSynCompletion
+    OnBeforeExecute = SynCompletion1BeforeExecute
     ItemList.Strings = (
       'Pisz('''')'
+      'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
       'Pisznl('''')'
       'Czytaj('''')'
       'Czytajnl('''')'

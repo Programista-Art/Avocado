@@ -399,6 +399,13 @@ var
    VarListStringArg : String;
    //Do przechowywania pozycji ostatniego przecinka
    LastCommaPos:Integer;
+     // Nowe zmienne dla zapytaj z 3 argumentami
+  ApiKeyArg, ModelArg, QuestionArg: string;
+  TranslatedApiKey, TranslatedModel: string;
+  Args: TStringArray;
+  TargetVar: string;
+  ArgStr: string; // <<< DEKLARACJA JEST TUTAJ
+  ProcessedArgs: string;
 begin
   TrimmedLine := Trim(Line);
 
@@ -467,16 +474,6 @@ begin
       //Exit;
     end
 
-   { //Pisz z formatowaniem
-    else if LowerCase(TrimmedLine).StartsWith('piszf(') then
-    begin
-      // Pobieramy zawartość między "piszf(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, Length('piszf(') + 1, Length(TrimmedLine) - Length('piszf(') - 1);
-      // Generujemy kod Free Pascala z WriteLn – funkcja piszf ma wypisać i przejść do nowej linii
-      PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
-    end
-   }
-
      //oblicza wyrazenie
      else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
      begin
@@ -486,6 +483,48 @@ begin
        // Generowanie poprawnego kodu Free Pascala
        PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
      end
+
+     // --- Obsługa 'zapytaj' (NOWA WERSJA - 3 argumenty) ---
+  else if LowerCase(TrimmedLine).StartsWith('zapytaj(') then
+  begin
+    Start := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine); // Znajdź ostatni nawias zamykający
+    if (Start > 0) and (EndPos > Start) then
+    begin
+       // Wyodrębnij string z argumentami
+       ArgStr := Trim(Copy(TrimmedLine, Start + 1, EndPos - Start - 1));
+
+       // Rozdziel argumenty przecinkami
+       // UWAGA: Proste rozdzielanie, nie obsługuje przecinków wewnątrz argumentów (poza literałami string)!
+       // Wymaga bardziej zaawansowanego parsera dla pełnej funkcjonalności.
+       Args := ArgStr.Split([',']);
+
+       // Sprawdź, czy są dokładnie 3 argumenty
+       if Length(Args) = 3 then
+       begin
+          ApiKeyArg := Trim(Args[0]);      // Pierwszy argument: klucz API (może być zmienną lub literałem)
+          ModelArg := Trim(Args[1]);       // Drugi argument: model (może być zmienną lub literałem)
+          QuestionArg := Trim(Args[2]);    // Trzeci argument: pytanie (zakładamy literał string w apostrofach)
+
+          // Przetłumacz klucz i model (mogą być zmiennymi), pytanie przekaż bezpośrednio
+          // Jeśli klucz/model są zawsze literałami, można pominąć TranslateExpression
+          TranslatedApiKey := TranslateExpression(ApiKeyArg);
+          TranslatedModel := TranslateExpression(ModelArg);
+
+          // Generuj kod Pascala z czterema argumentami
+          // Zakładamy, że QuestionArg ma już apostrofy z kodu Avocado
+          // Zakładamy, że GlobalResponseCallback to globalnie dostępna procedura
+          PascalCode.Add('ZapytajChatGPT(' + TranslatedApiKey + ', ' + TranslatedModel + ', ' + QuestionArg + ', @GlobalResponseCallback);');
+
+          // Zakładamy sygnaturę: procedure ZapytajChatGPT(const ApiKey, Model, UserQuestion: string; Callback: TResponseCallback);
+       end
+       else
+         raise Exception.Create('Błąd składni zapytaj: Oczekiwano 3 argumentów (klucz, model, pytanie), otrzymano ' + IntToStr(Length(Args)) + ' w "' + ArgStr + '"');
+    end
+    else
+       raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
+    Exit; // Zakończ przetwarzanie
+  end
 
     // 3. Obsługa deklaracji zmiennych z czytaj()
     else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then

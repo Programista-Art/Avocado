@@ -77,6 +77,9 @@ type
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     procedure MenuINformacjaIDEClick(Sender: TObject);
+    procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
+      var ACurrentString: String; var APosition: Integer; var AnX,
+      AnY: Integer; var AnResult: TOnBeforeExeucteFlags);
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -185,6 +188,13 @@ end;
 procedure TForm1.MenuINformacjaIDEClick(Sender: TObject);
 begin
   Finformacjaide.ShowModal;
+end;
+
+procedure TForm1.SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
+  var ACurrentString: String; var APosition: Integer; var AnX, AnY: Integer;
+  var AnResult: TOnBeforeExeucteFlags);
+begin
+
 end;
 
 procedure TForm1.NowyPlikExecute(Sender: TObject);
@@ -524,12 +534,11 @@ var
   AProcess: TProcess;
   TempFile: string;
   OutputLines: TStringList;
-  FpcUnitPath, LclUnitPath, SourceDir: string; // Przywrócono LclUnitPath
+  FpcUnitPath, SourceDir: string; // Usunięto LclUnitPath, LazarusUnitPath
   IdeDirectory, IdeModulesPath: string;
   UserModulesPath: string;
-  LazarusUnitPath: string; // Przywrócono LazarusUnitPath
 begin
-   // --- Sprawdzenie krytycznych ustawień ---
+  // --- Sprawdzenie krytycznych ustawień (bez LCL/Lazarus paths) ---
   if (FFpcPath = '') or not FileExists(FFpcPath) then
   begin
     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC (FpcPath) nie jest poprawnie skonfigurowana!');
@@ -551,7 +560,7 @@ begin
     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Platforma docelowa (TargetPlatform) nie jest skonfigurowana!');
     Exit;
   end;
-
+  // Usunięto sprawdzanie FLclBasePath i FLazarusBasePath
 
   // Sprawdzenie kodu wejściowego
   if Trim(PascalCode) = '' then
@@ -585,7 +594,7 @@ begin
       AProcess.Executable := FFpcPath;
       AProcess.Parameters.Add(TempFile);
 
-      // --- Dodawanie ścieżek do jednostek (-Fu) ---
+      // --- Dodawanie ścieżek do jednostek (-Fu) - UPROSZCZONO ---
 
       // 1. Ścieżka do standardowych jednostek FPC
       FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + FTargetPlatform;
@@ -594,6 +603,7 @@ begin
       else
         MemoLogs.Lines.Add('BŁĄD: Nie znaleziono wymaganego katalogu standardowych jednostek FPC: ' + FpcUnitPath);
 
+      // 2. Ścieżka do jednostek LCL - USUNIĘTO
 
       // 3. Ścieżka do katalogu z plikiem źródłowym (TempFile)
       SourceDir := ExtractFilePath(TempFile);
@@ -624,34 +634,7 @@ begin
       else
         MemoLogs.Lines.Add(' - Informacja: Nie znaleziono katalogu własnych modułów IDE: ' + IdeModulesPath + '.');
 
-      // 6. Ścieżka do jednostek Lazarusa (Przywrócono)
-      MemoLogs.Lines.Add('DEBUG: Sprawdzanie ścieżki Lazarusa. Wartość FLazarusBasePath z ustawień: "' + FLazarusBasePath + '"');
-      if (FLazarusBasePath <> '') and DirectoryExists(FLazarusBasePath) then
-      begin
-         // Ścieżka 1: katalog 'units' w głównej ścieżce Lazarusa
-         LazarusUnitPath := IncludeTrailingPathDelimiter(FLazarusBasePath) + 'units' + PathDelim + FTargetPlatform;
-         MemoLogs.Lines.Add('DEBUG: Skonstruowana ścieżka Lazarusa (1) do sprawdzenia: "' + LazarusUnitPath + '"');
-         if DirectoryExists(LazarusUnitPath) then
-         begin
-            AProcess.Parameters.Add('-Fu' + LazarusUnitPath);
-            MemoLogs.Lines.Add(' - Dodano ścieżkę jednostek Lazarusa (1): ' + LazarusUnitPath);
-         end
-         else
-             MemoLogs.Lines.Add(' - Informacja: Nie znaleziono katalogu jednostek Lazarusa (1): ' + LazarusUnitPath);
-
-         // Ścieżka 2: ścieżka do LazUtils
-         LazarusUnitPath := IncludeTrailingPathDelimiter(FLazarusBasePath) + 'components' + PathDelim + 'lazutils' + PathDelim + 'lib' + PathDelim + FTargetPlatform;
-         MemoLogs.Lines.Add('DEBUG: Skonstruowana ścieżka LazUtils (2) do sprawdzenia: "' + LazarusUnitPath + '"');
-         if DirectoryExists(LazarusUnitPath) then
-         begin
-             AProcess.Parameters.Add('-Fu' + LazarusUnitPath);
-             MemoLogs.Lines.Add(' - Dodano ścieżkę jednostek LazUtils (2): ' + LazarusUnitPath);
-         end else begin
-             MemoLogs.Lines.Add(' - Informacja: Nie znaleziono katalogu jednostek LazUtils (2): ' + LazarusUnitPath);
-         end;
-      end
-      else if FLazarusBasePath <> '' then
-          MemoLogs.Lines.Add('OSTRZEŻENIE: Skonfigurowana ścieżka bazowa Lazarusa (FLazarusBasePath: "' + FLazarusBasePath + '") nie istnieje!');
+      // 6. Ścieżka do jednostek Lazarusa - USUNIĘTO
 
       // --- Koniec dodawania ścieżek ---
 

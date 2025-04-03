@@ -77,6 +77,9 @@ type
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     procedure MenuINformacjaIDEClick(Sender: TObject);
+    procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
+      var ACurrentString: String; var APosition: Integer; var AnX,
+      AnY: Integer; var AnResult: TOnBeforeExeucteFlags);
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -185,6 +188,13 @@ end;
 procedure TForm1.MenuINformacjaIDEClick(Sender: TObject);
 begin
   Finformacjaide.ShowModal;
+end;
+
+procedure TForm1.SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
+  var ACurrentString: String; var APosition: Integer; var AnX, AnY: Integer;
+  var AnResult: TOnBeforeExeucteFlags);
+begin
+
 end;
 
 procedure TForm1.NowyPlikExecute(Sender: TObject);

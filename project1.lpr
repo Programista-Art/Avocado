@@ -12,7 +12,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, pascalscript,
   unit1, usettings, AvocadoTranslator, unitopcjeprojektu, unitoprogramie,
-  unitautor, uinformacjaoide, matematyka, formatowanie;
+  unitautor, uinformacjaoide, matematyka, formatowanie, chatgptavocado;
 
 {$R *.res}
 
