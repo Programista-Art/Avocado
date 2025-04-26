@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 572
   Top = 221
   Width = 1086
-  Caption = 'IDE Avocado v 1.0.0.3'
+  Caption = 'IDE Avocado v 1.0.0.4'
   ClientHeight = 572
   ClientWidth = 1086
   Color = 5197647
@@ -887,6 +887,12 @@ object Form1: TForm1
     OnBeforeExecute = SynCompletion1BeforeExecute
     ItemList.Strings = (
       'Pisz('''')'
+      'klawisz_wciśnięty'
+      'tło_tekstu()'
+      'długość()'
+      'kolor_tekstu()'
+      'pozycja_kursora(x,y)'
+      'odczytajklucz'
       'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
       'Pisznl('''')'
       'Czytaj('''')'
@@ -1003,6 +1009,23 @@ object Form1: TForm1
       'arcosh()'
       'artanh()'
       'matematyka'
+      'Czarny'
+      'Zielony'
+      'Żółty'
+      'Niebieski '
+      'Biały'
+      'Cyjan '
+      'Czerwony'
+      'Magenta'
+      'Brązowy'
+      'Jasnoszary'
+      'Ciemnoszary'
+      'Jasnoniebieski'
+      'Jasnozielony '
+      'Jasnoniebieski'
+      'Jasnoczerwony '
+      'Jasnoróżowy'
+      'Migotanie'
     )
     Position = 0
     LinesInWindow = 10

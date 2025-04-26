@@ -114,7 +114,26 @@ begin
   Result := StringReplace(Result, 'NiebezpiecznyWskaźnikZAdresu(','Ptr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'NiebezpiecznyAdresZWskaźnika(','Integer(', [rfReplaceAll]);
   Result := StringReplace(Result, '@(','@(', [rfReplaceAll]);
-
+  Result := StringReplace(Result, 'klawisz_wciśnięty', 'KeyPressed', [rfReplaceAll, rfIgnoreCase]);
+  //kolory
+  Result := StringReplace(Result, 'czarny', 'Black', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'biały', 'White', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'niebieski', 'Blue', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'zielony', 'Green', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'czerwony', 'Red', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'Żółty', 'Yellow', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'cyjan', 'Cyan', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'magenta', 'Magenta', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'brązowy', 'Brown', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'jasnoszary', 'LightGray', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'ciemnoszary', 'DarkGray', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'ciemnoszary', 'DarkGray', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'jasnoniebieski', 'LightBlue', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'jasnozielony', 'LightGreen', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'jasnoniebieski', 'LightCyan', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'jasnoczerwony', 'LightRed', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'jasnoróżowy', 'LightMagenta', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -180,6 +199,7 @@ begin
            (VarType = 'wariant') or
            (VarType = 'wariant_ole') or
            (VarType = 'tablicatekstów') or
+           (VarType = 'stała') or
            //Konwersje
            (VarType = 'TekstLD') then
         begin
@@ -303,7 +323,9 @@ var
   Lines: TStringList;
   i: Integer;
   Line, ModulesList: string;
+
 begin
+
   ModulesList := ''; // Pusta lista modułów
     Lines := TStringList.Create;
     try
@@ -327,10 +349,38 @@ begin
         end;
       end;
 
+    // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
+    if (Pos('odczytajklucz', LowerCase(Code)) > 0) or
+     (Pos('tło_tekstu', LowerCase(Code)) > 0) or
+     (Pos('kolor_tekstu', LowerCase(Code)) > 0) or
+     (Pos('pozycja_kursora', LowerCase(Code)) > 0) or
+     //(Pos('długość', LowerCase(Code)) > 0) or
+     (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) then
+
+    begin
+      if ModulesList <> '' then
+        ModulesList := ModulesList + ', Crt'
+      else
+        ModulesList := 'Crt';
+    end;
+    {
+    //modul StrUtils
+    if (Pos('długość', LowerCase(Code)) > 0) or
+     (Pos('dd', LowerCase(Code)) > 0) then
+
+    begin
+      if ModulesList <> '' then
+        ModulesList := ModulesList + ', StrUtils'
+      else
+        ModulesList := 'StrUtils';
+    end;
+    }
+
       Result := ModulesList; // Zwrócenie wynikowej listy modułów
     finally
       Lines.Free;
     end;
+
 end;
 
 function TAvocadoTranslator.GetImplementationModules(const Code: string
@@ -406,6 +456,8 @@ var
   TargetVar: string;
   ArgStr: string; // <<< DEKLARACJA JEST TUTAJ
   ProcessedArgs: string;
+  StartPos, EndPoss,VarParts: Integer;
+  Param: string;
 begin
   TrimmedLine := Trim(Line);
 
@@ -457,15 +509,133 @@ begin
       end;
     end
 
+    //Operacje na Stringach:
+    //Length(s): Zwraca długość stringa s.
+    {else if LowerCase(TrimmedLine).StartsWith('długość(') then
+    begin
+       // Pobieramy zawartość między "druk(" a ostatnim znakiem
+      Value := Copy(TrimmedLine, 12, Length(TrimmedLine) - 12);
+      PascalCode.Add('Length(' + TranslateExpression(Value) + ');');
+    end
+    }
+    // Obsługa funkcji długość (Length)
+    else if Pos('długość(', LowerCase(TrimmedLine)) > 0 then
+
+    begin
+      // Znajdź pozycje nawiasów
+      StartPos := Pos('(', TrimmedLine);
+      EndPos := Pos(')', TrimmedLine);
+
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia długość. Oczekiwano: długość(tekst)');
+
+      // Wyciągnij parametr wewnątrz nawiasów
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+      // Sprawdź czy to przypisanie do zmiennej
+      if Pos('=', TrimmedLine) > 0 then
+      begin
+        // Przypisanie typu: liczba_całkowita x = długość(tekst)
+        Parts := TrimmedLine.Split(['='], 2);
+        VarName := Trim(Parts[0]);
+        VarType := '';
+//
+//        // Obsługa deklaracji zmiennej
+//        if Pos(' ', VarName) > 0 then
+//        begin
+//          VarParts := VarName.Split([' '], 2);
+//          VarType := VarParts[0];
+//          VarName := VarParts[1];
+//          AddVariable(VarName, VarType);
+//
+//          if LowerCase(VarType) <> 'liczba_całkowita' then
+//            raise Exception.Create('Typ zmiennej dla długość musi być liczba_całkowita');
+//        end;
+
+        PascalCode.Add(VarName + ' := Length(' + TranslateExpression(Param) + ');');
+      end
+      else
+      begin
+        // Samodzielne wywołanie funkcji: długość(tekst)
+        PascalCode.Add('Length(' + TranslateExpression(Param) + ');');
+      end;
+    end
+
+
+    //GotoXY - > PozycjaKursora
+    //Funkcja z modułu Crt do ustawiania kursora w określonej pozycji w oknie konsoli.
+    else if LowerCase(TrimmedLine).StartsWith('pozycja_kursora(') then
+    begin
+       // Pobieramy zawartość między "druk(" a ostatnim znakiem
+      Value := Copy(TrimmedLine, 17, Length(TrimmedLine) - 17);
+      PascalCode.Add('GotoXY(' + TranslateExpression(Value) + ');');
+    end
+
+    //KolorTekstu  TextColor
+    else if LowerCase(TrimmedLine).StartsWith('kolor_tekstu(') then
+    begin
+       // Pobieramy zawartość między "druk(" a ostatnim znakiem
+      Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
+      PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
+    end
+
+    else if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
+    begin
+       // Pobieramy zawartość między "pisz(" a ostatnim znakiem
+      Value := Copy(TrimmedLine, 13, Length(TrimmedLine) - 13);
+      PascalCode.Add('TextBackground(' + TranslateExpression(Value) + ');');
+    end
+
+    //czytaj klawisze ReadKey
+    else if LowerCase(TrimmedLine).StartsWith('odczytajklucz') then
+    begin
+      Value := Copy(TrimmedLine, 13, Length(TrimmedLine) - 13);
+      PascalCode.Add('ReadKey' + TranslateExpression(Value) + ';');
+      //Exit;
+    end
+
+    else if Pos('odczytajklucz', LowerCase(TrimmedLine)) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      if Length(Parts) <> 2 then
+        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = odczytajklucz');
+
+      VarName := Trim(Parts[0]);
+      Value := Trim(Parts[1]);
+
+    // Sprawdź czy wartość po = to odczytajklucz
+    if LowerCase(Value) <> 'odczytajklucz' then
+      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: odczytajklucz');
+
+    // Przetwórz deklarację zmiennej (jeśli istnieje)
+    if Pos(' ', VarName) > 0 then
+    begin
+      Parts := VarName.Split([' '], 2);
+      if Length(Parts) < 2 then
+        raise Exception.Create('Błędna deklaracja zmiennej dla odczytajklucz');
+
+      VarType := Parts[0];
+      VarName := Parts[1];
+      AddVariable(VarName, VarType);
+    end;
+
+    // Sprawdź typ zmiennej
+    if LowerCase(VarType) <> 'znak' then
+      raise Exception.Create('Odczytajklucz wymaga typu "znak"');
+
+    // Wygeneruj kod Pascala
+    PascalCode.Add(VarName + ' := ReadKey;');
+  end
 
     // 2. Obsługa funkcji pisznl
     else if LowerCase(TrimmedLine).StartsWith('pisznl(') then
     begin
-       // Pobieramy zawartość między "druk(" a ostatnim znakiem
+       // Pobieramy zawartość między "pisznl(" a ostatnim znakiem
       Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
       PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
       //Exit;
     end
+
     // 2. Obsługa funkcji pisz
     else if LowerCase(TrimmedLine).StartsWith('pisz(') then
     begin
@@ -667,6 +837,7 @@ begin
       UsesList.Add('SysUtils');
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
+      //UsesList.Add('Crt');
 
       // Dodaj moduły użytkownika z 'Importuj'
       if ModulesStr <> '' then
@@ -708,14 +879,19 @@ begin
       // Wykryj deklaracje zmiennych
       for i := 0 to AvocadoCode.Count - 1 do
         ProcessDeclaration(Trim(AvocadoCode[i]));
-
+      //// Generuj sekcję 'const' (PRZYWRÓCONO PEŁNĄ OBSŁUGĘ TYPÓW)
+      //if Length(FVariables) > 0 then
+      //begin
+      //  PascalCode.Add('var');
+      //  for i := 0 to High(FVariables) do
+      //  begin
       // Generuj sekcję 'var' (PRZYWRÓCONO PEŁNĄ OBSŁUGĘ TYPÓW)
       if Length(FVariables) > 0 then
       begin
         PascalCode.Add('var');
         for i := 0 to High(FVariables) do
         begin
-          // --- Przywrócono pełną listę typów ---
+          // deklaracja zmiennych
           if LowerCase(FVariables[i].VarType) = 'liczba_całkowita' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_zm' then
@@ -790,8 +966,9 @@ begin
           else if LowerCase(FVariables[i].VarType) = 'wariant_ole' then
             PascalCode.Add('  ' + FVariables[i].Name + ': OleVariant;')
           else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
-             PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
-
+            PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
+          else if LowerCase(FVariables[i].VarType) = 'stała' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Const;')
           else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
              PascalCode.Add('  ' + FVariables[i].Name + ': String;');
         end;

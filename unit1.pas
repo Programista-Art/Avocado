@@ -471,7 +471,7 @@ begin
     FFpcPath := Ini.ReadString('main', 'fpc', '');
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
-    FModulsPath := Ini.ReadString('main', 'Units', '');
+    FModulsPath := Ini.ReadString('main', 'Units', '\moduly');
 
    // --- Walidacja wczytanych ustawień (bez odgadywania) ---
     if (FFpcPath = '') or not FileExists(FFpcPath) then
