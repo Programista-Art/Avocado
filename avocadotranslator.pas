@@ -433,7 +433,7 @@ var
   Parts: TStringArray;
    VarType, VarName, Value, TrimmedLine: string;
    InstrukcjaWarunkowa: TStringArray;
-   KodWtedy, KodInaczej: string;
+   KodWtedy, KodInaczej,LowerTrimmedLine: string;
    TempList: TStringList;
    Statements: TStringArray;
    Statement: string;
@@ -578,6 +578,8 @@ begin
       Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
       PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
     end
+
+
 
     else if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
     begin

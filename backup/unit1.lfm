@@ -887,6 +887,7 @@ object Form1: TForm1
     OnBeforeExecute = SynCompletion1BeforeExecute
     ItemList.Strings = (
       'Pisz('''')'
+      'kopiuj'
       'klawisz_wciśnięty'
       'tło_tekstu()'
       'długość()'
@@ -1009,6 +1010,23 @@ object Form1: TForm1
       'arcosh()'
       'artanh()'
       'matematyka'
+      'Czarny'
+      'Zielony'
+      'Żółty'
+      'Niebieski '
+      'Biały'
+      'Cyjan '
+      'Czerwony'
+      'Magenta'
+      'Brązowy'
+      'Jasnoszary'
+      'Ciemnoszary'
+      'Jasnoniebieski'
+      'Jasnozielony '
+      'Jasnoniebieski'
+      'Jasnoczerwony '
+      'Jasnoróżowy'
+      'Migotanie'
     )
     Position = 0
     LinesInWindow = 10

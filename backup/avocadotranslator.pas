@@ -433,7 +433,7 @@ var
   Parts: TStringArray;
    VarType, VarName, Value, TrimmedLine: string;
    InstrukcjaWarunkowa: TStringArray;
-   KodWtedy, KodInaczej: string;
+   KodWtedy, KodInaczej,LowerTrimmedLine: string;
    TempList: TStringList;
    Statements: TStringArray;
    Statement: string;
@@ -579,6 +579,46 @@ begin
       PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
     end
 
+     //Kopiowanie string
+    else if LowerCase(TrimmedLine).StartsWith('kopiuj(') then
+    begin
+      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
+      PascalCode.Add('Copy(' + TranslateExpression(Value) + ');');
+    end
+
+    else if LowerTrimmedLine.StartsWith('kopiuj(') and LowerTrimmedLine.EndsWith(')') then
+  begin
+    if Length(TrimmedLine) > 8 then // Długość 'kopiuj()' to 8
+    begin
+      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8); // Wyodrębnij argument
+      if Trim(Value) <> '' then
+      begin
+        // --- SEMANTYKA 'kopiuj(argument)' ---
+        // Wygenerowany kod 'Copy(...);' jest NIEPOPRAWNY dla standardowej funkcji Copy w Pascalu,
+        // która wymaga 3 argumentów (źródło, indeks, liczba znaków).
+        // MUSISZ zdecydować, co 'kopiuj(argument)' ma oznaczać w Twoim języku.
+        // Opcja 1: To błąd składni? Powinno być np. `zmienna := kopiuj(argument)`?
+        // Opcja 2: Ma wywołać jakąś inną, niestandardową procedurę 'Copy'?
+        // Opcja 3: Ma przypisać przetłumaczony argument do jakiejś *domyślnej* zmiennej?
+        // Poniższy kod generuje niepoprawne wywołanie z komentarzem ostrzegawczym.
+        PascalCode.Add('// UWAGA: Poniższe wywołanie Copy jest prawdopodobnie niepoprawne w standardowym Pascalu.');
+        PascalCode.Add('// Standardowa funkcja Copy wymaga 3 argumentów.');
+        PascalCode.Add('// Co ma robić "kopiuj(' + Value + ')" w Twoim języku?');
+        PascalCode.Add('Copy(' + TranslateExpression(Value) + '); // <--- POPRAW TĘ LINIĘ ZGODNIE Z SEMANTYKĄ!');
+      end
+      else
+      begin
+        raise Exception.Create('Błąd składni: Pusty argument dla funkcji kopiuj().');
+      end;
+    end
+    else // Przypadek 'kopiuj()'
+    begin
+       raise Exception.Create('Błąd składni: Brak argumentu dla funkcji kopiuj().');
+    end;
+    Exit; // Zakończono przetwarzanie 'kopiuj(...)'
+  end
+    //koniec
+
     else if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
     begin
        // Pobieramy zawartość między "pisz(" a ostatnim znakiem
@@ -629,14 +669,6 @@ begin
 
     // 2. Obsługa funkcji pisznl
     else if LowerCase(TrimmedLine).StartsWith('pisznl(') then
-    begin
-       // Pobieramy zawartość między "pisznl(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
-      PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
-      //Exit;
-    end
-    // 2. Obsługa funkcji pisznl
-    else if LowerCase(TrimmedLine).StartsWith('pisznl(') and '' then
     begin
        // Pobieramy zawartość między "pisznl(" a ostatnim znakiem
       Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
