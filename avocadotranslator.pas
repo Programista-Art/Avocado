@@ -574,11 +574,9 @@ begin
     //KolorTekstu  TextColor
     else if LowerCase(TrimmedLine).StartsWith('kolor_tekstu(') then
     begin
-       // Pobieramy zawartość między "druk(" a ostatnim znakiem
       Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
       PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
     end
-
 
 
     else if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
@@ -589,32 +587,32 @@ begin
     end
 
     //czytaj klawisze ReadKey
-    else if LowerCase(TrimmedLine).StartsWith('odczytajklucz') then
+    else if LowerCase(TrimmedLine).StartsWith('ReadKey') then
     begin
-      Value := Copy(TrimmedLine, 13, Length(TrimmedLine) - 13);
+      Value := Copy(TrimmedLine, 7, Length(TrimmedLine) - 7);
       PascalCode.Add('ReadKey' + TranslateExpression(Value) + ';');
       //Exit;
     end
 
-    else if Pos('odczytajklucz', LowerCase(TrimmedLine)) > 0 then
+   else if Pos('ReadKey', LowerCase(TrimmedLine)) > 0 then
     begin
       Parts := TrimmedLine.Split(['='], 2);
       if Length(Parts) <> 2 then
-        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = odczytajklucz');
+        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = ReadKey');
 
       VarName := Trim(Parts[0]);
       Value := Trim(Parts[1]);
 
     // Sprawdź czy wartość po = to odczytajklucz
-    if LowerCase(Value) <> 'odczytajklucz' then
-      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: odczytajklucz');
+    if LowerCase(Value) <> 'ReadKey' then
+      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: ReadKey');
 
     // Przetwórz deklarację zmiennej (jeśli istnieje)
     if Pos(' ', VarName) > 0 then
     begin
       Parts := VarName.Split([' '], 2);
       if Length(Parts) < 2 then
-        raise Exception.Create('Błędna deklaracja zmiennej dla odczytajklucz');
+        raise Exception.Create('Błędna deklaracja zmiennej dla ReadKey');
 
       VarType := Parts[0];
       VarName := Parts[1];
@@ -623,7 +621,7 @@ begin
 
     // Sprawdź typ zmiennej
     if LowerCase(VarType) <> 'znak' then
-      raise Exception.Create('Odczytajklucz wymaga typu "znak"');
+      raise Exception.Create('ReadKey wymaga typu "znak"');
 
     // Wygeneruj kod Pascala
     PascalCode.Add(VarName + ' := ReadKey;');
@@ -1012,193 +1010,7 @@ begin
       ExistingUnits.Free;
     end;
   end;
-  {
- SetLength(FVariables, 0);  // Czyści listę zmiennych
-  PascalCode := TStringList.Create;
-  try
-    PascalCode.Add('{$mode objfpc}');
-    PascalCode.Add('{$H+}');// Domyślnie w Lazarusa: String = AnsiString
-    PascalCode.Add('program ' + NameProgram + ';');
 
-    // Dodajemy moduły
-    //PascalCode.Add('uses Windows, SysUtils;');
-
-    //PascalCode.Add('interface');
-
-    // Wyodrębniamy moduły z całego kodu wejściowego (AvocadoCode)
-    ModulesStr := GetImportedModules(AvocadoCode.Text);
-    if ModulesStr <> '' then
-      PascalCode.Add('uses Windows, SysUtils,formatowanie, ' + ModulesStr + ';')
-    else
-      PascalCode.Add('uses Windows, SysUtils,formatowanie   ;');
-    PascalCode.Add('');
-
-    {// Dodajemy sekcję uses wraz z modułami pobranymi z SynEditCode
-    ModulesStr := GetImportedModules(Form1.SynEditCode.Text);
-    if ModulesStr <> '' then
-      PascalCode.Add('uses Windows, SysUtils, ' + ModulesStr + ';')
-    else
-      PascalCode.Add('uses Windows, SysUtils;');
-    PascalCode.Add('');
-    }
-
-    // Najpierw wykrywamy deklaracje zmiennych!
-    for i := 0 to AvocadoCode.Count - 1 do
-      ProcessDeclaration(Trim(AvocadoCode[i]));
-    // Dodajemy sekcję var
-        if Length(FVariables) > 0 then
-    begin
-      PascalCode.Add('var');
-      for i := 0 to High(FVariables) do
-      begin
-        if LowerCase(FVariables[i].VarType) = 'liczba_całkowita' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_zm' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_krótka' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': ShortInt;')
-        else if LowerCase(FVariables[i].VarType) = 'logiczny' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
-        else if LowerCase(FVariables[i].VarType) = 'znak' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
-        else if LowerCase(FVariables[i].VarType) = 'tablicaliczb' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': array of Integer;')
-        else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': array of String;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_mała' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': SmallInt;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_długa' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': LongInt;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba64' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Int64;')
-        else if LowerCase(FVariables[i].VarType) = 'bajt' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Byte;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba16' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Word;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba32' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': LongWord;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_pojedyncza' then
-                PascalCode.Add('  ' + FVariables[i].Name + ': Single;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_podwójna' then
-                  PascalCode.Add('  ' + FVariables[i].Name + ': Double;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_rozszerzona' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Extended;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_zgodna_delphi' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Comp;')
-        else if LowerCase(FVariables[i].VarType) = 'liczba_waluta' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Currency;')
-        else if LowerCase(FVariables[i].VarType) = 'logiczny_bajt' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': ByteBool;')
-        else if LowerCase(FVariables[i].VarType) = 'logiczne_słowo' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': WordBool;')
-        else if LowerCase(FVariables[i].VarType) = 'logiczny_długi' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': LongBool;')
-        else if LowerCase(FVariables[i].VarType) = 'znak_unicode' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': WideChar;')
-        else if LowerCase(FVariables[i].VarType) = 'tekst255' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': ShortString;')
-        else if LowerCase(FVariables[i].VarType) = 'tekst_ansi' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': AnsiString;')
-        else if LowerCase(FVariables[i].VarType) = 'tekst_unicode' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': UnicodeString;')
-        else if LowerCase(FVariables[i].VarType) = 'tablica_dynamiczna' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Array of typ;')
-        else if LowerCase(FVariables[i].VarType) = 'rekord' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Record ... end;')
-        else if LowerCase(FVariables[i].VarType) = 'kolekcja' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Set of typ;')
-        else if LowerCase(FVariables[i].VarType) = 'plik' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': File;')
-        else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': TextFile;')
-        else if LowerCase(FVariables[i].VarType) = 'plik_binarny' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': BinaryFile;')
-        else if LowerCase(FVariables[i].VarType) = 'plik_struktur' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Typed File;')
-        else if LowerCase(FVariables[i].VarType) = 'wskaźnik' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Pointer;')
-        else if LowerCase(FVariables[i].VarType) = 'wskaźnik_na' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': ^typ;')
-        else if LowerCase(FVariables[i].VarType) = 'wariant' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': Variant;')
-        else if LowerCase(FVariables[i].VarType) = 'wariant_ole' then
-          PascalCode.Add('  ' + FVariables[i].Name + ': OleVariant;')
-
-        else
-          PascalCode.Add('  ' + FVariables[i].Name + ': String;');
-
-
-      end;
-      PascalCode.Add('');
-    end;
-
-
-
-
-    //PascalCode.Add('implementation;');
-    //Importuje moduly wlasne pascalowe kod w implementation
-    ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
-    if ModulPascalowy <> '' then
-      PascalCode.Add('uses ' + ModulPascalowy + ';')
-    else
-      PascalCode.Add('');
-
-    PascalCode.Add('');
-
-    // Dodajemy kod programu
-    PascalCode.Add('begin');
-    // Ustaw konsolę na UTF-8 (tylko Windows)
-    PascalCode.Add('SetConsoleOutputCP(CP_UTF8);');
-    PascalCode.Add('SetConsoleCP(CP_UTF8);');
-    {//Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od "program " lub "importuj"
-    for i := 0 to AvocadoCode.Count - 1 do
-    begin
-      trimmedLine := Trim(AvocadoCode[i]);
-      if Copy(LowerCase(trimmedLine), 1, 8) = 'program ' then
-        Continue;
-      if Copy(LowerCase(trimmedLine), 1, 8) = 'importuj' then
-        Continue;
-      if Copy(LowerCase(trimmedLine), 1, 8) = 'ModułyPas' then
-        Continue;
-      ProcessLine(trimmedLine, PascalCode);
-    end;
-    }
-    // Przetwarzamy linie kodu wejściowego – pomijamy linie zaczynające się od słów kluczowych
-  for i := 0 to AvocadoCode.Count - 1 do
-  begin
-    trimmedLine := Trim(AvocadoCode[i]); // Usuń białe znaki z początku i końca
-
-    // Opcjonalnie: Pomiń puste linie po Trim
-    if trimmedLine = '' then
-      Continue;
-
-    // Sprawdź, czy linia zaczyna się od któregokolwiek ze słów kluczowych (ignorując wielkość liter)
-    // Używamy 'or', aby połączyć warunki - jeśli którykolwiek jest prawdziwy, pomijamy linię.
-    // AnsiStartsText(SłowoKluczowe, LiniaDoSprawdzenia)
-    if AnsiStartsText('program', trimmedLine) or  // Sprawdza 'program', 'PROGRAM', 'Program' itp.
-       AnsiStartsText('importuj', trimmedLine) or // Sprawdza 'importuj', 'IMPORTUJ' itp.
-       AnsiStartsText('ModułyPas', trimmedLine) then // Sprawdza 'ModułyPas', 'modułypas' itp.
-    begin
-      // Jeśli linia zaczyna się od jednego z powyższych, przejdź do następnej linii
-      Continue;
-    end
-    else
-    begin
-      // Jeśli linia NIE zaczyna się od żadnego ze słów kluczowych, przetwórz ją
-      ProcessLine(trimmedLine, PascalCode);
-    end;
-  end;
-
-    PascalCode.Add('Readln;');
-    PascalCode.Add('end.');
-
-    Result := PascalCode;
-  except
-    PascalCode.Free;
-    raise;
-  end;
-end;
-}
 
 
 end.

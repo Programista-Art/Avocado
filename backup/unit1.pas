@@ -15,18 +15,25 @@ uses
 type
   { TForm1 }
   TForm1 = class(TForm)
+    IdleTimer1: TIdleTimer;
+    Label1: TLabel;
+    MemoLogs: TMemo;
     MenuINformacjaIDE: TMenuItem;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    PanelDolnynadKosnola: TPanel;
+    StatusBar: TStatusBar;
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
+    SynEditCode: TSynEdit;
     SynMacroRecorder1: TSynMacroRecorder;
     SynMultiSyn1: TSynMultiSyn;
     SynPoSyn1: TSynPoSyn;
+    Timer1: TTimer;
     Transpiluj: TAction;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
-    Label1: TLabel;
     Label2: TLabel;
-    MemoLogs: TMemo;
     MemoOutPut: TMemo;
     MenuItem3: TMenuItem;
     MenuAboutProgram: TMenuItem;
@@ -48,7 +55,6 @@ type
     MenuItemCopy: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
-    PanelDolnynadKosnola: TPanel;
     PanelLewy: TPanel;
     PanelPrawy: TPanel;
     PopupMenuMemoLogs: TPopupMenu;
@@ -71,15 +77,18 @@ type
     Splitter1: TSplitter;
     Splitter3: TSplitter;
     SynCompletion1: TSynCompletion;
-    SynEditCode: TSynEdit;
     SynPopupMenuCode: TSynPopupMenu;
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
+    procedure IdleTimer1StartTimer(Sender: TObject);
+    procedure IdleTimer1StopTimer(Sender: TObject);
+    procedure IdleTimer1Timer(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
       var ACurrentString: String; var APosition: Integer; var AnX,
       AnY: Integer; var AnResult: TOnBeforeExeucteFlags);
+    procedure SynEditCodeChange(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -123,6 +132,7 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+
   end;
 
   { TInterpreterThread }
@@ -161,6 +171,8 @@ var
   //Otwarta sciezka pliku
   OpenFileProject: String;
   NameProgram: String;
+  //Liczba znaków
+  NumberWordSynEdit: Integer;
 implementation
 
 uses
@@ -190,11 +202,56 @@ begin
   Finformacjaide.ShowModal;
 end;
 
+procedure TForm1.IdleTimer1StartTimer(Sender: TObject);
+begin
+  IdleTimer1.Enabled := True;
+end;
+
+procedure TForm1.IdleTimer1StopTimer(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.IdleTimer1Timer(Sender: TObject);
+var
+  i: TModalResult;
+begin
+  IdleTimer1.Enabled := False;
+  StatusBar.Panels.Items[2].Text :=' Aplikacja jest bezczynna';
+  i:= MessageDlg('Wykryto brak zmian w kodzie przez dłuższy czas. Czy potrzebujesz pomocy?',mtInformation,[mbOk,mbCancel],0);
+  // Sprawdź, który przycisk kliknął użytkownik
+  if i = mrOK then
+  begin
+    ShowMessage('Wybrano OK. Kontynuuję operację.');
+
+  end
+  else if i = mrCancel then
+  begin
+    //ShowMessage('Wybrano Anuluj. Operacja została przerwana.');
+    IdleTimer1.Enabled := False;
+  end;
+end;
+
 procedure TForm1.SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
   var ACurrentString: String; var APosition: Integer; var AnX, AnY: Integer;
   var AnResult: TOnBeforeExeucteFlags);
 begin
 
+end;
+
+procedure TForm1.SynEditCodeChange(Sender: TObject);
+begin
+
+ if Assigned(SynEditCode) then
+  begin
+    //transpiluje kod
+    ToolButton1Click(sender);
+    NumberWordSynEdit := Length(SynEditCode.Text);
+    StatusBar.Panels.Items[0].Text := IntToStr(SynEditCode.Lines.Count) + ' Linii Kodu';
+    StatusBar.Panels.Items[1].Text := IntToStr(NumberWordSynEdit) + ' Znaków';
+    IdleTimer1.Enabled := False;
+    IdleTimer1.Enabled := True;
+  end;
 end;
 
 procedure TForm1.NowyPlikExecute(Sender: TObject);
@@ -355,7 +412,9 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.0.4 ' + 'Otwarty projekt: ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.0.5 ' + 'Otwarty projekt: ' + OpenFileProject;
+   //Timer
+    IdleTimer1.Enabled := True;
   end;
 end;
 

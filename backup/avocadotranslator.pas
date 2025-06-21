@@ -574,50 +574,10 @@ begin
     //KolorTekstu  TextColor
     else if LowerCase(TrimmedLine).StartsWith('kolor_tekstu(') then
     begin
-       // Pobieramy zawartość między "druk(" a ostatnim znakiem
       Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
       PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
     end
 
-     //Kopiowanie string
-    else if LowerCase(TrimmedLine).StartsWith('kopiuj(') then
-    begin
-      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
-      PascalCode.Add('Copy(' + TranslateExpression(Value) + ');');
-    end
-
-    else if LowerTrimmedLine.StartsWith('kopiuj(') and LowerTrimmedLine.EndsWith(')') then
-  begin
-    if Length(TrimmedLine) > 8 then // Długość 'kopiuj()' to 8
-    begin
-      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8); // Wyodrębnij argument
-      if Trim(Value) <> '' then
-      begin
-        // --- SEMANTYKA 'kopiuj(argument)' ---
-        // Wygenerowany kod 'Copy(...);' jest NIEPOPRAWNY dla standardowej funkcji Copy w Pascalu,
-        // która wymaga 3 argumentów (źródło, indeks, liczba znaków).
-        // MUSISZ zdecydować, co 'kopiuj(argument)' ma oznaczać w Twoim języku.
-        // Opcja 1: To błąd składni? Powinno być np. `zmienna := kopiuj(argument)`?
-        // Opcja 2: Ma wywołać jakąś inną, niestandardową procedurę 'Copy'?
-        // Opcja 3: Ma przypisać przetłumaczony argument do jakiejś *domyślnej* zmiennej?
-        // Poniższy kod generuje niepoprawne wywołanie z komentarzem ostrzegawczym.
-        PascalCode.Add('// UWAGA: Poniższe wywołanie Copy jest prawdopodobnie niepoprawne w standardowym Pascalu.');
-        PascalCode.Add('// Standardowa funkcja Copy wymaga 3 argumentów.');
-        PascalCode.Add('// Co ma robić "kopiuj(' + Value + ')" w Twoim języku?');
-        PascalCode.Add('Copy(' + TranslateExpression(Value) + '); // <--- POPRAW TĘ LINIĘ ZGODNIE Z SEMANTYKĄ!');
-      end
-      else
-      begin
-        raise Exception.Create('Błąd składni: Pusty argument dla funkcji kopiuj().');
-      end;
-    end
-    else // Przypadek 'kopiuj()'
-    begin
-       raise Exception.Create('Błąd składni: Brak argumentu dla funkcji kopiuj().');
-    end;
-    Exit; // Zakończono przetwarzanie 'kopiuj(...)'
-  end
-    //koniec
 
     else if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
     begin
@@ -627,32 +587,32 @@ begin
     end
 
     //czytaj klawisze ReadKey
-    else if LowerCase(TrimmedLine).StartsWith('odczytajklucz') then
+    else if LowerCase(TrimmedLine).StartsWith('ReadKey') then
     begin
-      Value := Copy(TrimmedLine, 13, Length(TrimmedLine) - 13);
+      Value := Copy(TrimmedLine, 7, Length(TrimmedLine) - 7);
       PascalCode.Add('ReadKey' + TranslateExpression(Value) + ';');
       //Exit;
     end
 
-    else if Pos('odczytajklucz', LowerCase(TrimmedLine)) > 0 then
+   else if Pos('ReadKey', LowerCase(TrimmedLine)) > 0 then
     begin
       Parts := TrimmedLine.Split(['='], 2);
       if Length(Parts) <> 2 then
-        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = odczytajklucz');
+        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = ReadKey');
 
       VarName := Trim(Parts[0]);
       Value := Trim(Parts[1]);
 
     // Sprawdź czy wartość po = to odczytajklucz
-    if LowerCase(Value) <> 'odczytajklucz' then
-      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: odczytajklucz');
+    if LowerCase(Value) <> 'ReadKey' then
+      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: ReadKey');
 
     // Przetwórz deklarację zmiennej (jeśli istnieje)
     if Pos(' ', VarName) > 0 then
     begin
       Parts := VarName.Split([' '], 2);
       if Length(Parts) < 2 then
-        raise Exception.Create('Błędna deklaracja zmiennej dla odczytajklucz');
+        raise Exception.Create('Błędna deklaracja zmiennej dla ReadKey');
 
       VarType := Parts[0];
       VarName := Parts[1];
@@ -661,7 +621,7 @@ begin
 
     // Sprawdź typ zmiennej
     if LowerCase(VarType) <> 'znak' then
-      raise Exception.Create('Odczytajklucz wymaga typu "znak"');
+      raise Exception.Create('ReadKey wymaga typu "znak"');
 
     // Wygeneruj kod Pascala
     PascalCode.Add(VarName + ' := ReadKey;');
