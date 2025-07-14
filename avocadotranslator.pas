@@ -134,6 +134,11 @@ begin
   Result := StringReplace(Result, 'jasnoczerwony', 'LightRed', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'jasnoróżowy', 'LightMagenta', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
+  //funkcje string
+  Result := StringReplace(Result, 'kopiuj', 'Copy', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
+
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -161,7 +166,9 @@ begin
         VarName := Trim(Parts[1]);
         // Dozwolone typy zmiennych
         if (VarType = 'liczba_całkowita') or
+           (VarType = 'lc') or
            (VarType = 'liczba_zm') or
+           (VarType = 'lzm') or
            (VarType = 'logiczny') or
            (VarType = 'znak') or
            (VarType = 'liczba_krótka') or
@@ -458,6 +465,10 @@ var
   ProcessedArgs: string;
   StartPos, EndPoss,VarParts: Integer;
   Param: string;
+  Partss,ParamParts: TStringArray;
+  SExpr, StartExpr, CountExpr: string;
+  SubstringExpr: string;
+
 begin
   TrimmedLine := Trim(Line);
 
@@ -539,19 +550,6 @@ begin
         Parts := TrimmedLine.Split(['='], 2);
         VarName := Trim(Parts[0]);
         VarType := '';
-//
-//        // Obsługa deklaracji zmiennej
-//        if Pos(' ', VarName) > 0 then
-//        begin
-//          VarParts := VarName.Split([' '], 2);
-//          VarType := VarParts[0];
-//          VarName := VarParts[1];
-//          AddVariable(VarName, VarType);
-//
-//          if LowerCase(VarType) <> 'liczba_całkowita' then
-//            raise Exception.Create('Typ zmiennej dla długość musi być liczba_całkowita');
-//        end;
-
         PascalCode.Add(VarName + ' := Length(' + TranslateExpression(Param) + ');');
       end
       else
@@ -560,7 +558,71 @@ begin
         PascalCode.Add('Length(' + TranslateExpression(Param) + ');');
       end;
     end
+  { ------------------------------------------------------------------------ }
+  { 3. Funkcja kopiuj()                                                      }
 
+    else if Pos('kopiuj(', LowerTrimmedLine) > 0 then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia kopiuj. Oczekiwano: kopiuj(tekst, start, ile)');
+
+      { pobieramy argumenty }
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      ParamParts := Param.Split([',']);
+
+      if Length(ParamParts) <> 3 then
+        raise Exception.Create('Funkcja kopiuj wymaga trzech argumentów: tekst, start, ile');
+
+      SExpr     := TranslateExpression(Trim(ParamParts[0]));
+      StartExpr := TranslateExpression(Trim(ParamParts[1]));
+      CountExpr := TranslateExpression(Trim(ParamParts[2]));
+
+      { przypisanie czy wywołanie samodzielne? }
+      if Pos('=', TrimmedLine) > 0 then
+      begin
+        Parts   := TrimmedLine.Split(['='], 2);
+        VarName := Trim(Parts[0]);
+        PascalCode.Add(VarName + ' := Copy(' + SExpr + ', ' + StartExpr + ', ' + CountExpr + ');');
+      end
+      else
+        PascalCode.Add('Copy(' + SExpr + ', ' + StartExpr + ', ' + CountExpr + ');');
+
+      Exit;
+    end
+    { ------------------------------------------------------------------------ }
+    {funkcja pos tzn szukaj}
+    {Pos(substring, s): Zwraca pozycję pierwszego wystąpienia substring w stringu s, lub 0 jeśli nie znaleziono.}
+        else if Pos('szukaj(', LowerTrimmedLine) > 0 then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos := RPos(')', TrimmedLine); // wymaga StrUtils
+
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia szukaj. Oczekiwano: szukaj(substring, tekst)');
+
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      ParamParts := Param.Split([',']);
+
+      if Length(ParamParts) <> 2 then
+        raise Exception.Create('Funkcja szukaj wymaga dwóch argumentów: substring, tekst');
+
+      SExpr := TranslateExpression(Trim(ParamParts[1]));
+      SubstringExpr := TranslateExpression(Trim(ParamParts[0]));
+
+      if Pos('=', LowerTrimmedLine) > 0 then
+      begin
+        Parts := TrimmedLine.Split(['='], 2);
+        VarName := Trim(Parts[0]);
+        PascalCode.Add(VarName + ' := Pos(' + SubstringExpr + ', ' + SExpr + ');');
+      end
+      else
+        PascalCode.Add('Pos(' + SubstringExpr + ', ' + SExpr + ');');
+
+      Exit;
+    end
 
     //GotoXY - > PozycjaKursora
     //Funkcja z modułu Crt do ustawiania kursora w określonej pozycji w oknie konsoli.
@@ -598,14 +660,14 @@ begin
     begin
       Parts := TrimmedLine.Split(['='], 2);
       if Length(Parts) <> 2 then
-        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = ReadKey');
+        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = odczytajklucz');
 
       VarName := Trim(Parts[0]);
       Value := Trim(Parts[1]);
 
     // Sprawdź czy wartość po = to odczytajklucz
     if LowerCase(Value) <> 'ReadKey' then
-      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: ReadKey');
+      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: odczytajklucz');
 
     // Przetwórz deklarację zmiennej (jeśli istnieje)
     if Pos(' ', VarName) > 0 then
@@ -894,10 +956,15 @@ begin
           // deklaracja zmiennych
           if LowerCase(FVariables[i].VarType) = 'liczba_całkowita' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
+          else if LowerCase(FVariables[i].VarType) = 'lc' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_zm' then
+            PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+          else if LowerCase(FVariables[i].VarType) = 'lzm' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
           else if LowerCase(FVariables[i].VarType) = 'logiczny' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
+
           else if LowerCase(FVariables[i].VarType) = 'znak' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_krótka' then

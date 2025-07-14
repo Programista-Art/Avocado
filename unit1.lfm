@@ -931,7 +931,8 @@ object Form1: TForm1
   object SynCompletion1: TSynCompletion
     OnBeforeExecute = SynCompletion1BeforeExecute
     ItemList.Strings = (
-      'Pisz('''')'
+      'pisz('''')'
+      'kopiuj(twoja_zmienna,początek_kopiowania,koniec_kopiowania)'
       'kopiuj(zmienna,start, długość)'
       'klawisz_wciśnięty'
       'tło_tekstu()'
@@ -940,94 +941,94 @@ object Form1: TForm1
       'pozycja_kursora(x,y)'
       'odczytaj_klawisz'
       'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
-      'Pisznl('''')'
-      'Czytaj('''')'
-      'Czytajnl('''')'
+      'pisznl('''')'
+      'czytaj('''')'
+      'czytajnl('''')'
       'oblicz('''')'
-      'Program'
-      'Importuj'
-      'Jeśli i = 0  wtedy  inaczej'
-      'Liczba_całkowita'
-      'Liczba_mała'
-      'Liczba_długa'
-      'Liczba64'
-      'Bajt'
-      'Liczba16'
-      'Liczba32'
-      'Dla .. od .. do{}'
+      'program'
+      'importuj'
+      'jeśli i = 0  wtedy  inaczej'
+      'liczba_całkowita'
+      'liczba_mała'
+      'liczba_długa'
+      'liczba64'
+      'bajt'
+      'liczba16'
+      'liczba32'
+      'dla .. od .. do{}'
       '//'
       'jeśli.. wtedy .. inaczej'
-      'Liczba_zm'
-      'Tekst'
-      'Liczba_pojedyncza'
-      'Liczba_podwójna'
-      'Liczba_rozszerzona'
-      'Liczba_zgodna_delphi'
-      'Liczba_waluta'
-      'Logiczny'
-      'Logiczny_bajt'
-      'Logiczne_słowo'
-      'Logiczny_długi'
-      'Znak'
-      'Znak_unicode'
-      'Tekst255'
-      'Tekst_ansi'
-      'Tekst_unicode'
-      'Tekst_systemowy'
-      'Tablica_stała'
-      'Tablica_dynamiczna'
-      'Kolekcja'
-      'Plik'
-      'Plik_tekstowy'
-      'Plik_binarny'
-      'Plik_struktur'
-      'Wskaźnik'
-      'Wskaźnik_na'
-      'Wariant'
-      'OleVariant'
-      'TekstWLiczbac() '#9
-      'TekstWLiczbar() '#9
-      'LiczbarWTekst() '#9
-      'LiczbacWr() '#9
-      'LiczbarWc() '#9
-      'LiczbacWlk() '#9
-      'LogicznyWTekst() '#9
-      'TekstLD(tekst,wartość domyślna) '#9
-      'Zaokrąglij(liczba zmiennoprzecinkowa) '
-      'Słowo(większa liczba całkowita) '#9
-      'Liczba_dc(większa_liczba_całkowita)'
-      'Kard(liczba_całkowita)'
-      'FormatLiczby(liczba_zmiennoprzecinkowa, format, precyzja, cyfry)'
-      'TekstWLzm(string, wartość_domyślna)'
-      'LiczbarWR(Liczba_rozszerzona)'
-      'Liczba_pojedynczaWZm(liczba_podwójna/Liczba_rozszerzona) '
-      'Liczba_rozszerzonaWPojedynczą(Liczba_pojedyncza/liczba_podwójna) '
-      'ZnakwASCII(kod_ASCII)'
-      'Ord(znak)'
-      'TekstWZnak(Znak)'
-      'ZnakWTekst(Tekst[indeks])'
-      'LogicznyWTekst(wartość_logiczna, użyj wartości Prawda lub Falsz)'
-      'TekstWLogiczny(string)'
-      'TekstWLogicznyDom(string, wartość domyślna)'
-      'LogicznyZliczby(liczba)'
-      'LiczbacZLogicznego(Logiczny)'
-      'LiczbacZWyliczenia(wartość wyliczeniowa)'
-      'WyliczenieZLiczbac(liczba_całkowita)'
-      'ZwróćNazwęTekst(TypWyliczeniowy, Liczba(wartość wyliczeniowa))'
-      'ZwróćLiczbac(TypWyliczeniowy, Nazwa Wartości)'
-      'DataWTekst(data)'
-      'CzasWTekst(czas)'
-      'DataCzasWTekst(data i czas)'
-      'DataCzasWTekstF(format, data i czas)'
-      'TekstWDatę(tekst)'
-      'TekstWCzas(tekst)'
-      'TekstWDatęCzas(tekst)'
-      'TekstWDatęDom(tekst, wartość domyślna)'
-      'DataCzasZ(rok, miesiąc, dzień)'
-      'CzasZ(godzina, minuta, sekunda, milisekunda)'
-      'RozłóżDatę(data, rok, miesiąc, dzień)'
-      'RozłóżCzas(czas, godzina, minuta, sekunda, milisekunda)'
-      'NiebezpiecznyWskaźnikZAdresu(liczba całkowita)'
+      'liczba_zm'
+      'tekst'
+      'liczba_pojedyncza'
+      'liczba_podwójna'
+      'liczba_rozszerzona'
+      'liczba_zgodna_delphi'
+      'liczba_waluta'
+      'logiczny'
+      'logiczny_bajt'
+      'logiczne_słowo'
+      'logiczny_długi'
+      'znak'
+      'znak_unicode'
+      'tekst255'
+      'tekst_ansi'
+      'tekst_unicode'
+      'tekst_systemowy'
+      'tablica_stała'
+      'tablica_dynamiczna'
+      'kolekcja'
+      'plik'
+      'plik_tekstowy'
+      'plik_binarny'
+      'plik_struktur'
+      'wskaźnik'
+      'wskaźnik_na'
+      'wariant'
+      'olevariant'
+      'tekstwliczbac() '#9
+      'tekstwliczbar() '#9
+      'liczbarwtekst() '#9
+      'liczbacwr() '#9
+      'liczbarwc() '#9
+      'liczbacwlk() '#9
+      'logicznywtekst() '#9
+      'tekstld(tekst,wartość domyślna) '#9
+      'zaokrąglij(liczba zmiennoprzecinkowa) '
+      'słowo(większa liczba całkowita) '#9
+      'liczba_dc(większa_liczba_całkowita)'
+      'kard(liczba_całkowita)'
+      'formatliczby(liczba_zmiennoprzecinkowa, format, precyzja, cyfry)'
+      'tekstwlzm(string, wartość_domyślna)'
+      'liczbarwr(liczba_rozszerzona)'
+      'liczba_pojedynczawzm(liczba_podwójna/liczba_rozszerzona) '
+      'liczba_rozszerzonawpojedynczą(liczba_pojedyncza/liczba_podwójna) '
+      'znakwascii(kod_ascii)'
+      'ord(znak)'
+      'tekstwznak(znak)'
+      'znakwtekst(tekst[indeks])'
+      'logicznywtekst(wartość_logiczna, użyj wartości prawda lub falsz)'
+      'tekstwlogiczny(string)'
+      'tekstwlogicznydom(string, wartość domyślna)'
+      'logicznyzliczby(liczba)'
+      'liczbaczlogicznego(logiczny)'
+      'liczbaczwyliczenia(wartość wyliczeniowa)'
+      'wyliczeniezliczbac(liczba_całkowita)'
+      'zwróćnazwętekst(typwyliczeniowy, liczba(wartość wyliczeniowa))'
+      'zwróćliczbac(typwyliczeniowy, nazwa wartości)'
+      'datawtekst(data)'
+      'czaswtekst(czas)'
+      'dataczaswtekst(data i czas)'
+      'dataczaswtekstf(format, data i czas)'
+      'tekstwdatę(tekst)'
+      'tekstwczas(tekst)'
+      'tekstwdatęczas(tekst)'
+      'tekstwdatędom(tekst, wartość domyślna)'
+      'dataczasz(rok, miesiąc, dzień)'
+      'czasz(godzina, minuta, sekunda, milisekunda)'
+      'rozłóżdatę(data, rok, miesiąc, dzień)'
+      'rozłóżczas(czas, godzina, minuta, sekunda, milisekunda)'
+      'niebezpiecznywskaźnikzadresu(liczba całkowita)'
       '@zmienna '
       'sin()'
       'cos()'
@@ -1055,23 +1056,23 @@ object Form1: TForm1
       'arcosh()'
       'artanh()'
       'matematyka'
-      'Czarny'
-      'Zielony'
-      'Żółty'
-      'Niebieski '
-      'Biały'
-      'Cyjan '
-      'Czerwony'
-      'Magenta'
-      'Brązowy'
-      'Jasnoszary'
-      'Ciemnoszary'
-      'Jasnoniebieski'
-      'Jasnozielony '
-      'Jasnoniebieski'
-      'Jasnoczerwony '
-      'Jasnoróżowy'
-      'Migotanie'
+      'czarny'
+      'zielony'
+      'żółty'
+      'niebieski '
+      'biały'
+      'cyjan '
+      'czerwony'
+      'magenta'
+      'brązowy'
+      'jasnoszary'
+      'ciemnoszary'
+      'jasnoniebieski'
+      'jasnozielony '
+      'jasnoniebieski'
+      'jasnoczerwony '
+      'jasnoróżowy'
+      'migotanie'
     )
     Position = 0
     LinesInWindow = 10
@@ -1079,11 +1080,13 @@ object Form1: TForm1
     CaseSensitive = False
     Width = 150
     LongLineHintTime = 2
+    DoubleClickSelects = False
     ShowSizeDrag = True
-    AutoUseSingleIdent = True
+    AutoUseSingleIdent = False
     ShortCut = 16416
     EndOfTokenChr = '()[].'
     ExecCommandID = ecSynCompletionExecute
+    Editor = SynEditCode
     ToggleReplaceWhole = True
     Left = 80
     Top = 40
@@ -1151,22 +1154,18 @@ object Form1: TForm1
       '@zmienna '
     )
     EndOfTokenChr = '()[].'
-    ShortCut = 8224
+    ShortCut = 32800
     ExecCommandID = ecSynAutoCompletionExecute
-    Left = 72
-    Top = 104
-  end
-  object SynMacroRecorder1: TSynMacroRecorder
-    RecordShortCut = 24658
-    PlaybackShortCut = 24656
-    Left = 79
-    Top = 199
+    Editor = SynEditCode
+    Left = 168
+    Top = 120
   end
   object SynMultiSyn1: TSynMultiSyn
     Enabled = False
     Schemes = <>
-    Left = 296
-    Top = 152
+    DefaultHighlighter = SynAnySyn1
+    Left = 208
+    Top = 208
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
@@ -1174,7 +1173,7 @@ object Form1: TForm1
     CommentAttri.Style = [fsBold, fsItalic]
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
     Comments = []
-    DetectPreprocessor = False
+    DetectPreprocessor = True
     IdentifierAttri.Foreground = clGradientActiveCaption
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
     KeyAttri.Foreground = clSkyBlue
@@ -1243,15 +1242,9 @@ object Form1: TForm1
     Markup = False
     Entity = True
     DollarVariables = False
-    ActiveDot = False
-    Left = 200
-    Top = 168
-  end
-  object SynPoSyn1: TSynPoSyn
-    DefaultFilter = 'Pliki Po (*.po)|*.po'
-    Enabled = False
-    Left = 435
-    Top = 296
+    ActiveDot = True
+    Left = 72
+    Top = 176
   end
   object IdleTimer1: TIdleTimer
     AutoEndEvent = itaOnIdle
@@ -1259,12 +1252,7 @@ object Form1: TForm1
     Interval = 300000
     OnTimer = IdleTimer1Timer
     OnStartTimer = IdleTimer1StartTimer
-    OnStopTimer = IdleTimer1StopTimer
     Left = 56
     Top = 448
-  end
-  object Timer1: TTimer
-    Left = 721
-    Top = 273
   end
 end

@@ -26,10 +26,7 @@ type
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
     SynEditCode: TSynEdit;
-    SynMacroRecorder1: TSynMacroRecorder;
     SynMultiSyn1: TSynMultiSyn;
-    SynPoSyn1: TSynPoSyn;
-    Timer1: TTimer;
     Transpiluj: TAction;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
@@ -82,7 +79,6 @@ type
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     procedure IdleTimer1StartTimer(Sender: TObject);
-    procedure IdleTimer1StopTimer(Sender: TObject);
     procedure IdleTimer1Timer(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
@@ -204,18 +200,15 @@ end;
 
 procedure TForm1.IdleTimer1StartTimer(Sender: TObject);
 begin
-  IdleTimer1.Enabled := True;
+  //IdleTimer1.Enabled := True;
 end;
 
-procedure TForm1.IdleTimer1StopTimer(Sender: TObject);
-begin
-
-end;
 
 procedure TForm1.IdleTimer1Timer(Sender: TObject);
 var
   i: TModalResult;
 begin
+  {
   IdleTimer1.Enabled := False;
   StatusBar.Panels.Items[2].Text :=' Aplikacja jest bezczynna';
   i:= MessageDlg('Wykryto brak zmian w kodzie przez dłuższy czas. Czy potrzebujesz pomocy?',mtInformation,[mbOk,mbCancel],0);
@@ -230,6 +223,7 @@ begin
     //ShowMessage('Wybrano Anuluj. Operacja została przerwana.');
     IdleTimer1.Enabled := False;
   end;
+  }
 end;
 
 procedure TForm1.SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
@@ -415,6 +409,7 @@ begin
    Caption := 'IDE Avocado v 1.0.0.5 ' + 'Otwarty projekt: ' + OpenFileProject;
    //Timer
     IdleTimer1.Enabled := True;
+    ToolButton1Click(Sender);
   end;
 end;
 
@@ -825,7 +820,7 @@ begin
       NameProgram := NProgram;
     end
     else
-      ShowMessage('Nie znaleziono deklaracji programu' + #10 + 'Dodaj na początku słowo kluczowe program i nazwe programu.');
+      //ShowMessage('Nie znaleziono deklaracji programu' + #10 + 'Dodaj na początku słowo kluczowe program i nazwe programu.');
 end;
 
 function TForm1.ExtractProgramName(const Line: string): string;
