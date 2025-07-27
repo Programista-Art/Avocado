@@ -1,11 +1,11 @@
 object Form1: TForm1
   Left = 347
-  Height = 592
+  Height = 610
   Top = 221
-  Width = 1086
+  Width = 1055
   Caption = 'IDE Avocado v 1.0.0.5'
-  ClientHeight = 592
-  ClientWidth = 1086
+  ClientHeight = 610
+  ClientWidth = 1055
   Color = 5197647
   Menu = MainMenu1
   Position = poMainFormCenter
@@ -15,7 +15,7 @@ object Form1: TForm1
     Left = 0
     Height = 26
     Top = 0
-    Width = 1086
+    Width = 1055
     Caption = 'ToolBar1'
     Color = 5588525
     Images = ImageList1
@@ -43,43 +43,26 @@ object Form1: TForm1
     end
   end
   object Panel1: TPanel
-    Left = 837
-    Height = 566
+    Left = 806
+    Height = 584
     Top = 26
     Width = 249
     Align = alRight
     Caption = 'Panel1'
-    ClientHeight = 566
+    ClientHeight = 584
     ClientWidth = 249
     ParentBackground = False
     TabOrder = 1
     object PanelPrawy: TPanel
       Left = 1
-      Height = 564
+      Height = 582
       Top = 1
       Width = 247
       Align = alClient
-      Caption = 'PanelPrawy'
-      ClientHeight = 564
+      ClientHeight = 582
       ClientWidth = 247
       ParentBackground = False
       TabOrder = 0
-      object MemoOutPut: TMemo
-        Left = 1
-        Height = 535
-        Top = 28
-        Width = 245
-        Align = alClient
-        Color = 2697513
-        Font.CharSet = EASTEUROPE_CHARSET
-        Font.Color = clWhite
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        PopupMenu = PopupMenuOutPutPascalCode
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
       object Panel2: TPanel
         Left = 1
         Height = 27
@@ -91,16 +74,16 @@ object Form1: TForm1
         Color = 5588525
         ParentBackground = False
         ParentColor = False
-        TabOrder = 1
+        TabOrder = 0
         object Label2: TLabel
           Left = 6
           Height = 15
           Top = 6
           Width = 233
-          Align = alClient
+          Align = alTop
           Alignment = taCenter
           BorderSpacing.Around = 5
-          Caption = 'Transpilacja w Free Pascal'
+          Caption = 'Informacja'
           Color = 5588525
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
@@ -110,25 +93,210 @@ object Form1: TForm1
           ParentFont = False
         end
       end
+      object BCExpandPanel1: TBCExpandPanel
+        Left = 1
+        Height = 530
+        Top = 28
+        Width = 245
+        Align = alTop
+        Background.Color = clInactiveBorder
+        Background.Gradient1.StartColor = clWhite
+        Background.Gradient1.EndColor = clBlack
+        Background.Gradient1.GradientType = gtLinear
+        Background.Gradient1.Point1XPercent = 0
+        Background.Gradient1.Point1YPercent = 0
+        Background.Gradient1.Point2XPercent = 0
+        Background.Gradient1.Point2YPercent = 100
+        Background.Gradient2.StartColor = clWhite
+        Background.Gradient2.EndColor = clBlack
+        Background.Gradient2.GradientType = gtLinear
+        Background.Gradient2.Point1XPercent = 0
+        Background.Gradient2.Point1YPercent = 0
+        Background.Gradient2.Point2XPercent = 0
+        Background.Gradient2.Point2YPercent = 100
+        Background.Gradient1EndPercent = 35
+        Background.Style = bbsColor
+        BevelInner = bvNone
+        BevelOuter = bvRaised
+        BevelWidth = 1
+        Border.Style = bboNone
+        Color = 2697513
+        Enabled = True
+        FontEx.Color = clDefault
+        FontEx.EndEllipsis = True
+        FontEx.FontQuality = fqSystemClearType
+        FontEx.Shadow = False
+        FontEx.ShadowRadius = 5
+        FontEx.ShadowOffsetX = 5
+        FontEx.ShadowOffsetY = 5
+        FontEx.Style = []
+        ParentBackground = False
+        Rounding.RoundX = 1
+        Rounding.RoundY = 1
+        TabOrder = 1
+        TextAlignment = taLeftJustify
+        CollapseKind = akTop
+        ExpandedSize = 530
+        ButtonPosition = akTop
+        ButtonSize = 27
+        Button.Left = 0
+        Button.Height = 23
+        Button.Top = 0
+        Button.Width = 245
+        Button.Caption = 'Pomocnik AI'
+        Button.Color = clMedGray
+        Button.ColorExpanded = clMedGray
+        AnimationSpeed = 20
+        object MemoAnswerChatGPT: TMemo
+          Left = 1
+          Height = 473
+          Top = 56
+          Width = 243
+          Align = alClient
+          Color = 5197647
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clWhite
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 0
+        end
+        object PanelAiChatGPT: TPanel
+          Left = 1
+          Height = 32
+          Top = 24
+          Width = 243
+          Align = alTop
+          ClientHeight = 32
+          ClientWidth = 243
+          ParentBackground = False
+          TabOrder = 1
+          object EditAskPromt: TEdit
+            Left = 3
+            Height = 26
+            Top = 3
+            Width = 211
+            Align = alClient
+            Alignment = taCenter
+            BorderSpacing.Left = 2
+            BorderSpacing.Top = 2
+            BorderSpacing.Right = 2
+            BorderSpacing.Bottom = 2
+            BorderStyle = bsNone
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Height = -16
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            TabOrder = 0
+            TextHint = 'Wpisz zapytanie'
+          end
+          object sbzapytaj: TSpeedButton
+            Left = 216
+            Height = 26
+            Top = 3
+            Width = 24
+            Align = alRight
+            BorderSpacing.Top = 2
+            BorderSpacing.Right = 2
+            BorderSpacing.Bottom = 2
+            Caption = ' >'
+            OnClick = sbzapytajClick
+          end
+        end
+      end
+      object PanelTranspilacja: TBCExpandPanel
+        Left = 1
+        Height = 27
+        Top = 558
+        Width = 245
+        Align = alTop
+        Background.Color = clBtnFace
+        Background.Gradient1.StartColor = clWhite
+        Background.Gradient1.EndColor = clBlack
+        Background.Gradient1.GradientType = gtLinear
+        Background.Gradient1.Point1XPercent = 0
+        Background.Gradient1.Point1YPercent = 0
+        Background.Gradient1.Point2XPercent = 0
+        Background.Gradient1.Point2YPercent = 100
+        Background.Gradient2.StartColor = clWhite
+        Background.Gradient2.EndColor = clBlack
+        Background.Gradient2.GradientType = gtLinear
+        Background.Gradient2.Point1XPercent = 0
+        Background.Gradient2.Point1YPercent = 0
+        Background.Gradient2.Point2XPercent = 0
+        Background.Gradient2.Point2YPercent = 100
+        Background.Gradient1EndPercent = 35
+        Background.Style = bbsColor
+        BevelInner = bvNone
+        BevelOuter = bvRaised
+        BevelWidth = 1
+        Border.Style = bboNone
+        Color = 2697513
+        Enabled = True
+        FontEx.Color = clDefault
+        FontEx.FontQuality = fqSystemClearType
+        FontEx.Shadow = False
+        FontEx.ShadowRadius = 5
+        FontEx.ShadowOffsetX = 5
+        FontEx.ShadowOffsetY = 5
+        FontEx.Style = []
+        ParentBackground = False
+        Rounding.RoundX = 1
+        Rounding.RoundY = 1
+        TabOrder = 2
+        TextAlignment = taLeftJustify
+        CollapseKind = akTop
+        ExpandedSize = 530
+        ButtonPosition = akTop
+        ButtonSize = 27
+        Button.Left = 0
+        Button.Height = 27
+        Button.Top = 0
+        Button.Width = 245
+        Button.Caption = 'Transpilacja do Free Pascal'
+        Button.Color = clMedGray
+        Button.ColorExpanded = clMedGray
+        AnimationSpeed = 20
+        Collapsed = True
+        object MemoOutPut: TMemo
+          Left = 1
+          Height = 0
+          Top = 27
+          Width = 243
+          Align = alClient
+          Color = 2697513
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clWhite
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
+          PopupMenu = PopupMenuOutPutPascalCode
+          ReadOnly = True
+          ScrollBars = ssBoth
+          TabOrder = 0
+        end
+      end
     end
   end
   object PanelLewy: TPanel
     Left = 0
-    Height = 566
+    Height = 584
     Top = 26
-    Width = 834
+    Width = 803
     Align = alClient
     Caption = 'PanelLewy'
-    ClientHeight = 566
-    ClientWidth = 834
+    ClientHeight = 584
+    ClientWidth = 803
     ParentBackground = False
     TabOrder = 2
     object Splitter3: TSplitter
       Cursor = crVSplit
       Left = 1
       Height = 5
-      Top = 368
-      Width = 832
+      Top = 386
+      Width = 801
       Align = alBottom
       ResizeAnchor = akBottom
       ResizeStyle = rsLine
@@ -136,20 +304,19 @@ object Form1: TForm1
     object Panel3: TPanel
       Left = 1
       Height = 192
-      Top = 373
-      Width = 832
+      Top = 391
+      Width = 801
       Align = alBottom
-      Caption = 'Panel3'
       ClientHeight = 192
-      ClientWidth = 832
+      ClientWidth = 801
       ParentBackground = False
       TabOrder = 1
       object MemoLogs: TMemo
         Left = 1
-        Height = 140
+        Height = 52
         Top = 28
-        Width = 830
-        Align = alClient
+        Width = 799
+        Align = alTop
         Color = 2697513
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clWhite
@@ -162,7 +329,7 @@ object Form1: TForm1
         Left = 1
         Height = 23
         Top = 168
-        Width = 830
+        Width = 799
         Color = 2697513
         Panels = <        
           item
@@ -182,10 +349,10 @@ object Form1: TForm1
         Left = 1
         Height = 27
         Top = 1
-        Width = 830
+        Width = 799
         Align = alTop
         ClientHeight = 27
-        ClientWidth = 830
+        ClientWidth = 799
         Color = 5588525
         ParentBackground = False
         ParentColor = False
@@ -205,23 +372,32 @@ object Form1: TForm1
           ParentFont = False
         end
       end
+      object Panel5: TPanel
+        Left = 1
+        Height = 50
+        Top = 118
+        Width = 799
+        Align = alBottom
+        ParentBackground = False
+        TabOrder = 3
+      end
     end
     object Panel4: TPanel
       Left = 1
-      Height = 367
+      Height = 385
       Top = 1
-      Width = 832
+      Width = 801
       Align = alClient
       Caption = 'Panel4'
-      ClientHeight = 367
-      ClientWidth = 832
+      ClientHeight = 385
+      ClientWidth = 801
       ParentBackground = False
       TabOrder = 2
       inline SynEditCode: TSynEdit
         Left = 1
-        Height = 365
+        Height = 383
         Top = 1
-        Width = 830
+        Width = 799
         Align = alClient
         BlockIndent = 1
         Color = 2697513
@@ -750,8 +926,8 @@ object Form1: TForm1
     end
   end
   object Splitter1: TSplitter
-    Left = 834
-    Height = 566
+    Left = 803
+    Height = 584
     Top = 26
     Width = 3
     Align = alRight
@@ -807,13 +983,17 @@ object Form1: TForm1
         Caption = 'Dokumentacja online'
         OnClick = MenuItemDokumentacjaClick
       end
+      object MenuAboutProgram: TMenuItem
+        Caption = 'O programie'
+        OnClick = MenuAboutProgramClick
+      end
       object MenuINformacjaIDE: TMenuItem
         Caption = 'Informacja o IDE'
         OnClick = MenuINformacjaIDEClick
       end
-      object MenuAboutProgram: TMenuItem
-        Caption = 'O programie'
-        OnClick = MenuAboutProgramClick
+      object MenuItemWsparcieprojektu: TMenuItem
+        Caption = 'Wesprzyj'
+        OnClick = MenuItemWsparcieprojektuClick
       end
       object MenuAutor: TMenuItem
         Caption = 'Autor'
@@ -1100,8 +1280,8 @@ object Form1: TForm1
     end
   end
   object PopupMenuMemoLogs: TPopupMenu
-    Left = 876
-    Top = 161
+    Left = 736
+    Top = 296
     object MenuItemDeleteMemoLogs: TMenuItem
       Caption = 'Usuń'
     end
@@ -1253,6 +1433,6 @@ object Form1: TForm1
     OnTimer = IdleTimer1Timer
     OnStartTimer = IdleTimer1StartTimer
     Left = 56
-    Top = 448
+    Top = 328
   end
 end

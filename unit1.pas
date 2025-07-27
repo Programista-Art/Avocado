@@ -6,22 +6,31 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
-  ComCtrls, Buttons, StdCtrls, ActnList, SynEdit, SynPopupMenu, SynCompletion,
-  SynMacroRecorder, SynPluginSyncroEdit, SynHighlighterHTML, SynHighlighterPas,
-  SynHighlighterTeX, SynHighlighterDiff, SynHighlighterMulti, SynHighlighterAny,
-  SynHighlighterPo, laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator,
-  ShellAPI;
+  ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCImageButton, BCPanel,
+  SynEdit, SynPopupMenu, SynCompletion, SynMacroRecorder, SynPluginSyncroEdit,
+  SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
+  SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
+  PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI;
 
 type
   { TForm1 }
   TForm1 = class(TForm)
+    BCExpandPanel1: TBCExpandPanel;
+    EditAskPromt: TEdit;
+    MemoAnswerChatGPT: TMemo;
+    Label2: TLabel;
+    PanelAiChatGPT: TPanel;
+    PanelTranspilacja: TBCExpandPanel;
     IdleTimer1: TIdleTimer;
     Label1: TLabel;
     MemoLogs: TMemo;
     MenuINformacjaIDE: TMenuItem;
+    MenuItemWsparcieprojektu: TMenuItem;
     Panel3: TPanel;
     Panel4: TPanel;
+    Panel5: TPanel;
     PanelDolnynadKosnola: TPanel;
+    sbzapytaj: TSpeedButton;
     StatusBar: TStatusBar;
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
@@ -30,7 +39,6 @@ type
     Transpiluj: TAction;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
-    Label2: TLabel;
     MemoOutPut: TMemo;
     MenuItem3: TMenuItem;
     MenuAboutProgram: TMenuItem;
@@ -81,6 +89,8 @@ type
     procedure IdleTimer1StartTimer(Sender: TObject);
     procedure IdleTimer1Timer(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
+    procedure MenuItemWsparcieprojektuClick(Sender: TObject);
+    procedure sbzapytajClick(Sender: TObject);
     procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
       var ACurrentString: String; var APosition: Integer; var AnX,
       AnY: Integer; var AnResult: TOnBeforeExeucteFlags);
@@ -125,6 +135,9 @@ type
     //Dotyczy nazwy programu
     procedure ExtractProgramFromSynEdit;
     function ExtractProgramName(const Line: string): string;
+    // Metoda callback do obsługi odpowiedzi ChatGPT
+    procedure OnChatGPTResponse(const ResponseText: string);
+
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -169,10 +182,16 @@ var
   NameProgram: String;
   //Liczba znaków
   NumberWordSynEdit: Integer;
+  PromptChatGPT: String;
+  Token: String;
+  ModelGPT,PromtAv,PromtS: String;
+
+
 implementation
 
 uses
- usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide;
+ usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
+ chatgptavocado,uchatgpt;
 
 {$R *.lfm}
 
@@ -198,10 +217,51 @@ begin
   Finformacjaide.ShowModal;
 end;
 
+procedure TForm1.MenuItemWsparcieprojektuClick(Sender: TObject);
+begin
+  Wsparcie.ShowModal;
+end;
+
+procedure TForm1.sbzapytajClick(Sender: TObject);
+//const
+//  CHATGPT_TOKEN = 'sk-0tmz8yl8btgbMe1eQbPOEeCZ9HmjZkhHnt4jVHTvoET3BlbkFJxLdlT7wUc8Jf5ocslX4hR2p3QYo7Grr1us0cQbjzUA';
+//  CHATGPT_MODEL = 'gpt-4o'; // lub 'gpt-4' jeśli masz dostęp
+begin
+  PromptChatGPT := EditAskPromt.Text;
+  PromtAv := 'id": "pmpt_68859329bbf8819785a4dc10a207ba8d0b4314eef7a05871'+'"version": "2"';
+  PromtS := PromtAv +' '+ PromptChatGPT;
+  Token := 'sk-0tmz8yl8btgbMe1eQbPOEeCZ9HmjZkhHnt4jVHTvoET3BlbkFJxLdlT7wUc8Jf5ocslX4hR2p3QYo7Grr1us0cQbjzUA';
+  ModelGPT := 'gpt-4o';
+   if Trim(PromptChatGPT) = '' then
+  begin
+    ShowMessage('Proszę wpisać pytanie!');
+    Exit;
+  end;
+
+  //MemoAnswerChatGPT.Clear;
+  //MemoAnswerChatGPT.Lines.Add('Wysyłanie zapytania...');
+  // Wyłącz przycisk podczas oczekiwania na odpowiedź
+  sbzapytaj.Enabled := False;
+
+  try
+    // Wywołanie funkcji z naszego modułu
+    ZapytajChatGPT(Token, ModelGPT, PromtS, @OnChatGPTResponse);
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Błąd: ' + E.Message);
+      sbzapytaj.Enabled := True;
+    end;
+  end;
+end;
+
 procedure TForm1.IdleTimer1StartTimer(Sender: TObject);
 begin
   //IdleTimer1.Enabled := True;
 end;
+
+
+
 
 
 procedure TForm1.IdleTimer1Timer(Sender: TObject);
@@ -839,6 +899,47 @@ begin
       Words.Free;
     end;
 end;
+
+procedure TForm1.OnChatGPTResponse(const ResponseText: string);
+begin
+    try
+      MemoAnswerChatGPT.Clear;
+
+    if Trim(ResponseText) <> '' then
+    begin
+      MemoAnswerChatGPT.Lines.Add('Odpowiedź!');
+      MemoAnswerChatGPT.Lines.Add('==================');
+      MemoAnswerChatGPT.Lines.Add('');
+      MemoAnswerChatGPT.Lines.Add(ResponseText);
+      MemoAnswerChatGPT.Lines.Add('');
+      MemoAnswerChatGPT.Lines.Add('==================');
+      MemoAnswerChatGPT.Lines.Add('⏰' + FormatDateTime('yyyy-mm-dd hh:nn:ss', Now));
+    end
+    else
+    begin
+      MemoAnswerChatGPT.Lines.Add('❌ Błąd: Otrzymano pustą odpowiedź');
+      MemoAnswerChatGPT.Lines.Add('Sprawdź token API i połączenie internetowe');
+    end;
+  finally
+    // Przywróć normalny stan interfejsu
+    sbzapytaj.Enabled := True;
+  end;
+
+    {
+  // Ta metoda zostanie wywołana, gdy otrzymamy odpowiedź
+  try
+    MemoAnswerChatGPT.Clear;
+    MemoAnswerChatGPT.Lines.Add('Odpowiedź ChatGPT:');
+    MemoAnswerChatGPT.Lines.Add('------------------');
+    MemoAnswerChatGPT.Lines.Add(ResponseText);
+  finally
+    // Włącz ponownie przycisk
+    sbzapytaj.Enabled := True;
+  end;
+  //ShowMessage('Odpowiedź z ChatGPT: ' + ResponseText);
+  }
+end;
+
 
 
 destructor TForm1.Destroy;

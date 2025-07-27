@@ -15,7 +15,7 @@ type
   TFormOpcjeProjektu = class(TForm)
     Memo1: TMemo;
     Panel1: TPanel;
-    SpeedButton1: TSpeedButton;
+    sbOk: TSpeedButton;
 
   private
 

@@ -15,7 +15,8 @@ type
   TFormOpcjeProjektu = class(TForm)
     Memo1: TMemo;
     Panel1: TPanel;
-    SpeedButton1: TSpeedButton;
+    sbOk: TSpeedButton;
+    procedure sbOkClick(Sender: TObject);
 
   private
 
@@ -34,6 +35,11 @@ implementation
 
 
 
+
+procedure TFormOpcjeProjektu.sbOkClick(Sender: TObject);
+begin
+  Close;
+end;
 
 end.
 
