@@ -1,0 +1,151 @@
+object Wsparcie: TWsparcie
+  Left = 350
+  Height = 368
+  Top = 250
+  Width = 418
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Wsparcie'
+  ClientHeight = 368
+  ClientWidth = 418
+  Position = poMainFormCenter
+  object Panel2: TPanel
+    Left = 0
+    Height = 32
+    Top = 336
+    Width = 418
+    Align = alBottom
+    BevelColor = 5197647
+    ClientHeight = 32
+    ClientWidth = 418
+    Color = 5588525
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 0
+    object LabelStatus: TLabel
+      Left = 1
+      Height = 30
+      Top = 1
+      Width = 386
+      Align = alClient
+      Alignment = taCenter
+      Color = clWhite
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object SpeedButton1: TSpeedButton
+      Left = 387
+      Height = 30
+      Top = 1
+      Width = 30
+      Align = alRight
+      Caption = 'OK'
+      OnClick = SpeedButton1Click
+    end
+  end
+  object PanelDolny: TPanel
+    Left = 0
+    Height = 139
+    Top = 197
+    Width = 418
+    Align = alBottom
+    BevelColor = 5197647
+    ClientHeight = 139
+    ClientWidth = 418
+    Color = 5197647
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 1
+    object EditOdbiorca: TEdit
+      Left = 104
+      Height = 23
+      Top = 56
+      Width = 201
+      ReadOnly = True
+      TabOrder = 0
+      Text = 'Programista Art'
+      OnChange = EditOdbiorcaChange
+      OnClick = EditOdbiorcaClick
+    end
+    object Label1: TLabel
+      Left = 104
+      Height = 15
+      Top = 80
+      Width = 66
+      Caption = 'Nr rachunku'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 136
+      Height = 25
+      Top = 8
+      Width = 131
+      Caption = 'Dane do wpłaty'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Height = -19
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+    end
+    object EditRachunek: TEdit
+      Left = 104
+      Height = 23
+      Top = 96
+      Width = 201
+      ReadOnly = True
+      TabOrder = 1
+      Text = '02 1160 2202 0000 0004 9202 0561'
+      OnClick = EditRachunekClick
+    end
+    object Label3: TLabel
+      Left = 104
+      Height = 15
+      Top = 40
+      Width = 49
+      Caption = 'Odbiorca'
+      Color = clWhite
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object Memo1: TMemo
+    Left = 0
+    Height = 197
+    Top = 0
+    Width = 418
+    Align = alClient
+    Color = 5197647
+    Font.CharSet = EASTEUROPE_CHARSET
+    Font.Color = clWhite
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Lines.Strings = (
+      'Wesprzyj rozwój języka programowania Avocado!'
+      'Jeśli podoba Ci się projekt i chcesz pomóc w jego dalszym rozwoju, możesz to zrobić wspierając go dowolną kwotą.'
+      'Twoje wsparcie pomoże mi tworzyć nowe funkcje, ulepszać dokumentację i rozwijać ekosystem Avocado.'
+      ''
+      'Wpłać dowolną kwotę na poniższe dane:'
+      'Odbiorca Programista Art'
+      'Nr rachunku 02 1160 2202 0000 0004 9202 0561'
+      'Tytuł: Darowizna '
+      ''
+      'Dziękuje za każde wsparcie – nawet najmniejsza kwota ma znaczenie!'
+    )
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 2
+  end
+end

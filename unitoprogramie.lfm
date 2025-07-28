@@ -17,7 +17,7 @@ object FormOprogramie: TFormOprogramie
     Width = 320
     Align = alClient
     Alignment = taCenter
-    Color = 2697513
+    Color = 5197647
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
     Font.Height = -16

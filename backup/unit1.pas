@@ -13,12 +13,13 @@ uses
   PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI;
 
 type
-  { TForm1 }
-  TForm1 = class(TForm)
+  { TFustawieniaChatGPT }
+  TFustawieniaChatGPT = class(TForm)
     BCExpandPanel1: TBCExpandPanel;
     EditAskPromt: TEdit;
     MemoAnswerChatGPT: TMemo;
     Label2: TLabel;
+    MenuItem4: TMenuItem;
     PanelAiChatGPT: TPanel;
     PanelTranspilacja: TBCExpandPanel;
     IdleTimer1: TIdleTimer;
@@ -28,7 +29,6 @@ type
     MenuItemWsparcieprojektu: TMenuItem;
     Panel3: TPanel;
     Panel4: TPanel;
-    Panel5: TPanel;
     PanelDolnynadKosnola: TPanel;
     sbzapytaj: TSpeedButton;
     StatusBar: TStatusBar;
@@ -86,14 +86,10 @@ type
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
-    procedure IdleTimer1StartTimer(Sender: TObject);
-    procedure IdleTimer1Timer(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
+    procedure MenuItem4Click(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
     procedure sbzapytajClick(Sender: TObject);
-    procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
-      var ACurrentString: String; var APosition: Integer; var AnX,
-      AnY: Integer; var AnResult: TOnBeforeExeucteFlags);
     procedure SynEditCodeChange(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
@@ -137,11 +133,10 @@ type
     function ExtractProgramName(const Line: string): string;
     // Metoda callback do obsługi odpowiedzi ChatGPT
     procedure OnChatGPTResponse(const ResponseText: string);
-
+    procedure LoadTokenGPT;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
-
   end;
 
   { TInterpreterThread }
@@ -151,6 +146,7 @@ type
     FConsole: TSynEdit;
     FOutput: string; // Zmienna pomocnicza do przekazania tekstu
     procedure SyncAppendOutput;
+
   protected
     procedure Execute; override;
   public
@@ -159,7 +155,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FustawieniaChatGPT: TFustawieniaChatGPT;
   Ini: TIniFile;
   FInterpreterPath: string;
   //Link do FPC
@@ -186,18 +182,17 @@ var
   Token: String;
   ModelGPT,PromtAv,PromtS: String;
 
-
 implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- chatgptavocado,uchatgpt;
+ chatgptavocado,uchatgpt,ustawieniaai;
 
 {$R *.lfm}
 
-{ TForm1 }
+{ TFustawieniaChatGPT }
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFustawieniaChatGPT.FormCreate(Sender: TObject);
 begin
   LoadFpc;
   //Zapisuje plik tymaczosowy tam gdzie jest zapisany projekt
@@ -205,47 +200,43 @@ begin
   //Dodanie zanków polksich
   SynAnySyn1.IdentifierChars := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyząćęłńóśźżĄĆĘŁŃÓŚŹŻ';
   SynEditCode.Repaint;
+  LoadTokenGPT;
 end;
 
-procedure TForm1.TranspilujExecute(Sender: TObject);
+procedure TFustawieniaChatGPT.TranspilujExecute(Sender: TObject);
 begin
   ToolButton1Click(sender);
 end;
 
-procedure TForm1.MenuINformacjaIDEClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuINformacjaIDEClick(Sender: TObject);
 begin
   Finformacjaide.ShowModal;
 end;
 
-procedure TForm1.MenuItemWsparcieprojektuClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItem4Click(Sender: TObject);
+begin
+  FustawieniaChatGPT.ShowModal;
+end;
+
+procedure TFustawieniaChatGPT.MenuItemWsparcieprojektuClick(Sender: TObject);
 begin
   Wsparcie.ShowModal;
 end;
 
-procedure TForm1.sbzapytajClick(Sender: TObject);
-//const
-//  CHATGPT_TOKEN = 'sk-0tmz8yl8btgbMe1eQbPOEeCZ9HmjZkhHnt4jVHTvoET3BlbkFJxLdlT7wUc8Jf5ocslX4hR2p3QYo7Grr1us0cQbjzUA';
-//  CHATGPT_MODEL = 'gpt-4o'; // lub 'gpt-4' jeśli masz dostęp
+procedure TFustawieniaChatGPT.sbzapytajClick(Sender: TObject);
 begin
   PromptChatGPT := EditAskPromt.Text;
-  PromtAv := 'id": "pmpt_68859329bbf8819785a4dc10a207ba8d0b4314eef7a05871'+'"version": "1"';
-  PromtS := PromtAv +' '+ PromptChatGPT;
-  Token := 'sk-0tmz8yl8btgbMe1eQbPOEeCZ9HmjZkhHnt4jVHTvoET3BlbkFJxLdlT7wUc8Jf5ocslX4hR2p3QYo7Grr1us0cQbjzUA';
-  ModelGPT := 'gpt-4o';
    if Trim(PromptChatGPT) = '' then
   begin
     ShowMessage('Proszę wpisać pytanie!');
     Exit;
   end;
-
-  //MemoAnswerChatGPT.Clear;
-  //MemoAnswerChatGPT.Lines.Add('Wysyłanie zapytania...');
   // Wyłącz przycisk podczas oczekiwania na odpowiedź
   sbzapytaj.Enabled := False;
 
   try
     // Wywołanie funkcji z naszego modułu
-    ZapytajChatGPT(Token, ModelGPT, PromtS, @OnChatGPTResponse);
+    ZapytajChatGPT(Token, ModelGPT, PromptChatGPT, @OnChatGPTResponse);
   except
     on E: Exception do
     begin
@@ -255,45 +246,8 @@ begin
   end;
 end;
 
-procedure TForm1.IdleTimer1StartTimer(Sender: TObject);
-begin
-  //IdleTimer1.Enabled := True;
-end;
 
-
-
-
-
-procedure TForm1.IdleTimer1Timer(Sender: TObject);
-var
-  i: TModalResult;
-begin
-  {
-  IdleTimer1.Enabled := False;
-  StatusBar.Panels.Items[2].Text :=' Aplikacja jest bezczynna';
-  i:= MessageDlg('Wykryto brak zmian w kodzie przez dłuższy czas. Czy potrzebujesz pomocy?',mtInformation,[mbOk,mbCancel],0);
-  // Sprawdź, który przycisk kliknął użytkownik
-  if i = mrOK then
-  begin
-    ShowMessage('Wybrano OK. Kontynuuję operację.');
-
-  end
-  else if i = mrCancel then
-  begin
-    //ShowMessage('Wybrano Anuluj. Operacja została przerwana.');
-    IdleTimer1.Enabled := False;
-  end;
-  }
-end;
-
-procedure TForm1.SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
-  var ACurrentString: String; var APosition: Integer; var AnX, AnY: Integer;
-  var AnResult: TOnBeforeExeucteFlags);
-begin
-
-end;
-
-procedure TForm1.SynEditCodeChange(Sender: TObject);
+procedure TFustawieniaChatGPT.SynEditCodeChange(Sender: TObject);
 begin
 
  if Assigned(SynEditCode) then
@@ -308,12 +262,12 @@ begin
   end;
 end;
 
-procedure TForm1.NowyPlikExecute(Sender: TObject);
+procedure TFustawieniaChatGPT.NowyPlikExecute(Sender: TObject);
 begin
   MenuNewFileClick(sender);
 end;
 
-constructor TForm1.Create(TheOwner: TComponent);
+constructor TFustawieniaChatGPT.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FTranslator := TAvocadoTranslator.Create;
@@ -328,80 +282,80 @@ end;
 
 
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TFustawieniaChatGPT.FormShow(Sender: TObject);
 begin
   SynEditCode.SetFocus;
 end;
 
-procedure TForm1.MenuAboutProgramClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuAboutProgramClick(Sender: TObject);
 begin
   FormOprogramie.ShowModal;
 end;
 
-procedure TForm1.MenuAutorClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuAutorClick(Sender: TObject);
 begin
   FormAutor.ShowModal
 end;
 
-procedure TForm1.MenuCloseClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuCloseClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm1.MenuItem3ClearCodeClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItem3ClearCodeClick(Sender: TObject);
 begin
   SynEditCode.ClearAll;
 end;
 
 
 
-procedure TForm1.MenuItemCopyClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemCopyClick(Sender: TObject);
 begin
   SynEditCode.CopyToClipboard;
 end;
 
-procedure TForm1.MenuItemCopyCodeClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemCopyCodeClick(Sender: TObject);
 begin
   SynEditCode.CopyToClipboard;
 end;
 
-procedure TForm1.MenuItemCutClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemCutClick(Sender: TObject);
 begin
   SynEditCode.CutToClipboard;
 end;
 
-procedure TForm1.MenuItemCutCodeClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemCutCodeClick(Sender: TObject);
 begin
   SynEditCode.CutToClipboard;
 end;
 
 
-procedure TForm1.MenuItemDeleteCodeClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemDeleteCodeClick(Sender: TObject);
 begin
     SynEditCode.ClearAll;
 end;
 
-procedure TForm1.MenuItemDokumentacjaClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemDokumentacjaClick(Sender: TObject);
 begin
   FormAutor.OpenLink('https://avocado.dimitalart.pl/#dokumentacja');
 end;
 
-procedure TForm1.MenuItemOutputCodeClearClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemOutputCodeClearClick(Sender: TObject);
 begin
   MemoOutPut.Clear;
 end;
 
-procedure TForm1.MenuItemPasteClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemPasteClick(Sender: TObject);
 begin
   SynEditCode.PasteFromClipboard;
 end;
 
-procedure TForm1.MenuItemPasteCodeClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemPasteCodeClick(Sender: TObject);
 begin
   SynEditCode.PasteFromClipboard;
 end;
 
-procedure TForm1.MenuItemSaveFileClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuItemSaveFileClick(Sender: TObject);
 var
   sFileName: string;
 begin
@@ -435,7 +389,7 @@ begin
   }
 end;
 
-procedure TForm1.MenuNewFileClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuNewFileClick(Sender: TObject);
 begin
   if InputQuery('Nowy plik', 'Podaj nazwę programu:', NameProgram) then
   begin
@@ -451,12 +405,12 @@ begin
 
 end;
 
-procedure TForm1.MenuOpcjeProjektuClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuOpcjeProjektuClick(Sender: TObject);
 begin
   FormOpcjeProjektu.ShowModal;
 end;
 
-procedure TForm1.MenuOpenClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuOpenClick(Sender: TObject);
 begin
   SynEditCode.Clear;
   MemoOutPut.Clear;
@@ -466,30 +420,30 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.0.5 ' + 'Otwarty projekt: ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.0.6 ' + 'Otwarty projekt: ' + OpenFileProject;
    //Timer
     IdleTimer1.Enabled := True;
     ToolButton1Click(Sender);
   end;
 end;
 
-procedure TForm1.MenuSaveAsClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuSaveAsClick(Sender: TObject);
 begin
   SaveCodeToFile;
 end;
 
-procedure TForm1.MenuUstawiniaClick(Sender: TObject);
+procedure TFustawieniaChatGPT.MenuUstawiniaClick(Sender: TObject);
 begin
   FormSettingIntepreter.ShowModal;
 end;
 
-procedure TForm1.KompilujExecute(Sender: TObject);
+procedure TFustawieniaChatGPT.KompilujExecute(Sender: TObject);
 begin
   ToolButton2Click(Sender);
 end;
 
 
-procedure TForm1.ToolButton1Click(Sender: TObject);
+procedure TFustawieniaChatGPT.ToolButton1Click(Sender: TObject);
 begin
  ExtractProgramFromSynEdit;
   //CompileToPascal;
@@ -506,7 +460,7 @@ begin
   end;
 end;
 
-procedure TForm1.ToolButton2Click(Sender: TObject);
+procedure TFustawieniaChatGPT.ToolButton2Click(Sender: TObject);
 var
    ExeName: string;
    sFileName: string;
@@ -571,13 +525,13 @@ begin
 
 end;
 
-procedure TForm1.ZapiszPlikExecute(Sender: TObject);
+procedure TFustawieniaChatGPT.ZapiszPlikExecute(Sender: TObject);
 begin
   SaveCodeToFile;
 end;
 
 
-procedure TForm1.LoadFpc;
+procedure TFustawieniaChatGPT.LoadFpc;
 begin
   MemoLogs.Lines.Add(' Wczytywanie ustawień');
   Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
@@ -629,7 +583,7 @@ end;
 
 
 
-procedure TForm1.SaveCodeToFile;
+procedure TFustawieniaChatGPT.SaveCodeToFile;
 begin
   SD.DefaultExt := 'avocado';
   SD.Filter := 'Avocado files (*.avocado)|*.avocado|All files (*.*)|*.*';
@@ -643,7 +597,7 @@ begin
   end;
 end;
 
-procedure TForm1.CompilePascalCode(const PascalCode, OutputFile: string);
+procedure TFustawieniaChatGPT.CompilePascalCode(const PascalCode, OutputFile: string);
 var
   AProcess: TProcess;
   TempFile: string;
@@ -792,7 +746,7 @@ begin
 end;
 //end;
 
-procedure TForm1.KompilacjaKoduwPascal(const Code, OutputFile: string);
+procedure TFustawieniaChatGPT.KompilacjaKoduwPascal(const Code, OutputFile: string);
 var
   AProcess: TProcess;
   TempFile: string;
@@ -859,7 +813,7 @@ begin
     end;
 end;
 
-procedure TForm1.ExtractProgramFromSynEdit;
+procedure TFustawieniaChatGPT.ExtractProgramFromSynEdit;
 var
 i: Integer;
 NProgram: string;
@@ -883,7 +837,7 @@ begin
       //ShowMessage('Nie znaleziono deklaracji programu' + #10 + 'Dodaj na początku słowo kluczowe program i nazwe programu.');
 end;
 
-function TForm1.ExtractProgramName(const Line: string): string;
+function TFustawieniaChatGPT.ExtractProgramName(const Line: string): string;
 var
   Words: TStringList;
 begin
@@ -900,7 +854,7 @@ begin
     end;
 end;
 
-procedure TForm1.OnChatGPTResponse(const ResponseText: string);
+procedure TFustawieniaChatGPT.OnChatGPTResponse(const ResponseText: string);
 begin
     try
       MemoAnswerChatGPT.Clear;
@@ -940,9 +894,23 @@ begin
   }
 end;
 
+procedure TFustawieniaChatGPT.LoadTokenGPT;
+begin
+ Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
+   Token := Ini.ReadString('ChatGPT', 'Token', '');
+   ModelGPT:= Ini.ReadString('ChatGPT', 'Model', '');
+ // --- Walidacja wczytanych ustawień (bez odgadywania) ---
+  if (Token = '') then
+  begin
+    MemoLogs.Lines.Add('Brak tokena od AI Asystenta');
+  end
+  else
+    MemoLogs.Lines.Add('Klucz Api Pomocnika AI dodany');
+  MemoLogs.Lines.Add('Model Pomocnika AI: ' + ModelGPT);
+end;
 
 
-destructor TForm1.Destroy;
+destructor TFustawieniaChatGPT.Destroy;
 begin
   FTranslator.Free;
   FTranslatedCode.Free;
@@ -973,6 +941,7 @@ begin
   FConsole.SelStart := Length(FConsole.Text);
   FConsole.SelText := FOutput;
 end;
+
 
 procedure TInterpreterThread.Execute;
 var

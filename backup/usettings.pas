@@ -30,7 +30,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure SpbLoadFolderFPCClick(Sender: TObject);
     procedure SpeedButOpenLinkFPCClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
   private
 

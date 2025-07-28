@@ -16,6 +16,7 @@ type
     Memo1: TMemo;
     Panel1: TPanel;
     sbOk: TSpeedButton;
+    procedure sbOkClick(Sender: TObject);
 
   private
 
@@ -34,6 +35,11 @@ implementation
 
 
 
+
+procedure TFormOpcjeProjektu.sbOkClick(Sender: TObject);
+begin
+  Close;
+end;
 
 end.
 

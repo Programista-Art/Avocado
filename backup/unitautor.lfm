@@ -39,9 +39,9 @@ object FormAutor: TFormAutor
     Width = 320
     Align = alClient
     Alignment = taCenter
-    Color = 10125394
+    Color = 2697513
     Font.CharSet = EASTEUROPE_CHARSET
-    Font.Color = clBlack
+    Font.Color = clWhite
     Font.Height = -16
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
@@ -61,7 +61,7 @@ object FormAutor: TFormAutor
     Align = alBottom
     ClientHeight = 26
     ClientWidth = 320
-    Color = clWhite
+    Color = 2697513
     ParentBackground = False
     ParentColor = False
     TabOrder = 2

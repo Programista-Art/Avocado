@@ -1,9 +1,9 @@
-object Form1: TForm1
+object FustawieniaChatGPT: TFustawieniaChatGPT
   Left = 347
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.0.5'
+  Caption = 'IDE Avocado v 1.0.0.6'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
@@ -140,7 +140,7 @@ object Form1: TForm1
         ButtonPosition = akTop
         ButtonSize = 27
         Button.Left = 0
-        Button.Height = 23
+        Button.Height = 27
         Button.Top = 0
         Button.Width = 245
         Button.Caption = 'Pomocnik AI'
@@ -149,8 +149,8 @@ object Form1: TForm1
         AnimationSpeed = 20
         object MemoAnswerChatGPT: TMemo
           Left = 1
-          Height = 473
-          Top = 56
+          Height = 469
+          Top = 60
           Width = 243
           Align = alClient
           Color = 5197647
@@ -165,12 +165,14 @@ object Form1: TForm1
         object PanelAiChatGPT: TPanel
           Left = 1
           Height = 32
-          Top = 24
+          Top = 28
           Width = 243
           Align = alTop
           ClientHeight = 32
           ClientWidth = 243
+          Color = 5197647
           ParentBackground = False
+          ParentColor = False
           TabOrder = 1
           object EditAskPromt: TEdit
             Left = 3
@@ -233,7 +235,7 @@ object Form1: TForm1
         BevelOuter = bvRaised
         BevelWidth = 1
         Border.Style = bboNone
-        Color = 2697513
+        Color = 5197647
         Enabled = True
         FontEx.Color = clDefault
         FontEx.FontQuality = fqSystemClearType
@@ -266,7 +268,7 @@ object Form1: TForm1
           Top = 27
           Width = 243
           Align = alClient
-          Color = 2697513
+          Color = 5197647
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
           Font.Pitch = fpVariable
@@ -295,7 +297,7 @@ object Form1: TForm1
       Cursor = crVSplit
       Left = 1
       Height = 5
-      Top = 386
+      Top = 398
       Width = 801
       Align = alBottom
       ResizeAnchor = akBottom
@@ -303,32 +305,33 @@ object Form1: TForm1
     end
     object Panel3: TPanel
       Left = 1
-      Height = 192
-      Top = 391
+      Height = 180
+      Top = 403
       Width = 801
       Align = alBottom
-      ClientHeight = 192
+      ClientHeight = 180
       ClientWidth = 801
       ParentBackground = False
       TabOrder = 1
       object MemoLogs: TMemo
         Left = 1
-        Height = 52
+        Height = 128
         Top = 28
         Width = 799
-        Align = alTop
-        Color = 2697513
+        Align = alClient
+        Color = 5197647
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clWhite
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         ParentFont = False
+        ReadOnly = True
         TabOrder = 0
       end
       object StatusBar: TStatusBar
         Left = 1
         Height = 23
-        Top = 168
+        Top = 156
         Width = 799
         Color = 2697513
         Panels = <        
@@ -372,30 +375,21 @@ object Form1: TForm1
           ParentFont = False
         end
       end
-      object Panel5: TPanel
-        Left = 1
-        Height = 50
-        Top = 118
-        Width = 799
-        Align = alBottom
-        ParentBackground = False
-        TabOrder = 3
-      end
     end
     object Panel4: TPanel
       Left = 1
-      Height = 385
+      Height = 397
       Top = 1
       Width = 801
       Align = alClient
       Caption = 'Panel4'
-      ClientHeight = 385
+      ClientHeight = 397
       ClientWidth = 801
       ParentBackground = False
       TabOrder = 2
       inline SynEditCode: TSynEdit
         Left = 1
-        Height = 383
+        Height = 395
         Top = 1
         Width = 799
         Align = alClient
@@ -976,6 +970,10 @@ object Form1: TForm1
         Caption = 'Ustawienia'
         OnClick = MenuUstawiniaClick
       end
+      object MenuItem4: TMenuItem
+        Caption = 'Ustawienia pomocnika AI'
+        OnClick = MenuItem4Click
+      end
     end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'
@@ -1109,7 +1107,6 @@ object Form1: TForm1
     end
   end
   object SynCompletion1: TSynCompletion
-    OnBeforeExecute = SynCompletion1BeforeExecute
     ItemList.Strings = (
       'pisz('''')'
       'kopiuj(twoja_zmienna,początek_kopiowania,koniec_kopiowania)'
@@ -1430,8 +1427,6 @@ object Form1: TForm1
     AutoEndEvent = itaOnIdle
     Enabled = False
     Interval = 300000
-    OnTimer = IdleTimer1Timer
-    OnStartTimer = IdleTimer1StartTimer
     Left = 56
     Top = 328
   end

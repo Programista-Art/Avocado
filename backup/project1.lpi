@@ -10,7 +10,7 @@
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
-        <DpiAware Value="True"/>
+        <DpiAware Value="True/PM_V2"/>
         <TextName Value="ProgramistaArt.IDEAvocado.Avocado"/>
         <TextDesc Value="IDE Avocado polski język programowania"/>
       </XPManifest>
@@ -19,10 +19,10 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="3"/>
+      <BuildNr Value="6"/>
       <Language Value="0415"/>
       <Attributes pvaDebug="True" pvaPreRelease="True"/>
-      <StringTable Comments="IDE Avocado" CompanyName="Programista Art" FileDescription="IDE Avocado" InternalName="IDE Avocado" LegalCopyright="IDE Avocado" LegalTrademarks="IDE Avocado" OriginalFilename="IDE Avocado" ProductName="IDE Avocado" ProductVersion="1.0.0.5"/>
+      <StringTable Comments="IDE Avocado" CompanyName="Programista Art" FileDescription="IDE Avocado" InternalName="IDE Avocado" LegalCopyright="IDE Avocado" LegalTrademarks="IDE Avocado" OriginalFilename="IDE Avocado" ProductName="IDE Avocado" ProductVersion="1.0.0.6"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>
@@ -76,6 +76,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="TAChartLazarusPkg"/>
+      </Item>
+      <Item>
         <PackageName Value="bgracontrols"/>
       </Item>
       <Item>
@@ -117,7 +120,7 @@
       <Unit>
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="FustawieniaChatGPT"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
@@ -185,6 +188,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Uwsparcie"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ustawieniaai.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FustawieniaAI"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
   </ProjectOptions>

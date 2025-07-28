@@ -29,6 +29,7 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
       Width = 31
       Align = alRight
       Caption = 'Ok'
+      OnClick = sbOkClick
     end
   end
   object Memo1: TMemo

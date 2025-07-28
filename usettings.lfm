@@ -59,7 +59,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Caption = 'LInk do fpc.exe'
     ClientHeight = 68
     ClientWidth = 465
-    Color = 2697513
+    Color = 5197647
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
     Font.Pitch = fpVariable
@@ -104,7 +104,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Caption = 'Link do folderu FPC'
     ClientHeight = 68
     ClientWidth = 465
-    Color = 2697513
+    Color = 5197647
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
@@ -136,7 +136,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Caption = 'Platforma'
     ClientHeight = 45
     ClientWidth = 465
-    Color = 2697513
+    Color = 5197647
     ParentBackground = False
     ParentColor = False
     TabOrder = 3

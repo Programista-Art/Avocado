@@ -1,0 +1,278 @@
+object FustawieniaAI: TFustawieniaAI
+  Left = 350
+  Height = 363
+  Top = 250
+  Width = 262
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Ustawienia Pomocnika AI'
+  ClientHeight = 363
+  ClientWidth = 262
+  Color = 2697513
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  object Panel1: TPanel
+    Left = 0
+    Height = 32
+    Top = 331
+    Width = 262
+    Align = alBottom
+    ClientHeight = 32
+    ClientWidth = 262
+    Color = 5588525
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 0
+    object SpeedButtonOk: TSpeedButton
+      Left = 207
+      Height = 30
+      Top = 1
+      Width = 54
+      Align = alRight
+      Caption = 'Anuluj'
+      OnClick = SpeedButtonOkClick
+    end
+    object SpeedButSave: TSpeedButton
+      Left = 153
+      Height = 30
+      Top = 1
+      Width = 54
+      Align = alRight
+      Caption = 'Zapisz'
+      OnClick = SpeedButSaveClick
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 226
+    Top = 105
+    Width = 262
+    Align = alClient
+    ClientHeight = 226
+    ClientWidth = 262
+    ParentBackground = False
+    TabOrder = 1
+    object Memo1: TMemo
+      Left = 1
+      Height = 224
+      Top = 1
+      Width = 260
+      Align = alClient
+      Color = 5197647
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Lines.Strings = (
+        'GPT-4o mini'
+        'Niedrogi i inteligentny mały model do szybkich, lekkich zadań'
+        'Wejście tekstowe i graficzne, wyjście tekstowe'
+        'Długość kontekstu 128k'
+        ''
+        'GPT-4o'
+        'Flagowy model o wysokiej inteligencji do złożonych,'
+        'wieloetapowych zadań'
+        'Wejście tekstowe i graficzne, wyjście tekstowe'
+        'Długość kontekstu 128 tys.'
+        ''
+        'GPT-4'
+        'Szybki i niedrogi model do prostych zadań'
+      )
+      ParentFont = False
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 0
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Height = 105
+    Top = 0
+    Width = 262
+    Align = alTop
+    BevelColor = 5197647
+    ClientHeight = 105
+    ClientWidth = 262
+    Color = 5197647
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 2
+    object ComboModelGPT: TBCComboBox
+      Left = 6
+      Height = 22
+      Top = 26
+      Width = 250
+      Align = alTop
+      BorderSpacing.Around = 5
+      ItemIndex = -1
+      ArrowSize = 8
+      ArrowWidth = 16
+      FocusBorderColor = clMoneyGreen
+      DropDownBorderColor = clWhite
+      DropDownColor = 5197647
+      DropDownFontColor = clWhite
+      DropDownHighlight = 5197647
+      DropDownFontHighlight = clSkyBlue
+      DropDownOnSameForm = True
+      GlobalOpacity = 255
+      MemoryUsage = bmuHigh
+      Rounding.RoundX = 0
+      Rounding.RoundY = 0
+      StateClicked.Background.Color = 16245964
+      StateClicked.Background.Gradient1.StartColor = 16577765
+      StateClicked.Background.Gradient1.EndColor = 16180676
+      StateClicked.Background.Gradient1.GradientType = gtLinear
+      StateClicked.Background.Gradient1.Point1XPercent = 0
+      StateClicked.Background.Gradient1.Point1YPercent = 0
+      StateClicked.Background.Gradient1.Point2XPercent = 0
+      StateClicked.Background.Gradient1.Point2YPercent = 100
+      StateClicked.Background.Gradient2.StartColor = 15716760
+      StateClicked.Background.Gradient2.EndColor = 14398312
+      StateClicked.Background.Gradient2.GradientType = gtLinear
+      StateClicked.Background.Gradient2.Point1XPercent = 0
+      StateClicked.Background.Gradient2.Point1YPercent = 0
+      StateClicked.Background.Gradient2.Point2XPercent = 0
+      StateClicked.Background.Gradient2.Point2YPercent = 100
+      StateClicked.Background.Gradient1EndPercent = 55
+      StateClicked.Background.Style = bbsColor
+      StateClicked.Border.Color = 10048512
+      StateClicked.Border.LightColor = clBlack
+      StateClicked.Border.LightOpacity = 100
+      StateClicked.Border.Style = bboSolid
+      StateClicked.FontEx.Color = clBlack
+      StateClicked.FontEx.FontQuality = fqSystemClearType
+      StateClicked.FontEx.Shadow = False
+      StateClicked.FontEx.ShadowRadius = 5
+      StateClicked.FontEx.ShadowOffsetX = 5
+      StateClicked.FontEx.ShadowOffsetY = 5
+      StateClicked.FontEx.Style = []
+      StateHover.Background.Color = 16511461
+      StateHover.Background.Gradient1.StartColor = 16643818
+      StateHover.Background.Gradient1.EndColor = 16576729
+      StateHover.Background.Gradient1.GradientType = gtLinear
+      StateHover.Background.Gradient1.Point1XPercent = 0
+      StateHover.Background.Gradient1.Point1YPercent = 0
+      StateHover.Background.Gradient1.Point2XPercent = 0
+      StateHover.Background.Gradient1.Point2YPercent = 100
+      StateHover.Background.Gradient2.StartColor = 16639678
+      StateHover.Background.Gradient2.EndColor = 16112039
+      StateHover.Background.Gradient2.GradientType = gtLinear
+      StateHover.Background.Gradient2.Point1XPercent = 0
+      StateHover.Background.Gradient2.Point1YPercent = 0
+      StateHover.Background.Gradient2.Point2XPercent = 0
+      StateHover.Background.Gradient2.Point2YPercent = 100
+      StateHover.Background.Gradient1EndPercent = 50
+      StateHover.Background.Style = bbsColor
+      StateHover.Border.Color = 14120960
+      StateHover.Border.LightOpacity = 200
+      StateHover.Border.Style = bboSolid
+      StateHover.FontEx.Color = clBlack
+      StateHover.FontEx.FontQuality = fqSystemClearType
+      StateHover.FontEx.Shadow = False
+      StateHover.FontEx.ShadowRadius = 5
+      StateHover.FontEx.ShadowOffsetX = 5
+      StateHover.FontEx.ShadowOffsetY = 5
+      StateHover.FontEx.Style = []
+      StateNormal.Background.Color = 14803425
+      StateNormal.Background.Gradient1.StartColor = 15921906
+      StateNormal.Background.Gradient1.EndColor = 15461355
+      StateNormal.Background.Gradient1.GradientType = gtLinear
+      StateNormal.Background.Gradient1.Point1XPercent = 0
+      StateNormal.Background.Gradient1.Point1YPercent = 0
+      StateNormal.Background.Gradient1.Point2XPercent = 0
+      StateNormal.Background.Gradient1.Point2YPercent = 100
+      StateNormal.Background.Gradient2.StartColor = 14540253
+      StateNormal.Background.Gradient2.EndColor = 13619151
+      StateNormal.Background.Gradient2.GradientType = gtLinear
+      StateNormal.Background.Gradient2.Point1XPercent = 0
+      StateNormal.Background.Gradient2.Point1YPercent = 0
+      StateNormal.Background.Gradient2.Point2XPercent = 0
+      StateNormal.Background.Gradient2.Point2YPercent = 100
+      StateNormal.Background.Gradient1EndPercent = 50
+      StateNormal.Background.Style = bbsColor
+      StateNormal.Border.Color = 11382189
+      StateNormal.Border.LightOpacity = 200
+      StateNormal.Border.Style = bboSolid
+      StateNormal.FontEx.Color = clBlack
+      StateNormal.FontEx.FontQuality = fqSystemClearType
+      StateNormal.FontEx.Shadow = False
+      StateNormal.FontEx.ShadowRadius = 5
+      StateNormal.FontEx.ShadowOffsetX = 5
+      StateNormal.FontEx.ShadowOffsetY = 5
+      StateNormal.FontEx.Style = []
+      StaticButton = False
+      TabOrder = 0
+    end
+    object Label1: TLabel
+      Left = 6
+      Height = 15
+      Top = 6
+      Width = 250
+      Align = alTop
+      BorderSpacing.Around = 5
+      Caption = 'Model językowy'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 6
+      Height = 15
+      Top = 53
+      Width = 250
+      Align = alTop
+      BorderSpacing.Left = 5
+      BorderSpacing.Right = 5
+      BorderSpacing.Bottom = 5
+      Caption = 'Klucz API'
+      Color = clWhite
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clWhite
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object EditTokenGPT: TEdit
+      Left = 6
+      Height = 23
+      Top = 73
+      Width = 250
+      Align = alTop
+      BorderSpacing.Left = 5
+      BorderSpacing.Right = 5
+      BorderSpacing.Bottom = 5
+      EchoMode = emPassword
+      PasswordChar = '*'
+      PopupMenu = PopupMenu1
+      TabOrder = 1
+      Text = 'EditTokenGPT'
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 136
+    Top = 200
+    object MenuItemCopy: TMenuItem
+      Caption = 'Kopiuj'
+      OnClick = MenuItemCopyClick
+    end
+    object MenuItemPaste: TMenuItem
+      Caption = 'Wstaw'
+      OnClick = MenuItemPasteClick
+    end
+    object MenuItemDelete: TMenuItem
+      Caption = 'Usuń'
+      OnClick = MenuItemDeleteClick
+    end
+    object MenuItemShowKey: TMenuItem
+      Caption = 'Pokaż klucz'
+      OnClick = MenuItemShowKeyClick
+    end
+    object MenuItemHideKey: TMenuItem
+      Caption = 'Ukryj klucz'
+      OnClick = MenuItemHideKeyClick
+    end
+  end
+end
