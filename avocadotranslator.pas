@@ -474,18 +474,39 @@ var
  ParamPartsInsert, TempParamParts: array of string;
  InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
  Part: string; // for-in loop variable
- // Nowe zmienne dla funkcji usun()
+  //zmienne dla funkcji usun()
   StartPosDelete, EndPosDelete: Integer;
   ParamDelete, StringExprDelete, IndexExprDelete, CountExprDelete: string;
   ParamPartsDelete: TStringArray;
-  // Nowe zmienne dla funkcji duże_litery()
+  //zmienne dla funkcji duże_litery()
   StartPosUpper, EndPosUpper: Integer;
   ParamUpper: string;
   TranslatedParamUpper: string;
-  // Nowe zmienne dla funkcji małe_litery()
+  //zmienne dla funkcji małe_litery()
   StartPosLower, EndPosLower: Integer;
   ParamLower: string;
   TranslatedParamLower: string;
+  //zmienne dla funkcji przytnij()
+  StartPosTrim, EndPosTrim: Integer;
+  ParamTrim: string;
+  TranslatedParamTrim: string;
+  // Nowe zmienne dla funkcji przytnij_z_lewa() i przytnij_z_prawa()
+  StartPosTrimLeft, EndPosTrimLeft: Integer;
+  ParamTrimLeft: string;
+  TranslatedParamTrimLeft: string;
+  StartPosTrimRight, EndPosTrimRight: Integer;
+  ParamTrimRight: string;
+  TranslatedParamTrimRight: string;
+  // zmienne dla funkcji powtórz_znak()
+  StartPosStringOfChar, EndPosStringOfChar: Integer;
+  ParamStringOfChar: string;
+  ParamPartsStringOfChar: TStringArray;
+  TranslatedCharArg, TranslatedCountArg: string;
+  //zmienne dla funkcji porównaj_tekst()
+  StartPosCompareStr, EndPosCompareStr: Integer;
+  ParamCompareStr: string;
+  ParamPartsCompareStr: TStringArray;
+  TranslatedS1Arg, TranslatedS2Arg: string;
 
 
 begin
@@ -527,7 +548,89 @@ begin
     InsertIndexIn  := TranslateExpression(ParamPartsInsert[2]);
 
     PascalCode.Add('Insert(' + InsertSourceIn + ', ' + InsertTargetIn + ', ' + InsertIndexIn + ');');
-    Exit; // <<< DODANE
+    Exit;
+  end;
+  // Nowa obsługa funkcji przytnij() -> Trim()
+  if Pos('przytnij(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosTrim := Pos('(', TrimmedLine);
+    EndPosTrim := RPos(')', TrimmedLine);
+
+    if (StartPosTrim = 0) or (EndPosTrim = 0) then
+      raise Exception.Create('Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)');
+
+    if StartPosTrim > EndPosTrim then
+      raise Exception.Create('Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)');
+
+    ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
+    TranslatedParamTrim := TranslateExpression(ParamTrim);
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := Trim(' + TranslatedParamTrim + ');');
+    end
+    else
+    begin
+      PascalCode.Add('Trim(' + TranslatedParamTrim + ');');
+    end;
+    Exit;
+  end;
+  // Obsługa funkcji przytnij_z_lewa() -> TrimLeft()
+  if Pos('przytnij_z_lewa(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosTrimLeft := Pos('(', TrimmedLine);
+    EndPosTrimLeft := RPos(')', TrimmedLine);
+
+    if (StartPosTrimLeft = 0) or (EndPosTrimLeft = 0) then
+      raise Exception.Create('Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)');
+
+    if StartPosTrimLeft > EndPosTrimLeft then
+      raise Exception.Create('Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)');
+
+    ParamTrimLeft := Trim(Copy(TrimmedLine, StartPosTrimLeft + 1, EndPosTrimLeft - StartPosTrimLeft - 1));
+    TranslatedParamTrimLeft := TranslateExpression(ParamTrimLeft);
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := TrimLeft(' + TranslatedParamTrimLeft + ');');
+    end
+    else
+    begin
+      PascalCode.Add('TrimLeft(' + TranslatedParamTrimLeft + ');');
+    end;
+    Exit;
+  end;
+
+  // Obsługa funkcji przytnij_z_prawa() -> TrimRight()
+  if Pos('przytnij_z_prawa(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosTrimRight := Pos('(', TrimmedLine);
+    EndPosTrimRight := RPos(')', TrimmedLine);
+
+    if (StartPosTrimRight = 0) or (EndPosTrimRight = 0) then
+      raise Exception.Create('Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)');
+
+    if StartPosTrimRight > EndPosTrimRight then
+      raise Exception.Create('Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)');
+
+    ParamTrimRight := Trim(Copy(TrimmedLine, StartPosTrimRight + 1, EndPosTrimRight - StartPosTrimRight - 1));
+    TranslatedParamTrimRight := TranslateExpression(ParamTrimRight);
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := TrimRight(' + TranslatedParamTrimRight + ');');
+    end
+    else
+    begin
+      PascalCode.Add('TrimRight(' + TranslatedParamTrimRight + ');');
+    end;
+    Exit;
   end;
 
   // 0. Obsługa pętli for
@@ -619,6 +722,73 @@ begin
     end;
     Exit;
   end;
+   // Obsługa funkcji powtórz_znak() -> StringOfChar()
+  if Pos('powtórz_znak(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosStringOfChar := Pos('(', TrimmedLine);
+    EndPosStringOfChar := RPos(')', TrimmedLine);
+
+    if (StartPosStringOfChar = 0) or (EndPosStringOfChar = 0) then
+      raise Exception.Create('Błędna składnia funkcji powtórz_znak. Oczekiwano: powtórz_znak(char, count)');
+
+    if StartPosStringOfChar > EndPosStringOfChar then
+      raise Exception.Create('Błędna składnia funkcji powtórz_znak. Oczekiwano: powtórz_znak(char, count)');
+
+    ParamStringOfChar := Trim(Copy(TrimmedLine, StartPosStringOfChar + 1, EndPosStringOfChar - StartPosStringOfChar - 1));
+    ParamPartsStringOfChar := ParamStringOfChar.Split([',']);
+
+    if Length(ParamPartsStringOfChar) <> 2 then
+      raise Exception.Create('Funkcja powtórz_znak wymaga dwóch argumentów: char i count');
+
+    TranslatedCharArg := TranslateExpression(Trim(ParamPartsStringOfChar[0]));
+    TranslatedCountArg := TranslateExpression(Trim(ParamPartsStringOfChar[1]));
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
+    end
+    else
+    begin
+      PascalCode.Add('StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
+    end;
+    Exit;
+  end;
+     // Nowa obsługa funkcji porównaj_tekst() -> CompareStr()
+  if Pos('porównaj_tekst(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosCompareStr := Pos('(', TrimmedLine);
+    EndPosCompareStr := RPos(')', TrimmedLine);
+
+    if (StartPosCompareStr = 0) or (EndPosCompareStr = 0) then
+      raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
+
+    if StartPosCompareStr > EndPosCompareStr then
+      raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
+
+    ParamCompareStr := Trim(Copy(TrimmedLine, StartPosCompareStr + 1, EndPosCompareStr - StartPosCompareStr - 1));
+    ParamPartsCompareStr := ParamCompareStr.Split([',']);
+
+    if Length(ParamPartsCompareStr) <> 2 then
+      raise Exception.Create('Funkcja porównaj_tekst wymaga dwóch argumentów: s1 i s2');
+
+    TranslatedS1Arg := TranslateExpression(Trim(ParamPartsCompareStr[0]));
+    TranslatedS2Arg := TranslateExpression(Trim(ParamPartsCompareStr[1]));
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
+    end
+    else
+    begin
+      PascalCode.Add('CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
+    end;
+    Exit;
+  end;
+
 
 
   // 0. Obsługa pętli for
