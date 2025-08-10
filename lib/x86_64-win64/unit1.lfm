@@ -1109,6 +1109,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
   object SynCompletion1: TSynCompletion
     ItemList.Strings = (
       'pisz('''')'
+      'wstaw(''źródło '', tekst, 5)'
       'kopiuj(twoja_zmienna,początek_kopiowania,koniec_kopiowania)'
       'kopiuj(zmienna,start, długość)'
       'klawisz_wciśnięty'

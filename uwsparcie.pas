@@ -13,22 +13,15 @@ type
   { TWsparcie }
 
   TWsparcie = class(TForm)
-    EditOdbiorca: TEdit;
-    EditRachunek: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
     LabelStatus: TLabel;
     Memo1: TMemo;
     PanelDolny: TPanel;
     Panel2: TPanel;
     SpeedButton1: TSpeedButton;
-    procedure EditOdbiorcaChange(Sender: TObject);
-    procedure EditOdbiorcaClick(Sender: TObject);
-    procedure EditRachunekClick(Sender: TObject);
-
+    SpeedButton2: TSpeedButton;
     procedure sbOkClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
 
   private
 
@@ -40,7 +33,8 @@ var
   Wsparcie: TWsparcie;
 
 implementation
-
+uses
+  unitautor;
 {$R *.lfm}
 
 { TWsparcie }
@@ -55,25 +49,10 @@ begin
   Close;
 end;
 
-
-procedure TWsparcie.EditOdbiorcaChange(Sender: TObject);
+procedure TWsparcie.SpeedButton2Click(Sender: TObject);
 begin
-
+  FormAutor.OpenLink('https://ko-fi.com/programistaart');
 end;
-
-procedure TWsparcie.EditOdbiorcaClick(Sender: TObject);
-begin
-  Clipboard.AsText := EditOdbiorca.Text;
-  //EditOdbiorca.Text.CopyToClipboard;
-  LabelStatus.Caption := 'Odbiorca skopiowany do schowka';
-end;
-
-procedure TWsparcie.EditRachunekClick(Sender: TObject);
-begin
-   Clipboard.AsText := EditRachunek.Text;
-   LabelStatus.Caption := 'Nr rachunku skopiowany do schowka';
-end;
-
 
 
 end.

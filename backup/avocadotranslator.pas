@@ -135,8 +135,11 @@ begin
   Result := StringReplace(Result, 'jasnoróżowy', 'LightMagenta', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
   //funkcje string
-  Result := StringReplace(Result, 'kopiuj', 'copy', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'kopiuj', 'Copy', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
+
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -391,9 +394,6 @@ end;
 function TAvocadoTranslator.GetImplementationModules(const Code: string
   ): string;
 const
-  // --- WAŻNE ---
-  // Zmień 'Implementuj' na rzeczywiste słowo kluczowe, którego używasz
-  // do oznaczania modułów dla sekcji implementation w swoim kodzie.
   ImplementationKeyword = 'ModułyPas';
 var
   Lines: TStringList;
@@ -465,12 +465,72 @@ var
   Param: string;
   Partss,ParamParts: TStringArray;
   SExpr, StartExpr, CountExpr: string;
-  SubstringExpr: string;
+  SubstringExpr,InsertSource: string;
+  InsertTarget: string;
+  InsertIndex: string;
+
+ StartPosInsert, EndPosInsert: Integer;
+ ParamInsert, TrimmedPart: string;
+ ParamPartsInsert, TempParamParts: array of string;
+ InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
+ Part: string; // for-in loop variable
+
 
 begin
   TrimmedLine := Trim(Line);
+  // Obsługa funkcji wstaw() → Insert()
+  // Obsługa funkcji wstaw() → Insert()
+  if Pos('wstaw(', LowerTrimmedLine) > 0 then
+  begin
+    //var StartPosInsert, EndPosInsert: Integer;
+    //var ParamInsert, TrimmedPart: string;
+    //var ParamPartsInsert, TempParamParts: array of string;
+    //var InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
+    //var Part: string; // for-in loop variable
 
-        // 0. Obsługa pętli for
+    // Użyj Pos do znalezienia pierwszego otwarcia nawiasu i RPos do ostatniego.
+    StartPosInsert := Pos('(', TrimmedLine);
+    EndPosInsert   := RPos(')', TrimmedLine);
+
+    if (StartPosInsert = 0) or (EndPosInsert = 0) then
+      raise Exception.Create('Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)');
+
+    // Sprawdzenie, czy nawiasy są w poprawnej kolejności
+    if StartPosInsert > EndPosInsert then
+      raise Exception.Create('Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)');
+
+    // Wycinanie argumentów
+    ParamInsert := Trim(Copy(TrimmedLine, StartPosInsert + 1, EndPosInsert - StartPosInsert - 1));
+
+    // Dzielenie argumentów po przecinku
+    ParamPartsInsert := ParamInsert.Split([',']);
+
+    // Usunięcie pustych elementów, które mogą powstać po dzieleniu
+    SetLength(TempParamParts, 0); // Inicjalizacja pustej tablicy dynamicznej
+    for Part in ParamPartsInsert do
+    begin
+      TrimmedPart := Trim(Part);
+      if TrimmedPart <> '' then
+      begin
+        SetLength(TempParamParts, Length(TempParamParts) + 1);
+        TempParamParts[High(TempParamParts)] := TrimmedPart;
+      end;
+    end;
+    ParamPartsInsert := TempParamParts;
+
+    if Length(ParamPartsInsert) <> 3 then
+      raise Exception.Create('Funkcja wstaw wymaga trzech argumentów: source, target, index');
+
+    InsertSourceIn := TranslateExpression(ParamPartsInsert[0]);
+    InsertTargetIn := TranslateExpression(ParamPartsInsert[1]);
+    InsertIndexIn  := TranslateExpression(ParamPartsInsert[2]);
+
+    PascalCode.Add('Insert(' + InsertSourceIn + ', ' + InsertTargetIn + ', ' + InsertIndexIn + ');');
+  end;
+
+
+
+  // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
       begin
         ProcessForLoop(TrimmedLine, PascalCode);
@@ -517,16 +577,6 @@ begin
         Exit;
       end;
     end
-
-    //Operacje na Stringach:
-    //Length(s): Zwraca długość stringa s.
-    {else if LowerCase(TrimmedLine).StartsWith('długość(') then
-    begin
-       // Pobieramy zawartość między "druk(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 12, Length(TrimmedLine) - 12);
-      PascalCode.Add('Length(' + TranslateExpression(Value) + ');');
-    end
-    }
     // Obsługa funkcji długość (Length)
     else if Pos('długość(', LowerCase(TrimmedLine)) > 0 then
 
@@ -556,8 +606,8 @@ begin
         PascalCode.Add('Length(' + TranslateExpression(Param) + ');');
       end;
     end
-  { ------------------------------------------------------------------------ }
-  { 3. Funkcja kopiuj()                                                      }
+
+  //3. Funkcja kopiuj()
 
     else if Pos('kopiuj(', LowerTrimmedLine) > 0 then
     begin
@@ -590,7 +640,7 @@ begin
 
       Exit;
     end
-    { ------------------------------------------------------------------------ }
+
     {funkcja pos tzn szukaj}
     {Pos(substring, s): Zwraca pozycję pierwszego wystąpienia substring w stringu s, lub 0 jeśli nie znaleziono.}
         else if Pos('szukaj(', LowerTrimmedLine) > 0 then
@@ -842,12 +892,14 @@ begin
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';');
     end
 
+
     // 5. Obsługa pozostałych linii
     else if TrimmedLine <> '' then
     begin
       PascalCode.Add(TrimmedLine + ';');
     end;
   end;
+//end;
 
 
 function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;

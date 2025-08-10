@@ -193,6 +193,7 @@
         <Filename Value="ustawieniaai.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FustawieniaAI"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>

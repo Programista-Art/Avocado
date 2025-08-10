@@ -325,6 +325,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         ParentFont = False
+        ReadOnly = True
         TabOrder = 0
       end
       object StatusBar: TStatusBar
