@@ -474,6 +474,18 @@ var
  ParamPartsInsert, TempParamParts: array of string;
  InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
  Part: string; // for-in loop variable
+ // Nowe zmienne dla funkcji usun()
+  StartPosDelete, EndPosDelete: Integer;
+  ParamDelete, StringExprDelete, IndexExprDelete, CountExprDelete: string;
+  ParamPartsDelete: TStringArray;
+  // Nowe zmienne dla funkcji duże_litery()
+  StartPosUpper, EndPosUpper: Integer;
+  ParamUpper: string;
+  TranslatedParamUpper: string;
+  // Nowe zmienne dla funkcji małe_litery()
+  StartPosLower, EndPosLower: Integer;
+  ParamLower: string;
+  TranslatedParamLower: string;
 
 
 begin
@@ -524,7 +536,89 @@ begin
     ProcessForLoop(TrimmedLine, PascalCode);
     Exit;
   end;
+  // Obsługa funkcji usun() -> Delete()
+  if Pos('usuń(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosDelete := Pos('(', TrimmedLine);
+    EndPosDelete   := RPos(')', TrimmedLine);
 
+    if (StartPosDelete = 0) or (EndPosDelete = 0) then
+      raise Exception.Create('Błędna składnia funkcji usuń. Oczekiwano: usuń(s, index, count)');
+
+    if StartPosDelete > EndPosDelete then
+      raise Exception.Create('Błędna składnia funkcji usuń. Oczekiwano: usuń(s, index, count)');
+
+    ParamDelete := Trim(Copy(TrimmedLine, StartPosDelete + 1, EndPosDelete - StartPosDelete - 1));
+    ParamPartsDelete := ParamDelete.Split([',']);
+
+    if Length(ParamPartsDelete) <> 3 then
+      raise Exception.Create('Funkcja usuń wymaga trzech argumentów: s, index, count');
+
+    StringExprDelete := TranslateExpression(Trim(ParamPartsDelete[0]));
+    IndexExprDelete  := TranslateExpression(Trim(ParamPartsDelete[1]));
+    CountExprDelete  := TranslateExpression(Trim(ParamPartsDelete[2]));
+
+    PascalCode.Add('Delete(' + StringExprDelete + ', ' + IndexExprDelete + ', ' + CountExprDelete + ');');
+    Exit;
+  end;
+
+  // Obsługa funkcji duże_litery() -> UpperCase()
+  if Pos('duże_litery(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosUpper := Pos('(', TrimmedLine);
+    EndPosUpper := RPos(')', TrimmedLine);
+
+    if (StartPosUpper = 0) or (EndPosUpper = 0) then
+      raise Exception.Create('Błędna składnia funkcji duże_litery. Oczekiwano: duże_litery(s)');
+
+    if StartPosUpper > EndPosUpper then
+      raise Exception.Create('Błędna składnia funkcji duże_litery. Oczekiwano: duże_litery(s)');
+
+    ParamUpper := Trim(Copy(TrimmedLine, StartPosUpper + 1, EndPosUpper - StartPosUpper - 1));
+    TranslatedParamUpper := TranslateExpression(ParamUpper);
+
+    // Sprawdzamy, czy to przypisanie do zmiennej, czy samodzielne wywołanie
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := UpperCase(' + TranslatedParamUpper + ');');
+    end
+    else
+    begin
+      // Samodzielne wywołanie - nie ma sensu, ale transpilator musi to obsłużyć
+      PascalCode.Add('UpperCase(' + TranslatedParamUpper + ');');
+    end;
+    Exit;
+  end;
+
+  // Nowa obsługa funkcji małe_litery() -> LowerCase()
+  if Pos('małe_litery(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosLower := Pos('(', TrimmedLine);
+    EndPosLower := RPos(')', TrimmedLine);
+
+    if (StartPosLower = 0) or (EndPosLower = 0) then
+      raise Exception.Create('Błędna składnia funkcji małe_litery. Oczekiwano: małe_litery(s)');
+
+    if StartPosLower > EndPosLower then
+      raise Exception.Create('Błędna składnia funkcji małe_litery. Oczekiwano: małe_litery(s)');
+
+    ParamLower := Trim(Copy(TrimmedLine, StartPosLower + 1, EndPosLower - StartPosLower - 1));
+    TranslatedParamLower := TranslateExpression(ParamLower);
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := LowerCase(' + TranslatedParamLower + ');');
+    end
+    else
+    begin
+      PascalCode.Add('LowerCase(' + TranslatedParamLower + ');');
+    end;
+    Exit;
+  end;
 
 
   // 0. Obsługa pętli for
