@@ -29,8 +29,13 @@ type
     function GetImportedModules(const Code: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Implementation
     function GetImplementationModules(const Code: string): string;
+
   public
     function Translate(const AvocadoCode: TStrings): TStringList;
+    function duze_litery_ansi(const S: string): string;
+    function male_litery_ansi(const S: string): string;
+    procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
+
   end;
 var
 Moduly: String;
@@ -139,7 +144,6 @@ begin
   Result := StringReplace(Result, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
-
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -432,6 +436,43 @@ begin
   end;
 end;
 
+function TAvocadoTranslator.duze_litery_ansi(const S: string): string;
+begin
+  // AnsiUpperCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
+  Result := AnsiUpperCase(S);
+end;
+
+function TAvocadoTranslator.male_litery_ansi(const S: string): string;
+begin
+  // AnsiLowerCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
+  Result := AnsiLowerCase(S);
+end;
+
+procedure TAvocadoTranslator.SplitStringByChar(const AString: string;
+  const ASeparator: Char; AResultList: TStrings);
+var
+  CurrentPos: Integer;
+  StartPos: Integer;
+begin
+    AResultList.Clear;
+      if AString = '' then
+        Exit;
+
+      CurrentPos := 1;
+      StartPos := 1;
+      while CurrentPos <= Length(AString) do
+      begin
+        if AString[CurrentPos] = ASeparator then
+        begin
+          AResultList.Add(Copy(AString, StartPos, CurrentPos - StartPos));
+          StartPos := CurrentPos + 1;
+        end;
+        Inc(CurrentPos);
+      end;
+      // Dodanie ostatniego fragmentu po pętli
+      AResultList.Add(Copy(AString, StartPos, Length(AString) - StartPos + 1));
+end;
+
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
@@ -502,7 +543,19 @@ var
   ParamStringOfChar: string;
   ParamPartsStringOfChar: TStringArray;
   TranslatedCharArg, TranslatedCountArg: string;
-
+  //zmienne dla funkcji porównaj_tekst()
+  StartPosCompareStr, EndPosCompareStr: Integer;
+  ParamCompareStr: string;
+  ParamPartsCompareStr: TStringArray;
+  TranslatedS1Arg, TranslatedS2Arg: string;
+  //Zamień
+  ZamienTekst_ParamParts, ZamienTekst_AssignParts: TStringArray;
+  ZamienTekst_Param, ZamienTekst_TextArg, ZamienTekst_FromArg, ZamienTekst_ToArg, ZamienTekst_ResultVar: string;
+  ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
+  //Ansi
+  DLAnsi_Param, DLAnsi_VarName, DLAnsi_Value: string;
+  DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
+  DLAnsi_AssignParts:TStringArray;
 
 begin
   TrimmedLine := Trim(Line);
@@ -750,6 +803,108 @@ begin
     end;
     Exit;
   end;
+     // Nowa obsługa funkcji porównaj_tekst() -> CompareStr()
+  if Pos('porównaj_tekst(', LowerTrimmedLine) > 0 then
+  begin
+    StartPosCompareStr := Pos('(', TrimmedLine);
+    EndPosCompareStr := RPos(')', TrimmedLine);
+
+    if (StartPosCompareStr = 0) or (EndPosCompareStr = 0) then
+      raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
+
+    if StartPosCompareStr > EndPosCompareStr then
+      raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
+
+    ParamCompareStr := Trim(Copy(TrimmedLine, StartPosCompareStr + 1, EndPosCompareStr - StartPosCompareStr - 1));
+    ParamPartsCompareStr := ParamCompareStr.Split([',']);
+
+    if Length(ParamPartsCompareStr) <> 2 then
+      raise Exception.Create('Funkcja porównaj_tekst wymaga dwóch argumentów: s1 i s2');
+
+    TranslatedS1Arg := TranslateExpression(Trim(ParamPartsCompareStr[0]));
+    TranslatedS2Arg := TranslateExpression(Trim(ParamPartsCompareStr[1]));
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
+    end
+    else
+    begin
+      PascalCode.Add('CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
+    end;
+    Exit;
+  end;
+
+  // Obsługa funkcji zamień_tekst
+  if Pos('zamień_tekst(', LowerTrimmedLine) > 0 then
+  begin
+    ZamienTekst_StartPos := Pos('(', TrimmedLine);
+    ZamienTekst_EndPos   := RPos(')', TrimmedLine);
+
+    if (ZamienTekst_StartPos = 0) or (ZamienTekst_EndPos = 0) then
+      raise Exception.Create('Błędna składnia zamień_tekst. Oczekiwano: zamień_tekst(text, from, to)');
+
+    ZamienTekst_Param := Trim(Copy(TrimmedLine, ZamienTekst_StartPos + 1, ZamienTekst_EndPos - ZamienTekst_StartPos - 1));
+    ZamienTekst_ParamParts := ZamienTekst_Param.Split([',']);
+
+    if Length(ZamienTekst_ParamParts) <> 3 then
+      raise Exception.Create('Funkcja zamień_tekst wymaga trzech argumentów: text, from, to');
+
+    ZamienTekst_TextArg := TranslateExpression(Trim(ZamienTekst_ParamParts[0])); // AText
+    ZamienTekst_FromArg := TranslateExpression(Trim(ZamienTekst_ParamParts[1])); // AFromText
+    ZamienTekst_ToArg   := TranslateExpression(Trim(ZamienTekst_ParamParts[2])); // AToText
+
+    // Sprawdzenie czy jest przypisanie
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      ZamienTekst_AssignParts := TrimmedLine.Split(['='], 2);
+      ZamienTekst_ResultVar := Trim(ZamienTekst_AssignParts[0]);
+      PascalCode.Add(ZamienTekst_ResultVar + ' := ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
+    end
+    else
+    begin
+      PascalCode.Add('ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
+    end;
+
+    Exit;
+  end
+  //Ansi
+
+    // Obsługa funkcji duże_litery_ansi
+    else if Pos('duże_litery_ansi', LowerTrimmedLine) > 0 then
+    begin
+      DLAnsi_FuncPos := Pos('duże_litery_ansi', LowerTrimmedLine);
+      if (DLAnsi_FuncPos = 1) or ((Pos('=', LowerTrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine))) then
+      begin
+        DLAnsi_LParenPos := Pos('(', TrimmedLine);
+        DLAnsi_RParenPos := RPos(')', TrimmedLine);
+        if (DLAnsi_LParenPos = 0) or (DLAnsi_RParenPos = 0) then
+          raise Exception.Create('Błędna składnia duże_litery_ansi. Oczekiwano: duże_litery_ansi(tekst)');
+
+        DLAnsi_Param := Trim(Copy(TrimmedLine, DLAnsi_LParenPos + 1, DLAnsi_RParenPos - DLAnsi_LParenPos - 1));
+
+        // z przypisaniem (b = duże_litery_ansi(...))
+        if (Pos('=', TrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine)) then
+        begin
+          DLAnsi_AssignParts := TrimmedLine.Split(['='], 2);
+          DLAnsi_VarName := Trim(DLAnsi_AssignParts[0]);
+          //PascalCode.Add(DLAnsi_VarName + ' := AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
+          PascalCode.Add(DLAnsi_VarName + ' := UTF8UpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
+        end
+        else
+        begin
+          // bez przypisania – samodzielne wywołanie
+          PascalCode.Add('AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
+        end;
+
+        Exit; // kluczowe: nie leć dalej do zwykłego przypisania
+      end;
+      // jeśli warunki wyżej nie spełnione, nie przechwytujemy — pozwól obsłużyć innym gałęziom
+    end;
+
+
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
@@ -1170,6 +1325,12 @@ begin
       UsesList.Add('SysUtils');
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
+      UsesList.Add('StrUtils');
+      UsesList.Add('LazUTF8'); //Aby nie bylo krzaków w konsoli
+      //UsesList.Add('Utf8Process');
+
+
+
       //UsesList.Add('Crt');
 
       // Dodaj moduły użytkownika z 'Importuj'
