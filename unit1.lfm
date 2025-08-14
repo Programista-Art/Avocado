@@ -3,7 +3,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.0.6'
+  Caption = 'IDE Avocado v 1.0.0.7'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
@@ -1121,6 +1121,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'przytnij_z_lewa(s)'
       'przytnij_z_prawa(s) '
       'wstaw(‘tekst’,zmienna, indeks)'
+      'porównaj_tekst(zmienna1,zmienna2)'
       'usuń(zmienna, indeks, ilość znaków)'
       'kopiuj(zmienna,początek_kopiowania,koniec_kopiowania)'
       'klawisz_wciśnięty'
@@ -1132,7 +1133,8 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
       'program'
       'importuj'
-      'jeśli i = 0  wtedy  inaczej'
+      'jeśli i = 0  wtedy  inaczej '
+      'dla i od 0 do 2 '
       'liczba_całkowita'
       'liczba_mała'
       'liczba_długa'
@@ -1343,7 +1345,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
     Left = 168
-    Top = 120
+    Top = 48
   end
   object SynMultiSyn1: TSynMultiSyn
     Enabled = False

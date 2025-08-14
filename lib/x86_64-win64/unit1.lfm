@@ -3,7 +3,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.0.6'
+  Caption = 'IDE Avocado v 1.0.0.7'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
@@ -1343,7 +1343,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
     Left = 168
-    Top = 120
+    Top = 48
   end
   object SynMultiSyn1: TSynMultiSyn
     Enabled = False

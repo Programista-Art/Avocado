@@ -1,0 +1,64 @@
+object Finformacjaide: TFinformacjaide
+  Left = 350
+  Height = 169
+  Top = 250
+  Width = 215
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Inforamcja o IDE Avocado'
+  ClientHeight = 169
+  ClientWidth = 215
+  Color = 2697513
+  Position = poMainFormCenter
+  object Panel1: TPanel
+    Left = 0
+    Height = 32
+    Top = 137
+    Width = 215
+    Align = alBottom
+    ClientHeight = 32
+    ClientWidth = 215
+    Color = 5588525
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 0
+    object SpeedButton1: TSpeedButton
+      Left = 184
+      Height = 30
+      Top = 1
+      Width = 30
+      Align = alRight
+      Caption = 'OK'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Height = -13
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      OnClick = SpeedButton1Click
+    end
+  end
+  object Memo1: TMemo
+    Left = 0
+    Height = 137
+    Top = 0
+    Width = 215
+    Align = alClient
+    Alignment = taCenter
+    Color = 5197647
+    Font.CharSet = EASTEUROPE_CHARSET
+    Font.Color = clWhite
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Lines.Strings = (
+      'F8  →  Transpiluj Kod w Free Pascal'
+      'F9  →  Kompiluj program w .exe'
+      ''
+      'Ctrl+N  → Nowy Plik'
+      'Ctrl+O →  Otwórz plik'
+      'Ctrl+S  →  Zapisz plik'
+    )
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 1
+  end
+end
