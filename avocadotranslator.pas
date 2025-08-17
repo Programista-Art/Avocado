@@ -570,10 +570,12 @@ var
   DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
   DLAnsi_AssignParts:TStringArray;
   //Pliki
-     AssignStartPos, AssignEndPos: Integer;
-    AssignParamStr: string;
-    AssignParams: TStringList;
-    AssignTranslatedParam1, AssignTranslatedParam2: string;
+  AssignStartPos, AssignEndPos: Integer;
+  AssignParamStr: string;
+  AssignParams: TStringList;
+  AssignTranslatedParam1, AssignTranslatedParam2: string;
+
+
 
 begin
   TrimmedLine := Trim(Line);
@@ -922,6 +924,7 @@ begin
       // jeśli warunki wyżej nie spełnione, nie przechwytujemy — pozwól obsłużyć innym gałęziom
     end;
 
+
      // Nowa obsługa funkcji przypisz_plik() -> AssignFile()
 if AnsiStartsText('przypisz_plik(', TrimmedLine) then
 begin
@@ -957,6 +960,8 @@ begin
     AssignParams.Free;
   end;
 end;
+
+
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then

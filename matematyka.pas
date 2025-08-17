@@ -67,9 +67,14 @@ uses
   procedure ExprWykladnicza(var Result: TFPExpressionResult; const Args: TExprParameterArray);
   // Funkcja obsługująca potęgowanie (base^exponent) w parserze wyrażeń
   procedure ExprPotega(var Result: TFPExpressionResult; const Args: TExprParameterArray);
-  // Funkcja obsługująca losową liczbę w przedziale [0,1)
-  procedure ExprLosowa(var Result: TFPExpressionResult; const Args: TExprParameterArray);
-  procedure ExprLosowaPrzedzial(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Inkrementuje zmienną x (zwiększa o 1).
+  procedure ExprIncVar(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Dekrementuje zmienną x (zmniejsza o 1). Dec(x, n)
+  procedure ExprDecVar(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Frac(x): Zwraca część ułamkową liczby zmiennoprzecinkowej.
+  procedure ExprFrac(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
+
 
 
 implementation
@@ -137,8 +142,11 @@ begin
       Parser.Identifiers.AddFunction('log_naturalny', 'F', 'F', @ExprLogarytmNaturalny);
       Parser.Identifiers.AddFunction('wykładnicza', 'F', 'F', @ExprWykladnicza);
       Parser.Identifiers.AddFunction('potęga', 'F', 'FF', @ExprPotega);
-      Parser.Identifiers.AddFunction('losowa', 'F', '', @ExprLosowa);
-      Parser.Identifiers.AddFunction('losowa_przedział', 'F', 'FF', @ExprLosowaPrzedzial);
+      Parser.Identifiers.AddFunction('zwiększ', 'F','F', @ExprIncVar);
+      Parser.Identifiers.AddFunction('zmniejsz', 'F','F', @ExprDecVar);
+      Parser.Identifiers.AddFunction('ułamek', 'F', 'F', @ExprFrac);
+
+
 
 
       Parser.Expression := Expr;
@@ -411,21 +419,55 @@ begin
   Result.ResFloat := Power(base, exponent);
 end;
 
-procedure ExprLosowa(var Result: TFPExpressionResult;
-  const Args: TExprParameterArray);
-begin
-  Result.ResFloat := Random;
-end;
-
-procedure ExprLosowaPrzedzial(var Result: TFPExpressionResult;
+procedure ExprIncVar(var Result: TFPExpressionResult;
   const Args: TExprParameterArray);
 var
-  a, b: Double;
+  x, n: Int64;
 begin
-  a := ArgToFloat(Args[0]);
-  b := ArgToFloat(Args[1]);
-  Result.ResFloat := a + Random * (b - a); // losowa z [a,b]
+  if Length(Args) = 1 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     Result.ResFloat := x + 1;
+   end
+   else if Length(Args) = 2 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     n := Round(ArgToFloat(Args[1]));
+     Result.ResFloat := x + n;
+   end
+   else
+     raise Exception.Create('zwiększ(x [,n]): oczekiwano 1 lub 2 argumentów.');
 end;
+
+procedure ExprDecVar(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, n: Int64;
+begin
+  if Length(Args) = 1 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     Result.ResFloat := x - 1;
+   end
+   else if Length(Args) = 2 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     n := Round(ArgToFloat(Args[1]));
+     Result.ResFloat := x - n;
+   end
+   else
+     raise Exception.Create('zmniejsz(x [,n]): oczekiwano 1 lub 2 argumentów.');
+end;
+
+procedure ExprFrac(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Frac(ArgToFloat(Args[0]));
+end;
+
+
+
+
 
 
 

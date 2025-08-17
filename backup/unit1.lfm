@@ -1249,6 +1249,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'kwadrat_liczby()'
       'pierwiastek_kwl()'
       'log_naturalny() '
+      'potęga(2,3)'
       'matematyka'
       'czarny'
       'zielony'
@@ -1267,6 +1268,8 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'jasnoczerwony '
       'jasnoróżowy'
       'migotanie'
+      'oblicz(''zwiększ(0)'')'
+      'oblicz(''zmniejsz(0)'')'
     )
     Position = 0
     LinesInWindow = 10

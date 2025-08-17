@@ -43,7 +43,7 @@
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos Y="34"/>
+        <CursorPos Y="20"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit>
@@ -54,6 +54,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="77"/>
         <CursorPos X="2" Y="94"/>
         <UsageCount Value="201"/>
@@ -66,7 +67,7 @@
         <ComponentName Value="FormSettingIntepreter"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="62"/>
         <CursorPos Y="82"/>
         <UsageCount Value="201"/>
@@ -78,8 +79,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="420"/>
-        <CursorPos X="18" Y="351"/>
+        <TopLine Value="282"/>
+        <CursorPos X="72" Y="1527"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -128,16 +129,15 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="47" Y="8"/>
-        <UsageCount Value="169"/>
+        <UsageCount Value="172"/>
       </Unit>
       <Unit>
         <Filename Value="matematyka.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="126"/>
-        <CursorPos X="55" Y="141"/>
-        <UsageCount Value="137"/>
+        <TopLine Value="136"/>
+        <CursorPos X="54" Y="150"/>
+        <UsageCount Value="140"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -145,7 +145,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="109"/>
       </Unit>
       <Unit>
         <Filename Value="moduly\chatgptavocado.pas"/>
@@ -153,7 +153,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="93"/>
         <CursorPos X="5" Y="145"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="105"/>
       </Unit>
       <Unit>
         <Filename Value="moduly\uchatgpt.pas"/>
@@ -162,7 +162,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="86"/>
+        <UsageCount Value="89"/>
       </Unit>
       <Unit>
         <Filename Value="uwsparcie.pas"/>
@@ -174,7 +174,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="32"/>
         <CursorPos X="55" Y="54"/>
-        <UsageCount Value="76"/>
+        <UsageCount Value="79"/>
       </Unit>
       <Unit>
         <Filename Value="ustawieniaai.pas"/>
@@ -182,10 +182,10 @@
         <ComponentName Value="FustawieniaAI"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="97"/>
         <CursorPos X="9" Y="117"/>
-        <UsageCount Value="63"/>
+        <UsageCount Value="66"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -237,82 +237,13 @@
       <Unit>
         <Filename Value="D:\Lazarus4RC3\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="721"/>
         <CursorPos X="14" Y="733"/>
         <UsageCount Value="30"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="1033" Column="26" TopLine="1018"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="1031" Column="9" TopLine="1014"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="921" Column="4" TopLine="901"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="1086" Column="7" TopLine="1070"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="1010" Column="42" TopLine="991"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="139" Column="23" TopLine="126"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="1086" Column="7" TopLine="1061"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="921" TopLine="730"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="138" Column="28" TopLine="122"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="267" TopLine="266"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="266" TopLine="265"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="94" Column="2" TopLine="77"/>
-      </Position>
-      <Position>
-        <Filename Value="matematyka.pas"/>
-        <Caret Line="58" Column="17" TopLine="34"/>
-      </Position>
-      <Position>
-        <Filename Value="matematyka.pas"/>
-        <Caret Line="330" Column="17" TopLine="307"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="960" Column="5" TopLine="933"/>
-      </Position>
-      <Position>
-        <Filename Value="matematyka.pas"/>
-        <Caret Line="57" Column="3" TopLine="34"/>
-      </Position>
-      <Position>
-        <Filename Value="matematyka.pas"/>
-        <Caret Line="59" Column="16" TopLine="46"/>
-      </Position>
       <Position>
         <Filename Value="matematyka.pas"/>
         <Caret Line="342" Column="47" TopLine="315"/>
@@ -364,6 +295,74 @@
       <Position>
         <Filename Value="matematyka.pas"/>
         <Caret Line="72" Column="23" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="75" Column="17" TopLine="58"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="143" Column="7" TopLine="124"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="418" TopLine="403"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="71" Column="18" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="145" Column="31" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="73" Column="27" TopLine="64"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="580" Column="32" TopLine="564"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="1021" Column="5" TopLine="993"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="578" Column="3" TopLine="570"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="967" TopLine="958"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="799" Column="39" TopLine="783"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="71" Column="19" TopLine="56"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="140" Column="63" TopLine="118"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="141" Column="54" TopLine="155"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="73" Column="19" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="94" Column="2" TopLine="77"/>
+      </Position>
+      <Position>
+        <Filename Value="matematyka.pas"/>
+        <Caret Line="75" Column="19" TopLine="56"/>
       </Position>
     </JumpHistory>
     <RunParams>

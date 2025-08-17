@@ -348,9 +348,9 @@ begin
         Line := Trim(Lines[i]); // Usuń zbędne spacje
 
         // Sprawdzenie, czy linia zaczyna się od "Importuj"
-        if Pos('Importuj', Line) = 1 then
+        if Pos('importuj', Line) = 1 then
         begin
-          Delete(Line, 1, Length('Importuj')); // Usuń słowo "Importuj"
+          Delete(Line, 1, Length('importuj')); // Usuń słowo "importuj"
           Line := Trim(Line); // Usuń spacje przed nazwami modułów
 
           // Dodanie do listy modułów
@@ -570,10 +570,12 @@ var
   DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
   DLAnsi_AssignParts:TStringArray;
   //Pliki
-     AssignStartPos, AssignEndPos: Integer;
-    AssignParamStr: string;
-    AssignParams: TStringList;
-    AssignTranslatedParam1, AssignTranslatedParam2: string;
+  AssignStartPos, AssignEndPos: Integer;
+  AssignParamStr: string;
+  AssignParams: TStringList;
+  AssignTranslatedParam1, AssignTranslatedParam2: string;
+
+
 
 begin
   TrimmedLine := Trim(Line);
@@ -922,6 +924,7 @@ begin
       // jeśli warunki wyżej nie spełnione, nie przechwytujemy — pozwól obsłużyć innym gałęziom
     end;
 
+
      // Nowa obsługa funkcji przypisz_plik() -> AssignFile()
 if AnsiStartsText('przypisz_plik(', TrimmedLine) then
 begin
@@ -957,6 +960,63 @@ begin
     AssignParams.Free;
   end;
 end;
+
+
+
+// Nowa, ulepszona obsługa funkcji losowa() -> Random()
+if AnsiStartsText('losowa(', TrimmedLine) then
+begin
+  // Sprawdzamy, czy Randomize nie zostalo juz dodane, aby uniknac duplikacji
+  if PascalCode.IndexOf('Randomize;') = -1 then
+  begin
+    // Dodajemy Randomize, aby zapewnic rozne sekwencje liczb losowych
+    PascalCode.Add('Randomize;');
+  end;
+
+  // Analiza linii w celu znalezienia przypisania do zmiennej
+
+
+
+  LosowaEqualPos := Pos('=', TrimmedLine);
+
+  if LosowaEqualPos > 0 then
+  begin
+    LosowaVarName := Trim(Copy(TrimmedLine, 1, LosowaEqualPos - 1));
+    // Przetwarzanie części po znaku '='
+
+    FunctionCall := Trim(Copy(TrimmedLine, LosowaEqualPos + 1, MaxInt));
+
+    // Szukanie nawiasow kwadratowych [] dla zakresu
+    StartBracketPos := Pos('[', FunctionCall);
+    EndBracketPos := Pos(']', FunctionCall);
+
+    if (StartBracketPos > 0) and (EndBracketPos > 0) and (EndBracketPos > StartBracketPos) then
+    begin
+      // Istnieje zakres, wiec go parsujemy
+      LosowaParamStr := Copy(FunctionCall, StartBracketPos + 1, EndBracketPos - StartBracketPos - 1);
+
+      try
+        // Zakladamy, ze bedzie to format [0, N]
+        RangeValue := StrToInt(Trim(Copy(LosowaParamStr, Pos(',', LosowaParamStr) + 1, MaxInt)));
+        LosowaTranslatedLine := LosowaVarName + ' := Random(' + IntToStr(RangeValue) + ');';
+      except
+        on E: Exception do
+        begin
+          raise Exception.Create('Błąd w parametrach funkcji losowa. Oczekiwano formatu losowa[0, N], gdzie N jest liczbą całkowitą.');
+        end;
+      end;
+    end
+    else
+    begin
+      // Brak zakresu, uzywamy standardowej funkcji Random
+      LosowaTranslatedLine := LosowaVarName + ' := Random;';
+    end;
+
+    PascalCode.Add(LosowaTranslatedLine);
+    Exit;
+  end;
+end;
+
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
