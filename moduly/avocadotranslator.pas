@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie,LazUTF8;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie;
 
 type
   TStringArray = array of string;
@@ -29,13 +29,8 @@ type
     function GetImportedModules(const Code: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Implementation
     function GetImplementationModules(const Code: string): string;
-
   public
     function Translate(const AvocadoCode: TStrings): TStringList;
-    function duze_litery_ansi(const S: string): string;
-    function male_litery_ansi(const S: string): string;
-    procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
-
   end;
 var
 Moduly: String;
@@ -144,6 +139,7 @@ begin
   Result := StringReplace(Result, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
+
 end;
 
 //Deklaracja nowych typów zmienncyh
@@ -348,9 +344,9 @@ begin
         Line := Trim(Lines[i]); // Usuń zbędne spacje
 
         // Sprawdzenie, czy linia zaczyna się od "Importuj"
-        if Pos('importuj', Line) = 1 then
+        if Pos('Importuj', Line) = 1 then
         begin
-          Delete(Line, 1, Length('importuj')); // Usuń słowo "importuj"
+          Delete(Line, 1, Length('Importuj')); // Usuń słowo "Importuj"
           Line := Trim(Line); // Usuń spacje przed nazwami modułów
 
           // Dodanie do listy modułów
@@ -375,32 +371,19 @@ begin
       else
         ModulesList := 'Crt';
     end;
-
-    //modul LazUTF8
-    if (Pos('duże_litery_ansi', LowerCase(Code)) > 0)then
+    {
+    //modul StrUtils
+    if (Pos('długość', LowerCase(Code)) > 0) or
+     (Pos('dd', LowerCase(Code)) > 0) then
 
     begin
       if ModulesList <> '' then
-        ModulesList := ModulesList + ', LazUTF8'
+        ModulesList := ModulesList + ', StrUtils'
       else
-        ModulesList := 'LazUTF8';
+        ModulesList := 'StrUtils';
     end;
-    //usuwam LazUTF8 jesli jest duże_litery
-    // Sprawdzenie, czy linia zaczyna się od "Importuj"
-       if Pos('duże_litery', Line) = 1 then
-       begin
-         Delete(Line, 1, Length('LazUTF8')); // Usuń słowo "LazUTF8"
-         Line := Trim(Line); // Usuń spacje przed nazwami modułów
+    }
 
-         // Dodanie do listy modułów
-         if ModulesList = '' then
-           ModulesList := Line
-         else
-           ModulesList := ModulesList + ', ' + Line;
-       end;
-
-
-     //inne
       Result := ModulesList; // Zwrócenie wynikowej listy modułów
     finally
       Lines.Free;
@@ -447,43 +430,6 @@ begin
   finally
     Lines.Free; // Zawsze zwolnij pamięć po TStringList
   end;
-end;
-
-function TAvocadoTranslator.duze_litery_ansi(const S: string): string;
-begin
-  // AnsiUpperCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
-  Result := AnsiUpperCase(S);
-end;
-
-function TAvocadoTranslator.male_litery_ansi(const S: string): string;
-begin
-  // AnsiLowerCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
-  Result := AnsiLowerCase(S);
-end;
-
-procedure TAvocadoTranslator.SplitStringByChar(const AString: string;
-  const ASeparator: Char; AResultList: TStrings);
-var
-  CurrentPos: Integer;
-  StartPos: Integer;
-begin
-    AResultList.Clear;
-      if AString = '' then
-        Exit;
-
-      CurrentPos := 1;
-      StartPos := 1;
-      while CurrentPos <= Length(AString) do
-      begin
-        if AString[CurrentPos] = ASeparator then
-        begin
-          AResultList.Add(Copy(AString, StartPos, CurrentPos - StartPos));
-          StartPos := CurrentPos + 1;
-        end;
-        Inc(CurrentPos);
-      end;
-      // Dodanie ostatniego fragmentu po pętli
-      AResultList.Add(Copy(AString, StartPos, Length(AString) - StartPos + 1));
 end;
 
 //przetwarzanie zagnieżdżonych instrukcji.
@@ -561,19 +507,7 @@ var
   ParamCompareStr: string;
   ParamPartsCompareStr: TStringArray;
   TranslatedS1Arg, TranslatedS2Arg: string;
-  //Zamień
-  ZamienTekst_ParamParts, ZamienTekst_AssignParts: TStringArray;
-  ZamienTekst_Param, ZamienTekst_TextArg, ZamienTekst_FromArg, ZamienTekst_ToArg, ZamienTekst_ResultVar: string;
-  ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
-  //Ansi
-  DLAnsi_Param, DLAnsi_VarName, DLAnsi_Value: string;
-  DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
-  DLAnsi_AssignParts:TStringArray;
-  //Pliki
-     AssignStartPos, AssignEndPos: Integer;
-    AssignParamStr: string;
-    AssignParams: TStringList;
-    AssignTranslatedParam1, AssignTranslatedParam2: string;
+
 
 begin
   TrimmedLine := Trim(Line);
@@ -855,108 +789,7 @@ begin
     Exit;
   end;
 
-  // Obsługa funkcji zamień_tekst
-  if Pos('zamień_tekst(', LowerTrimmedLine) > 0 then
-  begin
-    ZamienTekst_StartPos := Pos('(', TrimmedLine);
-    ZamienTekst_EndPos   := RPos(')', TrimmedLine);
 
-    if (ZamienTekst_StartPos = 0) or (ZamienTekst_EndPos = 0) then
-      raise Exception.Create('Błędna składnia zamień_tekst. Oczekiwano: zamień_tekst(text, from, to)');
-
-    ZamienTekst_Param := Trim(Copy(TrimmedLine, ZamienTekst_StartPos + 1, ZamienTekst_EndPos - ZamienTekst_StartPos - 1));
-    ZamienTekst_ParamParts := ZamienTekst_Param.Split([',']);
-
-    if Length(ZamienTekst_ParamParts) <> 3 then
-      raise Exception.Create('Funkcja zamień_tekst wymaga trzech argumentów: text, from, to');
-
-    ZamienTekst_TextArg := TranslateExpression(Trim(ZamienTekst_ParamParts[0])); // AText
-    ZamienTekst_FromArg := TranslateExpression(Trim(ZamienTekst_ParamParts[1])); // AFromText
-    ZamienTekst_ToArg   := TranslateExpression(Trim(ZamienTekst_ParamParts[2])); // AToText
-
-    // Sprawdzenie czy jest przypisanie
-    if Pos('=', TrimmedLine) > 0 then
-    begin
-      ZamienTekst_AssignParts := TrimmedLine.Split(['='], 2);
-      ZamienTekst_ResultVar := Trim(ZamienTekst_AssignParts[0]);
-      PascalCode.Add(ZamienTekst_ResultVar + ' := ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
-    end
-    else
-    begin
-      PascalCode.Add('ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
-    end;
-
-    Exit;
-  end
-  //Ansi
-
-    // Obsługa funkcji duże_litery_ansi
-    else if Pos('duże_litery_ansi', LowerTrimmedLine) > 0 then
-    begin
-      DLAnsi_FuncPos := Pos('duże_litery_ansi', LowerTrimmedLine);
-      if (DLAnsi_FuncPos = 1) or ((Pos('=', LowerTrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine))) then
-      begin
-        DLAnsi_LParenPos := Pos('(', TrimmedLine);
-        DLAnsi_RParenPos := RPos(')', TrimmedLine);
-        if (DLAnsi_LParenPos = 0) or (DLAnsi_RParenPos = 0) then
-          raise Exception.Create('Błędna składnia duże_litery_ansi. Oczekiwano: duże_litery_ansi(tekst)');
-
-        DLAnsi_Param := Trim(Copy(TrimmedLine, DLAnsi_LParenPos + 1, DLAnsi_RParenPos - DLAnsi_LParenPos - 1));
-
-        // z przypisaniem (b = duże_litery_ansi(...))
-        if (Pos('=', TrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine)) then
-        begin
-          DLAnsi_AssignParts := TrimmedLine.Split(['='], 2);
-          DLAnsi_VarName := Trim(DLAnsi_AssignParts[0]);
-          //PascalCode.Add(DLAnsi_VarName + ' := AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
-          PascalCode.Add(DLAnsi_VarName + ' := UTF8UpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
-        end
-        else
-        begin
-          // bez przypisania – samodzielne wywołanie
-          PascalCode.Add('AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
-        end;
-
-        Exit; // kluczowe: nie leć dalej do zwykłego przypisania
-      end;
-      // jeśli warunki wyżej nie spełnione, nie przechwytujemy — pozwól obsłużyć innym gałęziom
-    end;
-
-     // Nowa obsługa funkcji przypisz_plik() -> AssignFile()
-if AnsiStartsText('przypisz_plik(', TrimmedLine) then
-begin
-  AssignStartPos := Pos('(', TrimmedLine);
-  AssignEndPos := RPos(')', TrimmedLine);
-
-  if (AssignStartPos = 0) or (AssignEndPos = 0) then
-    raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
-
-  if AssignStartPos > AssignEndPos then
-    raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
-
-  AssignParamStr := Copy(TrimmedLine, AssignStartPos + 1, AssignEndPos - AssignStartPos - 1);
-  AssignParams := TStringList.Create;
-  try
-    // Podziel parametry na podstawie przecinków
-    SplitStringByChar(AssignParamStr, ',', AssignParams);
-
-    if AssignParams.Count <> 2 then
-      raise Exception.Create('Błędna liczba argumentów dla funkcji przypisz_plik. Oczekiwano 2 argumenty.');
-
-    if (Trim(AssignParams[0]) = '') or (Trim(AssignParams[1]) = '') then
-      raise Exception.Create('Argumenty funkcji przypisz_plik nie mogą być puste.');
-
-    // Przetłumacz każdy z parametrów
-    AssignTranslatedParam1 := TranslateExpression(AssignParams[0]);
-    AssignTranslatedParam2 := TranslateExpression(AssignParams[1]);
-
-    // Generowanie kodu Pascala
-    PascalCode.Add('AssignFile(' + AssignTranslatedParam1 + ', ' + AssignTranslatedParam2 + ');');
-    Exit;
-  finally
-    AssignParams.Free;
-  end;
-end;
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
@@ -1365,8 +1198,6 @@ begin
     // --- KONIEC SKANOWANIA ---
 
     try
-
-      PascalCode.Add('{$codepage utf8}');
       PascalCode.Add('{$mode objfpc}');
       PascalCode.Add('{$H+}');
       PascalCode.Add('program ' + DetectedProgramName + ';'); // Użyj wykrytej nazwy
@@ -1379,12 +1210,6 @@ begin
       UsesList.Add('SysUtils');
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
-      UsesList.Add('StrUtils');
-      //UsesList.Add('LazUTF8'); //Aby nie bylo krzaków w konsoli
-      //UsesList.Add('Utf8Process');
-
-
-
       //UsesList.Add('Crt');
 
       // Dodaj moduły użytkownika z 'Importuj'
@@ -1522,7 +1347,6 @@ begin
             PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
           else if LowerCase(FVariables[i].VarType) = 'stała' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Const;')
-
           else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
              PascalCode.Add('  ' + FVariables[i].Name + ': String;');
         end;

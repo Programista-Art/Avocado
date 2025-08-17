@@ -10,7 +10,7 @@ uses
   SynEdit, SynPopupMenu, SynCompletion, SynMacroRecorder, SynPluginSyncroEdit,
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
-  PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI;
+  PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI,LazUTF8,StrUtils;
 
 type
   { TFustawieniaChatGPT }
@@ -91,6 +91,7 @@ type
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
     procedure sbzapytajClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
+
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -261,6 +262,8 @@ begin
     IdleTimer1.Enabled := True;
   end;
 end;
+
+
 
 procedure TFustawieniaChatGPT.NowyPlikExecute(Sender: TObject);
 begin
@@ -450,7 +453,7 @@ begin
   try
     MemoOutPut.Clear;
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+    //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
 
     MemoOutPut.Lines.Add(FTranslatedCode.Text);
     //BtnCompile.Enabled := True;
@@ -510,9 +513,7 @@ begin
 
   // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
   ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
-  // Ustawienie ExeName na podstawie zapisanego pliku
-  //ExeName := ChangeFileExt(NameProgram, '.exe');
-  //ExeName := ChangeFileExt(sFileName, '.exe');
+
 
   // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
   CompilePascalCode(FTranslatedCode.Text, ExeName);
@@ -908,6 +909,12 @@ begin
     MemoLogs.Lines.Add('Klucz Api Pomocnika AI dodany');
   MemoLogs.Lines.Add('Model Pomocnika AI: ' + ModelGPT);
 end;
+
+
+
+
+
+
 
 
 destructor TFustawieniaChatGPT.Destroy;

@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie,LazUTF8;
 
 type
   TStringArray = array of string;
@@ -375,19 +375,32 @@ begin
       else
         ModulesList := 'Crt';
     end;
-    {
-    //modul StrUtils
-    if (Pos('długość', LowerCase(Code)) > 0) or
-     (Pos('dd', LowerCase(Code)) > 0) then
+
+    //modul LazUTF8
+    if (Pos('duże_litery_ansi', LowerCase(Code)) > 0)then
 
     begin
       if ModulesList <> '' then
-        ModulesList := ModulesList + ', StrUtils'
+        ModulesList := ModulesList + ', LazUTF8'
       else
-        ModulesList := 'StrUtils';
+        ModulesList := 'LazUTF8';
     end;
-    }
+    //usuwam LazUTF8 jesli jest duże_litery
+    // Sprawdzenie, czy linia zaczyna się od "Importuj"
+       if Pos('duże_litery', Line) = 1 then
+       begin
+         Delete(Line, 1, Length('LazUTF8')); // Usuń słowo "LazUTF8"
+         Line := Trim(Line); // Usuń spacje przed nazwami modułów
 
+         // Dodanie do listy modułów
+         if ModulesList = '' then
+           ModulesList := Line
+         else
+           ModulesList := ModulesList + ', ' + Line;
+       end;
+
+
+     //inne
       Result := ModulesList; // Zwrócenie wynikowej listy modułów
     finally
       Lines.Free;
@@ -556,6 +569,11 @@ var
   DLAnsi_Param, DLAnsi_VarName, DLAnsi_Value: string;
   DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
   DLAnsi_AssignParts:TStringArray;
+  //Pliki
+     AssignStartPos, AssignEndPos: Integer;
+    AssignParamStr: string;
+    AssignParams: TStringList;
+    AssignTranslatedParam1, AssignTranslatedParam2: string;
 
 begin
   TrimmedLine := Trim(Line);
@@ -904,7 +922,41 @@ begin
       // jeśli warunki wyżej nie spełnione, nie przechwytujemy — pozwól obsłużyć innym gałęziom
     end;
 
+     // Nowa obsługa funkcji przypisz_plik() -> AssignFile()
+if AnsiStartsText('przypisz_plik(', TrimmedLine) then
+begin
+  AssignStartPos := Pos('(', TrimmedLine);
+  AssignEndPos := RPos(')', TrimmedLine);
 
+  if (AssignStartPos = 0) or (AssignEndPos = 0) then
+    raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
+
+  if AssignStartPos > AssignEndPos then
+    raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
+
+  AssignParamStr := Copy(TrimmedLine, AssignStartPos + 1, AssignEndPos - AssignStartPos - 1);
+  AssignParams := TStringList.Create;
+  try
+    // Podziel parametry na podstawie przecinków
+    SplitStringByChar(AssignParamStr, ',', AssignParams);
+
+    if AssignParams.Count <> 2 then
+      raise Exception.Create('Błędna liczba argumentów dla funkcji przypisz_plik. Oczekiwano 2 argumenty.');
+
+    if (Trim(AssignParams[0]) = '') or (Trim(AssignParams[1]) = '') then
+      raise Exception.Create('Argumenty funkcji przypisz_plik nie mogą być puste.');
+
+    // Przetłumacz każdy z parametrów
+    AssignTranslatedParam1 := TranslateExpression(AssignParams[0]);
+    AssignTranslatedParam2 := TranslateExpression(AssignParams[1]);
+
+    // Generowanie kodu Pascala
+    PascalCode.Add('AssignFile(' + AssignTranslatedParam1 + ', ' + AssignTranslatedParam2 + ');');
+    Exit;
+  finally
+    AssignParams.Free;
+  end;
+end;
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
@@ -1313,6 +1365,8 @@ begin
     // --- KONIEC SKANOWANIA ---
 
     try
+
+      PascalCode.Add('{$codepage utf8}');
       PascalCode.Add('{$mode objfpc}');
       PascalCode.Add('{$H+}');
       PascalCode.Add('program ' + DetectedProgramName + ';'); // Użyj wykrytej nazwy
@@ -1326,7 +1380,7 @@ begin
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
       UsesList.Add('StrUtils');
-      UsesList.Add('LazUTF8'); //Aby nie bylo krzaków w konsoli
+      //UsesList.Add('LazUTF8'); //Aby nie bylo krzaków w konsoli
       //UsesList.Add('Utf8Process');
 
 
@@ -1468,6 +1522,7 @@ begin
             PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
           else if LowerCase(FVariables[i].VarType) = 'stała' then
             PascalCode.Add('  ' + FVariables[i].Name + ': Const;')
+
           else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
              PascalCode.Add('  ' + FVariables[i].Name + ': String;');
         end;

@@ -54,6 +54,24 @@ uses
   procedure ExprCot(var Result: TFPExpressionResult; const Args: TExprParameterArray);
   //csc(x)
   procedure ExprCsc(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
+  // Funkcja obsługująca wartość bezwzględną w parserze wyrażeń
+  procedure ExprAbs(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca kwadrat liczby w parserze wyrażeń
+  procedure ExprSqr(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca pierwiastek kwadratowy w parserze wyrażeń
+  procedure ExprPierwiastek(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca logarytm naturalny w parserze wyrażeń
+  procedure ExprLogarytmNaturalny(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca funkcję wykładniczą w parserze wyrażeń
+  procedure ExprWykladnicza(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca potęgowanie (base^exponent) w parserze wyrażeń
+  procedure ExprPotega(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca losową liczbę w przedziale [0,1)
+  procedure ExprLosowa(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprLosowaPrzedzial(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
+
 implementation
 
 uses
@@ -112,6 +130,17 @@ begin
       Parser.Identifiers.AddFunction('sech', 'F', 'F', @ExprSech);
       Parser.Identifiers.AddFunction('cot', 'F', 'F', @ExprCot);
       Parser.Identifiers.AddFunction('csc', 'F', 'F', @ExprCsc);
+      Parser.Identifiers.AddFunction('wbl', 'F', 'F', @ExprAbs);
+      Parser.Identifiers.AddFunction('sqr', 'F', 'F', @ExprSqr);
+      Parser.Identifiers.AddFunction('kwadrat_liczby', 'F', 'F', @ExprSqr);
+      Parser.Identifiers.AddFunction('pierwiastek_kw', 'F', 'F', @ExprPierwiastek);
+      Parser.Identifiers.AddFunction('log_naturalny', 'F', 'F', @ExprLogarytmNaturalny);
+      Parser.Identifiers.AddFunction('wykładnicza', 'F', 'F', @ExprWykladnicza);
+      Parser.Identifiers.AddFunction('potęga', 'F', 'FF', @ExprPotega);
+      Parser.Identifiers.AddFunction('losowa', 'F', '', @ExprLosowa);
+      Parser.Identifiers.AddFunction('losowa_przedział', 'F', 'FF', @ExprLosowaPrzedzial);
+
+
       Parser.Expression := Expr;
       Res := Parser.Evaluate;
 
@@ -329,5 +358,75 @@ begin
 
    Result.ResFloat := 1 / sinX; // csc(x) = 1 / sin(x)
 end;
+
+procedure ExprAbs(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Abs(ArgToFloat(Args[0]));
+end;
+
+procedure ExprSqr(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Sqr(ArgToFloat(Args[0]));
+end;
+
+procedure ExprPierwiastek(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if x < 0 then
+    raise Exception.Create('Pierwiastek kwadratowy z liczby ujemnej nie istnieje!')
+  else
+    Result.ResFloat := Sqrt(x);
+end;
+
+procedure ExprLogarytmNaturalny(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if x <= 0 then
+    raise Exception.Create('Logarytm naturalny z liczby ≤ 0 nie jest dozwolony')
+  else
+    Result.ResFloat := Ln(x);
+end;
+
+procedure ExprWykladnicza(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+   Result.ResFloat := Exp(ArgToFloat(Args[0]));
+end;
+
+procedure ExprPotega(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  base, exponent: Double;
+begin
+  base := ArgToFloat(Args[0]);
+  exponent := ArgToFloat(Args[1]);
+  Result.ResFloat := Power(base, exponent);
+end;
+
+procedure ExprLosowa(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Random;
+end;
+
+procedure ExprLosowaPrzedzial(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  a, b: Double;
+begin
+  a := ArgToFloat(Args[0]);
+  b := ArgToFloat(Args[1]);
+  Result.ResFloat := a + Random * (b - a); // losowa z [a,b]
+end;
+
+
 
 end.
