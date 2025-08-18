@@ -42,7 +42,7 @@ Moduly: String;
 
 implementation
 uses
-  unit1;
+  unit1,pliki;
 
 { TAvocadoTranslator }
 
@@ -574,7 +574,7 @@ var
   AssignParamStr: string;
   AssignParams: TStringList;
   AssignTranslatedParam1, AssignTranslatedParam2: string;
-
+  Result_plik: string;
 
 
 begin
@@ -960,62 +960,30 @@ begin
     AssignParams.Free;
   end;
 end;
+     if StartsText('przypisz_plik', Line) then
+    Result_plik := StringReplace(Line, 'przypisz_plik', 'AssignFile', [])
+  else if StartsText('otwórz_do_odczytu', Line) then
+    Result_plik := StringReplace(Line, 'otwórz_do_odczytu', 'Reset', [])
+  else if StartsText('otwórz_do_zapisu', Line) then
+    Result_plik := StringReplace(Line, 'otwórz_do_zapisu', 'Rewrite', [])
+  else if StartsText('otwórz_do_dopisywania', Line) then
+    Result_plik := StringReplace(Line, 'otwórz_do_dopisywania', 'Append', [])
+  else if StartsText('zamknij_plik', Line) then
+    Result_plik := StringReplace(Line, 'zamknij_plik', 'CloseFile', [])
+  else if StartsText('koniec_pliku', Line) then
+    Result_plik := StringReplace(Line, 'koniec_pliku', 'Eof', [])
+  else if StartsText('czytaj_linie', Line) then
+    Result_plik := StringReplace(Line, 'czytaj_linie', 'ReadLn', [])
+  else if StartsText('pisz', Line) then
+    Result_plik := StringReplace(Line, 'pisz', 'Write', [])
+  else if StartsText('pisznl', Line) then
+    Result_plik := StringReplace(Line, 'pisznl', 'WriteLn', [])
+  else
+    Result_plik := Line; // bez zmian
 
 
 
-// Nowa, ulepszona obsługa funkcji losowa() -> Random()
-if AnsiStartsText('losowa(', TrimmedLine) then
-begin
-  // Sprawdzamy, czy Randomize nie zostalo juz dodane, aby uniknac duplikacji
-  if PascalCode.IndexOf('Randomize;') = -1 then
-  begin
-    // Dodajemy Randomize, aby zapewnic rozne sekwencje liczb losowych
-    PascalCode.Add('Randomize;');
-  end;
 
-  // Analiza linii w celu znalezienia przypisania do zmiennej
-
-
-
-  LosowaEqualPos := Pos('=', TrimmedLine);
-
-  if LosowaEqualPos > 0 then
-  begin
-    LosowaVarName := Trim(Copy(TrimmedLine, 1, LosowaEqualPos - 1));
-    // Przetwarzanie części po znaku '='
-
-    FunctionCall := Trim(Copy(TrimmedLine, LosowaEqualPos + 1, MaxInt));
-
-    // Szukanie nawiasow kwadratowych [] dla zakresu
-    StartBracketPos := Pos('[', FunctionCall);
-    EndBracketPos := Pos(']', FunctionCall);
-
-    if (StartBracketPos > 0) and (EndBracketPos > 0) and (EndBracketPos > StartBracketPos) then
-    begin
-      // Istnieje zakres, wiec go parsujemy
-      LosowaParamStr := Copy(FunctionCall, StartBracketPos + 1, EndBracketPos - StartBracketPos - 1);
-
-      try
-        // Zakladamy, ze bedzie to format [0, N]
-        RangeValue := StrToInt(Trim(Copy(LosowaParamStr, Pos(',', LosowaParamStr) + 1, MaxInt)));
-        LosowaTranslatedLine := LosowaVarName + ' := Random(' + IntToStr(RangeValue) + ');';
-      except
-        on E: Exception do
-        begin
-          raise Exception.Create('Błąd w parametrach funkcji losowa. Oczekiwano formatu losowa[0, N], gdzie N jest liczbą całkowitą.');
-        end;
-      end;
-    end
-    else
-    begin
-      // Brak zakresu, uzywamy standardowej funkcji Random
-      LosowaTranslatedLine := LosowaVarName + ' := Random;';
-    end;
-
-    PascalCode.Add(LosowaTranslatedLine);
-    Exit;
-  end;
-end;
 
 
   // 0. Obsługa pętli for

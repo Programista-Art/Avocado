@@ -13,7 +13,7 @@ uses
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, printer4lazarus,
   tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, matematyka,
-  formatowanie, chatgptavocado, uwsparcie, ustawieniaai;
+  formatowanie, chatgptavocado, uwsparcie, ustawieniaai, pliki;
 
 {$R *.res}
 
