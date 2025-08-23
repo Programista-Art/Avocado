@@ -19,10 +19,10 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="6"/>
+      <BuildNr Value="8"/>
       <Language Value="0415"/>
-      <Attributes pvaDebug="True" pvaPreRelease="True"/>
-      <StringTable Comments="IDE Avocado" CompanyName="Programista Art" FileDescription="IDE Avocado" InternalName="IDE Avocado" LegalCopyright="IDE Avocado" LegalTrademarks="IDE Avocado" OriginalFilename="IDE Avocado" ProductName="IDE Avocado" ProductVersion="1.0.0.6"/>
+      <Attributes pvaDebug="True" pvaPreRelease="True" pvaPatched="True" pvaPrivateBuild="True" pvaSpecialBuild="True"/>
+      <StringTable Comments="IDE Avocado" CompanyName="Programista Art" FileDescription="IDE Avocado" InternalName="IDE Avocado" LegalCopyright="IDE Avocado" LegalTrademarks="IDE Avocado" OriginalFilename="IDE Avocado" ProductName="IDE Avocado" ProductVersion="1.0.0.8"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>

@@ -34,6 +34,7 @@ type
     function Translate(const AvocadoCode: TStrings): TStringList;
     function duze_litery_ansi(const S: string): string;
     function male_litery_ansi(const S: string): string;
+    function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
 
   end;
@@ -145,6 +146,7 @@ begin
   Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
 end;
+
 
 //Deklaracja nowych typów zmienncyh
 procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
@@ -275,6 +277,7 @@ begin
 end;
 
 
+
 function TAvocadoTranslator.JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
 var
   WtedyLines, InaczejLines: TStringList;
@@ -366,7 +369,7 @@ begin
      (Pos('tło_tekstu', LowerCase(Code)) > 0) or
      (Pos('kolor_tekstu', LowerCase(Code)) > 0) or
      (Pos('pozycja_kursora', LowerCase(Code)) > 0) or
-     //(Pos('długość', LowerCase(Code)) > 0) or
+     (Pos('przypisz_plik', LowerCase(Code)) > 0) or
      (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) then
 
     begin
@@ -459,6 +462,33 @@ function TAvocadoTranslator.male_litery_ansi(const S: string): string;
 begin
   // AnsiLowerCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
   Result := AnsiLowerCase(S);
+end;
+
+function TAvocadoTranslator.IsKnownType(const S: string): Boolean;
+begin
+   Result :=
+    (S = 'liczba_całkowita') or (S = 'lc') or
+    (S = 'liczba_zm') or (S = 'lzm') or
+    (S = 'logiczny') or (S = 'znak') or
+    (S = 'liczba_krótka') or (S = 'liczba_mała') or
+    (S = 'liczba_długa') or (S = 'liczba64') or
+    (S = 'bajt') or (S = 'liczba16') or (S = 'liczba32') or
+    (S = 'tekst') or (S = 'tablicaliczb') or
+    (S = 'liczba_pojedyncza') or (S = 'liczba_podwójna') or
+    (S = 'liczba_rozszerzona') or (S = 'liczba_zgodna_delphi') or
+    (S = 'liczba_waluta') or (S = 'logiczny_bajt') or
+    (S = 'logiczne_słowo') or (S = 'logiczny_długi') or
+    (S = 'znak_unicode') or (S = 'tekst255') or
+    (S = 'tekst_ansi') or (S = 'tekst_unicode') or
+    (S = 'tekst_systemowy') or
+    (S = 'tablica_stała') or (S = 'tablica_dynamiczna') or
+    (S = 'rekord') or (S = 'kolekcja') or
+    (S = 'plik') or (S = 'plik_tekstowy') or
+    (S = 'plik_binarny') or (S = 'plik_struktur') or
+    (S = 'wskaźnik') or (S = 'wskaźnik_na') or
+    (S = 'wariant') or (S = 'wariant_ole') or
+    (S = 'tablicatekstów') or
+    (S = 'stała') or (S = 'tekstld');
 end;
 
 procedure TAvocadoTranslator.SplitStringByChar(const AString: string;

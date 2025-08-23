@@ -34,6 +34,7 @@ type
     function Translate(const AvocadoCode: TStrings): TStringList;
     function duze_litery_ansi(const S: string): string;
     function male_litery_ansi(const S: string): string;
+    function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
 
   end;
@@ -146,6 +147,7 @@ begin
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
 end;
 
+
 //Deklaracja nowych typów zmienncyh
 procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
 var
@@ -223,6 +225,13 @@ begin
 end;
 
 
+//nowea funkcja
+
+
+
+
+
+
 { Przetwarzanie pętli for w formacie:
   dla <zmienna> od <początek> do <koniec> { <ciało> } }
 procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
@@ -273,6 +282,7 @@ begin
 
   PascalCode.Add('end;');
 end;
+
 
 
 function TAvocadoTranslator.JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
@@ -366,7 +376,7 @@ begin
      (Pos('tło_tekstu', LowerCase(Code)) > 0) or
      (Pos('kolor_tekstu', LowerCase(Code)) > 0) or
      (Pos('pozycja_kursora', LowerCase(Code)) > 0) or
-     //(Pos('długość', LowerCase(Code)) > 0) or
+     (Pos('przypisz_plik', LowerCase(Code)) > 0) or
      (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) then
 
     begin
@@ -459,6 +469,33 @@ function TAvocadoTranslator.male_litery_ansi(const S: string): string;
 begin
   // AnsiLowerCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
   Result := AnsiLowerCase(S);
+end;
+
+function TAvocadoTranslator.IsKnownType(const S: string): Boolean;
+begin
+   Result :=
+    (S = 'liczba_całkowita') or (S = 'lc') or
+    (S = 'liczba_zm') or (S = 'lzm') or
+    (S = 'logiczny') or (S = 'znak') or
+    (S = 'liczba_krótka') or (S = 'liczba_mała') or
+    (S = 'liczba_długa') or (S = 'liczba64') or
+    (S = 'bajt') or (S = 'liczba16') or (S = 'liczba32') or
+    (S = 'tekst') or (S = 'tablicaliczb') or
+    (S = 'liczba_pojedyncza') or (S = 'liczba_podwójna') or
+    (S = 'liczba_rozszerzona') or (S = 'liczba_zgodna_delphi') or
+    (S = 'liczba_waluta') or (S = 'logiczny_bajt') or
+    (S = 'logiczne_słowo') or (S = 'logiczny_długi') or
+    (S = 'znak_unicode') or (S = 'tekst255') or
+    (S = 'tekst_ansi') or (S = 'tekst_unicode') or
+    (S = 'tekst_systemowy') or
+    (S = 'tablica_stała') or (S = 'tablica_dynamiczna') or
+    (S = 'rekord') or (S = 'kolekcja') or
+    (S = 'plik') or (S = 'plik_tekstowy') or
+    (S = 'plik_binarny') or (S = 'plik_struktur') or
+    (S = 'wskaźnik') or (S = 'wskaźnik_na') or
+    (S = 'wariant') or (S = 'wariant_ole') or
+    (S = 'tablicatekstów') or
+    (S = 'stała') or (S = 'tekstld');
 end;
 
 procedure TAvocadoTranslator.SplitStringByChar(const AString: string;
@@ -960,27 +997,104 @@ begin
     AssignParams.Free;
   end;
 end;
-     if StartsText('przypisz_plik', Line) then
-    Result_plik := StringReplace(Line, 'przypisz_plik', 'AssignFile', [])
-  else if StartsText('otwórz_do_odczytu', Line) then
-    Result_plik := StringReplace(Line, 'otwórz_do_odczytu', 'Reset', [])
-  else if StartsText('otwórz_do_zapisu', Line) then
-    Result_plik := StringReplace(Line, 'otwórz_do_zapisu', 'Rewrite', [])
-  else if StartsText('otwórz_do_dopisywania', Line) then
-    Result_plik := StringReplace(Line, 'otwórz_do_dopisywania', 'Append', [])
-  else if StartsText('zamknij_plik', Line) then
-    Result_plik := StringReplace(Line, 'zamknij_plik', 'CloseFile', [])
-  else if StartsText('koniec_pliku', Line) then
-    Result_plik := StringReplace(Line, 'koniec_pliku', 'Eof', [])
-  else if StartsText('czytaj_linie', Line) then
-    Result_plik := StringReplace(Line, 'czytaj_linie', 'ReadLn', [])
-  else if StartsText('pisz', Line) then
-    Result_plik := StringReplace(Line, 'pisz', 'Write', [])
-  else if StartsText('pisznl', Line) then
-    Result_plik := StringReplace(Line, 'pisznl', 'WriteLn', [])
-  else
-    Result_plik := Line; // bez zmian
 
+    //Dotyczy plików
+    // przypisz_plik(f, 'plik.txt') -> AssignFile(f, 'plik.txt');
+    if AnsiStartsText('przypisz_plik(', TrimmedLine) then
+    begin
+      AssignStartPos := Pos('(', TrimmedLine);
+      AssignEndPos   := RPos(')', TrimmedLine);
+      if (AssignStartPos = 0) or (AssignEndPos = 0) then
+        raise Exception.Create('Błędna składnia przypisz_plik(zmienna_plikowa, nazwa_pliku)');
+
+      AssignParamStr := Copy(TrimmedLine, AssignStartPos + 1, AssignEndPos - AssignStartPos - 1);
+
+      AssignParams := TStringList.Create;
+      try
+        // rozdziel po przecinku (użyj Twojej funkcji pomocniczej)
+        SplitStringByChar(AssignParamStr, ',', AssignParams);
+        if AssignParams.Count <> 2 then
+          raise Exception.Create('przypisz_plik wymaga 2 argumentów: (f, nazwa_pliku)');
+
+        AssignTranslatedParam1 := TranslateExpression(Trim(AssignParams[0]));
+        AssignTranslatedParam2 := TranslateExpression(Trim(AssignParams[1]));
+
+        PascalCode.Add('AssignFile(' + AssignTranslatedParam1 + ', ' + AssignTranslatedParam2 + ');');
+        Exit;
+      finally
+        AssignParams.Free;
+      end;
+    end;
+
+    // otwórz_do_odczytu(f) -> Reset(f);
+    if AnsiStartsText('otwórz_do_odczytu(', TrimmedLine) then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia otwórz_do_odczytu(f)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('Reset(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    //Otwórz_do_zapisu(f) -> Rewrite(f);
+    if AnsiStartsText('otwórz_do_zapisu(', TrimmedLine) then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia otwórz_do_zapisu(f)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('Rewrite(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    // otwórz_do_dopisywania(f) -> Append(f);
+    if AnsiStartsText('otwórz_do_dopisywania(', TrimmedLine) then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia otwórz_do_dopisywania(f)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('Append(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    // zamknij_plik(f) -> CloseFile(f);
+    if AnsiStartsText('zamknij_plik(', TrimmedLine) then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia zamknij_plik(f)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('CloseFile(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    // czytaj_linie(f, x, y, ...) -> ReadLn(f, x, y, ...)
+    // (działa także dla konsoli: czytaj_linie(x, y, ...))
+    if AnsiStartsText('czytaj_linie(', TrimmedLine) then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia czytaj_linie(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('ReadLn(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    // koniec_pliku(f) -> Eof(f) także w wyrażeniach/warunkach
+    if Pos('koniec_pliku(', LowerTrimmedLine) > 0 then
+    begin
+      PascalCode.Add(
+        StringReplace(TrimmedLine, 'koniec_pliku', 'Eof', [rfReplaceAll, rfIgnoreCase]) + ';'
+      );
+      Exit;
+    end;
 
 
 

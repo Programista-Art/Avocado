@@ -3,7 +3,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.0.7'
+  Caption = 'IDE Avocado v 1.0.0.8'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
@@ -1270,6 +1270,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'migotanie'
       'oblicz(''zwiększ(0)'')'
       'oblicz(''zmniejsz(0)'')'
+      'oblicz(''ułamek(3.1415)'')'
     )
     Position = 0
     LinesInWindow = 10

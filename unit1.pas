@@ -423,7 +423,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.0.7 ' + 'Otwarty projekt: ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.0.8 ' + 'Otwarty projekt: ' + OpenFileProject;
    //Timer
     IdleTimer1.Enabled := True;
     ToolButton1Click(Sender);
