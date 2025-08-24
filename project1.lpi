@@ -76,6 +76,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="laz_synapse"/>
+      </Item>
+      <Item>
         <PackageName Value="TAChartLazarusPkg"/>
       </Item>
       <Item>
@@ -206,6 +209,10 @@
         <ComponentName Value="Form1"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
+      </Unit>
+      <Unit>
+        <Filename Value="internet.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>

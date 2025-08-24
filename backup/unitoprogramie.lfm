@@ -26,7 +26,7 @@ object FormOprogramie: TFormOprogramie
     Lines.Strings = (
       'IDE Avocado '
       'Środowisko programistyczne dla języka programowania Avocado, również sam język Avocado'
-      'Aktualizacja 20.07.2025'
+      'Aktualizacja 24.08.2025'
       'avocado.dimitalart.pl'
     )
     ParentFont = False

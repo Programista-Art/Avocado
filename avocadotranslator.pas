@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie,LazUTF8;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie,LazUTF8,internet,httpsend;
 
 type
   TStringArray = array of string;
@@ -36,6 +36,7 @@ type
     function male_litery_ansi(const S: string): string;
     function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
+    //Internet
 
   end;
 var
@@ -43,7 +44,7 @@ Moduly: String;
 
 implementation
 uses
-  unit1,pliki;
+  unit1;
 
 { TAvocadoTranslator }
 
@@ -403,6 +404,17 @@ begin
        end;
 
 
+       //Jesli potzrebny modul internet
+        if (Pos('pobierz_plik(', LowerCase(Code)) > 0)then
+        begin
+          if ModulesList <> '' then
+            ModulesList := ModulesList + ', internet'
+          else
+            ModulesList := 'internet';
+        end;
+
+
+
      //inne
       Result := ModulesList; // Zwrócenie wynikowej listy modułów
     finally
@@ -516,6 +528,7 @@ begin
       AResultList.Add(Copy(AString, StartPos, Length(AString) - StartPos + 1));
 end;
 
+
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
@@ -605,6 +618,12 @@ var
   AssignParams: TStringList;
   AssignTranslatedParam1, AssignTranslatedParam2: string;
   Result_plik: string;
+  //Intrenet
+  PartsPobierz: TStringArray;               // do rozdzielania linii (np. Split)
+  InstrukcjaWarunkowaPobierz: TStringArray; // do przechowania [URL, plik]
+  LineRest: string;                  // pozostała część linii po "pobierz "
+  URLtekst: string;                  // adres URL
+  FileName: string;                  // nazwa pliku do zapisania
 
 
 begin
@@ -731,7 +750,9 @@ begin
     Exit;
   end;
 
-  // 0. Obsługa pętli for
+
+  {STARE FUNKCJE}
+  // stare funkcje. Obsługa pętli for
   if LowerTrimmedLine.StartsWith('dla ') then
   begin
     ProcessForLoop(TrimmedLine, PascalCode);
@@ -990,6 +1011,25 @@ begin
     AssignParams.Free;
   end;
 end;
+
+{INTERNET BLOK KODU}
+  if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
+begin
+  Parts := TrimmedLine.Split([' do '], 2);
+  if Length(Parts) = 2 then
+    PascalCode.Add('DownloadFTP(' + Parts[0].Substring(12) + ', ' + Parts[1] + ');');
+   PascalCode.Add('DownloadFileToDisk(URL, SavePath, ErrorMsg);');
+  Exit;
+
+end;
+
+// Obsługa pobierania pliku
+  if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
+  begin
+    PascalCode.Add(TrimmedLine + ';');  // przepisz dokładnie jak jest
+    Exit;
+
+  end;
 
     //Dotyczy plików
     // przypisz_plik(f, 'plik.txt') -> AssignFile(f, 'plik.txt');
@@ -1515,6 +1555,11 @@ begin
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
       UsesList.Add('StrUtils');
+    //  UsesList.Add('internet');
+
+
+
+
       //UsesList.Add('LazUTF8'); //Aby nie bylo krzaków w konsoli
       //UsesList.Add('Utf8Process');
 

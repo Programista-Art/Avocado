@@ -10,6 +10,7 @@ object FormOprogramie: TFormOprogramie
   ClientWidth = 320
   Color = 2697513
   Position = poMainFormCenter
+  LCLVersion = '4.0.0.2'
   object Memo1: TMemo
     Left = 0
     Height = 141
