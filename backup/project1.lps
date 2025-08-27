@@ -79,9 +79,10 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="1731"/>
-        <CursorPos X="37" Y="1745"/>
+        <TopLine Value="1142"/>
+        <CursorPos X="23" Y="1155"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -138,7 +139,7 @@
         <EditorIndex Value="10"/>
         <TopLine Value="437"/>
         <CursorPos X="5" Y="474"/>
-        <UsageCount Value="174"/>
+        <UsageCount Value="176"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -146,16 +147,14 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18"/>
-        <UsageCount Value="143"/>
+        <UsageCount Value="145"/>
       </Unit>
       <Unit>
         <Filename Value="moduly\chatgptavocado.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="122"/>
-        <CursorPos X="14" Y="110"/>
-        <UsageCount Value="139"/>
+        <CursorPos X="32" Y="12"/>
+        <UsageCount Value="141"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -163,7 +162,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <CursorPos X="20" Y="8"/>
-        <UsageCount Value="123"/>
+        <UsageCount Value="125"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -176,7 +175,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="32"/>
         <CursorPos X="55" Y="54"/>
-        <UsageCount Value="113"/>
+        <UsageCount Value="115"/>
       </Unit>
       <Unit>
         <Filename Value="ustawieniaai.pas"/>
@@ -187,7 +186,7 @@
         <EditorIndex Value="11"/>
         <TopLine Value="97"/>
         <CursorPos X="9" Y="117"/>
-        <UsageCount Value="100"/>
+        <UsageCount Value="102"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -197,7 +196,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="64"/>
         <CursorPos Y="77"/>
-        <UsageCount Value="55"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -206,14 +205,14 @@
         <ComponentName Value="Form1"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="43"/>
       </Unit>
       <Unit>
         <Filename Value="internet.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
         <CursorPos X="58" Y="8"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -380,16 +379,16 @@
         <Caret Line="1114" Column="45" TopLine="1100"/>
       </Position>
       <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="38" Column="15" TopLine="937"/>
-      </Position>
-      <Position>
         <Filename Value="moduly\chatgptavocado.pas"/>
         <Caret Line="124" Column="21" TopLine="116"/>
       </Position>
       <Position>
         <Filename Value="moduly\uchatgpt.pas"/>
         <Caret Line="8" Column="20"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="747" Column="16" TopLine="733"/>
       </Position>
     </JumpHistory>
     <RunParams>

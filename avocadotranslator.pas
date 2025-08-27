@@ -743,6 +743,8 @@ var
   ArgList: TStringList;
   ArgStrz, TranslatedApiKeyz, TranslatedModelz, QuestionArgz: string;
   StartPosz, EndPosz: Integer;
+  //Ping
+  Site: String;
 
 
 begin
@@ -1131,15 +1133,35 @@ begin
 end;
 
 {INTERNET BLOK KODU}
-  if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
+if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
 begin
   Parts := TrimmedLine.Split([' do '], 2);
   if Length(Parts) = 2 then
     PascalCode.Add('DownloadFTP(' + Parts[0].Substring(12) + ', ' + Parts[1] + ');');
    PascalCode.Add('DownloadFileToDisk(URL, SavePath, ErrorMsg);');
   Exit;
-
 end;
+
+//ping
+if LowerCase(TrimmedLine).StartsWith('ping ') then
+begin
+  Parts := TrimmedLine.Split([' '], 2); // rozdzielamy na "ping" i adres
+  if Length(Parts) = 2 then
+  begin
+    Site := Parts[1]; // zapisujemy stronę do zmiennej
+
+    PascalCode.Add('if Ping(''' + Site + ''') then');
+    PascalCode.Add('begin');
+    PascalCode.Add('  WriteLn(''Strona ' + Site + ' odpowiada!'');');
+    PascalCode.Add('end');
+    PascalCode.Add('else');
+    PascalCode.Add('begin');
+    PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z ' + Site + ''');');
+    PascalCode.Add('end;');
+  end;
+  Exit;
+end;
+
 
 // Obsługa pobierania pliku
   if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
@@ -1742,6 +1764,9 @@ begin
       UsesList.Add('chatgptavocado');
       UsesList.Add('uchatgpt');
       UsesList.Add('Dialogs');
+      UsesList.Add('pingsend');
+      UsesList.Add('internet');
+
 
 
 
