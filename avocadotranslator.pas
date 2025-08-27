@@ -36,6 +36,8 @@ type
     function male_litery_ansi(const S: string): string;
     function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
+    function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
+
     //Internet
 
   end;
@@ -57,6 +59,14 @@ begin
   SetLength(FVariables, Length(FVariables) + 1);
   FVariables[High(FVariables)].Name := Name;
   FVariables[High(FVariables)].VarType := VarType;
+end;
+
+// Prosta funkcja do sprawdzania, czy łańcuch jest literałem string
+function IsQuotedString(const S: string): Boolean;
+begin
+  Result := (Length(S) >= 2) and
+            ((S[1] = '''') and (S[Length(S)] = '''') or
+             (S[1] = '"') and (S[Length(S)] = '"'));
 end;
 
 //KOnwersje
@@ -225,6 +235,46 @@ begin
       end;
 end;
 
+// Zaawansowana funkcja do parsowania argumentów, która uwzględnia cudzysłowy
+function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
+var
+  I: Integer;
+  InQuote: Boolean;
+  StartPos: Integer;
+  QuoteChar: Char;
+begin
+  Result := True;
+  AStrings.Clear;
+  InQuote := False;
+  StartPos := 1;
+  QuoteChar := #0;
+
+  for I := 1 to Length(ASource) do
+  begin
+    if (ASource[I] = '''') or (ASource[I] = '"') then
+    begin
+      if not InQuote then
+      begin
+        InQuote := True;
+        QuoteChar := ASource[I];
+      end
+      else if ASource[I] = QuoteChar then
+      begin
+        InQuote := False;
+      end;
+    end
+    else if (ASource[I] = ',') and not InQuote then
+    begin
+      AStrings.Add(Copy(ASource, StartPos, I - StartPos));
+      StartPos := I + 1;
+    end;
+  end;
+
+  // Dodaj ostatni argument
+  if StartPos <= Length(ASource) then
+    AStrings.Add(Copy(ASource, StartPos, Length(ASource) - StartPos + 1));
+end;
+
 
 { Przetwarzanie pętli for w formacie:
   dla <zmienna> od <początek> do <koniec> { <ciało> } }
@@ -366,7 +416,7 @@ begin
       end;
 
     // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
-    if (Pos('odczytajklucz', LowerCase(Code)) > 0) or
+    if (Pos('czytaj_klawisz', LowerCase(Code)) > 0) or
      (Pos('tło_tekstu', LowerCase(Code)) > 0) or
      (Pos('kolor_tekstu', LowerCase(Code)) > 0) or
      (Pos('pozycja_kursora', LowerCase(Code)) > 0) or
@@ -413,6 +463,14 @@ begin
             ModulesList := 'internet';
         end;
 
+        //Jesli potzrebny modul ChatGPT
+        if (Pos('ZapytajChatGPT(', LowerCase(Code)) > 0)then
+        begin
+          if ModulesList <> '' then
+            ModulesList := ModulesList + ', chatgptavocado'
+          else
+            ModulesList := 'chatgptavocado';
+        end;
 
 
      //inne
@@ -528,6 +586,63 @@ begin
       AResultList.Add(Copy(AString, StartPos, Length(AString) - StartPos + 1));
 end;
 
+function TAvocadoTranslator.SplitArguments(const ASource: string;
+  AStrings: TStrings): Boolean;
+var
+    I: Integer;
+    InQuote: Boolean;
+    StartPos: Integer;
+    QuoteChar: Char;
+begin
+   Result := True;
+  AStrings.Clear;
+  InQuote := False;
+  StartPos := 1;
+  QuoteChar := #0;
+  I := 1;
+
+  while I <= Length(ASource) do
+  begin
+    if (ASource[I] = '''') or (ASource[I] = '"') then
+    begin
+      if not InQuote then
+      begin
+        InQuote := True;
+        QuoteChar := ASource[I];
+      end
+      else if ASource[I] = QuoteChar then
+      begin
+        // Upewnij się, że ten cudzysłów nie jest zdublowany ('')
+        if (I < Length(ASource)) and (ASource[I+1] = QuoteChar) then
+        begin
+          // To jest zdublowany cudzysłów w stringu, zignoruj go
+          Inc(I);
+        end
+        else
+        begin
+          // To jest prawdziwy cudzysłów zamykający
+          InQuote := False;
+        end;
+      end;
+    end
+    else if (ASource[I] = ',') and not InQuote then
+    begin
+      AStrings.Add(Copy(ASource, StartPos, I - StartPos));
+      StartPos := I + 1;
+    end;
+    Inc(I);
+  end;
+
+  // Dodaj ostatni argument. Jest to kluczowy fragment.
+  if StartPos <= Length(ASource) then
+    AStrings.Add(Copy(ASource, StartPos, Length(ASource) - StartPos + 1));
+
+  // Dodatkowo, aby mieć pewność, że wszystko jest czyste,
+  // przejdź przez listę i przytnij spacje z brzegów
+  for I := 0 to AStrings.Count - 1 do
+    AStrings[I] := Trim(AStrings[I]);
+end;
+
 
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
@@ -624,6 +739,10 @@ var
   LineRest: string;                  // pozostała część linii po "pobierz "
   URLtekst: string;                  // adres URL
   FileName: string;                  // nazwa pliku do zapisania
+  //Chat GPT
+  ArgList: TStringList;
+  ArgStrz, TranslatedApiKeyz, TranslatedModelz, QuestionArgz: string;
+  StartPosz, EndPosz: Integer;
 
 
 begin
@@ -750,9 +869,7 @@ begin
     Exit;
   end;
 
-
-  {STARE FUNKCJE}
-  // stare funkcje. Obsługa pętli for
+  //Obsługa pętli for
   if LowerTrimmedLine.StartsWith('dla ') then
   begin
     ProcessForLoop(TrimmedLine, PascalCode);
@@ -994,6 +1111,7 @@ begin
     // Podziel parametry na podstawie przecinków
     SplitStringByChar(AssignParamStr, ',', AssignParams);
 
+
     if AssignParams.Count <> 2 then
       raise Exception.Create('Błędna liczba argumentów dla funkcji przypisz_plik. Oczekiwano 2 argumenty.');
 
@@ -1128,10 +1246,6 @@ end;
       );
       Exit;
     end;
-
-
-
-
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
@@ -1299,33 +1413,33 @@ end;
       PascalCode.Add('TextBackground(' + TranslateExpression(Value) + ');');
     end
 
-    //czytaj klawisze ReadKey
-    else if LowerCase(TrimmedLine).StartsWith('ReadKey') then
+    //czytaj klawisze czytaj_klawisz ReadKey
+    else if LowerCase(TrimmedLine).StartsWith('czytaj_klawisz') then
     begin
-      Value := Copy(TrimmedLine, 7, Length(TrimmedLine) - 7);
+      Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
       PascalCode.Add('ReadKey' + TranslateExpression(Value) + ';');
       //Exit;
     end
 
-   else if Pos('ReadKey', LowerCase(TrimmedLine)) > 0 then
+   else if Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0 then
     begin
       Parts := TrimmedLine.Split(['='], 2);
       if Length(Parts) <> 2 then
-        raise Exception.Create('Błędna składnia odczytajklucz. Oczekiwano: zmienna = odczytajklucz');
+        raise Exception.Create('Błędna składnia czytaj_klawisz. Oczekiwano: zmienna = czytaj_klawisz');
 
       VarName := Trim(Parts[0]);
       Value := Trim(Parts[1]);
 
     // Sprawdź czy wartość po = to odczytajklucz
-    if LowerCase(Value) <> 'ReadKey' then
-      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: odczytajklucz');
+    if LowerCase(Value) <> 'czytaj_klawisz' then
+      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: czytaj_klawisz');
 
     // Przetwórz deklarację zmiennej (jeśli istnieje)
     if Pos(' ', VarName) > 0 then
     begin
       Parts := VarName.Split([' '], 2);
       if Length(Parts) < 2 then
-        raise Exception.Create('Błędna deklaracja zmiennej dla ReadKey');
+        raise Exception.Create('Błędna deklaracja zmiennej dla czytaj_klawisz');
 
       VarType := Parts[0];
       VarName := Parts[1];
@@ -1334,12 +1448,12 @@ end;
 
     // Sprawdź typ zmiennej
     if LowerCase(VarType) <> 'znak' then
-      raise Exception.Create('ReadKey wymaga typu "znak"');
+      raise Exception.Create('czytaj_klawisz wymaga typu "znak"');
 
     // Wygeneruj kod Pascala
     PascalCode.Add(VarName + ' := ReadKey;');
   end
-
+ //
     // 2. Obsługa funkcji pisznl
     else if LowerCase(TrimmedLine).StartsWith('pisznl(') then
     begin
@@ -1367,47 +1481,116 @@ end;
        PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
      end
 
-     // --- Obsługa 'zapytaj' (NOWA WERSJA - 3 argumenty) ---
+  // --- Obsługa 'zapytaj' (NOWA WERSJA - 3 argumenty) ---
+  {
   else if LowerCase(TrimmedLine).StartsWith('zapytaj(') then
   begin
     Start := Pos('(', TrimmedLine);
     EndPos := RPos(')', TrimmedLine); // Znajdź ostatni nawias zamykający
     if (Start > 0) and (EndPos > Start) then
     begin
-       // Wyodrębnij string z argumentami
-       ArgStr := Trim(Copy(TrimmedLine, Start + 1, EndPos - Start - 1));
+      // Wyodrębnij string z argumentami
+      ArgStr := Trim(Copy(TrimmedLine, Start + 7, EndPos - Start - 7));
 
-       // Rozdziel argumenty przecinkami
-       // UWAGA: Proste rozdzielanie, nie obsługuje przecinków wewnątrz argumentów (poza literałami string)!
-       // Wymaga bardziej zaawansowanego parsera dla pełnej funkcjonalności.
-       Args := ArgStr.Split([',']);
+      // Rozdziel argumenty przecinkami (proste rozdzielanie)
+      ArgList := TStringList.Create;
+      try
+        ArgList.Delimiter := ',';
+        ArgList.StrictDelimiter := True;
+        ArgList.DelimitedText := ArgStr;
 
-       // Sprawdź, czy są dokładnie 3 argumenty
-       if Length(Args) = 3 then
-       begin
-          ApiKeyArg := Trim(Args[0]);      // Pierwszy argument: klucz API (może być zmienną lub literałem)
-          ModelArg := Trim(Args[1]);       // Drugi argument: model (może być zmienną lub literałem)
-          QuestionArg := Trim(Args[2]);    // Trzeci argument: pytanie (zakładamy literał string w apostrofach)
+        // Sprawdź, czy są dokładnie 3 argumenty
+        if ArgList.Count = 3 then
+        begin
+          ApiKeyArg := Trim(ArgList[0]);   // 1. klucz API
+          ModelArg := Trim(ArgList[1]);    // 2. model
+          QuestionArg := Trim(ArgList[2]); // 3. pytanie
 
-          // Przetłumacz klucz i model (mogą być zmiennymi), pytanie przekaż bezpośrednio
-          // Jeśli klucz/model są zawsze literałami, można pominąć TranslateExpression
+          // Walidacja pytania – musi być string w apostrofach
+          if (Length(QuestionArg) < 2) or
+             (QuestionArg[1] <> '''') or
+             (QuestionArg[Length(QuestionArg)] <> '''') then
+            raise Exception.Create('Błąd: pytanie w zapytaj() musi być literałem string w apostrofach. Otrzymano: ' + QuestionArg);
+
+          // Tłumaczenie argumentów (API key i model mogą być zmiennymi)
           TranslatedApiKey := TranslateExpression(ApiKeyArg);
           TranslatedModel := TranslateExpression(ModelArg);
 
-          // Generuj kod Pascala z czterema argumentami
-          // Zakładamy, że QuestionArg ma już apostrofy z kodu Avocado
-          // Zakładamy, że GlobalResponseCallback to globalnie dostępna procedura
-          PascalCode.Add('ZapytajChatGPT(' + TranslatedApiKey + ', ' + TranslatedModel + ', ' + QuestionArg + ', @GlobalResponseCallback);');
-
-          // Zakładamy sygnaturę: procedure ZapytajChatGPT(const ApiKey, Model, UserQuestion: string; Callback: TResponseCallback);
-       end
-       else
-         raise Exception.Create('Błąd składni zapytaj: Oczekiwano 3 argumentów (klucz, model, pytanie), otrzymano ' + IntToStr(Length(Args)) + ' w "' + ArgStr + '"');
+          // Generowanie kodu Pascala
+          PascalCode.Add('ZapytajChatGPT(' +
+                          TranslatedApiKey + ', ' +
+                          TranslatedModel + ', ' +
+                          QuestionArg + ', ' +
+                          '@GlobalResponseCallback);');
+        end
+        else
+          raise Exception.Create('Błąd składni zapytaj: Oczekiwano 3 argumentów (klucz, model, pytanie), otrzymano ' +
+                                 IntToStr(ArgList.Count) + ' w "' + ArgStr + '"');
+      finally
+        ArgList.Free;
+      end;
     end
     else
-       raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
-    Exit; // Zakończ przetwarzanie
+      raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
+
+    Exit; // Zakończ przetwarzanie tej linii
   end
+  }
+  // --- Obsługa 'zapytaj' (WERSJA ULEPSZONA - 3 argumenty) ---
+
+else if LowerCase(TrimmedLine).StartsWith('ZapytajChatGPT(') then
+begin
+
+
+  // Znajdź pozycję otwierającego i zamykającego nawiasu
+  StartPos := Pos('(', TrimmedLine);
+  EndPos := RPos(')', TrimmedLine);
+
+ if (StartPos > 0) and (EndPos > StartPos) then
+  begin
+    // Wyodrębnij string z argumentami, usuwając zewnętrzne nawiasy
+    ArgStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+    // Stwórz listę do przechowywania sparsowanych argumentów
+    ArgList := TStringList.Create;
+    try
+      // Użyj naszej nowej, niezawodnej funkcji do parsowania
+      if SplitArguments(ArgStr, ArgList) then
+      begin
+        // Sprawdź, czy są dokładnie 3 argumenty
+        if ArgList.Count = 3 then
+        begin
+          TranslatedApiKey := TranslateExpression(ArgList[0]);
+          TranslatedModel := TranslateExpression(ArgList[1]);
+          QuestionArg := ArgList[2];
+
+          // Walidacja pytania
+          if not IsQuotedString(QuestionArg) then
+            raise Exception.Create('Błąd: Ostatni argument musi być literałem string w apostrofach lub cudzysłowach. Otrzymano: ' + QuestionArg);
+
+          // Generowanie kodu Pascala
+          PascalCode.Add('ZapytajChatGPT(' +
+                            TranslatedApiKey + ', ' +
+                            TranslatedModel + ', ' +
+                            QuestionArg + ', ' +
+                            '@GlobalResponseCallback);');
+        end
+        else
+        begin
+          raise Exception.Create('Błąd składni zapytaj: Oczekiwano 3 argumentów (klucz, model, pytanie), otrzymano ' + IntToStr(ArgList.Count));
+        end;
+      end
+      else
+        raise Exception.Create('Błąd parsowania argumentów w linii: ' + TrimmedLine);
+    finally
+      ArgList.Free;
+    end;
+  end
+  else
+    raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
+
+  Exit;
+end
 
     // 3. Obsługa deklaracji zmiennych z czytaj()
     else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
@@ -1555,7 +1738,10 @@ begin
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
       UsesList.Add('StrUtils');
-    //  UsesList.Add('internet');
+
+      UsesList.Add('chatgptavocado');
+      UsesList.Add('uchatgpt');
+      UsesList.Add('Dialogs');
 
 
 

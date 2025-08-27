@@ -5,7 +5,7 @@ unit chatgptavocado;
 interface
 
 uses
-  Classes, SysUtils, chatgpt;
+  Classes, SysUtils, chatgpt,Dialogs;
 
 type
   // Typ procedury zwrotnej (callback), który przyjmuje odpowiedź jako string
@@ -30,8 +30,6 @@ procedure ZapytajChatGPT(const AToken, AModel, APrompt: string; OnComplete: TCha
 
 implementation
 
-uses
-  Dialogs;
 
 { TChatGPTWrapper }
 
@@ -75,7 +73,8 @@ begin
           FOnComplete(ResponseText);
         except
           on E: Exception do
-            ShowMessage('Błąd w procedurze zwrotnej: ' + E.Message);
+            //ShowMessage('Błąd w procedurze zwrotnej: ' + E.Message);
+            WriteLn('Błąd w procedurze zwrotnej: ' + E.Message);
         end;
       end;
     end
@@ -94,7 +93,8 @@ procedure TChatGPTWrapper.SendQuestion(const APrompt: string);
 begin
   if FIsProcessing then
   begin
-    ShowMessage('Poprzednie zapytanie jest w trakcie przetwarzania...');
+   // ShowMessage('Poprzednie zapytanie jest w trakcie przetwarzania...');
+    WriteLn('Poprzednie zapytanie jest w trakcie przetwarzania...');
     Exit;
   end;
 
@@ -106,7 +106,8 @@ begin
     on E: Exception do
     begin
       FIsProcessing := False;
-      ShowMessage('Błąd podczas wysyłania zapytania: ' + E.Message);
+      //ShowMessage('Błąd podczas wysyłania zapytania: ' + E.Message);
+      WriteLn('Błąd podczas wysyłania zapytania: ' + E.Message);
       Self.Free;
     end;
   end;
@@ -119,13 +120,15 @@ var
 begin
   if Trim(AToken) = '' then
   begin
-    ShowMessage('Błąd: Brak tokenu API');
+    //ShowMessage('Błąd: Brak tokenu API');
+    WriteLn('Błąd: Brak tokenu API');
     Exit;
   end;
 
   if Trim(APrompt) = '' then
   begin
-    ShowMessage('Błąd: Puste zapytanie');
+    //ShowMessage('Błąd: Puste zapytanie');
+    WriteLn('Błąd: Puste zapytanie');
     Exit;
   end;
 
@@ -135,7 +138,8 @@ begin
   except
     on E: Exception do
     begin
-      ShowMessage('Błąd podczas inicjalizacji: ' + E.Message);
+      //ShowMessage('Błąd podczas inicjalizacji: ' + E.Message);
+      WriteLn('Błąd podczas inicjalizacji: ' + E.Message);
       if Assigned(Wrapper) then
         Wrapper.Free;
     end;

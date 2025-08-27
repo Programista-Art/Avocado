@@ -5,7 +5,7 @@ unit uchatgpt;
 interface
 
 uses
-  SysUtils, Classes, chatgptavocado;
+  SysUtils,Dialogs , Classes, chatgptavocado;
 
 var
   GlobalResponseReceived: Boolean = False;

@@ -1132,7 +1132,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'długość()'
       'kolor_tekstu()'
       'pozycja_kursora(x,y)'
-      'odczytaj_klawisz'
+      'czytaj_klawisz'
       'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
       'program'
       'importuj'

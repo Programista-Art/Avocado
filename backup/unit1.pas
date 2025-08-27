@@ -10,7 +10,7 @@ uses
   SynEdit, SynPopupMenu, SynCompletion, SynMacroRecorder, SynPluginSyncroEdit,
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
-  PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI,LazUTF8,StrUtils;
+  PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI,LazUTF8,StrUtils,LCLIntf,InterfaceBase;
 
 type
   { TFustawieniaChatGPT }
@@ -125,8 +125,7 @@ type
     //Laduje link do FPC kompilatora
     procedure LoadFpc;
     procedure SaveCodeToFile;
-    //Kompilacja kodu
-    procedure CompilePascalCode(const PascalCode, OutputFile: string);
+
     //Kompilacja kodu release debug
     procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
     //Dotyczy nazwy programu
@@ -138,6 +137,28 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+    //Kompilacja kodu
+    procedure CompilePascalCode(const PascalCode, OutputFile: string);
+   // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
+  end;
+
+  { TCompileThread }
+
+  TCompileThread = class(TThread)
+  private
+    FCode: string;
+    FExeName: string;
+    FHandle: THandle;
+    FOwner: TFustawieniaChatGPT;
+    FPascalCode: string;
+    FSuccess: Boolean;  // ← TO DODAJ
+  protected
+    procedure Execute; override;
+    procedure AfterCompile; // wywołanie w GUI
+    procedure ShowSuccess;
+    procedure ShowError;
+  public
+    constructor Create(Owner: TFustawieniaChatGPT; const PascalCode, ExeName: string);
   end;
 
   { TInterpreterThread }
@@ -423,7 +444,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.0.7 ' + 'Otwarty projekt: ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.0.8 ' + 'Otwarty projekt: ' + OpenFileProject;
    //Timer
     IdleTimer1.Enabled := True;
     ToolButton1Click(Sender);
@@ -470,6 +491,7 @@ var
    DlgResult: Integer;
    OutputFolder: string;
 begin
+
  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
 
   if OD.FileName <> '' then
@@ -479,11 +501,6 @@ begin
   else
     sFileName := '';
 
-  //sFileName := NameProgram;
-
-
-
- //NameProgram
   // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
   if sFileName = '' then
   begin
@@ -506,24 +523,25 @@ begin
       Exit; // Jeśli użytkownik odmówił zapisu, kończymy procedurę
     end;
   end;
-
   // Wyodrębniamy folder, w którym zapisany został plik
   OutputFolder := ExtractFilePath(sFileName);
-
-
   // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
   ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
 
-
   // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
-  CompilePascalCode(FTranslatedCode.Text, ExeName);
+  //bez watku CompilePascalCode(FTranslatedCode.Text, ExeName);
 
+  // Start kompilacji w osobnym wątku
+  //TCompileThread.Create(FTranslatedCode.Text, ExeName, Handle);
+  TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
+
+  {
   // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
   if FileExists(ExeName) then
     ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
   else
     MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
-
+   }
 end;
 
 procedure TFustawieniaChatGPT.ZapiszPlikExecute(Sender: TObject);
@@ -911,17 +929,62 @@ begin
 end;
 
 
-
-
-
-
-
-
 destructor TFustawieniaChatGPT.Destroy;
 begin
   FTranslator.Free;
   FTranslatedCode.Free;
   inherited Destroy;
+end;
+
+{ TCompileThread }
+
+procedure TCompileThread.Execute;
+begin
+  try
+      FOwner.CompilePascalCode(FPascalCode, FExeName);
+      FSuccess := FileExists(FExeName);
+    except
+      FSuccess := False;
+    end;
+
+    // Po zakończeniu – powiadom GUI
+    Synchronize(@AfterCompile);
+
+   //FOwner.CompilePascalCode(FPascalCode, FExeName);
+   //
+   //
+   //if FileExists(FExeName) then
+   //  Synchronize(@ShowSuccess)
+   //else
+   //  Synchronize(@ShowError);
+end;
+
+procedure TCompileThread.AfterCompile;
+begin
+  if FSuccess then
+      ShellExecute(0, 'open', PChar(FExeName), nil, nil, 1)
+  else
+      MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + FExeName, mtError, [mbOk], 0);
+end;
+
+procedure TCompileThread.ShowSuccess;
+begin
+   ShellExecute(FHandle, 'open', PChar(FExeName), nil, nil, 1);
+end;
+
+procedure TCompileThread.ShowError;
+begin
+  MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + FExeName, mtError, [mbOk], 0);
+end;
+
+constructor TCompileThread.Create(Owner: TFustawieniaChatGPT; const PascalCode, ExeName: string);
+begin
+   inherited Create(False); // start automatyczny
+   FreeOnTerminate := True;
+   FOwner := Owner;
+   FPascalCode := PascalCode;
+   FExeName := ExeName;
+   FSuccess := False;
 end;
 
 
