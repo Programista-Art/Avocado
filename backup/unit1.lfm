@@ -95,7 +95,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       end
       object BCExpandPanel1: TBCExpandPanel
         Left = 1
-        Height = 530
+        Height = 27
         Top = 28
         Width = 245
         Align = alTop
@@ -147,10 +147,11 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
         Button.Color = clMedGray
         Button.ColorExpanded = clMedGray
         AnimationSpeed = 20
+        Collapsed = True
         object MemoAnswerChatGPT: TMemo
           Left = 1
-          Height = 469
-          Top = 60
+          Height = 0
+          Top = 26
           Width = 243
           Align = alClient
           Color = 5197647
@@ -165,7 +166,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
         object PanelAiChatGPT: TPanel
           Left = 1
           Height = 32
-          Top = 28
+          Top = 27
           Width = 243
           Align = alTop
           ClientHeight = 32
@@ -210,8 +211,8 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       end
       object PanelTranspilacja: TBCExpandPanel
         Left = 1
-        Height = 27
-        Top = 558
+        Height = 530
+        Top = 55
         Width = 245
         Align = alTop
         Background.Color = clBtnFace
@@ -261,11 +262,10 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
         Button.Color = clMedGray
         Button.ColorExpanded = clMedGray
         AnimationSpeed = 20
-        Collapsed = True
         object MemoOutPut: TMemo
           Left = 1
-          Height = 0
-          Top = 27
+          Height = 501
+          Top = 28
           Width = 243
           Align = alClient
           Color = 5197647
@@ -1132,7 +1132,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'długość()'
       'kolor_tekstu()'
       'pozycja_kursora(x,y)'
-      'odczytaj_klawisz'
+      'czytaj_klawisz'
       'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
       'program'
       'importuj'
@@ -1271,6 +1271,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'oblicz(''zwiększ(0)'')'
       'oblicz(''zmniejsz(0)'')'
       'oblicz(''ułamek(3.1415)'')'
+      'lista_tekstów'
     )
     Position = 0
     LinesInWindow = 10

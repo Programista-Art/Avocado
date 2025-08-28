@@ -11,6 +11,8 @@ type
   TStringArray = array of string;
   TAvocadoVariable = record
   Name, VarType: string;
+  VarName: string;
+  NoAssign: Boolean; // nowa flaga
   end;
 
   { TAvocadoTranslator }
@@ -19,7 +21,7 @@ type
   private
     FVariables: array of TAvocadoVariable;
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
-    procedure AddVariable(const Name, VarType: string);
+   // procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
     procedure ProcessLine(const Line: string; PascalCode: TStringList);
@@ -37,6 +39,7 @@ type
     function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
     function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
+    procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
 
     //Internet
 
@@ -50,15 +53,21 @@ uses
 
 { TAvocadoTranslator }
 
-procedure TAvocadoTranslator.AddVariable(const Name, VarType: string);
+procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
 var
   j: Integer;
 begin
-  for j := 0 to High(FVariables) do
-    if FVariables[j].Name = Name then Exit;
-  SetLength(FVariables, Length(FVariables) + 1);
-  FVariables[High(FVariables)].Name := Name;
-  FVariables[High(FVariables)].VarType := VarType;
+  // Sprawdź, czy zmienna już istnieje
+    for j := 0 to High(FVariables) do
+      if FVariables[j].VarName = VarName then Exit;
+
+    // Dodaj nowy element
+    SetLength(FVariables, Length(FVariables) + 1);
+    FVariables[High(FVariables)].VarName := VarName;
+    FVariables[High(FVariables)].VarType := VarType;
+
+    // Dodaj flagę NoAssign do struktury zmiennej
+    FVariables[High(FVariables)].NoAssign := NoAssign;
 end;
 
 // Prosta funkcja do sprawdzania, czy łańcuch jest literałem string
@@ -156,34 +165,84 @@ begin
   Result := StringReplace(Result, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
+  //nil, free
+  Result := StringReplace(Result, 'nic', 'nil', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
 end;
 
 
 //Deklaracja nowych typów zmienncyh
 procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
 var
-  Parts: TStringArray;
-  VarType, VarName: string;
+    Parts: TStringArray;
+    VarDecl, VarValue: string;
+    VarParts: TStringArray;
+    VarType, VarName: string;
 begin
-    if Trim(Line) = '' then Exit;
-      // Jeśli linia nie zawiera znaku "=", to nie jest deklaracją zmiennej
-      if Pos('=', Line) = 0 then Exit;
-      // Pomijamy linie zaczynające się od instrukcji, których nie chcemy traktować jako deklaracje
-      if (LowerCase(Trim(Line)).StartsWith('jeśli')) //or
-         //(LowerCase(Trim(Line)).StartsWith('pisz(')) //or
-         //(Pos('wpr(', LowerCase(Line)) > 0)
-         then Exit;
+   if Trim(Line) = '' then Exit;
 
-      Parts := Line.Split(['='], 2);
-      VarName := Trim(Parts[0]);
-      if Pos(' ', VarName) > 0 then
-      begin
-        Parts := VarName.Split([' '], 2);
-        if Length(Parts) < 2 then Exit;
-        VarType := LowerCase(Trim(Parts[0]));
-        VarName := Trim(Parts[1]);
-        // Dozwolone typy zmiennych
-        if (VarType = 'liczba_całkowita') or
+  // Pomijamy linie, które nie zawierają '='
+  if Pos('=', Line) = 0 then Exit;
+
+  // Pomijamy linie zaczynające się od "jeśli"
+  if LowerCase(Trim(Line)).StartsWith('jeśli') then Exit;
+
+  // Rozdzielamy linię na deklarację i wartość
+  Parts := Line.Split(['='], 2);
+  if Length(Parts) < 2 then Exit;
+
+  VarDecl := Trim(Parts[0]);   // np. "tekst s" lub "plik f"
+  VarValue := Trim(Parts[1]);  // np. "'siema'" lub "nil"
+
+  // Rozdzielamy typ i nazwę zmiennej
+  VarParts := VarDecl.Split([' '], 2);
+  if Length(VarParts) < 2 then
+    raise Exception.Create('Nieprawidłowa deklaracja zmiennej: ' + Line);
+
+  VarType := LowerCase(Trim(VarParts[0]));
+  VarName := Trim(VarParts[1]);
+
+  // Obsługa plików
+  if (VarType = 'plik') or (VarType = 'plik_tekstowy') then
+  begin
+    if (LowerCase(VarValue) = 'nil') or (LowerCase(VarValue) = 'nic') then
+      AddVariable(VarName, VarType, True)  // tylko deklaracja
+    else
+      AddVariable(VarName, VarType, False); // z przypisaniem później
+    Exit;
+  end;
+
+  // Obsługa zwykłych typów
+  if (VarType = 'tekst') or (VarType = 'liczba_całkowita') or
+     (VarType = 'lc') or (VarType = 'liczba_zm') or (VarType = 'lzm') or
+     (VarType = 'logiczny') or (VarType = 'znak') or (VarType = 'liczba_krótka') or
+     (VarType = 'liczba_mała') or (VarType = 'liczba_długa') or (VarType = 'liczba64') or
+     (VarType = 'bajt') or (VarType = 'liczba16') or (VarType = 'liczba32') or
+     (VarType = 'tablicaliczb') or (VarType = 'liczba_pojedyncza') or
+     (VarType = 'liczba_podwójna') or (VarType = 'liczba_rozszerzona') or
+     (VarType = 'liczba_zgodna_delphi') or (VarType = 'liczba_waluta') or
+     (VarType = 'logiczny_bajt') or (VarType = 'logiczne_słowo') or
+     (VarType = 'logiczny_długi') or (VarType = 'znak_unicode') or
+     (VarType = 'tekst255') or (VarType = 'tekst_ansi') or (VarType = 'tekst_unicode') or
+     (VarType = 'tekst_systemowy') or (VarType = 'tablica_stała') or
+     (VarType = 'tablica_dynamiczna') or (VarType = 'rekord') or
+     (VarType = 'kolekcja') or (VarType = 'plik_binarny') or
+     (VarType = 'plik_struktur') or (VarType = 'wskaźnik') or
+     (VarType = 'wskaźnik_na') or (VarType = 'wariant') or
+     (VarType = 'wariant_ole') or (VarType = 'tablicatekstów') or
+     (VarType = 'lista_tekstów') or (VarType = 'stała') or
+     (VarType = 'TekstLD') then
+  begin
+    AddVariable(VarName, VarType, False); // standardowe zmienne z inicjalizacją
+    Exit;
+  end;
+
+  // Typ nieznany → błąd
+  raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
+end;
+        //normalnie przypisuja sie zmienne
+       { else if (VarType = 'tekst') or (VarType = 'liczba_całkowita') or
            (VarType = 'lc') or
            (VarType = 'liczba_zm') or
            (VarType = 'lzm') or
@@ -216,7 +275,7 @@ begin
            (VarType = 'rekord') or
            (VarType = 'kolekcja') or
            (VarType = 'plik') or
-           (VarType = 'plik_tekstowy') or
+           //(VarType = 'plik_tekstowy') or
            (VarType = 'plik_binarny') or
            (VarType = 'plik_struktur') or
            (VarType = 'wskaźnik') or
@@ -224,16 +283,19 @@ begin
            (VarType = 'wariant') or
            (VarType = 'wariant_ole') or
            (VarType = 'tablicatekstów') or
+           (VarType = 'lista_tekstów') or
            (VarType = 'stała') or
            //Konwersje
            (VarType = 'TekstLD') then
         begin
-          AddVariable(VarName, VarType);
+          AddVariable(VarName, VarType,False);
         end
         else
-          raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
-      end;
-end;
+           raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
+      end;}
+
+
+
 
 // Zaawansowana funkcja do parsowania argumentów, która uwzględnia cudzysłowy
 function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
@@ -642,6 +704,8 @@ begin
   for I := 0 to AStrings.Count - 1 do
     AStrings[I] := Trim(AStrings[I]);
 end;
+
+
 
 
 //przetwarzanie zagnieżdżonych instrukcji.
@@ -1142,6 +1206,7 @@ begin
   Exit;
 end;
 
+
 //ping
 if LowerCase(TrimmedLine).StartsWith('ping ') then
 begin
@@ -1165,6 +1230,14 @@ end;
 
 // Obsługa pobierania pliku
   if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
+  begin
+    PascalCode.Add(TrimmedLine + ';');  // przepisz dokładnie jak jest
+    Exit;
+
+  end;
+
+  // Obsługa pobierania strony
+  if LowerCase(TrimmedLine).StartsWith('pobierz_strone(') then
   begin
     PascalCode.Add(TrimmedLine + ';');  // przepisz dokładnie jak jest
     Exit;
@@ -1465,7 +1538,7 @@ end;
 
       VarType := Parts[0];
       VarName := Parts[1];
-      AddVariable(VarName, VarType);
+      AddVariable(VarName, VarType, False);
     end;
 
     // Sprawdź typ zmiennej
@@ -1626,7 +1699,7 @@ end
         Parts := VarName.Split([' '], 2);
         VarType := Parts[0];
         VarName := Parts[1];
-        AddVariable(VarName, VarType);
+        AddVariable(VarName, VarType, False);
       end;
         // Usuwamy prefiks "czytaj(" – zakładamy, że bez nawiasu otwierającego wyrażenie zaczyna się dopiero po 6 znakach
       Value := Copy(Value, 7, Length(Value) - 6);
@@ -1652,7 +1725,7 @@ end
          Parts := VarName.Split([' '], 2);
          VarType := Parts[0];
          VarName := Parts[1];
-         AddVariable(VarName, VarType);
+         AddVariable(VarName, VarType, False);
        end;
        // Znajdź nawias otwierający i zamykający w Value dla czytajnl
        Start := Pos('(', Value);
@@ -1694,7 +1767,7 @@ end
         Parts := VarName.Split([' '], 2);
         VarType := Parts[0];
         VarName := Parts[1];
-        AddVariable(VarName, VarType);
+        AddVariable(VarName, VarType,False);
       end;
 
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';');
@@ -1728,7 +1801,7 @@ begin
 
     // --- Skanowanie dla standardowego 'program' ---
     NameProgram := ''; // Resetuj zmienną globalną/pole
-    DetectedProgramName := 'ProgramBezNazwy'; // Domyślna nazwa
+    DetectedProgramName := 'programbeznazwy'; // Domyślna nazwa
 
     for i := 0 to AvocadoCode.Count - 1 do
     begin
@@ -1737,7 +1810,7 @@ begin
       if LowerCase(trimmedLine).StartsWith('program ') then
       begin
         NameProgram := Trim(Copy(trimmedLine, Length('program ') + 1, MaxInt));
-        if NameProgram = '' then NameProgram := 'ProgramBezNazwy';
+        if NameProgram = '' then NameProgram := 'programbeznazwy';
         DetectedProgramName := NameProgram;
         Break; // Znaleziono deklarację, przerwij skanowanie
       end;
@@ -1764,6 +1837,9 @@ begin
       UsesList.Add('chatgptavocado');
       UsesList.Add('uchatgpt');
       UsesList.Add('Dialogs');
+      UsesList.Add('pingsend');
+      UsesList.Add('internet');
+
 
 
 
@@ -1780,6 +1856,8 @@ begin
       begin
          for UName in ModulesStr.Split([',']) do UsesList.Add(Trim(UName));
       end;
+
+
       // Dodaj moduły z 'ModułyPas'
       if ModulPascalowy <> '' then
       begin
@@ -1827,92 +1905,109 @@ begin
         PascalCode.Add('var');
         for i := 0 to High(FVariables) do
         begin
+        if FVariables[i].VarName = '' then Continue; // pomiń brakujące nazwy
           // deklaracja zmiennych
-          if LowerCase(FVariables[i].VarType) = 'liczba_całkowita' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
+        if LowerCase(FVariables[i].VarType) = 'liczba_całkowita' then
+          PascalCode.Add('  ' + FVariables[i].VarName + ': Integer;')
+          //nowe
+          else if LowerCase(FVariables[i].VarType) = 'plik' then
+          begin
+            PascalCode.Add('  ' + FVariables[i].VarName + ': File;');
+            // jeśli NoAssign = True, nie generujemy przypisania
+          end
+          else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
+          begin
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;');
+            // jeśli NoAssign = True, pomiń przypisanie
+          end
+          //koniec
           else if LowerCase(FVariables[i].VarType) = 'lc' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Integer;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Integer;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_zm' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Real;')
           else if LowerCase(FVariables[i].VarType) = 'lzm' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Real;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Real;')
           else if LowerCase(FVariables[i].VarType) = 'logiczny' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Boolean;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Boolean;')
 
           else if LowerCase(FVariables[i].VarType) = 'znak' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Char;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Char;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_krótka' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': ShortInt;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ShortInt;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_mała' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': SmallInt;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': SmallInt;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_długa' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': LongInt;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': LongInt;')
           else if LowerCase(FVariables[i].VarType) = 'liczba64' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Int64;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Int64;')
           else if LowerCase(FVariables[i].VarType) = 'bajt' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Byte;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Byte;')
           else if LowerCase(FVariables[i].VarType) = 'liczba16' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Word;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Word;')
           else if LowerCase(FVariables[i].VarType) = 'liczba32' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': LongWord;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': LongWord;')
           else if LowerCase(FVariables[i].VarType) = 'tekst' then
-             PascalCode.Add('  ' + FVariables[i].Name + ': String;') // Dodano obsługę 'tekst'
+             PascalCode.Add('  ' + FVariables[i].VarName + ': String;') // Dodano obsługę 'tekst'
           else if LowerCase(FVariables[i].VarType) = 'tablicaliczb' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': array of Integer;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': array of Integer;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_pojedyncza' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Single;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Single;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_podwójna' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Double;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Double;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_rozszerzona' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Extended;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Extended;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_zgodna_delphi' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Comp;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Comp;')
           else if LowerCase(FVariables[i].VarType) = 'liczba_waluta' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Currency;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Currency;')
           else if LowerCase(FVariables[i].VarType) = 'logiczny_bajt' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': ByteBool;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ByteBool;')
           else if LowerCase(FVariables[i].VarType) = 'logiczne_słowo' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': WordBool;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': WordBool;')
           else if LowerCase(FVariables[i].VarType) = 'logiczny_długi' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': LongBool;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': LongBool;')
           else if LowerCase(FVariables[i].VarType) = 'znak_unicode' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': WideChar;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': WideChar;')
           else if LowerCase(FVariables[i].VarType) = 'tekst255' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': ShortString;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ShortString;')
           else if LowerCase(FVariables[i].VarType) = 'tekst_ansi' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': AnsiString;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': AnsiString;')
           else if LowerCase(FVariables[i].VarType) = 'tekst_unicode' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': UnicodeString;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': UnicodeString;')
           // Poniższe typy mogą wymagać bardziej złożonej obsługi niż prosta deklaracja
           else if LowerCase(FVariables[i].VarType) = 'tablica_dynamiczna' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Array of Variant;') // Przykład: tablica wariantów
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Array of Variant;') // Przykład: tablica wariantów
           else if LowerCase(FVariables[i].VarType) = 'rekord' then
             PascalCode.Add('  { TODO: Zdefiniuj typ rekordu dla ' + FVariables[i].Name + ' }')
           else if LowerCase(FVariables[i].VarType) = 'kolekcja' then
-             PascalCode.Add('  ' + FVariables[i].Name + ': Set of Byte;') // Przykład: set of byte
-          else if LowerCase(FVariables[i].VarType) = 'plik' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': File;')
-          else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': TextFile;')
+             PascalCode.Add('  ' + FVariables[i].VarName + ': Set of Byte;') // Przykład: set of byte
+         // else if LowerCase(FVariables[i].VarType) = 'plik' then
+         //   PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
+          //else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
+         //   PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;')
           else if LowerCase(FVariables[i].VarType) = 'plik_binarny' then
-             PascalCode.Add('  ' + FVariables[i].Name + ': File;') // Lub File of Byte
+             PascalCode.Add('  ' + FVariables[i].VarName + ': File;') // Lub File of Byte
           else if LowerCase(FVariables[i].VarType) = 'plik_struktur' then
              PascalCode.Add('  { TODO: Zdefiniuj typ pliku dla ' + FVariables[i].Name + ': File of ... }')
           else if LowerCase(FVariables[i].VarType) = 'wskaźnik' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Pointer;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Pointer;')
           else if LowerCase(FVariables[i].VarType) = 'wskaźnik_na' then
              PascalCode.Add('  { TODO: Zdefiniuj typ wskazywany dla ' + FVariables[i].Name + ': ^... }')
           else if LowerCase(FVariables[i].VarType) = 'wariant' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Variant;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Variant;')
           else if LowerCase(FVariables[i].VarType) = 'wariant_ole' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': OleVariant;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': OleVariant;')
           else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': TStringArray;') // Użyj zdefiniowanego typu
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TStringArray;') // Użyj zdefiniowanego typu
+          //nowe
+           else if LowerCase(FVariables[i].VarType) = 'lista_tekstów' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TStringList;') // Użyj zdefiniowanego typu
           else if LowerCase(FVariables[i].VarType) = 'stała' then
-            PascalCode.Add('  ' + FVariables[i].Name + ': Const;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
 
           else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
-             PascalCode.Add('  ' + FVariables[i].Name + ': String;');
+             PascalCode.Add('  ' + FVariables[i].VarName + ': String;');
+
         end;
         PascalCode.Add('');
       end;
