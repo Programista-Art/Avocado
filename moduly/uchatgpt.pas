@@ -16,6 +16,8 @@ var
 function zapytaj(const question: string): string;
 
 implementation
+uses
+  Unit1;
 
 // Deklaracja wstępna globalnego callbacka
 procedure GlobalResponseCallback(const ResponseText: string); forward;
@@ -27,8 +29,7 @@ begin
 
   // Wywołanie funkcji wysyłającej zapytanie.
   // Podaj własny klucz API oraz model (tutaj przykładowo 'gpt-4o-mini').
-  ZapytajChatGPT('sk-0tmz8yl8btgbMe1eQbPOEeCZ9HmjZkhHnt4jVHTvoET3BlbkFJxLdlT7wUc8Jf5ocslX4hR2p3QYo7Grr1us0cQbjzUA',
-    'gpt-4o-mini', question, @GlobalResponseCallback);
+  ZapytajChatGPT('klucz api','gpt-4o-mini', question, @GlobalResponseCallback);
 
   // Pętla oczekująca na odpowiedź – przetwarzanie wywołań synchronizowanych.
   while not GlobalResponseReceived do

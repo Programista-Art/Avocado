@@ -6,11 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
-  ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCImageButton, BCPanel,
-  SynEdit, SynPopupMenu, SynCompletion, SynMacroRecorder, SynPluginSyncroEdit,
+  ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels,
+  SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
-  PrintersDlgs, Process, IniFiles, AvocadoTranslator, ShellAPI,LazUTF8,StrUtils,LCLIntf,InterfaceBase;
+  Process, IniFiles, AvocadoTranslator, ShellAPI,LazUTF8,LCLIntf,InterfaceBase;
 
 type
   { TFustawieniaChatGPT }
@@ -20,6 +20,11 @@ type
     MemoAnswerChatGPT: TMemo;
     Label2: TLabel;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItemCopyAllPascalzCode: TMenuItem;
+    MenuItemcopyPascalCode: TMenuItem;
     PanelAiChatGPT: TPanel;
     PanelTranspilacja: TBCExpandPanel;
     IdleTimer1: TIdleTimer;
@@ -88,6 +93,11 @@ type
     ToolButton2: TToolButton;
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItem5Click(Sender: TObject);
+    procedure MenuItem6Click(Sender: TObject);
+    procedure MenuItem7Click(Sender: TObject);
+    procedure MenuItemCopyAllPascalzCodeClick(Sender: TObject);
+    procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
     procedure sbzapytajClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
@@ -140,6 +150,8 @@ type
     //Kompilacja kodu
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
    // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
+   //ChatGPT
+   procedure AskChatGPT(promt:String; memopromt: TMemo);
   end;
 
   { TCompileThread }
@@ -203,6 +215,8 @@ var
   PromptChatGPT: String;
   Token: String;
   ModelGPT,PromtAv,PromtS: String;
+  ExeName: string;
+
 
 implementation
 
@@ -238,6 +252,33 @@ end;
 procedure TFustawieniaChatGPT.MenuItem4Click(Sender: TObject);
 begin
   FustawieniaChatGPT.ShowModal;
+end;
+
+procedure TFustawieniaChatGPT.MenuItem5Click(Sender: TObject);
+begin
+  MemoLogs.CopyToClipboard;
+end;
+
+procedure TFustawieniaChatGPT.MenuItem6Click(Sender: TObject);
+begin
+  MemoLogs.SelectAll;
+  MemoLogs.CopyToClipboard;
+end;
+
+procedure TFustawieniaChatGPT.MenuItem7Click(Sender: TObject);
+begin
+  AskChatGPT('Znajdź blędy w kodzie  który jest napisany w Free Pascalu wytłumacz jak kod poprawić w języku polskim.', MemoOutPut);
+end;
+
+procedure TFustawieniaChatGPT.MenuItemCopyAllPascalzCodeClick(Sender: TObject);
+begin
+  MemoOutPut.SelectAll;
+  MemoOutPut.CopyToClipboard;
+end;
+
+procedure TFustawieniaChatGPT.MenuItemcopyPascalCodeClick(Sender: TObject);
+begin
+ MemoOutPut.CopyToClipboard;
 end;
 
 procedure TFustawieniaChatGPT.MenuItemWsparcieprojektuClick(Sender: TObject);
@@ -301,6 +342,7 @@ begin
   FPC_Params := TStringList.Create;
   FPC_Params.Add('-Sg');
   FPC_Params.Add('-Mobjfpc');
+
   //FPC_Path := 'D:\Lazarus4RC2\fpc\3.2.2\bin\x86_64-win64\fpc.exe'; // Ręczna ścieżka
 end;
 
@@ -486,7 +528,6 @@ end;
 
 procedure TFustawieniaChatGPT.ToolButton2Click(Sender: TObject);
 var
-   ExeName: string;
    sFileName: string;
    DlgResult: Integer;
    OutputFolder: string;
@@ -535,13 +576,13 @@ begin
   //TCompileThread.Create(FTranslatedCode.Text, ExeName, Handle);
   TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
 
-  {
-  // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
-  if FileExists(ExeName) then
-    ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
-  else
-    MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
-   }
+
+  //// Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
+  //if FileExists(ExeName) then
+  //  ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
+  //else
+  //  MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
+
 end;
 
 procedure TFustawieniaChatGPT.ZapiszPlikExecute(Sender: TObject);
@@ -763,6 +804,31 @@ begin
   end;
   if FileExists(TempFile) then DeleteFile(TempFile);
 end;
+
+procedure TFustawieniaChatGPT.AskChatGPT(promt:String; memopromt: TMemo);
+begin
+  //Zaawansowany promt
+  PromptChatGPT:= promt +  ' ' + memopromt.Text;
+  //PromptChatGPT := AdvancedPromt;
+  if Trim(PromptChatGPT) = '' then
+  begin
+    ShowMessage('Brak promtu!');
+    Exit;
+  end;
+  // Wyłącz przycisk podczas oczekiwania na odpowiedź
+  PopupMenuOutPutPascalCode.Items[3].Enabled := False;
+  try
+    // Wywołanie funkcji
+    ZapytajChatGPT(Token, ModelGPT, PromptChatGPT, @OnChatGPTResponse);
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Błąd: ' + E.Message);
+      PopupMenuOutPutPascalCode.Items[3].Enabled := True;
+    end;
+  end;
+end;
+
 //end;
 
 procedure TFustawieniaChatGPT.KompilacjaKoduwPascal(const Code, OutputFile: string);
@@ -1028,9 +1094,16 @@ begin
       SetString(NewText, PAnsiChar(@Buffer[0]), BytesRead);
       FOutput := NewText;
       Synchronize(@SyncAppendOutput);
-    end
+      //
+      // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
+      if FileExists(ExeName) then
+        ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
+      else
+        MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
+      end
+    //
     else
-      Sleep(50);
+      Sleep(10);
   end;
   FProcess.Free;
 end;

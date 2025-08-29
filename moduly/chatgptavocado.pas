@@ -24,7 +24,6 @@ type
     procedure SendQuestion(const APrompt: string);
     property IsProcessing: Boolean read FIsProcessing;
   end;
-
 // Główna procedura do wysyłania zapytania
 procedure ZapytajChatGPT(const AToken, AModel, APrompt: string; OnComplete: TChatGPTResponseProc);
 
@@ -71,6 +70,7 @@ begin
       begin
         try
           FOnComplete(ResponseText);
+
         except
           on E: Exception do
             //ShowMessage('Błąd w procedurze zwrotnej: ' + E.Message);

@@ -48,8 +48,7 @@ var
 Moduly: String;
 
 implementation
-uses
-  unit1;
+
 
 { TAvocadoTranslator }
 
@@ -169,6 +168,7 @@ begin
   Result := StringReplace(Result, 'nic', 'nil', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
+
 end;
 
 
@@ -1196,6 +1196,35 @@ begin
   end;
 end;
 
+//halt
+if Pos('zakończ(', LowerTrimmedLine) > 0 then
+begin
+  StartPosTrim := Pos('(', TrimmedLine);
+  EndPosTrim := RPos(')', TrimmedLine);
+
+  if (StartPosTrim = 0) or (EndPosTrim = 0) then
+    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(code)');
+
+  if StartPosTrim > EndPosTrim then
+    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(code)');
+
+  ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
+  TranslatedParamTrim := TranslateExpression(ParamTrim);
+
+  if Pos('=', TrimmedLine) > 0 then
+  begin
+    Parts := TrimmedLine.Split(['='], 2);
+    VarName := Trim(Parts[0]);
+    PascalCode.Add(VarName + ' := Halt(' + TranslatedParamTrim + ');');
+  end
+  else
+  begin
+    PascalCode.Add('Halt(' + TranslatedParamTrim + ');');
+  end;
+  Exit;
+end;
+
+
 {INTERNET BLOK KODU}
 if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
 begin
@@ -2017,6 +2046,24 @@ begin
       // Zawsze dodawaj ustawienia konsoli
       PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
       PascalCode.Add('  SetConsoleCP(CP_UTF8);');
+
+
+      // --- inicjalizacje zmiennych (tylko gdy NoAssign = False) ---
+    for i := 0 to High(FVariables) do
+    begin
+      if FVariables[i].VarName = '' then Continue;
+
+      // dla plików z przypisaniem
+      if (LowerCase(FVariables[i].VarType) = 'plik') or
+         (LowerCase(FVariables[i].VarType) = 'plik_tekstowy') then
+      begin
+        if not FVariables[i].NoAssign then
+        begin
+          PascalCode.Add('  AssignFile(' + FVariables[i].VarName + ', ''plik.txt'');');
+          PascalCode.Add('  Rewrite(' + FVariables[i].VarName + ');');
+        end;
+      end;
+    end;
 
       // Przetwarzaj linie kodu wykonywalnego
       for i := 0 to AvocadoCode.Count - 1 do

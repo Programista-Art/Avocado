@@ -1294,11 +1294,23 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
     Top = 40
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
-    Left = 168
-    Top = 320
+    Left = 608
+    Top = 256
     object MenuItemOutputCodeClear: TMenuItem
       Caption = 'Usuń'
       OnClick = MenuItemOutputCodeClearClick
+    end
+    object MenuItemcopyPascalCode: TMenuItem
+      Caption = 'Kopiuj'
+      OnClick = MenuItemcopyPascalCodeClick
+    end
+    object MenuItemCopyAllPascalzCode: TMenuItem
+      Caption = 'Kopiuj wszystko'
+      OnClick = MenuItemCopyAllPascalzCodeClick
+    end
+    object MenuItem7: TMenuItem
+      Caption = 'Sprawdź kod [AI]'
+      OnClick = MenuItem7Click
     end
   end
   object PopupMenuMemoLogs: TPopupMenu
@@ -1306,6 +1318,14 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
     Top = 296
     object MenuItemDeleteMemoLogs: TMenuItem
       Caption = 'Usuń'
+    end
+    object MenuItem5: TMenuItem
+      Caption = 'Kopiuj'
+      OnClick = MenuItem5Click
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Kopiuj wszsytko'
+      OnClick = MenuItem6Click
     end
   end
   object SynAutoComplete1: TSynAutoComplete

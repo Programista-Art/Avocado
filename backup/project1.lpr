@@ -11,7 +11,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, printer4lazarus,
-  tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
+  tachartlazaruspkg, pascalscript, usettings, AvocadoTranslator,
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, matematyka,
   formatowanie, chatgptavocado, uwsparcie, ustawieniaai, pliki, internet;
 

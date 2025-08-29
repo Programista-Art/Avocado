@@ -169,6 +169,7 @@ begin
   Result := StringReplace(Result, 'nic', 'nil', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
+
 end;
 
 
@@ -1195,6 +1196,35 @@ begin
     AssignParams.Free;
   end;
 end;
+
+//halt
+if Pos('zakończ(', LowerTrimmedLine) > 0 then
+begin
+  StartPosTrim := Pos('(', TrimmedLine);
+  EndPosTrim := RPos(')', TrimmedLine);
+
+  if (StartPosTrim = 0) or (EndPosTrim = 0) then
+    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(code)');
+
+  if StartPosTrim > EndPosTrim then
+    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(code)');
+
+  ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
+  TranslatedParamTrim := TranslateExpression(ParamTrim);
+
+  if Pos('=', TrimmedLine) > 0 then
+  begin
+    Parts := TrimmedLine.Split(['='], 2);
+    VarName := Trim(Parts[0]);
+    PascalCode.Add(VarName + ' := Halt(' + TranslatedParamTrim + ');');
+  end
+  else
+  begin
+    PascalCode.Add('Halt(' + TranslatedParamTrim + ');');
+  end;
+  Exit;
+end;
+
 
 {INTERNET BLOK KODU}
 if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
