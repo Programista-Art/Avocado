@@ -1,4 +1,4 @@
-object FustawieniaAI: TFustawieniaAI
+object Settingai: TSettingai
   Left = 350
   Height = 363
   Top = 250

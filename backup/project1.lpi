@@ -123,7 +123,7 @@
       <Unit>
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FustawieniaChatGPT"/>
+        <ComponentName Value="FormMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
@@ -195,7 +195,7 @@
       <Unit>
         <Filename Value="ustawieniaai.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FustawieniaAI"/>
+        <ComponentName Value="Settingai"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
@@ -213,6 +213,13 @@
       <Unit>
         <Filename Value="internet.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uprzyklady.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormPrzyklady"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Uprzyklady"/>
       </Unit>
     </Units>
   </ProjectOptions>

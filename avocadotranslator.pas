@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,formatowanie,LazUTF8,internet,httpsend;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8;
 
 type
   TStringArray = array of string;
@@ -20,7 +20,10 @@ type
   TAvocadoTranslator = class
   private
     FVariables: array of TAvocadoVariable;
+
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
+    //dotyczy petli while
+    procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
    // procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
@@ -86,14 +89,12 @@ begin
   Result := StringReplace(Result, ' lub ', ' or ', [rfReplaceAll]);
   Result := StringReplace(Result, 'prawda', 'True', [rfReplaceAll]);
   Result := StringReplace(Result, 'falsz', 'False', [rfReplaceAll]);
-
   Result := StringReplace(Result, 'TekstWLiczbac(', 'StrToInt(', [rfReplaceAll]);
   Result := StringReplace(Result, 'TekstWLiczbar(', 'StrToFloat(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbacWTekst(', 'IntToStr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbacWr(', 'Real(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWc(', 'Trunc(', [rfReplaceAll]);
-  //nowe
   Result := StringReplace(Result, 'LogicznyWTekst(', 'BoolToStr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'BajtWTekst(', 'ByteBool(Ord(', [rfReplaceAll]);
   Result := StringReplace(Result, 'Liczba_mała(', 'Shortint(', [rfReplaceAll]);
@@ -180,14 +181,19 @@ var
     VarDecl, VarValue: string;
     VarParts: TStringArray;
     VarType, VarName: string;
+    TrimmedLine: string;
 begin
-   if Trim(Line) = '' then Exit;
+   TrimmedLine := Trim(Line);
+   if TrimmedLine = '' then Exit;
+
+  // Pomijamy linie zaczynające się od "jeśli"
+  if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
 
   // Pomijamy linie, które nie zawierają '='
   if Pos('=', Line) = 0 then Exit;
-
-  // Pomijamy linie zaczynające się od "jeśli"
-  if LowerCase(Trim(Line)).StartsWith('jeśli') then Exit;
 
   // Rozdzielamy linię na deklarację i wartość
   Parts := Line.Split(['='], 2);
@@ -215,32 +221,53 @@ begin
   end;
 
   // Obsługa zwykłych typów
-  if (VarType = 'tekst') or (VarType = 'liczba_całkowita') or
-     (VarType = 'lc') or (VarType = 'liczba_zm') or (VarType = 'lzm') or
-     (VarType = 'logiczny') or (VarType = 'znak') or (VarType = 'liczba_krótka') or
-     (VarType = 'liczba_mała') or (VarType = 'liczba_długa') or (VarType = 'liczba64') or
-     (VarType = 'bajt') or (VarType = 'liczba16') or (VarType = 'liczba32') or
-     (VarType = 'tablicaliczb') or (VarType = 'liczba_pojedyncza') or
-     (VarType = 'liczba_podwójna') or (VarType = 'liczba_rozszerzona') or
-     (VarType = 'liczba_zgodna_delphi') or (VarType = 'liczba_waluta') or
-     (VarType = 'logiczny_bajt') or (VarType = 'logiczne_słowo') or
-     (VarType = 'logiczny_długi') or (VarType = 'znak_unicode') or
-     (VarType = 'tekst255') or (VarType = 'tekst_ansi') or (VarType = 'tekst_unicode') or
-     (VarType = 'tekst_systemowy') or (VarType = 'tablica_stała') or
-     (VarType = 'tablica_dynamiczna') or (VarType = 'rekord') or
-     (VarType = 'kolekcja') or (VarType = 'plik_binarny') or
-     (VarType = 'plik_struktur') or (VarType = 'wskaźnik') or
-     (VarType = 'wskaźnik_na') or (VarType = 'wariant') or
-     (VarType = 'wariant_ole') or (VarType = 'tablicatekstów') or
-     (VarType = 'lista_tekstów') or (VarType = 'stała') or
+  if (VarType = 'tekst') or
+     (VarType = 'liczba_całkowita') or
+     (VarType = 'lc') or
+     (VarType = 'liczba_zm')or
+     (VarType = 'lzm') or
+     (VarType = 'logiczny')or
+     (VarType = 'znak')or
+     (VarType = 'liczba_krótka') or
+     (VarType = 'liczba_mała') or
+     (VarType = 'liczba_długa') or
+     (VarType = 'liczba64') or
+     (VarType = 'bajt') or
+     (VarType = 'liczba16') or
+     (VarType = 'liczba32') or
+     (VarType = 'tablicaliczb') or
+     (VarType = 'liczba_pojedyncza') or
+     (VarType = 'liczba_podwójna') or
+     (VarType = 'liczba_rozszerzona') or
+     (VarType = 'liczba_zgodna_delphi') or
+     (VarType = 'liczba_waluta') or
+     (VarType = 'logiczny_bajt') or
+     (VarType = 'logiczne_słowo') or
+     (VarType = 'logiczny_długi') or
+     (VarType = 'znak_unicode') or
+     (VarType = 'tekst255') or
+     (VarType = 'tekst_ansi') or
+     (VarType = 'tekst_unicode') or
+     (VarType = 'tekst_systemowy') or
+     (VarType = 'tablica_stała') or
+     (VarType = 'tablica_dynamiczna') or
+     (VarType = 'rekord') or
+     (VarType = 'kolekcja') or
+     (VarType = 'plik_binarny') or
+     (VarType = 'plik_struktur') or
+     (VarType = 'wskaźnik') or
+     (VarType = 'wskaźnik_na') or
+     (VarType = 'wariant') or
+     (VarType = 'wariant_ole') or
+     (VarType = 'tablicatekstów') or
+     (VarType = 'lista_tekstów') or
+     (VarType = 'stała') or
      (VarType = 'TekstLD') then
   begin
     AddVariable(VarName, VarType, False); // standardowe zmienne z inicjalizacją
     Exit;
   end;
-
-  // Typ nieznany → błąd
-  raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
+    raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
 end;
         //normalnie przypisuja sie zmienne
        { else if (VarType = 'tekst') or (VarType = 'liczba_całkowita') or
@@ -388,6 +415,48 @@ begin
       ProcessLine(Trim(BodyStatements[i]), PascalCode);
 
   PascalCode.Add('end;');
+end;
+
+procedure TAvocadoTranslator.ProcessWhileLoop(const Line: string;
+  PascalCode: TStringList);
+var
+StartBrace, EndBrace: Integer;
+LoopContent, Condition, Body: string;
+Statements: TStringArray;
+stmt: string;
+begin
+  // Szukamy nawiasów klamrowych { ... }
+    StartBrace := Pos('{', Line);
+    EndBrace := RPos('}', Line);
+    if (StartBrace = 0) or (EndBrace = 0) or (EndBrace <= StartBrace) then
+      raise Exception.Create('Błędna składnia pętli dopóki: ' + Line);
+
+    LoopContent := Trim(Copy(Line, StartBrace + 1, EndBrace - StartBrace - 1));
+
+    // Wyciągamy warunek (pierwsza część w nawiasach) i ciało pętli
+    if (LoopContent[1] <> '(') then
+      raise Exception.Create('Brak warunku w pętli dopóki: ' + Line);
+
+    // Szukamy końca warunku
+    EndBrace := Pos(')', LoopContent);
+    if EndBrace = 0 then
+      raise Exception.Create('Brak zamykającego nawiasu warunku w dopóki: ' + Line);
+
+    Condition := Trim(Copy(LoopContent, 2, EndBrace - 2));
+    Body := Trim(Copy(LoopContent, EndBrace + 1, MaxInt));
+
+    PascalCode.Add('while ' + TranslateExpression(Condition) + ' do begin');
+
+    //// Rozbijamy ciało na pojedyncze instrukcje (np. po spacji lub średniku)
+    //Statements := Body.Split([';']);
+    //for stmt in Statements do
+    //begin
+    //  stmt := Trim(stmt);
+    //  if stmt = '' then Continue;
+    //  ProcessLine(stmt, PascalCode); // przetwórz każdą instrukcję normalnie
+    //end;
+
+    PascalCode.Add('end;');
 end;
 
 
@@ -810,8 +879,13 @@ var
   StartPosz, EndPosz: Integer;
   //Ping
   Site: String;
-
-
+  //While petla
+  TranslatedParamTrimWhile, BodyWhile:  String;
+  LinesWhile: TStringArray;
+  k: Integer;
+  StartPosTrimWhile: Integer;
+  EndPosTrimWhile: Integer;
+  ParamTrimWhile: string;
 begin
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := LowerCase(TrimmedLine); // <<< POPRAWIONA LINIA
@@ -1197,17 +1271,17 @@ begin
   end;
 end;
 
-//halt
+//halt kończy program
 if Pos('zakończ(', LowerTrimmedLine) > 0 then
 begin
   StartPosTrim := Pos('(', TrimmedLine);
   EndPosTrim := RPos(')', TrimmedLine);
 
   if (StartPosTrim = 0) or (EndPosTrim = 0) then
-    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(code)');
+    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(2)');
 
   if StartPosTrim > EndPosTrim then
-    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(code)');
+    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(2)');
 
   ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
   TranslatedParamTrim := TranslateExpression(ParamTrim);
@@ -1222,6 +1296,66 @@ begin
   begin
     PascalCode.Add('Halt(' + TranslatedParamTrim + ');');
   end;
+  Exit;
+end;
+
+  //Exit: Kończy bieżącą procedurę lub funkcję. Jeśli użyte w programie głównym, kończy program.
+// Obsługa "wyjść" (Exit)
+if Pos('wyjść', LowerTrimmedLine) = 1 then
+begin
+  StartPosTrim := Pos('(', TrimmedLine);
+  EndPosTrim   := RPos(')', TrimmedLine);
+
+  if (StartPosTrim = 0) or (EndPosTrim = 0) then
+  begin
+    // brak nawiasów -> zwykłe "Exit;"
+    PascalCode.Add('Exit;');
+  end
+  else
+  begin
+    if StartPosTrim > EndPosTrim then
+      raise Exception.Create('Błędna składnia funkcji wyjść. Oczekiwano: wyjść(param)');
+
+    ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
+    if ParamTrim = '' then
+      PascalCode.Add('Exit;')  // puste parametry -> Exit bez argumentu
+    else
+    begin
+      TranslatedParamTrim := TranslateExpression(ParamTrim);
+      PascalCode.Add('Exit(' + TranslatedParamTrim + ');');
+    end;
+  end;
+
+  Exit; // kończymy tłumaczenie tej linii
+end;
+
+// Zwraca liczbę parametrów przekazanych do programu z linii poleceń. (z SysUtils)
+if Pos('ilość_parametrów', LowerTrimmedLine) = 1 then
+begin
+  StartPosTrim := Pos('(', TrimmedLine);
+  EndPosTrim   := RPos(')', TrimmedLine);
+  begin
+    if StartPosTrim > EndPosTrim then
+      raise Exception.Create('Błędna składnia funkcji ilość_parametrów. Oczekiwano: ilość_parametrów()');
+
+    ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
+    //if ParamTrim = '' then
+    //  PascalCode.Add('ParamCount;')
+    //else
+    begin
+      TranslatedParamTrim := TranslateExpression(ParamTrim);
+      PascalCode.Add('ParamCount(' + TranslatedParamTrim + ');');
+    end;
+  end;
+
+  Exit; // kończymy tłumaczenie tej linii
+end;
+
+//Petla while
+// Obsługa pętli dopóki { (warunek) ... }
+if LowerCase(TrimmedLine).StartsWith('dopóki') then
+begin
+  ProcessWhileLoop(TrimmedLine, PascalCode);
   Exit;
 end;
 
@@ -1864,11 +1998,11 @@ begin
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
       UsesList.Add('StrUtils');
 
-      UsesList.Add('chatgptavocado');
-      UsesList.Add('uchatgpt');
+      //UsesList.Add('chatgptavocado');
+      //UsesList.Add('uchatgpt');
       UsesList.Add('Dialogs');
-      UsesList.Add('pingsend');
-      UsesList.Add('internet');
+      //UsesList.Add('pingsend');
+      //UsesList.Add('internet');
 
 
 
@@ -2036,7 +2170,8 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
 
           else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
-             PascalCode.Add('  ' + FVariables[i].VarName + ': String;');
+             //PascalCode.Add('  ' + FVariables[i].VarName + ': String;');
+           PascalCode.Add('  ' + FVariables[i].VarName + ';');
 
         end;
         PascalCode.Add('');

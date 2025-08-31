@@ -10,7 +10,6 @@ object FormOprogramie: TFormOprogramie
   ClientWidth = 320
   Color = 2697513
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   object Memo1: TMemo
     Left = 0
     Height = 141
@@ -27,7 +26,7 @@ object FormOprogramie: TFormOprogramie
     Lines.Strings = (
       'IDE Avocado '
       'Środowisko programistyczne dla języka programowania Avocado, również sam język Avocado'
-      'Aktualizacja 23.08.2025'
+      'Aktualizacja 30.08.2025'
       'avocado.dimitalart.pl'
     )
     ParentFont = False

@@ -1,14 +1,16 @@
-object FustawieniaChatGPT: TFustawieniaChatGPT
+object FormMain: TFormMain
   Left = 347
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.0.8'
+  Caption = 'IDE Avocado v 1.0.0.9'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
   Menu = MainMenu1
   Position = poMainFormCenter
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
   object ToolBar1: TToolBar
@@ -326,6 +328,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
         Font.Quality = fqDraft
         ParentFont = False
         ReadOnly = True
+        ScrollBars = ssVertical
         TabOrder = 0
       end
       object StatusBar: TStatusBar
@@ -389,7 +392,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       TabOrder = 2
       inline SynEditCode: TSynEdit
         Left = 1
-        Height = 395
+        Height = 367
         Top = 1
         Width = 799
         Align = alClient
@@ -917,6 +920,64 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
           end
         end
       end
+      object Panel5: TPanel
+        Left = 1
+        Height = 28
+        Top = 368
+        Width = 799
+        Align = alBottom
+        ClientHeight = 28
+        ClientWidth = 799
+        ParentBackground = False
+        TabOrder = 1
+        object RozmiarCzcionkiSynEditor: TBCFluentSlider
+          Left = 65
+          Height = 26
+          Top = 1
+          Width = 98
+          MinValue = 10
+          MaxValue = 50
+          Value = 10
+          LineColor = clMenuHighlight
+          LineBkgColor = clHighlight
+          OnChangeValue = RozmiarCzcionkiSynEditorChangeValue
+          Align = alLeft
+        end
+        object Label3: TLabel
+          Left = 154
+          Height = 1
+          Top = 13
+          Width = 1
+        end
+        object Label4: TLabel
+          Left = 6
+          Height = 16
+          Top = 6
+          Width = 43
+          Align = alLeft
+          BorderSpacing.Around = 5
+          Caption = 'Rozmiar'
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clWhite
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
+        end
+        object LRozmiarZccionkiEdytora: TLabel
+          Left = 54
+          Height = 16
+          Top = 6
+          Width = 6
+          Align = alLeft
+          BorderSpacing.Around = 5
+          Caption = '0'
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clWhite
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
+        end
+      end
     end
   end
   object Splitter1: TSplitter
@@ -974,6 +1035,10 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
         Caption = 'Ustawienia pomocnika AI'
         OnClick = MenuItem4Click
       end
+    end
+    object MenuExamples: TMenuItem
+      Caption = 'Przykłady'
+      OnClick = MenuExamplesClick
     end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'
@@ -1128,6 +1193,7 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'usuń(zmienna, indeks, ilość znaków)'
       'kopiuj(zmienna,początek_kopiowania,koniec_kopiowania)'
       'klawisz_wciśnięty'
+      'czytaj_klawisz()'
       'tło_tekstu()'
       'długość()'
       'kolor_tekstu()'
@@ -1275,6 +1341,22 @@ object FustawieniaChatGPT: TFustawieniaChatGPT
       'nic'
       '.tekst'
       'zwolnij'
+      'zakończ(2)'
+      'internet'
+      'pliki'
+      'ping(''www.programista.art'')'
+      'pobierz_plik(''link do strony www'', ''ścieżak do zapisu i nazwa pliku.jpg)'
+      'pobierz_strone(‘link do strony internetowej’, zmienna lista_tekstów, gdzie zapisać i jaką nazwę nadać pliku )'
+      'wyjść'
+      'przypisz_plik()'
+      'otwórz_do_odczytu()'
+      'otwórz_do_zapisu()'
+      'otwórz_do_dopisywania()'
+      'zamknij_plik()'
+      'czytaj_linie(f, x, y, ...)'
+      'koniec_pliku()'
+      ''
+      ''
     )
     Position = 0
     LinesInWindow = 10

@@ -10,9 +10,9 @@ uses
 
 type
 
-  { TFustawieniaAI }
+  { TSettingai }
 
-  TFustawieniaAI = class(TForm)
+  TSettingai = class(TForm)
     ComboModelGPT: TBCComboBox;
     EditTokenGPT: TEdit;
     Label1: TLabel;
@@ -49,7 +49,7 @@ type
   end;
 
 var
-  Form2: TFustawieniaAI;
+  Settingai: TSettingai;
   ini: TIniFile;
 
 implementation
@@ -58,53 +58,53 @@ implementation
 
 { TForm2 }
 
-procedure TFustawieniaAI.SpeedButton1Click(Sender: TObject);
+procedure TSettingai.SpeedButton1Click(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TFustawieniaAI.MenuItemCopyClick(Sender: TObject);
+procedure TSettingai.MenuItemCopyClick(Sender: TObject);
 begin
    EditTokenGPT.CopyToClipboard;
 end;
 
-procedure TFustawieniaAI.FormCreate(Sender: TObject);
+procedure TSettingai.FormCreate(Sender: TObject);
 begin
   LoadModelsToComboModels;
   LoadDataAiGPT;
 end;
 
-procedure TFustawieniaAI.MenuItemDeleteClick(Sender: TObject);
+procedure TSettingai.MenuItemDeleteClick(Sender: TObject);
 begin
   EditTokenGPT.Text := '';
 end;
 
-procedure TFustawieniaAI.MenuItemHideKeyClick(Sender: TObject);
+procedure TSettingai.MenuItemHideKeyClick(Sender: TObject);
 begin
   EditTokenGPT.PasswordChar:= '*';
 end;
 
-procedure TFustawieniaAI.MenuItemPasteClick(Sender: TObject);
+procedure TSettingai.MenuItemPasteClick(Sender: TObject);
 begin
   EditTokenGPT.PasteFromClipboard;
 end;
 
-procedure TFustawieniaAI.MenuItemShowKeyClick(Sender: TObject);
+procedure TSettingai.MenuItemShowKeyClick(Sender: TObject);
 begin
   EditTokenGPT.PasswordChar := #0;
 end;
 
-procedure TFustawieniaAI.SpeedButSaveClick(Sender: TObject);
+procedure TSettingai.SpeedButSaveClick(Sender: TObject);
 begin
   SaveDataAiGPT;
 end;
 
-procedure TFustawieniaAI.SpeedButtonOkClick(Sender: TObject);
+procedure TSettingai.SpeedButtonOkClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TFustawieniaAI.SaveDataAiGPT;
+procedure TSettingai.SaveDataAiGPT;
 begin
     Ini:= TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
   try
@@ -117,7 +117,7 @@ begin
   Close;
 end;
 
-procedure TFustawieniaAI.LoadDataAiGPT;
+procedure TSettingai.LoadDataAiGPT;
 var
   LoadedModel: string;
   ModelIndex: Integer;
@@ -144,7 +144,7 @@ begin
   end;
 end;
 
-procedure TFustawieniaAI.LoadModelsToComboModels;
+procedure TSettingai.LoadModelsToComboModels;
 var
   FilePath: string;
 begin

@@ -1,0 +1,5 @@
+program pinguje
+importuj internet
+tekst witaj = 'Witaj w programie PING'
+jeśli ping('www.programista.art') wtedy pisznl('Strona www.programista.art odpowiada!') inaczej pisznl('Nie można nawiązać połączenia z programista.art')
+

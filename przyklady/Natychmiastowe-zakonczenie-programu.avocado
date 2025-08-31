@@ -1,0 +1,3 @@
+program zamykaaplikacje
+lc a = 3
+jeśli a < 10 wtedy wyjść inaczej pisznl('Nie wyłączam apkę')

@@ -11,9 +11,9 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, printer4lazarus,
-  tachartlazaruspkg, pascalscript, usettings, AvocadoTranslator,
+  tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, matematyka,
-  formatowanie, chatgptavocado, uwsparcie, ustawieniaai, pliki, internet;
+  formatowanie, chatgptavocado, uwsparcie,ustawieniaai, pliki, internet,Uprzyklady;
 
 {$R *.res}
 
@@ -22,14 +22,15 @@ begin
   Application.Title:='IDE Avocado';
   Application.Scaled:=True;
   Application.Initialize;
-  Application.CreateForm(TFustawieniaChatGPT, FustawieniaChatGPT);
+  Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TFormSettingIntepreter, FormSettingIntepreter);
   Application.CreateForm(TFormOpcjeProjektu, FormOpcjeProjektu);
   Application.CreateForm(TFormOprogramie, FormOprogramie);
   Application.CreateForm(TFormAutor, FormAutor);
   Application.CreateForm(TFinformacjaide, Finformacjaide);
   Application.CreateForm(TWsparcie, Wsparcie);
-  Application.CreateForm(TFustawieniaAI, FustawieniaChatGPT);
+  Application.CreateForm(TSettingai, Settingai);
+  Application.CreateForm(TUprzyklady, FormPrzyklady);
   Application.Run;
 end.
 
