@@ -89,7 +89,7 @@ begin
   Result := StringReplace(Result, ' lub ', ' or ', [rfReplaceAll]);
   Result := StringReplace(Result, 'prawda', 'True', [rfReplaceAll]);
   Result := StringReplace(Result, 'falsz', 'False', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWLiczbac(', 'StrToInt(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_w_liczbe_cal(', 'StrToInt(', [rfReplaceAll]);
   Result := StringReplace(Result, 'TekstWLiczbar(', 'StrToFloat(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbacWTekst(', 'IntToStr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll]);
@@ -1997,16 +1997,7 @@ begin
       UsesList.Add('Classes');
       UsesList.Add('Windows'); // Zawsze dodawaj dla konsoli Windows
       UsesList.Add('StrUtils');
-
-      //UsesList.Add('chatgptavocado');
-      //UsesList.Add('uchatgpt');
       UsesList.Add('Dialogs');
-      //UsesList.Add('pingsend');
-      //UsesList.Add('internet');
-
-
-
-
 
       //UsesList.Add('LazUTF8'); //Aby nie bylo krzaków w konsoli
       //UsesList.Add('Utf8Process');

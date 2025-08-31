@@ -167,6 +167,7 @@ type
    //ChatGPT
    procedure AskChatGPT(promt:String; memopromt: TMemo);
    procedure InternalLoadAvocadoFile(const FileName: string);
+   procedure TranspilujKod;
   end;
 
   { TCompileThread }
@@ -875,9 +876,26 @@ end;
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);
 begin
-  // Implementacja ładowania zawartości pliku do komponentu edycyjnego
   SynEditCode.Lines.LoadFromFile(FileName); // Przykład dla TMemo
-  // ... dodatkowe operacje po załadowaniu pliku
+  //Transpiluj
+  TranspilujKod;
+end;
+
+procedure TFormMain.TranspilujKod;
+begin
+   ExtractProgramFromSynEdit;
+  //CompileToPascal;
+  try
+    MemoOutPut.Clear;
+    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+    //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+
+    MemoOutPut.Lines.Add(FTranslatedCode.Text);
+    //BtnCompile.Enabled := True;
+  except
+    on E: Exception do
+      MemoOutPut.Lines.Add('Translation Error: ' + E.Message);
+  end;
 end;
 
 //end;

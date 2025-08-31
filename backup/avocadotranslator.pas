@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8;
 
 type
   TStringArray = array of string;
@@ -89,7 +89,7 @@ begin
   Result := StringReplace(Result, ' lub ', ' or ', [rfReplaceAll]);
   Result := StringReplace(Result, 'prawda', 'True', [rfReplaceAll]);
   Result := StringReplace(Result, 'falsz', 'False', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWLiczbac(', 'StrToInt(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_w_liczbe_cal(', 'StrToInt(', [rfReplaceAll]);
   Result := StringReplace(Result, 'TekstWLiczbar(', 'StrToFloat(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbacWTekst(', 'IntToStr(', [rfReplaceAll]);
   Result := StringReplace(Result, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll]);

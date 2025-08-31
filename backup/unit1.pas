@@ -875,9 +875,10 @@ end;
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);
 begin
-  // Implementacja ładowania zawartości pliku do komponentu edycyjnego
-  MemoEditor.Lines.LoadFromFile(FileName); // Przykład dla TMemo
-  // ... dodatkowe operacje po załadowaniu pliku
+  SynEditCode.Lines.LoadFromFile(FileName); // Przykład dla TMemo
+  //Transpiluj
+  ToolButton1Click(sender);
+
 end;
 
 //end;
