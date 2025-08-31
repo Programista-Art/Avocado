@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants ;
 
 type
   TStringArray = array of string;
@@ -82,6 +82,49 @@ begin
 end;
 
 //KOnwersje
+{
+function TAvocadoTranslator.TranslateExpression(const Expr: string): string;
+var
+  TempExpr: string;
+begin
+  TempExpr := Expr;
+
+  // Najpierw zamień operatory logiczne
+  TempExpr := StringReplace(TempExpr, ' i ', ' and ', [rfReplaceAll]);
+  TempExpr := StringReplace(TempExpr, ' lub ', ' or ', [rfReplaceAll]);
+
+  // Zamiana wartości logicznych
+  TempExpr := StringReplace(TempExpr, 'prawda', 'True', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'falsz', 'False', [rfReplaceAll, rfIgnoreCase]);
+
+  // Konwersje typów - uproszczone i poprawione
+  TempExpr := StringReplace(TempExpr, 'tekst_w_liczbe_cal(', 'StrToInt(', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'TekstWLiczbar(', 'StrToFloat(', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'LiczbacWTekst(', 'IntToStr(', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll, rfIgnoreCase]);
+
+  // Dodano brakujące zamiany z ignorowaniem wielkości liter
+  TempExpr := StringReplace(TempExpr, 'LiczbacWr(', 'Real(', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'LiczbarWc(', 'Trunc(', [rfReplaceAll, rfIgnoreCase]);
+
+  // Kolory - poprawione duplikaty i dodano ignoreCase
+  TempExpr := StringReplace(TempExpr, 'czarny', 'clBlack', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'biały', 'clWhite', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'niebieski', 'clBlue', [rfReplaceAll, rfIgnoreCase]);
+  // ... pozostałe kolory analogicznie
+
+  // Usunięto duplikaty (migotanie występowało dwa razy)
+  TempExpr := StringReplace(TempExpr, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
+
+  // Poprawione nazwy funkcji string
+  TempExpr := StringReplace(TempExpr, 'kopiuj', 'Copy', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
+  TempExpr := StringReplace(TempExpr, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
+
+  Result := TempExpr;
+end;
+}
+//Konwersje
 function TAvocadoTranslator.TranslateExpression(const Expr: string): string;
 begin
   Result := Expr;
@@ -165,13 +208,13 @@ begin
   Result := StringReplace(Result, 'kopiuj', 'Copy', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
   //nil, free
   Result := StringReplace(Result, 'nic', 'nil', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
 
 end;
+
 
 
 //Deklaracja nowych typów zmienncyh
@@ -1099,6 +1142,7 @@ begin
     end;
     Exit;
   end;
+
    // Obsługa funkcji powtórz_znak() -> StringOfChar()
   if Pos('powtórz_znak(', LowerTrimmedLine) > 0 then
   begin
@@ -1740,61 +1784,7 @@ end;
        PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
      end
 
-  // --- Obsługa 'zapytaj' (NOWA WERSJA - 3 argumenty) ---
-  {
-  else if LowerCase(TrimmedLine).StartsWith('zapytaj(') then
-  begin
-    Start := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine); // Znajdź ostatni nawias zamykający
-    if (Start > 0) and (EndPos > Start) then
-    begin
-      // Wyodrębnij string z argumentami
-      ArgStr := Trim(Copy(TrimmedLine, Start + 7, EndPos - Start - 7));
 
-      // Rozdziel argumenty przecinkami (proste rozdzielanie)
-      ArgList := TStringList.Create;
-      try
-        ArgList.Delimiter := ',';
-        ArgList.StrictDelimiter := True;
-        ArgList.DelimitedText := ArgStr;
-
-        // Sprawdź, czy są dokładnie 3 argumenty
-        if ArgList.Count = 3 then
-        begin
-          ApiKeyArg := Trim(ArgList[0]);   // 1. klucz API
-          ModelArg := Trim(ArgList[1]);    // 2. model
-          QuestionArg := Trim(ArgList[2]); // 3. pytanie
-
-          // Walidacja pytania – musi być string w apostrofach
-          if (Length(QuestionArg) < 2) or
-             (QuestionArg[1] <> '''') or
-             (QuestionArg[Length(QuestionArg)] <> '''') then
-            raise Exception.Create('Błąd: pytanie w zapytaj() musi być literałem string w apostrofach. Otrzymano: ' + QuestionArg);
-
-          // Tłumaczenie argumentów (API key i model mogą być zmiennymi)
-          TranslatedApiKey := TranslateExpression(ApiKeyArg);
-          TranslatedModel := TranslateExpression(ModelArg);
-
-          // Generowanie kodu Pascala
-          PascalCode.Add('ZapytajChatGPT(' +
-                          TranslatedApiKey + ', ' +
-                          TranslatedModel + ', ' +
-                          QuestionArg + ', ' +
-                          '@GlobalResponseCallback);');
-        end
-        else
-          raise Exception.Create('Błąd składni zapytaj: Oczekiwano 3 argumentów (klucz, model, pytanie), otrzymano ' +
-                                 IntToStr(ArgList.Count) + ' w "' + ArgStr + '"');
-      finally
-        ArgList.Free;
-      end;
-    end
-    else
-      raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
-
-    Exit; // Zakończ przetwarzanie tej linii
-  end
-  }
   // --- Obsługa 'zapytaj' (WERSJA ULEPSZONA - 3 argumenty) ---
 
 else if LowerCase(TrimmedLine).StartsWith('ZapytajChatGPT(') then
@@ -1848,9 +1838,113 @@ begin
   else
     raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
 
-  Exit;
+  //Exit;
 end
 
+// 3. Obsługa instrukcji czytaj()
+else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
+begin
+  // Sprawdź, czy linia zawiera znak '=' (czy jest to przypisanie z czytaj)
+  if Pos('=', TrimmedLine) > 0 then
+  begin
+    // Przypadek: zmienna = czytaj(prompt)
+    Parts := TrimmedLine.Split(['='], 2);
+    VarName := Trim(Parts[0]);
+    Value := Trim(Parts[1]);
+
+    // Sprawdź, czy zmienna jest deklarowana w tej samej linii (z typem)
+    if Pos(' ', VarName) > 0 then
+    begin
+      Parts := VarName.Split([' '], 2);
+      VarType := Parts[0];
+      VarName := Parts[1];
+      AddVariable(VarName, VarType, False);
+    end;
+
+    // Wyodrębnij argument z czytaj()
+    Value := Copy(Value, 7, Length(Value) - 6); // Usuń 'czytaj('
+    if (Length(Value) > 0) and (Value[1] = '(') then
+      Value := Copy(Value, 2, Length(Value) - 1);
+    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
+      Value := Copy(Value, 1, Length(Value) - 1);
+
+    // Jeśli argument nie jest pusty, potraktuj go jako prompt
+    if Value <> '' then
+      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+    PascalCode.Add('Read(' + VarName + ');');
+  end
+  else
+  begin
+    // Przypadek: czytaj(zmienna) bez przypisania
+    // Wyodrębnij nazwę zmiennej z nawiasów
+    Value := TrimmedLine;
+    Value := Copy(Value, 7, Length(Value) - 6); // Usuń 'czytaj('
+    if (Length(Value) > 0) and (Value[1] = '(') then
+      Value := Copy(Value, 2, Length(Value) - 1);
+    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
+      Value := Copy(Value, 1, Length(Value) - 1);
+
+    //// Sprawdź, czy zmienna jest już zadeklarowana
+    //if not VariableExists(Value) then
+    //  AddVariable(Value, 'znak', False); // Domyślnie zakładamy typ 'znak'
+
+    PascalCode.Add('Read(' + Value + ');');
+  end;
+end
+
+// 4. Obsługa instrukcji wczytaj_linie ()
+else if Pos('czytaj_linie(', LowerCase(TrimmedLine)) > 0 then
+begin
+  // Sprawdź, czy linia zawiera znak '=' (czy jest to przypisanie z czytaj)
+  if Pos('=', TrimmedLine) > 0 then
+  begin
+    // Przypadek: zmienna = czytaj(prompt)
+    Parts := TrimmedLine.Split(['='], 2);
+    VarName := Trim(Parts[0]);
+    Value := Trim(Parts[1]);
+
+    // Sprawdź, czy zmienna jest deklarowana w tej samej linii (z typem)
+    if Pos(' ', VarName) > 0 then
+    begin
+      Parts := VarName.Split([' '], 2);
+      VarType := Parts[0];
+      VarName := Parts[1];
+      AddVariable(VarName, VarType, False);
+    end;
+
+    // Wyodrębnij argument z wczytaj_linie ()
+    Value := Copy(Value, 13, Length(Value) - 13); // Usuń 'czytaj('
+    if (Length(Value) > 0) and (Value[1] = '(') then
+      Value := Copy(Value, 2, Length(Value) - 1);
+    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
+      Value := Copy(Value, 1, Length(Value) - 1);
+
+    // Jeśli argument nie jest pusty, potraktuj go jako prompt
+    if Value <> '' then
+      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+    PascalCode.Add('ReadLn(' + VarName + ');');
+  end
+  else
+  begin
+    // Przypadek: wczytaj_linie (zmienna) bez przypisania
+    // Wyodrębnij nazwę zmiennej z nawiasów
+    Value := TrimmedLine;
+    Value := Copy(Value, 13, Length(Value) - 13); // Usuń 'wczytaj_linie ('
+    if (Length(Value) > 0) and (Value[1] = '(') then
+      Value := Copy(Value, 2, Length(Value) - 1);
+    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
+      Value := Copy(Value, 1, Length(Value) - 1);
+
+    //// Sprawdź, czy zmienna jest już zadeklarowana
+    //if not VariableExists(Value) then
+    //  AddVariable(Value, 'znak', False); // Domyślnie zakładamy typ 'znak'
+
+    PascalCode.Add('ReadLn(' + Value + ');');
+  end;
+end
+
+
+   {
     // 3. Obsługa deklaracji zmiennych z czytaj()
     else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
     begin
@@ -1876,8 +1970,9 @@ end
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
       PascalCode.Add('Read(' + VarName + ');');
     end
-
+   }
     // Blok obsługi "czytajnl(...)"
+   {
      else if Pos('czytajnl(', LowerCase(TrimmedLine)) > 0 then
      begin
        Parts := TrimmedLine.Split(['='], 2);
@@ -1918,7 +2013,7 @@ end
       PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');');
       //Exit;
     end
-
+  }
     // 4. Obsługa zwykłych przypisań
     else if Pos('=', TrimmedLine) > 0 then
     begin
@@ -2160,9 +2255,13 @@ begin
           else if LowerCase(FVariables[i].VarType) = 'stała' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
 
-          else // Domyślnie lub jeśli typ nie został rozpoznany (choć nie powinien, jeśli IsValidAvocadoType działa)
+          else
+           begin
+              PascalCode.Add('  { ERROR: Nieznany typ: ' + FVariables[i].VarType + ' }');
+              PascalCode.Add('  ' + FVariables[i].VarName + ': Variant; // Unknown type: ' + FVariables[i].VarType);
+           end;
              //PascalCode.Add('  ' + FVariables[i].VarName + ': String;');
-           PascalCode.Add('  ' + FVariables[i].VarName + ';');
+           //PascalCode.Add('  ' + FVariables[i].VarName + ';');
 
         end;
         PascalCode.Add('');
@@ -2171,9 +2270,12 @@ begin
       // Dodaj główny blok programu
       PascalCode.Add('begin');
       // Zawsze dodawaj ustawienia konsoli
+      //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
+      //PascalCode.Add('  SetConsoleCP(CP_UTF8);');
+      PascalCode.Add('  {$IFDEF WINDOWS}');
       PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
       PascalCode.Add('  SetConsoleCP(CP_UTF8);');
-
+      PascalCode.Add('  {$ENDIF}');
 
       // --- inicjalizacje zmiennych (tylko gdy NoAssign = False) ---
     for i := 0 to High(FVariables) do

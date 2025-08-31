@@ -1175,7 +1175,7 @@ object FormMain: TFormMain
     ItemList.Strings = (
       'pisznl('''')'
       'czytaj('''')'
-      'czytajnl('''')'
+      'wczytaj_linie('''')'
       'oblicz('''')'
       'pisz('''')'
       'pisznl('''')'
