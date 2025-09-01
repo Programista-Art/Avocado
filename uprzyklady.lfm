@@ -1,0 +1,48 @@
+object FormPrzyklady: TFormPrzyklady
+  Left = 350
+  Height = 355
+  Top = 250
+  Width = 415
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Przyklady aplikacji'
+  ClientHeight = 355
+  ClientWidth = 415
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  object ExampleListBox: TBCListBox
+    Left = 0
+    Height = 323
+    Top = 0
+    Width = 415
+    Align = alClient
+    BorderStyle = bsNone
+    ItemHeight = 48
+    Style = lbOwnerDrawFixed
+    TabOrder = 0
+    OnDblClick = ExampleListBoxDblClick
+  end
+  object PanelBottom: TPanel
+    Left = 0
+    Height = 32
+    Top = 323
+    Width = 415
+    Align = alBottom
+    ClientHeight = 32
+    ClientWidth = 415
+    TabOrder = 1
+    object SpeedButton1: TSpeedButton
+      Left = 384
+      Height = 30
+      Top = 1
+      Width = 30
+      Align = alRight
+      Caption = 'Ok'
+      OnClick = SpeedButton1Click
+    end
+  end
+  object OD: TOpenDialog
+    Left = 80
+    Top = 24
+  end
+end
