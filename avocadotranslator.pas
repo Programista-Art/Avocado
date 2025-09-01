@@ -1243,6 +1243,8 @@ begin
 
     Exit;
   end
+
+
   //Ansi
 
     // Obsługa funkcji duże_litery_ansi

@@ -240,7 +240,7 @@ implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- chatgptavocado,uchatgpt,uprzyklady;
+ chatgptavocado,uchatgpt,uprzyklady,ustawieniaai;
 
 {$R *.lfm}
 
@@ -296,7 +296,7 @@ end;
 
 procedure TFormMain.MenuItem4Click(Sender: TObject);
 begin
-  FormMain.ShowModal;
+  Settingai.ShowModal;
 end;
 
 procedure TFormMain.MenuItem5Click(Sender: TObject);

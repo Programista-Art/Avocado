@@ -296,7 +296,7 @@ end;
 
 procedure TFormMain.MenuItem4Click(Sender: TObject);
 begin
-  FormMain.ShowModal;
+  Settingai.ShowModal;
 end;
 
 procedure TFormMain.MenuItem5Click(Sender: TObject);

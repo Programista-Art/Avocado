@@ -1893,7 +1893,7 @@ begin
 end
 
 // 4. Obsługa instrukcji wczytaj_linie ()
-else if Pos('wczytaj_linie(', LowerCase(TrimmedLine)) > 0 then
+else if Pos('czytaj_linie(', LowerCase(TrimmedLine)) > 0 then
 begin
   // Sprawdź, czy linia zawiera znak '=' (czy jest to przypisanie z czytaj)
   if Pos('=', TrimmedLine) > 0 then
@@ -1913,7 +1913,7 @@ begin
     end;
 
     // Wyodrębnij argument z wczytaj_linie ()
-    Value := Copy(Value, 14, Length(Value) - 14); // Usuń 'czytaj('
+    Value := Copy(Value, 13, Length(Value) - 13); // Usuń 'czytaj('
     if (Length(Value) > 0) and (Value[1] = '(') then
       Value := Copy(Value, 2, Length(Value) - 1);
     if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
@@ -1929,7 +1929,7 @@ begin
     // Przypadek: wczytaj_linie (zmienna) bez przypisania
     // Wyodrębnij nazwę zmiennej z nawiasów
     Value := TrimmedLine;
-    Value := Copy(Value, 14, Length(Value) - 14); // Usuń 'wczytaj_linie ('
+    Value := Copy(Value, 13, Length(Value) - 13); // Usuń 'wczytaj_linie ('
     if (Length(Value) > 0) and (Value[1] = '(') then
       Value := Copy(Value, 2, Length(Value) - 1);
     if (Length(Value) > 0) and (Value[Length(Value)] = ')') then

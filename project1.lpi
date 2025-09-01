@@ -218,6 +218,7 @@
         <Filename Value="uprzyklady.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormPrzyklady"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Uprzyklady"/>
       </Unit>
