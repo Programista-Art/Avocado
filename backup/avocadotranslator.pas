@@ -43,9 +43,6 @@ type
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
     function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
     procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
-
-    //Internet
-
   end;
 var
 Moduly: String;
@@ -60,7 +57,7 @@ procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssig
 var
   j: Integer;
 begin
-  // Sprawdź, czy zmienna już istnieje
+    // Sprawdź, czy zmienna już istnieje
     for j := 0 to High(FVariables) do
       if FVariables[j].VarName = VarName then Exit;
 
@@ -81,49 +78,6 @@ begin
              (S[1] = '"') and (S[Length(S)] = '"'));
 end;
 
-//KOnwersje
-{
-function TAvocadoTranslator.TranslateExpression(const Expr: string): string;
-var
-  TempExpr: string;
-begin
-  TempExpr := Expr;
-
-  // Najpierw zamień operatory logiczne
-  TempExpr := StringReplace(TempExpr, ' i ', ' and ', [rfReplaceAll]);
-  TempExpr := StringReplace(TempExpr, ' lub ', ' or ', [rfReplaceAll]);
-
-  // Zamiana wartości logicznych
-  TempExpr := StringReplace(TempExpr, 'prawda', 'True', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'falsz', 'False', [rfReplaceAll, rfIgnoreCase]);
-
-  // Konwersje typów - uproszczone i poprawione
-  TempExpr := StringReplace(TempExpr, 'tekst_w_liczbe_cal(', 'StrToInt(', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'TekstWLiczbar(', 'StrToFloat(', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'LiczbacWTekst(', 'IntToStr(', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll, rfIgnoreCase]);
-
-  // Dodano brakujące zamiany z ignorowaniem wielkości liter
-  TempExpr := StringReplace(TempExpr, 'LiczbacWr(', 'Real(', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'LiczbarWc(', 'Trunc(', [rfReplaceAll, rfIgnoreCase]);
-
-  // Kolory - poprawione duplikaty i dodano ignoreCase
-  TempExpr := StringReplace(TempExpr, 'czarny', 'clBlack', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'biały', 'clWhite', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'niebieski', 'clBlue', [rfReplaceAll, rfIgnoreCase]);
-  // ... pozostałe kolory analogicznie
-
-  // Usunięto duplikaty (migotanie występowało dwa razy)
-  TempExpr := StringReplace(TempExpr, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
-
-  // Poprawione nazwy funkcji string
-  TempExpr := StringReplace(TempExpr, 'kopiuj', 'Copy', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
-  TempExpr := StringReplace(TempExpr, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
-
-  Result := TempExpr;
-end;
-}
 //Konwersje
 function TAvocadoTranslator.TranslateExpression(const Expr: string): string;
 begin
@@ -305,67 +259,51 @@ begin
      (VarType = 'tablicatekstów') or
      (VarType = 'lista_tekstów') or
      (VarType = 'stała') or
-     (VarType = 'TekstLD') then
+     (VarType = 'TekstLD') or
+      //angielskie nazwy
+     (VarType = 'int') or
+     (VarType = 'int8') or //shortint
+     (VarType = 'int16') or //SmallInt
+     (VarType = 'int32') or //LongInt
+     (VarType = 'int64') or //Int64
+     (VarType = 'ubyte') or //Single
+     (VarType = 'ubyte') or //Single
+     (VarType = 'real') or //Real
+     (VarType = 'ubyte') or //Byte
+     (VarType = 'uint16') or //Word
+     (VarType = 'uint32') or //LongWord
+     (VarType = 'float') or //Double
+     (VarType = 'float') or //Double
+     (VarType = 'float80') or //Extended
+     (VarType = 'decimal') or //Currency
+     (VarType = 'bool') or //Boolean
+     (VarType = 'char') or //Char
+     (VarType = 'char32') or //WideChar
+     (VarType = 'string255') or //ShortString
+     (VarType = 'string') or //String
+     (VarType = 'ansi_string') or //AnsiString
+     (VarType = 'unicode_string') or //UnicodeString
+     (VarType = 'dynamic_array') or //UnicodeString
+     (VarType = 'set') or //Set of type
+     (VarType = 'file') or //File
+     (VarType = 'text_file') or //TextFile
+     (VarType = 'binary_file') or //BinaryFile
+     (VarType = 'file_struct') or //Typed File
+     (VarType = 'pointer') or //pointer
+     (VarType = 'pointer_to') or //^type
+     (VarType = 'binary_file') or //BinaryFile
+     (VarType = 'any') or //Variant
+     (VarType = 'ole_variant')  //OleVariant
+
+
+
+     then
   begin
     AddVariable(VarName, VarType, False); // standardowe zmienne z inicjalizacją
     Exit;
   end;
     raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
 end;
-        //normalnie przypisuja sie zmienne
-       { else if (VarType = 'tekst') or (VarType = 'liczba_całkowita') or
-           (VarType = 'lc') or
-           (VarType = 'liczba_zm') or
-           (VarType = 'lzm') or
-           (VarType = 'logiczny') or
-           (VarType = 'znak') or
-           (VarType = 'liczba_krótka') or
-           (VarType = 'liczba_mała') or
-           (VarType = 'liczba_długa') or
-           (VarType = 'liczba64') or
-           (VarType = 'bajt') or
-           (VarType = 'liczba16') or
-           (VarType = 'liczba32') or
-           (VarType = 'tekst') or
-           (VarType = 'tablicaliczb') or
-           (VarType = 'liczba_pojedyncza') or
-           (VarType = 'liczba_podwójna') or
-           (VarType = 'liczba_rozszerzona') or
-           (VarType = 'liczba_zgodna_delphi') or
-           (VarType = 'liczba_waluta') or
-           (VarType = 'logiczny_bajt') or
-           (VarType = 'logiczne_słowo') or
-           (VarType = 'logiczny_długi') or
-           (VarType = 'znak_unicode') or
-           (VarType = 'tekst255') or
-           (VarType = 'tekst_ansi') or
-           (VarType = 'tekst_unicode') or
-           (VarType = 'tekst_systemowy') or
-           (VarType = 'tablica_stała') or
-           (VarType = 'tablica_dynamiczna') or
-           (VarType = 'rekord') or
-           (VarType = 'kolekcja') or
-           (VarType = 'plik') or
-           //(VarType = 'plik_tekstowy') or
-           (VarType = 'plik_binarny') or
-           (VarType = 'plik_struktur') or
-           (VarType = 'wskaźnik') or
-           (VarType = 'wskaźnik_na') or
-           (VarType = 'wariant') or
-           (VarType = 'wariant_ole') or
-           (VarType = 'tablicatekstów') or
-           (VarType = 'lista_tekstów') or
-           (VarType = 'stała') or
-           //Konwersje
-           (VarType = 'TekstLD') then
-        begin
-          AddVariable(VarName, VarType,False);
-        end
-        else
-           raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
-      end;}
-
-
 
 
 // Zaawansowana funkcja do parsowania argumentów, która uwzględnia cudzysłowy
@@ -1243,6 +1181,8 @@ begin
 
     Exit;
   end
+
+
   //Ansi
 
     // Obsługa funkcji duże_litery_ansi
@@ -2149,7 +2089,7 @@ begin
       //  PascalCode.Add('var');
       //  for i := 0 to High(FVariables) do
       //  begin
-      // Generuj sekcję 'var' (PRZYWRÓCONO PEŁNĄ OBSŁUGĘ TYPÓW)
+      // Generuj sekcję 'var'
       if Length(FVariables) > 0 then
       begin
         PascalCode.Add('var');
@@ -2254,6 +2194,67 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': TStringList;') // Użyj zdefiniowanego typu
           else if LowerCase(FVariables[i].VarType) = 'stała' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
+          //Tu drodzy panstwo beda zmienne po angielsku
+          else if LowerCase(FVariables[i].VarType) = 'int' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Integr;')
+          else if LowerCase(FVariables[i].VarType) = 'int8' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ShortIn;')
+          else if LowerCase(FVariables[i].VarType) = 'int16' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': SmallInt;')
+             else if LowerCase(FVariables[i].VarType) = 'int32' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': LongInt;')
+             else if LowerCase(FVariables[i].VarType) = 'int64' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Int64;')
+             else if LowerCase(FVariables[i].VarType) = 'ubyte' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Single;')
+             else if LowerCase(FVariables[i].VarType) = 'real' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Real;')
+             else if LowerCase(FVariables[i].VarType) = 'ubyte' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Byte;')
+            else if LowerCase(FVariables[i].VarType) = 'uint16' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Word;')
+            else if LowerCase(FVariables[i].VarType) = 'uint32' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': LongWord;')
+            else if LowerCase(FVariables[i].VarType) = 'float' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Double;')
+            else if LowerCase(FVariables[i].VarType) = 'float80' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Extended;')
+            else if LowerCase(FVariables[i].VarType) = 'decimal' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Currency;')
+            else if LowerCase(FVariables[i].VarType) = 'bool' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Boolean;')
+            else if LowerCase(FVariables[i].VarType) = 'char' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Char;')
+            else if LowerCase(FVariables[i].VarType) = 'char32' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': WideChar;')
+            else if LowerCase(FVariables[i].VarType) = 'string255' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ShortString;')
+            else if LowerCase(FVariables[i].VarType) = 'string' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': String;')
+            else if LowerCase(FVariables[i].VarType) = 'ansi_string' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': AnsiString;')
+            else if LowerCase(FVariables[i].VarType) = 'unicode_string' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': UnicodeString;')
+            else if LowerCase(FVariables[i].VarType) = 'dynamic_array' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Array of type;')
+            else if LowerCase(FVariables[i].VarType) = 'set' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Set of type;')
+            else if LowerCase(FVariables[i].VarType) = 'file' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
+            else if LowerCase(FVariables[i].VarType) = 'text_file' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;')
+            else if LowerCase(FVariables[i].VarType) = 'binary_file' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': BinaryFile;')
+            else if LowerCase(FVariables[i].VarType) = 'file_struct' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Typed File;')
+            else if LowerCase(FVariables[i].VarType) = 'pointer' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Pointer;')
+            else if LowerCase(FVariables[i].VarType) = 'pointer_to' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ^type;')
+            else if LowerCase(FVariables[i].VarType) = 'any' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Variant;')
+            else if LowerCase(FVariables[i].VarType) = 'ole_variant' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': OleVariant File;')
 
           else
            begin

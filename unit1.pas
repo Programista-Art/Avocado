@@ -1085,7 +1085,7 @@ begin
    //FontSizeEditor := Ini.WriteInteger('main', 'SizeFontEditor', '');
    try
     ini.WriteInteger('main', 'SizeFontEditor', FontSizeEditor);
-    MessageDlg('Dane','Dane zapisane', mtInformation,[mbOK],0);
+    //MessageDlg('Dane','Dane zapisane', mtInformation,[mbOK],0);
 
   finally
     FreeAndNil(Ini);
