@@ -57,6 +57,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="1080"/>
         <CursorPos X="66" Y="1088"/>
@@ -79,9 +80,8 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="2201"/>
-        <CursorPos X="58" Y="2211"/>
+        <TopLine Value="2234"/>
+        <CursorPos X="68" Y="2255"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>

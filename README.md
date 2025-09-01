@@ -37,3 +37,9 @@
 ### Avocado ustawienia pomocnika AI ChatGPT
 ![Avocado ustawienia v 1.0.0.9](image/Avocado-ai.jpg)
 
+# Jak pracować z kodem Avocado
++ ## Najpierw tzreba pobrać środowisko Lazarus 4.2 lub nowsze [Link do Lazarus](https://www.lazarus-ide.org/)
++ ## Zainstaluj w Lazarusie komponent bgracontrols i przebuduj Lazarus.
+## W Lazarusie w menu znajdź punkt Pakiet > Online Package Manager i wyszukaj komponent bgracontrols i zainstaluj go, potem przebuduj ide i powinno wszystko działać.
+![Avocado ustawienia v 1.0.0.9](image/instalacja/bgracontrols.jpg)
+
