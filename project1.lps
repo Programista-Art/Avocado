@@ -137,7 +137,6 @@
       </Unit>
       <Unit>
         <Filename Value="formatowanie.pas"/>
-        <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18"/>
         <UsageCount Value="187"/>
@@ -193,7 +192,6 @@
       </Unit>
       <Unit>
         <Filename Value="unit2.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
@@ -217,7 +215,6 @@
         <UnitName Value="Uprzyklady"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="113"/>
         <CursorPos X="17" Y="104"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>

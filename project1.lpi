@@ -173,10 +173,6 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="formatowanie.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
         <Filename Value="moduly\chatgptavocado.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
@@ -202,13 +198,6 @@
       <Unit>
         <Filename Value="pliki.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="unit2.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit2"/>
       </Unit>
       <Unit>
         <Filename Value="internet.pas"/>
