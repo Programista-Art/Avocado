@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,IniFiles;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,IniFiles,DefaultTranslator,LCLTranslator;
 
 type
   TStringArray = array of string;
@@ -49,6 +49,13 @@ type
 var
 Moduly: String;
 
+resourcestring
+  InvalidVariableDeclaration = 'Nieprawidłowa deklaracja zmiennej: ';
+  ErrorPrint = 'Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)';
+  FunctionInsert = 'Funkcja wstaw wymaga trzech argumentów: source, target, index';
+  FunctionTrim = 'Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)';
+  FunctionTrimRight = 'Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)';
+  FunctionTrimLeft = 'Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)';
 implementation
 uses
   unit1;
@@ -204,7 +211,7 @@ begin
   // Rozdzielamy typ i nazwę zmiennej
   VarParts := VarDecl.Split([' '], 2);
   if Length(VarParts) < 2 then
-    raise Exception.Create('Nieprawidłowa deklaracja zmiennej: ' + Line);
+    raise Exception.Create(InvalidVariableDeclaration + Line);
 
   VarType := LowerCase(Trim(VarParts[0]));
   VarName := Trim(VarParts[1]);
@@ -890,10 +897,10 @@ begin
     EndPosInsert   := RPos(')', TrimmedLine);
 
     if (StartPosInsert = 0) or (EndPosInsert = 0) then
-      raise Exception.Create('Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)');
+      raise Exception.Create(ErrorPrint);
 
     if StartPosInsert > EndPosInsert then
-      raise Exception.Create('Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)');
+      raise Exception.Create(ErrorPrint);
 
     ParamInsert := Trim(Copy(TrimmedLine, StartPosInsert + 1, EndPosInsert - StartPosInsert - 1));
     ParamPartsInsert := ParamInsert.Split([',']);
@@ -911,7 +918,7 @@ begin
     ParamPartsInsert := TempParamParts;
 
     if Length(ParamPartsInsert) <> 3 then
-      raise Exception.Create('Funkcja wstaw wymaga trzech argumentów: source, target, index');
+      raise Exception.Create(FunctionInsert);
 
     InsertSourceIn := TranslateExpression(ParamPartsInsert[0]);
     InsertTargetIn := TranslateExpression(ParamPartsInsert[1]);
@@ -927,10 +934,10 @@ begin
     EndPosTrim := RPos(')', TrimmedLine);
 
     if (StartPosTrim = 0) or (EndPosTrim = 0) then
-      raise Exception.Create('Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)');
+      raise Exception.Create(FunctionTrim);
 
     if StartPosTrim > EndPosTrim then
-      raise Exception.Create('Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)');
+      raise Exception.Create(FunctionTrim);
 
     ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
     TranslatedParamTrim := TranslateExpression(ParamTrim);
@@ -954,10 +961,10 @@ begin
     EndPosTrimLeft := RPos(')', TrimmedLine);
 
     if (StartPosTrimLeft = 0) or (EndPosTrimLeft = 0) then
-      raise Exception.Create('Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)');
+      raise Exception.Create(FunctionTrimRight);
 
     if StartPosTrimLeft > EndPosTrimLeft then
-      raise Exception.Create('Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)');
+      raise Exception.Create(FunctionTrimLeft);
 
     ParamTrimLeft := Trim(Copy(TrimmedLine, StartPosTrimLeft + 1, EndPosTrimLeft - StartPosTrimLeft - 1));
     TranslatedParamTrimLeft := TranslateExpression(ParamTrimLeft);
@@ -982,10 +989,10 @@ begin
     EndPosTrimRight := RPos(')', TrimmedLine);
 
     if (StartPosTrimRight = 0) or (EndPosTrimRight = 0) then
-      raise Exception.Create('Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)');
+      raise Exception.Create(FunctionTrimRight);
 
     if StartPosTrimRight > EndPosTrimRight then
-      raise Exception.Create('Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)');
+      raise Exception.Create(FunctionTrimRight);
 
     ParamTrimRight := Trim(Copy(TrimmedLine, StartPosTrimRight + 1, EndPosTrimRight - StartPosTrimRight - 1));
     TranslatedParamTrimRight := TranslateExpression(ParamTrimRight);

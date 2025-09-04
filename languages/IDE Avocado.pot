@@ -1,6 +1,30 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: avocadotranslator.errorprint
+msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgstr ""
+
+#: avocadotranslator.functioninsert
+msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgstr ""
+
+#: avocadotranslator.functiontrim
+msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgstr ""
+
+#: avocadotranslator.functiontrimleft
+msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgstr ""
+
+#: avocadotranslator.functiontrimright
+msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgstr ""
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Nieprawidłowa deklaracja zmiennej: "
+msgstr ""
+
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr ""
@@ -431,5 +455,13 @@ msgstr ""
 
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
+msgstr ""
+
+#: unit1.newnamezprogram
+msgid "Podaj nazwę programu:"
+msgstr ""
+
+#: unit1.newprogramfile
+msgid "Nowy plik"
 msgstr ""
 

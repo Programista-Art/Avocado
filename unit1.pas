@@ -262,6 +262,9 @@ var
   //Language
   lang: String;
 
+resourcestring
+   NewProgramFile = 'Nowy plik';
+   NewNamezprogram = 'Podaj nazwę programu:';
 implementation
 
 uses
@@ -598,7 +601,7 @@ end;
 
 procedure TFormMain.MenuNewFileClick(Sender: TObject);
 begin
-  if InputQuery('Nowy plik', 'Podaj nazwę programu:', NameProgram) then
+  if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
   begin
     // Czyścimy edytor kodu oraz okna logów i outputu
     SynEditCode.Clear;

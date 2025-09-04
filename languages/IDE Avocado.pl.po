@@ -11,8 +11,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.7\n"
 
+#: avocadotranslator.errorprint
+msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgstr ""
+
+#: avocadotranslator.functioninsert
+msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgstr ""
+
+#: avocadotranslator.functiontrim
+msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgstr ""
+
+#: avocadotranslator.functiontrimleft
+msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgstr ""
+
+#: avocadotranslator.functiontrimright
+msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgstr ""
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Nieprawidłowa deklaracja zmiennej: "
+msgstr "Nieprawidłowa deklaracja zmiennej: "
+
 #: tfinformacjaide.caption
-#| msgid "Inforamcja o IDE Avocado"
 msgid "Informacja o IDE Avocado"
 msgstr "Informacja o IDE Avocado"
 
@@ -96,35 +119,35 @@ msgstr "English"
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr ""
+msgstr "Español"
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr ""
+msgstr "Français"
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr ""
+msgstr "Italiano"
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr ""
+msgstr "Português"
 
 #: tformmain.menuitem16.caption
 msgid "Русский"
-msgstr ""
+msgstr "Русский"
 
 #: tformmain.menuitem17.caption
 msgid "中國人"
-msgstr ""
+msgstr "中國人"
 
 #: tformmain.menuitem18.caption
 msgid "हिंदी"
-msgstr ""
+msgstr "हिंदी"
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
@@ -149,7 +172,6 @@ msgid "Kopiuj"
 msgstr "Kopiuj"
 
 #: tformmain.menuitem6.caption
-#| msgid "Kopiuj wszsytko"
 msgctxt "tformmain.menuitem6.caption"
 msgid "Kopiuj wszystko"
 msgstr "Kopiuj wszystko"
@@ -444,3 +466,12 @@ msgstr "OK"
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
 msgstr "Wesprzyj projekt"
+
+#: unit1.newnamezprogram
+msgid "Podaj nazwę programu:"
+msgstr "Podaj nazwę programu:"
+
+#: unit1.newprogramfile
+msgid "Nowy plik"
+msgstr "Nowy plik"
+

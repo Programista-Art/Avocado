@@ -11,6 +11,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.7\n"
 
+#: avocadotranslator.errorprint
+msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgstr ""
+
+#: avocadotranslator.functioninsert
+msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgstr ""
+
+#: avocadotranslator.functiontrim
+msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgstr ""
+
+#: avocadotranslator.functiontrimleft
+msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgstr ""
+
+#: avocadotranslator.functiontrimright
+msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgstr ""
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Nieprawidłowa deklaracja zmiennej: "
+msgstr "Déclaration de variable non valide : "
+
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr "Informations sur l'IDE Avocado"
@@ -200,7 +224,7 @@ msgstr "Supprimer le code "
 
 #: tformmain.menuitemdeletecode.caption
 msgid "Usuń kod"
-msgstr "Supprimer le code "
+msgstr "Supprimer le code"
 
 #: tformmain.menuitemdeletememologs.caption
 msgctxt "tformmain.menuitemdeletememologs.caption"
@@ -442,3 +466,12 @@ msgstr "OK"
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
 msgstr "Soutenez le projet"
+
+#: unit1.newnamezprogram
+msgid "Podaj nazwę programu:"
+msgstr "Entrez le nom du programme :"
+
+#: unit1.newprogramfile
+msgid "Nowy plik"
+msgstr "Nouveau fichier"
+
