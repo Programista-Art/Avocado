@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  ComboEx, MaskEdit, Buttons, Menus, TAChartCombos, BCListBox, BCComboBox,Inifiles;
+  ComboEx, MaskEdit, Buttons, Menus, TAChartCombos, BCListBox, BCComboBox,Inifiles,LCLTranslator, DefaultTranslator;
 
 type
 

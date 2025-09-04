@@ -5,7 +5,7 @@ object Finformacjaide: TFinformacjaide
   Width = 215
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Inforamcja o IDE Avocado'
+  Caption = 'Informacja o IDE Avocado'
   ClientHeight = 169
   ClientWidth = 215
   Color = 2697513

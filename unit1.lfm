@@ -1040,6 +1040,49 @@ object FormMain: TFormMain
       Caption = 'Przykłady'
       OnClick = MenuExamplesClick
     end
+    object MenuItem8: TMenuItem
+      Caption = 'Język'
+      object MenuItem10: TMenuItem
+        Caption = 'English'
+        OnClick = MenuItem10Click
+      end
+      object MenuItem11: TMenuItem
+        Caption = 'Español'
+        OnClick = MenuItem11Click
+      end
+      object MenuItem12: TMenuItem
+        Caption = 'Français'
+        OnClick = MenuItem12Click
+      end
+      object MenuItem13: TMenuItem
+        Caption = 'Deutsch'
+        OnClick = MenuItem13Click
+      end
+      object MenuItem14: TMenuItem
+        Caption = 'Italiano'
+        OnClick = MenuItem14Click
+      end
+      object MenuItem15: TMenuItem
+        Caption = 'Português'
+        OnClick = MenuItem15Click
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'Polski'
+        OnClick = MenuItem9Click
+      end
+      object MenuItem16: TMenuItem
+        Caption = 'Русский'
+        OnClick = MenuItem16Click
+      end
+      object MenuItem17: TMenuItem
+        Caption = '中國人'
+        OnClick = MenuItem17Click
+      end
+      object MenuItem18: TMenuItem
+        Caption = 'हिंदी'
+        OnClick = MenuItem18Click
+      end
+    end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'
       object MenuItemDokumentacja: TMenuItem
@@ -1435,7 +1478,7 @@ object FormMain: TFormMain
       OnClick = MenuItem5Click
     end
     object MenuItem6: TMenuItem
-      Caption = 'Kopiuj wszsytko'
+      Caption = 'Kopiuj wszystko'
       OnClick = MenuItem6Click
     end
   end

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, BCListBox,
-  BGRASpeedButton, StdCtrls, ExtCtrls, Buttons;
+  BGRASpeedButton, StdCtrls, ExtCtrls, Buttons,LCLTranslator, DefaultTranslator;
 
 type
 

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LCLIntf, LCLType, Clipbrd, Buttons;
+  LCLIntf, LCLType, Clipbrd, Buttons, LCLTranslator, DefaultTranslator;
 
 type
 

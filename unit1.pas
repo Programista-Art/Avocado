@@ -7,11 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCFluentSlider,
-  BGRAFlashProgressBar, SynEdit, SynPopupMenu, SynCompletion,
+  SynEdit, SynPopupMenu, SynCompletion,
   SynPluginSyncroEdit, SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX,
   SynHighlighterDiff, SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo,
   laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8,
-  AnchorDockPanel, LCLIntf, InterfaceBase;
+  LCLIntf, InterfaceBase,DefaultTranslator,LCLTranslator;
 
 type
   { TFormMain }
@@ -19,6 +19,17 @@ type
     BCExpandPanel1: TBCExpandPanel;
     LRozmiarZccionkiEdytora: TLabel;
     MenuExamples: TMenuItem;
+    MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
     EditAskPromt: TEdit;
     Label3: TLabel;
@@ -101,6 +112,16 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MenuExamplesClick(Sender: TObject);
+    procedure MenuItem10Click(Sender: TObject);
+    procedure MenuItem11Click(Sender: TObject);
+    procedure MenuItem12Click(Sender: TObject);
+    procedure MenuItem13Click(Sender: TObject);
+    procedure MenuItem14Click(Sender: TObject);
+    procedure MenuItem15Click(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
+    procedure MenuItem17Click(Sender: TObject);
+    procedure MenuItem18Click(Sender: TObject);
+    procedure MenuItem9Click(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -146,6 +167,7 @@ type
     //Laduje link do FPC kompilatora
     procedure LoadFpc;
     procedure SaveCodeToFile;
+    procedure IsClickMainMenuLanguage(number: Integer);
 
     //Kompilacja kodu release debug
     procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
@@ -155,7 +177,9 @@ type
     // Metoda callback do obsługi odpowiedzi ChatGPT
     procedure OnChatGPTResponse(const ResponseText: string);
     procedure LoadTokenGPT;
+    //procedure LoadLang;
     procedure CloseProgram;
+
 
   public
     procedure LoadAvocadoFileToEditor(const FileName: string);
@@ -206,7 +230,7 @@ type
 
 var
   FormMain: TFormMain;
-  Ini: TIniFile;
+  Ini,ini_lang: TIniFile;
   FInterpreterPath: string;
   //Link do FPC
   FFpcPath: string;
@@ -235,6 +259,8 @@ var
   //Ini
   IniEnd: TIniFile;
   FontSizeEditor: Integer;
+  //Language
+  lang: String;
 
 implementation
 
@@ -292,6 +318,76 @@ end;
 procedure TFormMain.MenuExamplesClick(Sender: TObject);
 begin
   FormPrzyklady.ShowModal;
+end;
+
+procedure TFormMain.MenuItem10Click(Sender: TObject);
+begin
+  SetDefaultLang('en');
+  lang := 'en';
+  IsClickMainMenuLanguage(0);
+end;
+
+procedure TFormMain.MenuItem11Click(Sender: TObject);
+begin
+  SetDefaultLang('es');
+  lang := 'es';
+  IsClickMainMenuLanguage(1);
+end;
+
+procedure TFormMain.MenuItem12Click(Sender: TObject);
+begin
+  SetDefaultLang('fr');
+  lang := 'fr';
+  IsClickMainMenuLanguage(2);
+end;
+
+procedure TFormMain.MenuItem13Click(Sender: TObject);
+begin
+  SetDefaultLang('de');
+  lang := 'de';
+  IsClickMainMenuLanguage(3);
+end;
+
+procedure TFormMain.MenuItem14Click(Sender: TObject);
+begin
+  SetDefaultLang('it');
+  lang := 'it';
+  IsClickMainMenuLanguage(4);
+end;
+
+procedure TFormMain.MenuItem15Click(Sender: TObject);
+begin
+  SetDefaultLang('pt');
+  lang := 'pt';
+  IsClickMainMenuLanguage(5);
+end;
+
+procedure TFormMain.MenuItem16Click(Sender: TObject);
+begin
+  SetDefaultLang('ru');
+  lang := 'ru';
+  IsClickMainMenuLanguage(7);
+end;
+
+procedure TFormMain.MenuItem17Click(Sender: TObject);
+begin
+  SetDefaultLang('zh');
+  lang := 'zh';
+  IsClickMainMenuLanguage(8);
+end;
+
+procedure TFormMain.MenuItem18Click(Sender: TObject);
+begin
+  SetDefaultLang('hi');
+  lang := 'hi';
+  IsClickMainMenuLanguage(9);
+end;
+
+procedure TFormMain.MenuItem9Click(Sender: TObject);
+begin
+  SetDefaultLang('pl');
+  lang := 'pl';
+  IsClickMainMenuLanguage(0);
 end;
 
 procedure TFormMain.MenuItem4Click(Sender: TObject);
@@ -645,6 +741,94 @@ begin
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
     FModulsPath := Ini.ReadString('main', 'Units', '\moduly');
+    //Laduje jezyk programu UI
+    lang := Ini.ReadString('defaultlanguage','language','en');
+    case lang of
+    'en':
+    begin
+      SetDefaultLang('en');
+      IsClickMainMenuLanguage(0);
+    end;
+    'pl':
+    begin
+      SetDefaultLang('pl');
+      IsClickMainMenuLanguage(6);
+    end;
+    'ru':
+    begin
+      SetDefaultLang('ru');
+      IsClickMainMenuLanguage(7);
+    end;
+    'de':
+    begin
+      SetDefaultLang('de');
+      IsClickMainMenuLanguage(3);
+    end;
+    'pt':
+    begin
+      SetDefaultLang('pt');//portugalski
+      IsClickMainMenuLanguage(5);
+    end;
+    'es':
+    begin
+      SetDefaultLang('es');//hiszpański
+      IsClickMainMenuLanguage(1);
+    end;
+    'uk':
+    begin
+      SetDefaultLang('uk');
+       //IsClickMainMenuLanguage(1);
+    end;
+    'it':
+    begin
+      SetDefaultLang('it'); //wloski
+      IsClickMainMenuLanguage(4);
+    end;
+    'hi':
+    begin
+      SetDefaultLang('hi');//hindi
+      IsClickMainMenuLanguage(9);
+    end;
+    'fr':
+    begin
+      SetDefaultLang('fr');//francuski
+      IsClickMainMenuLanguage(2);
+    end;
+    'zh':
+    begin
+      SetDefaultLang('zh');//chiński
+      IsClickMainMenuLanguage(8);
+    end;
+    'bn':
+    begin
+      SetDefaultLang('bn');//Bengalski
+      //IsClickMainMenuLanguage(8);
+    end;
+    'ar':
+    begin
+      SetDefaultLang('ar');//arabski
+      //IsClickMainMenuLanguage(8);
+    end;
+    'ja':
+    begin
+       SetDefaultLang('ja');//japoński
+       //IsClickMainMenuLanguage(8);
+    end;
+    'pnb':
+    begin
+       SetDefaultLang('pnb');//zachodniopendżabski
+       //IsClickMainMenuLanguage(8);
+    end;
+    'mr':
+    begin
+       SetDefaultLang('mr');//marathi
+       //IsClickMainMenuLanguage(8);
+    end
+    else
+      SetDefaultLang('en');
+      IsClickMainMenuLanguage(0);
+    end;
+     // end
 
    // --- Walidacja wczytanych ustawień (bez odgadywania) ---
     if (FFpcPath = '') or not FileExists(FFpcPath) then
@@ -700,6 +884,19 @@ begin
     FileNamePr := SD.FileName;
     //ShowMessage(FileNamePr);
   end;
+end;
+
+procedure TFormMain.IsClickMainMenuLanguage(number: Integer);
+var
+  i: Integer;
+begin
+  for i := 0 to MainMenu1.Items[4].Count - 1 do
+    begin
+      if i <> number then // Jeśli to nie jest aktualnie wybrany element
+        MainMenu1.Items[4].Items[i].Checked := False; // Odznacz element
+    end;
+    // Zaznacz wybrany element
+    MainMenu1.Items[4].Items[number].Checked := True;
 end;
 
 procedure TFormMain.CompilePascalCode(const PascalCode, OutputFile: string);
@@ -1085,11 +1282,11 @@ begin
    //FontSizeEditor := Ini.WriteInteger('main', 'SizeFontEditor', '');
    try
     ini.WriteInteger('main', 'SizeFontEditor', FontSizeEditor);
+    ini.WriteString('defaultlanguage', 'language', lang);
     //MessageDlg('Dane','Dane zapisane', mtInformation,[mbOK],0);
 
   finally
     FreeAndNil(Ini);
-
   end;
 
 

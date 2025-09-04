@@ -9,6 +9,7 @@ object FormPrzyklady: TFormPrzyklady
   ClientHeight = 355
   ClientWidth = 415
   Position = poMainFormCenter
+  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   object ExampleListBox: TBCListBox
     Left = 0

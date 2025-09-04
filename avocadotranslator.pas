@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants ;
+  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,IniFiles;
 
 type
   TStringArray = array of string;
@@ -20,6 +20,8 @@ type
   TAvocadoTranslator = class
   private
     FVariables: array of TAvocadoVariable;
+    constructor Create;
+    destructor Destroy; override;
 
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
     //dotyczy petli while
@@ -344,6 +346,17 @@ begin
   if StartPos <= Length(ASource) then
     AStrings.Add(Copy(ASource, StartPos, Length(ASource) - StartPos + 1));
 end;
+
+constructor TAvocadoTranslator.Create;
+begin
+  inherited Create;
+end;
+
+destructor TAvocadoTranslator.Destroy;
+begin
+  inherited Destroy;
+end;
+
 
 
 { Przetwarzanie pętli for w formacie:
@@ -2195,7 +2208,7 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
           //Tu drodzy panstwo beda zmienne po angielsku
           else if LowerCase(FVariables[i].VarType) = 'int' then
-            PascalCode.Add('  ' + FVariables[i].VarName + ': Integr;')
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Integer;')
           else if LowerCase(FVariables[i].VarType) = 'int8' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': ShortIn;')
           else if LowerCase(FVariables[i].VarType) = 'int16' then

@@ -61,10 +61,10 @@ object Wsparcie: TWsparcie
     ParentColor = False
     TabOrder = 1
     object SpeedButton2: TSpeedButton
-      Left = 120
+      Left = 88
       Height = 40
       Top = 16
-      Width = 177
+      Width = 225
       Caption = 'Wesprzyj projekt'
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Height = -21

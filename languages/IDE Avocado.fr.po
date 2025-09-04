@@ -1,0 +1,444 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.7\n"
+
+#: tfinformacjaide.caption
+msgid "Informacja o IDE Avocado"
+msgstr "Informations sur l'IDE Avocado"
+
+#: tfinformacjaide.speedbutton1.caption
+msgctxt "tfinformacjaide.speedbutton1.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tformautor.caption
+msgctxt "tformautor.caption"
+msgid "Autor"
+msgstr "Auteur"
+
+#: tformautor.speedbutton1.caption
+msgctxt "tformautor.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformmain.bcexpandpanel1.button.caption
+msgid "Pomocnik AI"
+msgstr "Assistant IA"
+
+#: tformmain.caption
+msgid "IDE Avocado v 1.0.0.9"
+msgstr ""
+
+#: tformmain.editaskpromt.texthint
+msgid "Wpisz zapytanie"
+msgstr "Entrez votre requête"
+
+#: tformmain.kompiluj.caption
+msgctxt "tformmain.kompiluj.caption"
+msgid "Kompiluj"
+msgstr "Compiler"
+
+#: tformmain.label1.caption
+msgid "Debug"
+msgstr "Débogage"
+
+#: tformmain.label2.caption
+msgid "Informacja"
+msgstr "Information"
+
+#: tformmain.label4.caption
+msgid "Rozmiar"
+msgstr "Taille"
+
+#: tformmain.lrozmiarzccionkiedytora.caption
+msgid "0"
+msgstr "0"
+
+#: tformmain.menuaboutprogram.caption
+msgctxt "tformmain.menuaboutprogram.caption"
+msgid "O programie"
+msgstr "À propos du programme"
+
+#: tformmain.menuautor.caption
+msgctxt "tformmain.menuautor.caption"
+msgid "Autor"
+msgstr "Auteur"
+
+#: tformmain.menuclose.caption
+msgid "Zamknij"
+msgstr "Fermer"
+
+#: tformmain.menuexamples.caption
+msgid "Przykłady"
+msgstr "Exemples"
+
+#: tformmain.menuinformacjaide.caption
+msgid "Informacja o IDE"
+msgstr "Informations sur l'IDE"
+
+#: tformmain.menuitem1.caption
+msgid "Plik"
+msgstr "Fichier"
+
+#: tformmain.menuitem10.caption
+msgid "English"
+msgstr ""
+
+#: tformmain.menuitem11.caption
+msgid "Español"
+msgstr ""
+
+#: tformmain.menuitem12.caption
+msgid "Français"
+msgstr ""
+
+#: tformmain.menuitem13.caption
+msgid "Deutsch"
+msgstr ""
+
+#: tformmain.menuitem14.caption
+msgid "Italiano"
+msgstr ""
+
+#: tformmain.menuitem15.caption
+msgid "Português"
+msgstr ""
+
+#: tformmain.menuitem16.caption
+msgid "Русский"
+msgstr ""
+
+#: tformmain.menuitem17.caption
+msgid "中國人"
+msgstr ""
+
+#: tformmain.menuitem18.caption
+msgid "हिंदी"
+msgstr ""
+
+#: tformmain.menuitem2.caption
+msgctxt "tformmain.menuitem2.caption"
+msgid "Ustawienia"
+msgstr "Paramètres"
+
+#: tformmain.menuitem3.caption
+msgid "Pomoc"
+msgstr "Aide"
+
+#: tformmain.menuitem3clearcode.caption
+msgid "Usuń "
+msgstr "Supprimer "
+
+#: tformmain.menuitem4.caption
+msgid "Ustawienia pomocnika AI"
+msgstr "Paramètres de l'assistant IA"
+
+#: tformmain.menuitem5.caption
+msgctxt "tformmain.menuitem5.caption"
+msgid "Kopiuj"
+msgstr "Copier"
+
+#: tformmain.menuitem6.caption
+msgctxt "tformmain.menuitem6.caption"
+msgid "Kopiuj wszystko"
+msgstr "Tout copier"
+
+#: tformmain.menuitem7.caption
+msgid "Sprawdź kod [AI]"
+msgstr "Vérifiez le code [AI]"
+
+#: tformmain.menuitem8.caption
+msgid "Język"
+msgstr "Langue"
+
+#: tformmain.menuitem9.caption
+msgid "Polski"
+msgstr "Polski"
+
+#: tformmain.menuitemcopy.caption
+msgctxt "tformmain.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "Copier"
+
+#: tformmain.menuitemcopyallpascalzcode.caption
+msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "Tout copier"
+
+#: tformmain.menuitemcopycode.caption
+msgctxt "tformmain.menuitemcopycode.caption"
+msgid "Kopiuj"
+msgstr "Copier"
+
+#: tformmain.menuitemcopypascalcode.caption
+msgctxt "tformmain.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "Copier"
+
+#: tformmain.menuitemcut.caption
+msgctxt "tformmain.menuitemcut.caption"
+msgid "Wytnij"
+msgstr "Découper"
+
+#: tformmain.menuitemcutcode.caption
+msgctxt "tformmain.menuitemcutcode.caption"
+msgid "Wytnij"
+msgstr "Découper"
+
+#: tformmain.menuitemdeleteallcode.caption
+msgid "Usuń kod "
+msgstr "Supprimer le code "
+
+#: tformmain.menuitemdeletecode.caption
+msgid "Usuń kod"
+msgstr "Supprimer le code "
+
+#: tformmain.menuitemdeletememologs.caption
+msgctxt "tformmain.menuitemdeletememologs.caption"
+msgid "Usuń"
+msgstr "Supprimer"
+
+#: tformmain.menuitemdokumentacja.caption
+msgid "Dokumentacja online"
+msgstr "Documentation en ligne"
+
+#: tformmain.menuitemoutputcodeclear.caption
+msgctxt "tformmain.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "Supprimer"
+
+#: tformmain.menuitempaste.caption
+msgctxt "tformmain.menuitempaste.caption"
+msgid "Wklej"
+msgstr "Coller"
+
+#: tformmain.menuitempastecode.caption
+msgctxt "tformmain.menuitempastecode.caption"
+msgid "Wklej"
+msgstr "Coller"
+
+#: tformmain.menuitemsavefile.caption
+msgctxt "tformmain.menuitemsavefile.caption"
+msgid "Zapisz"
+msgstr "Enregistrer"
+
+#: tformmain.menuitemwsparcieprojektu.caption
+msgid "Wesprzyj"
+msgstr "Soutenez-nous"
+
+#: tformmain.menunewfile.caption
+msgid "Nowy"
+msgstr "Nouveau"
+
+#: tformmain.menuopcjeprojektu.caption
+msgid "Opcje projektu"
+msgstr "Options de conception"
+
+#: tformmain.menuopen.caption
+msgid "Otwórz"
+msgstr "Ouvrir"
+
+#: tformmain.menuprojekt.caption
+msgid "Projekt"
+msgstr "Projet"
+
+#: tformmain.menusaveas.caption
+msgid "Zapisz jak"
+msgstr "Enregistrer comme"
+
+#: tformmain.menuustawinia.caption
+msgctxt "tformmain.menuustawinia.caption"
+msgid "Ustawienia"
+msgstr "Paramètres"
+
+#: tformmain.nowyplik.caption
+msgid "NowyPLik"
+msgstr "NowyPLik"
+
+#: tformmain.nowyplik.hint
+msgid "Nowy Plik"
+msgstr "Nouveau fichier"
+
+#: tformmain.panel1.caption
+msgctxt "tformmain.panel1.caption"
+msgid "Panel1"
+msgstr "Panel1"
+
+#: tformmain.panel4.caption
+msgid "Panel4"
+msgstr ""
+
+#: tformmain.panellewy.caption
+msgid "PanelLewy"
+msgstr ""
+
+#: tformmain.paneltranspilacja.button.caption
+msgid "Transpilacja do Free Pascal"
+msgstr "Transpilation vers Free Pascal"
+
+#: tformmain.sbzapytaj.caption
+msgid " >"
+msgstr " >"
+
+#: tformmain.statusbar.panels[0].text
+msgid "Linii kodu"
+msgstr "Lignes de code"
+
+#: tformmain.toolbar1.caption
+msgid "ToolBar1"
+msgstr ""
+
+#: tformmain.toolbutton1.caption
+msgid "ToolButton1"
+msgstr ""
+
+#: tformmain.toolbutton1.hint
+msgctxt "tformmain.toolbutton1.hint"
+msgid "Transpiluj"
+msgstr "Transpiler"
+
+#: tformmain.toolbutton2.caption
+msgid "Kompiluj i zapisz"
+msgstr "Compiler et enregistrer"
+
+#: tformmain.toolbutton2.hint
+msgctxt "tformmain.toolbutton2.hint"
+msgid "Kompiluj"
+msgstr "Compiler"
+
+#: tformmain.transpiluj.caption
+msgctxt "tformmain.transpiluj.caption"
+msgid "Transpiluj"
+msgstr "Transpiler"
+
+#: tformmain.zapiszplik.caption
+msgid "ZapiszPlik"
+msgstr "ZapiszPlik"
+
+#: tformopcjeprojektu.caption
+msgid "Opcje Projektu"
+msgstr "Options du projet"
+
+#: tformopcjeprojektu.sbok.caption
+msgctxt "tformopcjeprojektu.sbok.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformoprogramie.caption
+msgctxt "tformoprogramie.caption"
+msgid "O programie"
+msgstr "À propos du programme"
+
+#: tformoprogramie.panel1.caption
+msgctxt "tformoprogramie.panel1.caption"
+msgid "Panel1"
+msgstr "Panel1"
+
+#: tformoprogramie.speedbutton1.caption
+msgctxt "tformoprogramie.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformprzyklady.caption
+msgid "Przyklady aplikacji"
+msgstr "Exemples d'applications"
+
+#: tformprzyklady.speedbutton1.caption
+msgctxt "tformprzyklady.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformsettingintepreter.bitbtn1.caption
+msgctxt "tformsettingintepreter.bitbtn1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformsettingintepreter.caption
+msgctxt "tformsettingintepreter.caption"
+msgid "Ustawienia"
+msgstr "Paramètres"
+
+#: tformsettingintepreter.comboboboxplatforms.text
+msgid "x86_64-win64"
+msgstr "x86_64-win64"
+
+#: tformsettingintepreter.groupbox1.caption
+msgid "Platforma"
+msgstr "Plateforme"
+
+#: tformsettingintepreter.groupbox2.caption
+msgid "LInk do fpc.exe"
+msgstr "LInk do fpc.exe"
+
+#: tformsettingintepreter.spbsavefolderfpc.caption
+msgid "Link do folderu FPC"
+msgstr "Lien vers le dossier FPC"
+
+#: tsettingai.caption
+msgid "Ustawienia Pomocnika AI"
+msgstr "Paramètres de l'assistant IA"
+
+#: tsettingai.edittokengpt.text
+msgid "EditTokenGPT"
+msgstr "EditTokenGPT"
+
+#: tsettingai.label1.caption
+msgid "Model językowy"
+msgstr "Modèle linguistique"
+
+#: tsettingai.label2.caption
+msgid "Klucz API"
+msgstr "Clé API"
+
+#: tsettingai.menuitemcopy.caption
+msgctxt "tsettingai.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "Copier"
+
+#: tsettingai.menuitemdelete.caption
+msgctxt "tsettingai.menuitemdelete.caption"
+msgid "Usuń"
+msgstr "Supprimer"
+
+#: tsettingai.menuitemhidekey.caption
+msgid "Ukryj klucz"
+msgstr "Masquer la clé"
+
+#: tsettingai.menuitempaste.caption
+msgid "Wstaw"
+msgstr "Insérer"
+
+#: tsettingai.menuitemshowkey.caption
+msgid "Pokaż klucz"
+msgstr "Afficher la clé"
+
+#: tsettingai.speedbutsave.caption
+msgctxt "tsettingai.speedbutsave.caption"
+msgid "Zapisz"
+msgstr "Enregistrer"
+
+#: tsettingai.speedbuttonok.caption
+msgid "Anuluj"
+msgstr "Annuler"
+
+#: twsparcie.caption
+msgid "Wsparcie"
+msgstr "Assistance"
+
+#: twsparcie.speedbutton1.caption
+msgctxt "twsparcie.speedbutton1.caption"
+msgid "OK"
+msgstr "OK"
+
+#: twsparcie.speedbutton2.caption
+msgid "Wesprzyj projekt"
+msgstr "Soutenez le projet"

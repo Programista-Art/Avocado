@@ -5,7 +5,7 @@ unit unitopcjeprojektu;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Buttons,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, LCLTranslator, DefaultTranslator, Buttons,
   StdCtrls;
 
 type
