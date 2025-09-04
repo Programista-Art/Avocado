@@ -886,6 +886,9 @@ var
   StartPosTrimWhile: Integer;
   EndPosTrimWhile: Integer;
   ParamTrimWhile: string;
+  //
+  OpenPos: Integer;
+  //Value: string;
 begin
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := LowerCase(TrimmedLine); // <<< POPRAWIONA LINIA
@@ -1732,6 +1735,26 @@ end;
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
       //Exit;
     end
+    //Nowa funkcja pisz ulepsozna
+        // 2. Obsługa funkcji pisz
+    else if (LowerCase(TrimmedLine).StartsWith('pisz(')) or
+            (LowerCase(TrimmedLine).StartsWith('print(')) or
+            (LowerCase(TrimmedLine).StartsWith('write(')) then
+    begin
+      OpenPos := Pos('(', TrimmedLine);
+         if OpenPos > 0 then
+         begin
+           // wytnij to, co jest w środku nawiasów
+           Value := Copy(TrimmedLine, OpenPos + 1,
+                         Length(TrimmedLine) - OpenPos - 1);
+      //Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
+      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+      //Exit;
+    end;
+   end
+
+
+
 
      //oblicza wyrazenie
      else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
@@ -1742,9 +1765,32 @@ end;
        // Generowanie poprawnego kodu Free Pascala
        PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
      end
+     //
+     //oblicza wyrazenie
+     // oblicza wyrażenie
+     else
+     begin
+       // Lista słów-kluczy, które mają działać jak "oblicz"
+       if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or
+          (LowerCase(TrimmedLine).StartsWith('calc(')) or
+          (LowerCase(TrimmedLine).StartsWith('+(')) or
+          (LowerCase(TrimmedLine).StartsWith('(')) or
+          (LowerCase(TrimmedLine).StartsWith('calculate(')) then
+       begin
+         // znajdź pierwsze wystąpienie '('
+         OpenPos := Pos('(', TrimmedLine);
+         if OpenPos > 0 then
+         begin
+           // wytnij to, co jest w środku nawiasów
+           Value := Copy(TrimmedLine, OpenPos + 1,
+                         Length(TrimmedLine) - OpenPos - 1);
+           PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
+         end;
+       end
 
 
-  // --- Obsługa 'zapytaj' (WERSJA ULEPSZONA - 3 argumenty) ---
+
+    // Obsługa 'zapytaj' 3 argumenty
 
 else if LowerCase(TrimmedLine).StartsWith('ZapytajChatGPT(') then
 begin
@@ -1851,7 +1897,7 @@ begin
   end;
 end
 
-// 4. Obsługa instrukcji wczytaj_linie ()
+// 4. Obsługa instrukcji czytaj_linie ()
 else if Pos('czytaj_linie(', LowerCase(TrimmedLine)) > 0 then
 begin
   // Sprawdź, czy linia zawiera znak '=' (czy jest to przypisanie z czytaj)
@@ -1998,7 +2044,8 @@ end
       PascalCode.Add(TrimmedLine + ';');
     end;
   end;
-//end;
+
+end;
 
 
 function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
