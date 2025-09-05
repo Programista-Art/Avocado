@@ -1774,14 +1774,48 @@ end;
     end
 
     //czytaj klawisze czytaj_klawisz ReadKey
-    else if LowerCase(TrimmedLine).StartsWith('czytaj_klawisz') then
+   { else if LowerCase(TrimmedLine).StartsWith('czytaj_klawisz') then
     begin
       Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
       PascalCode.Add('ReadKey' + TranslateExpression(Value) + ';');
       //Exit;
     end
+    }
 
-   else if Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0 then
+    //czytaj klawisze czytaj_klawisz ReadKey
+    // czytaj_klawisz / read_key
+    else if (LowerCase(TrimmedLine).StartsWith('czytaj_klawisz')) or
+            (LowerCase(TrimmedLine).StartsWith('read_key')) then
+    begin
+      // Znajdź pozycję pierwszego '(' jeśli istnieje
+      OpenPos := Pos('(', TrimmedLine);
+      if OpenPos = 0 then
+      begin
+        // brak nawiasów — zwykłe wywołanie funkcji bez parametrów
+        PascalCode.Add('ReadKey;');
+      end
+      else
+      begin
+        // znajdź pozycję ostatniego ')'
+        EndPos := LastDelimiter(')', TrimmedLine);
+        if (EndPos > OpenPos) then
+        begin
+          // wyciągnij zawartość nawiasów bez zewnętrznych spacji
+          Value := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
+
+          // jeśli pusty argument => traktuj jak bez parametrów
+          if Value = '' then
+            PascalCode.Add('ReadKey;')
+          else
+            // jeśli są argumenty -> przepuść przez TranslateExpression
+            PascalCode.Add('ReadKey(' + TranslateExpression(Value) + ');');
+        end
+        else
+          raise Exception.Create('Błędna składnia: brak nawiasu zamykającego w wywołaniu czytaj_klawisz/read_key');
+      end;
+    end
+  //
+   {else if Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0 then
     begin
       Parts := TrimmedLine.Split(['='], 2);
       if Length(Parts) <> 2 then
@@ -1813,7 +1847,42 @@ end;
     // Wygeneruj kod Pascala
     PascalCode.Add(VarName + ' := ReadKey;');
   end
- //
+  }
+     else if (Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0) or
+           (Pos('read_key', LowerCase(TrimmedLine)) > 0) then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      if Length(Parts) <> 2 then
+        raise Exception.Create('Błędna składnia czytaj_klawisz. Oczekiwano: zmienna = czytaj_klawisz');
+
+      VarName := Trim(Parts[0]);
+      Value := Trim(Parts[1]);
+
+    // Sprawdź czy wartość po = to odczytajklucz
+   if not ((LowerCase(Value) = 'czytaj_klawisz') or (LowerCase(Value) = 'read_key')) then
+    raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: czytaj_klawisz lub read_key');
+
+    // Przetwórz deklarację zmiennej (jeśli istnieje)
+    if Pos(' ', VarName) > 0 then
+    begin
+      Parts := VarName.Split([' '], 2);
+      if Length(Parts) < 2 then
+        raise Exception.Create('Błędna deklaracja zmiennej dla czytaj_klawisz');
+
+      VarType := Parts[0];
+      VarName := Parts[1];
+      AddVariable(VarName, VarType, False);
+    end;
+
+    // Sprawdź typ zmiennej
+     if not ((LowerCase(VarType) = 'znak') or (LowerCase(VarType) = 'char')) then
+     raise Exception.Create('czytaj_klawisz wymaga typu "znak" lub "char"');
+
+    // Wygeneruj kod Pascala
+    PascalCode.Add(VarName + ' := ReadKey;');
+  end
+
+
     // 2. Obsługa funkcji pisznl
     else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
             (LowerCase(TrimmedLine).StartsWith('print_line(')) then
@@ -1841,8 +1910,7 @@ end;
     //Nowa funkcja pisz ulepsozna
         // 2. Obsługa funkcji pisz
     else if (LowerCase(TrimmedLine).StartsWith('pisz(')) or
-            (LowerCase(TrimmedLine).StartsWith('print(')) or
-            (LowerCase(TrimmedLine).StartsWith('write(')) then
+            (LowerCase(TrimmedLine).StartsWith('print(')) then
     begin
      OpenPos := Pos('(', TrimmedLine);
      if OpenPos > 0 then
@@ -1853,9 +1921,6 @@ end;
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
     end;
    end
-
-
-
 
      //oblicza wyrazenie
     { else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
@@ -1873,10 +1938,7 @@ end;
      begin
        // Lista słów-kluczy, które mają działać jak "oblicz"
        if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or
-          (LowerCase(TrimmedLine).StartsWith('calc(')) or
-          (LowerCase(TrimmedLine).StartsWith('+(')) or
-          (LowerCase(TrimmedLine).StartsWith('(')) or
-          (LowerCase(TrimmedLine).StartsWith('calculate(')) then
+          (LowerCase(TrimmedLine).StartsWith('calc(')) then
        begin
          // znajdź pierwsze wystąpienie '('
          OpenPos := Pos('(', TrimmedLine);
@@ -2052,77 +2114,26 @@ begin
   end;
 end
 
-
-   {
-    // 3. Obsługa deklaracji zmiennych z czytaj()
-    else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
-      Value := Trim(Parts[1]);
-
-      if Pos(' ', VarName) > 0 then
-      begin
-        Parts := VarName.Split([' '], 2);
-        VarType := Parts[0];
-        VarName := Parts[1];
-        AddVariable(VarName, VarType, False);
-      end;
-        // Usuwamy prefiks "czytaj(" – zakładamy, że bez nawiasu otwierającego wyrażenie zaczyna się dopiero po 6 znakach
-      Value := Copy(Value, 7, Length(Value) - 6);
-        // Jeśli pierwszy znak wyniku to nawias otwierający, usuń go
-      if (Length(Value) > 0) and (Value[1] = '(') then
-        Value := Copy(Value, 2, Length(Value) - 1);
-      // Jeśli ostatni znak wyniku to nawias zamykający, usuń go
-      if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
-        Value := Copy(Value, 1, Length(Value) - 1);
-      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-      PascalCode.Add('Read(' + VarName + ');');
-    end
-   }
-    // Blok obsługi "czytajnl(...)"
-   {
-     else if Pos('czytajnl(', LowerCase(TrimmedLine)) > 0 then
-     begin
-       Parts := TrimmedLine.Split(['='], 2);
-       VarName := Trim(Parts[0]);
-       Value := Trim(Parts[1]);
-
-       if Pos(' ', VarName) > 0 then
-       begin
-         Parts := VarName.Split([' '], 2);
-         VarType := Parts[0];
-         VarName := Parts[1];
-         AddVariable(VarName, VarType, False);
-       end;
-       // Znajdź nawias otwierający i zamykający w Value dla czytajnl
-       Start := Pos('(', Value);
-       if Start = 0 then
-         raise Exception.Create('Brak otwierającego nawiasu w czytajnl');
-       EndPos := Length(Value);
-       while (EndPos > 0) and (Value[EndPos] <> ')') do
-         Dec(EndPos);
-       if EndPos = 0 then
-         raise Exception.Create('Brak zamykającego nawiasu w czytajnl');
-       // Wyciągnij parametr wewnątrz nawiasów
-       Value := Trim(Copy(Value, Start + 1, EndPos - Start - 1));
-
-       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-       PascalCode.Add('Readln(' + VarName + ');');
-     end
-
    //Ustawieni długośći w tablice
-    else if LowerCase(TrimmedLine).StartsWith('ustaw długość(') then
+    else if (LowerCase(TrimmedLine).StartsWith('ustaw_długość(')) or
+            (LowerCase(TrimmedLine).StartsWith('set_length(')) then
     begin
+      OpenPos := Pos('(', TrimmedLine);
+      if OpenPos > 0 then
+      begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
+
       // Wycinamy zawartość nawiasów.
       // Długość frazy "ustaw długość(" wynosi: Length('ustaw długość(')
-      Value := Copy(TrimmedLine, Length('ustaw długość(') + 1, Length(TrimmedLine) - Length('ustaw długość(') - 1);
-      Value := Trim(Value);
+     // Value := Copy(TrimmedLine, Length('ustaw_długość(') + 1, Length(TrimmedLine) - Length('ustaw długość(') - 1);
+      //Value := Trim(Value);
       // Generujemy kod: SetLength( <argumenty> );
       PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');');
       //Exit;
+    end;
     end
-  }
+
     // 4. Obsługa zwykłych przypisań
     else if Pos('=', TrimmedLine) > 0 then
     begin
