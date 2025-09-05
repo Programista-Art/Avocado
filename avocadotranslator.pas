@@ -45,6 +45,8 @@ type
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
     function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
     procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
+    //Aliasy
+    function ResolveAlias(const AName: string): string;
   end;
 var
 Moduly: String;
@@ -77,6 +79,99 @@ begin
 
     // Dodaj flagę NoAssign do struktury zmiennej
     FVariables[High(FVariables)].NoAssign := NoAssign;
+end;
+
+function TAvocadoTranslator.ResolveAlias(const AName: string): string;
+begin
+  case LowerCase(AName) of
+    // liczby całkowite
+    'liczba_całkowita', 'int', 'integer', 'ganzzahl', 'entier':
+      Exit('Integer');
+
+    'liczba_krótka', 'int8', 'shortint', 'kurz', 'court':
+      Exit('ShortInt');
+
+    'liczba_mała', 'int16', 'smallint', 'klein', 'petit':
+      Exit('SmallInt');
+
+    'liczba_długa', 'int32', 'longint', 'lang', 'long':
+      Exit('LongInt');
+
+    'liczba64', 'int64', 'sehrlang', 'trèslong':
+      Exit('Int64');
+
+    // liczby zmiennoprzecinkowe
+    'liczba_pojedyncza', 'single', 'float', 'einfach', 'flottant':
+      Exit('Single');
+
+    'liczba_zm', 'real', 'reell', 'réel':
+      Exit('Real');
+
+    'liczba_podwójna', 'double', 'float64', 'doppelt':
+      Exit('Double');
+
+    'liczba_rozszerzona', 'extended', 'float80', 'erweitert', 'étendu':
+      Exit('Extended');
+
+    'liczba_waluta', 'currency', 'währung', 'monnaie':
+      Exit('Currency');
+
+    // logiczne
+    'logiczny', 'bool', 'boolean', 'boolesch', 'booléen':
+      Exit('Boolean');
+
+    // teksty
+    'tekst', 'string', 'chaine', 'zeichenkette':
+      Exit('String');
+
+    'tekst_ansi', 'ansistring', 'chaine_ansi':
+      Exit('AnsiString');
+
+    'tekst_unicode', 'unicodestring', 'chaine_unicode':
+      Exit('UnicodeString');
+
+    'tekst_systemowy', 'widestring', 'chaine_large':
+      Exit('WideString');
+
+    'tekst255', 'shortstring', 'chaîne_courte':
+      Exit('ShortString');
+
+    // znaki
+    'znak', 'char', 'caractère':
+      Exit('Char');
+
+    'znak_unicode', 'widechar', 'caractère_large':
+      Exit('WideChar');
+
+    // pliki
+    'plik', 'file', 'datei', 'fichier':
+      Exit('File');
+
+    'plik_tekstowy', 'textfile', 'textdatei', 'fichiertexte':
+      Exit('TextFile');
+
+    'plik_binarny', 'binaryfile', 'binärdatei', 'fichierbinaire':
+      Exit('BinaryFile');
+
+    'plik_struktur', 'typedfile', 'strukturdatei', 'fichiertypé':
+      Exit('TypedFile');
+
+    // wskaźniki
+    'wskaźnik', 'pointer', 'zeiger', 'pointeur':
+      Exit('Pointer');
+
+    'wskaźnik_na', 'pointerto', '^type', 'zeigerauf':
+      Exit('^Type');
+
+    // inne
+    'wariant', 'variant', 'variante':
+      Exit('Variant');
+
+    'wariant_ole', 'olevariant':
+      Exit('OleVariant');
+  else
+    raise Exception.Create('Nieznany alias typu: ' + AName);
+  end;
 end;
 
 // Prosta funkcja do sprawdzania, czy łańcuch jest literałem string
@@ -1720,36 +1815,42 @@ end;
   end
  //
     // 2. Obsługa funkcji pisznl
-    else if LowerCase(TrimmedLine).StartsWith('pisznl(') then
+    else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
+            (LowerCase(TrimmedLine).StartsWith('print_line(')) then
     begin
+      OpenPos := Pos('(', TrimmedLine);
+      if OpenPos > 0 then
+      begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
        // Pobieramy zawartość między "pisznl(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
+     // Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
       PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
       //Exit;
+    end;
     end
 
     // 2. Obsługa funkcji pisz
-    else if LowerCase(TrimmedLine).StartsWith('pisz(') then
+   { else if LowerCase(TrimmedLine).StartsWith('pisz(') then
     begin
       Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
       //Exit;
     end
+   }
     //Nowa funkcja pisz ulepsozna
         // 2. Obsługa funkcji pisz
     else if (LowerCase(TrimmedLine).StartsWith('pisz(')) or
             (LowerCase(TrimmedLine).StartsWith('print(')) or
             (LowerCase(TrimmedLine).StartsWith('write(')) then
     begin
-      OpenPos := Pos('(', TrimmedLine);
-         if OpenPos > 0 then
-         begin
-           // wytnij to, co jest w środku nawiasów
-           Value := Copy(TrimmedLine, OpenPos + 1,
-                         Length(TrimmedLine) - OpenPos - 1);
+     OpenPos := Pos('(', TrimmedLine);
+     if OpenPos > 0 then
+     begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
       //Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-      //Exit;
     end;
    end
 
@@ -1757,7 +1858,7 @@ end;
 
 
      //oblicza wyrazenie
-     else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
+    { else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
      begin
        // Pobieramy zawartość między "oblicz(" a ostatnim znakiem
        Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
@@ -1765,8 +1866,8 @@ end;
        // Generowanie poprawnego kodu Free Pascala
        PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
      end
-     //
-     //oblicza wyrazenie
+    } //
+
      // oblicza wyrażenie
      else
      begin
@@ -1861,7 +1962,8 @@ begin
     if Pos(' ', VarName) > 0 then
     begin
       Parts := VarName.Split([' '], 2);
-      VarType := Parts[0];
+      //VarType := Parts[0];
+      VarType := ResolveAlias(Parts[0]);
       VarName := Parts[1];
       AddVariable(VarName, VarType, False);
     end;
@@ -1896,6 +1998,8 @@ begin
     PascalCode.Add('Read(' + Value + ');');
   end;
 end
+
+
 
 // 4. Obsługa instrukcji czytaj_linie ()
 else if Pos('czytaj_linie(', LowerCase(TrimmedLine)) > 0 then
