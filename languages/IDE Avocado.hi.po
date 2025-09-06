@@ -1,0 +1,476 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.7\n"
+
+#: avocadotranslator.errorprint
+msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgstr "insert फ़ंक्शन का सिंटैक्स ग़लत है। अपेक्षित: insert(source, target, index)"
+
+#: avocadotranslator.functioninsert
+msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgstr "इन्सर्ट फ़ंक्शन के लिए तीन तर्कों की आवश्यकता होती है: स्रोत, लक्ष्य, सूचकांक"
+
+#: avocadotranslator.functiontrim
+msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgstr "ट्रिम फ़ंक्शन के लिए अमान्य सिंटैक्स। अपेक्षित: ट्रिम(s)"
+
+#: avocadotranslator.functiontrimleft
+msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgstr "trim_left फ़ंक्शन के लिए गलत सिंटैक्स। अपेक्षित: trim_left(s)"
+
+#: avocadotranslator.functiontrimright
+msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgstr "trim_right फ़ंक्शन के लिए गलत सिंटैक्स। अपेक्षित: trim_right(s)"
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Nieprawidłowa deklaracja zmiennej: "
+msgstr "अमान्य चर घोषणा:"
+
+#: tfinformacjaide.caption
+msgid "Informacja o IDE Avocado"
+msgstr "एवोकाडो आईडीई के बारे में जानकारी"
+
+#: tfinformacjaide.speedbutton1.caption
+msgctxt "tfinformacjaide.speedbutton1.caption"
+msgid "OK"
+msgstr "ठीक है"
+
+#: tformautor.caption
+msgctxt "tformautor.caption"
+msgid "Autor"
+msgstr "लेखक"
+
+#: tformautor.speedbutton1.caption
+msgctxt "tformautor.speedbutton1.caption"
+msgid "Ok"
+msgstr "ठीक है"
+
+#: tformmain.bcexpandpanel1.button.caption
+msgid "Pomocnik AI"
+msgstr "एआई हेल्पर"
+
+#: tformmain.caption
+msgid "IDE Avocado v 1.0.0.9"
+msgstr ""
+
+#: tformmain.editaskpromt.texthint
+msgid "Wpisz zapytanie"
+msgstr "अपना प्रश्न दर्ज करें"
+
+#: tformmain.kompiluj.caption
+msgctxt "tformmain.kompiluj.caption"
+msgid "Kompiluj"
+msgstr "संकलन"
+
+#: tformmain.label1.caption
+msgid "Debug"
+msgstr "डिबग"
+
+#: tformmain.label2.caption
+msgid "Informacja"
+msgstr "जानकारी"
+
+#: tformmain.label4.caption
+msgid "Rozmiar"
+msgstr "आकार"
+
+#: tformmain.lrozmiarzccionkiedytora.caption
+msgid "0"
+msgstr ""
+
+#: tformmain.menuaboutprogram.caption
+msgctxt "tformmain.menuaboutprogram.caption"
+msgid "O programie"
+msgstr "कार्यक्रम के बारे में"
+
+#: tformmain.menuautor.caption
+msgctxt "tformmain.menuautor.caption"
+msgid "Autor"
+msgstr "लेखक"
+
+#: tformmain.menuclose.caption
+msgid "Zamknij"
+msgstr "बंद करना"
+
+#: tformmain.menuexamples.caption
+msgid "Przykłady"
+msgstr "उदाहरण"
+
+#: tformmain.menuinformacjaide.caption
+msgid "Informacja o IDE"
+msgstr "IDE के बारे में जानकारी"
+
+#: tformmain.menuitem1.caption
+msgid "Plik"
+msgstr "फ़ाइल"
+
+#: tformmain.menuitem10.caption
+msgid "English"
+msgstr ""
+
+#: tformmain.menuitem11.caption
+msgid "Español"
+msgstr ""
+
+#: tformmain.menuitem12.caption
+msgid "Français"
+msgstr ""
+
+#: tformmain.menuitem13.caption
+msgid "Deutsch"
+msgstr ""
+
+#: tformmain.menuitem14.caption
+msgid "Italiano"
+msgstr ""
+
+#: tformmain.menuitem15.caption
+msgid "Português"
+msgstr ""
+
+#: tformmain.menuitem16.caption
+msgid "Русский"
+msgstr ""
+
+#: tformmain.menuitem17.caption
+msgid "中國人"
+msgstr ""
+
+#: tformmain.menuitem18.caption
+msgid "हिंदी"
+msgstr ""
+
+#: tformmain.menuitem2.caption
+msgctxt "tformmain.menuitem2.caption"
+msgid "Ustawienia"
+msgstr "सेटिंग्स"
+
+#: tformmain.menuitem3.caption
+msgid "Pomoc"
+msgstr "मदद"
+
+#: tformmain.menuitem3clearcode.caption
+msgid "Usuń "
+msgstr "मिटाना"
+
+#: tformmain.menuitem4.caption
+msgid "Ustawienia pomocnika AI"
+msgstr "AI हेल्पर सेटिंग्स"
+
+#: tformmain.menuitem5.caption
+msgctxt "tformmain.menuitem5.caption"
+msgid "Kopiuj"
+msgstr "प्रतिलिपि"
+
+#: tformmain.menuitem6.caption
+msgctxt "tformmain.menuitem6.caption"
+msgid "Kopiuj wszystko"
+msgstr "सभी को कॉपी करें"
+
+#: tformmain.menuitem7.caption
+msgid "Sprawdź kod [AI]"
+msgstr "कोड जांचें [AI]"
+
+#: tformmain.menuitem8.caption
+msgid "Język"
+msgstr "जीभ"
+
+#: tformmain.menuitem9.caption
+msgid "Polski"
+msgstr "पोलिश"
+
+#: tformmain.menuitemcopy.caption
+msgctxt "tformmain.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "प्रतिलिपि"
+
+#: tformmain.menuitemcopyallpascalzcode.caption
+msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "सभी को कॉपी करें"
+
+#: tformmain.menuitemcopycode.caption
+msgctxt "tformmain.menuitemcopycode.caption"
+msgid "Kopiuj"
+msgstr "प्रतिलिपि"
+
+#: tformmain.menuitemcopypascalcode.caption
+msgctxt "tformmain.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "प्रतिलिपि"
+
+#: tformmain.menuitemcut.caption
+msgctxt "tformmain.menuitemcut.caption"
+msgid "Wytnij"
+msgstr "कट आउट"
+
+#: tformmain.menuitemcutcode.caption
+msgctxt "tformmain.menuitemcutcode.caption"
+msgid "Wytnij"
+msgstr "कट आउट"
+
+#: tformmain.menuitemdeleteallcode.caption
+msgid "Usuń kod "
+msgstr "कोड हटाएं"
+
+#: tformmain.menuitemdeletecode.caption
+msgid "Usuń kod"
+msgstr "कोड हटाएं"
+
+#: tformmain.menuitemdeletememologs.caption
+msgctxt "tformmain.menuitemdeletememologs.caption"
+msgid "Usuń"
+msgstr "मिटाना"
+
+#: tformmain.menuitemdokumentacja.caption
+msgid "Dokumentacja online"
+msgstr "ऑनलाइन दस्तावेज़ीकरण"
+
+#: tformmain.menuitemoutputcodeclear.caption
+msgctxt "tformmain.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "मिटाना"
+
+#: tformmain.menuitempaste.caption
+msgctxt "tformmain.menuitempaste.caption"
+msgid "Wklej"
+msgstr "पेस्ट करें"
+
+#: tformmain.menuitempastecode.caption
+msgctxt "tformmain.menuitempastecode.caption"
+msgid "Wklej"
+msgstr "पेस्ट करें"
+
+#: tformmain.menuitemsavefile.caption
+msgctxt "tformmain.menuitemsavefile.caption"
+msgid "Zapisz"
+msgstr "बचाना"
+
+#: tformmain.menuitemwsparcieprojektu.caption
+msgid "Wesprzyj"
+msgstr "सहायता"
+
+#: tformmain.menunewfile.caption
+msgid "Nowy"
+msgstr "नया"
+
+#: tformmain.menuopcjeprojektu.caption
+msgid "Opcje projektu"
+msgstr "डिज़ाइन विकल्प"
+
+#: tformmain.menuopen.caption
+msgid "Otwórz"
+msgstr "खुला"
+
+#: tformmain.menuprojekt.caption
+msgid "Projekt"
+msgstr "डिज़ाइन"
+
+#: tformmain.menusaveas.caption
+msgid "Zapisz jak"
+msgstr "के रूप रक्षित करें"
+
+#: tformmain.menuustawinia.caption
+msgctxt "tformmain.menuustawinia.caption"
+msgid "Ustawienia"
+msgstr "सेटिंग्स"
+
+#: tformmain.nowyplik.caption
+msgid "NowyPLik"
+msgstr "नई फ़ाइल"
+
+#: tformmain.nowyplik.hint
+msgid "Nowy Plik"
+msgstr "नई फ़ाइल"
+
+#: tformmain.panel1.caption
+msgctxt "tformmain.panel1.caption"
+msgid "Panel1"
+msgstr ""
+
+#: tformmain.panel4.caption
+msgid "Panel4"
+msgstr ""
+
+#: tformmain.panellewy.caption
+msgid "PanelLewy"
+msgstr ""
+
+#: tformmain.paneltranspilacja.button.caption
+msgid "Transpilacja do Free Pascal"
+msgstr "मुक्त पास्कल में ट्रांसपिलेशन"
+
+#: tformmain.sbzapytaj.caption
+msgid " >"
+msgstr ""
+
+#: tformmain.statusbar.panels[0].text
+msgid "Linii kodu"
+msgstr "कोड की पंक्तियाँ"
+
+#: tformmain.toolbar1.caption
+msgid "ToolBar1"
+msgstr ""
+
+#: tformmain.toolbutton1.caption
+msgid "ToolButton1"
+msgstr ""
+
+#: tformmain.toolbutton1.hint
+msgctxt "tformmain.toolbutton1.hint"
+msgid "Transpiluj"
+msgstr "ट्रांसपाइल"
+
+#: tformmain.toolbutton2.caption
+msgid "Kompiluj i zapisz"
+msgstr "संकलित करें और सहेजें"
+
+#: tformmain.toolbutton2.hint
+msgctxt "tformmain.toolbutton2.hint"
+msgid "Kompiluj"
+msgstr "संकलन"
+
+#: tformmain.transpiluj.caption
+msgctxt "tformmain.transpiluj.caption"
+msgid "Transpiluj"
+msgstr "ट्रांसपाइल"
+
+#: tformmain.zapiszplik.caption
+msgid "ZapiszPlik"
+msgstr ""
+
+#: tformopcjeprojektu.caption
+msgid "Opcje Projektu"
+msgstr "परियोजना विकल्प"
+
+#: tformopcjeprojektu.sbok.caption
+msgctxt "tformopcjeprojektu.sbok.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformoprogramie.caption
+msgctxt "tformoprogramie.caption"
+msgid "O programie"
+msgstr "कार्यक्रम के बारे में"
+
+#: tformoprogramie.panel1.caption
+msgctxt "tformoprogramie.panel1.caption"
+msgid "Panel1"
+msgstr ""
+
+#: tformoprogramie.speedbutton1.caption
+msgctxt "tformoprogramie.speedbutton1.caption"
+msgid "Ok"
+msgstr "ठीक है"
+
+#: tformprzyklady.caption
+msgid "Przyklady aplikacji"
+msgstr "अनुप्रयोग उदाहरण"
+
+#: tformprzyklady.speedbutton1.caption
+msgctxt "tformprzyklady.speedbutton1.caption"
+msgid "Ok"
+msgstr "ठीक है"
+
+#: tformsettingintepreter.bitbtn1.caption
+msgctxt "tformsettingintepreter.bitbtn1.caption"
+msgid "Ok"
+msgstr "ठीक है"
+
+#: tformsettingintepreter.caption
+msgctxt "tformsettingintepreter.caption"
+msgid "Ustawienia"
+msgstr "सेटिंग्स"
+
+#: tformsettingintepreter.comboboboxplatforms.text
+msgid "x86_64-win64"
+msgstr "x86_64-win64"
+
+#: tformsettingintepreter.groupbox1.caption
+msgid "Platforma"
+msgstr "प्लैटफ़ॉर्म"
+
+#: tformsettingintepreter.groupbox2.caption
+msgid "LInk do fpc.exe"
+msgstr "fpc.exe से लिंक करें"
+
+#: tformsettingintepreter.spbsavefolderfpc.caption
+msgid "Link do folderu FPC"
+msgstr "FPC फ़ोल्डर से लिंक करें"
+
+#: tsettingai.caption
+msgid "Ustawienia Pomocnika AI"
+msgstr "AI हेल्पर सेटिंग्स"
+
+#: tsettingai.edittokengpt.text
+msgid "EditTokenGPT"
+msgstr ""
+
+#: tsettingai.label1.caption
+msgid "Model językowy"
+msgstr "भाषा मॉडल"
+
+#: tsettingai.label2.caption
+msgid "Klucz API"
+msgstr "API कुंजी"
+
+#: tsettingai.menuitemcopy.caption
+msgctxt "tsettingai.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "प्रतिलिपि"
+
+#: tsettingai.menuitemdelete.caption
+msgctxt "tsettingai.menuitemdelete.caption"
+msgid "Usuń"
+msgstr "मिटाना"
+
+#: tsettingai.menuitemhidekey.caption
+msgid "Ukryj klucz"
+msgstr "कुंजी छिपाएँ"
+
+#: tsettingai.menuitempaste.caption
+msgid "Wstaw"
+msgstr "डालना"
+
+#: tsettingai.menuitemshowkey.caption
+msgid "Pokaż klucz"
+msgstr "कुंजी दिखाएँ"
+
+#: tsettingai.speedbutsave.caption
+msgctxt "tsettingai.speedbutsave.caption"
+msgid "Zapisz"
+msgstr "Zapisz"
+
+#: tsettingai.speedbuttonok.caption
+msgid "Anuluj"
+msgstr "रद्द करना"
+
+#: twsparcie.caption
+msgid "Wsparcie"
+msgstr "सहायता"
+
+#: twsparcie.speedbutton1.caption
+msgctxt "twsparcie.speedbutton1.caption"
+msgid "OK"
+msgstr "ठीक है"
+
+#: twsparcie.speedbutton2.caption
+msgid "Wesprzyj projekt"
+msgstr "परियोजना का समर्थन करें"
+
+#: unit1.newnamezprogram
+msgid "Podaj nazwę programu:"
+msgstr "प्रोग्राम का नाम दर्ज करें:"
+
+#: unit1.newprogramfile
+msgid "Nowy plik"
+msgstr "नई फ़ाइल"

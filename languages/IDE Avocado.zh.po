@@ -1,0 +1,476 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.7\n"
+
+#: avocadotranslator.errorprint
+msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgstr "插入函数的语法错误。预期为：insert(source, target, index)"
+
+#: avocadotranslator.functioninsert
+msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgstr "插入函数需要三个参数：源、目标、索引"
+
+#: avocadotranslator.functiontrim
+msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgstr "trim函数语法错误。预期为：trim(s)"
+
+#: avocadotranslator.functiontrimleft
+msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgstr "trim_left 函数的语法错误。预期为：trim_left(s)"
+
+#: avocadotranslator.functiontrimright
+msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgstr "trim_right 函数的语法错误。预期为：trim_right(s)"
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Nieprawidłowa deklaracja zmiennej: "
+msgstr "变量声明错误： "
+
+#: tfinformacjaide.caption
+msgid "Informacja o IDE Avocado"
+msgstr "关于IDE Avocado的信息"
+
+#: tfinformacjaide.speedbutton1.caption
+msgctxt "tfinformacjaide.speedbutton1.caption"
+msgid "OK"
+msgstr "Ok"
+
+#: tformautor.caption
+msgctxt "tformautor.caption"
+msgid "Autor"
+msgstr "作者"
+
+#: tformautor.speedbutton1.caption
+msgctxt "tformautor.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformmain.bcexpandpanel1.button.caption
+msgid "Pomocnik AI"
+msgstr "AI助手"
+
+#: tformmain.caption
+msgid "IDE Avocado v 1.0.0.9"
+msgstr ""
+
+#: tformmain.editaskpromt.texthint
+msgid "Wpisz zapytanie"
+msgstr "输入查询"
+
+#: tformmain.kompiluj.caption
+msgctxt "tformmain.kompiluj.caption"
+msgid "Kompiluj"
+msgstr "编译"
+
+#: tformmain.label1.caption
+msgid "Debug"
+msgstr "调试"
+
+#: tformmain.label2.caption
+msgid "Informacja"
+msgstr "信息"
+
+#: tformmain.label4.caption
+msgid "Rozmiar"
+msgstr "尺寸"
+
+#: tformmain.lrozmiarzccionkiedytora.caption
+msgid "0"
+msgstr ""
+
+#: tformmain.menuaboutprogram.caption
+msgctxt "tformmain.menuaboutprogram.caption"
+msgid "O programie"
+msgstr "关于该计划"
+
+#: tformmain.menuautor.caption
+msgctxt "tformmain.menuautor.caption"
+msgid "Autor"
+msgstr "作者"
+
+#: tformmain.menuclose.caption
+msgid "Zamknij"
+msgstr "关闭"
+
+#: tformmain.menuexamples.caption
+msgid "Przykłady"
+msgstr "示例"
+
+#: tformmain.menuinformacjaide.caption
+msgid "Informacja o IDE"
+msgstr "关于IDE的信息"
+
+#: tformmain.menuitem1.caption
+msgid "Plik"
+msgstr "文件"
+
+#: tformmain.menuitem10.caption
+msgid "English"
+msgstr ""
+
+#: tformmain.menuitem11.caption
+msgid "Español"
+msgstr ""
+
+#: tformmain.menuitem12.caption
+msgid "Français"
+msgstr ""
+
+#: tformmain.menuitem13.caption
+msgid "Deutsch"
+msgstr ""
+
+#: tformmain.menuitem14.caption
+msgid "Italiano"
+msgstr ""
+
+#: tformmain.menuitem15.caption
+msgid "Português"
+msgstr ""
+
+#: tformmain.menuitem16.caption
+msgid "Русский"
+msgstr ""
+
+#: tformmain.menuitem17.caption
+msgid "中國人"
+msgstr ""
+
+#: tformmain.menuitem18.caption
+msgid "हिंदी"
+msgstr ""
+
+#: tformmain.menuitem2.caption
+msgctxt "tformmain.menuitem2.caption"
+msgid "Ustawienia"
+msgstr "设置"
+
+#: tformmain.menuitem3.caption
+msgid "Pomoc"
+msgstr "帮助"
+
+#: tformmain.menuitem3clearcode.caption
+msgid "Usuń "
+msgstr "删除 "
+
+#: tformmain.menuitem4.caption
+msgid "Ustawienia pomocnika AI"
+msgstr "AI助手设置"
+
+#: tformmain.menuitem5.caption
+msgctxt "tformmain.menuitem5.caption"
+msgid "Kopiuj"
+msgstr "复制"
+
+#: tformmain.menuitem6.caption
+msgctxt "tformmain.menuitem6.caption"
+msgid "Kopiuj wszystko"
+msgstr "复制全部"
+
+#: tformmain.menuitem7.caption
+msgid "Sprawdź kod [AI]"
+msgstr "检查代码 [AI]"
+
+#: tformmain.menuitem8.caption
+msgid "Język"
+msgstr "语言"
+
+#: tformmain.menuitem9.caption
+msgid "Polski"
+msgstr ""
+
+#: tformmain.menuitemcopy.caption
+msgctxt "tformmain.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "复制"
+
+#: tformmain.menuitemcopyallpascalzcode.caption
+msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "复制全部"
+
+#: tformmain.menuitemcopycode.caption
+msgctxt "tformmain.menuitemcopycode.caption"
+msgid "Kopiuj"
+msgstr "复制"
+
+#: tformmain.menuitemcopypascalcode.caption
+msgctxt "tformmain.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "复制"
+
+#: tformmain.menuitemcut.caption
+msgctxt "tformmain.menuitemcut.caption"
+msgid "Wytnij"
+msgstr "剪切"
+
+#: tformmain.menuitemcutcode.caption
+msgctxt "tformmain.menuitemcutcode.caption"
+msgid "Wytnij"
+msgstr "剪切"
+
+#: tformmain.menuitemdeleteallcode.caption
+msgid "Usuń kod "
+msgstr "删除代码 "
+
+#: tformmain.menuitemdeletecode.caption
+msgid "Usuń kod"
+msgstr "删除代码 "
+
+#: tformmain.menuitemdeletememologs.caption
+msgctxt "tformmain.menuitemdeletememologs.caption"
+msgid "Usuń"
+msgstr "删除"
+
+#: tformmain.menuitemdokumentacja.caption
+msgid "Dokumentacja online"
+msgstr "在线文档"
+
+#: tformmain.menuitemoutputcodeclear.caption
+msgctxt "tformmain.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "删除"
+
+#: tformmain.menuitempaste.caption
+msgctxt "tformmain.menuitempaste.caption"
+msgid "Wklej"
+msgstr "粘贴"
+
+#: tformmain.menuitempastecode.caption
+msgctxt "tformmain.menuitempastecode.caption"
+msgid "Wklej"
+msgstr "粘贴"
+
+#: tformmain.menuitemsavefile.caption
+msgctxt "tformmain.menuitemsavefile.caption"
+msgid "Zapisz"
+msgstr "保存"
+
+#: tformmain.menuitemwsparcieprojektu.caption
+msgid "Wesprzyj"
+msgstr "支持"
+
+#: tformmain.menunewfile.caption
+msgid "Nowy"
+msgstr "新的"
+
+#: tformmain.menuopcjeprojektu.caption
+msgid "Opcje projektu"
+msgstr "项目选项"
+
+#: tformmain.menuopen.caption
+msgid "Otwórz"
+msgstr "打开"
+
+#: tformmain.menuprojekt.caption
+msgid "Projekt"
+msgstr "项目"
+
+#: tformmain.menusaveas.caption
+msgid "Zapisz jak"
+msgstr "保存为"
+
+#: tformmain.menuustawinia.caption
+msgctxt "tformmain.menuustawinia.caption"
+msgid "Ustawienia"
+msgstr "设置"
+
+#: tformmain.nowyplik.caption
+msgid "NowyPLik"
+msgstr ""
+
+#: tformmain.nowyplik.hint
+msgid "Nowy Plik"
+msgstr "新文件"
+
+#: tformmain.panel1.caption
+msgctxt "tformmain.panel1.caption"
+msgid "Panel1"
+msgstr ""
+
+#: tformmain.panel4.caption
+msgid "Panel4"
+msgstr ""
+
+#: tformmain.panellewy.caption
+msgid "PanelLewy"
+msgstr ""
+
+#: tformmain.paneltranspilacja.button.caption
+msgid "Transpilacja do Free Pascal"
+msgstr "转译为Free Pascal"
+
+#: tformmain.sbzapytaj.caption
+msgid " >"
+msgstr ""
+
+#: tformmain.statusbar.panels[0].text
+msgid "Linii kodu"
+msgstr "代码行"
+
+#: tformmain.toolbar1.caption
+msgid "ToolBar1"
+msgstr ""
+
+#: tformmain.toolbutton1.caption
+msgid "ToolButton1"
+msgstr ""
+
+#: tformmain.toolbutton1.hint
+msgctxt "tformmain.toolbutton1.hint"
+msgid "Transpiluj"
+msgstr "转录"
+
+#: tformmain.toolbutton2.caption
+msgid "Kompiluj i zapisz"
+msgstr "编译并保存"
+
+#: tformmain.toolbutton2.hint
+msgctxt "tformmain.toolbutton2.hint"
+msgid "Kompiluj"
+msgstr "编译"
+
+#: tformmain.transpiluj.caption
+msgctxt "tformmain.transpiluj.caption"
+msgid "Transpiluj"
+msgstr "转录"
+
+#: tformmain.zapiszplik.caption
+msgid "ZapiszPlik"
+msgstr ""
+
+#: tformopcjeprojektu.caption
+msgid "Opcje Projektu"
+msgstr "项目选项"
+
+#: tformopcjeprojektu.sbok.caption
+msgctxt "tformopcjeprojektu.sbok.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformoprogramie.caption
+msgctxt "tformoprogramie.caption"
+msgid "O programie"
+msgstr "关于该计划"
+
+#: tformoprogramie.panel1.caption
+msgctxt "tformoprogramie.panel1.caption"
+msgid "Panel1"
+msgstr ""
+
+#: tformoprogramie.speedbutton1.caption
+msgctxt "tformoprogramie.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformprzyklady.caption
+msgid "Przyklady aplikacji"
+msgstr "应用示例"
+
+#: tformprzyklady.speedbutton1.caption
+msgctxt "tformprzyklady.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformsettingintepreter.bitbtn1.caption
+msgctxt "tformsettingintepreter.bitbtn1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformsettingintepreter.caption
+msgctxt "tformsettingintepreter.caption"
+msgid "Ustawienia"
+msgstr "设置"
+
+#: tformsettingintepreter.comboboboxplatforms.text
+msgid "x86_64-win64"
+msgstr "x86_64-win64"
+
+#: tformsettingintepreter.groupbox1.caption
+msgid "Platforma"
+msgstr "平台"
+
+#: tformsettingintepreter.groupbox2.caption
+msgid "LInk do fpc.exe"
+msgstr "fpc.exe 的链接"
+
+#: tformsettingintepreter.spbsavefolderfpc.caption
+msgid "Link do folderu FPC"
+msgstr "FPC文件夹链接"
+
+#: tsettingai.caption
+msgid "Ustawienia Pomocnika AI"
+msgstr "AI助手设置"
+
+#: tsettingai.edittokengpt.text
+msgid "EditTokenGPT"
+msgstr ""
+
+#: tsettingai.label1.caption
+msgid "Model językowy"
+msgstr "语言模型"
+
+#: tsettingai.label2.caption
+msgid "Klucz API"
+msgstr "API密钥"
+
+#: tsettingai.menuitemcopy.caption
+msgctxt "tsettingai.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "复制"
+
+#: tsettingai.menuitemdelete.caption
+msgctxt "tsettingai.menuitemdelete.caption"
+msgid "Usuń"
+msgstr "删除"
+
+#: tsettingai.menuitemhidekey.caption
+msgid "Ukryj klucz"
+msgstr "隐藏密钥"
+
+#: tsettingai.menuitempaste.caption
+msgid "Wstaw"
+msgstr "插入"
+
+#: tsettingai.menuitemshowkey.caption
+msgid "Pokaż klucz"
+msgstr "显示密钥"
+
+#: tsettingai.speedbutsave.caption
+msgctxt "tsettingai.speedbutsave.caption"
+msgid "Zapisz"
+msgstr "保存"
+
+#: tsettingai.speedbuttonok.caption
+msgid "Anuluj"
+msgstr "取消"
+
+#: twsparcie.caption
+msgid "Wsparcie"
+msgstr "支持"
+
+#: twsparcie.speedbutton1.caption
+msgctxt "twsparcie.speedbutton1.caption"
+msgid "OK"
+msgstr "OK"
+
+#: twsparcie.speedbutton2.caption
+msgid "Wesprzyj projekt"
+msgstr "支持该项目"
+
+#: unit1.newnamezprogram
+msgid "Podaj nazwę programu:"
+msgstr "请输入程序名称："
+
+#: unit1.newprogramfile
+msgid "Nowy plik"
+msgstr "新文件"
