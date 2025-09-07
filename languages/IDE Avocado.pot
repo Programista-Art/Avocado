@@ -303,10 +303,6 @@ msgstr ""
 msgid " >"
 msgstr ""
 
-#: tformmain.statusbar.panels[0].text
-msgid "Linii kodu"
-msgstr ""
-
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
 msgstr ""
@@ -457,11 +453,25 @@ msgstr ""
 msgid "Wesprzyj projekt"
 msgstr ""
 
+#: unit1.countchars
+msgctxt "unit1.countchars"
+msgid " Znaków"
+msgstr ""
+
+#: unit1.countline
+msgctxt "unit1.countline"
+msgid " Linii Kodu"
+msgstr ""
+
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
 msgstr ""
 
 #: unit1.newprogramfile
 msgid "Nowy plik"
+msgstr ""
+
+#: unit1.openprojecttranslate
+msgid "Otwarty projekt: "
 msgstr ""
 

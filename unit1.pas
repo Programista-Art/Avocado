@@ -261,10 +261,16 @@ var
   FontSizeEditor: Integer;
   //Language
   lang: String;
+  //Translated
+  OpenProjectTranslatet: string;
+  CharsTranslatet: string;
 
 resourcestring
    NewProgramFile = 'Nowy plik';
    NewNamezprogram = 'Podaj nazwę programu:';
+   CountLine = ' Linii Kodu';
+   CountChars = ' Znaków';
+   OpenProjectTranslate = 'Otwarty projekt: ';
 implementation
 
 uses
@@ -277,6 +283,9 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+
+
+
     if not Assigned(SynEditCode) then
     ShowMessage('UWAGA: SynEditCode nie został utworzony!');
 
@@ -462,8 +471,10 @@ begin
     //transpiluje kod
     ToolButton1Click(sender);
     NumberWordSynEdit := Length(SynEditCode.Text);
-    StatusBar.Panels.Items[0].Text := IntToStr(SynEditCode.Lines.Count) + ' Linii Kodu';
-    StatusBar.Panels.Items[1].Text := IntToStr(NumberWordSynEdit) + ' Znaków';
+    //StatusBar.Panels.Items[0].Text := IntToStr(SynEditCode.Lines.Count) + 'LinesofCodeTranslate';
+    StatusBar.Panels.Items[0].Text := (CountLine) + ' ' + IntToStr(SynEditCode.Lines.Count);
+    StatusBar.Panels.Items[1].Text := (CountChars) + ' ' + IntToStr(NumberWordSynEdit);
+    //StatusBar.Panels.Items[1].Text := IntToStr(NumberWordSynEdit) + 'CharsTranslate';
     IdleTimer1.Enabled := False;
     IdleTimer1.Enabled := True;
   end;
@@ -630,7 +641,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.0.9 ' + 'Otwarty projekt: ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.0.9 ' + OpenProjectTranslate + ' ' + OpenFileProject;
    //Timer
     IdleTimer1.Enabled := True;
     ToolButton1Click(Sender);

@@ -313,10 +313,6 @@ msgstr "Transpilation to Free Pascal"
 msgid " >"
 msgstr " >"
 
-#: tformmain.statusbar.panels[0].text
-msgid "Linii kodu"
-msgstr "Lines of code"
-
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
 msgstr "ToolBar1"
@@ -467,6 +463,16 @@ msgstr "OK"
 msgid "Wesprzyj projekt"
 msgstr "Support the project"
 
+#: unit1.countchars
+msgctxt "unit1.countchars"
+msgid " Znaków"
+msgstr " Characters"
+
+#: unit1.countline
+msgctxt "unit1.countline"
+msgid " Linii Kodu"
+msgstr " Lines of Code"
+
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
 msgstr "Enter the name of the programme:"
@@ -474,3 +480,7 @@ msgstr "Enter the name of the programme:"
 #: unit1.newprogramfile
 msgid "Nowy plik"
 msgstr "New file"
+
+#: unit1.openprojecttranslate
+msgid "Otwarty projekt: "
+msgstr "Open project: "

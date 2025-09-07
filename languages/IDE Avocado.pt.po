@@ -85,7 +85,7 @@ msgstr "Tamanho"
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
@@ -186,7 +186,7 @@ msgstr "Idioma"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr ""
+msgstr "Polski"
 
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
@@ -295,15 +295,15 @@ msgstr "Novo Arquivo"
 #: tformmain.panel1.caption
 msgctxt "tformmain.panel1.caption"
 msgid "Panel1"
-msgstr ""
+msgstr "Panel1"
 
 #: tformmain.panel4.caption
 msgid "Panel4"
-msgstr ""
+msgstr "Panel4"
 
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
-msgstr ""
+msgstr "PanelLewy"
 
 #: tformmain.paneltranspilacja.button.caption
 msgid "Transpilacja do Free Pascal"
@@ -311,19 +311,15 @@ msgstr "Transpilação para Free Pascal"
 
 #: tformmain.sbzapytaj.caption
 msgid " >"
-msgstr ""
-
-#: tformmain.statusbar.panels[0].text
-msgid "Linii kodu"
-msgstr "Linhas de código"
+msgstr " >"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
-msgstr ""
+msgstr "ToolBar1"
 
 #: tformmain.toolbutton1.caption
 msgid "ToolButton1"
-msgstr ""
+msgstr "ToolButton1"
 
 #: tformmain.toolbutton1.hint
 msgctxt "tformmain.toolbutton1.hint"
@@ -346,7 +342,7 @@ msgstr "Transpilar"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
-msgstr ""
+msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.caption
 msgid "Opcje Projektu"
@@ -365,7 +361,7 @@ msgstr "Sobre o programa"
 #: tformoprogramie.panel1.caption
 msgctxt "tformoprogramie.panel1.caption"
 msgid "Panel1"
-msgstr ""
+msgstr "Panel1"
 
 #: tformoprogramie.speedbutton1.caption
 msgctxt "tformoprogramie.speedbutton1.caption"
@@ -413,7 +409,7 @@ msgstr "Configurações do Assistente AI"
 
 #: tsettingai.edittokengpt.text
 msgid "EditTokenGPT"
-msgstr ""
+msgstr "EditTokenGPT"
 
 #: tsettingai.label1.caption
 msgid "Model językowy"
@@ -467,6 +463,16 @@ msgstr "OK"
 msgid "Wesprzyj projekt"
 msgstr "Apoie o projeto"
 
+#: unit1.countchars
+msgctxt "unit1.countchars"
+msgid " Znaków"
+msgstr " Sinais"
+
+#: unit1.countline
+msgctxt "unit1.countline"
+msgid " Linii Kodu"
+msgstr " Linhas de Código"
+
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
 msgstr "Indique o nome do programa:"
@@ -474,3 +480,7 @@ msgstr "Indique o nome do programa:"
 #: unit1.newprogramfile
 msgid "Nowy plik"
 msgstr "Novo ficheiro"
+
+#: unit1.openprojecttranslate
+msgid "Otwarty projekt: "
+msgstr "Projeto aberto: "

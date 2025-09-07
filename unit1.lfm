@@ -339,11 +339,10 @@ object FormMain: TFormMain
         Color = 2697513
         Panels = <        
           item
-            Text = 'Linii kodu'
-            Width = 100
+            Width = 150
           end        
           item
-            Width = 100
+            Width = 150
           end        
           item
             Width = 150
