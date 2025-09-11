@@ -9,7 +9,6 @@ object FormMain: TFormMain
   Color = 5197647
   Menu = MainMenu1
   Position = poMainFormCenter
-  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
@@ -1215,9 +1214,14 @@ object FormMain: TFormMain
   end
   object SynCompletion1: TSynCompletion
     ItemList.Strings = (
-      'pisznl('''')'
+      'pisz_linie('''')'
+      'print_line('''')'
+      'calc('''')'
+      'print('''')'
       'czytaj('''')'
+      'read_key('''')'
       'czytaj_linie('''')'
+      'set_length'
       'oblicz('''')'
       'pisz('''')'
       'pisznl('''')'

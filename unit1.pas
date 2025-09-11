@@ -109,7 +109,6 @@ type
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
@@ -315,11 +314,7 @@ begin
   LRozmiarZccionkiEdytora.Caption := IntToStr(FontSizeEditor);
 end;
 
-procedure TFormMain.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
-begin
 
-end;
 
 procedure TFormMain.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);

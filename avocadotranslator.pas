@@ -47,6 +47,7 @@ type
     procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
     //Aliasy
     function ResolveAlias(const AName: string): string;
+    procedure ProcessFileDeclaration(const Line: string);
   end;
 var
 Moduly: String;
@@ -174,6 +175,69 @@ begin
   end;
 end;
 
+procedure TAvocadoTranslator.ProcessFileDeclaration(const Line: string);
+var
+  Parts: TStringArray;
+  VarDecl, VarValue: string;
+  VarParts: TStringArray;
+  VarType, VarName: string;
+  TrimmedLine: string;
+begin
+  TrimmedLine := Trim(Line);
+    if TrimmedLine = '' then Exit;
+
+    // Pomijamy instrukcje sterujące
+    if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
+
+    // --- Obsługa deklaracji BEZ wartości ---
+    if Pos(':', Line) = 0 then
+    begin
+      VarParts := TrimmedLine.Split([' '], 2);
+      if Length(VarParts) < 2 then Exit;
+
+      VarType := LowerCase(Trim(VarParts[0]));
+      VarName := Trim(VarParts[1]);
+
+      if (VarType = 'plik') or (VarType = 'plik_tekstowy') or
+         (VarType = 'file') or (VarType = 'text_file') then
+      begin
+        AddVariable(VarName, VarType, True); // sama deklaracja
+        Exit;
+      end;
+
+      raise Exception.Create('Nieznany typ zmiennej plikowej: ' + VarType);
+    end;
+
+    // --- Obsługa deklaracji Z wartością (po ':') ---
+    Parts := Line.Split([':'], 2);
+    if Length(Parts) < 2 then Exit;
+
+    VarDecl := Trim(Parts[0]);   // np. "plik f"
+    VarValue := Trim(Parts[1]);  // np. "nil" albo ścieżka do pliku
+
+    VarParts := VarDecl.Split([' '], 2);
+    if Length(VarParts) < 2 then
+      raise Exception.Create(InvalidVariableDeclaration + Line);
+
+    VarType := LowerCase(Trim(VarParts[0]));
+    VarName := Trim(VarParts[1]);
+
+    if (VarType = 'plik') or (VarType = 'plik_tekstowy') or
+       (VarType = 'file') or (VarType = 'text_file') then
+    begin
+      if (LowerCase(VarValue) = 'nil') or (LowerCase(VarValue) = 'nic') then
+        AddVariable(VarName, VarType, True)  // deklaracja bez inicjalizacji
+      else
+        AddVariable(VarName, VarType, False); // deklaracja z przypisaniem
+      Exit;
+    end;
+
+    raise Exception.Create('Nieznany typ zmiennej plikowej: ' + VarType);
+end;
+
 // Prosta funkcja do sprawdzania, czy łańcuch jest literałem string
 function IsQuotedString(const S: string): Boolean;
 begin
@@ -271,12 +335,138 @@ begin
   Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
 
+
 end;
 
 
+procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
+var
+  TrimmedLine: string;
+  Parts: TStringArray;
+  VarDecl, VarValue: string;
+  VarParts: TStringArray;
+  VarType, VarName: string;
+begin
+  TrimmedLine := Trim(Line);
+  if TrimmedLine = '' then Exit;
+
+  // Pomijamy linie zaczynające się od instrukcji sterujących
+  if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
+
+  // --- Przekazanie do obsługi plików ---
+  if LowerCase(TrimmedLine).StartsWith('plik') or
+     LowerCase(TrimmedLine).StartsWith('plik_tekstowy') or
+     LowerCase(TrimmedLine).StartsWith('file') or
+     LowerCase(TrimmedLine).StartsWith('text_file') then
+  begin
+    ProcessFileDeclaration(Line);
+    Exit;
+  end;
+
+  // --- Tu reszta Twojej starej obsługi typów (tekst, liczba_całkowita itd.) ---
+  // np. Split po '=' i AddVariable(...)
+  // --- Obsługa deklaracji Z wartością (=) ---
+  if Pos('=', Line) = 0 then Exit; // brak przypisania → nie przetwarzamy tu
+
+  Parts := Line.Split(['='], 2);
+  if Length(Parts) < 2 then Exit;
+
+  VarDecl := Trim(Parts[0]);   // np. "tekst s"
+  VarValue := Trim(Parts[1]);  // np. "'siema'" albo "42"
+
+  VarParts := VarDecl.Split([' '], 2);
+  if Length(VarParts) < 2 then
+    raise Exception.Create(InvalidVariableDeclaration + Line);
+
+  VarType := LowerCase(Trim(VarParts[0]));
+  VarName := Trim(VarParts[1]);
+
+  // --- Obsługa zwykłych typów ---
+  if (VarType = 'tekst') or
+     (VarType = 'liczba_całkowita') or
+     (VarType = 'lc') or
+     (VarType = 'liczba_zm') or
+     (VarType = 'lzm') or
+     (VarType = 'logiczny') or
+     (VarType = 'znak') or
+     (VarType = 'liczba_krótka') or
+     (VarType = 'liczba_mała') or
+     (VarType = 'liczba_długa') or
+     (VarType = 'liczba64') or
+     (VarType = 'bajt') or
+     (VarType = 'liczba16') or
+     (VarType = 'liczba32') or
+     (VarType = 'tablicaliczb') or
+     (VarType = 'liczba_pojedyncza') or
+     (VarType = 'liczba_podwójna') or
+     (VarType = 'liczba_rozszerzona') or
+     (VarType = 'liczba_zgodna_delphi') or
+     (VarType = 'liczba_waluta') or
+     (VarType = 'logiczny_bajt') or
+     (VarType = 'logiczne_słowo') or
+     (VarType = 'logiczny_długi') or
+     (VarType = 'znak_unicode') or
+     (VarType = 'tekst255') or
+     (VarType = 'tekst_ansi') or
+     (VarType = 'tekst_unicode') or
+     (VarType = 'tekst_systemowy') or
+     (VarType = 'tablica_stała') or
+     (VarType = 'tablica_dynamiczna') or
+     (VarType = 'rekord') or
+     (VarType = 'kolekcja') or
+     (VarType = 'plik_binarny') or
+     (VarType = 'plik_struktur') or
+     (VarType = 'wskaźnik') or
+     (VarType = 'wskaźnik_na') or
+     (VarType = 'wariant') or
+     (VarType = 'wariant_ole') or
+     (VarType = 'tablicatekstów') or
+     (VarType = 'lista_tekstów') or
+     (VarType = 'stała') or
+     (VarType = 'tekstld') or
+     // angielskie odpowiedniki
+     (VarType = 'int') or
+     (VarType = 'int8') or
+     (VarType = 'int16') or
+     (VarType = 'int32') or
+     (VarType = 'int64') or
+     (VarType = 'real') or
+     (VarType = 'byte') or
+     (VarType = 'uint16') or
+     (VarType = 'uint32') or
+     (VarType = 'float') or
+     (VarType = 'float80') or
+     (VarType = 'decimal') or
+     (VarType = 'bool') or
+     (VarType = 'char') or
+     (VarType = 'char32') or
+     (VarType = 'string255') or
+     (VarType = 'string') or
+     (VarType = 'ansi_string') or
+     (VarType = 'unicode_string') or
+     (VarType = 'dynamic_array') or
+     (VarType = 'set') or
+     (VarType = 'binary_file') or
+     (VarType = 'file_struct') or
+     (VarType = 'pointer') or
+     (VarType = 'pointer_to') or
+     (VarType = 'any') or
+     (VarType = 'ole_variant')
+  then
+  begin
+    AddVariable(VarName, VarType, False); // deklaracja z przypisaniem
+    Exit;
+  end;
+
+  raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
+end;
+
 
 //Deklaracja nowych typów zmienncyh
-procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
+{procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
 var
     Parts: TStringArray;
     VarDecl, VarValue: string;
@@ -407,6 +597,7 @@ begin
   end;
     raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
 end;
+}
 
 
 // Zaawansowana funkcja do parsowania argumentów, która uwzględnia cudzysłowy
@@ -641,6 +832,8 @@ begin
             ModulesList := ModulesList + ', ' + Line;
         end;
       end;
+
+
 
     // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
     if (Pos('czytaj_klawisz', LowerCase(Code)) > 0) or
@@ -1899,6 +2092,34 @@ end;
     end;
     end
 
+    // Obsługa funkcji random
+    else if (LowerCase(TrimmedLine).StartsWith('losowy(')) or
+            (LowerCase(TrimmedLine).StartsWith('random(')) then
+    begin
+      OpenPos := Pos('(', TrimmedLine);
+      if OpenPos > 0 then
+      begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
+      PascalCode.Add('Random(' + TranslateExpression(Value) + ');');
+      //Exit;
+    end;
+    end
+
+    // Obsługa funkcji randomize
+    else if (LowerCase(TrimmedLine).StartsWith('losuj(')) or
+            (LowerCase(TrimmedLine).StartsWith('randomize(')) then
+    begin
+      OpenPos := Pos('(', TrimmedLine);
+      if OpenPos > 0 then
+      begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
+      PascalCode.Add('Randomize' + TranslateExpression(Value) + ';');
+      //Exit;
+    end;
+    end
+
     // 2. Obsługa funkcji pisz
    { else if LowerCase(TrimmedLine).StartsWith('pisz(') then
     begin
@@ -2352,10 +2573,10 @@ begin
             PascalCode.Add('  { TODO: Zdefiniuj typ rekordu dla ' + FVariables[i].Name + ' }')
           else if LowerCase(FVariables[i].VarType) = 'kolekcja' then
              PascalCode.Add('  ' + FVariables[i].VarName + ': Set of Byte;') // Przykład: set of byte
-         // else if LowerCase(FVariables[i].VarType) = 'plik' then
-         //   PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
+          //else if LowerCase(FVariables[i].VarType) = 'plik' then
+          //  PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
           //else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
-         //   PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;')
+          //  PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;')
           else if LowerCase(FVariables[i].VarType) = 'plik_binarny' then
              PascalCode.Add('  ' + FVariables[i].VarName + ': File;') // Lub File of Byte
           else if LowerCase(FVariables[i].VarType) = 'plik_struktur' then
@@ -2448,6 +2669,32 @@ begin
         end;
         PascalCode.Add('');
       end;
+      {
+      //Alternatywne dodanie zmienncyh
+      if Length(FVariables) > 0 then
+      begin
+        PascalCode.Add('var');
+        for i := 0 to High(FVariables) do
+        begin
+        if FVariables[i].VarName = '' then Continue; // pomiń brakujące nazwy
+          // deklaracja zmiennych
+        if LowerCase(FVariables[i].VarType) = 'plik' then
+          PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
+          else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
+          begin
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;');
+            // jeśli NoAssign = True, pomiń przypisanie
+          end
+         else
+           begin
+              PascalCode.Add('  { ERROR: Nieznany typ: ' + FVariables[i].VarType + ' }');
+              PascalCode.Add('  ' + FVariables[i].VarName + ': Variant; // Unknown type: ' + FVariables[i].VarType);
+           end;
+        end;
+        PascalCode.Add('');
+      end;
+      }
+      //koniec
 
       // Dodaj główny blok programu
       PascalCode.Add('begin');
@@ -2485,6 +2732,8 @@ begin
         // Pomiń linie 'program', 'importuj', 'ModułyPas'
         if AnsiStartsText('program ', trimmedLine) or
            AnsiStartsText('importuj', trimmedLine) or
+           AnsiStartsText('plik ', LowerCase(trimmedLine)) or
+           AnsiStartsText('plik_tekstowy ', LowerCase(trimmedLine)) or
            AnsiStartsText('ModułyPas', trimmedLine) then
         begin
           Continue;
@@ -2495,7 +2744,9 @@ begin
         end;
       end;
 
-      // Zawsze dodawaj Readln
+
+
+
       PascalCode.Add('  Readln;');
       PascalCode.Add('end.');
 
