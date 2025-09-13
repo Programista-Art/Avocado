@@ -833,8 +833,6 @@ begin
         end;
       end;
 
-
-
     // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
     if (Pos('czytaj_klawisz', LowerCase(Code)) > 0) or
      (Pos('tło_tekstu', LowerCase(Code)) > 0) or
@@ -1701,10 +1699,12 @@ end;
     Exit;
 
   end;
-
+     {OBSŁUGA PLIKI}
     //Dotyczy plików
     // przypisz_plik(f, 'plik.txt') -> AssignFile(f, 'plik.txt');
-    if AnsiStartsText('przypisz_plik(', TrimmedLine) then
+    if AnsiStartsText('przypisz_plik(', TrimmedLine) or
+       AnsiStartsText('assign_file(', TrimmedLine)
+       then
     begin
       AssignStartPos := Pos('(', TrimmedLine);
       AssignEndPos   := RPos(')', TrimmedLine);
@@ -1731,19 +1731,23 @@ end;
     end;
 
     // otwórz_do_odczytu(f) -> Reset(f);
-    if AnsiStartsText('otwórz_do_odczytu(', TrimmedLine) then
+    if AnsiStartsText('otwórz_do_odczytu(', TrimmedLine) or
+       AnsiStartsText('open_read(', TrimmedLine)
+       then
     begin
       StartPos := Pos('(', TrimmedLine);
       EndPos   := RPos(')', TrimmedLine);
       if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia otwórz_do_odczytu(f)');
+        raise Exception.Create('Błędna składnia wczytaj_plik(f)');
       Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
       PascalCode.Add('Reset(' + TranslateExpression(Param) + ');');
       Exit;
     end;
 
     //Otwórz_do_zapisu(f) -> Rewrite(f);
-    if AnsiStartsText('otwórz_do_zapisu(', TrimmedLine) then
+    if AnsiStartsText('otwórz_do_zapisu(', TrimmedLine) or
+       AnsiStartsText('open_save(', TrimmedLine)
+       then
     begin
       StartPos := Pos('(', TrimmedLine);
       EndPos   := RPos(')', TrimmedLine);
@@ -1754,20 +1758,25 @@ end;
       Exit;
     end;
 
-    // otwórz_do_dopisywania(f) -> Append(f);
-    if AnsiStartsText('otwórz_do_dopisywania(', TrimmedLine) then
+    // dopisz(f) -> Append(f);
+    if AnsiStartsText('otwórz_do_dopisywania(', TrimmedLine) or
+       AnsiStartsText('dopisz(', TrimmedLine)  or
+       AnsiStartsText('append(', TrimmedLine)
+       then
     begin
       StartPos := Pos('(', TrimmedLine);
       EndPos   := RPos(')', TrimmedLine);
       if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia otwórz_do_dopisywania(f)');
+        raise Exception.Create('Błędna składnia dopisz(f)');
       Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
       PascalCode.Add('Append(' + TranslateExpression(Param) + ');');
       Exit;
     end;
 
     // zamknij_plik(f) -> CloseFile(f);
-    if AnsiStartsText('zamknij_plik(', TrimmedLine) then
+    if AnsiStartsText('zamknij_plik(', TrimmedLine) or
+       AnsiStartsText('close_file(', TrimmedLine)
+       then
     begin
       StartPos := Pos('(', TrimmedLine);
       EndPos   := RPos(')', TrimmedLine);
@@ -1777,6 +1786,30 @@ end;
       PascalCode.Add('CloseFile(' + TranslateExpression(Param) + ');');
       Exit;
     end;
+
+
+    //  koniec_pliku(f) -> Eof(f) także w wyrażeniach/warunkach   ;
+    if AnsiStartsText('koniec_pliku(', TrimmedLine) or
+       AnsiStartsText('Eof(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia koniec_pliku(f)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('Eof(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+    {// koniec_pliku(f) -> Eof(f) także w wyrażeniach/warunkach
+    if Pos('koniec_pliku(', LowerTrimmedLine) > 0 then
+    begin
+      PascalCode.Add(
+        StringReplace(TrimmedLine, 'koniec_pliku', 'Eof', [rfReplaceAll, rfIgnoreCase]) + ';'
+      );
+      Exit;
+    end;
+    }
 
     // czytaj_linie(f, x, y, ...) -> ReadLn(f, x, y, ...)
     // (działa także dla konsoli: czytaj_linie(x, y, ...))
@@ -1791,14 +1824,7 @@ end;
       Exit;
     end;
 
-    // koniec_pliku(f) -> Eof(f) także w wyrażeniach/warunkach
-    if Pos('koniec_pliku(', LowerTrimmedLine) > 0 then
-    begin
-      PascalCode.Add(
-        StringReplace(TrimmedLine, 'koniec_pliku', 'Eof', [rfReplaceAll, rfIgnoreCase]) + ';'
-      );
-      Exit;
-    end;
+
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then

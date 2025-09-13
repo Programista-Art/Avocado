@@ -1401,6 +1401,8 @@ object FormMain: TFormMain
       'zamknij_plik()'
       'czytaj_linie(f, x, y, ...)'
       'koniec_pliku()'
+      'wczytaj_plik'
+      'przypisz_plik'
       'ENGLISH----------------------------------------------------'
       'int'
       'int8'
