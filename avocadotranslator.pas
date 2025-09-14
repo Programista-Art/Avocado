@@ -82,6 +82,7 @@ begin
     FVariables[High(FVariables)].NoAssign := NoAssign;
 end;
 
+
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
@@ -335,6 +336,24 @@ begin
   Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
 
+  // aliasy dla sprawdzania istnienia pliku
+  if AnsiStartsText('czy_istnieje_plik(', Trim(Result)) then
+    Result := 'FileExists' + Copy(Result, Pos('(', Result), MaxInt)
+  else if AnsiStartsText('file_exists(', Trim(Result)) then
+    Result := 'FileExists' + Copy(Result, Pos('(', Result), MaxInt);
+
+  //aliasy dla sprawdzania istnienia folderu
+  if AnsiStartsText('czy_istnieje_katalog(', Trim(Result)) then
+    Result := 'DirectoryExists' + Copy(Result, Pos('(', Result), MaxInt)
+  else if AnsiStartsText('directory_exists(', Trim(Result)) then
+    Result := 'DirectoryExists' + Copy(Result, Pos('(', Result), MaxInt);
+
+  //Foldery
+  Result := StringReplace(Result, 'pobierz_katalog_bieżący', 'GetCurrentDir', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'get_current_dir', 'GetCurrentDir', [rfReplaceAll, rfIgnoreCase]);
+  //Result := StringReplace(Result, 'czy_istnieje_katalog', 'DirectoryExists', [rfReplaceAll, rfIgnoreCase]);
+ // Result := StringReplace(Result, 'directory_exists', 'DirectoryExists', [rfReplaceAll, rfIgnoreCase]);
+
 
 end;
 
@@ -454,7 +473,10 @@ begin
      (VarType = 'pointer') or
      (VarType = 'pointer_to') or
      (VarType = 'any') or
-     (VarType = 'ole_variant')
+     (VarType = 'ole_variant') or
+     (VarType = 'informacje_o_wyszukaniu') or
+     (VarType = 'search_record')
+
   then
   begin
     AddVariable(VarName, VarType, False); // deklaracja z przypisaniem
@@ -1801,15 +1823,7 @@ end;
       PascalCode.Add('Eof(' + TranslateExpression(Param) + ');');
       Exit;
     end;
-    {// koniec_pliku(f) -> Eof(f) także w wyrażeniach/warunkach
-    if Pos('koniec_pliku(', LowerTrimmedLine) > 0 then
-    begin
-      PascalCode.Add(
-        StringReplace(TrimmedLine, 'koniec_pliku', 'Eof', [rfReplaceAll, rfIgnoreCase]) + ';'
-      );
-      Exit;
-    end;
-    }
+
 
     // czytaj_linie(f, x, y, ...) -> ReadLn(f, x, y, ...)
     // (działa także dla konsoli: czytaj_linie(x, y, ...))
@@ -1824,7 +1838,91 @@ end;
       Exit;
     end;
 
+    //czy isnieje plik
+    if AnsiStartsText('czy_istnieje_plik(', TrimmedLine) or
+       AnsiStartsText('file_exists(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia czy_istnieje_plik(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('FileExists(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
 
+    {Operacje na katalogach}
+
+     //zmiena katalog
+    if AnsiStartsText('zmień_katalog(', TrimmedLine) or
+       AnsiStartsText('change_dir(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia zmień_katalog(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('ChDir(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    //Tworzy katalog
+    if AnsiStartsText('utwórz_katalog(', TrimmedLine) or
+       AnsiStartsText('create_dir(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia utwórz_katalog(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('MkDir(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    //Usuwa katalog
+    if AnsiStartsText('usuń_katalog(', TrimmedLine) or
+       AnsiStartsText('remove_dir(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia usuń_katalog(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('RmDir(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    // Zwraca ścieżkę do bieżącego katalogu.
+    if AnsiStartsText('pobierz_katalog_bieżący(', TrimmedLine) or
+       AnsiStartsText('get_current_dir(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia pobierz_katalog_bieżący(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('GetCurrentDir(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
+
+    // DirectoryExists(path): Sprawdza, czy katalog istnieje. (z SysUtils)
+    if AnsiStartsText('czy_istnieje_katalog(', TrimmedLine) or
+       AnsiStartsText('directory_exists(', TrimmedLine)
+       then
+    begin
+      StartPos := Pos('(', TrimmedLine);
+      EndPos   := RPos(')', TrimmedLine);
+      if (StartPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia czy_istnieje_katalog(...)');
+      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+      PascalCode.Add('DirectoryExists(' + TranslateExpression(Param) + ');');
+      Exit;
+    end;
 
   // 0. Obsługa pętli for
       if LowerCase(TrimmedLine).StartsWith('dla ') then
@@ -1832,6 +1930,7 @@ end;
         ProcessForLoop(TrimmedLine, PascalCode);
         Exit;
       end;
+
     // 1. Najpierw obsługujemy instrukcje warunkowe
     if Pos('jeśli ', LowerCase(TrimmedLine)) = 1 then
     begin
@@ -1993,15 +2092,6 @@ end;
     end
 
     //czytaj klawisze czytaj_klawisz ReadKey
-   { else if LowerCase(TrimmedLine).StartsWith('czytaj_klawisz') then
-    begin
-      Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
-      PascalCode.Add('ReadKey' + TranslateExpression(Value) + ';');
-      //Exit;
-    end
-    }
-
-    //czytaj klawisze czytaj_klawisz ReadKey
     // czytaj_klawisz / read_key
     else if (LowerCase(TrimmedLine).StartsWith('czytaj_klawisz')) or
             (LowerCase(TrimmedLine).StartsWith('read_key')) then
@@ -2034,39 +2124,7 @@ end;
       end;
     end
   //
-   {else if Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0 then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      if Length(Parts) <> 2 then
-        raise Exception.Create('Błędna składnia czytaj_klawisz. Oczekiwano: zmienna = czytaj_klawisz');
 
-      VarName := Trim(Parts[0]);
-      Value := Trim(Parts[1]);
-
-    // Sprawdź czy wartość po = to odczytajklucz
-    if LowerCase(Value) <> 'czytaj_klawisz' then
-      raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: czytaj_klawisz');
-
-    // Przetwórz deklarację zmiennej (jeśli istnieje)
-    if Pos(' ', VarName) > 0 then
-    begin
-      Parts := VarName.Split([' '], 2);
-      if Length(Parts) < 2 then
-        raise Exception.Create('Błędna deklaracja zmiennej dla czytaj_klawisz');
-
-      VarType := Parts[0];
-      VarName := Parts[1];
-      AddVariable(VarName, VarType, False);
-    end;
-
-    // Sprawdź typ zmiennej
-    if LowerCase(VarType) <> 'znak' then
-      raise Exception.Create('czytaj_klawisz wymaga typu "znak"');
-
-    // Wygeneruj kod Pascala
-    PascalCode.Add(VarName + ' := ReadKey;');
-  end
-  }
      else if (Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0) or
            (Pos('read_key', LowerCase(TrimmedLine)) > 0) then
     begin
@@ -2077,7 +2135,7 @@ end;
       VarName := Trim(Parts[0]);
       Value := Trim(Parts[1]);
 
-    // Sprawdź czy wartość po = to odczytajklucz
+    // Sprawdź czy wartość po = to czytaj_klawisz
    if not ((LowerCase(Value) = 'czytaj_klawisz') or (LowerCase(Value) = 'read_key')) then
     raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: czytaj_klawisz lub read_key');
 
@@ -2169,16 +2227,7 @@ end;
     end;
    end
 
-     //oblicza wyrazenie
-    { else if LowerCase(TrimmedLine).StartsWith('oblicz(') then
-     begin
-       // Pobieramy zawartość między "oblicz(" a ostatnim znakiem
-       Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
 
-       // Generowanie poprawnego kodu Free Pascala
-       PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
-     end
-    } //
 
      // oblicza wyrażenie
      else
@@ -2683,7 +2732,11 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': Variant;')
             else if LowerCase(FVariables[i].VarType) = 'ole_variant' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': OleVariant File;')
-
+            //
+            else if LowerCase(FVariables[i].VarType) = 'informacje_o_wyszukaniu' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TSearchRec;')
+            else if LowerCase(FVariables[i].VarType) = 'search_record' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TSearchRec;')
           else
            begin
               PascalCode.Add('  { ERROR: Nieznany typ: ' + FVariables[i].VarType + ' }');
@@ -2759,7 +2812,12 @@ begin
         if AnsiStartsText('program ', trimmedLine) or
            AnsiStartsText('importuj', trimmedLine) or
            AnsiStartsText('plik ', LowerCase(trimmedLine)) or
+           AnsiStartsText('file ', LowerCase(trimmedLine)) or
+            AnsiStartsText('text_file ', LowerCase(trimmedLine)) or
+
            AnsiStartsText('plik_tekstowy ', LowerCase(trimmedLine)) or
+           AnsiStartsText('informacje_o_wyszukaniu ', LowerCase(trimmedLine)) or
+           AnsiStartsText('search_record ', LowerCase(trimmedLine)) or
            AnsiStartsText('ModułyPas', trimmedLine) then
         begin
           Continue;
