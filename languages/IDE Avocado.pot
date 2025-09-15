@@ -49,7 +49,7 @@ msgid "Pomocnik AI"
 msgstr ""
 
 #: tformmain.caption
-msgid "IDE Avocado v 1.0.0.9"
+msgid "IDE Avocado v 1.0.1.0"
 msgstr ""
 
 #: tformmain.editaskpromt.texthint

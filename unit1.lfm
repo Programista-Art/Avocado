@@ -3,7 +3,7 @@ object FormMain: TFormMain
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.0.9'
+  Caption = 'IDE Avocado v 1.0.1.0'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
@@ -1409,6 +1409,8 @@ object FormMain: TFormMain
       'pobierz_katalog_bieżący'
       'czy_istnieje_katalog()'
       'informacje_o_wyszukaniu'
+      'pobierz_zmienną_środowiskową()'
+      'ustaw_zmienną_środowiskową()'
       'ENGLISH----------------------------------------------------'
       'int'
       'int8'
@@ -1455,6 +1457,8 @@ object FormMain: TFormMain
       'get_current_dir'
       'directory_exists()'
       'search_record'
+      'get_env()'
+      'set_env()'
     )
     Position = 0
     LinesInWindow = 10

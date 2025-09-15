@@ -59,7 +59,7 @@ msgid "Pomocnik AI"
 msgstr "एआई हेल्पर"
 
 #: tformmain.caption
-msgid "IDE Avocado v 1.0.0.9"
+msgid "IDE Avocado v 1.0.1.0"
 msgstr ""
 
 #: tformmain.editaskpromt.texthint
@@ -484,3 +484,4 @@ msgstr "नई फ़ाइल"
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
 msgstr "ओपन प्रोजेक्ट:"
+

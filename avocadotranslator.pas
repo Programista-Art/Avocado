@@ -189,6 +189,9 @@ begin
 
     // Pomijamy instrukcje sterujące
     if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('if') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('then') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('else') then Exit;
     if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
     if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
     if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
@@ -256,56 +259,55 @@ begin
   Result := StringReplace(Result, 'prawda', 'True', [rfReplaceAll]);
   Result := StringReplace(Result, 'falsz', 'False', [rfReplaceAll]);
   Result := StringReplace(Result, 'tekst_w_liczbe_cal(', 'StrToInt(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWLiczbar(', 'StrToFloat(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbacWTekst(', 'IntToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbarWTekst(', 'FloatToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbacWr(', 'Real(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbarWc(', 'Trunc(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LogicznyWTekst(', 'BoolToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'BajtWTekst(', 'ByteBool(Ord(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Liczba_mała(', 'Shortint(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstLD(', 'StrToIntDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Zaokrąglij(', 'Round(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Słowo(', 'Word(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Liczba_dc(','LongInt(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Kard(','Cardinal(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'FormatLiczby(','FloatToStrF(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWLzm(','FloatToStrF(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbarWR(','Double(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_zmiennoprzecinkową(', 'StrToFloat(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'liczba_na_tekst(', 'IntToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'zmiennoprzecinkowa_na_tekst(', 'FloatToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'rzeczywista(', 'Real(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'obetnij(', 'Trunc(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'logiczny_na_tekst(', 'BoolToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'bajt_na_logiczny(', 'ByteBool(Ord(', [rfReplaceAll]);
+  //Result := StringReplace(Result, 'Liczba_mała(', 'Shortint(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_liczbę_lub_domyślną(', 'StrToIntDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'zaokrąglij(', 'Round(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'na_całkowitą_16(', 'Word(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'liczba_całkowita_32(','LongInt(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'liczebnik(','Cardinal(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'zmiennoprzecinkowa_na_tekst_formatowany(','FloatToStrF(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'podwójna_precyzja(','Double(', [rfReplaceAll]);
   Result := StringReplace(Result, 'Liczba_rozszerzonaWPojedynczą(','Extended(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Liczba_pojedynczaWZm(','Single(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'Liczba_pojedyncza_na_zm(','Single(', [rfReplaceAll]);
   //Konwersje między typami znakowymi i stringami:
-  Result := StringReplace(Result, 'ZnakwASCII(','Chr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Ord(','Ord(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'ZnakWTekst(','Char(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWZnak(','String(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'liczba_na_znak(','Chr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'znak_na_liczbę(','Ord(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'znak_na_tekst(','Char(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_znak(','String(', [rfReplaceAll]);
   // Konwersje między typami logicznymi:
-  Result := StringReplace(Result, 'LogicznyWTekst(','BoolToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWLogiczny(','StrToBool(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWLogicznyDom(','StrToBoolDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LogicznyZliczby(','Boolean(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbacZLogicznego(','Integer(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'LiczbacZWyliczenia(','Ord(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'ZwróćNazwęTekst(','GetEnumName(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'ZwróćLiczbac(','GetEnumValue(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'logiczny_na_tekst(','BoolToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_logiczny(','StrToBool(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_logiczny_dom(','StrToBoolDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'logiczny_z_liczby(','Boolean(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'liczba_całkowita_z_logicznego(','Integer(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'liczba_całkowita_z_wyliczenia(','Ord(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'pobierz_nazwę_tekstu(','GetEnumName(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'pobierz_wartość_wyliczenia(','GetEnumValue(', [rfReplaceAll]);
   //Konwersje związane z datą i czasem:
-  Result := StringReplace(Result, 'DataWTekst(','DateToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'CzasWTekst(','TimeToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'DataCzasWTekst(','DateTimeToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'DataCzasWTekstF(','FormatDateTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWDatę(','StrToDate(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWCzas(','StrToTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWDatęCzas(','StrToDateTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWDatęDom(','StrToDateDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWCzasDom(','StrToTimeDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'TekstWDatęCzasDom(','StrToDateTimeDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'DataCzasZ(','EncodeDate(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'CzasZ(','EncodeTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'RozłóżDatę(','DecodeDate(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'RozłóżCzas(','DecodeTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'data_na_tekst(','DateToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'czas_na_tekst(','TimeToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'data_czas_na_tekst(','DateTimeToStr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'formatuj_data_czas_na_tekst(','FormatDateTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_datę(','StrToDate(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_czas(','StrToTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_datę_czas(','StrToDateTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_datę_dom(','StrToDateDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_czas_dom(','StrToTimeDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'tekst_na_datę_czas_dom(','StrToDateTimeDef(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'utwórz_datę(','EncodeDate(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'utwórz_czas(','EncodeTime(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'rozłóż_datę(','DecodeDate(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'rozłóż_czas(','DecodeTime(', [rfReplaceAll]);
   //Konwersje wskaźników:
-  Result := StringReplace(Result, 'NiebezpiecznyWskaźnikZAdresu(','Ptr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'NiebezpiecznyAdresZWskaźnika(','Integer(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'adres_zmiennej(','Ptr(', [rfReplaceAll]);
+  Result := StringReplace(Result, 'adres_zmiennej_z_wskażnika(','Integer(', [rfReplaceAll]);
   Result := StringReplace(Result, '@(','@(', [rfReplaceAll]);
   Result := StringReplace(Result, 'klawisz_wciśnięty', 'KeyPressed', [rfReplaceAll, rfIgnoreCase]);
   //kolory
@@ -348,12 +350,24 @@ begin
   else if AnsiStartsText('directory_exists(', Trim(Result)) then
     Result := 'DirectoryExists' + Copy(Result, Pos('(', Result), MaxInt);
 
+  //aliasy pobierz_zmienną_środowiskową
+  if AnsiStartsText('pobierz_zmienną_środowiskową(', Trim(Result)) then
+    Result := 'GetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt)
+  else if AnsiStartsText('get_env(', Trim(Result)) then
+    Result := 'GetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt);
+
+  //aliasy ustaw_zmienną_środowiskową
+  if AnsiStartsText('ustaw_zmienną_środowiskową(', Trim(Result)) then
+    Result := 'SetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt)
+  else if AnsiStartsText('set_env(', Trim(Result)) then
+    Result := 'SetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt);
+
   //Foldery
   Result := StringReplace(Result, 'pobierz_katalog_bieżący', 'GetCurrentDir', [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, 'get_current_dir', 'GetCurrentDir', [rfReplaceAll, rfIgnoreCase]);
   //Result := StringReplace(Result, 'czy_istnieje_katalog', 'DirectoryExists', [rfReplaceAll, rfIgnoreCase]);
- // Result := StringReplace(Result, 'directory_exists', 'DirectoryExists', [rfReplaceAll, rfIgnoreCase]);
-
+  Result := StringReplace(Result, 'pobierz_zmienną_środowiskową', 'GetEnvironmentVariable', [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, 'get_environment_variable', 'GetEnvironmentVariable', [rfReplaceAll, rfIgnoreCase]);
 
 end;
 
@@ -460,6 +474,10 @@ begin
      (VarType = 'float80') or
      (VarType = 'decimal') or
      (VarType = 'bool') or
+     (VarType = 'byte_bool') or
+     (VarType = 'long_bool') or
+     (VarType = 'wide_string') or
+     (VarType = 'comp') or
      (VarType = 'char') or
      (VarType = 'char32') or
      (VarType = 'string255') or
@@ -476,7 +494,6 @@ begin
      (VarType = 'ole_variant') or
      (VarType = 'informacje_o_wyszukaniu') or
      (VarType = 'search_record')
-
   then
   begin
     AddVariable(VarName, VarType, False); // deklaracja z przypisaniem
@@ -2222,8 +2239,33 @@ end;
      begin
        Value := Copy(TrimmedLine, OpenPos + 1,
        Length(TrimmedLine) - OpenPos - 1);
-      //Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
-      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+    end;
+   end
+
+    //ParamStr(index): Zwraca parametr o numerze index przekazany do programu z linii poleceń.
+    else if (LowerCase(TrimmedLine).StartsWith('parametr_programu(')) or
+            (LowerCase(TrimmedLine).StartsWith('get_argument(')) then
+    begin
+     OpenPos := Pos('(', TrimmedLine);
+     if OpenPos > 0 then
+     begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
+       PascalCode.Add('ParamStr(' + TranslateExpression(Value) + ');');
+    end;
+   end
+
+    //GetEnvironmentVariable(name): Zwraca wartość zmiennej środowiskowej o podanej nazwie. (z SysUtils)
+    else if (LowerCase(TrimmedLine).StartsWith('pobierz_zmienną_środowiskową(')) or
+            (LowerCase(TrimmedLine).StartsWith('get_environment_variable(')) then
+    begin
+     OpenPos := Pos('(', TrimmedLine);
+     if OpenPos > 0 then
+     begin
+       Value := Copy(TrimmedLine, OpenPos + 1,
+       Length(TrimmedLine) - OpenPos - 1);
+       PascalCode.Add('GetEnvironmentVariable(' + TranslateExpression(Value) + ');');
     end;
    end
 
@@ -2648,10 +2690,6 @@ begin
             PascalCode.Add('  { TODO: Zdefiniuj typ rekordu dla ' + FVariables[i].Name + ' }')
           else if LowerCase(FVariables[i].VarType) = 'kolekcja' then
              PascalCode.Add('  ' + FVariables[i].VarName + ': Set of Byte;') // Przykład: set of byte
-          //else if LowerCase(FVariables[i].VarType) = 'plik' then
-          //  PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
-          //else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
-          //  PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;')
           else if LowerCase(FVariables[i].VarType) = 'plik_binarny' then
              PascalCode.Add('  ' + FVariables[i].VarName + ': File;') // Lub File of Byte
           else if LowerCase(FVariables[i].VarType) = 'plik_struktur' then
@@ -2666,76 +2704,85 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': OleVariant;')
           else if LowerCase(FVariables[i].VarType) = 'tablicatekstów' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': TStringArray;') // Użyj zdefiniowanego typu
-          //nowe
            else if LowerCase(FVariables[i].VarType) = 'lista_tekstów' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': TStringList;') // Użyj zdefiniowanego typu
           else if LowerCase(FVariables[i].VarType) = 'stała' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
+
           //Tu drodzy panstwo beda zmienne po angielsku
           else if LowerCase(FVariables[i].VarType) = 'int' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Integer;')
+          else if LowerCase(FVariables[i].VarType) = 'string_list' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': TStringList;')
+          else if LowerCase(FVariables[i].VarType) = 'comp' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': Comp;')
+          else if LowerCase(FVariables[i].VarType) = 'byte_bool' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': ByteBool;')
+          else if LowerCase(FVariables[i].VarType) = 'long_bool' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': LongBool;')
+          else if LowerCase(FVariables[i].VarType) = 'wide_string' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': WideString;')
           else if LowerCase(FVariables[i].VarType) = 'int8' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': ShortIn;')
           else if LowerCase(FVariables[i].VarType) = 'int16' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': SmallInt;')
-             else if LowerCase(FVariables[i].VarType) = 'int32' then
+          else if LowerCase(FVariables[i].VarType) = 'int32' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': LongInt;')
-             else if LowerCase(FVariables[i].VarType) = 'int64' then
+          else if LowerCase(FVariables[i].VarType) = 'int64' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Int64;')
-             else if LowerCase(FVariables[i].VarType) = 'ubyte' then
+          else if LowerCase(FVariables[i].VarType) = 'ubyte' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Single;')
-             else if LowerCase(FVariables[i].VarType) = 'real' then
+          else if LowerCase(FVariables[i].VarType) = 'real' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Real;')
-             else if LowerCase(FVariables[i].VarType) = 'byte' then
+          else if LowerCase(FVariables[i].VarType) = 'byte' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Byte;')
-            else if LowerCase(FVariables[i].VarType) = 'uint16' then
+          else if LowerCase(FVariables[i].VarType) = 'uint16' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Word;')
-            else if LowerCase(FVariables[i].VarType) = 'uint32' then
+          else if LowerCase(FVariables[i].VarType) = 'uint32' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': LongWord;')
-            else if LowerCase(FVariables[i].VarType) = 'float' then
+          else if LowerCase(FVariables[i].VarType) = 'float' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Double;')
-            else if LowerCase(FVariables[i].VarType) = 'float80' then
+          else if LowerCase(FVariables[i].VarType) = 'float80' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Extended;')
-            else if LowerCase(FVariables[i].VarType) = 'decimal' then
+          else if LowerCase(FVariables[i].VarType) = 'decimal' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Currency;')
-            else if LowerCase(FVariables[i].VarType) = 'bool' then
+          else if LowerCase(FVariables[i].VarType) = 'bool' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Boolean;')
-            else if LowerCase(FVariables[i].VarType) = 'char' then
+          else if LowerCase(FVariables[i].VarType) = 'char' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Char;')
-            else if LowerCase(FVariables[i].VarType) = 'char32' then
+          else if LowerCase(FVariables[i].VarType) = 'char32' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': WideChar;')
-            else if LowerCase(FVariables[i].VarType) = 'string255' then
+          else if LowerCase(FVariables[i].VarType) = 'string255' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': ShortString;')
-            else if LowerCase(FVariables[i].VarType) = 'string' then
+          else if LowerCase(FVariables[i].VarType) = 'string' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': String;')
-            else if LowerCase(FVariables[i].VarType) = 'ansi_string' then
+          else if LowerCase(FVariables[i].VarType) = 'ansi_string' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': AnsiString;')
-            else if LowerCase(FVariables[i].VarType) = 'unicode_string' then
+          else if LowerCase(FVariables[i].VarType) = 'unicode_string' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': UnicodeString;')
-            else if LowerCase(FVariables[i].VarType) = 'dynamic_array' then
+          else if LowerCase(FVariables[i].VarType) = 'dynamic_array' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Array of type;')
-            else if LowerCase(FVariables[i].VarType) = 'set' then
+          else if LowerCase(FVariables[i].VarType) = 'set' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Set of type;')
-            else if LowerCase(FVariables[i].VarType) = 'file' then
+          else if LowerCase(FVariables[i].VarType) = 'file' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
-            else if LowerCase(FVariables[i].VarType) = 'text_file' then
+          else if LowerCase(FVariables[i].VarType) = 'text_file' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;')
-            else if LowerCase(FVariables[i].VarType) = 'binary_file' then
+          else if LowerCase(FVariables[i].VarType) = 'binary_file' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': BinaryFile;')
-            else if LowerCase(FVariables[i].VarType) = 'file_struct' then
+          else if LowerCase(FVariables[i].VarType) = 'file_struct' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Typed File;')
-            else if LowerCase(FVariables[i].VarType) = 'pointer' then
+          else if LowerCase(FVariables[i].VarType) = 'pointer' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Pointer;')
-            else if LowerCase(FVariables[i].VarType) = 'pointer_to' then
+          else if LowerCase(FVariables[i].VarType) = 'pointer_to' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': ^type;')
-            else if LowerCase(FVariables[i].VarType) = 'any' then
+          else if LowerCase(FVariables[i].VarType) = 'any' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Variant;')
-            else if LowerCase(FVariables[i].VarType) = 'ole_variant' then
+          else if LowerCase(FVariables[i].VarType) = 'ole_variant' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': OleVariant File;')
-            //
-            else if LowerCase(FVariables[i].VarType) = 'informacje_o_wyszukaniu' then
+          else if LowerCase(FVariables[i].VarType) = 'informacje_o_wyszukaniu' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': TSearchRec;')
-            else if LowerCase(FVariables[i].VarType) = 'search_record' then
+          else if LowerCase(FVariables[i].VarType) = 'search_record' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': TSearchRec;')
           else
            begin
@@ -2748,34 +2795,8 @@ begin
         end;
         PascalCode.Add('');
       end;
-      {
-      //Alternatywne dodanie zmienncyh
-      if Length(FVariables) > 0 then
-      begin
-        PascalCode.Add('var');
-        for i := 0 to High(FVariables) do
-        begin
-        if FVariables[i].VarName = '' then Continue; // pomiń brakujące nazwy
-          // deklaracja zmiennych
-        if LowerCase(FVariables[i].VarType) = 'plik' then
-          PascalCode.Add('  ' + FVariables[i].VarName + ': File;')
-          else if LowerCase(FVariables[i].VarType) = 'plik_tekstowy' then
-          begin
-            PascalCode.Add('  ' + FVariables[i].VarName + ': TextFile;');
-            // jeśli NoAssign = True, pomiń przypisanie
-          end
-         else
-           begin
-              PascalCode.Add('  { ERROR: Nieznany typ: ' + FVariables[i].VarType + ' }');
-              PascalCode.Add('  ' + FVariables[i].VarName + ': Variant; // Unknown type: ' + FVariables[i].VarType);
-           end;
-        end;
-        PascalCode.Add('');
-      end;
-      }
-      //koniec
 
-      // Dodaj główny blok programu
+      // Dodaje główny blok programu
       PascalCode.Add('begin');
       // Zawsze dodawaj ustawienia konsoli
       //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
@@ -2827,13 +2848,8 @@ begin
           ProcessLine(trimmedLine, PascalCode);
         end;
       end;
-
-
-
-
       PascalCode.Add('  Readln;');
       PascalCode.Add('end.');
-
       Result := PascalCode;
     finally
       UsesList.Free;

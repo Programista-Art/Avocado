@@ -636,7 +636,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.0.9 ' + OpenProjectTranslate + ' ' + OpenFileProject;
+   Caption := 'IDE Avocado v 1.0.1.0' + OpenProjectTranslate + ' ' + OpenFileProject;
    //Timer
     IdleTimer1.Enabled := True;
     ToolButton1Click(Sender);
