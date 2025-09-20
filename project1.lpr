@@ -12,8 +12,8 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, printer4lazarus,
   tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
-  unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, matematyka,
-  chatgptavocado, uwsparcie,ustawieniaai, pliki, internet,Uprzyklady;
+  unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, chatgptavocado,
+  matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady;
 
 {$R *.res}
 

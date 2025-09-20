@@ -25,9 +25,10 @@ type
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
-    MenuItem16: TMenuItem;
-    MenuItem17: TMenuItem;
-    MenuItem18: TMenuItem;
+    MenuIRosyjski: TMenuItem;
+    MenuChinski: TMenuItem;
+    MenuHindi: TMenuItem;
+    MenuIArabski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
@@ -111,15 +112,16 @@ type
     ToolButton2: TToolButton;
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MenuExamplesClick(Sender: TObject);
+    procedure MenuIArabskiClick(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem14Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
-    procedure MenuItem16Click(Sender: TObject);
-    procedure MenuItem17Click(Sender: TObject);
-    procedure MenuItem18Click(Sender: TObject);
+    procedure MenuIRosyjskiClick(Sender: TObject);
+    procedure MenuChinskiClick(Sender: TObject);
+    procedure MenuHindiClick(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
@@ -327,6 +329,13 @@ begin
   FormPrzyklady.ShowModal;
 end;
 
+procedure TFormMain.MenuIArabskiClick(Sender: TObject);
+begin
+  SetDefaultLang('ar');
+  lang := 'ar';
+  IsClickMainMenuLanguage(10);
+end;
+
 procedure TFormMain.MenuItem10Click(Sender: TObject);
 begin
   SetDefaultLang('en');
@@ -369,21 +378,21 @@ begin
   IsClickMainMenuLanguage(5);
 end;
 
-procedure TFormMain.MenuItem16Click(Sender: TObject);
+procedure TFormMain.MenuIRosyjskiClick(Sender: TObject);
 begin
   SetDefaultLang('ru');
   lang := 'ru';
   IsClickMainMenuLanguage(7);
 end;
 
-procedure TFormMain.MenuItem17Click(Sender: TObject);
+procedure TFormMain.MenuChinskiClick(Sender: TObject);
 begin
   SetDefaultLang('zh');
   lang := 'zh';
   IsClickMainMenuLanguage(8);
 end;
 
-procedure TFormMain.MenuItem18Click(Sender: TObject);
+procedure TFormMain.MenuHindiClick(Sender: TObject);
 begin
   SetDefaultLang('hi');
   lang := 'hi';
@@ -816,12 +825,17 @@ begin
     'ar':
     begin
       SetDefaultLang('ar');//arabski
-      //IsClickMainMenuLanguage(8);
+      IsClickMainMenuLanguage(10);
     end;
     'ja':
     begin
        SetDefaultLang('ja');//japoński
        //IsClickMainMenuLanguage(8);
+    end;
+    'ko':
+    begin
+       SetDefaultLang('ko');//Koreański
+       IsClickMainMenuLanguage(11);
     end;
     'pnb':
     begin

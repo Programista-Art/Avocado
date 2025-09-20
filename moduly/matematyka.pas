@@ -54,6 +54,29 @@ uses
   procedure ExprCot(var Result: TFPExpressionResult; const Args: TExprParameterArray);
   //csc(x)
   procedure ExprCsc(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
+  // Funkcja obsługująca wartość bezwzględną w parserze wyrażeń
+  procedure ExprAbs(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca kwadrat liczby w parserze wyrażeń
+  procedure ExprSqr(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca pierwiastek kwadratowy w parserze wyrażeń
+  procedure ExprPierwiastek(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca logarytm naturalny w parserze wyrażeń
+  procedure ExprLogarytmNaturalny(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca funkcję wykładniczą w parserze wyrażeń
+  procedure ExprWykladnicza(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  // Funkcja obsługująca potęgowanie (base^exponent) w parserze wyrażeń
+  procedure ExprPotega(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Inkrementuje zmienną x (zwiększa o 1).
+  procedure ExprIncVar(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Dekrementuje zmienną x (zmniejsza o 1). Dec(x, n)
+  procedure ExprDecVar(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Frac(x): Zwraca część ułamkową liczby zmiennoprzecinkowej.
+  procedure ExprFrac(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
+
+
+
 implementation
 
 uses
@@ -112,6 +135,20 @@ begin
       Parser.Identifiers.AddFunction('sech', 'F', 'F', @ExprSech);
       Parser.Identifiers.AddFunction('cot', 'F', 'F', @ExprCot);
       Parser.Identifiers.AddFunction('csc', 'F', 'F', @ExprCsc);
+      Parser.Identifiers.AddFunction('wbl', 'F', 'F', @ExprAbs);
+      Parser.Identifiers.AddFunction('sqr', 'F', 'F', @ExprSqr);
+      Parser.Identifiers.AddFunction('kwadrat_liczby', 'F', 'F', @ExprSqr);
+      Parser.Identifiers.AddFunction('pierwiastek_kw', 'F', 'F', @ExprPierwiastek);
+      Parser.Identifiers.AddFunction('log_naturalny', 'F', 'F', @ExprLogarytmNaturalny);
+      Parser.Identifiers.AddFunction('wykładnicza', 'F', 'F', @ExprWykladnicza);
+      Parser.Identifiers.AddFunction('potęga', 'F', 'FF', @ExprPotega);
+      Parser.Identifiers.AddFunction('zwiększ', 'F','F', @ExprIncVar);
+      Parser.Identifiers.AddFunction('zmniejsz', 'F','F', @ExprDecVar);
+      Parser.Identifiers.AddFunction('ułamek', 'F', 'F', @ExprFrac);
+
+
+
+
       Parser.Expression := Expr;
       Res := Parser.Evaluate;
 
@@ -329,5 +366,104 @@ begin
 
    Result.ResFloat := 1 / sinX; // csc(x) = 1 / sin(x)
 end;
+
+procedure ExprAbs(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Abs(ArgToFloat(Args[0]));
+end;
+
+procedure ExprSqr(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Sqr(ArgToFloat(Args[0]));
+end;
+
+procedure ExprPierwiastek(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if x < 0 then
+    raise Exception.Create('Pierwiastek kwadratowy z liczby ujemnej nie istnieje!')
+  else
+    Result.ResFloat := Sqrt(x);
+end;
+
+procedure ExprLogarytmNaturalny(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  if x <= 0 then
+    raise Exception.Create('Logarytm naturalny z liczby ≤ 0 nie jest dozwolony')
+  else
+    Result.ResFloat := Ln(x);
+end;
+
+procedure ExprWykladnicza(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+   Result.ResFloat := Exp(ArgToFloat(Args[0]));
+end;
+
+procedure ExprPotega(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  base, exponent: Double;
+begin
+  base := ArgToFloat(Args[0]);
+  exponent := ArgToFloat(Args[1]);
+  Result.ResFloat := Power(base, exponent);
+end;
+
+procedure ExprIncVar(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, n: Int64;
+begin
+  if Length(Args) = 1 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     Result.ResFloat := x + 1;
+   end
+   else if Length(Args) = 2 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     n := Round(ArgToFloat(Args[1]));
+     Result.ResFloat := x + n;
+   end
+   else
+     raise Exception.Create('zwiększ(x [,n]): oczekiwano 1 lub 2 argumentów.');
+end;
+
+procedure ExprDecVar(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, n: Int64;
+begin
+  if Length(Args) = 1 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     Result.ResFloat := x - 1;
+   end
+   else if Length(Args) = 2 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     n := Round(ArgToFloat(Args[1]));
+     Result.ResFloat := x - n;
+   end
+   else
+     raise Exception.Create('zmniejsz(x [,n]): oczekiwano 1 lub 2 argumentów.');
+end;
+
+procedure ExprFrac(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Frac(ArgToFloat(Args[0]));
+end;
+
 
 end.

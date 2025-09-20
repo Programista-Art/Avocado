@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: pt\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,50 +13,50 @@ msgstr ""
 
 #: avocadotranslator.errorprint
 msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
-msgstr "Sintaxe incorreta da função inserir. Esperava-se: inserir(fonte, destino, índice)"
+msgstr "بناء جملة غير صحيح لوظيفة الإدراج. المتوقع: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
 msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
-msgstr "A função inserir requer três argumentos: fonte, destino, índice"
+msgstr "تتطلب وظيفة الإدراج ثلاثة معاملات: المصدر والهدف والفهرس."
 
 #: avocadotranslator.functiontrim
 msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
-msgstr "Sintaxe incorreta da função cortar. Esperado: cortar(s)"
+msgstr "بناء جملة غير صحيح لوظيفة trim. المتوقع: trim(s)"
 
 #: avocadotranslator.functiontrimleft
 msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
-msgstr "Sintaxe incorreta da função trim_left. Esperava-se: trim_left(s)"
+msgstr "بناء جملة غير صحيح للدالة trim_from_left. المتوقع: trim_from_left(s)"
 
 #: avocadotranslator.functiontrimright
 msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
-msgstr "Sintaxe incorreta da função trim_right. Esperava-se: trim_right(s)"
+msgstr "بناء جملة غير صحيح لوظيفة trim_from_right. المتوقع: trim_from_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Nieprawidłowa deklaracja zmiennej: "
-msgstr "Declaração incorreta da variável: "
+msgstr "إعلان متغير غير صحيح: "
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
-msgstr "Informação sobre o IDE Avocado"
+msgstr "معلومات عن IDE Avocado"
 
 #: tfinformacjaide.speedbutton1.caption
 msgctxt "tfinformacjaide.speedbutton1.caption"
 msgid "OK"
-msgstr "OK"
+msgstr "حسناً"
 
 #: tformautor.caption
 msgctxt "tformautor.caption"
 msgid "Autor"
-msgstr "Autor"
+msgstr "المؤلف"
 
 #: tformautor.speedbutton1.caption
 msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "حسناً"
 
 #: tformmain.bcexpandpanel1.button.caption
 msgid "Pomocnik AI"
-msgstr "Assistente de IA"
+msgstr "مساعد الذكاء الاصطناعي"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
@@ -64,56 +64,58 @@ msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
-msgstr "Digite a sua consulta"
+msgstr "أدخل استفسارك"
 
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
-msgstr "Compilar"
+msgstr "تجميع"
 
 #: tformmain.label1.caption
 msgid "Debug"
-msgstr "Depuração"
+msgstr "تصحيح الأخطاء"
 
 #: tformmain.label2.caption
 msgid "Informacja"
-msgstr "Informação"
+msgstr "معلومات"
 
 #: tformmain.label4.caption
 msgid "Rozmiar"
-msgstr "Tamanho"
+msgstr "الحجم"
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
-msgstr "0"
+msgstr ""
 
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
 msgid "O programie"
-msgstr "Sobre o programa"
+msgstr "حول البرنامج"
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
 msgid "Autor"
-msgstr "Autor"
+msgstr "المؤلف"
 
 #: tformmain.menuchinski.caption
+#, fuzzy
 msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr ""
+msgstr "中國人"
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
-msgstr "Fechar"
+msgstr "إغلاق"
 
 #: tformmain.menuexamples.caption
 msgid "Przykłady"
-msgstr "Exemplos"
+msgstr "أمثلة"
 
 #: tformmain.menuhindi.caption
+#, fuzzy
 msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr ""
+msgstr "हिंदी"
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
@@ -121,75 +123,76 @@ msgstr ""
 
 #: tformmain.menuinformacjaide.caption
 msgid "Informacja o IDE"
-msgstr "Informação sobre o IDE"
+msgstr "معلومات عن IDE"
 
 #: tformmain.menuirosyjski.caption
+#, fuzzy
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr ""
+msgstr "Русский"
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
-msgstr "Ficheiro"
+msgstr "ملف"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr ""
+msgstr "English"
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr ""
+msgstr "Español"
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr ""
+msgstr "Français"
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr ""
+msgstr "Italiano"
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr ""
+msgstr "Português"
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
 msgid "Ustawienia"
-msgstr "Configurações"
+msgstr "الإعدادات"
 
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
-msgstr "Ajuda"
+msgstr "مساعدة"
 
 #: tformmain.menuitem3clearcode.caption
 msgid "Usuń "
-msgstr "Remover "
+msgstr "حذف "
 
 #: tformmain.menuitem4.caption
 msgid "Ustawienia pomocnika AI"
-msgstr "Configurações do assistente de IA"
+msgstr "إعدادات المساعد الذكي"
 
 #: tformmain.menuitem5.caption
 msgctxt "tformmain.menuitem5.caption"
 msgid "Kopiuj"
-msgstr "Copiar"
+msgstr "نسخ"
 
 #: tformmain.menuitem6.caption
 msgctxt "tformmain.menuitem6.caption"
 msgid "Kopiuj wszystko"
-msgstr "Copiar tudo"
+msgstr "انسخ كل شيء"
 
 #: tformmain.menuitem7.caption
 msgid "Sprawdź kod [AI]"
-msgstr "Verifique o código [AI]"
+msgstr "تحقق من الرمز [AI]"
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "Idioma"
+msgstr "اللغة"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
@@ -198,123 +201,123 @@ msgstr "Polski"
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "Copiar"
+msgstr "نسخ"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
-msgstr "Copiar tudo"
+msgstr "انسخ كل شيء"
 
 #: tformmain.menuitemcopycode.caption
 msgctxt "tformmain.menuitemcopycode.caption"
 msgid "Kopiuj"
-msgstr "Copiar"
+msgstr "نسخ"
 
 #: tformmain.menuitemcopypascalcode.caption
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
-msgstr "Copiar"
+msgstr "نسخ"
 
 #: tformmain.menuitemcut.caption
 msgctxt "tformmain.menuitemcut.caption"
 msgid "Wytnij"
-msgstr "Recortar"
+msgstr "قطع"
 
 #: tformmain.menuitemcutcode.caption
 msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
-msgstr "Recortar"
+msgstr "قطع"
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "Remover código "
+msgstr "إزالة الكود "
 
 #: tformmain.menuitemdeletecode.caption
 msgid "Usuń kod"
-msgstr "Remover código "
+msgstr "إزالة الكود "
 
 #: tformmain.menuitemdeletememologs.caption
 msgctxt "tformmain.menuitemdeletememologs.caption"
 msgid "Usuń"
-msgstr "Remover"
+msgstr "حذف"
 
 #: tformmain.menuitemdokumentacja.caption
 msgid "Dokumentacja online"
-msgstr "Documentação online"
+msgstr "الوثائق الإلكترونية"
 
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
-msgstr "Remover"
+msgstr "حذفحذف"
 
 #: tformmain.menuitempaste.caption
 msgctxt "tformmain.menuitempaste.caption"
 msgid "Wklej"
-msgstr "Colar"
+msgstr "لصق"
 
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
-msgstr "Colar"
+msgstr "لصق"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
-msgstr "Guardar"
+msgstr "حفظ"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
-msgstr "Apoie"
+msgstr "الدعم"
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
-msgstr "Novo"
+msgstr "جديد"
 
 #: tformmain.menuopcjeprojektu.caption
 msgid "Opcje projektu"
-msgstr "Opções do projeto"
+msgstr "خيارات التصميم"
 
 #: tformmain.menuopen.caption
 msgid "Otwórz"
-msgstr "Abrir"
+msgstr "فتح"
 
 #: tformmain.menuprojekt.caption
 msgid "Projekt"
-msgstr "Projeto"
+msgstr "المشروع"
 
 #: tformmain.menusaveas.caption
 msgid "Zapisz jak"
-msgstr "Grave como"
+msgstr "اكتب كيف"
 
 #: tformmain.menuustawinia.caption
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Ustawienia"
-msgstr "Configurações"
+msgstr "الإعدادات"
 
 #: tformmain.nowyplik.caption
 msgid "NowyPLik"
-msgstr "NovoArquivo"
+msgstr "ملف جديد"
 
 #: tformmain.nowyplik.hint
 msgid "Nowy Plik"
-msgstr "Novo Arquivo"
+msgstr "ملف جديد"
 
 #: tformmain.panel1.caption
 msgctxt "tformmain.panel1.caption"
 msgid "Panel1"
-msgstr "Panel1"
+msgstr ""
 
 #: tformmain.panel4.caption
 msgid "Panel4"
-msgstr "Panel4"
+msgstr ""
 
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
-msgstr "PanelLewy"
+msgstr ""
 
 #: tformmain.paneltranspilacja.button.caption
 msgid "Transpilacja do Free Pascal"
-msgstr "Transpilação para Free Pascal"
+msgstr "التحويل إلى Free Pascal"
 
 #: tformmain.sbzapytaj.caption
 msgid " >"
@@ -331,21 +334,21 @@ msgstr "ToolButton1"
 #: tformmain.toolbutton1.hint
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
-msgstr "Transpilar"
+msgstr "الترجمة"
 
 #: tformmain.toolbutton2.caption
 msgid "Kompiluj i zapisz"
-msgstr "Compilar e guardar"
+msgstr "تجميع وحفظ"
 
 #: tformmain.toolbutton2.hint
 msgctxt "tformmain.toolbutton2.hint"
 msgid "Kompiluj"
-msgstr "Compilar"
+msgstr "تجميع"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
-msgstr "Transpilar"
+msgstr "الترجمة"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
@@ -353,46 +356,47 @@ msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.caption
 msgid "Opcje Projektu"
-msgstr "Opções do projeto"
+msgstr "خيارات المشروع"
 
 #: tformopcjeprojektu.sbok.caption
 msgctxt "tformopcjeprojektu.sbok.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "Okحسناً"
 
 #: tformoprogramie.caption
+#, fuzzy
 msgctxt "tformoprogramie.caption"
 msgid "O programie"
-msgstr "Sobre o programa"
+msgstr "حول البرنامج"
 
 #: tformoprogramie.panel1.caption
 msgctxt "tformoprogramie.panel1.caption"
 msgid "Panel1"
-msgstr "Panel1"
+msgstr ""
 
 #: tformoprogramie.speedbutton1.caption
 msgctxt "tformoprogramie.speedbutton1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "حسناً"
 
 #: tformprzyklady.caption
 msgid "Przyklady aplikacji"
-msgstr "Exemplos de aplicações"
+msgstr "أمثلة على التطبيقات"
 
 #: tformprzyklady.speedbutton1.caption
 msgctxt "tformprzyklady.speedbutton1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "حسناً"
 
 #: tformsettingintepreter.bitbtn1.caption
 msgctxt "tformsettingintepreter.bitbtn1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "حسناً"
 
 #: tformsettingintepreter.caption
 msgctxt "tformsettingintepreter.caption"
 msgid "Ustawienia"
-msgstr "Configurações"
+msgstr "الإعدادات"
 
 #: tformsettingintepreter.comboboboxplatforms.text
 msgid "x86_64-win64"
@@ -400,19 +404,19 @@ msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
 msgid "Platforma"
-msgstr "Plataforma"
+msgstr "Platforma"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "LInk do fpc.exe"
-msgstr "Link para fpc.exe"
+msgstr "رابط إلى fpc.exe"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link do folderu FPC"
-msgstr "Link para a pasta FPC"
+msgstr "رابط إلى مجلد FPC"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
-msgstr "Configurações do Assistente AI"
+msgstr "إعدادات مساعد الذكاء الاصطناعي"
 
 #: tsettingai.edittokengpt.text
 msgid "EditTokenGPT"
@@ -420,75 +424,75 @@ msgstr "EditTokenGPT"
 
 #: tsettingai.label1.caption
 msgid "Model językowy"
-msgstr "Modelo linguístico"
+msgstr "نموذج اللغة"
 
 #: tsettingai.label2.caption
 msgid "Klucz API"
-msgstr "Chave API"
+msgstr "مفتاح API"
 
 #: tsettingai.menuitemcopy.caption
 msgctxt "tsettingai.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "Copiar"
+msgstr "نسخ"
 
 #: tsettingai.menuitemdelete.caption
 msgctxt "tsettingai.menuitemdelete.caption"
 msgid "Usuń"
-msgstr "Remover"
+msgstr "حذف"
 
 #: tsettingai.menuitemhidekey.caption
 msgid "Ukryj klucz"
-msgstr "Ocultar chave"
+msgstr "إخفاء المفتاح"
 
 #: tsettingai.menuitempaste.caption
 msgid "Wstaw"
-msgstr "Inserir"
+msgstr "إدراج"
 
 #: tsettingai.menuitemshowkey.caption
 msgid "Pokaż klucz"
-msgstr "Mostrar chave"
+msgstr "عرض المفتاح"
 
 #: tsettingai.speedbutsave.caption
 msgctxt "tsettingai.speedbutsave.caption"
 msgid "Zapisz"
-msgstr "Guardar"
+msgstr "حفظ"
 
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
-msgstr "Cancelar"
+msgstr "إلغاء"
 
 #: twsparcie.caption
 msgid "Wsparcie"
-msgstr "Apoio"
+msgstr "الدعم"
 
 #: twsparcie.speedbutton1.caption
 msgctxt "twsparcie.speedbutton1.caption"
 msgid "OK"
-msgstr "OK"
+msgstr "حسناً"
 
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
-msgstr "Apoie o projeto"
+msgstr "دعم المشروع"
 
 #: unit1.countchars
 msgctxt "unit1.countchars"
 msgid " Znaków"
-msgstr " Sinais"
+msgstr " الشخصيات"
 
 #: unit1.countline
 msgctxt "unit1.countline"
 msgid " Linii Kodu"
-msgstr " Linhas de Código"
+msgstr " سطور من التعليمات البرمجية"
 
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
-msgstr "Indique o nome do programa:"
+msgstr "أدخل اسم البرنامج:"
 
 #: unit1.newprogramfile
 msgid "Nowy plik"
-msgstr "Novo ficheiro"
+msgstr "ملف جديد"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "Projeto aberto: "
+msgstr "مشروع مفتوح: "
 

@@ -1068,17 +1068,21 @@ object FormMain: TFormMain
         Caption = 'Polski'
         OnClick = MenuItem9Click
       end
-      object MenuItem16: TMenuItem
+      object MenuIRosyjski: TMenuItem
         Caption = 'Русский'
-        OnClick = MenuItem16Click
+        OnClick = MenuIRosyjskiClick
       end
-      object MenuItem17: TMenuItem
+      object MenuChinski: TMenuItem
         Caption = '中國人'
-        OnClick = MenuItem17Click
+        OnClick = MenuChinskiClick
       end
-      object MenuItem18: TMenuItem
+      object MenuHindi: TMenuItem
         Caption = 'हिंदी'
-        OnClick = MenuItem18Click
+        OnClick = MenuHindiClick
+      end
+      object MenuIArabski: TMenuItem
+        Caption = 'العربية'
+        OnClick = MenuIArabskiClick
       end
     end
     object MenuItem3: TMenuItem

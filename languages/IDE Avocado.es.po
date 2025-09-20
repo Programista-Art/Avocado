@@ -99,6 +99,12 @@ msgctxt "tformmain.menuautor.caption"
 msgid "Autor"
 msgstr "Autor"
 
+#: tformmain.menuchinski.caption
+#, fuzzy
+msgctxt "tformmain.menuchinski.caption"
+msgid "中國人"
+msgstr "中國人"
+
 #: tformmain.menuclose.caption
 msgid "Zamknij"
 msgstr "Cerrar"
@@ -107,9 +113,25 @@ msgstr "Cerrar"
 msgid "Przykłady"
 msgstr "Ejemplos"
 
+#: tformmain.menuhindi.caption
+#, fuzzy
+msgctxt "tformmain.menuhindi.caption"
+msgid "हिंदी"
+msgstr "हिंदी"
+
+#: tformmain.menuiarabski.caption
+msgid "العربية"
+msgstr ""
+
 #: tformmain.menuinformacjaide.caption
 msgid "Informacja o IDE"
 msgstr "Información sobre el IDE"
+
+#: tformmain.menuirosyjski.caption
+#, fuzzy
+msgctxt "tformmain.menuirosyjski.caption"
+msgid "Русский"
+msgstr "Русский"
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
@@ -138,18 +160,6 @@ msgstr "Italiano"
 #: tformmain.menuitem15.caption
 msgid "Português"
 msgstr "Português"
-
-#: tformmain.menuitem16.caption
-msgid "Русский"
-msgstr "Русский"
-
-#: tformmain.menuitem17.caption
-msgid "中國人"
-msgstr "中國人"
-
-#: tformmain.menuitem18.caption
-msgid "हिंदी"
-msgstr "हिंदी"
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
