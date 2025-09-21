@@ -225,6 +225,10 @@ msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
 msgstr "Вырезать"
 
+#: tformmain.menuitemczeski.caption
+msgid "čeština"
+msgstr ""
+
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
 msgstr "Удалить код "

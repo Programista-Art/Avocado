@@ -29,6 +29,7 @@ type
     MenuChinski: TMenuItem;
     MenuHindi: TMenuItem;
     MenuIArabski: TMenuItem;
+    MenuItemCzeski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
@@ -123,6 +124,7 @@ type
     procedure MenuChinskiClick(Sender: TObject);
     procedure MenuHindiClick(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure MenuItemCzeskiClick(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -404,6 +406,13 @@ begin
   SetDefaultLang('pl');
   lang := 'pl';
   IsClickMainMenuLanguage(0);
+end;
+
+procedure TFormMain.MenuItemCzeskiClick(Sender: TObject);
+begin
+  SetDefaultLang('cz');
+  lang := 'cz';
+  IsClickMainMenuLanguage(11);
 end;
 
 procedure TFormMain.MenuItem4Click(Sender: TObject);
@@ -811,6 +820,11 @@ begin
     begin
       SetDefaultLang('fr');//francuski
       IsClickMainMenuLanguage(2);
+    end;
+    'cz':
+    begin
+      SetDefaultLang('cz');//czeski
+      IsClickMainMenuLanguage(11);
     end;
     'zh':
     begin

@@ -1,0 +1,359 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.7\n"
+
+#: avocadotranslator.errorprint
+msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgstr "Nesprávná syntaxe funkce insert. Očekávané: insert(source, target, index)"
+
+#: avocadotranslator.functioninsert
+msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgstr "Funkce insert vyžaduje tři argumenty: zdroj, cíl, index."
+
+#: avocadotranslator.functiontrim
+msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgstr "Nesprávná syntaxe funkce trim. Očekávané: trim(s)"
+
+#: avocadotranslator.functiontrimleft
+msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgstr "Nesprávná syntaxe funkce trim_with_left. Očekávané: trim_from_left(s)"
+
+#: avocadotranslator.functiontrimright
+msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgstr "Nesprávná syntaxe funkce trim_with_right. Očekávané: trim_from_right(s)"
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Nieprawidłowa deklaracja zmiennej:"
+msgstr "Nesprávná deklarace proměnné:"
+
+#: tfinformacjaide.caption
+msgid "Informacja o IDE Avocado"
+msgstr "Informace o avokádu IDE"
+
+#: tfinformacjaide.speedbutton1.caption twsparcie.speedbutton1.caption
+msgid "OK"
+msgstr "OK"
+
+#: tformautor.caption tformmain.menuautor.caption
+msgid "Autor"
+msgstr "Autor"
+
+#: tformautor.speedbutton1.caption tformopcjeprojektu.sbok.caption
+#: tformoprogramie.speedbutton1.caption tformprzyklady.speedbutton1.caption
+#: tformsettingintepreter.bitbtn1.caption
+msgid "Ok"
+msgstr "Ok"
+
+#: tformmain.bcexpandpanel1.button.caption
+msgid "Pomocnik AI"
+msgstr "Pomocník AI"
+
+#: tformmain.caption
+msgid "IDE Avocado v 1.0.1.0"
+msgstr "IDE Avocado v 1.0.1.0"
+
+#: tformmain.editaskpromt.texthint
+msgid "Wpisz zapytanie"
+msgstr "Zadejte svůj dotaz"
+
+#: tformmain.kompiluj.caption tformmain.toolbutton2.hint
+msgid "Kompiluj"
+msgstr "Kompilace"
+
+#: tformmain.label1.caption
+msgid "Debug"
+msgstr "Ladění"
+
+#: tformmain.label2.caption
+msgid "Informacja"
+msgstr "Informace"
+
+#: tformmain.label4.caption
+msgid "Rozmiar"
+msgstr "Velikost"
+
+#: tformmain.lrozmiarzccionkiedytora.caption
+msgid "0"
+msgstr "0"
+
+#: tformmain.menuaboutprogram.caption tformoprogramie.caption
+msgid "O programie"
+msgstr "O programu"
+
+#: tformmain.menuclose.caption
+msgid "Zamknij"
+msgstr "Zavřít"
+
+#: tformmain.menuexamples.caption
+msgid "Przykłady"
+msgstr "Příklady"
+
+#: tformmain.menuinformacjaide.caption
+msgid "Informacja o IDE"
+msgstr "Informace o IDE"
+
+#: tformmain.menuitem1.caption
+msgid "Plik"
+msgstr "Soubor"
+
+#: tformmain.menuitem10.caption
+msgid "English"
+msgstr "English"
+
+#: tformmain.menuitem11.caption
+msgid "Español"
+msgstr "Español"
+
+#: tformmain.menuitem12.caption
+msgid "Français"
+msgstr "Français"
+
+#: tformmain.menuitem13.caption
+msgid "Deutsch"
+msgstr "Deutsch"
+
+#: tformmain.menuitem14.caption
+msgid "Italiano"
+msgstr "Italiano"
+
+#: tformmain.menuitem15.caption
+msgid "Português"
+msgstr "Português"
+
+#: tformmain.menuitem16.caption
+msgid "Русский"
+msgstr "Русский"
+
+#: tformmain.menuitem17.caption
+msgid "中國人"
+msgstr "中國人"
+
+#: tformmain.menuitem18.caption
+msgid "हिंदी"
+msgstr "हिंदी"
+
+#: tformmain.menuitem2.caption tformmain.menuustawinia.caption
+#: tformsettingintepreter.caption
+msgid "Ustawienia"
+msgstr "Nastavení"
+
+#: tformmain.menuitem3.caption
+msgid "Pomoc"
+msgstr "Nápověda"
+
+#: tformmain.menuitem3clearcode.caption
+#: tformmain.menuitemdeletememologs.caption
+#: tformmain.menuitemoutputcodeclear.caption tsettingai.menuitemdelete.caption
+msgid "Usuń"
+msgstr "Odstranit"
+
+#: tformmain.menuitem4.caption
+msgid "Ustawienia pomocnika AI"
+msgstr "Nastavení pomocníka AI"
+
+#: tformmain.menuitem5.caption tformmain.menuitemcopy.caption
+#: tformmain.menuitemcopycode.caption tformmain.menuitemcopypascalcode.caption
+#: tsettingai.menuitemcopy.caption
+msgid "Kopiuj"
+msgstr "Kopírovat"
+
+#: tformmain.menuitem6.caption tformmain.menuitemcopyallpascalzcode.caption
+msgid "Kopiuj wszystko"
+msgstr "Kopírovat vše"
+
+#: tformmain.menuitem7.caption
+msgid "Sprawdź kod [AI]"
+msgstr "Kontrolní kód [AI]."
+
+#: tformmain.menuitem8.caption
+msgid "Język"
+msgstr "Jazyk"
+
+#: tformmain.menuitem9.caption
+msgid "Polski"
+msgstr "Polski"
+
+#: tformmain.menuitemcut.caption tformmain.menuitemcutcode.caption
+msgid "Wytnij"
+msgstr "Vystřihněte"
+
+#: tformmain.menuitemdeleteallcode.caption tformmain.menuitemdeletecode.caption
+msgid "Usuń kod"
+msgstr "Odstranit kód"
+
+#: tformmain.menuitemdokumentacja.caption
+msgid "Dokumentacja online"
+msgstr "Online dokumentace"
+
+#: tformmain.menuitempaste.caption tformmain.menuitempastecode.caption
+msgid "Wklej"
+msgstr "Vložit"
+
+#: tformmain.menuitemsavefile.caption tsettingai.speedbutsave.caption
+msgid "Zapisz"
+msgstr "Uložit"
+
+#: tformmain.menuitemwsparcieprojektu.caption
+msgid "Wesprzyj"
+msgstr "Podpora"
+
+#: tformmain.menunewfile.caption
+msgid "Nowy"
+msgstr "Nový"
+
+#: tformmain.menuopcjeprojektu.caption
+msgid "Opcje projektu"
+msgstr "Možnosti designu"
+
+#: tformmain.menuopen.caption
+msgid "Otwórz"
+msgstr "Otevřít"
+
+#: tformmain.menuprojekt.caption
+msgid "Projekt"
+msgstr "Projekt"
+
+#: tformmain.menusaveas.caption
+msgid "Zapisz jak"
+msgstr "Napište si, jak"
+
+#: tformmain.nowyplik.caption
+msgid "NowyPLik"
+msgstr "NewPLik"
+
+#: tformmain.nowyplik.hint
+msgid "Nowy Plik"
+msgstr "Nový soubor"
+
+#: tformmain.panel1.caption tformoprogramie.panel1.caption
+msgid "Panel1"
+msgstr "Panel1"
+
+#: tformmain.panel4.caption
+msgid "Panel4"
+msgstr "Panel4"
+
+#: tformmain.panellewy.caption
+msgid "PanelLewy"
+msgstr "PanelLewy"
+
+#: tformmain.paneltranspilacja.button.caption
+msgid "Transpilacja do Free Pascal"
+msgstr "Transpilace do jazyka Free Pascal"
+
+#: tformmain.sbzapytaj.caption
+msgid ">"
+msgstr ">"
+
+#: tformmain.toolbar1.caption
+msgid "ToolBar1"
+msgstr "Panel nástrojů1"
+
+#: tformmain.toolbutton1.caption
+msgid "ToolButton1"
+msgstr "ToolButton1"
+
+#: tformmain.toolbutton1.hint tformmain.transpiluj.caption
+msgid "Transpiluj"
+msgstr "Transpiluj"
+
+#: tformmain.toolbutton2.caption
+msgid "Kompiluj i zapisz"
+msgstr "Zkompilovat a uložit"
+
+#: tformmain.zapiszplik.caption
+msgid "ZapiszPlik"
+msgstr "SaveFile"
+
+#: tformopcjeprojektu.caption
+msgid "Opcje Projektu"
+msgstr "Možnosti projektu"
+
+#: tformprzyklady.caption
+msgid "Przyklady aplikacji"
+msgstr "Příklady aplikací"
+
+#: tformsettingintepreter.comboboboxplatforms.text
+msgid "x86_64-win64"
+msgstr "x86_64-win64"
+
+#: tformsettingintepreter.groupbox1.caption
+msgid "Platforma"
+msgstr "Platforma"
+
+#: tformsettingintepreter.groupbox2.caption
+msgid "LInk do fpc.exe"
+msgstr "fpc.exe odkaz"
+
+#: tformsettingintepreter.spbsavefolderfpc.caption
+msgid "Link do folderu FPC"
+msgstr "Odkaz do složky FPC"
+
+#: tsettingai.caption
+msgid "Ustawienia Pomocnika AI"
+msgstr "Nastavení pomocníka AI"
+
+#: tsettingai.edittokengpt.text
+msgid "EditTokenGPT"
+msgstr "EditTokenGPT"
+
+#: tsettingai.label1.caption
+msgid "Model językowy"
+msgstr "Jazykový model"
+
+#: tsettingai.label2.caption
+msgid "Klucz API"
+msgstr "Klíč API"
+
+#: tsettingai.menuitemhidekey.caption
+msgid "Ukryj klucz"
+msgstr "Skrytí klíče"
+
+#: tsettingai.menuitempaste.caption
+msgid "Wstaw"
+msgstr "Vložte"
+
+#: tsettingai.menuitemshowkey.caption
+msgid "Pokaż klucz"
+msgstr "Zobrazit klíč"
+
+#: tsettingai.speedbuttonok.caption
+msgid "Anuluj"
+msgstr "Annouce"
+
+#: twsparcie.caption
+msgid "Wsparcie"
+msgstr "Podpora"
+
+#: twsparcie.speedbutton2.caption
+msgid "Wesprzyj projekt"
+msgstr "Podpora projektu"
+
+#: unit1.countchars
+msgid "Znaków"
+msgstr "Značky"
+
+#: unit1.countline
+msgid "Linii Kodu"
+msgstr "Řádky kódu"
+
+#: unit1.newnamezprogram
+msgid "Podaj nazwę programu:"
+msgstr "Zadejte název programu:"
+
+#: unit1.newprogramfile
+msgid "Nowy plik"
+msgstr "Nový soubor"
+
+#: unit1.openprojecttranslate
+msgid "Otwarty projekt:"
+msgstr "Otevřený projekt:"

@@ -1084,6 +1084,10 @@ object FormMain: TFormMain
         Caption = 'العربية'
         OnClick = MenuIArabskiClick
       end
+      object MenuItemCzeski: TMenuItem
+        Caption = 'čeština'
+        OnClick = MenuItemCzeskiClick
+      end
     end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'
