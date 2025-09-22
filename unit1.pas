@@ -29,6 +29,17 @@ type
     MenuChinski: TMenuItem;
     MenuHindi: TMenuItem;
     MenuIArabski: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuIteFinski: TMenuItem;
+    MenuIteGrecki: TMenuItem;
+    itemJaponski: TMenuItem;
+    MenuItemKoreanski: TMenuItem;
+    MenuItIndonezyjski: TMenuItem;
+    MenuItWegierski: TMenuItem;
+    MenuItemEstonski: TMenuItem;
+    MenuItemDansk: TMenuItem;
     MenuItemCzeski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
@@ -112,8 +123,11 @@ type
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure itemJaponskiClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuIArabskiClick(Sender: TObject);
+    procedure MenuIteFinskiClick(Sender: TObject);
+    procedure MenuIteGreckiClick(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
@@ -123,8 +137,16 @@ type
     procedure MenuIRosyjskiClick(Sender: TObject);
     procedure MenuChinskiClick(Sender: TObject);
     procedure MenuHindiClick(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
+    procedure MenuItem17Click(Sender: TObject);
+    procedure MenuItem18Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
     procedure MenuItemCzeskiClick(Sender: TObject);
+    procedure MenuItemDanskClick(Sender: TObject);
+    procedure MenuItemEstonskiClick(Sender: TObject);
+    procedure MenuItemKoreanskiClick(Sender: TObject);
+    procedure MenuItIndonezyjskiClick(Sender: TObject);
+    procedure MenuItWegierskiClick(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -286,12 +308,8 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-
-
-
     if not Assigned(SynEditCode) then
     ShowMessage('UWAGA: SynEditCode nie został utworzony!');
-
   LoadFpc;
   //Zapisuje plik tymaczosowy tam gdzie jest zapisany projekt
   FTempFile := SaveFileProject + 'temp.avocado';
@@ -326,6 +344,13 @@ begin
   CloseProgram;
 end;
 
+procedure TFormMain.itemJaponskiClick(Sender: TObject);
+begin
+  SetDefaultLang('jp');
+  lang := 'jp';
+  IsClickMainMenuLanguage(21);
+end;
+
 procedure TFormMain.MenuExamplesClick(Sender: TObject);
 begin
   FormPrzyklady.ShowModal;
@@ -336,6 +361,20 @@ begin
   SetDefaultLang('ar');
   lang := 'ar';
   IsClickMainMenuLanguage(10);
+end;
+
+procedure TFormMain.MenuIteFinskiClick(Sender: TObject);
+begin
+  SetDefaultLang('fi');
+  lang := 'fi';
+  IsClickMainMenuLanguage(17);
+end;
+
+procedure TFormMain.MenuIteGreckiClick(Sender: TObject);
+begin
+  SetDefaultLang('gr');
+  lang := 'gr';
+  IsClickMainMenuLanguage(18);
 end;
 
 procedure TFormMain.MenuItem10Click(Sender: TObject);
@@ -401,6 +440,27 @@ begin
   IsClickMainMenuLanguage(9);
 end;
 
+procedure TFormMain.MenuItem16Click(Sender: TObject);
+begin
+  SetDefaultLang('ua');
+  lang := 'ua';
+  IsClickMainMenuLanguage(12);
+end;
+
+procedure TFormMain.MenuItem17Click(Sender: TObject);
+begin
+  SetDefaultLang('bg');
+  lang := 'bg';
+  IsClickMainMenuLanguage(14);
+end;
+
+procedure TFormMain.MenuItem18Click(Sender: TObject);
+begin
+  SetDefaultLang('nl');
+  lang := 'nl';
+  IsClickMainMenuLanguage(15);
+end;
+
 procedure TFormMain.MenuItem9Click(Sender: TObject);
 begin
   SetDefaultLang('pl');
@@ -413,6 +473,41 @@ begin
   SetDefaultLang('cz');
   lang := 'cz';
   IsClickMainMenuLanguage(11);
+end;
+
+procedure TFormMain.MenuItemDanskClick(Sender: TObject);
+begin
+  SetDefaultLang('dk');
+  lang := 'dk';
+  IsClickMainMenuLanguage(13);
+end;
+
+procedure TFormMain.MenuItemEstonskiClick(Sender: TObject);
+begin
+  SetDefaultLang('et');
+  lang := 'et';
+  IsClickMainMenuLanguage(16);
+end;
+
+procedure TFormMain.MenuItemKoreanskiClick(Sender: TObject);
+begin
+  SetDefaultLang('kr');
+  lang := 'kr';
+  IsClickMainMenuLanguage(22);
+end;
+
+procedure TFormMain.MenuItIndonezyjskiClick(Sender: TObject);
+begin
+  SetDefaultLang('id');
+  lang := 'id';
+  IsClickMainMenuLanguage(20);
+end;
+
+procedure TFormMain.MenuItWegierskiClick(Sender: TObject);
+begin
+  SetDefaultLang('hu');
+  lang := 'hu';
+  IsClickMainMenuLanguage(19);
 end;
 
 procedure TFormMain.MenuItem4Click(Sender: TObject);
@@ -801,10 +896,10 @@ begin
       SetDefaultLang('es');//hiszpański
       IsClickMainMenuLanguage(1);
     end;
-    'uk':
+    'dk':
     begin
-      SetDefaultLang('uk');
-       //IsClickMainMenuLanguage(1);
+      SetDefaultLang('dk');
+       IsClickMainMenuLanguage(13);
     end;
     'it':
     begin
@@ -851,10 +946,60 @@ begin
        SetDefaultLang('ko');//Koreański
        IsClickMainMenuLanguage(11);
     end;
+    'bg':
+    begin
+       SetDefaultLang('bg');//Bulgarski
+       IsClickMainMenuLanguage(14);
+    end;
     'pnb':
     begin
        SetDefaultLang('pnb');//zachodniopendżabski
        //IsClickMainMenuLanguage(8);
+    end;
+    'ua':
+    begin
+       SetDefaultLang('ua');//Ukrainski
+       IsClickMainMenuLanguage(12);
+    end;
+    'nl':
+    begin
+       SetDefaultLang('nl');//Niderlandzki
+       IsClickMainMenuLanguage(15);
+    end;
+    'et':
+    begin
+       SetDefaultLang('et');//Estoński
+       IsClickMainMenuLanguage(16);
+    end;
+    'fi':
+    begin
+       SetDefaultLang('fi');//Fiński
+       IsClickMainMenuLanguage(17);
+    end;
+    'gr':
+    begin
+       SetDefaultLang('gr');//Grecki
+       IsClickMainMenuLanguage(18);
+    end;
+    'hu':
+    begin
+       SetDefaultLang('hu');//Wegierski
+       IsClickMainMenuLanguage(19);
+    end;
+    'id':
+    begin
+       SetDefaultLang('id');//Indonezyjski
+       IsClickMainMenuLanguage(20);
+    end;
+    'jp':
+    begin
+       SetDefaultLang('jp');//Japoński
+       IsClickMainMenuLanguage(21);
+    end;
+    'kr':
+    begin
+       SetDefaultLang('kr');//koreański
+       IsClickMainMenuLanguage(22);
     end;
     'mr':
     begin

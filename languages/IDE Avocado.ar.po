@@ -66,6 +66,10 @@ msgstr ""
 msgid "Wpisz zapytanie"
 msgstr "أدخل استفسارك"
 
+#: tformmain.itemjaponski.caption
+msgid "日本語"
+msgstr ""
+
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
@@ -131,6 +135,14 @@ msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
 msgstr "Русский"
 
+#: tformmain.menuitefinski.caption
+msgid "Suomi"
+msgstr ""
+
+#: tformmain.menuitegrecki.caption
+msgid "ελληνικά"
+msgstr ""
+
 #: tformmain.menuitem1.caption
 msgid "Plik"
 msgstr "ملف"
@@ -158,6 +170,18 @@ msgstr "Italiano"
 #: tformmain.menuitem15.caption
 msgid "Português"
 msgstr "Português"
+
+#: tformmain.menuitem16.caption
+msgid "Українська"
+msgstr ""
+
+#: tformmain.menuitem17.caption
+msgid "Български"
+msgstr ""
+
+#: tformmain.menuitem18.caption
+msgid "Nederlands"
+msgstr ""
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
@@ -232,6 +256,10 @@ msgstr "قطع"
 msgid "čeština"
 msgstr ""
 
+#: tformmain.menuitemdansk.caption
+msgid "Dansk"
+msgstr ""
+
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
 msgstr "إزالة الكود "
@@ -248,6 +276,14 @@ msgstr "حذف"
 #: tformmain.menuitemdokumentacja.caption
 msgid "Dokumentacja online"
 msgstr "الوثائق الإلكترونية"
+
+#: tformmain.menuitemestonski.caption
+msgid "Eesti"
+msgstr ""
+
+#: tformmain.menuitemkoreanski.caption
+msgid "한국인"
+msgstr ""
 
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
@@ -272,6 +308,14 @@ msgstr "حفظ"
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
 msgstr "الدعم"
+
+#: tformmain.menuitindonezyjski.caption
+msgid "Indonesia"
+msgstr ""
+
+#: tformmain.menuitwegierski.caption
+msgid "Magyar"
+msgstr ""
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"

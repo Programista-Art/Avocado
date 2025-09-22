@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: zh\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,50 +13,50 @@ msgstr ""
 
 #: avocadotranslator.errorprint
 msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
-msgstr "插入函数的语法错误。预期为：insert(source, target, index)"
+msgstr "Sintaks yang salah dari fungsi insert. Yang diharapkan: insert (sumber, target, indeks)"
 
 #: avocadotranslator.functioninsert
 msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
-msgstr "插入函数需要三个参数：源、目标、索引"
+msgstr "Fungsi sisipkan memerlukan tiga argumen: sumber, target, indeks"
 
 #: avocadotranslator.functiontrim
 msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
-msgstr "trim函数语法错误。预期为：trim(s)"
+msgstr "Sintaks yang salah dari fungsi trim. Yang diharapkan: trim(s)"
 
 #: avocadotranslator.functiontrimleft
 msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
-msgstr "trim_left 函数的语法错误。预期为：trim_left(s)"
+msgstr "Sintaks yang salah dari fungsi trim_dari_kiri. Yang diharapkan: trim_dari_kiri(s)"
 
 #: avocadotranslator.functiontrimright
 msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
-msgstr "trim_right 函数的语法错误。预期为：trim_right(s)"
+msgstr "Sintaks yang salah dari fungsi trim_dari_kanan. Yang diharapkan: trim_dari_kanan(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Nieprawidłowa deklaracja zmiennej: "
-msgstr "变量声明错误： "
+msgstr "Deklarasi variabel yang salah: "
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
-msgstr "关于IDE Avocado的信息"
+msgstr "Informasi tentang Avocado IDE"
 
 #: tfinformacjaide.speedbutton1.caption
 msgctxt "tfinformacjaide.speedbutton1.caption"
 msgid "OK"
-msgstr "Ok"
+msgstr "Oke"
 
 #: tformautor.caption
 msgctxt "tformautor.caption"
 msgid "Autor"
-msgstr "作者"
+msgstr "Pengarang"
 
 #: tformautor.speedbutton1.caption
 msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "Oke"
 
 #: tformmain.bcexpandpanel1.button.caption
 msgid "Pomocnik AI"
-msgstr "AI助手"
+msgstr "Pembantu AI"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
-msgstr "输入查询"
+msgstr "Masukkan pertanyaan Anda"
 
 #: tformmain.itemjaponski.caption
 msgid "日本語"
@@ -73,147 +73,144 @@ msgstr ""
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
-msgstr "编译"
+msgstr "Kompilasi"
 
 #: tformmain.label1.caption
 msgid "Debug"
-msgstr "调试"
+msgstr "Debug"
 
 #: tformmain.label2.caption
 msgid "Informacja"
-msgstr "信息"
+msgstr "Informasi"
 
 #: tformmain.label4.caption
 msgid "Rozmiar"
-msgstr "尺寸"
+msgstr "Ukuran"
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
 msgid "O programie"
-msgstr "关于该计划"
+msgstr "Tentang program ini"
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
 msgid "Autor"
-msgstr "作者"
+msgstr "Pengarang"
 
 #: tformmain.menuchinski.caption
-msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr ""
+msgstr "中國人"
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
-msgstr "关闭"
+msgstr "Tutup"
 
 #: tformmain.menuexamples.caption
 msgid "Przykłady"
-msgstr "示例"
+msgstr "Contoh"
 
 #: tformmain.menuhindi.caption
-msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr ""
+msgstr "हिंदी"
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
-msgstr ""
+msgstr "العربية"
 
 #: tformmain.menuinformacjaide.caption
 msgid "Informacja o IDE"
-msgstr "关于IDE的信息"
+msgstr "Informasi tentang IDE"
 
 #: tformmain.menuirosyjski.caption
-msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr ""
+msgstr "Русский"
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
-msgstr ""
+msgstr "Suomi"
 
 #: tformmain.menuitegrecki.caption
 msgid "ελληνικά"
-msgstr ""
+msgstr "ελληνικά"
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
-msgstr "文件"
+msgstr "Mengajukan"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr ""
+msgstr "English"
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr ""
+msgstr "Español"
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr ""
+msgstr "Français"
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr ""
+msgstr "Italiano"
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr ""
+msgstr "Português"
 
 #: tformmain.menuitem16.caption
 msgid "Українська"
-msgstr ""
+msgstr "Українська"
 
 #: tformmain.menuitem17.caption
 msgid "Български"
-msgstr ""
+msgstr "Български"
 
 #: tformmain.menuitem18.caption
 msgid "Nederlands"
-msgstr ""
+msgstr "Nederlands"
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
 msgid "Ustawienia"
-msgstr "设置"
+msgstr "Pengaturan"
 
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
-msgstr "帮助"
+msgstr "Bantuan"
 
 #: tformmain.menuitem3clearcode.caption
 msgid "Usuń "
-msgstr "删除 "
+msgstr "Menghapus"
 
 #: tformmain.menuitem4.caption
 msgid "Ustawienia pomocnika AI"
-msgstr "AI助手设置"
+msgstr "Pengaturan pembantu AI"
 
 #: tformmain.menuitem5.caption
 msgctxt "tformmain.menuitem5.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Salin"
 
 #: tformmain.menuitem6.caption
 msgctxt "tformmain.menuitem6.caption"
 msgid "Kopiuj wszystko"
-msgstr "复制全部"
+msgstr "Salin semua"
 
 #: tformmain.menuitem7.caption
 msgid "Sprawdź kod [AI]"
-msgstr "检查代码 [AI]"
+msgstr "Periksa kode [AI]."
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "语言"
+msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
@@ -222,61 +219,62 @@ msgstr "Polski"
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Salin"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
-msgstr "复制全部"
+msgstr "Salin semua"
 
 #: tformmain.menuitemcopycode.caption
 msgctxt "tformmain.menuitemcopycode.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Salin"
 
 #: tformmain.menuitemcopypascalcode.caption
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Salin"
 
 #: tformmain.menuitemcut.caption
 msgctxt "tformmain.menuitemcut.caption"
 msgid "Wytnij"
-msgstr "剪切"
+msgstr "Potong"
 
 #: tformmain.menuitemcutcode.caption
 msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
-msgstr "剪切"
+msgstr "Potong"
 
 #: tformmain.menuitemczeski.caption
 msgid "čeština"
-msgstr ""
+msgstr "čeština"
 
 #: tformmain.menuitemdansk.caption
 msgid "Dansk"
-msgstr ""
+msgstr "Dansk"
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "删除代码 "
+msgstr "Hapus kode"
 
 #: tformmain.menuitemdeletecode.caption
 msgid "Usuń kod"
-msgstr "删除代码 "
+msgstr "Hapus kode"
 
 #: tformmain.menuitemdeletememologs.caption
+#, fuzzy
 msgctxt "tformmain.menuitemdeletememologs.caption"
 msgid "Usuń"
-msgstr "删除"
+msgstr "Menghapus"
 
 #: tformmain.menuitemdokumentacja.caption
 msgid "Dokumentacja online"
-msgstr "在线文档"
+msgstr "Dokumentasi online"
 
 #: tformmain.menuitemestonski.caption
 msgid "Eesti"
-msgstr ""
+msgstr "Eesti"
 
 #: tformmain.menuitemkoreanski.caption
 msgid "한국인"
@@ -285,59 +283,59 @@ msgstr ""
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
-msgstr "删除"
+msgstr "Menghapus"
 
 #: tformmain.menuitempaste.caption
 msgctxt "tformmain.menuitempaste.caption"
 msgid "Wklej"
-msgstr "粘贴"
+msgstr "Tempel"
 
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
-msgstr "粘贴"
+msgstr "Tempel"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
-msgstr "保存"
+msgstr "Simpan"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
-msgstr "支持"
+msgstr "Dukungan"
 
 #: tformmain.menuitindonezyjski.caption
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: tformmain.menuitwegierski.caption
 msgid "Magyar"
-msgstr ""
+msgstr "Magyar"
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
-msgstr "新的"
+msgstr "Baru"
 
 #: tformmain.menuopcjeprojektu.caption
 msgid "Opcje projektu"
-msgstr "项目选项"
+msgstr "Pilihan desain"
 
 #: tformmain.menuopen.caption
 msgid "Otwórz"
-msgstr "打开"
+msgstr "Buka"
 
 #: tformmain.menuprojekt.caption
 msgid "Projekt"
-msgstr "项目"
+msgstr "Desain"
 
 #: tformmain.menusaveas.caption
 msgid "Zapisz jak"
-msgstr "保存为"
+msgstr "Simpan sebagai"
 
 #: tformmain.menuustawinia.caption
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Ustawienia"
-msgstr "设置"
+msgstr "Pengaturan"
 
 #: tformmain.nowyplik.caption
 msgid "NowyPLik"
@@ -345,7 +343,7 @@ msgstr "NowyPLik"
 
 #: tformmain.nowyplik.hint
 msgid "Nowy Plik"
-msgstr "新文件"
+msgstr "Berkas Baru"
 
 #: tformmain.panel1.caption
 msgctxt "tformmain.panel1.caption"
@@ -362,11 +360,11 @@ msgstr "PanelLewy"
 
 #: tformmain.paneltranspilacja.button.caption
 msgid "Transpilacja do Free Pascal"
-msgstr "转译为Free Pascal"
+msgstr "Transpilasi ke Pascal Gratis"
 
 #: tformmain.sbzapytaj.caption
 msgid " >"
-msgstr " >"
+msgstr ">"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -377,23 +375,24 @@ msgid "ToolButton1"
 msgstr "ToolButton1"
 
 #: tformmain.toolbutton1.hint
+#, fuzzy
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
-msgstr "转录"
+msgstr "Transpile"
 
 #: tformmain.toolbutton2.caption
 msgid "Kompiluj i zapisz"
-msgstr "编译并保存"
+msgstr "Kompilasi dan simpan"
 
 #: tformmain.toolbutton2.hint
 msgctxt "tformmain.toolbutton2.hint"
 msgid "Kompiluj"
-msgstr "编译"
+msgstr "Kompilasi"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
-msgstr "转录"
+msgstr "Transpile"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
@@ -401,17 +400,17 @@ msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.caption
 msgid "Opcje Projektu"
-msgstr "项目选项"
+msgstr "Opsi proyek"
 
 #: tformopcjeprojektu.sbok.caption
 msgctxt "tformopcjeprojektu.sbok.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "Oke"
 
 #: tformoprogramie.caption
 msgctxt "tformoprogramie.caption"
 msgid "O programie"
-msgstr "关于该计划"
+msgstr "Tentang program ini"
 
 #: tformoprogramie.panel1.caption
 msgctxt "tformoprogramie.panel1.caption"
@@ -419,28 +418,29 @@ msgid "Panel1"
 msgstr "Panel1"
 
 #: tformoprogramie.speedbutton1.caption
+#, fuzzy
 msgctxt "tformoprogramie.speedbutton1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "Oke"
 
 #: tformprzyklady.caption
 msgid "Przyklady aplikacji"
-msgstr "应用示例"
+msgstr "Contoh aplikasi"
 
 #: tformprzyklady.speedbutton1.caption
 msgctxt "tformprzyklady.speedbutton1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "Oke"
 
 #: tformsettingintepreter.bitbtn1.caption
 msgctxt "tformsettingintepreter.bitbtn1.caption"
 msgid "Ok"
-msgstr "Ok"
+msgstr "Oke"
 
 #: tformsettingintepreter.caption
 msgctxt "tformsettingintepreter.caption"
 msgid "Ustawienia"
-msgstr "设置"
+msgstr "Pengaturan"
 
 #: tformsettingintepreter.comboboboxplatforms.text
 msgid "x86_64-win64"
@@ -448,19 +448,19 @@ msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
 msgid "Platforma"
-msgstr "平台"
+msgstr "Platform"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "LInk do fpc.exe"
-msgstr "fpc.exe 的链接"
+msgstr "tautan fpc.exe"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link do folderu FPC"
-msgstr "FPC文件夹链接"
+msgstr "Tautan ke folder FPC"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
-msgstr "AI助手设置"
+msgstr "Pengaturan Pembantu AI"
 
 #: tsettingai.edittokengpt.text
 msgid "EditTokenGPT"
@@ -468,75 +468,72 @@ msgstr "EditTokenGPT"
 
 #: tsettingai.label1.caption
 msgid "Model językowy"
-msgstr "语言模型"
+msgstr "Model bahasa"
 
 #: tsettingai.label2.caption
 msgid "Klucz API"
-msgstr "API密钥"
+msgstr "Kunci API"
 
 #: tsettingai.menuitemcopy.caption
 msgctxt "tsettingai.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Salin"
 
 #: tsettingai.menuitemdelete.caption
 msgctxt "tsettingai.menuitemdelete.caption"
 msgid "Usuń"
-msgstr "删除"
+msgstr "Menghapus"
 
 #: tsettingai.menuitemhidekey.caption
 msgid "Ukryj klucz"
-msgstr "隐藏密钥"
+msgstr "Menyembunyikan kunci"
 
 #: tsettingai.menuitempaste.caption
 msgid "Wstaw"
-msgstr "插入"
+msgstr "Menyisipkan"
 
 #: tsettingai.menuitemshowkey.caption
 msgid "Pokaż klucz"
-msgstr "显示密钥"
+msgstr "Tampilkan kunci"
 
 #: tsettingai.speedbutsave.caption
 msgctxt "tsettingai.speedbutsave.caption"
 msgid "Zapisz"
-msgstr "保存"
+msgstr "Simpan"
 
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
-msgstr "取消"
+msgstr "Umumkan"
 
 #: twsparcie.caption
 msgid "Wsparcie"
-msgstr "支持"
+msgstr "Dukungan"
 
 #: twsparcie.speedbutton1.caption
 msgctxt "twsparcie.speedbutton1.caption"
 msgid "OK"
-msgstr "OK"
+msgstr "Oke"
 
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
-msgstr "支持该项目"
+msgstr "Mendukung proyek"
 
 #: unit1.countchars
-msgctxt "unit1.countchars"
 msgid " Znaków"
-msgstr "症状"
+msgstr "Tanda-tanda"
 
 #: unit1.countline
-msgctxt "unit1.countline"
 msgid " Linii Kodu"
-msgstr "代码行数"
+msgstr "Baris Kode"
 
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
-msgstr "请输入程序名称："
+msgstr "Masukkan nama program:"
 
 #: unit1.newprogramfile
 msgid "Nowy plik"
-msgstr "新文件"
+msgstr "File baru"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "打开项目："
-
+msgstr "Proyek terbuka:"

@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: zh\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,41 +13,41 @@ msgstr ""
 
 #: avocadotranslator.errorprint
 msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
-msgstr "插入函数的语法错误。预期为：insert(source, target, index)"
+msgstr "Helytelen szintaxis a beszúrási függvényben. Várt: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
 msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
-msgstr "插入函数需要三个参数：源、目标、索引"
+msgstr "A beillesztési függvény három argumentumot igényel: forrás, cél, index."
 
 #: avocadotranslator.functiontrim
 msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
-msgstr "trim函数语法错误。预期为：trim(s)"
+msgstr "A trim funkció helytelen szintaxisa. Várt: trim(s)"
 
 #: avocadotranslator.functiontrimleft
 msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
-msgstr "trim_left 函数的语法错误。预期为：trim_left(s)"
+msgstr "A trim_with_left függvény helytelen szintaxisa. Várt: trim_from_left(s)"
 
 #: avocadotranslator.functiontrimright
 msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
-msgstr "trim_right 函数的语法错误。预期为：trim_right(s)"
+msgstr "A trim_with_right függvény helytelen szintaxisa. Várt: trim_from_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Nieprawidłowa deklaracja zmiennej: "
-msgstr "变量声明错误： "
+msgstr "Egy változó helytelen deklarációja: "
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
-msgstr "关于IDE Avocado的信息"
+msgstr "Információk az Avocado IDE-ről"
 
 #: tfinformacjaide.speedbutton1.caption
 msgctxt "tfinformacjaide.speedbutton1.caption"
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
 #: tformautor.caption
 msgctxt "tformautor.caption"
 msgid "Autor"
-msgstr "作者"
+msgstr "Szerző"
 
 #: tformautor.speedbutton1.caption
 msgctxt "tformautor.speedbutton1.caption"
@@ -56,7 +56,7 @@ msgstr "Ok"
 
 #: tformmain.bcexpandpanel1.button.caption
 msgid "Pomocnik AI"
-msgstr "AI助手"
+msgstr "AI segítő"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
@@ -64,156 +64,153 @@ msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
-msgstr "输入查询"
+msgstr "Adja meg a lekérdezést"
 
 #: tformmain.itemjaponski.caption
 msgid "日本語"
-msgstr ""
+msgstr "日本語"
 
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
-msgstr "编译"
+msgstr "Összeállítás"
 
 #: tformmain.label1.caption
 msgid "Debug"
-msgstr "调试"
+msgstr "Hibakeresés"
 
 #: tformmain.label2.caption
 msgid "Informacja"
-msgstr "信息"
+msgstr "Információ"
 
 #: tformmain.label4.caption
 msgid "Rozmiar"
-msgstr "尺寸"
+msgstr "Méret"
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
 msgid "O programie"
-msgstr "关于该计划"
+msgstr "A programról"
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
 msgid "Autor"
-msgstr "作者"
+msgstr "Szerző"
 
 #: tformmain.menuchinski.caption
-msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr ""
+msgstr "中國人"
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
-msgstr "关闭"
+msgstr "Zárja be a"
 
 #: tformmain.menuexamples.caption
 msgid "Przykłady"
-msgstr "示例"
+msgstr "Példák"
 
 #: tformmain.menuhindi.caption
-msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr ""
+msgstr "हिंदी"
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
-msgstr ""
+msgstr "العربية"
 
 #: tformmain.menuinformacjaide.caption
 msgid "Informacja o IDE"
-msgstr "关于IDE的信息"
+msgstr "Információk az IDE-ről"
 
 #: tformmain.menuirosyjski.caption
-msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr ""
+msgstr "Русский"
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
-msgstr ""
+msgstr "Suomi"
 
 #: tformmain.menuitegrecki.caption
 msgid "ελληνικά"
-msgstr ""
+msgstr "ελληνικά"
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
-msgstr "文件"
+msgstr "Fájl"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr ""
+msgstr "English"
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr ""
+msgstr "Español"
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr ""
+msgstr "Français"
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr ""
+msgstr "Italiano"
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr ""
+msgstr "Português"
 
 #: tformmain.menuitem16.caption
 msgid "Українська"
-msgstr ""
+msgstr "Українська"
 
 #: tformmain.menuitem17.caption
 msgid "Български"
-msgstr ""
+msgstr "Български"
 
 #: tformmain.menuitem18.caption
 msgid "Nederlands"
-msgstr ""
+msgstr "Nederlands"
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
 msgid "Ustawienia"
-msgstr "设置"
+msgstr "Beállítások"
 
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
-msgstr "帮助"
+msgstr "Segítség"
 
 #: tformmain.menuitem3clearcode.caption
 msgid "Usuń "
-msgstr "删除 "
+msgstr "Töröl"
 
 #: tformmain.menuitem4.caption
 msgid "Ustawienia pomocnika AI"
-msgstr "AI助手设置"
+msgstr "AI segítő beállítások"
 
 #: tformmain.menuitem5.caption
 msgctxt "tformmain.menuitem5.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Másolat"
 
 #: tformmain.menuitem6.caption
 msgctxt "tformmain.menuitem6.caption"
 msgid "Kopiuj wszystko"
-msgstr "复制全部"
+msgstr "Összes másolása"
 
 #: tformmain.menuitem7.caption
 msgid "Sprawdź kod [AI]"
-msgstr "检查代码 [AI]"
+msgstr "Ellenőrizze az [AI] kódot."
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "语言"
+msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
@@ -222,122 +219,122 @@ msgstr "Polski"
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Másolat"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
-msgstr "复制全部"
+msgstr "Összes másolása"
 
 #: tformmain.menuitemcopycode.caption
 msgctxt "tformmain.menuitemcopycode.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Másolat"
 
 #: tformmain.menuitemcopypascalcode.caption
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Másolat"
 
 #: tformmain.menuitemcut.caption
 msgctxt "tformmain.menuitemcut.caption"
 msgid "Wytnij"
-msgstr "剪切"
+msgstr "Vágd ki"
 
 #: tformmain.menuitemcutcode.caption
 msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
-msgstr "剪切"
+msgstr "Vágd ki"
 
 #: tformmain.menuitemczeski.caption
 msgid "čeština"
-msgstr ""
+msgstr "čeština"
 
 #: tformmain.menuitemdansk.caption
 msgid "Dansk"
-msgstr ""
+msgstr "Dansk"
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "删除代码 "
+msgstr "Kód törlése"
 
 #: tformmain.menuitemdeletecode.caption
 msgid "Usuń kod"
-msgstr "删除代码 "
+msgstr "Kód törlése"
 
 #: tformmain.menuitemdeletememologs.caption
 msgctxt "tformmain.menuitemdeletememologs.caption"
 msgid "Usuń"
-msgstr "删除"
+msgstr "Töröl"
 
 #: tformmain.menuitemdokumentacja.caption
 msgid "Dokumentacja online"
-msgstr "在线文档"
+msgstr "Online dokumentáció"
 
 #: tformmain.menuitemestonski.caption
 msgid "Eesti"
-msgstr ""
+msgstr "Eesti"
 
 #: tformmain.menuitemkoreanski.caption
 msgid "한국인"
-msgstr ""
+msgstr "한국인"
 
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
-msgstr "删除"
+msgstr "Töröl"
 
 #: tformmain.menuitempaste.caption
 msgctxt "tformmain.menuitempaste.caption"
 msgid "Wklej"
-msgstr "粘贴"
+msgstr "Paste"
 
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
-msgstr "粘贴"
+msgstr "Paste"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
-msgstr "保存"
+msgstr "Mentés"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
-msgstr "支持"
+msgstr "Támogatás"
 
 #: tformmain.menuitindonezyjski.caption
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: tformmain.menuitwegierski.caption
 msgid "Magyar"
-msgstr ""
+msgstr "Magyar"
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
-msgstr "新的"
+msgstr "Új"
 
 #: tformmain.menuopcjeprojektu.caption
 msgid "Opcje projektu"
-msgstr "项目选项"
+msgstr "Tervezési lehetőségek"
 
 #: tformmain.menuopen.caption
 msgid "Otwórz"
-msgstr "打开"
+msgstr "Nyissa meg a  címet."
 
 #: tformmain.menuprojekt.caption
 msgid "Projekt"
-msgstr "项目"
+msgstr "Tervezés"
 
 #: tformmain.menusaveas.caption
 msgid "Zapisz jak"
-msgstr "保存为"
+msgstr "Írja le, hogyan"
 
 #: tformmain.menuustawinia.caption
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Ustawienia"
-msgstr "设置"
+msgstr "Beállítások"
 
 #: tformmain.nowyplik.caption
 msgid "NowyPLik"
@@ -345,7 +342,7 @@ msgstr "NowyPLik"
 
 #: tformmain.nowyplik.hint
 msgid "Nowy Plik"
-msgstr "新文件"
+msgstr "Új fájl"
 
 #: tformmain.panel1.caption
 msgctxt "tformmain.panel1.caption"
@@ -362,11 +359,11 @@ msgstr "PanelLewy"
 
 #: tformmain.paneltranspilacja.button.caption
 msgid "Transpilacja do Free Pascal"
-msgstr "转译为Free Pascal"
+msgstr "Átültetés Free Pascalra"
 
 #: tformmain.sbzapytaj.caption
 msgid " >"
-msgstr " >"
+msgstr ">"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -379,21 +376,21 @@ msgstr "ToolButton1"
 #: tformmain.toolbutton1.hint
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
-msgstr "转录"
+msgstr "Transpille"
 
 #: tformmain.toolbutton2.caption
 msgid "Kompiluj i zapisz"
-msgstr "编译并保存"
+msgstr "Kompilálás és mentés"
 
 #: tformmain.toolbutton2.hint
 msgctxt "tformmain.toolbutton2.hint"
 msgid "Kompiluj"
-msgstr "编译"
+msgstr "Összeállítás"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
-msgstr "转录"
+msgstr "Transpille"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
@@ -401,7 +398,7 @@ msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.caption
 msgid "Opcje Projektu"
-msgstr "项目选项"
+msgstr "Projektlehetőségek"
 
 #: tformopcjeprojektu.sbok.caption
 msgctxt "tformopcjeprojektu.sbok.caption"
@@ -411,7 +408,7 @@ msgstr "Ok"
 #: tformoprogramie.caption
 msgctxt "tformoprogramie.caption"
 msgid "O programie"
-msgstr "关于该计划"
+msgstr "A programról"
 
 #: tformoprogramie.panel1.caption
 msgctxt "tformoprogramie.panel1.caption"
@@ -425,7 +422,7 @@ msgstr "Ok"
 
 #: tformprzyklady.caption
 msgid "Przyklady aplikacji"
-msgstr "应用示例"
+msgstr "Alkalmazási példák"
 
 #: tformprzyklady.speedbutton1.caption
 msgctxt "tformprzyklady.speedbutton1.caption"
@@ -440,7 +437,7 @@ msgstr "Ok"
 #: tformsettingintepreter.caption
 msgctxt "tformsettingintepreter.caption"
 msgid "Ustawienia"
-msgstr "设置"
+msgstr "Beállítások"
 
 #: tformsettingintepreter.comboboboxplatforms.text
 msgid "x86_64-win64"
@@ -448,19 +445,19 @@ msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
 msgid "Platforma"
-msgstr "平台"
+msgstr "Platform"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "LInk do fpc.exe"
-msgstr "fpc.exe 的链接"
+msgstr "Link az fpc.exe-hez"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link do folderu FPC"
-msgstr "FPC文件夹链接"
+msgstr "Link az FPC mappához"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
-msgstr "AI助手设置"
+msgstr "AI segítő beállítások"
 
 #: tsettingai.edittokengpt.text
 msgid "EditTokenGPT"
@@ -468,46 +465,46 @@ msgstr "EditTokenGPT"
 
 #: tsettingai.label1.caption
 msgid "Model językowy"
-msgstr "语言模型"
+msgstr "Nyelvi modell"
 
 #: tsettingai.label2.caption
 msgid "Klucz API"
-msgstr "API密钥"
+msgstr "API-kulcs"
 
 #: tsettingai.menuitemcopy.caption
 msgctxt "tsettingai.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "复制"
+msgstr "Másolat"
 
 #: tsettingai.menuitemdelete.caption
 msgctxt "tsettingai.menuitemdelete.caption"
 msgid "Usuń"
-msgstr "删除"
+msgstr "Töröl"
 
 #: tsettingai.menuitemhidekey.caption
 msgid "Ukryj klucz"
-msgstr "隐藏密钥"
+msgstr "Rejtse el a kulcsot"
 
 #: tsettingai.menuitempaste.caption
 msgid "Wstaw"
-msgstr "插入"
+msgstr "Beillesztés"
 
 #: tsettingai.menuitemshowkey.caption
 msgid "Pokaż klucz"
-msgstr "显示密钥"
+msgstr "Kulcs megjelenítése"
 
 #: tsettingai.speedbutsave.caption
 msgctxt "tsettingai.speedbutsave.caption"
 msgid "Zapisz"
-msgstr "保存"
+msgstr "Mentés"
 
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
-msgstr "取消"
+msgstr "Annouce"
 
 #: twsparcie.caption
 msgid "Wsparcie"
-msgstr "支持"
+msgstr "Támogatás"
 
 #: twsparcie.speedbutton1.caption
 msgctxt "twsparcie.speedbutton1.caption"
@@ -516,27 +513,24 @@ msgstr "OK"
 
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
-msgstr "支持该项目"
+msgstr "A projekt támogatása"
 
 #: unit1.countchars
-msgctxt "unit1.countchars"
 msgid " Znaków"
-msgstr "症状"
+msgstr "Jelek"
 
 #: unit1.countline
-msgctxt "unit1.countline"
 msgid " Linii Kodu"
-msgstr "代码行数"
+msgstr "Kódsorok"
 
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
-msgstr "请输入程序名称："
+msgstr "Adja meg a program nevét:"
 
 #: unit1.newprogramfile
 msgid "Nowy plik"
-msgstr "新文件"
+msgstr "Új fájl"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "打开项目："
-
+msgstr "Nyitott projekt:"

@@ -1088,6 +1088,50 @@ object FormMain: TFormMain
         Caption = 'čeština'
         OnClick = MenuItemCzeskiClick
       end
+      object MenuItem16: TMenuItem
+        Caption = 'Українська'
+        OnClick = MenuItem16Click
+      end
+      object MenuItemDansk: TMenuItem
+        Caption = 'Dansk'
+        OnClick = MenuItemDanskClick
+      end
+      object MenuItem17: TMenuItem
+        Caption = 'Български'
+        OnClick = MenuItem17Click
+      end
+      object MenuItem18: TMenuItem
+        Caption = 'Nederlands'
+        OnClick = MenuItem18Click
+      end
+      object MenuItemEstonski: TMenuItem
+        Caption = 'Eesti'
+        OnClick = MenuItemEstonskiClick
+      end
+      object MenuIteFinski: TMenuItem
+        Caption = 'Suomi'
+        OnClick = MenuIteFinskiClick
+      end
+      object MenuIteGrecki: TMenuItem
+        Caption = 'ελληνικά'
+        OnClick = MenuIteGreckiClick
+      end
+      object MenuItWegierski: TMenuItem
+        Caption = 'Magyar'
+        OnClick = MenuItWegierskiClick
+      end
+      object MenuItIndonezyjski: TMenuItem
+        Caption = 'Indonesia'
+        OnClick = MenuItIndonezyjskiClick
+      end
+      object itemJaponski: TMenuItem
+        Caption = '日本語'
+        OnClick = itemJaponskiClick
+      end
+      object MenuItemKoreanski: TMenuItem
+        Caption = '한국인'
+        OnClick = MenuItemKoreanskiClick
+      end
     end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'

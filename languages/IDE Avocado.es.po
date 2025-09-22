@@ -68,6 +68,10 @@ msgstr "IDE Avocado v 1.0.0.9"
 msgid "Wpisz zapytanie"
 msgstr "Ingrese su consulta"
 
+#: tformmain.itemjaponski.caption
+msgid "日本語"
+msgstr ""
+
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
@@ -133,6 +137,14 @@ msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
 msgstr "Русский"
 
+#: tformmain.menuitefinski.caption
+msgid "Suomi"
+msgstr ""
+
+#: tformmain.menuitegrecki.caption
+msgid "ελληνικά"
+msgstr ""
+
 #: tformmain.menuitem1.caption
 msgid "Plik"
 msgstr "Archivo"
@@ -160,6 +172,18 @@ msgstr "Italiano"
 #: tformmain.menuitem15.caption
 msgid "Português"
 msgstr "Português"
+
+#: tformmain.menuitem16.caption
+msgid "Українська"
+msgstr ""
+
+#: tformmain.menuitem17.caption
+msgid "Български"
+msgstr ""
+
+#: tformmain.menuitem18.caption
+msgid "Nederlands"
+msgstr ""
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
@@ -234,6 +258,10 @@ msgstr "Cortar"
 msgid "čeština"
 msgstr ""
 
+#: tformmain.menuitemdansk.caption
+msgid "Dansk"
+msgstr ""
+
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
 msgstr "Eliminar código "
@@ -250,6 +278,14 @@ msgstr "Eliminar"
 #: tformmain.menuitemdokumentacja.caption
 msgid "Dokumentacja online"
 msgstr "Documentación en línea"
+
+#: tformmain.menuitemestonski.caption
+msgid "Eesti"
+msgstr ""
+
+#: tformmain.menuitemkoreanski.caption
+msgid "한국인"
+msgstr ""
 
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
@@ -274,6 +310,14 @@ msgstr "Guardar"
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
 msgstr "Apoya"
+
+#: tformmain.menuitindonezyjski.caption
+msgid "Indonesia"
+msgstr ""
+
+#: tformmain.menuitwegierski.caption
+msgid "Magyar"
+msgstr ""
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
