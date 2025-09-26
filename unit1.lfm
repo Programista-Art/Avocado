@@ -1132,6 +1132,34 @@ object FormMain: TFormMain
         Caption = '한국인'
         OnClick = MenuItemKoreanskiClick
       end
+      object MenuItemLangLatvian: TMenuItem
+        Caption = 'latviešu'
+        OnClick = MenuItemLangLatvianClick
+      end
+      object MenuItemLangLithuanian: TMenuItem
+        Caption = 'Lietuvių'
+        OnClick = MenuItemLangLithuanianClick
+      end
+      object MenuItemLangRomanian: TMenuItem
+        Caption = 'Română'
+        OnClick = MenuItemLangRomanianClick
+      end
+      object MenuItemLangSlovak: TMenuItem
+        Caption = 'Slovenský'
+        OnClick = MenuItemLangSlovakClick
+      end
+      object MenuItemSlovenianLang: TMenuItem
+        Caption = 'Slovenščina'
+        OnClick = MenuItemSlovenianLangClick
+      end
+      object MenuItemSwedishLang: TMenuItem
+        Caption = 'Svensk'
+        OnClick = MenuItemSwedishLangClick
+      end
+      object MenuItemTurkishLang: TMenuItem
+        Caption = 'Türkçe'
+        OnClick = MenuItemTurkishLangClick
+      end
     end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'

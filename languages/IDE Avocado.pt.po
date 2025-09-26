@@ -282,6 +282,22 @@ msgstr ""
 msgid "한국인"
 msgstr ""
 
+#: tformmain.menuitemlanglatvian.caption
+msgid "latviešu"
+msgstr ""
+
+#: tformmain.menuitemlanglithuanian.caption
+msgid "Lietuvių"
+msgstr ""
+
+#: tformmain.menuitemlangromanian.caption
+msgid "Română"
+msgstr ""
+
+#: tformmain.menuitemlangslovak.caption
+msgid "Slovenský"
+msgstr ""
+
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
@@ -301,6 +317,18 @@ msgstr "Colar"
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
 msgstr "Guardar"
+
+#: tformmain.menuitemslovenianlang.caption
+msgid "Slovenščina"
+msgstr ""
+
+#: tformmain.menuitemswedishlang.caption
+msgid "Svensk"
+msgstr ""
+
+#: tformmain.menuitemturkishlang.caption
+msgid "Türkçe"
+msgstr ""
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"

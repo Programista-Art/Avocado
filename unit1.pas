@@ -35,6 +35,13 @@ type
     MenuIteFinski: TMenuItem;
     MenuIteGrecki: TMenuItem;
     itemJaponski: TMenuItem;
+    MenuItemTurkishLang: TMenuItem;
+    MenuItemSwedishLang: TMenuItem;
+    MenuItemSlovenianLang: TMenuItem;
+    MenuItemLangSlovak: TMenuItem;
+    MenuItemLangRomanian: TMenuItem;
+    MenuItemLangLithuanian: TMenuItem;
+    MenuItemLangLatvian: TMenuItem;
     MenuItemKoreanski: TMenuItem;
     MenuItIndonezyjski: TMenuItem;
     MenuItWegierski: TMenuItem;
@@ -145,6 +152,13 @@ type
     procedure MenuItemDanskClick(Sender: TObject);
     procedure MenuItemEstonskiClick(Sender: TObject);
     procedure MenuItemKoreanskiClick(Sender: TObject);
+    procedure MenuItemLangLatvianClick(Sender: TObject);
+    procedure MenuItemLangLithuanianClick(Sender: TObject);
+    procedure MenuItemLangRomanianClick(Sender: TObject);
+    procedure MenuItemLangSlovakClick(Sender: TObject);
+    procedure MenuItemSlovenianLangClick(Sender: TObject);
+    procedure MenuItemSwedishLangClick(Sender: TObject);
+    procedure MenuItemTurkishLangClick(Sender: TObject);
     procedure MenuItIndonezyjskiClick(Sender: TObject);
     procedure MenuItWegierskiClick(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
@@ -494,6 +508,55 @@ begin
   SetDefaultLang('kr');
   lang := 'kr';
   IsClickMainMenuLanguage(22);
+end;
+
+procedure TFormMain.MenuItemLangLatvianClick(Sender: TObject);
+begin
+  SetDefaultLang('lv');
+  lang := 'lv';
+  IsClickMainMenuLanguage(23);
+end;
+
+procedure TFormMain.MenuItemLangLithuanianClick(Sender: TObject);
+begin
+  SetDefaultLang('lt');
+  lang := 'lt';
+  IsClickMainMenuLanguage(24);
+end;
+
+procedure TFormMain.MenuItemLangRomanianClick(Sender: TObject);
+begin
+  SetDefaultLang('ro');
+  lang := 'ro';
+  IsClickMainMenuLanguage(25);
+end;
+
+procedure TFormMain.MenuItemLangSlovakClick(Sender: TObject);
+begin
+  SetDefaultLang('sk');
+  lang := 'sk';
+  IsClickMainMenuLanguage(26);
+end;
+
+procedure TFormMain.MenuItemSlovenianLangClick(Sender: TObject);
+begin
+  SetDefaultLang('sl');
+  lang := 'sl';
+  IsClickMainMenuLanguage(27);
+end;
+
+procedure TFormMain.MenuItemSwedishLangClick(Sender: TObject);
+begin
+  SetDefaultLang('sv');
+  lang := 'sv';
+  IsClickMainMenuLanguage(28);
+end;
+
+procedure TFormMain.MenuItemTurkishLangClick(Sender: TObject);
+begin
+  SetDefaultLang('tr');
+  lang := 'tr';
+  IsClickMainMenuLanguage(29);
 end;
 
 procedure TFormMain.MenuItIndonezyjskiClick(Sender: TObject);
@@ -863,148 +926,201 @@ begin
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
     FModulsPath := Ini.ReadString('main', 'Units', '\moduly');
-    //Laduje jezyk programu UI
+
+    //loads the programme language into the UI
     lang := Ini.ReadString('defaultlanguage','language','en');
     case lang of
     'en':
     begin
+      //English language
       SetDefaultLang('en');
       IsClickMainMenuLanguage(0);
     end;
     'pl':
     begin
+      //Polish language
       SetDefaultLang('pl');
       IsClickMainMenuLanguage(6);
     end;
     'ru':
     begin
+      //Russian language
       SetDefaultLang('ru');
       IsClickMainMenuLanguage(7);
     end;
     'de':
     begin
+      //German language
       SetDefaultLang('de');
       IsClickMainMenuLanguage(3);
     end;
     'pt':
     begin
-      SetDefaultLang('pt');//portugalski
+      //Portuguese language
+      SetDefaultLang('pt');
       IsClickMainMenuLanguage(5);
     end;
     'es':
     begin
-      SetDefaultLang('es');//hiszpański
+      //Spanish language
+      SetDefaultLang('es');
       IsClickMainMenuLanguage(1);
     end;
     'dk':
     begin
+      //Danish language
       SetDefaultLang('dk');
        IsClickMainMenuLanguage(13);
     end;
     'it':
     begin
-      SetDefaultLang('it'); //wloski
+      //Italian language
+      SetDefaultLang('it');
       IsClickMainMenuLanguage(4);
     end;
     'hi':
     begin
-      SetDefaultLang('hi');//hindi
+      //Hindi language
+      SetDefaultLang('hi');
       IsClickMainMenuLanguage(9);
     end;
     'fr':
     begin
-      SetDefaultLang('fr');//francuski
+      //French language
+      SetDefaultLang('fr');
       IsClickMainMenuLanguage(2);
     end;
     'cz':
     begin
-      SetDefaultLang('cz');//czeski
+      //Czech language
+      SetDefaultLang('cz');
       IsClickMainMenuLanguage(11);
     end;
     'zh':
     begin
-      SetDefaultLang('zh');//chiński
+      //Chinese language
+      SetDefaultLang('zh');
       IsClickMainMenuLanguage(8);
     end;
     'bn':
     begin
-      SetDefaultLang('bn');//Bengalski
+      //Bengali language
+      SetDefaultLang('bn');
       //IsClickMainMenuLanguage(8);
     end;
     'ar':
     begin
-      SetDefaultLang('ar');//arabski
+      //Arabic language
+      SetDefaultLang('ar');
       IsClickMainMenuLanguage(10);
-    end;
-    'ja':
-    begin
-       SetDefaultLang('ja');//japoński
-       //IsClickMainMenuLanguage(8);
-    end;
-    'ko':
-    begin
-       SetDefaultLang('ko');//Koreański
-       IsClickMainMenuLanguage(11);
     end;
     'bg':
     begin
-       SetDefaultLang('bg');//Bulgarski
+      //Bulgarian language
+       SetDefaultLang('bg');
        IsClickMainMenuLanguage(14);
     end;
     'pnb':
     begin
-       SetDefaultLang('pnb');//zachodniopendżabski
+       //West Punjabi language
+       //SetDefaultLang('pnb');
        //IsClickMainMenuLanguage(8);
     end;
     'ua':
     begin
-       SetDefaultLang('ua');//Ukrainski
+       //Ukrainian language
+       SetDefaultLang('ua');
        IsClickMainMenuLanguage(12);
     end;
     'nl':
     begin
-       SetDefaultLang('nl');//Niderlandzki
+       //Dutch language
+       SetDefaultLang('nl');
        IsClickMainMenuLanguage(15);
     end;
     'et':
     begin
-       SetDefaultLang('et');//Estoński
+       //Estonian language
+       SetDefaultLang('et');
        IsClickMainMenuLanguage(16);
     end;
     'fi':
     begin
-       SetDefaultLang('fi');//Fiński
+       //Finnish language
+       SetDefaultLang('fi');
        IsClickMainMenuLanguage(17);
     end;
     'gr':
     begin
-       SetDefaultLang('gr');//Grecki
+       //Greek language
+       SetDefaultLang('gr');
        IsClickMainMenuLanguage(18);
     end;
     'hu':
     begin
-       SetDefaultLang('hu');//Wegierski
+       //Hungarian language
+       SetDefaultLang('hu');
        IsClickMainMenuLanguage(19);
     end;
     'id':
     begin
-       SetDefaultLang('id');//Indonezyjski
+       //Indonesian language
+       SetDefaultLang('id');
        IsClickMainMenuLanguage(20);
     end;
     'jp':
     begin
-       SetDefaultLang('jp');//Japoński
+       //Japanese language
+       SetDefaultLang('jp');
        IsClickMainMenuLanguage(21);
     end;
     'kr':
     begin
-       SetDefaultLang('kr');//koreański
+       //Korean language
+       SetDefaultLang('kr');
        IsClickMainMenuLanguage(22);
     end;
-    'mr':
+    'lv':
     begin
-       SetDefaultLang('mr');//marathi
-       //IsClickMainMenuLanguage(8);
+       //Latvian language
+       SetDefaultLang('lv');
+       IsClickMainMenuLanguage(23);
+    end;
+    'lt':
+    begin
+       //Lithuanian language
+       SetDefaultLang('lt');
+       IsClickMainMenuLanguage(24);
+    end;
+    'ro':
+    begin
+       //Romanian language
+       SetDefaultLang('ro');
+       IsClickMainMenuLanguage(25);
+    end;
+    'sk':
+    begin
+       //Slovak language
+       SetDefaultLang('sk');
+       IsClickMainMenuLanguage(26);
+    end;
+    'sl':
+    begin
+       //Slovenian language
+       SetDefaultLang('sl');
+       IsClickMainMenuLanguage(27);
+    end;
+    'se':
+    begin
+       //Swedish language
+       SetDefaultLang('sv');
+       IsClickMainMenuLanguage(28);
+    end;
+    'tr':
+    begin
+       //Turkish language
+       SetDefaultLang('tr');
+       IsClickMainMenuLanguage(29);
     end
     else
       SetDefaultLang('en');

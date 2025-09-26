@@ -280,6 +280,22 @@ msgstr "Eesti"
 msgid "한국인"
 msgstr ""
 
+#: tformmain.menuitemlanglatvian.caption
+msgid "latviešu"
+msgstr ""
+
+#: tformmain.menuitemlanglithuanian.caption
+msgid "Lietuvių"
+msgstr ""
+
+#: tformmain.menuitemlangromanian.caption
+msgid "Română"
+msgstr ""
+
+#: tformmain.menuitemlangslovak.caption
+msgid "Slovenský"
+msgstr ""
+
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
@@ -299,6 +315,18 @@ msgstr "Tempel"
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
 msgstr "Simpan"
+
+#: tformmain.menuitemslovenianlang.caption
+msgid "Slovenščina"
+msgstr ""
+
+#: tformmain.menuitemswedishlang.caption
+msgid "Svensk"
+msgstr ""
+
+#: tformmain.menuitemturkishlang.caption
+msgid "Türkçe"
+msgstr ""
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
@@ -537,3 +565,4 @@ msgstr "File baru"
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
 msgstr "Proyek terbuka:"
+

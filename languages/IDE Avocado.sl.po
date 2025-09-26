@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: bg\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,31 +13,31 @@ msgstr ""
 
 #: avocadotranslator.errorprint
 msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
-msgstr "Неправилен синтаксис на функцията за вмъкване. Очаквано: insert(източник, цел, индекс)"
+msgstr "Nepravilna sintaksa funkcije insert. Pričakovano: insert(vir, cilj, indeks)"
 
 #: avocadotranslator.functioninsert
 msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
-msgstr "Функцията за вмъкване изисква три аргумента: източник, цел, индекс."
+msgstr "Funkcija insert zahteva tri argumente: vir, cilj, indeks."
 
 #: avocadotranslator.functiontrim
 msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
-msgstr "Неправилен синтаксис на функцията trim. Очаквано: trim(s)"
+msgstr "Nepravilna sintaksa funkcije trim. Pričakovano: trim(s)"
 
 #: avocadotranslator.functiontrimleft
 msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
-msgstr "Неправилен синтаксис на функцията trim_with_left. Очаквано: trim_from_left(s)"
+msgstr "Nepravilna sintaksa funkcije trim_with_left. Pričakovano: trim_from_left(s)"
 
 #: avocadotranslator.functiontrimright
 msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
-msgstr "Неправилен синтаксис на функцията trim_with_right. Очаквано: trim_from_right(s)"
+msgstr "Nepravilna sintaksa funkcije trim_with_right. Pričakovano: trim_from_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Nieprawidłowa deklaracja zmiennej: "
-msgstr "Неправилно деклариране на променлива: "
+msgstr "Nepravilna deklaracija spremenljivke: "
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
-msgstr "Информация за Avocado IDE"
+msgstr "Informacije o avokadu IDE"
 
 #: tfinformacjaide.speedbutton1.caption
 msgctxt "tfinformacjaide.speedbutton1.caption"
@@ -47,7 +47,7 @@ msgstr "OK"
 #: tformautor.caption
 msgctxt "tformautor.caption"
 msgid "Autor"
-msgstr "Автор"
+msgstr "Avtor"
 
 #: tformautor.speedbutton1.caption
 msgctxt "tformautor.speedbutton1.caption"
@@ -56,15 +56,15 @@ msgstr "Ok"
 
 #: tformmain.bcexpandpanel1.button.caption
 msgid "Pomocnik AI"
-msgstr "Помощник на AI"
+msgstr "Pomočnik AI"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
-msgstr "IDE Avocado v 1.0.1.0"
+msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
-msgstr "Въведете заявката си"
+msgstr "Vnesite svojo poizvedbo"
 
 #: tformmain.itemjaponski.caption
 msgid "日本語"
@@ -73,19 +73,19 @@ msgstr ""
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
-msgstr "Компилиране"
+msgstr "Sestavljanje"
 
 #: tformmain.label1.caption
 msgid "Debug"
-msgstr "Отстраняване на грешки"
+msgstr "Razhroščevanje"
 
 #: tformmain.label2.caption
 msgid "Informacja"
-msgstr "Информация"
+msgstr "Informacije"
 
 #: tformmain.label4.caption
 msgid "Rozmiar"
-msgstr "Размер"
+msgstr "Velikost"
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -94,40 +94,40 @@ msgstr "0"
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
 msgid "O programie"
-msgstr "За програмата"
+msgstr "O programu"
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
 msgid "Autor"
-msgstr "Автор"
+msgstr "Avtor"
 
 #: tformmain.menuchinski.caption
 msgid "中國人"
-msgstr "中國人"
+msgstr ""
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
-msgstr "Затвори"
+msgstr "Zapri"
 
 #: tformmain.menuexamples.caption
 msgid "Przykłady"
-msgstr "Примери"
+msgstr "Primeri"
 
 #: tformmain.menuhindi.caption
 msgid "हिंदी"
-msgstr "हिंदी"
+msgstr ""
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
-msgstr "العربية"
+msgstr ""
 
 #: tformmain.menuinformacjaide.caption
 msgid "Informacja o IDE"
-msgstr "Информация за IDE"
+msgstr "Informacije o IDE"
 
 #: tformmain.menuirosyjski.caption
 msgid "Русский"
-msgstr "Русский"
+msgstr ""
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -139,74 +139,74 @@ msgstr ""
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
-msgstr "Файл"
+msgstr "Datoteka"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr "Español"
+msgstr ""
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr "Français"
+msgstr ""
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr "Deutsch"
+msgstr ""
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr "Italiano"
+msgstr ""
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr "Português"
+msgstr ""
 
 #: tformmain.menuitem16.caption
 msgid "Українська"
-msgstr "Українська"
+msgstr ""
 
 #: tformmain.menuitem17.caption
 msgid "Български"
-msgstr "Български"
+msgstr ""
 
 #: tformmain.menuitem18.caption
 msgid "Nederlands"
-msgstr "Nederlands"
+msgstr ""
 
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
 msgid "Ustawienia"
-msgstr "Настройки"
+msgstr "Nastavitve"
 
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
-msgstr "Помощ"
+msgstr "Pomoč"
 
 #: tformmain.menuitem3clearcode.caption
 msgid "Usuń "
-msgstr "Изтриване"
+msgstr ""
 
 #: tformmain.menuitem4.caption
 msgid "Ustawienia pomocnika AI"
-msgstr "Настройки на помощника за AI"
+msgstr "Nastavitve pomočnika AI"
 
 #: tformmain.menuitem5.caption
 msgctxt "tformmain.menuitem5.caption"
 msgid "Kopiuj"
-msgstr "Копие"
+msgstr "Kopiraj"
 
 #: tformmain.menuitem6.caption
 msgctxt "tformmain.menuitem6.caption"
 msgid "Kopiuj wszystko"
-msgstr "Копиране на всички"
+msgstr "Kopiraj vse"
 
 #: tformmain.menuitem7.caption
 msgid "Sprawdź kod [AI]"
-msgstr "Проверете кода [AI]."
+msgstr "Preverite kodo [AI]."
 
 #: tformmain.menuitem8.caption
 msgid "Język"
@@ -214,62 +214,62 @@ msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr "Polski"
+msgstr ""
 
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "Копие"
+msgstr "Kopiraj"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
-msgstr "Копиране на всички"
+msgstr "Kopiraj vse"
 
 #: tformmain.menuitemcopycode.caption
 msgctxt "tformmain.menuitemcopycode.caption"
 msgid "Kopiuj"
-msgstr "Копие"
+msgstr "Kopiraj"
 
 #: tformmain.menuitemcopypascalcode.caption
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
-msgstr "Копие"
+msgstr "Kopiraj"
 
 #: tformmain.menuitemcut.caption
 msgctxt "tformmain.menuitemcut.caption"
 msgid "Wytnij"
-msgstr "Изрязване"
+msgstr "Izrežite"
 
 #: tformmain.menuitemcutcode.caption
 msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
-msgstr "Изрязване"
+msgstr "Izrežite"
 
 #: tformmain.menuitemczeski.caption
 msgid "čeština"
-msgstr "Чешки"
+msgstr ""
 
 #: tformmain.menuitemdansk.caption
 msgid "Dansk"
-msgstr "Dansk"
+msgstr ""
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "Изтриване на код"
+msgstr "Izbriši kodo"
 
 #: tformmain.menuitemdeletecode.caption
 msgid "Usuń kod"
-msgstr "Изтриване на кода"
+msgstr "Izbriši kodo"
 
 #: tformmain.menuitemdeletememologs.caption
 msgctxt "tformmain.menuitemdeletememologs.caption"
 msgid "Usuń"
-msgstr "Изтриване"
+msgstr "Izbriši"
 
 #: tformmain.menuitemdokumentacja.caption
 msgid "Dokumentacja online"
-msgstr "Онлайн документация"
+msgstr "Spletna dokumentacija"
 
 #: tformmain.menuitemestonski.caption
 msgid "Eesti"
@@ -298,22 +298,22 @@ msgstr ""
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
-msgstr "Изтриване"
+msgstr "Izbriši"
 
 #: tformmain.menuitempaste.caption
 msgctxt "tformmain.menuitempaste.caption"
 msgid "Wklej"
-msgstr "Паста"
+msgstr "Paste"
 
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
-msgstr "Паста"
+msgstr "Paste"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
-msgstr "Запазване"
+msgstr "Shrani"
 
 #: tformmain.menuitemslovenianlang.caption
 msgid "Slovenščina"
@@ -329,7 +329,7 @@ msgstr ""
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
-msgstr "Подкрепа"
+msgstr "Podpora"
 
 #: tformmain.menuitindonezyjski.caption
 msgid "Indonesia"
@@ -341,36 +341,36 @@ msgstr ""
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
-msgstr "Нов"
+msgstr "Novo"
 
 #: tformmain.menuopcjeprojektu.caption
 msgid "Opcje projektu"
-msgstr "Опции за проектиране"
+msgstr "Možnosti oblikovanja"
 
 #: tformmain.menuopen.caption
 msgid "Otwórz"
-msgstr "Отворете"
+msgstr "Odpri"
 
 #: tformmain.menuprojekt.caption
 msgid "Projekt"
-msgstr "Проект"
+msgstr "Projekt"
 
 #: tformmain.menusaveas.caption
 msgid "Zapisz jak"
-msgstr "Запишете как"
+msgstr "Zapišite, kako"
 
 #: tformmain.menuustawinia.caption
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Ustawienia"
-msgstr "Настройки"
+msgstr "Nastavitve"
 
 #: tformmain.nowyplik.caption
 msgid "NowyPLik"
-msgstr "NewPLik"
+msgstr ""
 
 #: tformmain.nowyplik.hint
 msgid "Nowy Plik"
-msgstr "Нов файл"
+msgstr "Nova datoteka"
 
 #: tformmain.panel1.caption
 msgctxt "tformmain.panel1.caption"
@@ -387,11 +387,12 @@ msgstr "PanelLewy"
 
 #: tformmain.paneltranspilacja.button.caption
 msgid "Transpilacja do Free Pascal"
-msgstr "Транспирация към Free Pascal"
+msgstr "Transpilacija v program Free Pascal"
 
 #: tformmain.sbzapytaj.caption
+#| msgid ">"
 msgid " >"
-msgstr ">"
+msgstr " >"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -404,29 +405,29 @@ msgstr "ToolButton1"
 #: tformmain.toolbutton1.hint
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
-msgstr "Транспиле"
+msgstr "Transpile"
 
 #: tformmain.toolbutton2.caption
 msgid "Kompiluj i zapisz"
-msgstr "Компилиране и запазване"
+msgstr "Sestavite in shranite"
 
 #: tformmain.toolbutton2.hint
 msgctxt "tformmain.toolbutton2.hint"
 msgid "Kompiluj"
-msgstr "Компилиране"
+msgstr "Sestavljanje"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
-msgstr "Транспиле"
+msgstr "Transpile"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
-msgstr "ZapiszPlik"
+msgstr "Shrani datoteko"
 
 #: tformopcjeprojektu.caption
 msgid "Opcje Projektu"
-msgstr "Възможности на проекта"
+msgstr "Možnosti projekta"
 
 #: tformopcjeprojektu.sbok.caption
 msgctxt "tformopcjeprojektu.sbok.caption"
@@ -436,7 +437,7 @@ msgstr "Ok"
 #: tformoprogramie.caption
 msgctxt "tformoprogramie.caption"
 msgid "O programie"
-msgstr "За програмата"
+msgstr "O programu"
 
 #: tformoprogramie.panel1.caption
 msgctxt "tformoprogramie.panel1.caption"
@@ -450,7 +451,7 @@ msgstr "Ok"
 
 #: tformprzyklady.caption
 msgid "Przyklady aplikacji"
-msgstr "Примери за приложения"
+msgstr "Primeri aplikacij"
 
 #: tformprzyklady.speedbutton1.caption
 msgctxt "tformprzyklady.speedbutton1.caption"
@@ -465,7 +466,7 @@ msgstr "Ok"
 #: tformsettingintepreter.caption
 msgctxt "tformsettingintepreter.caption"
 msgid "Ustawienia"
-msgstr "Настройки"
+msgstr "Nastavitve"
 
 #: tformsettingintepreter.comboboboxplatforms.text
 msgid "x86_64-win64"
@@ -473,19 +474,19 @@ msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
 msgid "Platforma"
-msgstr "Платформа"
+msgstr "Platforma"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "LInk do fpc.exe"
-msgstr "връзка fpc.exe"
+msgstr "povezava fpc.exe"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link do folderu FPC"
-msgstr "Връзка към папка FPC"
+msgstr "Povezava do mape FPC"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
-msgstr "Настройки на помощника за AI"
+msgstr "Nastavitve pomočnika AI"
 
 #: tsettingai.edittokengpt.text
 msgid "EditTokenGPT"
@@ -493,38 +494,38 @@ msgstr "EditTokenGPT"
 
 #: tsettingai.label1.caption
 msgid "Model językowy"
-msgstr "Езиков модел"
+msgstr "Jezikovni model"
 
 #: tsettingai.label2.caption
 msgid "Klucz API"
-msgstr "Ключ за API"
+msgstr "Ključ API"
 
 #: tsettingai.menuitemcopy.caption
 msgctxt "tsettingai.menuitemcopy.caption"
 msgid "Kopiuj"
-msgstr "Копие"
+msgstr "Kopiraj"
 
 #: tsettingai.menuitemdelete.caption
 msgctxt "tsettingai.menuitemdelete.caption"
 msgid "Usuń"
-msgstr "Изтриване на"
+msgstr "Izbriši"
 
 #: tsettingai.menuitemhidekey.caption
 msgid "Ukryj klucz"
-msgstr "Скриване на ключа"
+msgstr "Skrijte ključ"
 
 #: tsettingai.menuitempaste.caption
 msgid "Wstaw"
-msgstr "Вмъкване на"
+msgstr "Vstavite"
 
 #: tsettingai.menuitemshowkey.caption
 msgid "Pokaż klucz"
-msgstr "Показване на ключа"
+msgstr "Prikaži ključ"
 
 #: tsettingai.speedbutsave.caption
 msgctxt "tsettingai.speedbutsave.caption"
 msgid "Zapisz"
-msgstr "Запазете"
+msgstr "Shrani"
 
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
@@ -532,7 +533,7 @@ msgstr "Annouce"
 
 #: twsparcie.caption
 msgid "Wsparcie"
-msgstr "Подкрепа"
+msgstr "Podpora"
 
 #: twsparcie.speedbutton1.caption
 msgctxt "twsparcie.speedbutton1.caption"
@@ -541,25 +542,24 @@ msgstr "OK"
 
 #: twsparcie.speedbutton2.caption
 msgid "Wesprzyj projekt"
-msgstr "Подкрепа за проекта"
+msgstr "Podpora projektu"
 
 #: unit1.countchars
 msgid " Znaków"
-msgstr " Знаци"
+msgstr "Znaki "
 
 #: unit1.countline
 msgid " Linii Kodu"
-msgstr "Редове код"
+msgstr "Vrstice kode "
 
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
-msgstr "Въведете името на програмата:"
+msgstr "Vnesite ime programa:"
 
 #: unit1.newprogramfile
 msgid "Nowy plik"
-msgstr "Нов файл"
+msgstr "Nova datoteka"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "Отворен проект:"
-
+msgstr "Odprti projekt: "
