@@ -1,0 +1,12 @@
+program pobierakatalogbierzacy
+pisz_linie('Aktualna sciezka do folderu')
+pisz_linie(pobierz_katalog_bieżący)
+pisz_linie('.......................')
+
+//albo angielskie nazwy
+print_line('Aktualna sciezka do folderu')
+print_line(get_current_dir)
+
+
+
+

@@ -13,33 +13,31 @@ msgstr ""
 
 #: avocadotranslator.errorprint
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
-msgstr ""
+msgstr "Nieprawidłowa składnia funkcji insert. Oczekiwano: wstawa(źródło, cel, indeks)"
 
 #: avocadotranslator.functioninsert
 msgid "The insert function requires three arguments: source, target, index."
-msgstr ""
+msgstr "Funkcja wstaw wymaga trzech argumentów: źródło, cel, indeks."
 
 #: avocadotranslator.functiontrim
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
-msgstr ""
+msgstr "Nieprawidłowa składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 
 #: avocadotranslator.functiontrimleft
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
-msgstr ""
+msgstr "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 
 #: avocadotranslator.functiontrimright
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
-msgstr ""
+msgstr "Nieprawidłowa składnia funkcji trim_right. Oczekiwano: przytnij_z_prawa(s) "
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
-msgstr "Nieprawidłowa deklaracja zmiennej: "
+msgstr "Nieprawidłowa deklaracja zmiennej:  "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "Nieznany typ zmiennej plikowej: "
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
@@ -65,10 +63,8 @@ msgid "Pomocnik AI"
 msgstr "Pomocnik AI"
 
 #: tformmain.caption
-#, fuzzy
-#| msgid "IDE Avocado v 1.0.0.9"
 msgid "IDE Avocado v 1.0.1.0"
-msgstr "IDE Avocado v 1.0.0.9"
+msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
@@ -110,10 +106,9 @@ msgid "Autor"
 msgstr "Autor"
 
 #: tformmain.menuchinski.caption
-#, fuzzy
 msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr "中國人"
+msgstr ""
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
@@ -124,10 +119,9 @@ msgid "Przykłady"
 msgstr "Przykłady"
 
 #: tformmain.menuhindi.caption
-#, fuzzy
 msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr "हिंदी"
+msgstr ""
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
@@ -138,10 +132,9 @@ msgid "Informacja o IDE"
 msgstr "Informacja o IDE"
 
 #: tformmain.menuirosyjski.caption
-#, fuzzy
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr "Русский"
+msgstr ""
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -157,27 +150,27 @@ msgstr "Plik"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr "Español"
+msgstr ""
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr "Français"
+msgstr ""
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr "Deutsch"
+msgstr ""
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr "Italiano"
+msgstr ""
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr "Português"
+msgstr ""
 
 #: tformmain.menuitem16.caption
 msgid "Українська"
@@ -224,11 +217,11 @@ msgstr "Sprawdź kod [AI]"
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "Język"
+msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr "Polski"
+msgstr ""
 
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
@@ -577,5 +570,4 @@ msgstr "Nowy plik"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr ""
-
+msgstr "Otwarty projekt: "

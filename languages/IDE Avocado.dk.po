@@ -12,44 +12,32 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#, fuzzy
-#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "Forkert syntaks for insert-funktionen. Forventet: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-#, fuzzy
-#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
 msgstr "Indsæt-funktionen kræver tre argumenter: kilde, mål, indeks"
 
 #: avocadotranslator.functiontrim
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Forkert syntaks i trim-funktionen. Forventet: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
-msgstr "Forkert syntaks for funktionen trim_with_left. Forventet: trim_from_left(s)"
+msgstr "Forkert syntaks for funktionen trim_left. Forventet: trim_left(s)"
 
 #: avocadotranslator.functiontrimright
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
-msgstr "Forkert syntaks for funktionen trim_with_right. Forventet: trim_from_right(s)"
+msgstr "Forkert syntaks for funktionen trim_right. Forventet: trim_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
-msgstr "Ugyldig variabeldeklaration:"
+msgstr "Ugyldig variabeldeklaration: "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "Ukendt filvariabeltype:"
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
@@ -76,7 +64,7 @@ msgstr "AI-hjælper"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
-msgstr "IDE Avocado v 1.0.1.0"
+msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
@@ -204,7 +192,7 @@ msgstr "Hjælp"
 
 #: tformmain.menuitem3clearcode.caption
 msgid "Usuń "
-msgstr "Slet"
+msgstr "Slet "
 
 #: tformmain.menuitem4.caption
 msgid "Ustawienia pomocnika AI"
@@ -222,7 +210,7 @@ msgstr "Kopier alle"
 
 #: tformmain.menuitem7.caption
 msgid "Sprawdź kod [AI]"
-msgstr "Tjek kode [AI]."
+msgstr "Tjek kode [AI]"
 
 #: tformmain.menuitem8.caption
 msgid "Język"
@@ -272,7 +260,7 @@ msgstr "Dansk"
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "Slet kode"
+msgstr "Slet kode "
 
 #: tformmain.menuitemdeletecode.caption
 msgid "Usuń kod"
@@ -561,11 +549,11 @@ msgstr "Støt op om projektet"
 
 #: unit1.countchars
 msgid " Znaków"
-msgstr "Skilte"
+msgstr "Skilte "
 
 #: unit1.countline
 msgid " Linii Kodu"
-msgstr "Kodelinjer"
+msgstr " Kodelinjer"
 
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
@@ -577,5 +565,4 @@ msgstr "Ny fil"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "Åbent projekt:"
-
+msgstr "Åbent projekt: "

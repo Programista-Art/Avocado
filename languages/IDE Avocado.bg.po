@@ -12,44 +12,32 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#, fuzzy
-#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "Неправилен синтаксис на функцията за вмъкване. Очаквано: insert(източник, цел, индекс)"
 
 #: avocadotranslator.functioninsert
-#, fuzzy
-#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
 msgstr "Функцията за вмъкване изисква три аргумента: източник, цел, индекс."
 
 #: avocadotranslator.functiontrim
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Неправилен синтаксис на функцията trim. Очаквано: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
-msgstr "Неправилен синтаксис на функцията trim_with_left. Очаквано: trim_from_left(s)"
+msgstr "Неправилен синтаксис на функцията trim_left. Очаквано: trim_left(s)"
 
 #: avocadotranslator.functiontrimright
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
-msgstr "Неправилен синтаксис на функцията trim_with_right. Очаквано: trim_from_right(s)"
+msgstr "Неправилен синтаксис на функцията trim_right. Очаквано: trim_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
 msgstr "Неправилно деклариране на променлива: "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "Неизвестен тип файлова променлива:"
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
@@ -76,7 +64,7 @@ msgstr "Помощник на AI"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
-msgstr "IDE Avocado v 1.0.1.0"
+msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
@@ -357,7 +345,7 @@ msgstr ""
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
-msgstr "Нов"
+msgstr "Ново"
 
 #: tformmain.menuopcjeprojektu.caption
 msgid "Opcje projektu"
@@ -577,5 +565,4 @@ msgstr "Нов файл"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "Отворен проект:"
-
+msgstr "Отворен проект: "

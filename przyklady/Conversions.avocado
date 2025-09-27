@@ -1,0 +1,9 @@
+program konwersje
+liczba_zm a = 5.5
+tekst b = zmiennoprzecinkowa_na_tekst(a)
+pisz_linie(b)
+//lub
+real c = 5.5
+string d = zmiennoprzecinkowa_na_tekst(c)
+print_line(d)
+

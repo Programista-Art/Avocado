@@ -12,38 +12,31 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#, fuzzy
 #| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
-msgstr "Incorrect syntax for the insert function. Expected: insert(source, target, index)"
+msgstr "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-#, fuzzy
 #| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
-msgstr "The insert function requires three arguments: source, target, index"
+msgstr "The insert function requires three arguments: source, target, index."
 
 #: avocadotranslator.functiontrim
-#, fuzzy
 #| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
-msgstr "Invalid syntax for the trim function. Expected: trim(s)"
+msgstr "Incorrect syntax of the trim function. Expected: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#, fuzzy
 #| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
-msgstr "Incorrect syntax for the trim_left function. Expected: trim_left(s)"
+msgstr "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 
 #: avocadotranslator.functiontrimright
-#, fuzzy
 #| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
-msgstr "Incorrect syntax for the trim_right function. Expected: trim_right(s)"
+msgstr "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
 msgstr "Invalid variable declaration: "
 
@@ -75,10 +68,8 @@ msgid "Pomocnik AI"
 msgstr "AI assistant"
 
 #: tformmain.caption
-#, fuzzy
-#| msgid "IDE Avocado v 1.0.0.9"
 msgid "IDE Avocado v 1.0.1.0"
-msgstr "IDE Avocado v 1.0.0.9"
+msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
@@ -112,7 +103,7 @@ msgstr "0"
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
 msgid "O programie"
-msgstr "About the programme"
+msgstr "About program"
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
@@ -164,7 +155,7 @@ msgstr "File"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformmain.menuitem11.caption
 msgid "Español"
@@ -235,7 +226,7 @@ msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr "Polski"
+msgstr ""
 
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
@@ -396,7 +387,7 @@ msgstr "New File"
 #: tformmain.panel1.caption
 msgctxt "tformmain.panel1.caption"
 msgid "Panel1"
-msgstr "Panel1"
+msgstr ""
 
 #: tformmain.panel4.caption
 msgid "Panel4"
@@ -584,5 +575,4 @@ msgstr "New file"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "Open project: "
-
+msgstr "Open project:  "

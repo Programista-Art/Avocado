@@ -12,44 +12,32 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#, fuzzy
-#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "Fehlerhafte Syntax der Funktion insert. Erwartet wurde: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-#, fuzzy
-#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
 msgstr "Die Funktion insert benötigt drei Argumente: source, target, index"
 
 #: avocadotranslator.functiontrim
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Fehlerhafte Syntax der Funktion trim. Erwartet wurde: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 msgstr "Falsche Syntax der Funktion trim_left. Erwartet wurde: trim_left(s)"
 
 #: avocadotranslator.functiontrimright
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "Falsche Syntax der Funktion trim_right. Erwartet wurde: trim_right.(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
 msgstr "Ungültige Variablendeklaration: "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "Unbekannter Dateivariablentyp:"
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
@@ -229,11 +217,11 @@ msgstr "Code überprüfen [AI]"
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "Sprache"
+msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr "Polski"
+msgstr ""
 
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
@@ -402,7 +390,7 @@ msgstr "Panel4"
 
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
-msgstr "PanelLewy"
+msgstr ""
 
 #: tformmain.paneltranspilacja.button.caption
 msgid "Transpilacja do Free Pascal"
@@ -437,7 +425,7 @@ msgstr "Kompilieren"
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
-msgstr "Transpiluj"
+msgstr "Transpile"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
@@ -582,5 +570,4 @@ msgstr "Neue Datei"
 
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
-msgstr "Offenes Projekt: "
-
+msgstr "Offenes Projekt:  "

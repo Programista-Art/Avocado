@@ -24,7 +24,7 @@ Polish, English, German, French, Italian, Spanish, Portuguese, Russian, Chinese,
 ### [Official website](https://avocado.dimitalart.pl/) 
 ### [Download Avocado IDE](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
 ![Avocado v 1.0.1.0](image/Avocado-1.0.1.0_eng1.jpg)
-### Avocado ustawienia
+### Avocado random number generation program
 ![Avocado ustawienia v 1.0.1.0](image/Avocado-1.0.1.0_eng2.jpg)
 ### Avocado available languages 
 ![Avocado ustawienia v 1.0.1.0](image/Avocado-1.0.1.0_eng3.jpg)

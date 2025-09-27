@@ -12,48 +12,36 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#, fuzzy
-#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "بناء جملة غير صحيح لوظيفة الإدراج. المتوقع: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-#, fuzzy
-#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
 msgstr "تتطلب وظيفة الإدراج ثلاثة معاملات: المصدر والهدف والفهرس."
 
 #: avocadotranslator.functiontrim
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "بناء جملة غير صحيح لوظيفة trim. المتوقع: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 msgstr "بناء جملة غير صحيح للدالة trim_from_left. المتوقع: trim_from_left(s)"
 
 #: avocadotranslator.functiontrimright
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "بناء جملة غير صحيح لوظيفة trim_from_right. المتوقع: trim_from_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
 msgstr "إعلان متغير غير صحيح: "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "نوع متغير الملف غير معروف:"
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
-msgstr "معلومات عن IDE Avocado"
+msgstr ""
 
 #: tfinformacjaide.speedbutton1.caption
 msgctxt "tfinformacjaide.speedbutton1.caption"
@@ -118,10 +106,9 @@ msgid "Autor"
 msgstr "المؤلف"
 
 #: tformmain.menuchinski.caption
-#, fuzzy
 msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr "中國人"
+msgstr ""
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
@@ -132,10 +119,9 @@ msgid "Przykłady"
 msgstr "أمثلة"
 
 #: tformmain.menuhindi.caption
-#, fuzzy
 msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr "हिंदी"
+msgstr ""
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
@@ -146,10 +132,9 @@ msgid "Informacja o IDE"
 msgstr "معلومات عن IDE"
 
 #: tformmain.menuirosyjski.caption
-#, fuzzy
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr "Русский"
+msgstr ""
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -232,11 +217,11 @@ msgstr "تحقق من الرمز [AI]"
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "اللغة"
+msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr "Polski"
+msgstr ""
 
 #: tformmain.menuitemcopy.caption
 msgctxt "tformmain.menuitemcopy.caption"
@@ -388,7 +373,7 @@ msgstr "الإعدادات"
 
 #: tformmain.nowyplik.caption
 msgid "NowyPLik"
-msgstr "ملف جديد"
+msgstr ""
 
 #: tformmain.nowyplik.hint
 msgid "Nowy Plik"
@@ -456,7 +441,6 @@ msgid "Ok"
 msgstr "Okحسناً"
 
 #: tformoprogramie.caption
-#, fuzzy
 msgctxt "tformoprogramie.caption"
 msgid "O programie"
 msgstr "حول البرنامج"
@@ -496,7 +480,7 @@ msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
 msgid "Platforma"
-msgstr "Platforma"
+msgstr "منصة"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "LInk do fpc.exe"
@@ -587,4 +571,3 @@ msgstr "ملف جديد"
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
 msgstr "مشروع مفتوح: "
-

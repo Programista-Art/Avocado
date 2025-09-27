@@ -12,63 +12,48 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#, fuzzy
-#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "Nesprávná syntaxe funkce insert. Očekávané: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-#, fuzzy
-#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
 msgstr "Funkce insert vyžaduje tři argumenty: zdroj, cíl, index."
 
 #: avocadotranslator.functiontrim
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Nesprávná syntaxe funkce trim. Očekávané: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
-msgstr "Nesprávná syntaxe funkce trim_with_left. Očekávané: trim_from_left(s)"
+msgstr "Nesprávná syntaxe funkce trim_left. Očekávané: trim_left(s)"
 
 #: avocadotranslator.functiontrimright
-#, fuzzy
-#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
-msgstr "Nesprávná syntaxe funkce trim_with_right. Očekávané: trim_from_right(s)"
+msgstr "Nesprávná syntaxe funkce trim_right. Očekávané: trim_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-#, fuzzy
-#| msgid "Nieprawidłowa deklaracja zmiennej:"
 msgid "Incorrect variable declaration: "
 msgstr "Nesprávná deklarace proměnné:"
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "Neznámý typ proměnné souboru:"
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr "Informace o avokádu IDE"
 
 #: tfinformacjaide.speedbutton1.caption
-#, fuzzy
 msgctxt "tfinformacjaide.speedbutton1.caption"
 msgid "OK"
 msgstr "OK"
 
 #: tformautor.caption
-#, fuzzy
 msgctxt "tformautor.caption"
 msgid "Autor"
 msgstr "Autor"
 
 #: tformautor.speedbutton1.caption
-#, fuzzy
 msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
@@ -79,7 +64,7 @@ msgstr "Pomocník AI"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
-msgstr "IDE Avocado v 1.0.1.0"
+msgstr ""
 
 #: tformmain.editaskpromt.texthint
 msgid "Wpisz zapytanie"
@@ -90,7 +75,6 @@ msgid "日本語"
 msgstr ""
 
 #: tformmain.kompiluj.caption
-#, fuzzy
 msgctxt "tformmain.kompiluj.caption"
 msgid "Kompiluj"
 msgstr "Kompilace"
@@ -112,22 +96,19 @@ msgid "0"
 msgstr "0"
 
 #: tformmain.menuaboutprogram.caption
-#, fuzzy
 msgctxt "tformmain.menuaboutprogram.caption"
 msgid "O programie"
 msgstr "O programu"
 
 #: tformmain.menuautor.caption
-#, fuzzy
 msgctxt "tformmain.menuautor.caption"
 msgid "Autor"
 msgstr "Autor"
 
 #: tformmain.menuchinski.caption
-#, fuzzy
 msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr "中國人"
+msgstr ""
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
@@ -138,10 +119,9 @@ msgid "Przykłady"
 msgstr "Příklady"
 
 #: tformmain.menuhindi.caption
-#, fuzzy
 msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr "हिंदी"
+msgstr ""
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
@@ -152,10 +132,9 @@ msgid "Informacja o IDE"
 msgstr "Informace o IDE"
 
 #: tformmain.menuirosyjski.caption
-#, fuzzy
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr "Русский"
+msgstr ""
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -194,11 +173,9 @@ msgid "Português"
 msgstr "Português"
 
 #: tformmain.menuitem16.caption
-#, fuzzy
-#| msgid "Русский"
 msgctxt "tformmain.menuitem16.caption"
 msgid "Українська"
-msgstr "Русский"
+msgstr ""
 
 #: tformmain.menuitem17.caption
 msgid "Български"
@@ -209,7 +186,6 @@ msgid "Nederlands"
 msgstr ""
 
 #: tformmain.menuitem2.caption
-#, fuzzy
 msgctxt "tformmain.menuitem2.caption"
 msgid "Ustawienia"
 msgstr "Nastavení"
@@ -220,68 +196,60 @@ msgstr "Nápověda"
 
 #: tformmain.menuitem3clearcode.caption
 msgid "Usuń "
-msgstr ""
+msgstr "Vymazat"
 
 #: tformmain.menuitem4.caption
 msgid "Ustawienia pomocnika AI"
 msgstr "Nastavení pomocníka AI"
 
 #: tformmain.menuitem5.caption
-#, fuzzy
 msgctxt "tformmain.menuitem5.caption"
 msgid "Kopiuj"
 msgstr "Kopírovat"
 
 #: tformmain.menuitem6.caption
-#, fuzzy
 msgctxt "tformmain.menuitem6.caption"
 msgid "Kopiuj wszystko"
 msgstr "Kopírovat vše"
 
 #: tformmain.menuitem7.caption
 msgid "Sprawdź kod [AI]"
-msgstr "Kontrolní kód [AI]."
+msgstr "Zkontrolujte kód [AI]"
 
 #: tformmain.menuitem8.caption
 msgid "Język"
-msgstr "Jazyk"
+msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr "Polski"
+msgstr ""
 
 #: tformmain.menuitemcopy.caption
-#, fuzzy
 msgctxt "tformmain.menuitemcopy.caption"
 msgid "Kopiuj"
 msgstr "Kopírovat"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
-#, fuzzy
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
 msgstr "Kopírovat vše"
 
 #: tformmain.menuitemcopycode.caption
-#, fuzzy
 msgctxt "tformmain.menuitemcopycode.caption"
 msgid "Kopiuj"
 msgstr "Kopírovat"
 
 #: tformmain.menuitemcopypascalcode.caption
-#, fuzzy
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
 msgstr "Kopírovat"
 
 #: tformmain.menuitemcut.caption
-#, fuzzy
 msgctxt "tformmain.menuitemcut.caption"
 msgid "Wytnij"
 msgstr "Vystřihněte"
 
 #: tformmain.menuitemcutcode.caption
-#, fuzzy
 msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
 msgstr "Vystřihněte"
@@ -299,13 +267,11 @@ msgid "Usuń kod "
 msgstr ""
 
 #: tformmain.menuitemdeletecode.caption
-#, fuzzy
 msgctxt "tformmain.menuitemdeletecode.caption"
 msgid "Usuń kod"
 msgstr "Odstranit kód"
 
 #: tformmain.menuitemdeletememologs.caption
-#, fuzzy
 msgctxt "tformmain.menuitemdeletememologs.caption"
 msgid "Usuń"
 msgstr "Odstranit"
@@ -339,25 +305,21 @@ msgid "Slovenský"
 msgstr ""
 
 #: tformmain.menuitemoutputcodeclear.caption
-#, fuzzy
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
 msgstr "Odstranit"
 
 #: tformmain.menuitempaste.caption
-#, fuzzy
 msgctxt "tformmain.menuitempaste.caption"
 msgid "Wklej"
 msgstr "Vložit"
 
 #: tformmain.menuitempastecode.caption
-#, fuzzy
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
 msgstr "Vložit"
 
 #: tformmain.menuitemsavefile.caption
-#, fuzzy
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
 msgstr "Uložit"
@@ -407,7 +369,6 @@ msgid "Zapisz jak"
 msgstr "Napište si, jak"
 
 #: tformmain.menuustawinia.caption
-#, fuzzy
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Ustawienia"
 msgstr "Nastavení"
@@ -421,10 +382,9 @@ msgid "Nowy Plik"
 msgstr "Nový soubor"
 
 #: tformmain.panel1.caption
-#, fuzzy
 msgctxt "tformmain.panel1.caption"
 msgid "Panel1"
-msgstr "Panel1"
+msgstr ""
 
 #: tformmain.panel4.caption
 msgid "Panel4"
@@ -439,8 +399,6 @@ msgid "Transpilacja do Free Pascal"
 msgstr "Transpilace do jazyka Free Pascal"
 
 #: tformmain.sbzapytaj.caption
-#, fuzzy
-#| msgid ">"
 msgid " >"
 msgstr ">"
 
@@ -453,26 +411,23 @@ msgid "ToolButton1"
 msgstr "ToolButton1"
 
 #: tformmain.toolbutton1.hint
-#, fuzzy
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
-msgstr "Transpiluj"
+msgstr "Transpile"
 
 #: tformmain.toolbutton2.caption
 msgid "Kompiluj i zapisz"
 msgstr "Zkompilovat a uložit"
 
 #: tformmain.toolbutton2.hint
-#, fuzzy
 msgctxt "tformmain.toolbutton2.hint"
 msgid "Kompiluj"
 msgstr "Kompilace"
 
 #: tformmain.transpiluj.caption
-#, fuzzy
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
-msgstr "Transpiluj"
+msgstr "Transpile"
 
 #: tformmain.zapiszplik.caption
 msgid "ZapiszPlik"
@@ -483,25 +438,21 @@ msgid "Opcje Projektu"
 msgstr "Možnosti projektu"
 
 #: tformopcjeprojektu.sbok.caption
-#, fuzzy
 msgctxt "tformopcjeprojektu.sbok.caption"
 msgid "Ok"
 msgstr "Ok"
 
 #: tformoprogramie.caption
-#, fuzzy
 msgctxt "tformoprogramie.caption"
 msgid "O programie"
 msgstr "O programu"
 
 #: tformoprogramie.panel1.caption
-#, fuzzy
 msgctxt "tformoprogramie.panel1.caption"
 msgid "Panel1"
-msgstr "Panel1"
+msgstr ""
 
 #: tformoprogramie.speedbutton1.caption
-#, fuzzy
 msgctxt "tformoprogramie.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
@@ -511,7 +462,6 @@ msgid "Przyklady aplikacji"
 msgstr "Příklady aplikací"
 
 #: tformprzyklady.speedbutton1.caption
-#, fuzzy
 msgctxt "tformprzyklady.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
@@ -564,7 +514,6 @@ msgid "Kopiuj"
 msgstr "Kopírovat"
 
 #: tsettingai.menuitemdelete.caption
-#, fuzzy
 msgctxt "tsettingai.menuitemdelete.caption"
 msgid "Usuń"
 msgstr "Odstranit"
@@ -582,7 +531,6 @@ msgid "Pokaż klucz"
 msgstr "Zobrazit klíč"
 
 #: tsettingai.speedbutsave.caption
-#, fuzzy
 msgctxt "tsettingai.speedbutsave.caption"
 msgid "Zapisz"
 msgstr "Uložit"
@@ -596,7 +544,6 @@ msgid "Wsparcie"
 msgstr "Podpora"
 
 #: twsparcie.speedbutton1.caption
-#, fuzzy
 msgctxt "twsparcie.speedbutton1.caption"
 msgid "OK"
 msgstr "OK"
@@ -606,16 +553,12 @@ msgid "Wesprzyj projekt"
 msgstr "Podpora projektu"
 
 #: unit1.countchars
-#, fuzzy
-#| msgid "Znaków"
 msgid " Znaków"
-msgstr "Značky"
+msgstr "Značky "
 
 #: unit1.countline
-#, fuzzy
-#| msgid "Linii Kodu"
 msgid " Linii Kodu"
-msgstr "Řádky kódu"
+msgstr "Řádky kódu "
 
 #: unit1.newnamezprogram
 msgid "Podaj nazwę programu:"
@@ -626,8 +569,5 @@ msgid "Nowy plik"
 msgstr "Nový soubor"
 
 #: unit1.openprojecttranslate
-#, fuzzy
-#| msgid "Otwarty projekt:"
 msgid "Otwarty projekt: "
-msgstr "Otevřený projekt:"
-
+msgstr "Otevřený projekt: "
