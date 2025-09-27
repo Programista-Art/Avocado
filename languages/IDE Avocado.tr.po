@@ -12,28 +12,44 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "insert fonksiyonunun sözdizimi hatalı. Beklenen: insert(kaynak, hedef, dizin)"
 
 #: avocadotranslator.functioninsert
-msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+#, fuzzy
+#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgid "The insert function requires three arguments: source, target, index."
 msgstr "Ekleme işlevi üç bağımsız değişken gerektirir: kaynak, hedef, dizin"
 
 #: avocadotranslator.functiontrim
-msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Trim fonksiyonunun sözdizimi hatalı. Beklenen: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 msgstr "trim_with_left işlevinin sözdizimi hatalı. Beklenen: trim_from_left(s)"
 
 #: avocadotranslator.functiontrimright
-msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "trim_with_right işlevinin sözdizimi hatalı. Beklenen: trim_from_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-msgid "Nieprawidłowa deklaracja zmiennej: "
+#, fuzzy
+#| msgid "Nieprawidłowa deklaracja zmiennej: "
+msgid "Incorrect variable declaration: "
 msgstr "Bir değişkenin yanlış bildirilmesi: "
+
+#: avocadotranslator.translateunknownfiletype
+msgid "Unknown file variable type: "
+msgstr ""
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
@@ -392,7 +408,6 @@ msgid "Transpilacja do Free Pascal"
 msgstr "Serbest Pascal'a aktarım"
 
 #: tformmain.sbzapytaj.caption
-#| msgid ">"
 msgid " >"
 msgstr " >"
 
@@ -565,3 +580,4 @@ msgstr "Yeni dosya"
 #: unit1.openprojecttranslate
 msgid "Otwarty projekt: "
 msgstr "Açık proje: "
+

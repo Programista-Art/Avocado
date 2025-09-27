@@ -8,11 +8,18 @@ uses
   Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,IniFiles,DefaultTranslator,LCLTranslator;
 
 type
+  TReplaceRule = record
+    FromText: string;
+    ToText: string;
+    Flags: TReplaceFlags;
+    IsPrefix: Boolean;
+  end;
+type
   TStringArray = array of string;
   TAvocadoVariable = record
   Name, VarType: string;
   VarName: string;
-  NoAssign: Boolean; // nowa flaga
+  NoAssign: Boolean;
   end;
 
   { TAvocadoTranslator }
@@ -26,7 +33,7 @@ type
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
     //dotyczy petli while
     procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
-   // procedure AddVariable(const Name, VarType: string);
+    // procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
     procedure ProcessLine(const Line: string; PascalCode: TStringList);
@@ -49,16 +56,202 @@ type
     function ResolveAlias(const AName: string): string;
     procedure ProcessFileDeclaration(const Line: string);
   end;
+
+const
+  //Conversions / Konwersje
+  REPLACE_RULES: array of TReplaceRule = (
+    //Polish aliases
+    (FromText: ' i '; ToText: ' and '; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: ' lub '; ToText: ' or '; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'prawda'; ToText: 'True'; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'falsz'; ToText: 'False'; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_w_liczbe_cal('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_zmiennoprzecinkową('; ToText: 'StrToFloat('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_na_tekst('; ToText: 'IntToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'zmiennoprzecinkowa_na_tekst('; ToText: 'FloatToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rzeczywista('; ToText: 'Real('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'obetnij('; ToText: 'Trunc('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'logiczny_na_tekst('; ToText: 'BoolToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'bajt_na_logiczny('; ToText: 'ByteBool(Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_liczbę_lub_domyślną('; ToText: 'StrToIntDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'zaokrąglij('; ToText: 'Round('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'na_całkowitą_16('; ToText: 'Word('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_całkowita_32('; ToText: 'LongInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczebnik('; ToText: 'Cardinal('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'zmiennoprzecinkowa_na_tekst_formatowany('; ToText: 'FloatToStrF('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'podwójna_precyzja('; ToText: 'Double('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'Liczba_rozszerzonaWPojedynczą('; ToText: 'Extended('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'Liczba_pojedyncza_na_zm('; ToText: 'Single('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+    (FromText: ' and '; ToText: ' and '; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: ' or '; ToText: ' or '; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'true'; ToText: 'True'; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'false'; ToText: 'False'; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_int('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_float('; ToText: 'StrToFloat('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'int_str('; ToText: 'IntToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'float_str('; ToText: 'FloatToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'real('; ToText: 'Real('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'trunc('; ToText: 'Trunc('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'bool_str('; ToText: 'BoolToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'byte_bool(Ord('; ToText: 'ByteBool(Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_int_def('; ToText: 'StrToIntDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'round('; ToText: 'Round('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'word('; ToText: 'Word('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'long_int('; ToText: 'LongInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'cardinal('; ToText: 'Cardinal('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'float_strf('; ToText: 'FloatToStrF('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'double('; ToText: 'Double('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'extended('; ToText: 'Extended('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'single('; ToText: 'Single('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // character and string conversions / konwersje znaków i string
+    //Polish aliases
+    (FromText: 'liczba_na_znak('; ToText: 'Chr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'znak_na_liczbę('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'znak_na_tekst('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_znak('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+    (FromText: 'chr('; ToText: 'Chr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'ord('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'char('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'string('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // logical conversions / konwersje logiczne
+    //Polish aliases
+    (FromText: 'tekst_na_logiczny('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_logiczny_dom('; ToText: 'StrToBoolDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'logiczny_z_liczby('; ToText: 'Boolean('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_całkowita_z_logicznego('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_całkowita_z_wyliczenia('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'pobierz_nazwę_tekstu('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'pobierz_wartość_wyliczenia('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+    (FromText: 'str_bool('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_bool_def('; ToText: 'StrToBoolDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'bool('; ToText: 'Boolean('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'Int('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'get_enum_name('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'get_enum_value('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // date and time / data i czas
+    //Polish aliases
+    (FromText: 'data_na_tekst('; ToText: 'DateToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'czas_na_tekst('; ToText: 'TimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'data_czas_na_tekst('; ToText: 'DateTimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'formatuj_data_czas_na_tekst('; ToText: 'FormatDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_czas('; ToText: 'StrToTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę_czas('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę_dom('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_czas_dom('; ToText: 'StrToTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę_czas_dom('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'utwórz_datę('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'utwórz_czas('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rozłóż_datę('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rozłóż_czas('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+    (FromText: 'date_str('; ToText: 'DateToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'time_str('; ToText: 'TimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'date_time_str('; ToText: 'DateTimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'format_date_time('; ToText: 'FormatDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_date('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_to_time('; ToText: 'StrToTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_date_time('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_date_def('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_time_def('; ToText: 'StrToTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_datetime_def('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'encode_date('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'encode_time('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'decode_date('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'decode_time('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // indicators
+    //Polish aliases
+    (FromText: 'adres_zmiennej('; ToText: 'Ptr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'adres_zmiennej_z_wskażnika('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: '@('; ToText: '@('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'klawisz_wciśnięty'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // English aliases
+    (FromText: 'ptr('; ToText: 'Ptr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'int_ptr('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: '@('; ToText: '@('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'key_pressed'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // colors
+    //Polish aliases
+    (FromText: 'czarny'; ToText: 'Black'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'biały'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'niebieski'; ToText: 'Blue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'zielony'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'czerwony'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'żółty'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'cyjan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'magenta'; ToText: 'Magenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'brązowy'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'jasnoszary'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'ciemnoszary'; ToText: 'DarkGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'jasnoniebieski'; ToText: 'LightBlue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'jasnozielony'; ToText: 'LightGreen'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'jasnoczerwony'; ToText: 'LightRed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'jasnoróżowy'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'migotanie'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // English aliases
+    (FromText: 'black'; ToText: 'Black'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'white'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'blue'; ToText: 'Blue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'green'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'red'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'yellow'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    //(FromText: 'cyjan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    //(FromText: 'magenta'; ToText: 'Magenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'brown'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'light_gray'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'dark_gray'; ToText: 'DarkGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'light_blue'; ToText: 'LightBlue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'light_green'; ToText: 'LightGreen'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'light_red'; ToText: 'LightRed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'light_magenta'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'blink'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // funkcje string
+    //Polish aliases
+    (FromText: 'kopiuj'; ToText: 'Copy'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'wstaw'; ToText: 'Insert'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'szukaj'; ToText: 'Pos'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // English aliases
+    (FromText: 'copy'; ToText: 'Copy'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'insert'; ToText: 'Insert'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'pos'; ToText: 'Pos'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // nil i free
+    //Polish aliases
+    (FromText: 'nic'; ToText: 'nil'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '.tekst'; ToText: '.Text'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'zwolnij'; ToText: 'free'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // English aliases
+    (FromText: 'nil'; ToText: 'nil'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '.text'; ToText: '.Text'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'free'; ToText: 'free'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // prefix aliases / aliasy prefiksowe
+    //Polish aliases
+    (FromText: 'czy_istnieje_plik'; ToText: 'FileExists'; Flags: []; IsPrefix: True),
+    (FromText: 'czy_istnieje_katalog'; ToText: 'DirectoryExists'; Flags: []; IsPrefix: True),
+    (FromText: 'pobierz_zmienną_środowiskową'; ToText: 'GetEnvironmentVariable'; Flags: []; IsPrefix: True),
+    (FromText: 'ustaw_zmienną_środowiskową'; ToText: 'SetEnvironmentVariable'; Flags: []; IsPrefix: True),
+    (FromText: 'pobierz_katalog_bieżący'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // English aliases
+    (FromText: 'file_exists'; ToText: 'FileExists'; Flags: []; IsPrefix: True),
+    (FromText: 'directory_exists'; ToText: 'DirectoryExists'; Flags: []; IsPrefix: True),
+    (FromText: 'get_env'; ToText: 'GetEnvironmentVariable'; Flags: []; IsPrefix: True),
+    (FromText: 'set_env('; ToText: 'SetEnvironmentVariable('; Flags: []; IsPrefix: True),
+    (FromText: 'get_current_dir'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False)
+
+    );
 var
 Moduly: String;
 
 resourcestring
-  InvalidVariableDeclaration = 'Nieprawidłowa deklaracja zmiennej: ';
-  ErrorPrint = 'Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)';
-  FunctionInsert = 'Funkcja wstaw wymaga trzech argumentów: source, target, index';
-  FunctionTrim = 'Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)';
-  FunctionTrimRight = 'Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)';
-  FunctionTrimLeft = 'Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)';
+  InvalidVariableDeclaration = 'Incorrect variable declaration: ';
+  ErrorPrint = 'Incorrect syntax of the insert function. Expected: insert(source, target, index)';
+  FunctionInsert = 'The insert function requires three arguments: source, target, index.';
+  FunctionTrim = 'Incorrect syntax of the trim function. Expected: trim(s)';
+  FunctionTrimRight = 'Incorrect syntax of the trim_right function. Expected: trim_right(s)';
+  FunctionTrimLeft = 'Incorrect syntax of the function trim_from_left. Expected: trim_left(s)';
+  TranslateUnknownFileType = 'Unknown file variable type: ';
 implementation
 uses
   unit1;
@@ -69,15 +262,16 @@ procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssig
 var
   j: Integer;
 begin
+    //Check whether the variable already exists
     // Sprawdź, czy zmienna już istnieje
     for j := 0 to High(FVariables) do
       if FVariables[j].VarName = VarName then Exit;
 
-    // Dodaj nowy element
+    // Add a new item
     SetLength(FVariables, Length(FVariables) + 1);
     FVariables[High(FVariables)].VarName := VarName;
     FVariables[High(FVariables)].VarType := VarType;
-
+    // Add the NoAssign flag to the variable structure
     // Dodaj flagę NoAssign do struktury zmiennej
     FVariables[High(FVariables)].NoAssign := NoAssign;
 end;
@@ -186,8 +380,9 @@ var
 begin
   TrimmedLine := Trim(Line);
     if TrimmedLine = '' then Exit;
-
+    //We skip the control instructions.
     // Pomijamy instrukcje sterujące
+
     if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
     if LowerCase(TrimmedLine).StartsWith('if') then Exit;
     if LowerCase(TrimmedLine).StartsWith('then') then Exit;
@@ -196,7 +391,8 @@ begin
     if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
     if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
 
-    // --- Obsługa deklaracji BEZ wartości ---
+    //Handling declarations WITHOUT value
+    // Obsługa deklaracji BEZ wartości
     if Pos(':', Line) = 0 then
     begin
       VarParts := TrimmedLine.Split([' '], 2);
@@ -208,19 +404,21 @@ begin
       if (VarType = 'plik') or (VarType = 'plik_tekstowy') or
          (VarType = 'file') or (VarType = 'text_file') then
       begin
-        AddVariable(VarName, VarType, True); // sama deklaracja
+        // the declaration itself
+        AddVariable(VarName, VarType, True);
         Exit;
       end;
 
-      raise Exception.Create('Nieznany typ zmiennej plikowej: ' + VarType);
+      raise Exception.Create(TranslateUnknownFileType + VarType);
     end;
 
-    // --- Obsługa deklaracji Z wartością (po ':') ---
+    // Handling declarations with a value (after “:”)
+    // Obsługa deklaracji Z wartością (po ':')
     Parts := Line.Split([':'], 2);
     if Length(Parts) < 2 then Exit;
 
-    VarDecl := Trim(Parts[0]);   // np. "plik f"
-    VarValue := Trim(Parts[1]);  // np. "nil" albo ścieżka do pliku
+    VarDecl := Trim(Parts[0]);   // example. "plik f"
+    VarValue := Trim(Parts[1]);  // example. "nil" albo ścieżka do pliku
 
     VarParts := VarDecl.Split([' '], 2);
     if Length(VarParts) < 2 then
@@ -233,16 +431,17 @@ begin
        (VarType = 'file') or (VarType = 'text_file') then
     begin
       if (LowerCase(VarValue) = 'nil') or (LowerCase(VarValue) = 'nic') then
-        AddVariable(VarName, VarType, True)  // deklaracja bez inicjalizacji
+        AddVariable(VarName, VarType, True)  // declaration without initialisation / deklaracja bez inicjalizacji
       else
-        AddVariable(VarName, VarType, False); // deklaracja z przypisaniem
+        AddVariable(VarName, VarType, False); // declaration with attribution / deklaracja z przypisaniem
       Exit;
     end;
 
-    raise Exception.Create('Nieznany typ zmiennej plikowej: ' + VarType);
+    raise Exception.Create(TranslateUnknownFileType + VarType);
 end;
 
-// Prosta funkcja do sprawdzania, czy łańcuch jest literałem string
+//function to check whether a string is a string literal
+// funkcja do sprawdzania, czy łańcuch jest literałem string
 function IsQuotedString(const S: string): Boolean;
 begin
   Result := (Length(S) >= 2) and
@@ -250,125 +449,31 @@ begin
              (S[1] = '"') and (S[Length(S)] = '"'));
 end;
 
-//Konwersje
+//Conversions / Konwersje
 function TAvocadoTranslator.TranslateExpression(const Expr: string): string;
+var
+i: Integer;
+R: TReplaceRule;
+P: Integer;
 begin
   Result := Expr;
-  Result := StringReplace(Result, ' i ', ' and ', [rfReplaceAll]);
-  Result := StringReplace(Result, ' lub ', ' or ', [rfReplaceAll]);
-  Result := StringReplace(Result, 'prawda', 'True', [rfReplaceAll]);
-  Result := StringReplace(Result, 'falsz', 'False', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_w_liczbe_cal(', 'StrToInt(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_zmiennoprzecinkową(', 'StrToFloat(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'liczba_na_tekst(', 'IntToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'zmiennoprzecinkowa_na_tekst(', 'FloatToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'rzeczywista(', 'Real(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'obetnij(', 'Trunc(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'logiczny_na_tekst(', 'BoolToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'bajt_na_logiczny(', 'ByteBool(Ord(', [rfReplaceAll]);
-  //Result := StringReplace(Result, 'Liczba_mała(', 'Shortint(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_liczbę_lub_domyślną(', 'StrToIntDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'zaokrąglij(', 'Round(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'na_całkowitą_16(', 'Word(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'liczba_całkowita_32(','LongInt(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'liczebnik(','Cardinal(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'zmiennoprzecinkowa_na_tekst_formatowany(','FloatToStrF(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'podwójna_precyzja(','Double(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Liczba_rozszerzonaWPojedynczą(','Extended(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Liczba_pojedyncza_na_zm(','Single(', [rfReplaceAll]);
-  //Konwersje między typami znakowymi i stringami:
-  Result := StringReplace(Result, 'liczba_na_znak(','Chr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'znak_na_liczbę(','Ord(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'znak_na_tekst(','Char(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_znak(','String(', [rfReplaceAll]);
-  // Konwersje między typami logicznymi:
-  Result := StringReplace(Result, 'logiczny_na_tekst(','BoolToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_logiczny(','StrToBool(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_logiczny_dom(','StrToBoolDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'logiczny_z_liczby(','Boolean(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'liczba_całkowita_z_logicznego(','Integer(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'liczba_całkowita_z_wyliczenia(','Ord(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'pobierz_nazwę_tekstu(','GetEnumName(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'pobierz_wartość_wyliczenia(','GetEnumValue(', [rfReplaceAll]);
-  //Konwersje związane z datą i czasem:
-  Result := StringReplace(Result, 'data_na_tekst(','DateToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'czas_na_tekst(','TimeToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'data_czas_na_tekst(','DateTimeToStr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'formatuj_data_czas_na_tekst(','FormatDateTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_datę(','StrToDate(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_czas(','StrToTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_datę_czas(','StrToDateTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_datę_dom(','StrToDateDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_czas_dom(','StrToTimeDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'tekst_na_datę_czas_dom(','StrToDateTimeDef(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'utwórz_datę(','EncodeDate(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'utwórz_czas(','EncodeTime(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'rozłóż_datę(','DecodeDate(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'rozłóż_czas(','DecodeTime(', [rfReplaceAll]);
-  //Konwersje wskaźników:
-  Result := StringReplace(Result, 'adres_zmiennej(','Ptr(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'adres_zmiennej_z_wskażnika(','Integer(', [rfReplaceAll]);
-  Result := StringReplace(Result, '@(','@(', [rfReplaceAll]);
-  Result := StringReplace(Result, 'klawisz_wciśnięty', 'KeyPressed', [rfReplaceAll, rfIgnoreCase]);
-  //kolory
-  Result := StringReplace(Result, 'czarny', 'Black', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'biały', 'White', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'niebieski', 'Blue', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'zielony', 'Green', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'czerwony', 'Red', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'Żółty', 'Yellow', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'cyjan', 'Cyan', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'magenta', 'Magenta', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'brązowy', 'Brown', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'jasnoszary', 'LightGray', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'ciemnoszary', 'DarkGray', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'ciemnoszary', 'DarkGray', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'jasnoniebieski', 'LightBlue', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'jasnozielony', 'LightGreen', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'jasnoniebieski', 'LightCyan', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'jasnoczerwony', 'LightRed', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'jasnoróżowy', 'LightMagenta', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'migotanie', 'Blink', [rfReplaceAll, rfIgnoreCase]);
-  //funkcje string
-  Result := StringReplace(Result, 'kopiuj', 'Copy', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'wstaw', 'Insert', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'szukaj', 'Pos', [rfReplaceAll, rfIgnoreCase]);
-  //nil, free
-  Result := StringReplace(Result, 'nic', 'nil', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, '.tekst', '.Text', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'zwolnij', 'free', [rfReplaceAll, rfIgnoreCase]);
-
-  // aliasy dla sprawdzania istnienia pliku
-  if AnsiStartsText('czy_istnieje_plik(', Trim(Result)) then
-    Result := 'FileExists' + Copy(Result, Pos('(', Result), MaxInt)
-  else if AnsiStartsText('file_exists(', Trim(Result)) then
-    Result := 'FileExists' + Copy(Result, Pos('(', Result), MaxInt);
-
-  //aliasy dla sprawdzania istnienia folderu
-  if AnsiStartsText('czy_istnieje_katalog(', Trim(Result)) then
-    Result := 'DirectoryExists' + Copy(Result, Pos('(', Result), MaxInt)
-  else if AnsiStartsText('directory_exists(', Trim(Result)) then
-    Result := 'DirectoryExists' + Copy(Result, Pos('(', Result), MaxInt);
-
-  //aliasy pobierz_zmienną_środowiskową
-  if AnsiStartsText('pobierz_zmienną_środowiskową(', Trim(Result)) then
-    Result := 'GetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt)
-  else if AnsiStartsText('get_env(', Trim(Result)) then
-    Result := 'GetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt);
-
-  //aliasy ustaw_zmienną_środowiskową
-  if AnsiStartsText('ustaw_zmienną_środowiskową(', Trim(Result)) then
-    Result := 'SetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt)
-  else if AnsiStartsText('set_env(', Trim(Result)) then
-    Result := 'SetEnvironmentVariable' + Copy(Result, Pos('(', Result), MaxInt);
-
-  //Foldery
-  Result := StringReplace(Result, 'pobierz_katalog_bieżący', 'GetCurrentDir', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'get_current_dir', 'GetCurrentDir', [rfReplaceAll, rfIgnoreCase]);
-  //Result := StringReplace(Result, 'czy_istnieje_katalog', 'DirectoryExists', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'pobierz_zmienną_środowiskową', 'GetEnvironmentVariable', [rfReplaceAll, rfIgnoreCase]);
-  Result := StringReplace(Result, 'get_environment_variable', 'GetEnvironmentVariable', [rfReplaceAll, rfIgnoreCase]);
-
+  for i := Low(REPLACE_RULES) to High(REPLACE_RULES) do
+  begin
+    R := REPLACE_RULES[i];
+    if R.IsPrefix then
+    begin
+      if AnsiStartsText(R.FromText, Trim(Result)) then
+      begin
+        P := Pos('(', Result);
+        if P > 0 then
+          Result := R.ToText + Copy(Result, P, MaxInt);
+      end;
+    end
+    else
+    begin
+      Result := StringReplace(Result, R.FromText, R.ToText, R.Flags);
+    end;
+  end;
 end;
 
 
@@ -383,13 +488,15 @@ begin
   TrimmedLine := Trim(Line);
   if TrimmedLine = '' then Exit;
 
+  //We skip lines beginning with control statements.
   // Pomijamy linie zaczynające się od instrukcji sterujących
   if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
   if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
   if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
   if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
 
-  // --- Przekazanie do obsługi plików ---
+  //Transfer to file handling
+  // Przekazanie do obsługi plików
   if LowerCase(TrimmedLine).StartsWith('plik') or
      LowerCase(TrimmedLine).StartsWith('plik_tekstowy') or
      LowerCase(TrimmedLine).StartsWith('file') or
@@ -399,16 +506,15 @@ begin
     Exit;
   end;
 
-  // --- Tu reszta Twojej starej obsługi typów (tekst, liczba_całkowita itd.) ---
-  // np. Split po '=' i AddVariable(...)
-  // --- Obsługa deklaracji Z wartością (=) ---
-  if Pos('=', Line) = 0 then Exit; // brak przypisania → nie przetwarzamy tu
+  //Declaration handling With value (=)
+  // Obsługa deklaracji Z wartością (=)
+  if Pos('=', Line) = 0 then Exit;
 
   Parts := Line.Split(['='], 2);
   if Length(Parts) < 2 then Exit;
 
-  VarDecl := Trim(Parts[0]);   // np. "tekst s"
-  VarValue := Trim(Parts[1]);  // np. "'siema'" albo "42"
+  VarDecl := Trim(Parts[0]);
+  VarValue := Trim(Parts[1]);
 
   VarParts := VarDecl.Split([' '], 2);
   if Length(VarParts) < 2 then
@@ -417,7 +523,8 @@ begin
   VarType := LowerCase(Trim(VarParts[0]));
   VarName := Trim(VarParts[1]);
 
-  // --- Obsługa zwykłych typów ---
+  // Support for common types
+  // Obsługa zwykłych typów
   if (VarType = 'tekst') or
      (VarType = 'liczba_całkowita') or
      (VarType = 'lc') or
@@ -496,149 +603,15 @@ begin
      (VarType = 'search_record')
   then
   begin
-    AddVariable(VarName, VarType, False); // deklaracja z przypisaniem
+    // declaration with attribution  / deklaracja z przypisaniem
+    AddVariable(VarName, VarType, False);
     Exit;
   end;
 
   raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
 end;
 
-
-//Deklaracja nowych typów zmienncyh
-{procedure TAvocadoTranslator.ProcessDeclaration(const Line: string);
-var
-    Parts: TStringArray;
-    VarDecl, VarValue: string;
-    VarParts: TStringArray;
-    VarType, VarName: string;
-    TrimmedLine: string;
-begin
-   TrimmedLine := Trim(Line);
-   if TrimmedLine = '' then Exit;
-
-  // Pomijamy linie zaczynające się od "jeśli"
-  if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
-  if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
-  if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
-  if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
-
-  // Pomijamy linie, które nie zawierają '='
-  if Pos('=', Line) = 0 then Exit;
-
-  // Rozdzielamy linię na deklarację i wartość
-  Parts := Line.Split(['='], 2);
-  if Length(Parts) < 2 then Exit;
-
-  VarDecl := Trim(Parts[0]);   // np. "tekst s" lub "plik f"
-  VarValue := Trim(Parts[1]);  // np. "'siema'" lub "nil"
-
-  // Rozdzielamy typ i nazwę zmiennej
-  VarParts := VarDecl.Split([' '], 2);
-  if Length(VarParts) < 2 then
-    raise Exception.Create(InvalidVariableDeclaration + Line);
-
-  VarType := LowerCase(Trim(VarParts[0]));
-  VarName := Trim(VarParts[1]);
-
-  // Obsługa plików
-  if (VarType = 'plik') or (VarType = 'plik_tekstowy') then
-  begin
-    if (LowerCase(VarValue) = 'nil') or (LowerCase(VarValue) = 'nic') then
-      AddVariable(VarName, VarType, True)  // tylko deklaracja
-    else
-      AddVariable(VarName, VarType, False); // z przypisaniem później
-    Exit;
-  end;
-
-  // Obsługa zwykłych typów
-  if (VarType = 'tekst') or
-     (VarType = 'liczba_całkowita') or
-     (VarType = 'lc') or
-     (VarType = 'liczba_zm')or
-     (VarType = 'lzm') or
-     (VarType = 'logiczny')or
-     (VarType = 'znak')or
-     (VarType = 'liczba_krótka') or
-     (VarType = 'liczba_mała') or
-     (VarType = 'liczba_długa') or
-     (VarType = 'liczba64') or
-     (VarType = 'bajt') or
-     (VarType = 'liczba16') or
-     (VarType = 'liczba32') or
-     (VarType = 'tablicaliczb') or
-     (VarType = 'liczba_pojedyncza') or
-     (VarType = 'liczba_podwójna') or
-     (VarType = 'liczba_rozszerzona') or
-     (VarType = 'liczba_zgodna_delphi') or
-     (VarType = 'liczba_waluta') or
-     (VarType = 'logiczny_bajt') or
-     (VarType = 'logiczne_słowo') or
-     (VarType = 'logiczny_długi') or
-     (VarType = 'znak_unicode') or
-     (VarType = 'tekst255') or
-     (VarType = 'tekst_ansi') or
-     (VarType = 'tekst_unicode') or
-     (VarType = 'tekst_systemowy') or
-     (VarType = 'tablica_stała') or
-     (VarType = 'tablica_dynamiczna') or
-     (VarType = 'rekord') or
-     (VarType = 'kolekcja') or
-     (VarType = 'plik_binarny') or
-     (VarType = 'plik_struktur') or
-     (VarType = 'wskaźnik') or
-     (VarType = 'wskaźnik_na') or
-     (VarType = 'wariant') or
-     (VarType = 'wariant_ole') or
-     (VarType = 'tablicatekstów') or
-     (VarType = 'lista_tekstów') or
-     (VarType = 'stała') or
-     (VarType = 'TekstLD') or
-      //angielskie nazwy
-     (VarType = 'int') or
-     (VarType = 'int8') or //shortint
-     (VarType = 'int16') or //SmallInt
-     (VarType = 'int32') or //LongInt
-     (VarType = 'int64') or //Int64
-     (VarType = 'ubyte') or //Single
-     (VarType = 'ubyte') or //Single
-     (VarType = 'real') or //Real
-     (VarType = 'byte') or //Byte
-     (VarType = 'uint16') or //Word
-     (VarType = 'uint32') or //LongWord
-     (VarType = 'float') or //Double
-     (VarType = 'float80') or //Extended
-     (VarType = 'decimal') or //Currency
-     (VarType = 'bool') or //Boolean
-     (VarType = 'char') or //Char
-     (VarType = 'char32') or //WideChar
-     (VarType = 'string255') or //ShortString
-     (VarType = 'string') or //String
-     (VarType = 'ansi_string') or //AnsiString
-     (VarType = 'unicode_string') or //UnicodeString
-     (VarType = 'dynamic_array') or //UnicodeString
-     (VarType = 'set') or //Set of type
-     (VarType = 'file') or //File
-     (VarType = 'text_file') or //TextFile
-     (VarType = 'binary_file') or //BinaryFile
-     (VarType = 'file_struct') or //Typed File
-     (VarType = 'pointer') or //pointer
-     (VarType = 'pointer_to') or //^type
-     (VarType = 'binary_file') or //BinaryFile
-     (VarType = 'any') or //Variant
-     (VarType = 'ole_variant')  //OleVariant
-
-
-
-     then
-  begin
-    AddVariable(VarName, VarType, False); // standardowe zmienne z inicjalizacją
-    Exit;
-  end;
-    raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
-end;
-}
-
-
+// Advanced argument parsing feature that takes quotation marks into account
 // Zaawansowana funkcja do parsowania argumentów, która uwzględnia cudzysłowy
 function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
 var
@@ -673,7 +646,7 @@ begin
       StartPos := I + 1;
     end;
   end;
-
+  // Add the last argument
   // Dodaj ostatni argument
   if StartPos <= Length(ASource) then
     AStrings.Add(Copy(ASource, StartPos, Length(ASource) - StartPos + 1));
@@ -771,16 +744,6 @@ begin
     Body := Trim(Copy(LoopContent, EndBrace + 1, MaxInt));
 
     PascalCode.Add('while ' + TranslateExpression(Condition) + ' do begin');
-
-    //// Rozbijamy ciało na pojedyncze instrukcje (np. po spacji lub średniku)
-    //Statements := Body.Split([';']);
-    //for stmt in Statements do
-    //begin
-    //  stmt := Trim(stmt);
-    //  if stmt = '' then Continue;
-    //  ProcessLine(stmt, PascalCode); // przetwórz każdą instrukcję normalnie
-    //end;
-
     PascalCode.Add('end;');
 end;
 
@@ -871,7 +834,7 @@ begin
             ModulesList := ModulesList + ', ' + Line;
         end;
       end;
-
+    // Add “Crt” if keywords are detected in the code
     // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
     if (Pos('czytaj_klawisz', LowerCase(Code)) > 0) or
      (Pos('tło_tekstu', LowerCase(Code)) > 0) or

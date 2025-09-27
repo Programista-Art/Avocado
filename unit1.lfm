@@ -1558,8 +1558,8 @@ object FormMain: TFormMain
     Top = 40
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
-    Left = 608
-    Top = 256
+    Left = 336
+    Top = 120
     object MenuItemOutputCodeClear: TMenuItem
       Caption = 'Usuń'
       OnClick = MenuItemOutputCodeClearClick

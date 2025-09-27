@@ -12,28 +12,44 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
+msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "Λανθασμένη σύνταξη της συνάρτησης insert. Αναμενόταν: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+#, fuzzy
+#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
+msgid "The insert function requires three arguments: source, target, index."
 msgstr "Η συνάρτηση εισαγωγής απαιτεί τρία ορίσματα: πηγή, στόχος, δείκτης"
 
 #: avocadotranslator.functiontrim
-msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
+msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Εσφαλμένη σύνταξη της συνάρτησης trim. Αναμενόταν: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
+msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 msgstr "Εσφαλμένη σύνταξη της συνάρτησης trim_with_left. Αναμενόμενη: trim_from_left(s)"
 
 #: avocadotranslator.functiontrimright
-msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+#, fuzzy
+#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
+msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "Εσφαλμένη σύνταξη της συνάρτησης trim_with_right. Αναμενόμενη: trim_from_right(s)"
 
 #: avocadotranslator.invalidvariabledeclaration
-msgid "Nieprawidłowa deklaracja zmiennej: "
+#, fuzzy
+#| msgid "Nieprawidłowa deklaracja zmiennej: "
+msgid "Incorrect variable declaration: "
 msgstr "Εσφαλμένη δήλωση μιας μεταβλητής: "
+
+#: avocadotranslator.translateunknownfiletype
+msgid "Unknown file variable type: "
+msgstr ""
 
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
