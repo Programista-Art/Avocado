@@ -62,6 +62,16 @@ msgstr "Ok"
 msgid "Pomocnik AI"
 msgstr "Pomocnik AI"
 
+#: tformmain.butcompilecode.caption
+msgctxt "tformmain.butcompilecode.caption"
+msgid "Kompiluj i zapisz"
+msgstr "Kompiluj i zapisz"
+
+#: tformmain.butcompilecode.hint
+msgctxt "tformmain.butcompilecode.hint"
+msgid "Kompiluj"
+msgstr "Kompiluj"
+
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
 msgstr ""
@@ -413,15 +423,6 @@ msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
 msgstr "Transpiluj"
 
-#: tformmain.toolbutton2.caption
-msgid "Kompiluj i zapisz"
-msgstr "Kompiluj i zapisz"
-
-#: tformmain.toolbutton2.hint
-msgctxt "tformmain.toolbutton2.hint"
-msgid "Kompiluj"
-msgstr "Kompiluj"
-
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
 msgid "Transpiluj"
@@ -552,22 +553,240 @@ msgstr "Wesprzyj projekt"
 
 #: unit1.countchars
 msgctxt "unit1.countchars"
-msgid " Znaków"
-msgstr ""
+msgid " Signs"
+msgstr "Znaków"
 
 #: unit1.countline
 msgctxt "unit1.countline"
-msgid " Linii Kodu"
-msgstr ""
+msgid " Lines of Code"
+msgstr " Liczba linii kodu"
 
 #: unit1.newnamezprogram
-msgid "Podaj nazwę programu:"
-msgstr "Podaj nazwę programu:"
+msgid "Enter the name of the program:"
+msgstr "Wpisz nazwę programu:"
 
 #: unit1.newprogramfile
-msgid "Nowy plik"
+msgid "New file"
 msgstr "Nowy plik"
 
 #: unit1.openprojecttranslate
-msgid "Otwarty projekt: "
+msgid "Open project: "
 msgstr "Otwarty projekt: "
+
+#: unit1.translateaddcustommodulespath
+msgid " - Added custom IDE modules path: "
+msgstr " - Dodano ścieżkę własnych modułów IDE: "
+
+#: unit1.translateaddusermodulespath
+msgid " - Added user modules path: "
+msgstr " - Dodano ścieżkę modułów użytkownika: "
+
+#: unit1.translateaihelperapikeyadded
+msgid "AI Helper API Key Added"
+msgstr "Klucz Api Pomocnika AI dodany"
+
+#: unit1.translateaihelpermodel
+msgid "AI Helper Model: "
+msgstr "Model Pomocnika AI: "
+
+#: unit1.translateanswer
+msgid "Answer!"
+msgstr "Odpowiedź!"
+
+#: unit1.translateattention
+msgid "Attention!"
+msgstr "Uwaga!"
+
+#: unit1.translatechackexamplesfolderexists
+msgid "Check that the \"examples\" folder exists and contains the appropriate files."
+msgstr "Sprawdź czy folder \"przyklady\" istnieje i zawiera odpowiednie pliki."
+
+#: unit1.translatecheckapitokeninternetcon
+msgid "Check API token and internet connection"
+msgstr "Sprawdź token API i połączenie internetowe"
+
+#: unit1.translatecheckmodulesdir
+msgid "Checking the IDE s own modules directory: "
+msgstr "Sprawdzanie katalogu własnych modułów IDE:"
+
+#: unit1.translatecomilationsuccessoutputfile
+msgctxt "unit1.translatecomilationsuccessoutputfile"
+msgid "Compilation successful! Output file: "
+msgstr "Kompilacja udana! Plik wyjściowy: "
+
+#: unit1.translatecompilationsuccses
+msgctxt "unit1.translatecompilationsuccses"
+msgid "Compilation successful! Output file: "
+msgstr "Kompilacja udana! Plik wyjściowy: "
+
+#: unit1.translatecompilersettloaded
+msgid "Compiler settings loaded."
+msgstr "Ustawienia kompilatora wczytane."
+
+#: unit1.translatecompilingdebugmode
+msgid "Compiling in Debug mode..."
+msgstr "Kompilacja w trybie Debug..."
+
+#: unit1.translatecompilingreleasemode
+msgid "Compiling in Release mode."
+msgstr "Kompilacja w trybie Release."
+
+#: unit1.translateconferrfpcbasepath
+msgid "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
+msgstr "BŁĄD KONFIGURACJI: Skonfigurowana ścieżka bazowa FPC (FpcBasePath) nie istnieje: "
+
+#: unit1.translateconferrmodulepath
+msgid "CONFIGURATION ERROR: no module path set "
+msgstr "BŁĄD KONFIGURACJI: brak ustawionej ścieżki do modułów "
+
+#: unit1.translateconferrtargetplatform
+msgid "CONFIGURATION ERROR: Target platform not set in "
+msgstr "BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w "
+
+#: unit1.translatecustmodulesdirnotfound
+msgid "Info: IDE custom modules directory not found: "
+msgstr "Informacja: Nie znaleziono katalogu własnych modułów IDE: "
+
+#: unit1.translateeditorfontsizeloaded
+msgid "Editor font size loaded: "
+msgstr "Rozmiar czcionki edytora wczytany: "
+
+#: unit1.translateeditorfontsizenoloaded
+msgid "Editor font size not loaded: "
+msgstr "Rozmiar czcionki edytora nie wczytany: "
+
+#: unit1.translateenterquestion
+msgid "Please enter your question!"
+msgstr " Proszę wpisać pytanie!"
+
+#: unit1.translateerrcompilation
+msgid "Compilation error: "
+msgstr "Błąd wykonania kompilacji: "
+
+#: unit1.translateerrcompilationcode
+msgid "Compilation error. Code: "
+msgstr "Błąd kompilacji. Kod: "
+
+#: unit1.translateerremptyresponsereceived
+msgid "Error: Empty response received"
+msgstr "Błąd: Otrzymano pustą odpowiedź"
+
+#: unit1.translateerrfpcbasepathnotconfigure
+msgid "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!"
+msgstr "BŁĄD KRYTYCZNY: Ścieżka bazowa FPC (FpcBasePath) nie jest poprawnie skonfigurowana lub nie istnieje!"
+
+#: unit1.translateerroccurred
+msgid "An error occurred: "
+msgstr "Wystąpił błąd: "
+
+#: unit1.translateerrpacalcodecompile
+msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
+msgstr "Błąd: Brak kodu Pascala do kompilacji (parametr PascalCode jest pusty)."
+
+#: unit1.translateerrpathtofpc
+msgid "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
+msgstr "BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC (FpcPath) nie jest poprawnie skonfigurowana!"
+
+#: unit1.translateerrrequiredfpcstandardunitdirfound
+msgid "ERROR: Required FPC standard unit directory not found: "
+msgstr "BŁĄD: Nie znaleziono wymaganego katalogu standardowych jednostek FPC: "
+
+#: unit1.translateerrusermodulespath
+msgid "WARNING: Configured user modules path (FModulsPath: "
+msgstr "OSTRZEŻENIE: Skonfigurowana ścieżka do modułów użytkownika (FModulsPath: "
+
+#: unit1.translatefailstartprogram
+msgid "Failed to start program: "
+msgstr "Nie udało się uruchomić programu: "
+
+#: unit1.translatefiledoesnotexist
+msgid "File does not exist: "
+msgstr "Plik nie istnieje: "
+
+#: unit1.translatefilenotsaved
+msgid "File not saved. Compilation canceled."
+msgstr "Nie zapisano pliku. Kompilacja anulowana."
+
+#: unit1.translatefilenotsavedbuildcancel
+msgid "Project not saved. Build canceled."
+msgstr "Projekt nie został zapisany. Kompilacja anulowana."
+
+#: unit1.translatefpccompilernotexist
+msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
+msgstr "BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC nie istnieje lub nie jest ustawiona w  "
+
+#: unit1.translatefpcconfigureerrpathtofpc
+msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
+msgstr "BŁĄD KONFIGURACJI: Ścieżka bazowa do foldera kompilatora FPC nie jest ustawiona w "
+
+#: unit1.translateidemodulespathskipduplicate
+msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
+msgstr " - Informacja: Ścieżka modułów IDE jest taka sama jak modułów użytkownika, pomijanie duplikatu."
+
+#: unit1.translateitemselected
+msgid "Empty item selected."
+msgstr "Wybrano pusty element."
+
+#: unit1.translatelinktofpc
+msgid "Link to fpc.exe compiler: "
+msgstr "Link do kompilatora fpc.exe: "
+
+#: unit1.translatelinktofpcfolder
+msgid "Link to compiler folder: "
+msgstr "Link do folderu kompilatora: "
+
+#: unit1.translateloadingsettings
+msgid "Loading settings "
+msgstr "Wczytywanie ustawień "
+
+#: unit1.translatemistake
+msgid "Mistake"
+msgstr "Błąd"
+
+#: unit1.translatemodules
+msgid "Modules: "
+msgstr "Moduły: "
+
+#: unit1.translatenoitemselected
+msgid "No item selected."
+msgstr "Nie wybrano żadnego elementu."
+
+#: unit1.translatenotexist
+msgid " ) does not exist! "
+msgstr " ) nie istnieje! "
+
+#: unit1.translatenotokenaiassistant
+msgid "No token from AI Assistant"
+msgstr "Brak tokena od AI Asystenta"
+
+#: unit1.translateplatform
+msgid "Platform: "
+msgstr "Platforma: "
+
+#: unit1.translatesaveproject
+msgid "Project not saved. Save project before compiling?"
+msgstr "Projekt nie został zapisany. Zapisz projekt przed kompilacją?"
+
+#: unit1.translatestandardfpcunits
+msgid " .Standard FPC units will not be found!"
+msgstr " . Standardowe jednostki FPC nie zostaną znalezione!"
+
+#: unit1.translatestartcomilation
+msgid "Starting compilation..."
+msgstr "Rozpoczynanie kompilacji..."
+
+#: unit1.translatestartcomilationparam
+msgid "Starting compilation with parameters: "
+msgstr "Rozpoczynanie kompilacji z parametrami: "
+
+#: unit1.translatesyneditcodenotcreated
+msgid "NOTE: SynEditCode not created!"
+msgstr "UWAGA: SynEditCode nie został utworzony!"
+
+#: unit1.translatetranslationerror
+msgid "Translation Error: "
+msgstr "Błąd tłumaczenia:"
+
+#: unit1.translateunableunitdirectory
+msgid " .Unable to determine unit directory!"
+msgstr " . Nie można określić katalogu jednostek!"

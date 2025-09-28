@@ -128,7 +128,7 @@ type
     SynPopupMenuCode: TSynPopupMenu;
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
+    butCompileCode: TToolButton;
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure itemJaponskiClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
@@ -198,7 +198,7 @@ type
     procedure MenuUstawiniaClick(Sender: TObject);
     procedure KompilujExecute(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
-    procedure ToolButton2Click(Sender: TObject);
+    procedure butCompileCodeClick(Sender: TObject);
     procedure ZapiszPlikExecute(Sender: TObject);
   private
     FTranslator: TAvocadoTranslator;
@@ -208,7 +208,7 @@ type
     procedure SaveCodeToFile;
     procedure IsClickMainMenuLanguage(number: Integer);
 
-    //Kompilacja kodu release debug
+    //Delete Kompilacja kodu release debug
     procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
     //Dotyczy nazwy programu
     procedure ExtractProgramFromSynEdit;
@@ -224,7 +224,7 @@ type
     procedure LoadAvocadoFileToEditor(const FileName: string);
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
-    //Kompilacja kodu
+    //Code compilation / Kompilacja kodu
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
    // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
    //ChatGPT
@@ -242,10 +242,10 @@ type
     FHandle: THandle;
     FOwner: TFormMain;
     FPascalCode: string;
-    FSuccess: Boolean;  // ← TO DODAJ
+    FSuccess: Boolean;
   protected
     procedure Execute; override;
-    procedure AfterCompile; // wywołanie w GUI
+    procedure AfterCompile;
     procedure ShowSuccess;
     procedure ShowError;
   public
@@ -305,11 +305,67 @@ var
   CharsTranslatet: string;
 
 resourcestring
-   NewProgramFile = 'Nowy plik';
-   NewNamezprogram = 'Podaj nazwę programu:';
-   CountLine = ' Linii Kodu';
-   CountChars = ' Znaków';
-   OpenProjectTranslate = 'Otwarty projekt: ';
+   NewProgramFile = 'New file';
+   NewNamezprogram = 'Enter the name of the program:';
+   CountLine = ' Lines of Code';
+   CountChars = ' Signs';
+   OpenProjectTranslate = 'Open project: ';
+   TranslateAttention = 'Attention!';
+   TranslateSaveProject = 'Project not saved. Save project before compiling?';
+   TranslateMistake = 'Mistake';
+   TranslateFilenotSaved = 'File not saved. Compilation canceled.';
+   TranslateFilenotSavedBuildCancel = 'Project not saved. Build canceled.';
+   TranslateSynEditCodeNotCreated = 'NOTE: SynEditCode not created!';
+   TranslateEnterQuestion = 'Please enter your question!';
+   TranslateTranslationError = 'Translation Error: ';
+   TranslateLoadingSettings = 'Loading settings ';
+   TranslateFPCCompilerNotExist = 'FATAL ERROR: The path to the FPC compiler does not exist or is not set in ';
+   TranslateFpcConfigureErrPathToFpc = 'CONFIGURATION ERROR: Base path to FPC compiler folder is not set in ';
+   TranslateStandardFPCunits = ' .Standard FPC units will not be found!';
+   TranslateConfErrFpcBasePath = 'CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: ';
+   TranslateConfErrTargetPlatform = 'CONFIGURATION ERROR: Target platform not set in ';
+   TranslateUnableUnitDirectory = ' .Unable to determine unit directory!';
+   TranslateConfErrModulePath = 'CONFIGURATION ERROR: no module path set ';
+   TranslateCompilerSettLoaded = 'Compiler settings loaded.';
+   TranslateLinkToFpc = 'Link to fpc.exe compiler: ';
+   TranslateLinkToFpcFolder = 'Link to compiler folder: ';
+   TranslatePlatform = 'Platform: ';
+   TranslateModules = 'Modules: ';
+   TranslateErrPathToFpc = 'FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!';
+   TranslateErrFpcBasePathnotConfigure = 'FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!';
+   TranslateErrUserModulesPath = 'WARNING: Configured user modules path (FModulsPath: ';
+   TranslateNotExist = ' ) does not exist! ';
+   TranslateErrPacalCodeCompile = 'Error: No Pascal code to compile (PascalCode parameter is empty). ';
+   TranslateErrRequiredFPCstandardUnitDirfound = 'ERROR: Required FPC standard unit directory not found: ';
+   TranslateAddUserModulesPath = ' - Added user modules path: ';
+   TranslateCheckModulesDir = 'Checking the IDE s own modules directory: ';
+   TranslateAddCustomModulesPath = ' - Added custom IDE modules path: ';
+   TranslateIDeModulesPathSkipDuplicate = ' - Info: IDE modules path is same as user modules, skipping duplicate.';
+   TranslateCustModulesDirNotFound = 'Info: IDE custom modules directory not found: ';
+   TranslateStartComilationParam = 'Starting compilation with parameters: ';
+   TranslateCompilationSuccses = 'Compilation successful! Output file: ';
+   TranslateErrCompilationCode = 'Compilation error. Code: ';
+   TranslateErrCompilation = 'Compilation error: ';
+   TranslateCompilingReleaseMode = 'Compiling in Release mode.';
+   TranslateCompilingDebugMode = 'Compiling in Debug mode...';
+   TranslateStartComilation = 'Starting compilation...';
+   TranslateComilationSuccessOutputFile = 'Compilation successful! Output file: ';
+   TranslateAnswer = 'Answer!';
+   TranslateErrEmptyResponseReceived = 'Error: Empty response received';
+   TranslateCheckApiTokenInternetCon = 'Check API token and internet connection';
+   TranslateNoTokenAiAssistant = 'No token from AI Assistant';
+   TranslateAiHelperApiKeyAdded = 'AI Helper API Key Added';
+   TranslateAiHelperModel = 'AI Helper Model: ';
+   TranslateEditorFontSizeNoLoaded = 'Editor font size not loaded: ';
+   TranslateEditorFontSizeLoaded = 'Editor font size loaded: ';
+   TranslateNoItemSelected = 'No item selected.';
+   TranslateItemSelected = 'Empty item selected.';
+   TranslateFileDoesNotExist = 'File does not exist: ';
+   TranslateChackExamplesFolderExists = 'Check that the "examples" folder exists and contains the appropriate files.';
+   TranslateErrOccurred = 'An error occurred: ';
+   TranslateFailStartProgram = 'Failed to start program: ';
+
+
 implementation
 
 uses
@@ -323,12 +379,13 @@ uses
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
     if not Assigned(SynEditCode) then
-    ShowMessage('UWAGA: SynEditCode nie został utworzony!');
+    ShowMessage(TranslateSynEditCodeNotCreated);
   LoadFpc;
-  //Zapisuje plik tymaczosowy tam gdzie jest zapisany projekt
+  //Saves a temporary file where the project is saved
+  //Zapisuje plik tymczasowy tam gdzie jest zapisany projekt
   FTempFile := SaveFileProject + 'temp.avocado';
   //Dodanie zanków polksich
-  SynAnySyn1.IdentifierChars := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyząćęłńóśźżĄĆĘŁŃÓŚŹŻ';
+  SynAnySyn1.IdentifierChars := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyząćęłńóśźżĄĆĘŁŃÓŚŹŻ';
   SynEditCode.Repaint;
   LoadTokenGPT;
 end;
@@ -615,19 +672,18 @@ begin
   PromptChatGPT := EditAskPromt.Text;
    if Trim(PromptChatGPT) = '' then
   begin
-    ShowMessage('Proszę wpisać pytanie!');
+    ShowMessage(TranslateEnterQuestion);
     Exit;
   end;
+  //Disable button while waiting for a response
   // Wyłącz przycisk podczas oczekiwania na odpowiedź
   sbzapytaj.Enabled := False;
-
   try
-    // Wywołanie funkcji z naszego modułu
     ZapytajChatGPT(Token, ModelGPT, PromptChatGPT, @OnChatGPTResponse);
   except
     on E: Exception do
     begin
-      ShowMessage('Błąd: ' + E.Message);
+      ShowMessage(TranslateMistake + E.Message);
       sbzapytaj.Enabled := True;
     end;
   end;
@@ -639,7 +695,6 @@ begin
 
  if Assigned(SynEditCode) then
   begin
-    //transpiluje kod
     ToolButton1Click(sender);
     NumberWordSynEdit := Length(SynEditCode.Text);
     //StatusBar.Panels.Items[0].Text := IntToStr(SynEditCode.Lines.Count) + 'LinesofCodeTranslate';
@@ -663,13 +718,9 @@ begin
   inherited Create(TheOwner);
   FTranslator := TAvocadoTranslator.Create;
   FTranslatedCode := TStringList.Create;
-  //Caption := 'Avocado IDE :: digitalart.pl';
-  //SynEditCode.Highlighter := SynPasSyn1;
   FPC_Params := TStringList.Create;
   FPC_Params.Add('-Sg');
   FPC_Params.Add('-Mobjfpc');
-
-  //FPC_Path := 'D:\Lazarus4RC2\fpc\3.2.2\bin\x86_64-win64\fpc.exe'; // Ręczna ścieżka
 end;
 
 
@@ -729,7 +780,7 @@ end;
 
 procedure TFormMain.MenuItemDokumentacjaClick(Sender: TObject);
 begin
-  FormAutor.OpenLink('https://avocado.dimitalart.pl/#dokumentacja');
+  FormAutor.OpenLink('https://avocado.doc.dimitalart.pl/');
 end;
 
 procedure TFormMain.MenuItemOutputCodeClearClick(Sender: TObject);
@@ -765,34 +816,20 @@ begin
   end
   else
     MenuSaveAsClick(Sender);
-  {
-  if OD.FileName <> '' then begin
-    SynEditCode.Lines.SaveToFile(OD.FileName);
-  end;
-   //jesli imię znane to nie trzeba wywowywowylac SaveDialog
-  //wtedy tylko SaveToFile.
-  if SD.FileName <> '' then begin
-    SynEditCode.Lines.SaveToFile(SD.FileName);
-    //ustawiam Modified w false, tak jak zmiany juz zapisane
-    SynEditCode.Modified:= false;
-  end //if
-    //lub nazwa nie znan, odwolujemy sie do Zapisz Jak...:
-  else MenuSaveAsClick(Sender);
-  }
 end;
 
 procedure TFormMain.MenuNewFileClick(Sender: TObject);
 begin
   if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
   begin
+    // We clean the code editor and the log and output windows
     // Czyścimy edytor kodu oraz okna logów i outputu
     SynEditCode.Clear;
     MemoOutPut.Clear;
     MemoLogs.Clear;
+    // We add the initial program declaration based on the entered name
     // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
     SynEditCode.Lines.Add('program ' + NameProgram);
-    // Przykładowo możemy też ustawić OpenFileProject lub inną zmienną
-    //OpenFileProject := NameProgram;
   end;
 
 end;
@@ -812,8 +849,7 @@ begin
     SynEditCode.Lines.LoadFromFile(OD.FileName);
     OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
    // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.1.0' + OpenProjectTranslate + ' ' + OpenFileProject;
-   //Timer
+   Caption := 'IDE Avocado v 1.0.1.0' + ' ' + OpenProjectTranslate + ' ' + OpenFileProject;
     IdleTimer1.Enabled := True;
     ToolButton1Click(Sender);
   end;
@@ -831,7 +867,7 @@ end;
 
 procedure TFormMain.KompilujExecute(Sender: TObject);
 begin
-  ToolButton2Click(Sender);
+  butCompileCodeClick(Sender);
 end;
 
 
@@ -848,17 +884,17 @@ begin
     //BtnCompile.Enabled := True;
   except
     on E: Exception do
-      MemoOutPut.Lines.Add('Translation Error: ' + E.Message);
+      MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
   end;
 end;
 
-procedure TFormMain.ToolButton2Click(Sender: TObject);
+procedure TFormMain.butCompileCodeClick(Sender: TObject);
 var
    sFileName: string;
    DlgResult: Integer;
    OutputFolder: string;
 begin
-
+ // Check if a file is open (OD) or saved (SD)
  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
 
   if OD.FileName <> '' then
@@ -867,31 +903,34 @@ begin
     sFileName := SD.FileName
   else
     sFileName := '';
-
+  //If the file has not been saved, we force it to save before compiling
   // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
   if sFileName = '' then
   begin
-    DlgResult := MessageDlg('Uwaga!', 'Projekt nie został zapisany. Zapisz projekt przed kompilacją?',
+    DlgResult := MessageDlg(TranslateAttention, TranslateSaveProject,
                             mtConfirmation, [mbYes, mbNo], 0);
     if DlgResult = mrYes then
     begin
-      MenuSaveAsClick(Sender); // Wywołanie "Zapisz jako..."
+      // Call "Save As"
+      MenuSaveAsClick(Sender);
       if SD.FileName <> '' then
-        sFileName := SD.FileName // Aktualizacja nazwy pliku po zapisaniu
+        sFileName := SD.FileName // Update filename after saving
       else
       begin
-        MessageDlg('Błąd', 'Nie zapisano pliku. Kompilacja anulowana.', mtError, [mbOk], 0);
-        Exit; // Jeśli użytkownik anulował zapis, kończymy procedurę
+        MessageDlg(TranslateMistake, TranslateFilenotSaved, mtError, [mbOk], 0);
+        Exit; //If the user canceled the save, we exit the procedure / Jeśli użytkownik anulował zapis, kończymy procedurę
       end;
     end
     else
     begin
-      MessageDlg('Błąd', 'Projekt nie został zapisany. Kompilacja anulowana.', mtError, [mbOk], 0);
-      Exit; // Jeśli użytkownik odmówił zapisu, kończymy procedurę
+      MessageDlg(TranslateMistake, TranslateFilenotSavedBuildCancel, mtError, [mbOk], 0);
+      Exit; //If the user refused to save, we terminate the procedure / Jeśli użytkownik odmówił zapisu, kończymy procedurę
     end;
   end;
+  // We extract the folder where the file was saved
   // Wyodrębniamy folder, w którym zapisany został plik
   OutputFolder := ExtractFilePath(sFileName);
+  // Setting the output file name based on the folder and the NameProgram variable
   // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
   ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
 
@@ -901,14 +940,6 @@ begin
   // Start kompilacji w osobnym wątku
   //TCompileThread.Create(FTranslatedCode.Text, ExeName, Handle);
   TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
-
-
-  //// Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
-  //if FileExists(ExeName) then
-  //  ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
-  //else
-  //  MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
-
 end;
 
 procedure TFormMain.ZapiszPlikExecute(Sender: TObject);
@@ -918,14 +949,23 @@ end;
 
 
 procedure TFormMain.LoadFpc;
+//var
+//pathFPC :string;
+//pathFPCFolder :string;
 begin
-  MemoLogs.Lines.Add(' Wczytywanie ustawień');
+  MemoLogs.Lines.Add(TranslateLoadingSettings);
   Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
   try
     FFpcPath := Ini.ReadString('main', 'fpc', '');
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
     FModulsPath := Ini.ReadString('main', 'Units', '\moduly');
+
+
+    //pathFPC := ExtractFilePath(Application.ExeName) + FFpcPath;
+    //pathFPCFolder := ExtractFilePath(Application.ExeName) + FFpcPath;
+
+    //MemoLogs.Lines.Add('Sprawdzam: 'pathFPC);
 
     //loads the programme language into the UI
     lang := Ini.ReadString('defaultlanguage','language','en');
@@ -1128,40 +1168,40 @@ begin
     end;
      // end
 
-   // --- Walidacja wczytanych ustawień (bez odgadywania) ---
+
     if (FFpcPath = '') or not FileExists(FFpcPath) then
     begin
-      MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC nie istnieje lub nie jest ustawiona w ' + FFpcPath);
-      // Tutaj możesz rozważyć poważniejsze działania, np. zablokowanie możliwości kompilacji
+      MemoLogs.Lines.Add(TranslateFPCCompilerNotExist + FFpcPath);
+      //blocking compilation capabilities / blokowanie możliwości kompilacji
+      butCompileCode.Enabled := False;
     end;
 
     if FFpcBasePath = '' then
     begin
-       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Ścieżka bazowa do foldera kompilatora FPC nie jest ustawiona w ' + FFpcBasePath + '. Standardowe jednostki FPC nie zostaną znalezione!');
+       MemoLogs.Lines.Add(TranslateFpcConfigureErrPathToFpc + FFpcBasePath + TranslateStandardFPCunits);
     end
     else if not DirectoryExists(FFpcBasePath) then
     begin
-       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Skonfigurowana ścieżka bazowa FPC (FpcBasePath) nie istnieje: ' + FFpcBasePath);
-       // FFpcBasePath := ''; // Można wyczyścić, aby dalsze operacje na pewno się nie udały
+       MemoLogs.Lines.Add(TranslateConfErrFpcBasePath + FFpcBasePath);
+      //blocking compilation capabilities / blokowanie możliwości kompilacji
+      butCompileCode.Enabled := False;
     end;
 
     if FTargetPlatform = '' then
     begin
-       MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w ' + FTargetPlatform + '. Nie można określić katalogu jednostek!');
+       MemoLogs.Lines.Add(TranslateConfErrTargetPlatform + FTargetPlatform + TranslateUnableUnitDirectory);
     end;
 
     //Sprawdza FModulsPath sciezke moduly
     if FModulsPath = '' then
        begin
-          MemoLogs.Lines.Add('BŁĄD KONFIGURACJI: brak ustawionej ścieżki do modułów ' + FModulsPath + '. Nie można określić katalogu jednostek!');
+          MemoLogs.Lines.Add(TranslateConfErrModulePath + FModulsPath + TranslateUnableUnitDirectory);
        end;
-
-
-    MemoLogs.Lines.Add(' Ustawienia kompilatora wczytane.');
-    MemoLogs.Lines.Add(' Link do kompilatora fpc.exe: ' + FFpcPath);
-    MemoLogs.Lines.Add(' Link do folderu kompilatora : ' + FFpcBasePath);
-    MemoLogs.Lines.Add(' Platforma: ' + FTargetPlatform);
-    MemoLogs.Lines.Add(' Moduły: ' + FModulsPath);
+    MemoLogs.Lines.Add(TranslateCompilerSettLoaded);
+    MemoLogs.Lines.Add(TranslateLinkToFpc + FFpcPath);
+    MemoLogs.Lines.Add(TranslateLinkToFpcFolder + FFpcBasePath);
+    MemoLogs.Lines.Add(TranslatePlatform + FTargetPlatform);
+    MemoLogs.Lines.Add(TranslateModules + FModulsPath);
 
   finally
     Ini.Free;
@@ -1178,7 +1218,7 @@ begin
   begin
     SynEditCode.Lines.SaveToFile(SD.FileName);
     ZapisanaNazwaPliku := ChangeFileExt(ExtractFileName(SD.FileName), '');
-    //Zspisuje sciezke
+    //Save path
     FileNamePr := SD.FileName;
     //ShowMessage(FileNamePr);
   end;
@@ -1190,10 +1230,10 @@ var
 begin
   for i := 0 to MainMenu1.Items[4].Count - 1 do
     begin
-      if i <> number then // Jeśli to nie jest aktualnie wybrany element
-        MainMenu1.Items[4].Items[i].Checked := False; // Odznacz element
+      if i <> number then
+        MainMenu1.Items[4].Items[i].Checked := False;
     end;
-    // Zaznacz wybrany element
+    // Select the selected item
     MainMenu1.Items[4].Items[number].Checked := True;
 end;
 
@@ -1202,41 +1242,42 @@ var
   AProcess: TProcess;
   TempFile: string;
   OutputLines: TStringList;
-  FpcUnitPath, SourceDir: string; // Usunięto LclUnitPath, LazarusUnitPath
+  FpcUnitPath, SourceDir: string;
   IdeDirectory, IdeModulesPath: string;
   UserModulesPath: string;
 begin
-  // --- Sprawdzenie krytycznych ustawień (bez LCL/Lazarus paths) ---
+  // --- Sprawdzenie krytycznych ustawień--
   if (FFpcPath = '') or not FileExists(FFpcPath) then
   begin
-    MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka do kompilatora FPC (FpcPath) nie jest poprawnie skonfigurowana!');
+    MemoLogs.Lines.Add(TranslateErrPathToFpc);
     Exit;
   end;
   if (FFpcBasePath = '') or not DirectoryExists(FFpcBasePath) then
   begin
-    MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Ścieżka bazowa FPC (FpcBasePath) nie jest poprawnie skonfigurowana lub nie istnieje!');
+    MemoLogs.Lines.Add(TranslateErrFpcBasePathnotConfigure);
     Exit;
   end;
   UserModulesPath := FModulsPath;
   if (UserModulesPath <> '') and not DirectoryExists(UserModulesPath) then
   begin
-     MemoLogs.Lines.Add('OSTRZEŻENIE: Skonfigurowana ścieżka do modułów użytkownika (FModulsPath: ' + UserModulesPath + ') nie istnieje!');
+     MemoLogs.Lines.Add(TranslateErrUserModulesPath + UserModulesPath + TranslateNotExist);
      UserModulesPath := '';
   end;
+  {
   if FTargetPlatform = '' then
   begin
     MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Platforma docelowa (TargetPlatform) nie jest skonfigurowana!');
     Exit;
   end;
-  // Usunięto sprawdzanie FLclBasePath i FLazarusBasePath
-
-  // Sprawdzenie kodu wejściowego
+ }
+  //Input code check / Sprawdzenie kodu wejściowego
   if Trim(PascalCode) = '' then
   begin
-      MemoLogs.Lines.Add('Błąd: Brak kodu Pascala do kompilacji (parametr PascalCode jest pusty).');
+      MemoLogs.Lines.Add(TranslateErrPacalCodeCompile);
       Exit;
   end;
 
+  //Setting the name of the temporary file
   // Ustalanie nazwy pliku tymczasowego
   if SaveFileProject <> '' then
     TempFile := ChangeFileExt(SaveFileProject, '.pas')
@@ -1246,7 +1287,7 @@ begin
      TempFile := ExtractFilePath(Application.ExeName) + 'temp_compile.pas';
 
   try
-    // Zapis kodu do pliku tymczasowego
+    // Saving code to a temporary file / Zapis kodu do pliku tymczasowego
     OutputLines := TStringList.Create;
     try
       OutputLines.Text := PascalCode;
@@ -1255,82 +1296,86 @@ begin
       OutputLines.Free;
     end;
 
-    // Utworzenie procesu kompilacji
+    // Creating a build process / Utworzenie procesu kompilacji
     AProcess := TProcess.Create(nil);
     OutputLines := TStringList.Create;
     try
       AProcess.Executable := FFpcPath;
       AProcess.Parameters.Add(TempFile);
 
-      // --- Dodawanie ścieżek do jednostek (-Fu) - UPROSZCZONO ---
+      // Adding Paths to Units (-Fu)
+      // Dodawanie ścieżek do jednostek (-Fu)
 
-      // 1. Ścieżka do standardowych jednostek FPC
+      // Path to Standard FPC Units
+      // Ścieżka do standardowych jednostek FPC
       FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + FTargetPlatform;
       if DirectoryExists(FpcUnitPath) then
         AProcess.Parameters.Add('-Fu' + FpcUnitPath)
       else
-        MemoLogs.Lines.Add('BŁĄD: Nie znaleziono wymaganego katalogu standardowych jednostek FPC: ' + FpcUnitPath);
+        MemoLogs.Lines.Add(TranslateErrRequiredFPCstandardUnitDirfound + FpcUnitPath);
 
-      // 2. Ścieżka do jednostek LCL - USUNIĘTO
-
+      //Path to the directory with the source file (TempFile)
       // 3. Ścieżka do katalogu z plikiem źródłowym (TempFile)
       SourceDir := ExtractFilePath(TempFile);
       if SourceDir <> '' then
         AProcess.Parameters.Add('-Fu' + SourceDir);
 
-      // 4. Ścieżka do własnych modułów użytkownika (z FModulsPath)
+      // Path to user's own modules (from FModulsPath)
+      // Ścieżka do własnych modułów użytkownika (z FModulsPath)
       if UserModulesPath <> '' then
       begin
         AProcess.Parameters.Add('-Fu' + UserModulesPath);
-        MemoLogs.Lines.Add(' - Dodano ścieżkę modułów użytkownika: ' + UserModulesPath);
+        MemoLogs.Lines.Add(TranslateAddUserModulesPath + UserModulesPath);
       end;
 
-      // 5. Ścieżka do modułów dostarczonych z IDE (względna)
+      // Path to modules shipped with the IDE (relative)
+      // Ścieżka do modułów dostarczonych z IDE (względna)
       IdeDirectory := ExtractFilePath(Application.ExeName);
-      IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'moduly';
-      MemoLogs.Lines.Add('Sprawdzanie katalogu własnych modułów IDE: ' + IdeModulesPath);
+      IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + TranslateModules;
+      MemoLogs.Lines.Add(TranslateCheckModulesDir + IdeModulesPath);
       if DirectoryExists(IdeModulesPath) then
       begin
         if CompareText(IdeModulesPath, UserModulesPath) <> 0 then
         begin
            AProcess.Parameters.Add('-Fu' + IdeModulesPath);
-           MemoLogs.Lines.Add(' - Dodano ścieżkę własnych modułów IDE: ' + IdeModulesPath);
+           MemoLogs.Lines.Add(TranslateAddCustomModulesPath + IdeModulesPath);
         end
         else
-            MemoLogs.Lines.Add(' - Informacja: Ścieżka modułów IDE jest taka sama jak modułów użytkownika, pomijanie duplikatu.');
+            MemoLogs.Lines.Add(TranslateIDeModulesPathSkipDuplicate);
       end
       else
-        MemoLogs.Lines.Add(' - Informacja: Nie znaleziono katalogu własnych modułów IDE: ' + IdeModulesPath + '.');
+        MemoLogs.Lines.Add(TranslateCustModulesDirNotFound + IdeModulesPath + '.');
 
-      // 6. Ścieżka do jednostek Lazarusa - USUNIĘTO
+      // Stop adding tracks
+      // Koniec dodawania ścieżek
 
-      // --- Koniec dodawania ścieżek ---
-
-      // Plik wyjściowy
+      // Output file / Plik wyjściowy
       AProcess.Parameters.Add('-o' + Trim(OutputFile));
 
-      // Opcje procesu
+      //Process Options / Opcje procesu
       AProcess.Options := [poUsePipes, poStderrToOutput];
       AProcess.ShowWindow := swoHIDE;
 
-      // Uruchomienie kompilacji
-      MemoLogs.Lines.Add('Rozpoczynanie kompilacji z parametrami: ' + AProcess.Parameters.Text);
+      //Starting the compilation / Uruchomienie kompilacji
+      MemoLogs.Lines.Add(TranslateStartComilationParam + AProcess.Parameters.Text);
       AProcess.Execute;
       AProcess.WaitOnExit;
 
+      // Capture and display the result
       // Przechwycenie i wyświetlenie wyniku
       OutputLines.LoadFromStream(AProcess.Output);
       MemoLogs.Lines.AddStrings(OutputLines);
 
+      // Checking the completion status
       // Sprawdzenie statusu zakończenia
       if AProcess.ExitStatus = 0 then
       begin
-        MemoLogs.Lines.Add('Kompilacja udana! Plik wyjściowy: ' + OutputFile);
+        MemoLogs.Lines.Add(TranslateCompilationSuccses + OutputFile);
         // if FileExists(TempFile) then DeleteFile(TempFile);
       end
       else
       begin
-        MemoLogs.Lines.Add('Błąd kompilacji. Kod: ' + IntToStr(AProcess.ExitStatus));
+        MemoLogs.Lines.Add(TranslateErrCompilationCode + IntToStr(AProcess.ExitStatus));
       end;
 
     finally
@@ -1340,14 +1385,15 @@ begin
 
   except
     on E: Exception do
-      MemoLogs.Lines.Add('Błąd wykonania kompilacji: ' + E.Message);
+      MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
   end;
   if FileExists(TempFile) then DeleteFile(TempFile);
 end;
 
 procedure TFormMain.AskChatGPT(promt:String; memopromt: TMemo);
 begin
-  //Zaawansowany promt
+  //Advanced prompt
+  //Zaawansowany prompt
   PromptChatGPT:= promt +  ' ' + memopromt.Text;
   //PromptChatGPT := AdvancedPromt;
   if Trim(PromptChatGPT) = '' then
@@ -1355,6 +1401,7 @@ begin
     ShowMessage('Brak promtu!');
     Exit;
   end;
+  // Disable the button while waiting for a response
   // Wyłącz przycisk podczas oczekiwania na odpowiedź
   PopupMenuOutPutPascalCode.Items[3].Enabled := False;
   try
@@ -1363,7 +1410,7 @@ begin
   except
     on E: Exception do
     begin
-      ShowMessage('Błąd: ' + E.Message);
+      ShowMessage(TranslateMistake + E.Message);
       PopupMenuOutPutPascalCode.Items[3].Enabled := True;
     end;
   end;
@@ -1371,7 +1418,7 @@ end;
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);
 begin
-  SynEditCode.Lines.LoadFromFile(FileName); // Przykład dla TMemo
+  SynEditCode.Lines.LoadFromFile(FileName);
   //Transpiluj
   TranspilujKod;
 end;
@@ -1400,57 +1447,60 @@ var
   AProcess: TProcess;
   TempFile: string;
   OutputLines: TStringList;
-  BuildMode: string; // Dodajemy zmienną BuildMode
+  BuildMode: string;
 begin
   if SaveFileProject = '' then
     begin
     end;
 
     TempFile := ChangeFileExt(SaveFileProject, '.pas');
-
-    // Ustaw tryb kompilacji na Release (możesz to przekazywać jako parametr do funkcji)
-    BuildMode := 'Release'; // Domyślnie ustawiamy tryb Release, możesz to zmienić
+    // Set build mode to Release
+    // Ustaw tryb kompilacji na Release
+    BuildMode := 'Release';
 
     try
       MemoOutPut.Lines.SaveToFile(TempFile);
       AProcess := TProcess.Create(nil);
       OutputLines := TStringList.Create;
       try
-        AProcess.Executable := FFpcPath; //link do fpc
+        AProcess.Executable := FFpcPath; //link to fpc
         AProcess.Parameters.Add(TempFile);
         AProcess.Parameters.Add('-o' + Trim(OutputFile));
 
         // Dodajemy opcje dla trybu Release
         if BuildMode = 'Release' then
         begin
-          MemoLogs.Lines.Add('Kompilacja w trybie Release...');
-          AProcess.Parameters.Add('-O3');     // Poziom optymalizacji 2
-          AProcess.Parameters.Add('-Os'); //Mniejsze niz szybsze
-          AProcess.Parameters.Add('-CX'); //Sprytne laczenie
-          AProcess.Parameters.Add('-XX'); //Laczenie Sprytne
-          AProcess.Parameters.Add('-g-');     // Wyłączenie informacji debugowych
+          MemoLogs.Lines.Add(TranslateCompilingReleaseMode);
+          // Optimization level 2 / Poziom optymalizacji 2
+          AProcess.Parameters.Add('-O3');
+          // Smaller than faster / Mniejsze niz szybsze
+          AProcess.Parameters.Add('-Os');
+          // Clever connection /Sprytne laczenie
+          AProcess.Parameters.Add('-CX');
+          // Smart Connection / Laczenie Sprytne
+          AProcess.Parameters.Add('-XX');
+          // Disabling debug information / Wyłączenie informacji debugowych
+          AProcess.Parameters.Add('-g-');
         end else
         begin
-          MemoLogs.Lines.Add('Kompilacja w trybie Debug...'); // Domyślny tryb Debug (bez optymalizacji i z debug info)
-          // Możesz dodać opcje specyficzne dla Debug, np. -g+ (włączenie debug info, jeśli domyślnie jest wyłączone)
+          // Default Debug mode (without optimization and with debug info)
+          // Domyślny tryb Debug (bez optymalizacji i z debug info)
+          MemoLogs.Lines.Add(TranslateCompilingDebugMode);
         end;
-
-
         AProcess.Options := [poUsePipes, poStderrToOutput];
         AProcess.ShowWindow := swoHIDE;
-
-        MemoLogs.Lines.Add('Rozpoczynanie kompilacji...');
-
+        MemoLogs.Lines.Add(TranslateStartComilation);
         AProcess.Execute;
-        AProcess.WaitOnExit; // Czekaj na zakończenie kompilacji
+        // Wait for compilation to finish / Czekaj na zakończenie kompilacji
+        AProcess.WaitOnExit;
         OutputLines.LoadFromStream(AProcess.Output);
         MemoLogs.Lines.AddStrings(OutputLines);
 
 
         if AProcess.ExitStatus = 0 then
-          MemoLogs.Lines.Add('Kompilacja udana! Plik wyjściowy: ' + OutputFile)
+          MemoLogs.Lines.Add(TranslateComilationSuccessOutputFile + OutputFile)
         else
-          MemoLogs.Lines.Add('Błąd kompilacji. Kod: ' + IntToStr(AProcess.ExitStatus));
+          MemoLogs.Lines.Add(TranslateErrCompilationCode + IntToStr(AProcess.ExitStatus));
 
       finally
         AProcess.Free;
@@ -1458,7 +1508,7 @@ begin
       end;
     except
       on E: Exception do
-        MemoLogs.Lines.Add('Błąd kompilacji: ' + E.Message);
+        MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
     end;
 end;
 
@@ -1468,7 +1518,6 @@ i: Integer;
 NProgram: string;
 begin
   NProgram := '';
-    // Przeszukujemy wszystkie linie w komponencie SynEditCode
     for i := 0 to SynEditCode.Lines.Count - 1 do
     begin
       NProgram := ExtractProgramName(SynEditCode.Lines[i]);
@@ -1477,9 +1526,6 @@ begin
     end;
     if NProgram <> '' then
     begin
-      // Przykładowo, wyświetlamy wynik lub przypisujemy do zmiennej globalnej
-      //ShowMessage('Nazwa programu: ' + NProgram);
-      // Możesz też zapisać nazwę do jakiejś zmiennej globalnej lub innego pola
       NameProgram := NProgram;
     end
     else
@@ -1493,8 +1539,10 @@ begin
   Result := '';
     Words := TStringList.Create;
     try
+      // We split the string into words - whitespace as separators
       // Rozdzielamy ciąg na słowa - białe znaki jako separatory
       ExtractStrings([' ', #9], [], PChar(Line), Words);
+      // We check if the first element is 'program' (regardless of letter case)
       // Sprawdzamy czy pierwszy element to 'program' (niezależnie od wielkości liter)
       if (Words.Count >= 2) and (LowerCase(Words[0]) = 'program') then
         Result := Words[1];
@@ -1510,7 +1558,7 @@ begin
 
     if Trim(ResponseText) <> '' then
     begin
-      MemoAnswerChatGPT.Lines.Add('Odpowiedź!');
+      MemoAnswerChatGPT.Lines.Add(TranslateAnswer);
       MemoAnswerChatGPT.Lines.Add('==================');
       MemoAnswerChatGPT.Lines.Add('');
       MemoAnswerChatGPT.Lines.Add(ResponseText);
@@ -1520,27 +1568,13 @@ begin
     end
     else
     begin
-      MemoAnswerChatGPT.Lines.Add('❌ Błąd: Otrzymano pustą odpowiedź');
-      MemoAnswerChatGPT.Lines.Add('Sprawdź token API i połączenie internetowe');
+      MemoAnswerChatGPT.Lines.Add(TranslateErrEmptyResponseReceived);
+      MemoAnswerChatGPT.Lines.Add(TranslateCheckApiTokenInternetCon);
     end;
   finally
-    // Przywróć normalny stan interfejsu
+    // Restore the interface to normal state / Przywróć normalny stan interfejsu
     sbzapytaj.Enabled := True;
   end;
-
-    {
-  // Ta metoda zostanie wywołana, gdy otrzymamy odpowiedź
-  try
-    MemoAnswerChatGPT.Clear;
-    MemoAnswerChatGPT.Lines.Add('Odpowiedź ChatGPT:');
-    MemoAnswerChatGPT.Lines.Add('------------------');
-    MemoAnswerChatGPT.Lines.Add(ResponseText);
-  finally
-    // Włącz ponownie przycisk
-    sbzapytaj.Enabled := True;
-  end;
-  //ShowMessage('Odpowiedź z ChatGPT: ' + ResponseText);
-  }
 end;
 
 procedure TFormMain.LoadTokenGPT;
@@ -1553,21 +1587,21 @@ begin
 
   if (Token = '') then
   begin
-    MemoLogs.Lines.Add('Brak tokena od AI Asystenta');
+    MemoLogs.Lines.Add(TranslateNoTokenAiAssistant);
   end
   else
   begin
-    MemoLogs.Lines.Add('Klucz Api Pomocnika AI dodany');
-    MemoLogs.Lines.Add('Model Pomocnika AI: ' + ModelGPT);
+    MemoLogs.Lines.Add(TranslateAiHelperApiKeyAdded);
+    MemoLogs.Lines.Add(TranslateAiHelperModel + ModelGPT);
   end;
-  //Dotyczy czcionki
+  //Regarding the font / Dotyczy czcionki
   if (FontSizeEditor = 0) then
   begin
-    MemoLogs.Lines.Add('Rozmiar czcionki edytora nie wczytany: ');
+    MemoLogs.Lines.Add(TranslateEditorFontSizeNoLoaded);
   end
   else
   begin
-    MemoLogs.Lines.Add('Rozmiar czcionki edytora wczytany:');
+    MemoLogs.Lines.Add(TranslateEditorFontSizeLoaded);
     SynEditCode.Font.Size := FontSizeEditor;
     RozmiarCzcionkiSynEditor.Value := FontSizeEditor;
     LRozmiarZccionkiEdytora.Caption := IntToStr(FontSizeEditor);
@@ -1598,7 +1632,7 @@ var
 begin
   if FormPrzyklady.ExampleListBox.ItemIndex = -1 then
     begin
-      ShowMessage('Nie wybrano żadnego elementu.');
+      ShowMessage(TranslateNoItemSelected);
       Exit;
     end;
 
@@ -1609,27 +1643,28 @@ begin
 
       if BaseName = '' then
       begin
-        ShowMessage('Wybrano pusty element.');
+        ShowMessage(TranslateItemSelected);
         Exit;
       end;
 
+      // Always remove the extension and add .avocado
       // Zawsze usuń rozszerzenie i dodaj .avocado
       BaseName := ChangeFileExt(BaseName, '');
       FileNameExample := FolderPath + BaseName + '.avocado';
 
       if not FileExists(FileNameExample) then
       begin
-        ShowMessage('Plik nie istnieje: ' + FileNameExample + sLineBreak +
-                    'Sprawdź czy folder "przyklady" istnieje i zawiera odpowiednie pliki.');
+        ShowMessage(TranslateFileDoesNotExist + FileNameExample + sLineBreak + TranslateChackExamplesFolderExists);
         Exit;
       end;
 
-      // Bezpośrednie wywołanie metody ładującej (bez rekurencji!)
+      // Direct call to the loading method
+      // Bezpośrednie wywołanie metody ładującej
       InternalLoadAvocadoFile(FileNameExample); // Zmiana nazwy metody wewnętrznej
 
     except
       on E: Exception do
-        ShowMessage('Wystąpił błąd: ' + E.Message);
+        ShowMessage(TranslateErrOccurred + E.Message);
     end;
 end;
 
@@ -1669,7 +1704,7 @@ begin
   if FSuccess then
       ShellExecute(0, 'open', PChar(FExeName), nil, nil, 1)
   else
-      MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + FExeName, mtError, [mbOk], 0);
+      MessageDlg(TranslateMistake, TranslateFailStartProgram + FExeName, mtError, [mbOk], 0);
 end;
 
 procedure TCompileThread.ShowSuccess;
@@ -1679,13 +1714,13 @@ end;
 
 procedure TCompileThread.ShowError;
 begin
-  MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + FExeName, mtError, [mbOk], 0);
+  MessageDlg(TranslateMistake, TranslateFailStartProgram + FExeName, mtError, [mbOk], 0);
 end;
 
 
 constructor TCompileThread.Create(Owner: TFormMain; const PascalCode, ExeName: string);
 begin
-   inherited Create(False); // start automatyczny
+   inherited Create(False);
    FreeOnTerminate := True;
    FOwner := Owner;
    FPascalCode := PascalCode;
@@ -1698,21 +1733,22 @@ end;
 
 constructor TInterpreterThread.Create(const AInterpreterPath, ATempFile: string; AConsole: TSynEdit);
 begin
-  inherited Create(False); // uruchomienie wątku
+  inherited Create(False); // starting a thread / uruchomienie wątku
   FreeOnTerminate := True;
   FConsole := AConsole;
-  // Konfiguracja procesu
+  // Process configuration / Konfiguracja procesu
   FProcess := TProcess.Create(nil);
   FProcess.Executable := AInterpreterPath;
   FProcess.Parameters.Add(ATempFile);
   FProcess.Options := [poUsePipes];
-  // Ustawienie ukrycia konsoli (działa na Windows)
+  // Console Hide Setting / Ustawienie ukrycia konsoli (działa na Windows)
   FProcess.ShowWindow := swoHIDE;
   FProcess.Execute;
 end;
 
 procedure TInterpreterThread.SyncAppendOutput;
 begin
+  // Add the read text to the control – the text is added here
   // Dodaj odczytany tekst do kontrolki – tutaj tekst jest dopisywany
   FConsole.SelStart := Length(FConsole.Text);
   FConsole.SelText := FOutput;
@@ -1725,6 +1761,7 @@ var
   BytesRead: Longint;
   NewText: string;
 begin
+  // The loop executes as long as the process is running or data is available.
   // Pętla wykonuje się, dopóki proces działa lub są dostępne dane
   while FProcess.Running or (FProcess.Output.NumBytesAvailable > 0) do
   begin
@@ -1734,16 +1771,16 @@ begin
       SetString(NewText, PAnsiChar(@Buffer[0]), BytesRead);
       FOutput := NewText;
       Synchronize(@SyncAppendOutput);
-      //
+      // If the .exe file has been generated correctly, run it
       // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
       if FileExists(ExeName) then
         ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
       else
-        MessageDlg('Błąd', 'Nie udało się uruchomić programu: ' + ExeName, mtError, [mbOk], 0);
+        MessageDlg(TranslateMistake, TranslateFailStartProgram + ExeName, mtError, [mbOk], 0);
       end
     //
     else
-      Sleep(10);
+      //Sleep(10);
   end;
   FProcess.Free;
 end;

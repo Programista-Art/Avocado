@@ -12,27 +12,22 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 
 #: avocadotranslator.errorprint
-#| msgid "Błędna składnia funkcji wstaw. Oczekiwano: wstaw(source, target, index)"
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 msgstr "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
 
 #: avocadotranslator.functioninsert
-#| msgid "Funkcja wstaw wymaga trzech argumentów: source, target, index"
 msgid "The insert function requires three arguments: source, target, index."
 msgstr "The insert function requires three arguments: source, target, index."
 
 #: avocadotranslator.functiontrim
-#| msgid "Błędna składnia funkcji przytnij. Oczekiwano: przytnij(s)"
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
 msgstr "Incorrect syntax of the trim function. Expected: trim(s)"
 
 #: avocadotranslator.functiontrimleft
-#| msgid "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(s)"
 msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 msgstr "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
 
 #: avocadotranslator.functiontrimright
-#| msgid "Błędna składnia funkcji przytnij_z_prawa. Oczekiwano: przytnij_z_prawa(s)"
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 
@@ -66,6 +61,18 @@ msgstr "Ok"
 #: tformmain.bcexpandpanel1.button.caption
 msgid "Pomocnik AI"
 msgstr "AI assistant"
+
+#: tformmain.butcompilecode.caption
+#, fuzzy
+msgctxt "tformmain.butcompilecode.caption"
+msgid "Kompiluj i zapisz"
+msgstr "Compile and save"
+
+#: tformmain.butcompilecode.hint
+#, fuzzy
+msgctxt "tformmain.butcompilecode.hint"
+msgid "Kompiluj"
+msgstr "Compile"
 
 #: tformmain.caption
 msgid "IDE Avocado v 1.0.1.0"
@@ -385,9 +392,10 @@ msgid "Nowy Plik"
 msgstr "New File"
 
 #: tformmain.panel1.caption
+#, fuzzy
 msgctxt "tformmain.panel1.caption"
 msgid "Panel1"
-msgstr ""
+msgstr "Panel1"
 
 #: tformmain.panel4.caption
 msgid "Panel4"
@@ -417,15 +425,6 @@ msgstr "ToolButton1"
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
 msgstr "Transpile"
-
-#: tformmain.toolbutton2.caption
-msgid "Kompiluj i zapisz"
-msgstr "Compile and save"
-
-#: tformmain.toolbutton2.hint
-msgctxt "tformmain.toolbutton2.hint"
-msgid "Kompiluj"
-msgstr "Compile"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -556,23 +555,252 @@ msgid "Wesprzyj projekt"
 msgstr "Support the project"
 
 #: unit1.countchars
+#, fuzzy
+#| msgid " Znaków"
 msgctxt "unit1.countchars"
-msgid " Znaków"
+msgid " Signs"
 msgstr " Characters"
 
 #: unit1.countline
+#, fuzzy
+#| msgid " Linii Kodu"
 msgctxt "unit1.countline"
-msgid " Linii Kodu"
+msgid " Lines of Code"
 msgstr " Lines of Code"
 
 #: unit1.newnamezprogram
-msgid "Podaj nazwę programu:"
+#, fuzzy
+#| msgid "Podaj nazwę programu:"
+msgid "Enter the name of the program:"
 msgstr "Enter the name of the programme:"
 
 #: unit1.newprogramfile
-msgid "Nowy plik"
+#, fuzzy
+#| msgid "Nowy plik"
+msgid "New file"
 msgstr "New file"
 
 #: unit1.openprojecttranslate
-msgid "Otwarty projekt: "
+#, fuzzy
+#| msgid "Otwarty projekt: "
+msgid "Open project: "
 msgstr "Open project:  "
+
+#: unit1.translateaddcustommodulespath
+msgid " - Added custom IDE modules path: "
+msgstr ""
+
+#: unit1.translateaddusermodulespath
+msgid " - Added user modules path: "
+msgstr ""
+
+#: unit1.translateaihelperapikeyadded
+msgid "AI Helper API Key Added"
+msgstr ""
+
+#: unit1.translateaihelpermodel
+msgid "AI Helper Model: "
+msgstr ""
+
+#: unit1.translateanswer
+msgid "Answer!"
+msgstr ""
+
+#: unit1.translateattention
+msgid "Attention!"
+msgstr ""
+
+#: unit1.translatechackexamplesfolderexists
+msgid "Check that the \"examples\" folder exists and contains the appropriate files."
+msgstr ""
+
+#: unit1.translatecheckapitokeninternetcon
+msgid "Check API token and internet connection"
+msgstr ""
+
+#: unit1.translatecheckmodulesdir
+msgid "Checking the IDE s own modules directory: "
+msgstr ""
+
+#: unit1.translatecomilationsuccessoutputfile
+msgctxt "unit1.translatecomilationsuccessoutputfile"
+msgid "Compilation successful! Output file: "
+msgstr ""
+
+#: unit1.translatecompilationsuccses
+msgctxt "unit1.translatecompilationsuccses"
+msgid "Compilation successful! Output file: "
+msgstr ""
+
+#: unit1.translatecompilersettloaded
+msgid "Compiler settings loaded."
+msgstr ""
+
+#: unit1.translatecompilingdebugmode
+msgid "Compiling in Debug mode..."
+msgstr ""
+
+#: unit1.translatecompilingreleasemode
+msgid "Compiling in Release mode."
+msgstr ""
+
+#: unit1.translateconferrfpcbasepath
+msgid "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
+msgstr ""
+
+#: unit1.translateconferrmodulepath
+msgid "CONFIGURATION ERROR: no module path set "
+msgstr ""
+
+#: unit1.translateconferrtargetplatform
+msgid "CONFIGURATION ERROR: Target platform not set in "
+msgstr ""
+
+#: unit1.translatecustmodulesdirnotfound
+msgid "Info: IDE custom modules directory not found: "
+msgstr ""
+
+#: unit1.translateeditorfontsizeloaded
+msgid "Editor font size loaded: "
+msgstr ""
+
+#: unit1.translateeditorfontsizenoloaded
+msgid "Editor font size not loaded: "
+msgstr ""
+
+#: unit1.translateenterquestion
+msgid "Please enter your question!"
+msgstr ""
+
+#: unit1.translateerrcompilation
+msgid "Compilation error: "
+msgstr ""
+
+#: unit1.translateerrcompilationcode
+msgid "Compilation error. Code: "
+msgstr ""
+
+#: unit1.translateerremptyresponsereceived
+msgid "Error: Empty response received"
+msgstr ""
+
+#: unit1.translateerrfpcbasepathnotconfigure
+msgid "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!"
+msgstr ""
+
+#: unit1.translateerroccurred
+msgid "An error occurred: "
+msgstr ""
+
+#: unit1.translateerrpacalcodecompile
+msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
+msgstr ""
+
+#: unit1.translateerrpathtofpc
+msgid "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
+msgstr ""
+
+#: unit1.translateerrrequiredfpcstandardunitdirfound
+msgid "ERROR: Required FPC standard unit directory not found: "
+msgstr ""
+
+#: unit1.translateerrusermodulespath
+msgid "WARNING: Configured user modules path (FModulsPath: "
+msgstr ""
+
+#: unit1.translatefailstartprogram
+msgid "Failed to start program: "
+msgstr ""
+
+#: unit1.translatefiledoesnotexist
+msgid "File does not exist: "
+msgstr ""
+
+#: unit1.translatefilenotsaved
+msgid "File not saved. Compilation canceled."
+msgstr ""
+
+#: unit1.translatefilenotsavedbuildcancel
+msgid "Project not saved. Build canceled."
+msgstr ""
+
+#: unit1.translatefpccompilernotexist
+msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
+msgstr ""
+
+#: unit1.translatefpcconfigureerrpathtofpc
+msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
+msgstr ""
+
+#: unit1.translateidemodulespathskipduplicate
+msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
+msgstr ""
+
+#: unit1.translateitemselected
+msgid "Empty item selected."
+msgstr ""
+
+#: unit1.translatelinktofpc
+msgid "Link to fpc.exe compiler: "
+msgstr ""
+
+#: unit1.translatelinktofpcfolder
+msgid "Link to compiler folder: "
+msgstr ""
+
+#: unit1.translateloadingsettings
+msgid "Loading settings "
+msgstr ""
+
+#: unit1.translatemistake
+msgid "Mistake"
+msgstr ""
+
+#: unit1.translatemodules
+msgid "Modules: "
+msgstr ""
+
+#: unit1.translatenoitemselected
+msgid "No item selected."
+msgstr ""
+
+#: unit1.translatenotexist
+msgid " ) does not exist! "
+msgstr ""
+
+#: unit1.translatenotokenaiassistant
+msgid "No token from AI Assistant"
+msgstr ""
+
+#: unit1.translateplatform
+msgid "Platform: "
+msgstr ""
+
+#: unit1.translatesaveproject
+msgid "Project not saved. Save project before compiling?"
+msgstr ""
+
+#: unit1.translatestandardfpcunits
+msgid " .Standard FPC units will not be found!"
+msgstr ""
+
+#: unit1.translatestartcomilation
+msgid "Starting compilation..."
+msgstr ""
+
+#: unit1.translatestartcomilationparam
+msgid "Starting compilation with parameters: "
+msgstr ""
+
+#: unit1.translatesyneditcodenotcreated
+msgid "NOTE: SynEditCode not created!"
+msgstr ""
+
+#: unit1.translatetranslationerror
+msgid "Translation Error: "
+msgstr ""
+
+#: unit1.translateunableunitdirectory
+msgid " .Unable to determine unit directory!"
+msgstr ""
+

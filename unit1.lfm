@@ -32,7 +32,7 @@ object FormMain: TFormMain
       ShowHint = True
       OnClick = ToolButton1Click
     end
-    object ToolButton2: TToolButton
+    object butCompileCode: TToolButton
       Left = 24
       Hint = 'Kompiluj'
       Top = 2
@@ -40,7 +40,7 @@ object FormMain: TFormMain
       ImageIndex = 0
       ParentShowHint = False
       ShowHint = True
-      OnClick = ToolButton2Click
+      OnClick = butCompileCodeClick
     end
   end
   object Panel1: TPanel

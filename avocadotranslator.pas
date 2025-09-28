@@ -48,7 +48,7 @@ type
     function Translate(const AvocadoCode: TStrings): TStringList;
     function duze_litery_ansi(const S: string): string;
     function male_litery_ansi(const S: string): string;
-    function IsKnownType(const S: string): Boolean;
+   // function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
     function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
     procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
@@ -763,12 +763,12 @@ begin
       Result := 'if ' + TranslateExpression(Warunek) + ' then' + LineEnding +
                 'begin' + LineEnding;
 
-      // Dodajemy blok THEN
+      // blok THEN
       for i := 0 to WtedyLines.Count - 1 do
         Result := Result + '  ' + WtedyLines[i] + LineEnding;
       Result := Result + 'end';
 
-      // Dodajemy blok ELSE jeśli istnieje
+      // blok ELSE jeśli istnieje
       if WartoscJesliFalsz <> '' then
       begin
         Result := Result + LineEnding + 'else' + LineEnding + 'begin' + LineEnding;
@@ -809,23 +809,24 @@ var
   Lines: TStringList;
   i: Integer;
   Line, ModulesList: string;
-
 begin
-
-  ModulesList := ''; // Pusta lista modułów
+  ModulesList := '';
     Lines := TStringList.Create;
     try
-      Lines.Text := Code; // Podziel kod na linie
+      Lines.Text := Code; // Split the code into lines / Podziel kod na linie
 
       for i := 0 to Lines.Count - 1 do
       begin
-        Line := Trim(Lines[i]); // Usuń zbędne spacje
+        Line := Trim(Lines[i]); // Remove unnecessary spaces / Usuń zbędne spacje
 
+        // Check if the line starts with "Import"
         // Sprawdzenie, czy linia zaczyna się od "Importuj"
+
         if Pos('importuj', Line) = 1 then
+
         begin
-          Delete(Line, 1, Length('importuj')); // Usuń słowo "importuj"
-          Line := Trim(Line); // Usuń spacje przed nazwami modułów
+          Delete(Line, 1, Length('importuj'));
+          Line := Trim(Line);
 
           // Dodanie do listy modułów
           if ModulesList = '' then
@@ -834,6 +835,20 @@ begin
             ModulesList := ModulesList + ', ' + Line;
         end;
       end;
+      //English alias
+        if Pos('import', Line) = 1 then
+        begin
+          Delete(Line, 1, Length('import'));
+          Line := Trim(Line);
+
+          // Dodanie do listy modułów
+          if ModulesList = '' then
+            ModulesList := Line
+          else
+            ModulesList := ModulesList + ', ' + Line;
+        end;
+
+
     // Add “Crt” if keywords are detected in the code
     // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
     if (Pos('czytaj_klawisz', LowerCase(Code)) > 0) or
@@ -891,10 +906,10 @@ begin
           else
             ModulesList := 'chatgptavocado';
         end;
-
-
-     //inne
-      Result := ModulesList; // Zwrócenie wynikowej listy modułów
+      //other / inne
+      // Returning the resulting list of modules
+      // Zwrócenie wynikowej listy modułów
+      Result := ModulesList;
     finally
       Lines.Free;
     end;
@@ -936,24 +951,23 @@ begin
       end;
     end;
 
-    Result := ModulesList; // Zwróć finalną listę modułów jako string
+    Result := ModulesList;
   finally
-    Lines.Free; // Zawsze zwolnij pamięć po TStringList
+    Lines.Free;
   end;
 end;
 
 function TAvocadoTranslator.duze_litery_ansi(const S: string): string;
 begin
-  // AnsiUpperCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
   Result := AnsiUpperCase(S);
 end;
 
 function TAvocadoTranslator.male_litery_ansi(const S: string): string;
 begin
-  // AnsiLowerCase jest zdefiniowane w SysUtils, więc musisz mieć je w sekcji 'uses'
   Result := AnsiLowerCase(S);
 end;
 
+{
 function TAvocadoTranslator.IsKnownType(const S: string): Boolean;
 begin
    Result :=
@@ -980,7 +994,7 @@ begin
     (S = 'tablicatekstów') or
     (S = 'stała') or (S = 'tekstld');
 end;
-
+}
 procedure TAvocadoTranslator.SplitStringByChar(const AString: string;
   const ASeparator: Char; AResultList: TStrings);
 var
