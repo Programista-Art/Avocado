@@ -35,6 +35,7 @@ type
     MenuIteFinski: TMenuItem;
     MenuIteGrecki: TMenuItem;
     itemJaponski: TMenuItem;
+    MenuItem19: TMenuItem;
     MenuItemTurkishLang: TMenuItem;
     MenuItemSwedishLang: TMenuItem;
     MenuItemSlovenianLang: TMenuItem;
@@ -147,6 +148,7 @@ type
     procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem17Click(Sender: TObject);
     procedure MenuItem18Click(Sender: TObject);
+    procedure MenuItem19Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
     procedure MenuItemCzeskiClick(Sender: TObject);
     procedure MenuItemDanskClick(Sender: TObject);
@@ -370,7 +372,7 @@ implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- chatgptavocado,uchatgpt,uprzyklady,ustawieniaai;
+ chatgptavocado,uchatgpt,uprzyklady,ustawieniaai, themesettings;
 
 {$R *.lfm}
 
@@ -378,6 +380,7 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+
     if not Assigned(SynEditCode) then
     ShowMessage(TranslateSynEditCodeNotCreated);
   LoadFpc;
@@ -530,6 +533,11 @@ begin
   SetDefaultLang('nl');
   lang := 'nl';
   IsClickMainMenuLanguage(15);
+end;
+
+procedure TFormMain.MenuItem19Click(Sender: TObject);
+begin
+  SettingTheme.ShowModal;
 end;
 
 procedure TFormMain.MenuItem9Click(Sender: TObject);
@@ -949,25 +957,23 @@ end;
 
 
 procedure TFormMain.LoadFpc;
-//var
-//pathFPC :string;
-//pathFPCFolder :string;
 begin
-  MemoLogs.Lines.Add(TranslateLoadingSettings);
+   MemoLogs.Lines.Add(TranslateLoadingSettings);
+  {
+  AppDir := ExtractFilePath(Application.ExeName);
+  FFpcPath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'fpc\3.2.2\bin\x86_64-win64\fpc.exe');
+  FFpcBasePath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'fpc\3.2.2');
+  FModulsPath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'moduly');
+  }
   Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
   try
+    // Wczytaj z INI
     FFpcPath := Ini.ReadString('main', 'fpc', '');
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
-    FModulsPath := Ini.ReadString('main', 'Units', '\moduly');
+    FModulsPath := Ini.ReadString('main', 'Units', 'moduly');
 
-
-    //pathFPC := ExtractFilePath(Application.ExeName) + FFpcPath;
-    //pathFPCFolder := ExtractFilePath(Application.ExeName) + FFpcPath;
-
-    //MemoLogs.Lines.Add('Sprawdzam: 'pathFPC);
-
-    //loads the programme language into the UI
+    //loads the programm language into the UI
     lang := Ini.ReadString('defaultlanguage','language','en');
     case lang of
     'en':
@@ -1358,6 +1364,8 @@ begin
 
       //Starting the compilation / Uruchomienie kompilacji
       MemoLogs.Lines.Add(TranslateStartComilationParam + AProcess.Parameters.Text);
+    //  MemoLogs.Lines.Add('### FFpcPath (z LoadFpc): ' + FFpcPath);
+     // MemoLogs.Lines.Add('### AProcess.Executable (zanim uruchomiono): ' + AProcess.Executable);
       AProcess.Execute;
       AProcess.WaitOnExit;
 

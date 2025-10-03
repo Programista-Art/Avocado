@@ -29,6 +29,10 @@ msgstr ""
 msgid "Unknown file variable type: "
 msgstr ""
 
+#: avocadotranslator.translateunknownvariabletype
+msgid "Unknown variable type: "
+msgstr ""
+
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr ""
@@ -184,9 +188,14 @@ msgstr ""
 msgid "Nederlands"
 msgstr ""
 
+#: tformmain.menuitem19.caption
+msgctxt "tformmain.menuitem19.caption"
+msgid "Theme"
+msgstr ""
+
 #: tformmain.menuitem2.caption
 msgctxt "tformmain.menuitem2.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr ""
 
 #: tformmain.menuitem3.caption
@@ -198,7 +207,7 @@ msgid "Usuń "
 msgstr ""
 
 #: tformmain.menuitem4.caption
-msgid "Ustawienia pomocnika AI"
+msgid "AI Helper Settings"
 msgstr ""
 
 #: tformmain.menuitem5.caption
@@ -368,7 +377,7 @@ msgstr ""
 
 #: tformmain.menuustawinia.caption
 msgctxt "tformmain.menuustawinia.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr ""
 
 #: tformmain.nowyplik.caption
@@ -526,6 +535,25 @@ msgstr ""
 
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
+msgstr ""
+
+#: tsettingtheme.btnsave.caption
+msgctxt "tsettingtheme.btnsave.caption"
+msgid "Save"
+msgstr ""
+
+#: tsettingtheme.caption
+msgid "Theme Settings"
+msgstr ""
+
+#: tsettingtheme.groupbox1.caption
+msgctxt "tsettingtheme.groupbox1.caption"
+msgid "Theme"
+msgstr ""
+
+#: tsettingtheme.speedbutton1.caption
+msgctxt "tsettingtheme.speedbutton1.caption"
+msgid "Ok"
 msgstr ""
 
 #: twsparcie.caption

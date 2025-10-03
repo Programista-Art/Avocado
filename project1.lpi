@@ -80,6 +80,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="metadarkstyledsgn"/>
+      </Item>
+      <Item>
         <PackageName Value="laz_synapse"/>
       </Item>
       <Item>
@@ -214,6 +217,13 @@
       <Unit>
         <Filename Value="moduly\internet.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="themesettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SettingTheme"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
   </ProjectOptions>

@@ -198,7 +198,7 @@ const
     (FromText: 'green'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'red'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'yellow'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    //(FromText: 'cyjan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'cyan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     //(FromText: 'magenta'; ToText: 'Magenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'brown'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'light_gray'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
@@ -252,6 +252,7 @@ resourcestring
   FunctionTrimRight = 'Incorrect syntax of the trim_right function. Expected: trim_right(s)';
   FunctionTrimLeft = 'Incorrect syntax of the function trim_from_left. Expected: trim_left(s)';
   TranslateUnknownFileType = 'Unknown file variable type: ';
+  TranslateUnknownVariableType = 'Unknown variable type: ';
 implementation
 uses
   unit1;
@@ -276,7 +277,7 @@ begin
     FVariables[High(FVariables)].NoAssign := NoAssign;
 end;
 
-
+//Trzeba to usunac
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
@@ -608,7 +609,7 @@ begin
     Exit;
   end;
 
-  raise Exception.Create('Nieznany typ zmiennej: ' + VarType);
+  raise Exception.Create(TranslateUnknownVariableType + VarType);
 end;
 
 // Advanced argument parsing feature that takes quotation marks into account
@@ -1046,14 +1047,17 @@ begin
       end
       else if ASource[I] = QuoteChar then
       begin
+        // Make sure this quotation mark is not doubled ('')
         // Upewnij się, że ten cudzysłów nie jest zdublowany ('')
         if (I < Length(ASource)) and (ASource[I+1] = QuoteChar) then
         begin
+          // This is a double quote in the string, ignore it
           // To jest zdublowany cudzysłów w stringu, zignoruj go
           Inc(I);
         end
         else
         begin
+          // This is a real closing quotation mark
           // To jest prawdziwy cudzysłów zamykający
           InQuote := False;
         end;
@@ -1066,20 +1070,15 @@ begin
     end;
     Inc(I);
   end;
-
-  // Dodaj ostatni argument. Jest to kluczowy fragment.
   if StartPos <= Length(ASource) then
     AStrings.Add(Copy(ASource, StartPos, Length(ASource) - StartPos + 1));
-
-  // Dodatkowo, aby mieć pewność, że wszystko jest czyste,
-  // przejdź przez listę i przytnij spacje z brzegów
-  for I := 0 to AStrings.Count - 1 do
+    for I := 0 to AStrings.Count - 1 do
     AStrings[I] := Trim(AStrings[I]);
 end;
 
 
 
-
+//processing nested statements.
 //przetwarzanie zagnieżdżonych instrukcji.
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
@@ -1169,26 +1168,29 @@ var
   AssignParams: TStringList;
   AssignTranslatedParam1, AssignTranslatedParam2: string;
   Result_plik: string;
-  //Intrenet
-  PartsPobierz: TStringArray;               // do rozdzielania linii (np. Split)
-  InstrukcjaWarunkowaPobierz: TStringArray; // do przechowania [URL, plik]
-  LineRest: string;                  // pozostała część linii po "pobierz "
-  URLtekst: string;                  // adres URL
-  FileName: string;                  // nazwa pliku do zapisania
+  // to separate lines (e.g. Split) / do rozdzielania linii (np. Split)
+  PartsPobierz: TStringArray;
+  // for storage [URL, file] / do przechowania [URL, plik]
+  InstrukcjaWarunkowaPobierz: TStringArray;
+  // the rest of the line after "download" / pozostała część linii po "pobierz "
+  LineRest: string;
+  // URL address / adres URL
+  URLtekst: string;
+  //name of the file to save / nazwa pliku do zapisania
+  FileName: string;
   //Chat GPT
   ArgList: TStringList;
   ArgStrz, TranslatedApiKeyz, TranslatedModelz, QuestionArgz: string;
   StartPosz, EndPosz: Integer;
   //Ping
   Site: String;
-  //While petla
+  //While loop
   TranslatedParamTrimWhile, BodyWhile:  String;
   LinesWhile: TStringArray;
   k: Integer;
   StartPosTrimWhile: Integer;
   EndPosTrimWhile: Integer;
   ParamTrimWhile: string;
-  //
   OpenPos: Integer;
   //Value: string;
 begin

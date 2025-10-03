@@ -10,7 +10,6 @@ object Settingai: TSettingai
   ClientWidth = 262
   Color = 2697513
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
@@ -20,7 +19,7 @@ object Settingai: TSettingai
     Align = alBottom
     ClientHeight = 32
     ClientWidth = 262
-    Color = 5588525
+    Color = clMenuBar
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -31,6 +30,7 @@ object Settingai: TSettingai
       Width = 54
       Align = alRight
       Caption = 'Anuluj'
+      Color = clBtnShadow
       OnClick = SpeedButtonOkClick
     end
     object SpeedButSave: TSpeedButton
@@ -40,6 +40,7 @@ object Settingai: TSettingai
       Width = 54
       Align = alRight
       Caption = 'Zapisz'
+      Color = clBtnShadow
       OnClick = SpeedButSaveClick
     end
   end
@@ -59,7 +60,7 @@ object Settingai: TSettingai
       Top = 1
       Width = 260
       Align = alClient
-      Color = 5197647
+      Color = clWindowFrame
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite
       Font.Pitch = fpVariable
@@ -91,12 +92,9 @@ object Settingai: TSettingai
     Top = 0
     Width = 262
     Align = alTop
-    BevelColor = 5197647
     ClientHeight = 105
     ClientWidth = 262
-    Color = 5197647
     ParentBackground = False
-    ParentColor = False
     TabOrder = 2
     object ComboModelGPT: TBCComboBox
       Left = 6
@@ -108,27 +106,28 @@ object Settingai: TSettingai
       ItemIndex = -1
       ArrowSize = 8
       ArrowWidth = 16
-      FocusBorderColor = clMoneyGreen
-      DropDownBorderColor = clWhite
-      DropDownColor = 5197647
+      FocusBorderColor = clAppWorkspace
+      DropDownBorderColor = clActiveBorder
+      DropDownColor = clInactiveBorder
       DropDownFontColor = clWhite
-      DropDownHighlight = 5197647
-      DropDownFontHighlight = clSkyBlue
+      DropDownFontHighlight = clWhite
       DropDownOnSameForm = True
       GlobalOpacity = 255
       MemoryUsage = bmuHigh
       Rounding.RoundX = 0
       Rounding.RoundY = 0
-      StateClicked.Background.Color = 16245964
-      StateClicked.Background.Gradient1.StartColor = 16577765
-      StateClicked.Background.Gradient1.EndColor = 16180676
+      StateClicked.Background.Color = clWindowFrame
+      StateClicked.Background.Gradient1.StartColor = clWhite
+      StateClicked.Background.Gradient1.EndColor = clMenuBar
+      StateClicked.Background.Gradient1.ColorCorrection = False
       StateClicked.Background.Gradient1.GradientType = gtLinear
       StateClicked.Background.Gradient1.Point1XPercent = 0
       StateClicked.Background.Gradient1.Point1YPercent = 0
       StateClicked.Background.Gradient1.Point2XPercent = 0
       StateClicked.Background.Gradient1.Point2YPercent = 100
       StateClicked.Background.Gradient2.StartColor = 15716760
-      StateClicked.Background.Gradient2.EndColor = 14398312
+      StateClicked.Background.Gradient2.EndColor = clBlack
+      StateClicked.Background.Gradient2.ColorCorrection = False
       StateClicked.Background.Gradient2.GradientType = gtLinear
       StateClicked.Background.Gradient2.Point1XPercent = 0
       StateClicked.Background.Gradient2.Point1YPercent = 0
@@ -136,18 +135,19 @@ object Settingai: TSettingai
       StateClicked.Background.Gradient2.Point2YPercent = 100
       StateClicked.Background.Gradient1EndPercent = 55
       StateClicked.Background.Style = bbsColor
-      StateClicked.Border.Color = 10048512
+      StateClicked.Border.Color = clBackground
       StateClicked.Border.LightColor = clBlack
       StateClicked.Border.LightOpacity = 100
       StateClicked.Border.Style = bboSolid
-      StateClicked.FontEx.Color = clBlack
+      StateClicked.FontEx.Color = clHighlight
+      StateClicked.FontEx.DisabledColor = clGrayText
       StateClicked.FontEx.FontQuality = fqSystemClearType
       StateClicked.FontEx.Shadow = False
       StateClicked.FontEx.ShadowRadius = 5
       StateClicked.FontEx.ShadowOffsetX = 5
       StateClicked.FontEx.ShadowOffsetY = 5
       StateClicked.FontEx.Style = []
-      StateHover.Background.Color = 16511461
+      StateHover.Background.Color = clHighlight
       StateHover.Background.Gradient1.StartColor = 16643818
       StateHover.Background.Gradient1.EndColor = 16576729
       StateHover.Background.Gradient1.GradientType = gtLinear
@@ -164,19 +164,21 @@ object Settingai: TSettingai
       StateHover.Background.Gradient2.Point2YPercent = 100
       StateHover.Background.Gradient1EndPercent = 50
       StateHover.Background.Style = bbsColor
-      StateHover.Border.Color = 14120960
+      StateHover.Border.Color = clBtnFace
+      StateHover.Border.LightColor = cl3DLight
       StateHover.Border.LightOpacity = 200
       StateHover.Border.Style = bboSolid
-      StateHover.FontEx.Color = clBlack
+      StateHover.FontEx.Color = clWhite
       StateHover.FontEx.FontQuality = fqSystemClearType
       StateHover.FontEx.Shadow = False
       StateHover.FontEx.ShadowRadius = 5
       StateHover.FontEx.ShadowOffsetX = 5
       StateHover.FontEx.ShadowOffsetY = 5
       StateHover.FontEx.Style = []
-      StateNormal.Background.Color = 14803425
+      StateNormal.Background.Color = clHighlight
       StateNormal.Background.Gradient1.StartColor = 15921906
       StateNormal.Background.Gradient1.EndColor = 15461355
+      StateNormal.Background.Gradient1.ColorCorrection = False
       StateNormal.Background.Gradient1.GradientType = gtLinear
       StateNormal.Background.Gradient1.Point1XPercent = 0
       StateNormal.Background.Gradient1.Point1YPercent = 0
@@ -184,6 +186,7 @@ object Settingai: TSettingai
       StateNormal.Background.Gradient1.Point2YPercent = 100
       StateNormal.Background.Gradient2.StartColor = 14540253
       StateNormal.Background.Gradient2.EndColor = 13619151
+      StateNormal.Background.Gradient2.ColorCorrection = False
       StateNormal.Background.Gradient2.GradientType = gtLinear
       StateNormal.Background.Gradient2.Point1XPercent = 0
       StateNormal.Background.Gradient2.Point1YPercent = 0
@@ -191,10 +194,12 @@ object Settingai: TSettingai
       StateNormal.Background.Gradient2.Point2YPercent = 100
       StateNormal.Background.Gradient1EndPercent = 50
       StateNormal.Background.Style = bbsColor
-      StateNormal.Border.Color = 11382189
+      StateNormal.Border.Color = clDefault
+      StateNormal.Border.LightColor = clDefault
       StateNormal.Border.LightOpacity = 200
       StateNormal.Border.Style = bboSolid
-      StateNormal.FontEx.Color = clBlack
+      StateNormal.FontEx.Color = clWhite
+      StateNormal.FontEx.DisabledColor = clMenuHighlight
       StateNormal.FontEx.FontQuality = fqSystemClearType
       StateNormal.FontEx.Shadow = False
       StateNormal.FontEx.ShadowRadius = 5
@@ -228,7 +233,7 @@ object Settingai: TSettingai
       BorderSpacing.Right = 5
       BorderSpacing.Bottom = 5
       Caption = 'Klucz API'
-      Color = clWhite
+      Color = clWindowFrame
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite
       Font.Pitch = fpVariable

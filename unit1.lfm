@@ -18,7 +18,7 @@ object FormMain: TFormMain
     Top = 0
     Width = 1055
     Caption = 'ToolBar1'
-    Color = 5588525
+    Color = clMenu
     Images = ImageList1
     ParentColor = False
     TabOrder = 0
@@ -53,6 +53,7 @@ object FormMain: TFormMain
     ClientHeight = 584
     ClientWidth = 249
     ParentBackground = False
+    ParentColor = False
     TabOrder = 1
     object PanelPrawy: TPanel
       Left = 1
@@ -72,10 +73,10 @@ object FormMain: TFormMain
         Align = alTop
         ClientHeight = 27
         ClientWidth = 245
-        Color = 5588525
+        Color = clBlack
         ParentBackground = False
         ParentColor = False
-        TabOrder = 0
+        TabOrder = 2
         object Label2: TLabel
           Left = 6
           Height = 15
@@ -85,7 +86,6 @@ object FormMain: TFormMain
           Alignment = taCenter
           BorderSpacing.Around = 5
           Caption = 'Informacja'
-          Color = 5588525
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
           Font.Pitch = fpVariable
@@ -95,21 +95,137 @@ object FormMain: TFormMain
         end
       end
       object BCExpandPanel1: TBCExpandPanel
-        Left = 1
+        Left = 0
         Height = 27
-        Top = 28
+        Top = 32
         Width = 245
-        Align = alTop
-        Background.Color = clInactiveBorder
+        Background.Color = clBtnFace
         Background.Gradient1.StartColor = clWhite
-        Background.Gradient1.EndColor = clBlack
+        Background.Gradient1.EndColor = 16119285
         Background.Gradient1.GradientType = gtLinear
         Background.Gradient1.Point1XPercent = 0
         Background.Gradient1.Point1YPercent = 0
         Background.Gradient1.Point2XPercent = 0
         Background.Gradient1.Point2YPercent = 100
-        Background.Gradient2.StartColor = clWhite
+        Background.Gradient2.StartColor = clBlack
         Background.Gradient2.EndColor = clBlack
+        Background.Gradient2.GradientType = gtLinear
+        Background.Gradient2.Point1XPercent = 0
+        Background.Gradient2.Point1YPercent = 0
+        Background.Gradient2.Point2XPercent = 0
+        Background.Gradient2.Point2YPercent = 100
+        Background.Gradient1EndPercent = 100
+        Background.Style = bbsGradient
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BevelWidth = 1
+        Border.Style = bboNone
+        BorderBCStyle = bpsBorder
+        Color = 2697513
+        Enabled = True
+        FontEx.Color = clDefault
+        FontEx.FontQuality = fqSystemClearType
+        FontEx.Shadow = False
+        FontEx.ShadowRadius = 5
+        FontEx.ShadowOffsetX = 5
+        FontEx.ShadowOffsetY = 5
+        FontEx.Style = []
+        ParentBackground = False
+        Rounding.RoundX = 1
+        Rounding.RoundY = 1
+        TabOrder = 0
+        TextAlignment = taLeftJustify
+        CollapseKind = akTop
+        ExpandedSize = 530
+        ButtonPosition = akTop
+        ButtonSize = 27
+        Button.Left = 0
+        Button.Height = 27
+        Button.Top = 0
+        Button.Width = 245
+        Button.Caption = 'Pomocnik AI'
+        Button.Color = clMedGray
+        Button.ColorExpanded = clMedGray
+        AnimationSpeed = 20
+        Collapsed = True
+        BevelColorHighlight = clBlack
+        BevelColorShadow = clBlack
+        object MemoAnswerChatGPT: TMemo
+          Left = 1
+          Height = 0
+          Top = 26
+          Width = 243
+          Align = alCustom
+          Color = clBlack
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clWhite
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 0
+        end
+        object PanelAiChatGPT: TPanel
+          Left = 0
+          Height = 32
+          Top = 27
+          Width = 245
+          Align = alTop
+          ClientHeight = 32
+          ClientWidth = 245
+          ParentBackground = False
+          ParentColor = False
+          TabOrder = 1
+          object EditAskPromt: TEdit
+            Left = 3
+            Height = 26
+            Top = 3
+            Width = 213
+            Align = alClient
+            Alignment = taCenter
+            BorderSpacing.Left = 2
+            BorderSpacing.Top = 2
+            BorderSpacing.Right = 2
+            BorderSpacing.Bottom = 2
+            BorderStyle = bsNone
+            Color = clBlack
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Height = -16
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            TabOrder = 0
+            TextHint = 'Wpisz zapytanie'
+          end
+          object sbzapytaj: TSpeedButton
+            Left = 218
+            Height = 26
+            Top = 3
+            Width = 24
+            Align = alRight
+            BorderSpacing.Top = 2
+            BorderSpacing.Right = 2
+            BorderSpacing.Bottom = 2
+            Caption = ' >'
+            OnClick = sbzapytajClick
+          end
+        end
+      end
+      object PanelTranspilacja: TBCExpandPanel
+        Left = -8
+        Height = 530
+        Top = 208
+        Width = 245
+        Background.Color = 9984315
+        Background.Gradient1.StartColor = 15722194
+        Background.Gradient1.EndColor = 13137169
+        Background.Gradient1.GradientType = gtLinear
+        Background.Gradient1.Point1XPercent = 0
+        Background.Gradient1.Point1YPercent = 0
+        Background.Gradient1.Point2XPercent = 0
+        Background.Gradient1.Point2YPercent = 100
+        Background.Gradient2.StartColor = 15722194
+        Background.Gradient2.EndColor = 13137169
         Background.Gradient2.GradientType = gtLinear
         Background.Gradient2.Point1XPercent = 0
         Background.Gradient2.Point1YPercent = 0
@@ -118,13 +234,13 @@ object FormMain: TFormMain
         Background.Gradient1EndPercent = 35
         Background.Style = bbsColor
         BevelInner = bvNone
-        BevelOuter = bvRaised
+        BevelOuter = bvNone
         BevelWidth = 1
         Border.Style = bboNone
-        Color = 2697513
+        BorderBCStyle = bpsBorder
+        Color = clLime
         Enabled = True
         FontEx.Color = clDefault
-        FontEx.EndEllipsis = True
         FontEx.FontQuality = fqSystemClearType
         FontEx.Shadow = False
         FontEx.ShadowRadius = 5
@@ -144,132 +260,18 @@ object FormMain: TFormMain
         Button.Height = 27
         Button.Top = 0
         Button.Width = 245
-        Button.Caption = 'Pomocnik AI'
-        Button.Color = clMedGray
-        Button.ColorExpanded = clMedGray
-        AnimationSpeed = 20
-        Collapsed = True
-        object MemoAnswerChatGPT: TMemo
-          Left = 1
-          Height = 0
-          Top = 26
-          Width = 243
-          Align = alClient
-          Color = 5197647
-          Font.CharSet = EASTEUROPE_CHARSET
-          Font.Color = clWhite
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 0
-        end
-        object PanelAiChatGPT: TPanel
-          Left = 1
-          Height = 32
-          Top = 27
-          Width = 243
-          Align = alTop
-          ClientHeight = 32
-          ClientWidth = 243
-          Color = 5197647
-          ParentBackground = False
-          ParentColor = False
-          TabOrder = 1
-          object EditAskPromt: TEdit
-            Left = 3
-            Height = 26
-            Top = 3
-            Width = 211
-            Align = alClient
-            Alignment = taCenter
-            BorderSpacing.Left = 2
-            BorderSpacing.Top = 2
-            BorderSpacing.Right = 2
-            BorderSpacing.Bottom = 2
-            BorderStyle = bsNone
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Height = -16
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            ParentFont = False
-            TabOrder = 0
-            TextHint = 'Wpisz zapytanie'
-          end
-          object sbzapytaj: TSpeedButton
-            Left = 216
-            Height = 26
-            Top = 3
-            Width = 24
-            Align = alRight
-            BorderSpacing.Top = 2
-            BorderSpacing.Right = 2
-            BorderSpacing.Bottom = 2
-            Caption = ' >'
-            OnClick = sbzapytajClick
-          end
-        end
-      end
-      object PanelTranspilacja: TBCExpandPanel
-        Left = 1
-        Height = 530
-        Top = 55
-        Width = 245
-        Align = alTop
-        Background.Color = clBtnFace
-        Background.Gradient1.StartColor = clWhite
-        Background.Gradient1.EndColor = clBlack
-        Background.Gradient1.GradientType = gtLinear
-        Background.Gradient1.Point1XPercent = 0
-        Background.Gradient1.Point1YPercent = 0
-        Background.Gradient1.Point2XPercent = 0
-        Background.Gradient1.Point2YPercent = 100
-        Background.Gradient2.StartColor = clWhite
-        Background.Gradient2.EndColor = clBlack
-        Background.Gradient2.GradientType = gtLinear
-        Background.Gradient2.Point1XPercent = 0
-        Background.Gradient2.Point1YPercent = 0
-        Background.Gradient2.Point2XPercent = 0
-        Background.Gradient2.Point2YPercent = 100
-        Background.Gradient1EndPercent = 35
-        Background.Style = bbsColor
-        BevelInner = bvNone
-        BevelOuter = bvRaised
-        BevelWidth = 1
-        Border.Style = bboNone
-        Color = 5197647
-        Enabled = True
-        FontEx.Color = clDefault
-        FontEx.FontQuality = fqSystemClearType
-        FontEx.Shadow = False
-        FontEx.ShadowRadius = 5
-        FontEx.ShadowOffsetX = 5
-        FontEx.ShadowOffsetY = 5
-        FontEx.Style = []
-        ParentBackground = False
-        Rounding.RoundX = 1
-        Rounding.RoundY = 1
-        TabOrder = 2
-        TextAlignment = taLeftJustify
-        CollapseKind = akTop
-        ExpandedSize = 530
-        ButtonPosition = akTop
-        ButtonSize = 27
-        Button.Left = 0
-        Button.Height = 27
-        Button.Top = 0
-        Button.Width = 245
         Button.Caption = 'Transpilacja do Free Pascal'
         Button.Color = clMedGray
         Button.ColorExpanded = clMedGray
         AnimationSpeed = 20
+        BevelColorHighlight = clInfoText
         object MemoOutPut: TMemo
-          Left = 1
-          Height = 501
-          Top = 28
-          Width = 243
+          Left = 0
+          Height = 503
+          Top = 27
+          Width = 245
           Align = alClient
-          Color = 5197647
+          Color = clBlack
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
           Font.Pitch = fpVariable
@@ -320,7 +322,7 @@ object FormMain: TFormMain
         Top = 28
         Width = 799
         Align = alClient
-        Color = 5197647
+        Color = clBlack
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clWhite
         Font.Pitch = fpVariable
@@ -335,7 +337,7 @@ object FormMain: TFormMain
         Height = 23
         Top = 156
         Width = 799
-        Color = 2697513
+        Color = clMenuBar
         Panels = <        
           item
             Width = 150
@@ -357,7 +359,7 @@ object FormMain: TFormMain
         Align = alTop
         ClientHeight = 27
         ClientWidth = 799
-        Color = 5588525
+        Color = clMenuBar
         ParentBackground = False
         ParentColor = False
         TabOrder = 2
@@ -395,7 +397,7 @@ object FormMain: TFormMain
         Width = 799
         Align = alClient
         BlockIndent = 1
-        Color = 2697513
+        Color = clBlack
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clWhite
         Font.Height = -16
@@ -926,7 +928,9 @@ object FormMain: TFormMain
         Align = alBottom
         ClientHeight = 28
         ClientWidth = 799
+        Color = clMenuBar
         ParentBackground = False
+        ParentColor = False
         TabOrder = 1
         object RozmiarCzcionkiSynEditor: TBCFluentSlider
           Left = 65
@@ -1024,14 +1028,18 @@ object FormMain: TFormMain
       end
     end
     object MenuItem2: TMenuItem
-      Caption = 'Ustawienia'
+      Caption = 'Settings'
       object MenuUstawinia: TMenuItem
-        Caption = 'Ustawienia'
+        Caption = 'Settings'
         OnClick = MenuUstawiniaClick
       end
       object MenuItem4: TMenuItem
-        Caption = 'Ustawienia pomocnika AI'
+        Caption = 'AI Helper Settings'
         OnClick = MenuItem4Click
+      end
+      object MenuItem19: TMenuItem
+        Caption = 'Theme'
+        OnClick = MenuItem19Click
       end
     end
     object MenuExamples: TMenuItem

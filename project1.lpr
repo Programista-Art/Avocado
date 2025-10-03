@@ -13,14 +13,25 @@ uses
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, printer4lazarus,
   tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, chatgptavocado,
-  matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady;
+  matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady,
+  uDarkStyleParams, uDarkStyleSchemes, uMetaDarkStyle, themesettings ;
 
 {$R *.res}
 
 begin
+
+
+
   RequireDerivedFormResource:=True;
   Application.Title:='IDE Avocado';
   Application.Scaled:=True;
+
+  // Ustaw wymuszony ciemny tryb
+  PreferredAppMode := pamForceDark;
+  // Zastosuj styl
+  uMetaDarkStyle.ApplyMetaDarkStyle(DefaultDark);
+
+
   Application.Initialize;
   Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TFormSettingIntepreter, FormSettingIntepreter);
@@ -31,6 +42,7 @@ begin
   Application.CreateForm(TWsparcie, Wsparcie);
   Application.CreateForm(TSettingai, Settingai);
   Application.CreateForm(TFormPrzyklady, FormPrzyklady);
+  Application.CreateForm(TSettingTheme, SettingTheme);
   Application.Run;
 end.
 

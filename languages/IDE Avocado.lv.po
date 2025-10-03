@@ -51,6 +51,10 @@ msgstr "Nepareiza mainīgā deklarēšana: "
 msgid "Unknown file variable type: "
 msgstr ""
 
+#: avocadotranslator.translateunknownvariabletype
+msgid "Unknown variable type: "
+msgstr ""
+
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr "Informācija par avokado IDE"
@@ -205,9 +209,16 @@ msgstr "Български"
 msgid "Nederlands"
 msgstr "Nederlands"
 
+#: tformmain.menuitem19.caption
+msgctxt "tformmain.menuitem19.caption"
+msgid "Theme"
+msgstr ""
+
 #: tformmain.menuitem2.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformmain.menuitem2.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "Iestatījumi"
 
 #: tformmain.menuitem3.caption
@@ -219,7 +230,9 @@ msgid "Usuń "
 msgstr "Dzēst "
 
 #: tformmain.menuitem4.caption
-msgid "Ustawienia pomocnika AI"
+#, fuzzy
+#| msgid "Ustawienia pomocnika AI"
+msgid "AI Helper Settings"
 msgstr "AI palīgs iestatījumi"
 
 #: tformmain.menuitem5.caption
@@ -389,8 +402,10 @@ msgid "Zapisz jak"
 msgstr "Pierakstiet, kā"
 
 #: tformmain.menuustawinia.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformmain.menuustawinia.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "Iestatījumi"
 
 #: tformmain.nowyplik.caption
@@ -549,6 +564,26 @@ msgstr "Saglabāt"
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
 msgstr "Annouce"
+
+#: tsettingtheme.btnsave.caption
+msgctxt "tsettingtheme.btnsave.caption"
+msgid "Save"
+msgstr ""
+
+#: tsettingtheme.caption
+msgid "Theme Settings"
+msgstr ""
+
+#: tsettingtheme.groupbox1.caption
+msgctxt "tsettingtheme.groupbox1.caption"
+msgid "Theme"
+msgstr ""
+
+#: tsettingtheme.speedbutton1.caption
+#, fuzzy
+msgctxt "tsettingtheme.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
 
 #: twsparcie.caption
 msgid "Wsparcie"

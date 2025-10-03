@@ -39,6 +39,10 @@ msgstr "Неправилно деклариране на променлива: "
 msgid "Unknown file variable type: "
 msgstr "Неизвестен тип файлова променлива:"
 
+#: avocadotranslator.translateunknownvariabletype
+msgid "Unknown variable type: "
+msgstr ""
+
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr "Информация за Avocado IDE"
@@ -193,9 +197,16 @@ msgstr "Български"
 msgid "Nederlands"
 msgstr "Nederlands"
 
+#: tformmain.menuitem19.caption
+msgctxt "tformmain.menuitem19.caption"
+msgid "Theme"
+msgstr ""
+
 #: tformmain.menuitem2.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformmain.menuitem2.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "Настройки"
 
 #: tformmain.menuitem3.caption
@@ -207,7 +218,9 @@ msgid "Usuń "
 msgstr "Изтриване"
 
 #: tformmain.menuitem4.caption
-msgid "Ustawienia pomocnika AI"
+#, fuzzy
+#| msgid "Ustawienia pomocnika AI"
+msgid "AI Helper Settings"
 msgstr "Настройки на помощника за AI"
 
 #: tformmain.menuitem5.caption
@@ -376,8 +389,10 @@ msgid "Zapisz jak"
 msgstr "Запишете как"
 
 #: tformmain.menuustawinia.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformmain.menuustawinia.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "Настройки"
 
 #: tformmain.nowyplik.caption
@@ -536,6 +551,26 @@ msgstr "Запазете"
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
 msgstr "Annouce"
+
+#: tsettingtheme.btnsave.caption
+msgctxt "tsettingtheme.btnsave.caption"
+msgid "Save"
+msgstr ""
+
+#: tsettingtheme.caption
+msgid "Theme Settings"
+msgstr ""
+
+#: tsettingtheme.groupbox1.caption
+msgctxt "tsettingtheme.groupbox1.caption"
+msgid "Theme"
+msgstr ""
+
+#: tsettingtheme.speedbutton1.caption
+#, fuzzy
+msgctxt "tsettingtheme.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
 
 #: twsparcie.caption
 msgid "Wsparcie"

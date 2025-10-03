@@ -10,7 +10,6 @@ object FormSettingIntepreter: TFormSettingIntepreter
   ClientWidth = 469
   Color = clWhite
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
@@ -21,7 +20,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     BevelColor = 5197647
     ClientHeight = 32
     ClientWidth = 469
-    Color = 5588525
+    Color = clWindowFrame
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -60,7 +59,6 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Caption = 'LInk do fpc.exe'
     ClientHeight = 68
     ClientWidth = 465
-    Color = 5197647
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
     Font.Pitch = fpVariable
@@ -76,7 +74,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
-      Color = clWhite
+      Color = clMenuHighlight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
       Font.Pitch = fpVariable
@@ -105,7 +103,6 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Caption = 'Link do folderu FPC'
     ClientHeight = 68
     ClientWidth = 465
-    Color = 5197647
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
@@ -116,6 +113,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
+      Color = clMenuHighlight
       TabOrder = 0
     end
     object SpbLoadFolderFPC: TSpeedButton
@@ -137,7 +135,6 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Caption = 'Platforma'
     ClientHeight = 45
     ClientWidth = 465
-    Color = 5197647
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
@@ -147,6 +144,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Top = 8
       Width = 147
       BorderStyle = bsSingle
+      Color = clMenuHighlight
       ItemHeight = 15
       ItemIndex = 0
       Items.Strings = (

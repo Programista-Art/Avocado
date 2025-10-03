@@ -51,6 +51,10 @@ msgstr "变量声明错误： "
 msgid "Unknown file variable type: "
 msgstr ""
 
+#: avocadotranslator.translateunknownvariabletype
+msgid "Unknown variable type: "
+msgstr ""
+
 #: tfinformacjaide.caption
 msgid "Informacja o IDE Avocado"
 msgstr "关于IDE Avocado的信息"
@@ -208,9 +212,16 @@ msgstr ""
 msgid "Nederlands"
 msgstr ""
 
+#: tformmain.menuitem19.caption
+msgctxt "tformmain.menuitem19.caption"
+msgid "Theme"
+msgstr ""
+
 #: tformmain.menuitem2.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformmain.menuitem2.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "设置"
 
 #: tformmain.menuitem3.caption
@@ -222,7 +233,9 @@ msgid "Usuń "
 msgstr "删除 "
 
 #: tformmain.menuitem4.caption
-msgid "Ustawienia pomocnika AI"
+#, fuzzy
+#| msgid "Ustawienia pomocnika AI"
+msgid "AI Helper Settings"
 msgstr "AI助手设置"
 
 #: tformmain.menuitem5.caption
@@ -391,8 +404,10 @@ msgid "Zapisz jak"
 msgstr "保存为"
 
 #: tformmain.menuustawinia.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformmain.menuustawinia.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "设置"
 
 #: tformmain.nowyplik.caption
@@ -551,6 +566,26 @@ msgstr "保存"
 #: tsettingai.speedbuttonok.caption
 msgid "Anuluj"
 msgstr "取消"
+
+#: tsettingtheme.btnsave.caption
+msgctxt "tsettingtheme.btnsave.caption"
+msgid "Save"
+msgstr ""
+
+#: tsettingtheme.caption
+msgid "Theme Settings"
+msgstr ""
+
+#: tsettingtheme.groupbox1.caption
+msgctxt "tsettingtheme.groupbox1.caption"
+msgid "Theme"
+msgstr ""
+
+#: tsettingtheme.speedbutton1.caption
+#, fuzzy
+msgctxt "tsettingtheme.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
 
 #: twsparcie.caption
 msgid "Wsparcie"
