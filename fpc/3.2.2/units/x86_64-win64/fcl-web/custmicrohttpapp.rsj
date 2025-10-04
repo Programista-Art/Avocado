@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":122719509,"name":"custmicrohttpapp.serrserveractive","sourcebytes":[79,112,101,114,97,116,105,111,110,32,99,97,110,110,111,116,32,98,101,32,112,101,114,102,111,114,109,101,100,32,119,104,105,108,101,32,115,101,114,118,101,114,32,105,115,32,97,99,116,105,118,101],"value":"Operation cannot be performed while server is active"},
+{"hash":42247858,"name":"custmicrohttpapp.serrfailedtostartserver","sourcebytes":[70,97,105,108,101,100,32,116,111,32,115,116,97,114,116,32,115,101,114,118,101,114],"value":"Failed to start server"}
+]}

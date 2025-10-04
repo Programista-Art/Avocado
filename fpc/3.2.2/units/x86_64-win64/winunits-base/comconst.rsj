@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":45998868,"name":"comconst.snomethod","sourcebytes":[77,101,116,104,111,100,32,39,37,115,39,32,105,115,32,110,111,116,32,115,117,112,112,111,114,116,101,100,32,98,121,32,97,117,116,111,109,97,116,105,111,110,32,111,98,106,101,99,116],"value":"Method '%s' is not supported by automation object"},
+{"hash":104123688,"name":"comconst.soleerror","sourcebytes":[79,76,69,32,101,114,114,111,114,32,37,46,56,120],"value":"OLE error %.8x"},
+{"hash":220614532,"name":"comconst.svarnotobject","sourcebytes":[86,97,114,105,97,110,116,32,100,111,101,115,32,110,111,116,32,114,101,102,101,114,101,110,99,101,32,97,110,32,97,117,116,111,109,97,116,105,111,110,32,111,98,106,101,99,116],"value":"Variant does not reference an automation object"},
+{"hash":189432724,"name":"comconst.sdcomnotinstalled","sourcebytes":[68,67,79,77,32,110,111,116,32,105,110,115,116,97,108,108,101,100],"value":"DCOM not installed"},
+{"hash":230927409,"name":"comconst.snocloseactiveserver1","sourcebytes":[78,111,67,108,111,115,101,65,99,116,105,118,101,83,101,114,118,101,114,49],"value":"NoCloseActiveServer1"},
+{"hash":230927410,"name":"comconst.snocloseactiveserver2","sourcebytes":[78,111,67,108,111,115,101,65,99,116,105,118,101,83,101,114,118,101,114,50],"value":"NoCloseActiveServer2"},
+{"hash":27343319,"name":"comconst.sautomationwarning","sourcebytes":[67,79,77,32,65,117,116,111,109,97,116,105,111,110,32,87,97,114,110,105,110,103],"value":"COM Automation Warning"}
+]}
