@@ -23,18 +23,23 @@ Polish, English, German, French, Italian, Spanish, Portuguese, Russian, Chinese,
 ### [Documentation](https://avocado.doc.dimitalart.pl/)
 ### [Official website](https://avocado.dimitalart.pl/) 
 ### [Download Avocado IDE](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
-![Avocado v 1.0.1.0](image/Avocado-1.0.1.0_eng1.jpg)
-### Avocado random number generation program
-![Avocado ustawienia v 1.0.1.0](image/Avocado-1.0.1.0_eng2.jpg)
-### Avocado available languages 
-![Avocado ustawienia v 1.0.1.0](image/Avocado-1.0.1.0_eng3.jpg)
-### Avocado simple calculator
-![Avocado ustawienia v 1.0.1.0](image/Avocado-1.0.1.0_eng4.jpg)
+![Avocado v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_2.png)
 ### Avocado application examples
-![Avocado ustawienia v 1.0.1.0](image/Avocado-1.0.1.0_eng.5.jpg)
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_3.png)
+### 
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_4.png)
+### Avocado available languages 
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_5.png)
+### A simple console calculator in Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_6.png)
+### Ai Assistant at Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_7.png)
+
+### Compiler Settings in Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_8.png)
 
 ### Avocado settings for the ChatGPT AI assistant
-![Avocado ustawienia v 1.0.1.0](image/Avocado-1.00.9_eng6.jpg)
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_1.png)
 
 # How to work with Avocado source code
 + ## First, you need to download Lazarus 4.2 or newer. [Link to Lazarus](https://www.lazarus-ide.org/)
@@ -79,18 +84,24 @@ polski, angielski, niemiecki, francuski, włoski, hiszpański, portugalski, rosy
 ### [Dokumentacja po polsku](https://avocado.doc.dimitalart.pl/)
 ### [Oficjalna strona](https://avocado.dimitalart.pl/) 
 ### [Pobrać IDE Avocado](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
-![Avocado v 1.0.0.9](image/Avocado-1.00.9.jpg)
-### Avocado ustawienia
-![Avocado ustawienia v 1.0.0.9](image/Avocado-ustawienia.jpg)
-### Avocado prykłady apliakcji
-![Avocado ustawienia v 1.0.0.9](image/Avocado-przyklady.jpg)
-### Avocado funkcji matematyczne
-![Avocado ustawienia v 1.0.0.9](image/Avocado-modul-matermatyka.jpg)
-### Avocado prosty kalkulator
-![Avocado ustawienia v 1.0.0.9](image/Avocado-kalkulator.jpg)
 
-### Avocado ustawienia pomocnika AI ChatGPT
-![Avocado ustawienia v 1.0.0.9](image/Avocado-ai.jpg)
+![Avocado v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_2.png)
+### Przykłady aplikacji w Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_3.png)
+### 
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_4.png)
+### Dostępne języki w Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_5.png)
+### Prosty kalkulator konsolowy w Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_6.png)
+### Asystent AI w Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_7.png)
+
+### Ustawienia kompilatora w Avocado
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_8.png)
+
+### Ustawienia Avocadow asystent AI ChatGPT
+![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_1.png)
 
 # Jak pracować z kodem Avocado
 + ## Najpierw trzeba pobrać środowisko Lazarus 4.2 lub nowsze [Link do Lazarus](https://www.lazarus-ide.org/)
