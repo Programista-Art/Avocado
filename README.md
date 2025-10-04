@@ -40,7 +40,13 @@ Polish, English, German, French, Italian, Spanish, Portuguese, Russian, Chinese,
 + ## First, you need to download Lazarus 4.2 or newer. [Link to Lazarus](https://www.lazarus-ide.org/)
 + ## Install the bgracontrols component in Lazarus and rebuild Lazarus.
 ## In Lazarus, find Package > Online Package Manager in the menu, search for the bgracontrols component, install it, then rebuild the IDE, and everything should work.
+
 ![Avocado ustawienia v 1.0.0.9](image/instalacja/bgracontrols.jpg)
+## Install the MetaDarkStyle component in Lazarus and add the metadarkstyledsgn package to the project.
+## Installing MetaDarkStyle Package -> Online Package Manager, enter MetaDarkStyle in the field and install it, then rebuild Lazarus.
+![Avocado ustawienia v 1.0.0.9](image/instalacja/instalacja-metadarkstyle.jpg)
+## Add the metadarkstyledsgn package to your project
+![Avocado ustawienia v 1.0.0.9](image/instalacja/instalacja-metadarkstyledsgn.jpg)
 
 
 
@@ -91,5 +97,11 @@ polski, angielski, niemiecki, francuski, włoski, hiszpański, portugalski, rosy
 + ## Zainstaluj w Lazarusie komponent bgracontrols i przebuduj Lazarus.
 ## W Lazarusie w menu znajdź punkt Pakiet > Online Package Manager i wyszukaj komponent bgracontrols i zainstaluj go, potem przebuduj ide i powinno wszystko działać.
 ![Avocado ustawienia v 1.0.0.9](image/instalacja/bgracontrols.jpg)
+## Zainstaluj w lazarusie komponent MetaDarkStyle i dodaj pakiet metadarkstyledsgn  do projektu.
+## Instalacja MetaDarkStyle Pakiet -> Online Package Managet w polu wpisujemy MetaDarkStyle i instalujemy dalej przebuduj Lazarus.
+![Avocado ustawienia v 1.0.0.9](image/instalacja/instalacja-metadarkstyle.jpg)
+## Dodaj do projektu pakiet metadarkstyledsgn
+![Avocado ustawienia v 1.0.0.9](image/instalacja/instalacja-metadarkstyledsgn.jpg)
+
 
 
