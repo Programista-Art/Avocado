@@ -1,0 +1,5 @@
+program pinguje
+importuj internet
+tekst witaj = 'Witaj w programie PING'
+jeśli ping('google.com') wtedy pisznl('Strona google.com odpowiada!') inaczej pisznl('Nie można nawiązać połączenia z google.com')
+

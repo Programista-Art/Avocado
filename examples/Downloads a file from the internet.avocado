@@ -1,0 +1,2 @@
+program pobierz
+pobierz_plik('https://avocado.doc.dimitalart.pl/ustawienia.jpg', 'D:\bazy\info\ustawienia.jpg')

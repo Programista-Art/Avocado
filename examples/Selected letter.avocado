@@ -1,0 +1,5 @@
+program ddd
+znak a = 's'
+pisz_linie('Wpisz literę')
+czytaj_linie(a)
+pisz_linie('Wybrana litera: ', a)

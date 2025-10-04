@@ -1,0 +1,10 @@
+Program matma
+importuj matematyka
+oblicz('(2+2)*4')
+oblicz('Cos(0)')
+oblicz('sin(50)')
+oblicz('tan(6)')
+//Funkcja Wartość bezwzględna liczby x
+oblicz('wbl(5)')
+oblicz('kwadrat_liczby(10)')
+oblicz('pierwiastek_kw(10)')
