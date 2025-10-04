@@ -1,37 +1,29 @@
 object FormPrzyklady: TFormPrzyklady
   Left = 350
-  Height = 355
+  Height = 478
   Top = 250
   Width = 415
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Przyklady aplikacji'
-  ClientHeight = 355
+  Caption = 'Application examples'
+  ClientHeight = 478
   ClientWidth = 415
+  Color = clWindow
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
-  object ExampleListBox: TBCListBox
-    Left = 0
-    Height = 323
-    Top = 0
-    Width = 415
-    Align = alClient
-    BorderStyle = bsNone
-    ItemHeight = 48
-    Style = lbOwnerDrawFixed
-    TabOrder = 0
-    OnDblClick = ExampleListBoxDblClick
-  end
   object PanelBottom: TPanel
     Left = 0
     Height = 32
-    Top = 323
+    Top = 446
     Width = 415
     Align = alBottom
+    BevelColor = clWindow
     ClientHeight = 32
     ClientWidth = 415
-    TabOrder = 1
+    Color = clWindow
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 0
     object SpeedButton1: TSpeedButton
       Left = 384
       Height = 30
@@ -41,6 +33,17 @@ object FormPrzyklady: TFormPrzyklady
       Caption = 'Ok'
       OnClick = SpeedButton1Click
     end
+  end
+  object ExampleListBox: TFileListBox
+    Left = 10
+    Height = 426
+    Top = 10
+    Width = 395
+    Align = alClient
+    BorderSpacing.Around = 10
+    ItemHeight = 0
+    TabOrder = 1
+    OnDblClick = ExampleListBoxDblClick
   end
   object OD: TOpenDialog
     Left = 80

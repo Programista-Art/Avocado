@@ -222,6 +222,7 @@ type
     procedure CloseProgram;
 
 
+
   public
     procedure LoadAvocadoFileToEditor(const FileName: string);
     constructor Create(TheOwner: TComponent); override;
@@ -380,9 +381,8 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-
-    if not Assigned(SynEditCode) then
-    ShowMessage(TranslateSynEditCodeNotCreated);
+  if not Assigned(SynEditCode) then
+  ShowMessage(TranslateSynEditCodeNotCreated);
   LoadFpc;
   //Saves a temporary file where the project is saved
   //Zapisuje plik tymczasowy tam gdzie jest zapisany projekt
@@ -1632,9 +1632,11 @@ begin
 
 end;
 
+
+
 procedure TFormMain.LoadAvocadoFileToEditor(const FileName: string);
 var
-  FolderPath: string;
+    FolderPath: string;
     BaseName: string;
     FileNameExample: string;
 begin
@@ -1644,7 +1646,7 @@ begin
       Exit;
     end;
 
-    FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'przyklady' + PathDelim;
+    FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'examples' + PathDelim;
 
     try
       BaseName := Trim(FormPrzyklady.ExampleListBox.Items[FormPrzyklady.ExampleListBox.ItemIndex]);

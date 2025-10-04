@@ -17,9 +17,10 @@ object Settingai: TSettingai
     Top = 331
     Width = 262
     Align = alBottom
+    BevelColor = clWindow
     ClientHeight = 32
     ClientWidth = 262
-    Color = clMenuBar
+    Color = clWindow
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -60,7 +61,7 @@ object Settingai: TSettingai
       Top = 1
       Width = 260
       Align = alClient
-      Color = clWindowFrame
+      Color = clBlack
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite
       Font.Pitch = fpVariable
@@ -250,6 +251,7 @@ object Settingai: TSettingai
       BorderSpacing.Left = 5
       BorderSpacing.Right = 5
       BorderSpacing.Bottom = 5
+      Color = clBlack
       EchoMode = emPassword
       PasswordChar = '*'
       PopupMenu = PopupMenu1

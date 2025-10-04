@@ -13,8 +13,8 @@ uses
   Forms, anchordockpkg, lazcontrols, runtimetypeinfocontrols, printer4lazarus,
   tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, chatgptavocado,
-  matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady,
-  uDarkStyleParams, uDarkStyleSchemes, uMetaDarkStyle, themesettings ;
+  matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady,themesettings,
+  uDarkStyleParams, uDarkStyleSchemes, uMetaDarkStyle;
 
 {$R *.res}
 

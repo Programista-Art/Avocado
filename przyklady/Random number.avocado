@@ -1,6 +1,0 @@
-program randomowa
-randomize()
-//Losowa liczba maksymalna 100
-int a = random(100)
-print_line(a)
-

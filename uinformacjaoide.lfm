@@ -5,7 +5,7 @@ object Finformacjaide: TFinformacjaide
   Width = 215
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Informacja o IDE Avocado'
+  Caption = 'Information about the Avocado IDE'
   ClientHeight = 169
   ClientWidth = 215
   Color = 2697513
@@ -16,9 +16,10 @@ object Finformacjaide: TFinformacjaide
     Top = 137
     Width = 215
     Align = alBottom
+    BevelColor = clWindow
     ClientHeight = 32
     ClientWidth = 215
-    Color = 5588525
+    Color = clWindow
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -44,18 +45,18 @@ object Finformacjaide: TFinformacjaide
     Width = 215
     Align = alClient
     Alignment = taCenter
-    Color = 5197647
+    Color = clBlack
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
-      'F8  →  Transpiluj Kod w Free Pascal'
-      'F9  →  Kompiluj program w .exe'
+      'F8 → Transpile Code to Free Pascal'
+      'F9 → Compile Program to .exe'
       ''
-      'Ctrl+N  → Nowy Plik'
-      'Ctrl+O →  Otwórz plik'
-      'Ctrl+S  →  Zapisz plik'
+      'Ctrl+N → New File'
+      'Ctrl+O → Open File'
+      'Ctrl+S → Save File'
     )
     ParentFont = False
     ReadOnly = True

@@ -15,10 +15,10 @@ object Wsparcie: TWsparcie
     Top = 210
     Width = 418
     Align = alBottom
-    BevelColor = 5197647
+    BevelColor = clWindowFrame
     ClientHeight = 32
     ClientWidth = 418
-    Color = 5588525
+    Color = clWindowFrame
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -29,7 +29,7 @@ object Wsparcie: TWsparcie
       Width = 386
       Align = alClient
       Alignment = taCenter
-      Color = clWhite
+      Color = clWindow
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite
       Font.Pitch = fpVariable
@@ -53,12 +53,9 @@ object Wsparcie: TWsparcie
     Top = 132
     Width = 418
     Align = alBottom
-    BevelColor = 5197647
     ClientHeight = 78
     ClientWidth = 418
-    Color = 5197647
     ParentBackground = False
-    ParentColor = False
     TabOrder = 1
     object SpeedButton2: TSpeedButton
       Left = 88
@@ -80,17 +77,17 @@ object Wsparcie: TWsparcie
     Top = 0
     Width = 418
     Align = alClient
-    Color = 5197647
+    Color = clBlack
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
-      'Wesprzyj rozwój języka programowania Avocado!'
-      'Jeśli podoba Ci się projekt i chcesz pomóc w jego dalszym rozwoju, możesz to zrobić wspierając go dowolną kwotą.'
-      'Twoje wsparcie pomoże mi tworzyć nowe funkcje, ulepszać dokumentację i rozwijać ekosystem Avocado.'
+      'Support the development of the Avocado programming language!'
+      'If you like the project and want to help its further development, you can do so by donating any amount.'
+      'Your support will help me create new features, improve documentation, and grow the Avocado ecosystem.'
       ''
-      'Dziękuje za każde wsparcie – nawet najmniejsza kwota ma znaczenie!'
+      'Thank you for every support – even the smallest amount makes a difference!'
     )
     ParentFont = False
     ReadOnly = True

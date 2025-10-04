@@ -5,21 +5,21 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
   Width = 336
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Opcje Projektu'
+  Caption = 'Project Options'
   ClientHeight = 253
   ClientWidth = 336
   Color = 2697513
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 32
     Top = 221
     Width = 336
     Align = alBottom
+    BevelColor = clWindow
     ClientHeight = 32
     ClientWidth = 336
-    Color = 5588525
+    Color = clWindow
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -40,14 +40,14 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
     Width = 336
     Align = alClient
     Alignment = taCenter
-    Color = 5197647
+    Color = clBlack
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
     Font.Height = -16
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
-      'Aplikacjia konslowa kompilowana do pliku .exe'
+      'Console application compiling to .exe file'
     )
     ParentFont = False
     ReadOnly = True

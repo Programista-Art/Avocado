@@ -6,18 +6,20 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, BCListBox,
-  BGRASpeedButton, StdCtrls, ExtCtrls, Buttons,LCLTranslator, DefaultTranslator;
+  BGRASpeedButton, StdCtrls, ExtCtrls, Buttons, LCLTranslator,
+  DefaultTranslator, FileCtrl;
 
 type
 
   { TFormPrzyklady }
 
   TFormPrzyklady = class(TForm)
-    ExampleListBox: TBCListBox;
+    ExampleListBox: TFileListBox;
     OD: TOpenDialog;
     PanelBottom: TPanel;
     SpeedButton1: TSpeedButton;
     procedure ExampleListBoxDblClick(Sender: TObject);
+    procedure noExampleListBoxDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
   private
@@ -32,7 +34,19 @@ var
   FileNameExample,BaseName: String;
   FolderPath: string;
 
+resourcestring
+  TranslateAnErrorOccurred = 'An error occurred: ';
+  TranslateFileNotExist = 'File does not exist: ';
+  TranslateCheckExamples = 'Check that the "examples" folder exists and contains the appropriate files.';
+  TranslateErrObjectNotAvailable = 'Error: The FuSettingsChatGPT object is not available.';
+  TranslateEmptyItemSelected = 'Empty item selected';
+  TranslateNoItemSelected = 'No item selected';
+  TranslateErrFolder = 'Error: Folder "';
+  TranslateDoesntExist = '"does not exist!"';
+
 implementation
+
+
 uses
   Unit1;
 {$R *.lfm}
@@ -44,12 +58,15 @@ begin
   LoadExamplesToListBox;
 end;
 
-procedure TFormPrzyklady.ExampleListBoxDblClick(Sender: TObject);
+procedure TFormPrzyklady.noExampleListBoxDblClick(Sender: TObject);
 begin
   DoubleClickLoadToSynEdit;
 end;
 
-
+procedure TFormPrzyklady.ExampleListBoxDblClick(Sender: TObject);
+begin
+  DoubleClickLoadToSynEdit;
+end;
 
 
 procedure TFormPrzyklady.SpeedButton1Click(Sender: TObject);
@@ -63,20 +80,19 @@ var
    FilesList: TStringList;
    i: Integer;
 begin
-    if not Assigned(ExampleListBox) then Exit;
-
+  if not Assigned(ExampleListBox) then Exit;
   ExampleListBox.Clear;
 
-  FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'przyklady\';
+  FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'examples';
    //FolderPath := 'D:\przyklady\';
 
   if not DirectoryExists(FolderPath) then
   begin
-    ShowMessage('Błąd: Folder "' + FolderPath + '" nie istnieje!');
+    ShowMessage(TranslateErrFolder + FolderPath + TranslateDoesntExist);
     Exit;
   end;
 
-  FilesList := FindAllFiles(FolderPath, '*.avocado', False); // tylko pliki .avocado
+  FilesList := FindAllFiles(FolderPath, '*.avocado', False);
   try
     for i := 0 to FilesList.Count - 1 do
       ExampleListBox.Items.Add(
@@ -90,81 +106,61 @@ end;
 procedure TFormPrzyklady.DoubleClickLoadToSynEdit;
 begin
   // Sprawdź czy coś jest wybrane
+ // if noExampleListBox.ItemIndex = -1 then
   if ExampleListBox.ItemIndex = -1 then
   begin
-    ShowMessage('Nie wybrano żadnego elementu.');
+    ShowMessage(TranslateNoItemSelected);
     Exit;
   end;
 
   // Buduj ścieżkę do folderu przykładów
-   FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'przyklady\' + PathDelim;
-  //FolderPath := 'D:\przyklady\';
+   FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'examples' + PathDelim;
+
 
   // Debug - pokaż ścieżkę (można usunąć w wersji produkcyjnej)
-  // ShowMessage('Ścieżka: ' + FolderPath);
+ // ShowMessage('Ścieżka: ' + FolderPath);
 
   try
+    // Get the name of the selected item from the ListBox
     // Pobierz nazwę wybranego elementu z ListBoxa
     BaseName := Trim(ExampleListBox.Items[ExampleListBox.ItemIndex]);
+    //ShowMessage('nazwa: ' + BaseName);
 
     // Sprawdź czy nazwa nie jest pusta
     if BaseName = '' then
     begin
-      ShowMessage('Wybrano pusty element.');
+      ShowMessage(TranslateEmptyItemSelected);
       Exit;
     end;
-
+    // Remove the extension if it exists and add the correct one
     // Usuń rozszerzenie jeśli istnieje i dodaj właściwe
     if ExtractFileExt(BaseName) <> '' then
-      BaseName := ChangeFileExt(BaseName, ''); // usuń istniejące rozszerzenie
+    BaseName := ChangeFileExt(BaseName, ''); // usuń istniejące rozszerzenie
 
-    // Zbuduj pełną nazwę pliku
+    // Build full file name / Zbuduj pełną nazwę pliku
     FileNameExample := FolderPath + BaseName + '.avocado';
 
-    // Sprawdź czy plik istnieje i załaduj go
+    // Check if the file exists and upload it / Sprawdź czy plik istnieje i załaduj go
     if FileExists(FileNameExample) then
     begin
       if Assigned(FormMain) then
         FormMain.LoadAvocadoFileToEditor(FileNameExample)
       else
-        ShowMessage('Błąd: Obiekt FustawieniaChatGPT nie jest dostępny.');
+        ShowMessage(TranslateErrObjectNotAvailable);
     end
     else
     begin
-      ShowMessage('Plik nie istnieje: ' + FileNameExample + sLineBreak +
-                  'Sprawdź czy folder "przyklady" istnieje i zawiera odpowiednie pliki.');
+      ShowMessage(TranslateFileNotExist + FileNameExample + sLineBreak + TranslateCheckExamples);
     end;
 
   except
     on E: Exception do
     begin
-      ShowMessage('Wystąpił błąd: ' + E.Message);
+      ShowMessage(TranslateAnErrorOccurred + E.Message);
     end;
   end;
 end;
 
-  {
-  // Folder "przykłady" obok exe
-  FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'przyklady';
-
-  ExampleListBox.Clear;
-
-  if DirectoryExists(FolderPath) then
-  begin
-
-    FilesList := FindAllFiles(FolderPath, '*.avocado', False);
-
-    try
-      for i := 0 to FilesList.Count - 1 do
-        ExampleListBox.Items.Add(ExtractFileName(FilesList[i]));
-    finally
-      FilesList.Free;
-    end;
-  end
-  else
-    ShowMessage('Błąd: Folder "' + FolderPath + '" nie istnieje!');
-end;
-}
 
 end.
 

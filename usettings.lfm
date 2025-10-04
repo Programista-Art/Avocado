@@ -5,7 +5,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
   Width = 469
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Ustawienia'
+  Caption = 'Settings'
   ClientHeight = 273
   ClientWidth = 469
   Color = clWhite
@@ -56,7 +56,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Top = 0
     Width = 469
     Align = alTop
-    Caption = 'LInk do fpc.exe'
+    Caption = 'Link to fpc.exe'
     ClientHeight = 68
     ClientWidth = 465
     Font.CharSet = EASTEUROPE_CHARSET
@@ -74,9 +74,9 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
-      Color = clMenuHighlight
+      Color = clWindowFrame
       Font.CharSet = EASTEUROPE_CHARSET
-      Font.Color = clBlack
+      Font.Color = clWindowText
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
@@ -100,7 +100,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Top = 88
     Width = 469
     Align = alTop
-    Caption = 'Link do folderu FPC'
+    Caption = 'Link to FPC folder'
     ClientHeight = 68
     ClientWidth = 465
     ParentBackground = False
@@ -113,7 +113,9 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
-      Color = clMenuHighlight
+      Color = clWindowFrame
+      Font.Color = clWindowText
+      ParentFont = False
       TabOrder = 0
     end
     object SpbLoadFolderFPC: TSpeedButton
@@ -132,7 +134,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     Top = 176
     Width = 469
     Align = alClient
-    Caption = 'Platforma'
+    Caption = 'Platform'
     ClientHeight = 45
     ClientWidth = 465
     ParentBackground = False
@@ -144,12 +146,14 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Top = 8
       Width = 147
       BorderStyle = bsSingle
-      Color = clMenuHighlight
+      Color = clWindowFrame
+      Font.Color = clWindowText
       ItemHeight = 15
       ItemIndex = 0
       Items.Strings = (
         'x86_64-win64'
       )
+      ParentFont = False
       ReadOnly = True
       Style = csDropDownList
       TabOrder = 0

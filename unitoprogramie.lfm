@@ -49,9 +49,10 @@ object FormOprogramie: TFormOprogramie
       Top = -1
       Width = 318
       Align = alBottom
+      BevelColor = clWindow
       ClientHeight = 32
       ClientWidth = 318
-      Color = clInfoText
+      Color = clWindow
       ParentBackground = False
       ParentColor = False
       TabOrder = 0

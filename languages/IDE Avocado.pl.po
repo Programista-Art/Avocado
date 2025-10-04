@@ -44,7 +44,9 @@ msgid "Unknown variable type: "
 msgstr ""
 
 #: tfinformacjaide.caption
-msgid "Informacja o IDE Avocado"
+#, fuzzy
+#| msgid "Informacja o IDE Avocado"
+msgid "Information about the Avocado IDE"
 msgstr "Informacja o IDE Avocado"
 
 #: tfinformacjaide.speedbutton1.caption
@@ -53,11 +55,14 @@ msgid "OK"
 msgstr "OK"
 
 #: tformautor.caption
+#, fuzzy
+#| msgid "Autor"
 msgctxt "tformautor.caption"
-msgid "Autor"
+msgid "Author"
 msgstr "Autor"
 
 #: tformautor.speedbutton1.caption
+#, fuzzy
 msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
@@ -448,7 +453,9 @@ msgid "ZapiszPlik"
 msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.caption
-msgid "Opcje Projektu"
+#, fuzzy
+#| msgid "Opcje Projektu"
+msgid "Project Options"
 msgstr "Opcje Projektu"
 
 #: tformopcjeprojektu.sbok.caption
@@ -472,7 +479,9 @@ msgid "Ok"
 msgstr "Ok"
 
 #: tformprzyklady.caption
-msgid "Przyklady aplikacji"
+#, fuzzy
+#| msgid "Przyklady aplikacji"
+msgid "Application examples"
 msgstr "Przyklady aplikacji"
 
 #: tformprzyklady.speedbutton1.caption
@@ -486,8 +495,10 @@ msgid "Ok"
 msgstr "Ok"
 
 #: tformsettingintepreter.caption
+#, fuzzy
+#| msgid "Ustawienia"
 msgctxt "tformsettingintepreter.caption"
-msgid "Ustawienia"
+msgid "Settings"
 msgstr "Ustawienia"
 
 #: tformsettingintepreter.comboboboxplatforms.text
@@ -495,15 +506,21 @@ msgid "x86_64-win64"
 msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
-msgid "Platforma"
+#, fuzzy
+#| msgid "Platforma"
+msgid "Platform"
 msgstr "Platforma"
 
 #: tformsettingintepreter.groupbox2.caption
-msgid "LInk do fpc.exe"
+#, fuzzy
+#| msgid "LInk do fpc.exe"
+msgid "Link to fpc.exe"
 msgstr "LInk do fpc.exe"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
-msgid "Link do folderu FPC"
+#, fuzzy
+#| msgid "Link do folderu FPC"
+msgid "Link to FPC folder"
 msgstr "Link do folderu FPC"
 
 #: tsettingai.caption
@@ -633,6 +650,7 @@ msgid "Attention!"
 msgstr "Uwaga!"
 
 #: unit1.translatechackexamplesfolderexists
+msgctxt "unit1.translatechackexamplesfolderexists"
 msgid "Check that the \"examples\" folder exists and contains the appropriate files."
 msgstr "Sprawdź czy folder \"przyklady\" istnieje i zawiera odpowiednie pliki."
 
@@ -711,6 +729,7 @@ msgid "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly 
 msgstr "BŁĄD KRYTYCZNY: Ścieżka bazowa FPC (FpcBasePath) nie jest poprawnie skonfigurowana lub nie istnieje!"
 
 #: unit1.translateerroccurred
+msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
 msgstr "Wystąpił błąd: "
 
@@ -735,6 +754,7 @@ msgid "Failed to start program: "
 msgstr "Nie udało się uruchomić programu: "
 
 #: unit1.translatefiledoesnotexist
+msgctxt "unit1.translatefiledoesnotexist"
 msgid "File does not exist: "
 msgstr "Plik nie istnieje: "
 
@@ -825,4 +845,42 @@ msgstr "Błąd tłumaczenia:"
 #: unit1.translateunableunitdirectory
 msgid " .Unable to determine unit directory!"
 msgstr " . Nie można określić katalogu jednostek!"
+
+#: uprzyklady.translateanerroroccurred
+#, fuzzy
+msgctxt "uprzyklady.translateanerroroccurred"
+msgid "An error occurred: "
+msgstr "Wystąpił błąd: "
+
+#: uprzyklady.translatecheckexamples
+#, fuzzy
+msgctxt "uprzyklady.translatecheckexamples"
+msgid "Check that the \"examples\" folder exists and contains the appropriate files."
+msgstr "Sprawdź czy folder \"przyklady\" istnieje i zawiera odpowiednie pliki."
+
+#: uprzyklady.translatedoesntexist
+msgid "\"does not exist!\""
+msgstr ""
+
+#: uprzyklady.translateemptyitemselected
+msgid "Empty item selected"
+msgstr ""
+
+#: uprzyklady.translateerrfolder
+msgid "Error: Folder \""
+msgstr ""
+
+#: uprzyklady.translateerrobjectnotavailable
+msgid "Error: The FuSettingsChatGPT object is not available."
+msgstr ""
+
+#: uprzyklady.translatefilenotexist
+#, fuzzy
+msgctxt "uprzyklady.translatefilenotexist"
+msgid "File does not exist: "
+msgstr "Plik nie istnieje: "
+
+#: uprzyklady.translatenoitemselected
+msgid "No item selected"
+msgstr ""
 

@@ -1,7 +1,0 @@
-program pobierzstrone
-tekst c = ''
-lista_tekstów a = nic
-c = czytajnl('Podaj link do strony: ' )
-pobierz_strone(c,a,'D:\bazy\info\strona.html')
-pisznl('Zawartość pobranej strony:')
-pisznl(a.tekst)

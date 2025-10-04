@@ -1,3 +1,0 @@
-program zamykaaplikacje
-lc a = 300
-jeśli a < 10 wtedy wyjść inaczej pisznl('Nie wyłączam apkę')

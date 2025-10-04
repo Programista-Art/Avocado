@@ -1,3 +1,0 @@
-program czyistniejefolder
-tekst a = 'D:\Programowanie na Delphi\Lazarus projekty\2025\Luty-2025\moj-jezyk-programowania\testowanie-kodu\foldery\'
-jeśli czy_istnieje_katalog(a) wtedy pisz_linie('katalog istnieje') inaczej pisz_linie('katalog nie istnieje')
