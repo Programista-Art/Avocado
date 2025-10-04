@@ -37,15 +37,42 @@ msgstr "Invalid variable declaration: "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
-msgstr ""
+msgstr "Unknown file variable type: "
 
 #: avocadotranslator.translateunknownvariabletype
 msgid "Unknown variable type: "
-msgstr ""
+msgstr "Unknown variable type: "
+
+#: taiassistant.caption
+msgid "AI Helper"
+msgstr "AI Helper"
+
+#: taiassistant.editaskpromt.texthint
+msgctxt "taiassistant.editaskpromt.texthint"
+msgid "Wpisz zapytanie"
+msgstr "Enter your query"
+
+#: taiassistant.menuitemcopyallpascalzcode.caption
+msgctxt "taiassistant.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "Copy everything"
+
+#: taiassistant.menuitemcopypascalcode.caption
+msgctxt "taiassistant.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "Copy"
+
+#: taiassistant.menuitemoutputcodeclear.caption
+msgctxt "taiassistant.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "Delete"
+
+#: taiassistant.sbzapytaj.caption
+msgctxt "taiassistant.sbzapytaj.caption"
+msgid " >"
+msgstr " >"
 
 #: tfinformacjaide.caption
-#, fuzzy
-#| msgid "Informacja o IDE Avocado"
 msgid "Information about the Avocado IDE"
 msgstr "Information about IDE Avocado"
 
@@ -55,30 +82,21 @@ msgid "OK"
 msgstr "OK"
 
 #: tformautor.caption
-#, fuzzy
-#| msgid "Autor"
 msgctxt "tformautor.caption"
 msgid "Author"
 msgstr "Author"
 
 #: tformautor.speedbutton1.caption
-#, fuzzy
 msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
 
-#: tformmain.bcexpandpanel1.button.caption
-msgid "Pomocnik AI"
-msgstr "AI assistant"
-
 #: tformmain.butcompilecode.caption
-#, fuzzy
 msgctxt "tformmain.butcompilecode.caption"
 msgid "Kompiluj i zapisz"
 msgstr "Compile and save"
 
 #: tformmain.butcompilecode.hint
-#, fuzzy
 msgctxt "tformmain.butcompilecode.hint"
 msgid "Kompiluj"
 msgstr "Compile"
@@ -87,12 +105,12 @@ msgstr "Compile"
 msgid "IDE Avocado v 1.0.1.0"
 msgstr ""
 
-#: tformmain.editaskpromt.texthint
-msgid "Wpisz zapytanie"
-msgstr "Enter your query"
-
 #: tformmain.itemjaponski.caption
 msgid "日本語"
+msgstr ""
+
+#: tformmain.itemtools.caption
+msgid "Tools"
 msgstr ""
 
 #: tformmain.kompiluj.caption
@@ -105,7 +123,9 @@ msgid "Debug"
 msgstr "Debug"
 
 #: tformmain.label2.caption
-msgid "Informacja"
+#, fuzzy
+#| msgid "Informacja"
+msgid "Free Pascal Code"
 msgstr "Information"
 
 #: tformmain.label4.caption
@@ -156,6 +176,10 @@ msgstr "Information about IDE"
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
 msgstr ""
+
+#: tformmain.menuitaiasystant.caption
+msgid "AI Assistant"
+msgstr "AI Assistant"
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -208,11 +232,9 @@ msgstr ""
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: tformmain.menuitem2.caption
-#, fuzzy
-#| msgid "Ustawienia"
 msgctxt "tformmain.menuitem2.caption"
 msgid "Settings"
 msgstr "Settings"
@@ -226,10 +248,8 @@ msgid "Usuń "
 msgstr "Delete "
 
 #: tformmain.menuitem4.caption
-#, fuzzy
-#| msgid "Ustawienia pomocnika AI"
 msgid "AI Helper Settings"
-msgstr "AI assistant settings"
+msgstr "AI Helper Settings"
 
 #: tformmain.menuitem5.caption
 msgctxt "tformmain.menuitem5.caption"
@@ -397,8 +417,6 @@ msgid "Zapisz jak"
 msgstr "Save As"
 
 #: tformmain.menuustawinia.caption
-#, fuzzy
-#| msgid "Ustawienia"
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Settings"
 msgstr "Settings"
@@ -411,12 +429,6 @@ msgstr "NewFile"
 msgid "Nowy Plik"
 msgstr "New File"
 
-#: tformmain.panel1.caption
-#, fuzzy
-msgctxt "tformmain.panel1.caption"
-msgid "Panel1"
-msgstr "Panel1"
-
 #: tformmain.panel4.caption
 msgid "Panel4"
 msgstr "Panel4"
@@ -424,14 +436,6 @@ msgstr "Panel4"
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
 msgstr "PanelLewy"
-
-#: tformmain.paneltranspilacja.button.caption
-msgid "Transpilacja do Free Pascal"
-msgstr "Transpilation to Free Pascal"
-
-#: tformmain.sbzapytaj.caption
-msgid " >"
-msgstr " >"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -456,8 +460,6 @@ msgid "ZapiszPlik"
 msgstr "SaveFile"
 
 #: tformopcjeprojektu.caption
-#, fuzzy
-#| msgid "Opcje Projektu"
 msgid "Project Options"
 msgstr "Project Options"
 
@@ -482,10 +484,8 @@ msgid "Ok"
 msgstr "Ok"
 
 #: tformprzyklady.caption
-#, fuzzy
-#| msgid "Przyklady aplikacji"
 msgid "Application examples"
-msgstr "Examples of applications"
+msgstr "Application examples"
 
 #: tformprzyklady.speedbutton1.caption
 msgctxt "tformprzyklady.speedbutton1.caption"
@@ -498,8 +498,6 @@ msgid "Ok"
 msgstr "Ok"
 
 #: tformsettingintepreter.caption
-#, fuzzy
-#| msgid "Ustawienia"
 msgctxt "tformsettingintepreter.caption"
 msgid "Settings"
 msgstr "Settings"
@@ -509,22 +507,16 @@ msgid "x86_64-win64"
 msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
-#, fuzzy
-#| msgid "Platforma"
 msgid "Platform"
 msgstr "Platform"
 
 #: tformsettingintepreter.groupbox2.caption
-#, fuzzy
-#| msgid "LInk do fpc.exe"
 msgid "Link to fpc.exe"
 msgstr "Link to fpc.exe"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
-#, fuzzy
-#| msgid "Link do folderu FPC"
 msgid "Link to FPC folder"
-msgstr "Link to the FPC folder"
+msgstr "Link to FPC folder"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
@@ -576,19 +568,18 @@ msgstr "Cancel"
 #: tsettingtheme.btnsave.caption
 msgctxt "tsettingtheme.btnsave.caption"
 msgid "Save"
-msgstr ""
+msgstr "Save"
 
 #: tsettingtheme.caption
 msgid "Theme Settings"
-msgstr ""
+msgstr "Theme Settings"
 
 #: tsettingtheme.groupbox1.caption
 msgctxt "tsettingtheme.groupbox1.caption"
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: tsettingtheme.speedbutton1.caption
-#, fuzzy
 msgctxt "tsettingtheme.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
@@ -607,290 +598,280 @@ msgid "Wesprzyj projekt"
 msgstr "Support the project"
 
 #: unit1.countchars
-#, fuzzy
-#| msgid " Znaków"
 msgctxt "unit1.countchars"
 msgid " Signs"
-msgstr " Characters"
+msgstr " Signs"
 
 #: unit1.countline
-#, fuzzy
-#| msgid " Linii Kodu"
 msgctxt "unit1.countline"
 msgid " Lines of Code"
 msgstr " Lines of Code"
 
 #: unit1.newnamezprogram
-#, fuzzy
-#| msgid "Podaj nazwę programu:"
 msgid "Enter the name of the program:"
-msgstr "Enter the name of the programme:"
+msgstr "Enter the name of the program:"
 
 #: unit1.newprogramfile
-#, fuzzy
-#| msgid "Nowy plik"
 msgid "New file"
 msgstr "New file"
 
 #: unit1.openprojecttranslate
-#, fuzzy
-#| msgid "Otwarty projekt: "
 msgid "Open project: "
-msgstr "Open project:  "
+msgstr "Open project: "
 
 #: unit1.translateaddcustommodulespath
 msgid " - Added custom IDE modules path: "
-msgstr ""
+msgstr " - Added custom IDE modules path: "
 
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
-msgstr ""
+msgstr " - Added user modules path: "
 
 #: unit1.translateaihelperapikeyadded
 msgid "AI Helper API Key Added"
-msgstr ""
+msgstr "AI Helper API Key Added"
 
 #: unit1.translateaihelpermodel
 msgid "AI Helper Model: "
-msgstr ""
+msgstr "AI Helper Model: "
 
 #: unit1.translateanswer
 msgid "Answer!"
-msgstr ""
+msgstr "Answer!"
 
 #: unit1.translateattention
 msgid "Attention!"
-msgstr ""
+msgstr "Attention!"
 
 #: unit1.translatechackexamplesfolderexists
 msgctxt "unit1.translatechackexamplesfolderexists"
 msgid "Check that the \"examples\" folder exists and contains the appropriate files."
-msgstr ""
+msgstr "Check that the \"examples\" folder exists and contains the appropriate files."
 
 #: unit1.translatecheckapitokeninternetcon
 msgid "Check API token and internet connection"
-msgstr ""
+msgstr "Check API token and internet connection"
 
 #: unit1.translatecheckmodulesdir
 msgid "Checking the IDE s own modules directory: "
-msgstr ""
+msgstr "Checking the IDE s own modules directory: "
 
 #: unit1.translatecomilationsuccessoutputfile
 msgctxt "unit1.translatecomilationsuccessoutputfile"
 msgid "Compilation successful! Output file: "
-msgstr ""
+msgstr "Compilation successful! Output file: "
 
 #: unit1.translatecompilationsuccses
 msgctxt "unit1.translatecompilationsuccses"
 msgid "Compilation successful! Output file: "
-msgstr ""
+msgstr "Compilation successful! Output file: "
 
 #: unit1.translatecompilersettloaded
-msgid "Compiler settings loaded."
-msgstr ""
+msgid "Compiler settings loaded"
+msgstr "Compiler settings loaded"
 
 #: unit1.translatecompilingdebugmode
 msgid "Compiling in Debug mode..."
-msgstr ""
+msgstr "Compiling in Debug mode..."
 
 #: unit1.translatecompilingreleasemode
 msgid "Compiling in Release mode."
-msgstr ""
+msgstr "Compiling in Release mode."
 
 #: unit1.translateconferrfpcbasepath
 msgid "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
-msgstr ""
+msgstr "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
 
 #: unit1.translateconferrmodulepath
 msgid "CONFIGURATION ERROR: no module path set "
-msgstr ""
+msgstr "CONFIGURATION ERROR: no module path set "
 
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
-msgstr ""
+msgstr "CONFIGURATION ERROR: Target platform not set in "
 
 #: unit1.translatecustmodulesdirnotfound
 msgid "Info: IDE custom modules directory not found: "
-msgstr ""
+msgstr "Info: IDE custom modules directory not found: "
 
 #: unit1.translateeditorfontsizeloaded
 msgid "Editor font size loaded: "
-msgstr ""
+msgstr "Editor font size loaded: "
 
 #: unit1.translateeditorfontsizenoloaded
 msgid "Editor font size not loaded: "
-msgstr ""
+msgstr "Editor font size not loaded: "
 
 #: unit1.translateenterquestion
 msgid "Please enter your question!"
-msgstr ""
+msgstr "Please enter your question!"
 
 #: unit1.translateerrcompilation
 msgid "Compilation error: "
-msgstr ""
+msgstr "Compilation error: "
 
 #: unit1.translateerrcompilationcode
 msgid "Compilation error. Code: "
-msgstr ""
+msgstr "Compilation error. Code: "
 
 #: unit1.translateerremptyresponsereceived
 msgid "Error: Empty response received"
-msgstr ""
+msgstr "Error: Empty response received"
 
 #: unit1.translateerrfpcbasepathnotconfigure
 msgid "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!"
-msgstr ""
+msgstr "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!"
 
 #: unit1.translateerroccurred
 msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
-msgstr ""
+msgstr "An error occurred: "
 
 #: unit1.translateerrpacalcodecompile
 msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
-msgstr ""
+msgstr "Error: No Pascal code to compile (PascalCode parameter is empty). "
 
 #: unit1.translateerrpathtofpc
 msgid "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
-msgstr ""
+msgstr "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
 
 #: unit1.translateerrrequiredfpcstandardunitdirfound
 msgid "ERROR: Required FPC standard unit directory not found: "
-msgstr ""
+msgstr "ERROR: Required FPC standard unit directory not found: "
 
 #: unit1.translateerrusermodulespath
 msgid "WARNING: Configured user modules path (FModulsPath: "
-msgstr ""
+msgstr "WARNING: Configured user modules path (FModulsPath: "
 
 #: unit1.translatefailstartprogram
 msgid "Failed to start program: "
-msgstr ""
+msgstr "Failed to start program: "
 
 #: unit1.translatefiledoesnotexist
 msgctxt "unit1.translatefiledoesnotexist"
 msgid "File does not exist: "
-msgstr ""
+msgstr "File does not exist: "
 
 #: unit1.translatefilenotsaved
 msgid "File not saved. Compilation canceled."
-msgstr ""
+msgstr "File not saved. Compilation canceled."
 
 #: unit1.translatefilenotsavedbuildcancel
 msgid "Project not saved. Build canceled."
-msgstr ""
+msgstr "Project not saved. Build canceled."
 
 #: unit1.translatefpccompilernotexist
 msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
-msgstr ""
+msgstr "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
 
 #: unit1.translatefpcconfigureerrpathtofpc
 msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
-msgstr ""
+msgstr "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
 
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
-msgstr ""
+msgstr " - Info: IDE modules path is same as user modules, skipping duplicate."
 
 #: unit1.translateitemselected
 msgid "Empty item selected."
-msgstr ""
+msgstr "Empty item selected."
 
 #: unit1.translatelinktofpc
 msgid "Link to fpc.exe compiler: "
-msgstr ""
+msgstr "Link to fpc.exe compiler: "
 
 #: unit1.translatelinktofpcfolder
 msgid "Link to compiler folder: "
-msgstr ""
+msgstr "Link to compiler folder: "
 
 #: unit1.translateloadingsettings
 msgid "Loading settings "
-msgstr ""
+msgstr "Loading settings "
 
 #: unit1.translatemistake
 msgid "Mistake"
-msgstr ""
+msgstr "Mistake"
 
 #: unit1.translatemodules
 msgid "Modules: "
-msgstr ""
+msgstr "Modules: "
 
 #: unit1.translatenoitemselected
 msgid "No item selected."
-msgstr ""
+msgstr "No item selected."
 
 #: unit1.translatenotexist
 msgid " ) does not exist! "
-msgstr ""
+msgstr " ) does not exist! "
 
 #: unit1.translatenotokenaiassistant
 msgid "No token from AI Assistant"
-msgstr ""
+msgstr "No token from AI Assistant"
 
 #: unit1.translateplatform
 msgid "Platform: "
-msgstr ""
+msgstr "Platform: "
 
 #: unit1.translatesaveproject
 msgid "Project not saved. Save project before compiling?"
-msgstr ""
+msgstr "Project not saved. Save project before compiling?"
 
 #: unit1.translatestandardfpcunits
 msgid " .Standard FPC units will not be found!"
-msgstr ""
+msgstr " .Standard FPC units will not be found!"
 
 #: unit1.translatestartcomilation
 msgid "Starting compilation..."
-msgstr ""
+msgstr "Starting compilation..."
 
 #: unit1.translatestartcomilationparam
 msgid "Starting compilation with parameters: "
-msgstr ""
+msgstr "Starting compilation with parameters: "
 
 #: unit1.translatesyneditcodenotcreated
 msgid "NOTE: SynEditCode not created!"
-msgstr ""
+msgstr "NOTE: SynEditCode not created!"
 
 #: unit1.translatetranslationerror
 msgid "Translation Error: "
-msgstr ""
+msgstr "Translation Error: "
 
 #: unit1.translateunableunitdirectory
 msgid " .Unable to determine unit directory!"
-msgstr ""
+msgstr " .Unable to determine unit directory!"
 
 #: uprzyklady.translateanerroroccurred
 msgctxt "uprzyklady.translateanerroroccurred"
 msgid "An error occurred: "
-msgstr ""
+msgstr "An error occurred: "
 
 #: uprzyklady.translatecheckexamples
 msgctxt "uprzyklady.translatecheckexamples"
 msgid "Check that the \"examples\" folder exists and contains the appropriate files."
-msgstr ""
+msgstr "Check that the \"examples\" folder exists and contains the appropriate files."
 
 #: uprzyklady.translatedoesntexist
 msgid "\"does not exist!\""
-msgstr ""
+msgstr "\"does not exist!\""
 
 #: uprzyklady.translateemptyitemselected
 msgid "Empty item selected"
-msgstr ""
+msgstr "Empty item selected"
 
 #: uprzyklady.translateerrfolder
 msgid "Error: Folder \""
-msgstr ""
+msgstr "Error: Folder \""
 
 #: uprzyklady.translateerrobjectnotavailable
 msgid "Error: The FuSettingsChatGPT object is not available."
-msgstr ""
+msgstr "Error: The FuSettingsChatGPT object is not available."
 
 #: uprzyklady.translatefilenotexist
 msgctxt "uprzyklady.translatefilenotexist"
 msgid "File does not exist: "
-msgstr ""
+msgstr "File does not exist: "
 
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
-msgstr ""
+msgstr "No item selected"
 

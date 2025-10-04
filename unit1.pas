@@ -16,8 +16,8 @@ uses
 type
   { TFormMain }
   TFormMain = class(TForm)
-    BCExpandPanel1: TBCExpandPanel;
     LRozmiarZccionkiEdytora: TLabel;
+    MemoOutPut: TMemo;
     MenuExamples: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
@@ -36,6 +36,8 @@ type
     MenuIteGrecki: TMenuItem;
     itemJaponski: TMenuItem;
     MenuItem19: TMenuItem;
+    ItemTools: TMenuItem;
+    MenuItAiAsystant: TMenuItem;
     MenuItemTurkishLang: TMenuItem;
     MenuItemSwedishLang: TMenuItem;
     MenuItemSlovenianLang: TMenuItem;
@@ -52,10 +54,8 @@ type
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
-    EditAskPromt: TEdit;
     Label3: TLabel;
     Label4: TLabel;
-    MemoAnswerChatGPT: TMemo;
     Label2: TLabel;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
@@ -64,8 +64,6 @@ type
     MenuItemCopyAllPascalzCode: TMenuItem;
     MenuItemcopyPascalCode: TMenuItem;
     Panel5: TPanel;
-    PanelAiChatGPT: TPanel;
-    PanelTranspilacja: TBCExpandPanel;
     IdleTimer1: TIdleTimer;
     Label1: TLabel;
     MemoLogs: TMemo;
@@ -74,7 +72,6 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     PanelDolnynadKosnola: TPanel;
-    sbzapytaj: TSpeedButton;
     StatusBar: TStatusBar;
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
@@ -83,7 +80,6 @@ type
     Transpiluj: TAction;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
-    MemoOutPut: TMemo;
     MenuItem3: TMenuItem;
     MenuAboutProgram: TMenuItem;
     MenuAutor: TMenuItem;
@@ -134,6 +130,7 @@ type
     procedure itemJaponskiClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuIArabskiClick(Sender: TObject);
+    procedure MenuItAiAsystantClick(Sender: TObject);
     procedure MenuIteFinskiClick(Sender: TObject);
     procedure MenuIteGreckiClick(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
@@ -168,11 +165,9 @@ type
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
-    procedure MenuItem7Click(Sender: TObject);
     procedure MenuItemCopyAllPascalzCodeClick(Sender: TObject);
     procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
-    procedure sbzapytajClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
 
     procedure TranspilujExecute(Sender: TObject);
@@ -216,7 +211,6 @@ type
     procedure ExtractProgramFromSynEdit;
     function ExtractProgramName(const Line: string): string;
     // Metoda callback do obsługi odpowiedzi ChatGPT
-    procedure OnChatGPTResponse(const ResponseText: string);
     procedure LoadTokenGPT;
     //procedure LoadLang;
     procedure CloseProgram;
@@ -230,8 +224,6 @@ type
     //Code compilation / Kompilacja kodu
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
    // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
-   //ChatGPT
-   procedure AskChatGPT(promt:String; memopromt: TMemo);
    procedure InternalLoadAvocadoFile(const FileName: string);
    procedure TranspilujKod;
   end;
@@ -329,7 +321,7 @@ resourcestring
    TranslateConfErrTargetPlatform = 'CONFIGURATION ERROR: Target platform not set in ';
    TranslateUnableUnitDirectory = ' .Unable to determine unit directory!';
    TranslateConfErrModulePath = 'CONFIGURATION ERROR: no module path set ';
-   TranslateCompilerSettLoaded = 'Compiler settings loaded.';
+   TranslateCompilerSettLoaded = 'Compiler settings loaded';
    TranslateLinkToFpc = 'Link to fpc.exe compiler: ';
    TranslateLinkToFpcFolder = 'Link to compiler folder: ';
    TranslatePlatform = 'Platform: ';
@@ -373,7 +365,7 @@ implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- chatgptavocado,uchatgpt,uprzyklady,ustawieniaai, themesettings;
+ chatgptavocado,uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper;
 
 {$R *.lfm}
 
@@ -435,6 +427,11 @@ begin
   SetDefaultLang('ar');
   lang := 'ar';
   IsClickMainMenuLanguage(10);
+end;
+
+procedure TFormMain.MenuItAiAsystantClick(Sender: TObject);
+begin
+  aiassistant.Show;
 end;
 
 procedure TFormMain.MenuIteFinskiClick(Sender: TObject);
@@ -654,10 +651,7 @@ begin
   MemoLogs.CopyToClipboard;
 end;
 
-procedure TFormMain.MenuItem7Click(Sender: TObject);
-begin
-  AskChatGPT('Znajdź blędy w kodzie  który jest napisany w Free Pascalu wytłumacz jak kod poprawić w języku polskim.', MemoOutPut);
-end;
+
 
 procedure TFormMain.MenuItemCopyAllPascalzCodeClick(Sender: TObject);
 begin
@@ -673,28 +667,6 @@ end;
 procedure TFormMain.MenuItemWsparcieprojektuClick(Sender: TObject);
 begin
   Wsparcie.ShowModal;
-end;
-
-procedure TFormMain.sbzapytajClick(Sender: TObject);
-begin
-  PromptChatGPT := EditAskPromt.Text;
-   if Trim(PromptChatGPT) = '' then
-  begin
-    ShowMessage(TranslateEnterQuestion);
-    Exit;
-  end;
-  //Disable button while waiting for a response
-  // Wyłącz przycisk podczas oczekiwania na odpowiedź
-  sbzapytaj.Enabled := False;
-  try
-    ZapytajChatGPT(Token, ModelGPT, PromptChatGPT, @OnChatGPTResponse);
-  except
-    on E: Exception do
-    begin
-      ShowMessage(TranslateMistake + E.Message);
-      sbzapytaj.Enabled := True;
-    end;
-  end;
 end;
 
 
@@ -958,7 +930,7 @@ end;
 
 procedure TFormMain.LoadFpc;
 begin
-   MemoLogs.Lines.Add(TranslateLoadingSettings);
+   //MemoLogs.Lines.Add(TranslateLoadingSettings);
   {
   AppDir := ExtractFilePath(Application.ExeName);
   FFpcPath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'fpc\3.2.2\bin\x86_64-win64\fpc.exe');
@@ -1398,31 +1370,6 @@ begin
   if FileExists(TempFile) then DeleteFile(TempFile);
 end;
 
-procedure TFormMain.AskChatGPT(promt:String; memopromt: TMemo);
-begin
-  //Advanced prompt
-  //Zaawansowany prompt
-  PromptChatGPT:= promt +  ' ' + memopromt.Text;
-  //PromptChatGPT := AdvancedPromt;
-  if Trim(PromptChatGPT) = '' then
-  begin
-    ShowMessage('Brak promtu!');
-    Exit;
-  end;
-  // Disable the button while waiting for a response
-  // Wyłącz przycisk podczas oczekiwania na odpowiedź
-  PopupMenuOutPutPascalCode.Items[3].Enabled := False;
-  try
-    // Wywołanie funkcji
-    ZapytajChatGPT(Token, ModelGPT, PromptChatGPT, @OnChatGPTResponse);
-  except
-    on E: Exception do
-    begin
-      ShowMessage(TranslateMistake + E.Message);
-      PopupMenuOutPutPascalCode.Items[3].Enabled := True;
-    end;
-  end;
-end;
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);
 begin
@@ -1559,31 +1506,6 @@ begin
     end;
 end;
 
-procedure TFormMain.OnChatGPTResponse(const ResponseText: string);
-begin
-    try
-      MemoAnswerChatGPT.Clear;
-
-    if Trim(ResponseText) <> '' then
-    begin
-      MemoAnswerChatGPT.Lines.Add(TranslateAnswer);
-      MemoAnswerChatGPT.Lines.Add('==================');
-      MemoAnswerChatGPT.Lines.Add('');
-      MemoAnswerChatGPT.Lines.Add(ResponseText);
-      MemoAnswerChatGPT.Lines.Add('');
-      MemoAnswerChatGPT.Lines.Add('==================');
-      MemoAnswerChatGPT.Lines.Add('⏰' + FormatDateTime('yyyy-mm-dd hh:nn:ss', Now));
-    end
-    else
-    begin
-      MemoAnswerChatGPT.Lines.Add(TranslateErrEmptyResponseReceived);
-      MemoAnswerChatGPT.Lines.Add(TranslateCheckApiTokenInternetCon);
-    end;
-  finally
-    // Restore the interface to normal state / Przywróć normalny stan interfejsu
-    sbzapytaj.Enabled := True;
-  end;
-end;
 
 procedure TFormMain.LoadTokenGPT;
 begin

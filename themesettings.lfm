@@ -9,6 +9,7 @@ object SettingTheme: TSettingTheme
   ClientHeight = 240
   ClientWidth = 320
   Position = poMainFormCenter
+  LCLVersion = '4.2.0.0'
   object GroupBox1: TGroupBox
     Left = 10
     Height = 188

@@ -6,8 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Buttons, BCComboBox, BGRACustomDrawn, BCButton, Inifiles, uDarkStyleParams,
-   uWin32WidgetSetDark, uDarkStyleSchemes, uMetaDarkStyle;
+  Buttons, BCComboBox, BGRACustomDrawn, BCButton, DefaultTranslator, LCLTranslator;
 
 type
 

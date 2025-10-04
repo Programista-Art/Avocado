@@ -41,11 +41,38 @@ msgstr "Nieznany typ zmiennej plikowej: "
 
 #: avocadotranslator.translateunknownvariabletype
 msgid "Unknown variable type: "
-msgstr ""
+msgstr "Nieznany typ zmiennej: "
+
+#: taiassistant.caption
+msgid "AI Helper"
+msgstr "Pomocnik AI"
+
+#: taiassistant.editaskpromt.texthint
+msgctxt "taiassistant.editaskpromt.texthint"
+msgid "Wpisz zapytanie"
+msgstr "Wpisz zapytanie"
+
+#: taiassistant.menuitemcopyallpascalzcode.caption
+msgctxt "taiassistant.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "Kopiuj wszystko"
+
+#: taiassistant.menuitemcopypascalcode.caption
+msgctxt "taiassistant.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "Kopiuj"
+
+#: taiassistant.menuitemoutputcodeclear.caption
+msgctxt "taiassistant.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "Usuń"
+
+#: taiassistant.sbzapytaj.caption
+msgctxt "taiassistant.sbzapytaj.caption"
+msgid " >"
+msgstr " >"
 
 #: tfinformacjaide.caption
-#, fuzzy
-#| msgid "Informacja o IDE Avocado"
 msgid "Information about the Avocado IDE"
 msgstr "Informacja o IDE Avocado"
 
@@ -55,21 +82,14 @@ msgid "OK"
 msgstr "OK"
 
 #: tformautor.caption
-#, fuzzy
-#| msgid "Autor"
 msgctxt "tformautor.caption"
 msgid "Author"
 msgstr "Autor"
 
 #: tformautor.speedbutton1.caption
-#, fuzzy
 msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
-
-#: tformmain.bcexpandpanel1.button.caption
-msgid "Pomocnik AI"
-msgstr "Pomocnik AI"
 
 #: tformmain.butcompilecode.caption
 msgctxt "tformmain.butcompilecode.caption"
@@ -85,13 +105,13 @@ msgstr "Kompiluj"
 msgid "IDE Avocado v 1.0.1.0"
 msgstr ""
 
-#: tformmain.editaskpromt.texthint
-msgid "Wpisz zapytanie"
-msgstr "Wpisz zapytanie"
-
 #: tformmain.itemjaponski.caption
 msgid "日本語"
 msgstr ""
+
+#: tformmain.itemtools.caption
+msgid "Tools"
+msgstr "Narzędzia"
 
 #: tformmain.kompiluj.caption
 msgctxt "tformmain.kompiluj.caption"
@@ -103,7 +123,9 @@ msgid "Debug"
 msgstr "Debug"
 
 #: tformmain.label2.caption
-msgid "Informacja"
+#, fuzzy
+#| msgid "Informacja"
+msgid "Free Pascal Code"
 msgstr "Informacja"
 
 #: tformmain.label4.caption
@@ -154,6 +176,10 @@ msgstr "Informacja o IDE"
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
 msgstr ""
+
+#: tformmain.menuitaiasystant.caption
+msgid "AI Assistant"
+msgstr "Asystent AI"
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -206,11 +232,9 @@ msgstr ""
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
 msgid "Theme"
-msgstr ""
+msgstr "Motyw"
 
 #: tformmain.menuitem2.caption
-#, fuzzy
-#| msgid "Ustawienia"
 msgctxt "tformmain.menuitem2.caption"
 msgid "Settings"
 msgstr "Ustawienia"
@@ -224,8 +248,6 @@ msgid "Usuń "
 msgstr "Usuń "
 
 #: tformmain.menuitem4.caption
-#, fuzzy
-#| msgid "Ustawienia pomocnika AI"
 msgid "AI Helper Settings"
 msgstr "Ustawienia pomocnika AI"
 
@@ -395,8 +417,6 @@ msgid "Zapisz jak"
 msgstr "Zapisz jak"
 
 #: tformmain.menuustawinia.caption
-#, fuzzy
-#| msgid "Ustawienia"
 msgctxt "tformmain.menuustawinia.caption"
 msgid "Settings"
 msgstr "Ustawienia"
@@ -409,11 +429,6 @@ msgstr "NowyPLik"
 msgid "Nowy Plik"
 msgstr "Nowy Plik"
 
-#: tformmain.panel1.caption
-msgctxt "tformmain.panel1.caption"
-msgid "Panel1"
-msgstr "Panel1"
-
 #: tformmain.panel4.caption
 msgid "Panel4"
 msgstr "Panel4"
@@ -421,14 +436,6 @@ msgstr "Panel4"
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
 msgstr "PanelLewy"
-
-#: tformmain.paneltranspilacja.button.caption
-msgid "Transpilacja do Free Pascal"
-msgstr "Transpilacja do Free Pascal"
-
-#: tformmain.sbzapytaj.caption
-msgid " >"
-msgstr " >"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -453,8 +460,6 @@ msgid "ZapiszPlik"
 msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.caption
-#, fuzzy
-#| msgid "Opcje Projektu"
 msgid "Project Options"
 msgstr "Opcje Projektu"
 
@@ -479,10 +484,8 @@ msgid "Ok"
 msgstr "Ok"
 
 #: tformprzyklady.caption
-#, fuzzy
-#| msgid "Przyklady aplikacji"
 msgid "Application examples"
-msgstr "Przyklady aplikacji"
+msgstr "Przykłady aplikacji"
 
 #: tformprzyklady.speedbutton1.caption
 msgctxt "tformprzyklady.speedbutton1.caption"
@@ -495,8 +498,6 @@ msgid "Ok"
 msgstr "Ok"
 
 #: tformsettingintepreter.caption
-#, fuzzy
-#| msgid "Ustawienia"
 msgctxt "tformsettingintepreter.caption"
 msgid "Settings"
 msgstr "Ustawienia"
@@ -506,20 +507,14 @@ msgid "x86_64-win64"
 msgstr "x86_64-win64"
 
 #: tformsettingintepreter.groupbox1.caption
-#, fuzzy
-#| msgid "Platforma"
 msgid "Platform"
 msgstr "Platforma"
 
 #: tformsettingintepreter.groupbox2.caption
-#, fuzzy
-#| msgid "LInk do fpc.exe"
 msgid "Link to fpc.exe"
 msgstr "LInk do fpc.exe"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
-#, fuzzy
-#| msgid "Link do folderu FPC"
 msgid "Link to FPC folder"
 msgstr "Link do folderu FPC"
 
@@ -573,19 +568,18 @@ msgstr "Anuluj"
 #: tsettingtheme.btnsave.caption
 msgctxt "tsettingtheme.btnsave.caption"
 msgid "Save"
-msgstr ""
+msgstr "Zapisz"
 
 #: tsettingtheme.caption
 msgid "Theme Settings"
-msgstr ""
+msgstr "Ustawienia motywu"
 
 #: tsettingtheme.groupbox1.caption
 msgctxt "tsettingtheme.groupbox1.caption"
 msgid "Theme"
-msgstr ""
+msgstr "Motyw"
 
 #: tsettingtheme.speedbutton1.caption
-#, fuzzy
 msgctxt "tsettingtheme.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
@@ -673,8 +667,8 @@ msgid "Compilation successful! Output file: "
 msgstr "Kompilacja udana! Plik wyjściowy: "
 
 #: unit1.translatecompilersettloaded
-msgid "Compiler settings loaded."
-msgstr "Ustawienia kompilatora wczytane."
+msgid "Compiler settings loaded"
+msgstr "Załadowano ustawienia kompilatora"
 
 #: unit1.translatecompilingdebugmode
 msgid "Compiling in Debug mode..."
@@ -847,40 +841,37 @@ msgid " .Unable to determine unit directory!"
 msgstr " . Nie można określić katalogu jednostek!"
 
 #: uprzyklady.translateanerroroccurred
-#, fuzzy
 msgctxt "uprzyklady.translateanerroroccurred"
 msgid "An error occurred: "
 msgstr "Wystąpił błąd: "
 
 #: uprzyklady.translatecheckexamples
-#, fuzzy
 msgctxt "uprzyklady.translatecheckexamples"
 msgid "Check that the \"examples\" folder exists and contains the appropriate files."
-msgstr "Sprawdź czy folder \"przyklady\" istnieje i zawiera odpowiednie pliki."
+msgstr "Sprawdź, czy folder „examples” istnieje i zawiera odpowiednie pliki."
 
 #: uprzyklady.translatedoesntexist
 msgid "\"does not exist!\""
-msgstr ""
+msgstr "\" nie istnieje!'"
 
 #: uprzyklady.translateemptyitemselected
 msgid "Empty item selected"
-msgstr ""
+msgstr "Wybrano pusty element"
 
 #: uprzyklady.translateerrfolder
 msgid "Error: Folder \""
-msgstr ""
+msgstr "Błąd: Folder \""
 
 #: uprzyklady.translateerrobjectnotavailable
 msgid "Error: The FuSettingsChatGPT object is not available."
-msgstr ""
+msgstr "Błąd: Obiekt FustawieniaChatGPT nie jest dostępny.'"
 
 #: uprzyklady.translatefilenotexist
-#, fuzzy
 msgctxt "uprzyklady.translatefilenotexist"
 msgid "File does not exist: "
 msgstr "Plik nie istnieje: "
 
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
-msgstr ""
+msgstr "Nie wybrano żadnego elementu"
 

@@ -49,7 +49,6 @@ object FormMain: TFormMain
     Top = 26
     Width = 249
     Align = alRight
-    Caption = 'Panel1'
     ClientHeight = 584
     ClientWidth = 249
     ParentBackground = False
@@ -73,19 +72,19 @@ object FormMain: TFormMain
         Align = alTop
         ClientHeight = 27
         ClientWidth = 245
-        Color = clBlack
         ParentBackground = False
         ParentColor = False
-        TabOrder = 2
+        TabOrder = 0
         object Label2: TLabel
           Left = 6
           Height = 15
           Top = 6
           Width = 233
-          Align = alTop
+          Align = alClient
           Alignment = taCenter
           BorderSpacing.Around = 5
-          Caption = 'Informacja'
+          Caption = 'Free Pascal Code'
+          Color = clMenu
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
           Font.Pitch = fpVariable
@@ -94,194 +93,22 @@ object FormMain: TFormMain
           ParentFont = False
         end
       end
-      object BCExpandPanel1: TBCExpandPanel
-        Left = 0
-        Height = 27
-        Top = 32
+      object MemoOutPut: TMemo
+        Left = 1
+        Height = 553
+        Top = 28
         Width = 245
-        Background.Color = clBtnFace
-        Background.Gradient1.StartColor = clWhite
-        Background.Gradient1.EndColor = 16119285
-        Background.Gradient1.GradientType = gtLinear
-        Background.Gradient1.Point1XPercent = 0
-        Background.Gradient1.Point1YPercent = 0
-        Background.Gradient1.Point2XPercent = 0
-        Background.Gradient1.Point2YPercent = 100
-        Background.Gradient2.StartColor = clBlack
-        Background.Gradient2.EndColor = clBlack
-        Background.Gradient2.GradientType = gtLinear
-        Background.Gradient2.Point1XPercent = 0
-        Background.Gradient2.Point1YPercent = 0
-        Background.Gradient2.Point2XPercent = 0
-        Background.Gradient2.Point2YPercent = 100
-        Background.Gradient1EndPercent = 100
-        Background.Style = bbsGradient
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BevelWidth = 1
-        Border.Style = bboNone
-        BorderBCStyle = bpsBorder
-        Color = 2697513
-        Enabled = True
-        FontEx.Color = clDefault
-        FontEx.FontQuality = fqSystemClearType
-        FontEx.Shadow = False
-        FontEx.ShadowRadius = 5
-        FontEx.ShadowOffsetX = 5
-        FontEx.ShadowOffsetY = 5
-        FontEx.Style = []
-        ParentBackground = False
-        Rounding.RoundX = 1
-        Rounding.RoundY = 1
-        TabOrder = 0
-        TextAlignment = taLeftJustify
-        CollapseKind = akTop
-        ExpandedSize = 530
-        ButtonPosition = akTop
-        ButtonSize = 27
-        Button.Left = 0
-        Button.Height = 27
-        Button.Top = 0
-        Button.Width = 245
-        Button.Caption = 'Pomocnik AI'
-        Button.Color = clMedGray
-        Button.ColorExpanded = clMedGray
-        AnimationSpeed = 20
-        Collapsed = True
-        BevelColorHighlight = clBlack
-        BevelColorShadow = clBlack
-        object MemoAnswerChatGPT: TMemo
-          Left = 1
-          Height = 0
-          Top = 26
-          Width = 243
-          Align = alCustom
-          Color = clBlack
-          Font.CharSet = EASTEUROPE_CHARSET
-          Font.Color = clWhite
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 0
-        end
-        object PanelAiChatGPT: TPanel
-          Left = 0
-          Height = 32
-          Top = 27
-          Width = 245
-          Align = alTop
-          ClientHeight = 32
-          ClientWidth = 245
-          ParentBackground = False
-          ParentColor = False
-          TabOrder = 1
-          object EditAskPromt: TEdit
-            Left = 3
-            Height = 26
-            Top = 3
-            Width = 213
-            Align = alClient
-            Alignment = taCenter
-            BorderSpacing.Left = 2
-            BorderSpacing.Top = 2
-            BorderSpacing.Right = 2
-            BorderSpacing.Bottom = 2
-            BorderStyle = bsNone
-            Color = clBlack
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Height = -16
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            ParentFont = False
-            TabOrder = 0
-            TextHint = 'Wpisz zapytanie'
-          end
-          object sbzapytaj: TSpeedButton
-            Left = 218
-            Height = 26
-            Top = 3
-            Width = 24
-            Align = alRight
-            BorderSpacing.Top = 2
-            BorderSpacing.Right = 2
-            BorderSpacing.Bottom = 2
-            Caption = ' >'
-            OnClick = sbzapytajClick
-          end
-        end
-      end
-      object PanelTranspilacja: TBCExpandPanel
-        Left = -8
-        Height = 530
-        Top = 208
-        Width = 245
-        Background.Color = 9984315
-        Background.Gradient1.StartColor = 15722194
-        Background.Gradient1.EndColor = 13137169
-        Background.Gradient1.GradientType = gtLinear
-        Background.Gradient1.Point1XPercent = 0
-        Background.Gradient1.Point1YPercent = 0
-        Background.Gradient1.Point2XPercent = 0
-        Background.Gradient1.Point2YPercent = 100
-        Background.Gradient2.StartColor = 15722194
-        Background.Gradient2.EndColor = 13137169
-        Background.Gradient2.GradientType = gtLinear
-        Background.Gradient2.Point1XPercent = 0
-        Background.Gradient2.Point1YPercent = 0
-        Background.Gradient2.Point2XPercent = 0
-        Background.Gradient2.Point2YPercent = 100
-        Background.Gradient1EndPercent = 35
-        Background.Style = bbsColor
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BevelWidth = 1
-        Border.Style = bboNone
-        BorderBCStyle = bpsBorder
-        Color = clLime
-        Enabled = True
-        FontEx.Color = clDefault
-        FontEx.FontQuality = fqSystemClearType
-        FontEx.Shadow = False
-        FontEx.ShadowRadius = 5
-        FontEx.ShadowOffsetX = 5
-        FontEx.ShadowOffsetY = 5
-        FontEx.Style = []
-        ParentBackground = False
-        Rounding.RoundX = 1
-        Rounding.RoundY = 1
+        Align = alClient
+        Color = clBlack
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Color = clWhite
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        ParentFont = False
+        PopupMenu = PopupMenuOutPutPascalCode
+        ReadOnly = True
+        ScrollBars = ssBoth
         TabOrder = 1
-        TextAlignment = taLeftJustify
-        CollapseKind = akTop
-        ExpandedSize = 530
-        ButtonPosition = akTop
-        ButtonSize = 27
-        Button.Left = 0
-        Button.Height = 27
-        Button.Top = 0
-        Button.Width = 245
-        Button.Caption = 'Transpilacja do Free Pascal'
-        Button.Color = clMedGray
-        Button.ColorExpanded = clMedGray
-        AnimationSpeed = 20
-        BevelColorHighlight = clInfoText
-        object MemoOutPut: TMemo
-          Left = 0
-          Height = 503
-          Top = 27
-          Width = 245
-          Align = alClient
-          Color = clBlack
-          Font.CharSet = EASTEUROPE_CHARSET
-          Font.Color = clWhite
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentFont = False
-          PopupMenu = PopupMenuOutPutPascalCode
-          ReadOnly = True
-          ScrollBars = ssBoth
-          TabOrder = 0
-        end
       end
     end
   end
@@ -847,9 +674,8 @@ object FormMain: TFormMain
         MouseOptions = [emDragDropEditing, emShowCtrlMouseLinks]
         VisibleSpecialChars = [vscSpace, vscTabAtLast]
         RightEdgeColor = clBlack
-        SelectedColor.Background = clGradientActiveCaption
-        SelectedColor.Foreground = clGradientActiveCaption
-        SelectedColor.FrameColor = clWhite
+        SelectedColor.Foreground = clHighlight
+        SelectedColor.FrameColor = clHighlight
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
         SelectedColor.FramePriority = 50
@@ -857,22 +683,24 @@ object FormMain: TFormMain
         SelectedColor.ItalicPriority = 50
         SelectedColor.UnderlinePriority = 50
         SelectedColor.StrikeOutPriority = 50
-        IncrementColor.Foreground = clWhite
+        IncrementColor.Foreground = clWindow
         HighlightAllColor.Background = clBtnShadow
-        HighlightAllColor.Foreground = clHotLight
+        HighlightAllColor.Foreground = clBtnShadow
+        HighlightAllColor.FrameColor = clActiveCaption
         BracketHighlightStyle = sbhsBoth
-        BracketMatchColor.Background = clNone
+        BracketMatchColor.Background = clForm
         BracketMatchColor.Foreground = clNone
-        BracketMatchColor.FrameColor = clBackground
+        BracketMatchColor.FrameColor = clAppWorkspace
         BracketMatchColor.Style = [fsBold]
         BracketMatchColor.StyleMask = [fsBold]
         FoldedCodeColor.Background = clMenuHighlight
-        FoldedCodeColor.Foreground = clRed
-        FoldedCodeColor.FrameColor = clGray
+        FoldedCodeColor.Foreground = clMedGray
+        FoldedCodeColor.FrameColor = cl3DDkShadow
         MouseLinkColor.Background = clNone
-        MouseLinkColor.Foreground = clBlue
-        LineHighlightColor.Background = 1513239
-        LineHighlightColor.Foreground = clWhite
+        MouseLinkColor.Foreground = clActiveCaption
+        MouseLinkColor.FrameColor = clWindowFrame
+        LineHighlightColor.Background = clBlack
+        LineHighlightColor.Foreground = clBlack
         LineHighlightColor.FrameColor = clWindowFrame
         LineHighlightColor.FrameEdges = sfeBottom
         OnChange = SynEditCodeChange
@@ -1169,6 +997,13 @@ object FormMain: TFormMain
         OnClick = MenuItemTurkishLangClick
       end
     end
+    object ItemTools: TMenuItem
+      Caption = 'Tools'
+      object MenuItAiAsystant: TMenuItem
+        Caption = 'AI Assistant'
+        OnClick = MenuItAiAsystantClick
+      end
+    end
     object MenuItem3: TMenuItem
       Caption = 'Pomoc'
       object MenuItemDokumentacja: TMenuItem
@@ -1228,8 +1063,8 @@ object FormMain: TFormMain
     }
   end
   object PopupMenuKonsola: TPopupMenu
-    Left = 704
-    Top = 104
+    Left = 680
+    Top = 112
     object MenuItemDeleteAllCode: TMenuItem
       Caption = 'Usuń kod '
     end
@@ -1550,7 +1385,7 @@ object FormMain: TFormMain
     )
     Position = 0
     LinesInWindow = 10
-    SelectedColor = 5588525
+    SelectedColor = clActiveCaption
     CaseSensitive = False
     Width = 150
     LongLineHintTime = 2
@@ -1566,8 +1401,8 @@ object FormMain: TFormMain
     Top = 40
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
-    Left = 336
-    Top = 120
+    Left = 536
+    Top = 232
     object MenuItemOutputCodeClear: TMenuItem
       Caption = 'Usuń'
       OnClick = MenuItemOutputCodeClearClick
@@ -1582,12 +1417,11 @@ object FormMain: TFormMain
     end
     object MenuItem7: TMenuItem
       Caption = 'Sprawdź kod [AI]'
-      OnClick = MenuItem7Click
     end
   end
   object PopupMenuMemoLogs: TPopupMenu
-    Left = 736
-    Top = 296
+    Left = 688
+    Top = 288
     object MenuItemDeleteMemoLogs: TMenuItem
       Caption = 'Usuń'
     end
@@ -1651,44 +1485,134 @@ object FormMain: TFormMain
     ShortCut = 32800
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
-    Left = 168
-    Top = 48
+    Left = 240
+    Top = 56
   end
   object SynMultiSyn1: TSynMultiSyn
     Enabled = False
     Schemes = <>
     DefaultHighlighter = SynAnySyn1
-    Left = 208
-    Top = 208
+    Left = 72
+    Top = 112
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
     CommentAttri.Foreground = clGreen
+    CommentAttri.FrameColor = clWindow
     CommentAttri.Style = [fsBold, fsItalic]
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
-    Comments = []
+    Comments = [csPasStyle]
     DetectPreprocessor = True
-    IdentifierAttri.Foreground = clGradientActiveCaption
+    IdentifierAttri.Background = cl3DLight
+    IdentifierAttri.Foreground = clGradientInactiveCaption
+    IdentifierAttri.FrameColor = clBtnHighlight
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
-    KeyAttri.Foreground = clSkyBlue
-    KeyAttri.FrameColor = clSkyBlue
+    KeyAttri.Foreground = clHighlight
     KeyAttri.StyleMask = [fsBold]
-    ConstantAttri.Foreground = clMenuHighlight
-    ConstantAttri.FrameColor = clActiveCaption
+    ConstantAttri.Foreground = 3456207
     ConstantAttri.StyleMask = [fsBold]
     ObjectAttri.Foreground = clYellow
     VariableAttri.Background = 7886547
+    VariableAttri.FrameColor = clLime
+    DotAttri.Foreground = clActiveCaption
+    DotAttri.FrameColor = clActiveCaption
     KeyWords.Strings = (
-      ''
+      'APPEND'
+      'ASSIGN_FILE'
+      'CALC'
+      'CHANGE_DIR'
+      'CLOSE_FILE'
+      'CREATE_DIR'
+      'CZY_ISTNIEJE_KATALOG'
+      'CZY_ISTNIEJE_PLIK'
+      'CZYTAJ'
+      'CZYTAJ_KLAWISZ'
+      'CZYTAJ_LINIE'
+      'DIRECTORY_EXISTS'
+      'DOPóKI'
+      'DUZE_LITERY_ANSI'
+      'DUżE_LITERY_ANSI'
+      'ELSE'
+      'EOF'
+      'FILE_EXISTS'
+      'GET_ARGUMENT'
+      'GET_CURRENT_DIR'
+      'GET_ENV'
+      'IF'
       'IMPORTUJ'
-      'JEśLI WTEDY INACZEJ'
+      'INACZEJ'
+      'JEśLI'
+      'KLAWISZ_WCIśNIęTY'
+      'KOLOR_TEKSTU'
+      'KONIEC_PLIKU'
+      'LOSOWY'
+      'LOSUJ'
+      'MALE_LITERY_ANSI'
+      'OBLICZ'
+      'OPEN_READ'
+      'OPEN_SAVE'
+      'OTWóRZ_DO_DOPISYWANIA LUB DOPISZ'
+      'OTWóRZ_DO_ODCZYTU'
+      'OTWóRZ_DO_ZAPISU'
+      'PARAMETR_PROGRAMU'
+      'PISZ'
+      'PISZ_LINIE'
+      'POBIERZ_KATALOG_BIEżąCY'
+      'POBIERZ_PLIK'
+      'POBIERZ_ZMIENNą_śRODOWISKOWą'
+      'POZYCJA_KURSORA'
+      'PRINT'
+      'PRINT_LINE'
       'PROGRAM'
+      'PRZYPISZ_PLIK'
+      'RANDOM'
+      'RANDOMIZE '
+      'READ_KEY'
+      'REMOVE_DIR'
+      'SET_ENV'
+      'SET_LENGTH'
+      'THEN'
+      'TłO_TEKSTU'
+      'USTAW_DłUGOść '
+      'USTAW_ZMIENNą_śRODOWISKOWą'
+      'USUń_KATALOG'
+      'UTWóRZ_KATALOG'
+      'WTEDY'
+      'WYJść'
+      'ZAKOńCZ'
+      'ZAMKNIJ_PLIK'
+      'ZAPYTAJCHATGPT'
+      'ZMIEń_KATALOG'
     )
     Constants.Strings = (
+      'ANSI_STRING'
+      'ANY'
       'BAJT'
+      'BINARY_FILE'
+      'BOOL'
+      'BYTE'
+      'BYTE_BOOL'
+      'CHAR'
+      'CHAR32'
+      'CLASS'
+      'COMP'
+      'DECIMAL'
+      'DYNAMIC_ARRAY'
+      'FILE'
+      'FILE_STRUCT'
+      'FLOAT'
+      'FLOAT80'
+      'INFORMACJE_O_WYSZUKANIU'
+      'INT'
+      'INT16'
+      'INT32'
+      'INT64'
+      'INT8'
       'KOLEKCJA'
+      'LC'
       'LICZBA_CAłKOWITA'
       'LICZBA_DłUGA'
+      'LICZBA_KRóTKA'
       'LICZBA_MAłA'
       'LICZBA_PODWóJNA'
       'LICZBA_POJEDYNCZA'
@@ -1699,15 +1623,29 @@ object FormMain: TFormMain
       'LICZBA16'
       'LICZBA32'
       'LICZBA64'
-      'LOGICZNE_SłOWO'
+      'LISTA_TEKSTóW'
       'LOGICZNY'
       'LOGICZNY_BAJT'
       'LOGICZNY_DłUGI'
+      'LONG_BOOL'
+      'LZM'
+      'OLE_VARIANT'
       'OLEVARIANT'
       'PLIK'
       'PLIK_BINARNY'
       'PLIK_STRUKTUR'
       'PLIK_TEKSTOWY'
+      'POINTER'
+      'POINTER_TO'
+      'RANGE'
+      'REAL'
+      'SEARCH_RECORD'
+      'SET'
+      'STATIC_ARRAY'
+      'STRING'
+      'STRING_LIST'
+      'STRING255'
+      'STRUCT'
       'TABLICA_DYNAMICZNA'
       'TABLICA_STAłA'
       'TEKST'
@@ -1715,7 +1653,13 @@ object FormMain: TFormMain
       'TEKST_SYSTEMOWY'
       'TEKST_UNICODE'
       'TEKST255'
+      'TEXT_FILE'
+      'UBYTE'
+      'UINT16'
+      'UINT32'
+      'UNICODE_STRING'
       'WARIANT'
+      'WIDE_STRING'
       'WSKAźNIK'
       'WSKAźNIK_NA'
       'ZNAK'
@@ -1732,6 +1676,7 @@ object FormMain: TFormMain
     NumberAttri.Foreground = clAqua
     PreprocessorAttri.Foreground = clTeal
     StringAttri.Foreground = clFuchsia
+    StringAttri.FrameColor = cl3DDkShadow
     SymbolAttri.Foreground = clWhite
     Markup = False
     Entity = True

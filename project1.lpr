@@ -14,7 +14,7 @@ uses
   tachartlazaruspkg, pascalscript, unit1, usettings, AvocadoTranslator,
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, chatgptavocado,
   matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady,themesettings,
-  uDarkStyleParams, uDarkStyleSchemes, uMetaDarkStyle;
+  uDarkStyleParams, uDarkStyleSchemes, uMetaDarkStyle, aihelper;
 
 {$R *.res}
 
@@ -43,6 +43,7 @@ begin
   Application.CreateForm(TSettingai, Settingai);
   Application.CreateForm(TFormPrzyklady, FormPrzyklady);
   Application.CreateForm(TSettingTheme, SettingTheme);
+  Application.CreateForm(Taiassistant, aiassistant);
   Application.Run;
 end.
 

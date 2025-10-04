@@ -55,6 +55,40 @@ msgstr ""
 msgid "Unknown variable type: "
 msgstr ""
 
+#: taiassistant.caption
+msgid "AI Helper"
+msgstr ""
+
+#: taiassistant.editaskpromt.texthint
+#, fuzzy
+msgctxt "taiassistant.editaskpromt.texthint"
+msgid "Wpisz zapytanie"
+msgstr "Ingrese su consulta"
+
+#: taiassistant.menuitemcopyallpascalzcode.caption
+#, fuzzy
+msgctxt "taiassistant.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "Copiar todo"
+
+#: taiassistant.menuitemcopypascalcode.caption
+#, fuzzy
+msgctxt "taiassistant.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "Copiar"
+
+#: taiassistant.menuitemoutputcodeclear.caption
+#, fuzzy
+msgctxt "taiassistant.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "Eliminar"
+
+#: taiassistant.sbzapytaj.caption
+#, fuzzy
+msgctxt "taiassistant.sbzapytaj.caption"
+msgid " >"
+msgstr " >"
+
 #: tfinformacjaide.caption
 #, fuzzy
 #| msgid "Informacja o IDE Avocado"
@@ -79,10 +113,6 @@ msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
 
-#: tformmain.bcexpandpanel1.button.caption
-msgid "Pomocnik AI"
-msgstr "Asistente de IA"
-
 #: tformmain.butcompilecode.caption
 #, fuzzy
 msgctxt "tformmain.butcompilecode.caption"
@@ -101,12 +131,12 @@ msgstr "Compilar"
 msgid "IDE Avocado v 1.0.1.0"
 msgstr "IDE Avocado v 1.0.0.9"
 
-#: tformmain.editaskpromt.texthint
-msgid "Wpisz zapytanie"
-msgstr "Ingrese su consulta"
-
 #: tformmain.itemjaponski.caption
 msgid "日本語"
+msgstr ""
+
+#: tformmain.itemtools.caption
+msgid "Tools"
 msgstr ""
 
 #: tformmain.kompiluj.caption
@@ -119,7 +149,9 @@ msgid "Debug"
 msgstr "Depuración"
 
 #: tformmain.label2.caption
-msgid "Informacja"
+#, fuzzy
+#| msgid "Informacja"
+msgid "Free Pascal Code"
 msgstr "Información"
 
 #: tformmain.label4.caption
@@ -173,6 +205,10 @@ msgstr "Información sobre el IDE"
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
 msgstr "Русский"
+
+#: tformmain.menuitaiasystant.caption
+msgid "AI Assistant"
+msgstr ""
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
@@ -428,11 +464,6 @@ msgstr "NowyPLik"
 msgid "Nowy Plik"
 msgstr "Nuevo archivo"
 
-#: tformmain.panel1.caption
-msgctxt "tformmain.panel1.caption"
-msgid "Panel1"
-msgstr "Panel1"
-
 #: tformmain.panel4.caption
 msgid "Panel4"
 msgstr "Panel4"
@@ -440,14 +471,6 @@ msgstr "Panel4"
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
 msgstr "PanelLewy"
-
-#: tformmain.paneltranspilacja.button.caption
-msgid "Transpilacja do Free Pascal"
-msgstr "Transpilación a Free Pascal"
-
-#: tformmain.sbzapytaj.caption
-msgid " >"
-msgstr " >"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -702,7 +725,7 @@ msgid "Compilation successful! Output file: "
 msgstr ""
 
 #: unit1.translatecompilersettloaded
-msgid "Compiler settings loaded."
+msgid "Compiler settings loaded"
 msgstr ""
 
 #: unit1.translatecompilingdebugmode
