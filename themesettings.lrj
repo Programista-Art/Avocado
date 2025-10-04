@@ -1,0 +1,6 @@
+{"version":1,"strings":[
+{"hash":41522387,"name":"tsettingtheme.caption","sourcebytes":[84,104,101,109,101,32,83,101,116,116,105,110,103,115],"value":"Theme Settings"},
+{"hash":5958709,"name":"tsettingtheme.groupbox1.caption","sourcebytes":[84,104,101,109,101],"value":"Theme"},
+{"hash":366789,"name":"tsettingtheme.btnsave.caption","sourcebytes":[83,97,118,101],"value":"Save"},
+{"hash":1371,"name":"tsettingtheme.speedbutton1.caption","sourcebytes":[79,107],"value":"Ok"}
+]}

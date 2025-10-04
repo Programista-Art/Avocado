@@ -1,0 +1,13 @@
+{"version":1,"strings":[
+{"hash":205509737,"name":"tsettingai.caption","sourcebytes":[85,115,116,97,119,105,101,110,105,97,32,80,111,109,111,99,110,105,107,97,32,65,73],"value":"Ustawienia Pomocnika AI"},
+{"hash":75875258,"name":"tsettingai.speedbuttonok.caption","sourcebytes":[65,110,117,108,117,106],"value":"Anuluj"},
+{"hash":101216426,"name":"tsettingai.speedbutsave.caption","sourcebytes":[90,97,112,105,115,122],"value":"Zapisz"},
+{"hash":195191929,"name":"tsettingai.label1.caption","sourcebytes":[77,111,100,101,108,32,106,196,153,122,121,107,111,119,121],"value":"Model j\u0119zykowy"},
+{"hash":195826809,"name":"tsettingai.label2.caption","sourcebytes":[75,108,117,99,122,32,65,80,73],"value":"Klucz API"},
+{"hash":44115428,"name":"tsettingai.edittokengpt.text","sourcebytes":[69,100,105,116,84,111,107,101,110,71,80,84],"value":"EditTokenGPT"},
+{"hash":86405306,"name":"tsettingai.menuitemcopy.caption","sourcebytes":[75,111,112,105,117,106],"value":"Kopiuj"},
+{"hash":6204039,"name":"tsettingai.menuitempaste.caption","sourcebytes":[87,115,116,97,119],"value":"Wstaw"},
+{"hash":6074836,"name":"tsettingai.menuitemdelete.caption","sourcebytes":[85,115,117,197,132],"value":"Usu\u0144"},
+{"hash":187180458,"name":"tsettingai.menuitemshowkey.caption","sourcebytes":[80,111,107,97,197,188,32,107,108,117,99,122],"value":"Poka\u017C klucz"},
+{"hash":206443098,"name":"tsettingai.menuitemhidekey.caption","sourcebytes":[85,107,114,121,106,32,107,108,117,99,122],"value":"Ukryj klucz"}
+]}
