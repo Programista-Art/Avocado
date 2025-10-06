@@ -364,6 +364,10 @@ msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
 msgstr ""
 
+#: tformmain.menuitemsearch.caption
+msgid "Search"
+msgstr ""
+
 #: tformmain.menuitemslovenianlang.caption
 msgid "Slovenščina"
 msgstr ""

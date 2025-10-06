@@ -21,6 +21,7 @@
 {"hash":8660122,"name":"tformmain.menuclose.caption","sourcebytes":[90,97,109,107,110,105,106],"value":"Zamknij"},
 {"hash":127274100,"name":"tformmain.menuprojekt.caption","sourcebytes":[80,114,111,106,101,107,116],"value":"Projekt"},
 {"hash":53397,"name":"tformmain.menuopcjeprojektu.caption","sourcebytes":[79,112,99,106,101,32,112,114,111,106,101,107,116,117],"value":"Opcje projektu"},
+{"hash":94079128,"name":"tformmain.menuitemsearch.caption","sourcebytes":[83,101,97,114,99,104],"value":"Search"},
 {"hash":213582195,"name":"tformmain.menuitem2.caption","sourcebytes":[83,101,116,116,105,110,103,115],"value":"Settings"},
 {"hash":213582195,"name":"tformmain.menuustawinia.caption","sourcebytes":[83,101,116,116,105,110,103,115],"value":"Settings"},
 {"hash":193859507,"name":"tformmain.menuitem4.caption","sourcebytes":[65,73,32,72,101,108,112,101,114,32,83,101,116,116,105,110,103,115],"value":"AI Helper Settings"},

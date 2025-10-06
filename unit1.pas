@@ -11,7 +11,7 @@ uses
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
   Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8, ExtendedTabControls,
-  ListViewFilterEdit, TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,
+  ListViewFilterEdit, TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,SynEditTypes,Math,
   LCLTranslator;
 
 type
@@ -25,8 +25,10 @@ type
 type
   { TFormMain }
   TFormMain = class(TForm)
+    FindDialog: TFindDialog;
     ImageListListView: TImageList;
     ImageListIcons: TImageList;
+    ListBoxSeacrh: TListBox;
     LRozmiarZccionkiEdytora: TLabel;
     MemoLogs: TMemo;
     MemoOutPut: TMemo;
@@ -50,6 +52,7 @@ type
     MenuItem19: TMenuItem;
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
+    MenuItemSearch: TMenuItem;
     MenuItemOpenFolder: TMenuItem;
     MenuItemTurkishLang: TMenuItem;
     MenuItemSwedishLang: TMenuItem;
@@ -68,6 +71,7 @@ type
     MenuItem9: TMenuItem;
     PageControl1: TPageControl;
     PanelLeft: TPanel;
+    ReplaceDialog: TReplaceDialog;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
     Label3: TLabel;
     Label4: TLabel;
@@ -147,9 +151,13 @@ type
     ToolButton1: TToolButton;
     butCompileCode: TToolButton;
     //procedure FileTreeDblClick(Sender: TObject);
+    procedure FindDialogFind(Sender: TObject);
+    procedure FindDialogShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure itemJaponskiClick(Sender: TObject);
+    procedure ListBoxSeacrhClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuIArabskiClick(Sender: TObject);
     procedure MenuItAiAsystantClick(Sender: TObject);
@@ -178,6 +186,7 @@ type
     procedure MenuItemLangRomanianClick(Sender: TObject);
     procedure MenuItemLangSlovakClick(Sender: TObject);
     procedure MenuItemOpenFolderClick(Sender: TObject);
+    procedure MenuItemSearchClick(Sender: TObject);
     procedure MenuItemSlovenianLangClick(Sender: TObject);
     procedure MenuItemSwedishLangClick(Sender: TObject);
     procedure MenuItemTurkishLangClick(Sender: TObject);
@@ -420,6 +429,7 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+  FormMain.KeyPreview := True;
   if not Assigned(SynEditCode) then
   ShowMessage(TranslateSynEditCodeNotCreated);
   LoadFpc;
@@ -457,6 +467,68 @@ begin
   CloseProgram;
 end;
 
+procedure TFormMain.FindDialogFind(Sender: TObject);
+var
+SearchOptions: TSynSearchOptions;
+FoundCount: Integer;
+begin
+  ListBoxSeacrh.Clear;
+   FoundCount := 0;
+
+   // Inicjalizacja opcji wyszukiwania
+   SearchOptions := [ssoFindContinue];
+
+   // Mapowanie opcji z FindDialog na SynEdit
+   if frWholeWord in FindDialog.Options then
+     Include(SearchOptions, ssoWholeWord);
+   if frMatchCase in FindDialog.Options then
+     Include(SearchOptions, ssoMatchCase);
+
+   // Ustawienie kursora na początek dokumentu przed rozpoczęciem wyszukiwania
+   SynEditCode.CaretXY := Point(1, 1);
+
+   // Wyszukiwanie w pętli
+   while SynEditCode.SearchReplace(FindDialog.FindText, '', SearchOptions) > 0 do
+   begin
+     Inc(FoundCount);
+     // Dodanie znalezionego wyniku do ListBox
+     ListBoxSeacrh.Items.Add(Format('[%d]: %s', [
+       SynEditCode.CaretY,  // Numer linii (od 1)
+       SynEditCode.Lines[SynEditCode.CaretY - 1]  // Pobranie tekstu linii
+     ]));
+
+     // Przesunięcie kursora za znalezione wystąpienie, aby kontynuować wyszukiwanie
+     SynEditCode.CaretX := SynEditCode.CaretX + 1;
+
+     // Jeśli jesteśmy na końcu linii, przejdź do następnej
+     if SynEditCode.CaretX > Length(SynEditCode.LineText) + 1 then
+     begin
+       SynEditCode.CaretY := SynEditCode.CaretY + 1;
+       SynEditCode.CaretX := 1;
+     end;
+
+     // Zabezpieczenie przed wyszukiwaniem poza dokumentem
+     if SynEditCode.CaretY > SynEditCode.Lines.Count then
+       Break;
+   end;
+
+   // Komunikat podsumowujący
+   if FoundCount = 0 then
+     ListBoxSeacrh.Items.Add('Znaleziono 0 wystąpień')
+   else
+     ListBoxSeacrh.Items.Insert(0, Format('Znaleziono %d wystąpień', [FoundCount]));
+end;
+
+procedure TFormMain.FindDialogShow(Sender: TObject);
+var
+  Options: TSynSearchOptions;
+begin
+  if frMatchCase in FindDialog.Options then
+    Include(Options, ssoMatchCase);
+  if frWholeWord in FindDialog.Options then
+    Include(Options, ssoWholeWord);
+end;
+
 procedure TFormMain.FormDestroy(Sender: TObject);
 var
   i: Integer;
@@ -474,6 +546,21 @@ begin
        Dispose(P);
        Node.Data := nil;
      end;
+   end;
+end;
+
+procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    if (Key = Ord('F')) and (ssCtrl in Shift) then
+   begin
+     FindDialog.Execute;
+     Key := 0;
+   end
+   else if (Key = Ord('H')) and (ssCtrl in Shift) then
+   begin
+     ReplaceDialog.Execute;
+     Key := 0;
    end;
 end;
 
@@ -501,6 +588,41 @@ begin
   SetDefaultLang('jp');
   lang := 'jp';
   IsClickMainMenuLanguage(21);
+end;
+
+procedure TFormMain.ListBoxSeacrhClick(Sender: TObject);
+var
+LineNumber: Integer;
+ItemText: string;
+BracketEndPos: Integer;
+begin
+  if ListBoxSeacrh.ItemIndex >= 0 then
+     begin
+       // Get the text of the selected item
+       // Pobierz tekst zaznaczonego elementu
+       ItemText := ListBoxSeacrh.Items[ListBoxSeacrh.ItemIndex];
+       // Extract line number from text (format: "[number]:text")
+       // Wyodrębnij numer linii z tekstu (format: "[numer]: tekst")
+       BracketEndPos := Pos(']:', ItemText);
+       if BracketEndPos > 0 then
+       begin
+         // Converting text to number (line number)
+         // Konwersja tekstu na liczbę (numer linii)
+         LineNumber := StrToIntDef(Copy(ItemText, 2, BracketEndPos - 2), -1);
+
+         if LineNumber > 0 then
+         begin
+           //Positioning the cursor in SynEdit on the appropriate line
+           // Ustawienie kursora w SynEdit na odpowiedniej linii
+           SynEditCode.CaretY := LineNumber;
+           SynEditCode.CaretX := 1;
+
+           // Opcjonalnie: przewiń do widoczności
+           SynEditCode.TopLine := Max(1, LineNumber - (SynEditCode.LinesInWindow div 2));
+           SynEditCode.SetFocus;
+         end;
+       end;
+     end;
 end;
 
 procedure TFormMain.MenuExamplesClick(Sender: TObject);
@@ -694,6 +816,12 @@ begin
     OpenFileProject := OD.FileName;
     LoadProjectTree;
   end;
+end;
+
+procedure TFormMain.MenuItemSearchClick(Sender: TObject);
+begin
+  ListBoxSeacrh.Clear;
+  FindDialog.Execute;
 end;
 
 procedure TFormMain.MenuItemSlovenianLangClick(Sender: TObject);

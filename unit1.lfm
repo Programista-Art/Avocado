@@ -12,6 +12,7 @@ object FormMain: TFormMain
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   object ToolBar1: TToolBar
     Left = 0
@@ -222,6 +223,19 @@ object FormMain: TFormMain
         end
         object TabSheetSearch: TTabSheet
           Caption = 'Search results'
+          ClientHeight = 100
+          ClientWidth = 791
+          object ListBoxSeacrh: TListBox
+            Left = 0
+            Height = 100
+            Top = 0
+            Width = 791
+            Align = alClient
+            Color = clMenu
+            ItemHeight = 0
+            TabOrder = 0
+            OnClick = ListBoxSeacrhClick
+          end
         end
       end
     end
@@ -242,7 +256,7 @@ object FormMain: TFormMain
         Width = 587
         Align = alClient
         BlockIndent = 1
-        Color = clBlack
+        Color = clBtnShadow
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clWhite
         Font.Height = -16
@@ -253,10 +267,11 @@ object FormMain: TFormMain
         ParentFont = False
         PopupMenu = PopupMenuCode
         TabOrder = 0
-        Gutter.Color = clBlack
+        BookMarkOptions.BookmarkImages = ImageListListView
+        Gutter.Color = clBtnHighlight
         Gutter.Width = 51
         Gutter.MouseActions = <>
-        RightGutter.Color = clBlack
+        RightGutter.Color = clBtnShadow
         RightGutter.CurrentLineColor.Background = clActiveBorder
         RightGutter.CurrentLineColor.FrameColor = clActiveBorder
         RightGutter.Width = 0
@@ -684,16 +699,23 @@ object FormMain: TFormMain
             Command = ecColSelEditorBottom
             ShortCut = 57379
           end>
-        MouseActions = <>
+        MouseActions = <        
+          item
+            Command = emcNone
+          end        
+          item
+            Button = mbRight
+            Command = emcNone
+          end>
         MouseTextActions = <>
         MouseSelActions = <>
         Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoHalfPageScroll, eoHideRightMargin, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoDragDropEditing, eoShowCtrlMouseLinks]
         Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
         MouseOptions = [emDragDropEditing, emShowCtrlMouseLinks]
         VisibleSpecialChars = [vscSpace, vscTabAtLast]
-        RightEdgeColor = clBlack
-        SelectedColor.Foreground = clHighlight
-        SelectedColor.FrameColor = clHighlight
+        RightEdgeColor = clBtnShadow
+        SelectedColor.Background = 16243131
+        SelectedColor.Foreground = clNone
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
         SelectedColor.FramePriority = 50
@@ -701,25 +723,24 @@ object FormMain: TFormMain
         SelectedColor.ItalicPriority = 50
         SelectedColor.UnderlinePriority = 50
         SelectedColor.StrikeOutPriority = 50
+        SelectedColor.ForeAlpha = 230
         IncrementColor.Foreground = clWindow
-        HighlightAllColor.Background = clBtnShadow
-        HighlightAllColor.Foreground = clBtnShadow
-        HighlightAllColor.FrameColor = clActiveCaption
+        HighlightAllColor.Background = clInactiveBorder
+        HighlightAllColor.Foreground = clHighlight
+        HighlightAllColor.FrameColor = clInactiveBorder
         BracketHighlightStyle = sbhsBoth
         BracketMatchColor.Background = clForm
         BracketMatchColor.Foreground = clNone
         BracketMatchColor.FrameColor = clAppWorkspace
         BracketMatchColor.Style = [fsBold]
         BracketMatchColor.StyleMask = [fsBold]
-        FoldedCodeColor.Background = clMenuHighlight
-        FoldedCodeColor.Foreground = clMedGray
-        FoldedCodeColor.FrameColor = cl3DDkShadow
+        FoldedCodeColor.Background = clBtnShadow
+        FoldedCodeColor.Foreground = clNone
         MouseLinkColor.Background = clNone
         MouseLinkColor.Foreground = clActiveCaption
-        MouseLinkColor.FrameColor = clWindowFrame
-        LineHighlightColor.Background = clBlack
-        LineHighlightColor.Foreground = clBlack
-        LineHighlightColor.FrameColor = clWindowFrame
+        MouseLinkColor.FrameColor = clRed
+        LineHighlightColor.Foreground = clHighlight
+        LineHighlightColor.FrameColor = clHighlight
         LineHighlightColor.FrameEdges = sfeBottom
         OnChange = SynEditCodeChange
         inline SynLeftGutterPartList1: TSynGutterPartList
@@ -925,6 +946,10 @@ object FormMain: TFormMain
       object MenuOpcjeProjektu: TMenuItem
         Caption = 'Opcje projektu'
         OnClick = MenuOpcjeProjektuClick
+      end
+      object MenuItemSearch: TMenuItem
+        Caption = 'Search'
+        OnClick = MenuItemSearchClick
       end
     end
     object MenuItem2: TMenuItem
@@ -1581,23 +1606,23 @@ object FormMain: TFormMain
     KeyAttri.StyleMask = [fsBold]
     ConstantAttri.Foreground = 12970483
     ConstantAttri.StyleMask = [fsBold]
+    ObjectAttri.Background = clHighlight
     ObjectAttri.Foreground = clYellow
     VariableAttri.Background = 7886547
     VariableAttri.FrameColor = clLime
     DotAttri.Foreground = clActiveCaption
     KeyWords.Strings = (
-      ''
       'APPEND'
       'ASSIGN_FILE'
       'CALC'
       'CHANGE_DIR'
       'CLOSE_FILE'
       'CREATE_DIR'
+      'CZY_ISTNIEJE_KATALOG'
+      'CZY_ISTNIEJE_PLIK'
       'CZYTAJ'
       'CZYTAJ_KLAWISZ'
       'CZYTAJ_LINIE'
-      'CZY_ISTNIEJE_KATALOG'
-      'CZY_ISTNIEJE_PLIK'
       'DIRECTORY_EXISTS'
       'DLA'
       'DłUGOść'
@@ -1755,12 +1780,13 @@ object FormMain: TFormMain
       'ZNAK_UNICODE'
     )
     Objects.Strings = (
-      'DLA '
-      'DO'
-      'INACZEJ'
-      'JEśLI '
-      'OD '
-      'WTEDY'
+      '-'
+      '('
+      ')'
+      '*'
+      '/'
+      '{}'
+      '+'
     )
     NumberAttri.Foreground = 16295376
     NumberAttri.FrameStyle = slsWaved
@@ -1834,5 +1860,16 @@ object FormMain: TFormMain
       75E87D8AF927D0BF2454DD61AF94BFEBBC6E7114315CF4BE2B56612D0B6BE7F4
       7F19A1A0FD37408F024EF03E003E05F7F940B2BF0176D263FA
     }
+  end
+  object FindDialog: TFindDialog
+    OnShow = FindDialogShow
+    OnFind = FindDialogFind
+    Left = 496
+    Top = 24
+  end
+  object ReplaceDialog: TReplaceDialog
+    Options = [frDown, frReplace, frReplaceAll, frHidePromptOnReplace]
+    Left = 490
+    Top = 193
   end
 end
