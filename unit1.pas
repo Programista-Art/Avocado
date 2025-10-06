@@ -7,16 +7,28 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCFluentSlider,
-  SynEdit, SynPopupMenu, SynCompletion,
-  SynPluginSyncroEdit, SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX,
-  SynHighlighterDiff, SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo,
-  laz.VTHeaderPopup, Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8,
-  LCLIntf, InterfaceBase,DefaultTranslator,LCLTranslator;
+  VirtualTrees, SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
+  SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
+  SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
+  Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8, ExtendedTabControls,
+  ListViewFilterEdit, TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,
+  LCLTranslator;
+
+type
+  PNodeRec = ^TNodeRec;
+  TNodeRec = record
+    IsFolder: Boolean;
+    FullPath: string;
+    Loaded: Boolean;
+ end;
 
 type
   { TFormMain }
   TFormMain = class(TForm)
+    ImageListListView: TImageList;
+    ImageListIcons: TImageList;
     LRozmiarZccionkiEdytora: TLabel;
+    MemoLogs: TMemo;
     MemoOutPut: TMemo;
     MenuExamples: TMenuItem;
     MenuItem10: TMenuItem;
@@ -38,6 +50,7 @@ type
     MenuItem19: TMenuItem;
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
+    MenuItemOpenFolder: TMenuItem;
     MenuItemTurkishLang: TMenuItem;
     MenuItemSwedishLang: TMenuItem;
     MenuItemSlovenianLang: TMenuItem;
@@ -53,6 +66,8 @@ type
     MenuItemCzeski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
+    PageControl1: TPageControl;
+    PanelLeft: TPanel;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
     Label3: TLabel;
     Label4: TLabel;
@@ -66,18 +81,23 @@ type
     Panel5: TPanel;
     IdleTimer1: TIdleTimer;
     Label1: TLabel;
-    MemoLogs: TMemo;
     MenuINformacjaIDE: TMenuItem;
     MenuItemWsparcieprojektu: TMenuItem;
     Panel3: TPanel;
-    Panel4: TPanel;
+    PaneMain: TPanel;
     PanelDolnynadKosnola: TPanel;
+    Splitter2: TSplitter;
+    SplitterLeft: TSplitter;
     StatusBar: TStatusBar;
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
     SynEditCode: TSynEdit;
     SynMultiSyn1: TSynMultiSyn;
+    TabSheetLog: TTabSheet;
+    TabSheetSearch: TTabSheet;
     Transpiluj: TAction;
+    TreeFilterEdit1: TTreeFilterEdit;
+    TreeView: TTreeView;
     ZapiszPlik: TAction;
     NowyPlik: TAction;
     MenuItem3: TMenuItem;
@@ -120,13 +140,15 @@ type
     PopupMenuKonsola: TPopupMenu;
     SD: TSaveDialog;
     Splitter1: TSplitter;
-    Splitter3: TSplitter;
+    SplitterDown: TSplitter;
     SynCompletion1: TSynCompletion;
     SynPopupMenuCode: TSynPopupMenu;
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     butCompileCode: TToolButton;
+    //procedure FileTreeDblClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormDestroy(Sender: TObject);
     procedure itemJaponskiClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuIArabskiClick(Sender: TObject);
@@ -155,6 +177,7 @@ type
     procedure MenuItemLangLithuanianClick(Sender: TObject);
     procedure MenuItemLangRomanianClick(Sender: TObject);
     procedure MenuItemLangSlovakClick(Sender: TObject);
+    procedure MenuItemOpenFolderClick(Sender: TObject);
     procedure MenuItemSlovenianLangClick(Sender: TObject);
     procedure MenuItemSwedishLangClick(Sender: TObject);
     procedure MenuItemTurkishLangClick(Sender: TObject);
@@ -196,7 +219,20 @@ type
     procedure KompilujExecute(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
     procedure butCompileCodeClick(Sender: TObject);
+    procedure TreeViewCollapsing(Sender: TObject; Node: TTreeNode;
+      var AllowCollapse: Boolean);
+    procedure TreeViewDblClick(Sender: TObject);
+    procedure TreeViewExpanding(Sender: TObject; Node: TTreeNode;
+      var AllowExpansion: Boolean);
     procedure ZapiszPlikExecute(Sender: TObject);
+
+    type
+      PFileNode = ^TFileNode;
+      TFileNode = record
+        Name: string;
+        FullPath: string;
+        IsFolder: Boolean;
+      end;
   private
     FTranslator: TAvocadoTranslator;
     FTranslatedCode: TStringList;
@@ -204,6 +240,8 @@ type
     procedure LoadFpc;
     procedure SaveCodeToFile;
     procedure IsClickMainMenuLanguage(number: Integer);
+    //Laduje foldery i pliki i pokazuje w FileTree
+
 
     //Delete Kompilacja kodu release debug
     procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
@@ -215,6 +253,12 @@ type
     //procedure LoadLang;
     procedure CloseProgram;
 
+    //Otwiera pliki w TreeView
+    procedure LoadProjectTree;
+    //Auto zapisywanie pliku gdy jest otwarty w TreeView
+    procedure SaveCurrentFile;
+    //Dodawanie nod
+    procedure AddSubNodes(ParentNode: TTreeNode; const Path: string);
 
 
   public
@@ -298,6 +342,9 @@ var
   //Translated
   OpenProjectTranslatet: string;
   CharsTranslatet: string;
+  OpenProjectDir: String;
+  OpenProjectName : String;
+
 
 resourcestring
    NewProgramFile = 'New file';
@@ -409,6 +456,45 @@ procedure TFormMain.FormCloseQuery(Sender: TObject;
 begin
   CloseProgram;
 end;
+
+procedure TFormMain.FormDestroy(Sender: TObject);
+var
+  i: Integer;
+  Node: TTreeNode;
+  P: PNodeRec;
+begin
+   // Przejście po wszystkich węzłach TreeView
+   for i := 0 to TreeView.Items.Count - 1 do
+   begin
+     Node := TreeView.Items[i];
+
+     if Assigned(Node.Data) then
+     begin
+       P := PNodeRec(Node.Data);
+       Dispose(P);
+       Node.Data := nil;
+     end;
+   end;
+end;
+
+{
+procedure TFormMain.FileTreeDblClick(Sender: TObject);
+var
+  Node: PVirtualNode;
+  Data: PFileNode;
+begin
+  Node := FileTree.FocusedNode;
+    if not Assigned(Node) then Exit;
+
+    Data := FileTree.GetNodeData(Node);
+    if Assigned(Data) and (not Data^.IsFolder) then
+    begin
+      // Otwórz plik w edytorze
+      ShowMessage('Otwieram: ' + Data^.FullPath);
+      // Tutaj dajesz np: Editor.Lines.LoadFromFile(Data^.FullPath);
+    end;
+end;
+}
 
 procedure TFormMain.itemJaponskiClick(Sender: TObject);
 begin
@@ -598,6 +684,16 @@ begin
   SetDefaultLang('sk');
   lang := 'sk';
   IsClickMainMenuLanguage(26);
+end;
+
+procedure TFormMain.MenuItemOpenFolderClick(Sender: TObject);
+begin
+  if OD.Execute then
+  begin
+  //TreeView1.LoadFromFile(OD.FileName);
+    OpenFileProject := OD.FileName;
+    LoadProjectTree;
+  end;
 end;
 
 procedure TFormMain.MenuItemSlovenianLangClick(Sender: TObject);
@@ -820,19 +916,26 @@ begin
 end;
 
 procedure TFormMain.MenuOpenClick(Sender: TObject);
+//var
+  //OpenProjectDir,OpenProjectName : String;
 begin
-  SynEditCode.Clear;
-  MemoOutPut.Clear;
-  MemoLogs.Clear;
+
   if OD.Execute then
   begin
-    SynEditCode.Lines.LoadFromFile(OD.FileName);
-    OpenFileProject := ChangeFileExt(ExtractFileName(OD.FileName), '');
-   // ShowMessage(OpenFileProject);
-   Caption := 'IDE Avocado v 1.0.1.0' + ' ' + OpenProjectTranslate + ' ' + OpenFileProject;
-    IdleTimer1.Enabled := True;
-    ToolButton1Click(Sender);
-  end;
+  SynEditCode.Lines.LoadFromFile(OD.FileName);
+
+  OpenFileProject := OD.FileName;                           // pełna ścieżka
+  OpenProjectDir  := ExtractFilePath(OD.FileName);          // katalog projektu
+  OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), ''); // nazwa bez rozszerzenia
+
+
+  Caption := 'IDE Avocado v 1.0.1.0' + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
+  IdleTimer1.Enabled := True;
+  ToolButton1Click(Sender);
+
+   end;
+
+
 end;
 
 procedure TFormMain.MenuSaveAsClick(Sender: TObject);
@@ -920,6 +1023,80 @@ begin
   // Start kompilacji w osobnym wątku
   //TCompileThread.Create(FTranslatedCode.Text, ExeName, Handle);
   TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
+end;
+
+procedure TFormMain.TreeViewCollapsing(Sender: TObject; Node: TTreeNode;
+  var AllowCollapse: Boolean);
+begin
+  // Zmień ikonę z powrotem na Folder Zamknięty (0)
+  if Assigned(Node.Data) and PNodeRec(Node.Data)^.IsFolder then
+  begin
+    Node.ImageIndex := 0;
+    Node.SelectedIndex := 0;
+  end;
+end;
+
+procedure TFormMain.TreeViewDblClick(Sender: TObject);
+var
+Node: TTreeNode;
+P: PNodeRec;
+begin
+    Node := TreeView.Selected;
+    if not Assigned(Node) then Exit;
+
+    P := PNodeRec(Node.Data);
+    if not Assigned(P) then Exit;
+
+    if P^.IsFolder then
+    begin
+      Node.Expand(False);
+      Exit;
+    end;
+     //Zapisujemy plik
+     SaveCurrentFile;
+    // Plik — otwieramy
+    try
+      SynEditCode.Lines.LoadFromFile(P^.FullPath);
+      OpenFileProject := P^.FullPath; // aktualizujemy aktualny plik
+      Caption := 'IDE Avocado v 1.0.1.0' + ' ' + OpenProjectTranslate + ' ' + ExtractFileName(OpenProjectName);
+      IdleTimer1.Enabled := True;
+      ToolButton1Click(Sender);
+      //Caption := 'IDE Avocado v 1.0.1.0 - ' + ExtractFileName(OpenFileProject);
+    except
+      on E: Exception do
+        MemoLogs.Lines.Add('Błąd otwarcia pliku: ' + E.Message);
+    end;
+end;
+
+procedure TFormMain.TreeViewExpanding(Sender: TObject; Node: TTreeNode;
+  var AllowExpansion: Boolean);
+var
+  P: PNodeRec;
+begin
+    if Assigned(Node.Data) then
+        begin
+          P := PNodeRec(Node.Data);
+
+          if P^.IsFolder then
+          begin
+            // Zmień ikonę na Folder Otwarty (1)
+            Node.ImageIndex := 1;
+            Node.SelectedIndex := 1;
+
+            // Sprawdź, czy folder został już załadowany
+            if not P^.Loaded then
+            begin
+              // Usuń "Dummy Node"
+              Node.DeleteChildren;
+
+              // Załaduj właściwą zawartość folderu
+              AddSubNodes(Node, P^.FullPath);
+
+              // Oznacz jako załadowany
+              P^.Loaded := True;
+            end;
+          end;
+        end;
 end;
 
 procedure TFormMain.ZapiszPlikExecute(Sender: TObject);
@@ -1214,6 +1391,7 @@ begin
     // Select the selected item
     MainMenu1.Items[4].Items[number].Checked := True;
 end;
+
 
 procedure TFormMain.CompilePascalCode(const PascalCode, OutputFile: string);
 var
@@ -1551,6 +1729,110 @@ begin
     FreeAndNil(Ini);
   end;
 
+
+end;
+
+procedure TFormMain.LoadProjectTree;
+var
+  RootNode: TTreeNode;
+  RootPath: string;
+  P: PNodeRec;
+begin
+  TreeView.Items.BeginUpdate;
+   try
+     TreeView.Items.Clear;
+
+     if OpenFileProject = '' then Exit;
+
+     RootPath := ExtractFilePath(OpenFileProject);
+     if RootPath = '' then Exit;
+
+     RootNode := TreeView.Items.Add(nil, ExtractFileName(ExcludeTrailingPathDelimiter(RootPath)));
+     New(P);
+     P^.IsFolder := True;
+     P^.FullPath := IncludeTrailingPathDelimiter(RootPath);
+     RootNode.Data := P;
+
+     AddSubNodes(RootNode, P^.FullPath);
+
+     RootNode.Expand(True);
+   finally
+     TreeView.Items.EndUpdate;
+   end;
+end;
+
+procedure TFormMain.SaveCurrentFile;
+begin
+    if (OpenFileProject <> '') and FileExists(OpenFileProject) then
+    SynEditCode.Lines.SaveToFile(OpenFileProject);
+end;
+
+procedure TFormMain.AddSubNodes(ParentNode: TTreeNode; const Path: string);
+var
+   SR: TSearchRec;
+   Node: TTreeNode;
+   P: PNodeRec;
+   DirPath: string;
+begin
+  DirPath := IncludeTrailingPathDelimiter(Path);
+
+   // Oznacz folder jako załadowany, aby nie wchodzić tu ponownie
+   if Assigned(ParentNode) and Assigned(ParentNode.Data) then
+     PNodeRec(ParentNode.Data)^.Loaded := True;
+
+   // Wczytywanie folderów
+   if FindFirst(DirPath + '*', faDirectory, SR) = 0 then
+   try
+     repeat
+       if (SR.Attr and faDirectory) <> 0 then
+       begin
+         if (SR.Name <> '.') and (SR.Name <> '..') then
+         begin
+
+           Node := TreeView.Items.AddChild(ParentNode, SR.Name);
+           New(P);
+           P^.IsFolder := True;
+           P^.FullPath := IncludeTrailingPathDelimiter(DirPath + SR.Name);
+           P^.Loaded := False; // Folder nie jest jeszcze załadowany
+           Node.Data := P;
+
+           // Ustawienie ikon: Folder Zamknięty (0)
+           Node.ImageIndex := 0;
+           Node.SelectedIndex := 0;
+
+           // Dodajemy "Dummy Node" (pusty węzeł), aby móc rozwinąć folder
+           TreeView.Items.AddChild(Node, 'Ładowanie...');
+
+
+           // Rekurencyjnie wchodzimy w podfoldery
+           AddSubNodes(Node, P^.FullPath);
+         end;
+       end;
+     until FindNext(SR) <> 0;
+   finally
+     FindClose(SR);
+   end;
+
+   //pliki .avocado
+   if FindFirst(DirPath + '*.avocado', faAnyFile, SR) = 0 then
+   try
+     repeat
+       if (SR.Attr and faDirectory) = 0 then
+       begin
+         // Dodawanie pliku
+         Node := TreeView.Items.AddChild(ParentNode, SR.Name);
+         New(P);
+         P^.IsFolder := False;
+         P^.FullPath := DirPath + SR.Name;
+         Node.Data := P;
+         // Ustawienie ikon: Plik .avocado (3)
+         Node.ImageIndex := 3;
+         Node.SelectedIndex := 3; // Nie zmieniaj ikony pliku po zaznaczeniu
+       end;
+     until FindNext(SR) <> 0;
+   finally
+     FindClose(SR);
+   end;
 
 end;
 

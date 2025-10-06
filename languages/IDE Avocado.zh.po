@@ -143,7 +143,9 @@ msgid "Kompiluj"
 msgstr "编译"
 
 #: tformmain.label1.caption
-msgid "Debug"
+#, fuzzy
+#| msgid "Debug"
+msgid "Console Log"
 msgstr "调试"
 
 #: tformmain.label2.caption
@@ -380,6 +382,10 @@ msgstr ""
 msgid "Slovenský"
 msgstr ""
 
+#: tformmain.menuitemopenfolder.caption
+msgid "Open folder"
+msgstr ""
+
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
@@ -459,13 +465,18 @@ msgstr "NowyPLik"
 msgid "Nowy Plik"
 msgstr "新文件"
 
-#: tformmain.panel4.caption
-msgid "Panel4"
-msgstr "Panel4"
-
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
 msgstr "PanelLewy"
+
+#: tformmain.tabsheetlog.caption
+msgctxt "tformmain.tabsheetlog.caption"
+msgid "Logs"
+msgstr ""
+
+#: tformmain.tabsheetsearch.caption
+msgid "Search results"
+msgstr ""
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"

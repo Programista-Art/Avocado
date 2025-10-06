@@ -45,6 +45,7 @@
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="10"/>
+        <TopLine Value="22"/>
         <CursorPos Y="48"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -58,8 +59,7 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="1172"/>
-        <CursorPos X="13" Y="1159"/>
+        <CursorPos X="24" Y="20"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -79,8 +79,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1200"/>
-        <CursorPos X="17" Y="1209"/>
+        <TopLine Value="2806"/>
+        <CursorPos X="5" Y="2813"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -178,6 +178,7 @@
         <Filename Value="pliki.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
+        <TopLine Value="56"/>
         <CursorPos X="39" Y="23"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
@@ -192,7 +193,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="80"/>
         <CursorPos X="41" Y="89"/>
-        <UsageCount Value="158"/>
+        <UsageCount Value="182"/>
       </Unit>
       <Unit>
         <Filename Value="moduly\matematyka.pas"/>
@@ -201,7 +202,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="126"/>
       </Unit>
       <Unit>
         <Filename Value="moduly\internet.pas"/>
@@ -210,7 +211,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="126"/>
       </Unit>
       <Unit>
         <Filename Value="themesettings.pas"/>
@@ -220,7 +221,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
         <CursorPos X="70" Y="9"/>
-        <UsageCount Value="44"/>
+        <UsageCount Value="68"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -231,9 +232,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="88"/>
+        <TopLine Value="83"/>
         <CursorPos X="49" Y="98"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -250,58 +251,58 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="201"/>
         <CursorPos X="8" Y="206"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="126"/>
       </Unit>
       <Unit>
         <Filename Value="formatowanie.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18"/>
-        <UsageCount Value="175"/>
+        <UsageCount Value="173"/>
       </Unit>
       <Unit>
         <Filename Value="unit2.pas"/>
         <ComponentName Value="Form1"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
-        <UsageCount Value="73"/>
+        <UsageCount Value="71"/>
       </Unit>
       <Unit>
         <Filename Value="uchatgpt.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="10"/>
         <CursorPos X="5" Y="31"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="27"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4RC2\fpc\3.2.2\source\packages\fcl-process\src\processbody.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="105"/>
         <CursorPos X="15" Y="113"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="ukonwersje.pas"/>
         <UnitName Value="Ukonwersje"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="usechatgpt.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="61"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="moduly\chatgpt.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="5" Y="10"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="existingassistant.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4RC3\lcl\forms.pp"/>
@@ -309,21 +310,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="721"/>
         <CursorPos X="14" Y="733"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="3"/>
         <TopLine Value="1761"/>
         <CursorPos X="23" Y="1755"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\rtl\inc\objpash.inc"/>
         <TopLine Value="180"/>
         <CursorPos X="22" Y="208"/>
-        <UsageCount Value="73"/>
+        <UsageCount Value="85"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -331,135 +332,143 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
         <CursorPos X="10" Y="74"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\rtl\objpas\sysutils\sysutilh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="267"/>
         <CursorPos X="3" Y="280"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\rtl\win\syswinh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="36"/>
         <CursorPos X="3" Y="49"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="27">
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="168" Column="15" TopLine="156"/>
-      </Position>
-      <Position>
-        <Filename Value="aihelper.pas"/>
-        <Caret Line="108" Column="5" TopLine="97"/>
-      </Position>
-      <Position>
-        <Filename Value="aihelper.pas"/>
-        <Caret Line="107" Column="5" TopLine="96"/>
+        <Caret Line="1688" Column="53" TopLine="1683"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="655" TopLine="644"/>
-      </Position>
-      <Position>
-        <Filename Value="aihelper.pas"/>
-        <Caret Line="107" Column="5" TopLine="96"/>
-      </Position>
-      <Position>
-        <Filename Value="aihelper.pas"/>
-        <Caret Line="28" Column="22" TopLine="15"/>
+        <Caret Line="1021" Column="3" TopLine="1018"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="167" Column="47" TopLine="53"/>
+        <Caret Line="1036" Column="4" TopLine="1035"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="378" Column="8" TopLine="373"/>
+        <Caret Line="1088" Column="30" TopLine="1069"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="204" Column="20" TopLine="199"/>
+        <Caret Line="466" Column="3" TopLine="462"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1174" Column="38" TopLine="1161"/>
+        <Caret Line="475" Column="3" TopLine="462"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="378" Column="9" TopLine="374"/>
+        <Caret Line="419" Column="6" TopLine="415"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="204" Column="20" TopLine="203"/>
+        <Caret Line="460" Column="27"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1177" Column="40" TopLine="1155"/>
+        <Caret Line="928" Column="24" TopLine="910"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="324" Column="2" TopLine="316"/>
+        <Caret Line="219" Column="15" TopLine="205"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="378" Column="7" TopLine="374"/>
+        <Caret Line="912" Column="18" TopLine="906"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="204" Column="19" TopLine="204"/>
+        <Caret Line="256" Column="23" TopLine="243"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1166" Column="24" TopLine="929"/>
+        <Caret Line="1731" Column="3" TopLine="1723"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="204" Column="15" TopLine="189"/>
+        <Caret Line="260" Column="20" TopLine="241"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="378" Column="3" TopLine="361"/>
+        <Caret Line="1803" Column="10" TopLine="1791"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="931" Column="21" TopLine="915"/>
+        <Caret Line="484" Column="11" TopLine="469"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1339" Column="45" TopLine="1324"/>
+        <Caret Line="1039" Column="21" TopLine="1079"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="204" Column="15" TopLine="188"/>
+        <Caret Line="496" Column="2" TopLine="471"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="378" Column="3" TopLine="361"/>
+        <Caret Line="1796" Column="24" TopLine="1784"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="385" Column="15" TopLine="374"/>
+        <Caret Line="1820" Column="26" TopLine="1806"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="214" Column="24" TopLine="193"/>
+        <Caret Line="149" Column="7" TopLine="135"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1535" Column="14" TopLine="1482"/>
+        <Caret Line="150" Column="7" TopLine="136"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="204" Column="15" TopLine="189"/>
+        <Caret Line="692" Column="3" TopLine="689"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="378" Column="3" TopLine="361"/>
+        <Caret Line="925" TopLine="921"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="692" Column="3" TopLine="689"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="918" TopLine="914"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="697" Column="3" TopLine="690"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="20" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="48" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="20" Column="24"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -32,4 +32,3 @@ pisz_linie('Programista Art')
 pisz_linie(' ')
 pozycja_kursora(30,17)
 pisz_linie('................................')
-

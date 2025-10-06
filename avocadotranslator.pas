@@ -390,7 +390,9 @@ begin
     if LowerCase(TrimmedLine).StartsWith('else') then Exit;
     if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
     if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('exit') then Exit;
     if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('halt') then Exit;
 
     //Handling declarations WITHOUT value
     // Obsługa deklaracji BEZ wartości
@@ -495,6 +497,13 @@ begin
   if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
   if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
   if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
+
+  if LowerCase(TrimmedLine).StartsWith('if') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('then') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('else') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('exit') then Exit;
+
+  if LowerCase(TrimmedLine).StartsWith('halt') then Exit;
 
   //Transfer to file handling
   // Przekazanie do obsługi plików
@@ -1083,7 +1092,7 @@ end;
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList);
 var
   Parts: TStringArray;
-   VarType, VarName, Value, TrimmedLine: string;
+   VarType, VarName, Value, TrimmedLine,LowerLine: string;
    InstrukcjaWarunkowa: TStringArray;
    KodWtedy, KodInaczej,LowerTrimmedLine: string;
    TempList: TStringList;
@@ -1193,49 +1202,69 @@ var
   ParamTrimWhile: string;
   OpenPos: Integer;
   //Value: string;
+  EqualPos: Integer;
 begin
   TrimmedLine := Trim(Line);
-  LowerTrimmedLine := LowerCase(TrimmedLine); // <<< POPRAWIONA LINIA
-
+  LowerTrimmedLine := LowerCase(TrimmedLine);
+  LowerLine := AnsiLowerCase(TrimmedLine);
+  //Insert() function support
   // Obsługa funkcji wstaw() → Insert()
-  if Pos('wstaw(', LowerTrimmedLine) > 0 then
+   if (AnsiLowerCase(TrimmedLine).StartsWith('wstaw(')) or
+          (AnsiLowerCase(TrimmedLine).StartsWith('insert(')) then
   begin
     StartPosInsert := Pos('(', TrimmedLine);
     EndPosInsert   := RPos(')', TrimmedLine);
 
-    if (StartPosInsert = 0) or (EndPosInsert = 0) then
-      raise Exception.Create(ErrorPrint);
-
-    if StartPosInsert > EndPosInsert then
-      raise Exception.Create(ErrorPrint);
+    if (StartPosInsert <= 0) or (EndPosInsert <= StartPosInsert) then
+      raise Exception.Create(ErrorPrint);  // Nieprawidłowe nawiasy
 
     ParamInsert := Trim(Copy(TrimmedLine, StartPosInsert + 1, EndPosInsert - StartPosInsert - 1));
     ParamPartsInsert := ParamInsert.Split([',']);
 
-    SetLength(TempParamParts, 0);
-    for Part in ParamPartsInsert do
-    begin
-      TrimmedPart := Trim(Part);
-      if TrimmedPart <> '' then
-      begin
-        SetLength(TempParamParts, Length(TempParamParts) + 1);
-        TempParamParts[High(TempParamParts)] := TrimmedPart;
-      end;
-    end;
-    ParamPartsInsert := TempParamParts;
-
     if Length(ParamPartsInsert) <> 3 then
-      raise Exception.Create(FunctionInsert);
+      raise Exception.Create(FunctionInsert); // Błąd: Insert wymaga 3 argumentów
 
-    InsertSourceIn := TranslateExpression(ParamPartsInsert[0]);
-    InsertTargetIn := TranslateExpression(ParamPartsInsert[1]);
-    InsertIndexIn  := TranslateExpression(ParamPartsInsert[2]);
+    InsertSourceIn := TranslateExpression(Trim(ParamPartsInsert[0]));
+    InsertTargetIn := TranslateExpression(Trim(ParamPartsInsert[1]));
+    InsertIndexIn  := TranslateExpression(Trim(ParamPartsInsert[2]));
 
     PascalCode.Add('Insert(' + InsertSourceIn + ', ' + InsertTargetIn + ', ' + InsertIndexIn + ');');
     Exit;
-  end;
+  end
+
+
+   // obsługa funkcji przytnij() -> Trim()
+   else if (Copy(LowerLine, 1, 8) = 'przytnij(') or
+          (Copy(LowerLine, 1, 5) = 'trim(') then
+   begin
+     StartPosTrim := Pos('(', TrimmedLine);
+     EndPosTrim := RPos(')', TrimmedLine);
+
+     if (StartPosTrim <= 0) or (EndPosTrim <= StartPosTrim) then
+       raise Exception.Create(FunctionTrim);
+
+     ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
+     TranslatedParamTrim := TranslateExpression(ParamTrim);
+
+     // Sprawdź czy to przypisanie (zmienna = przytnij(...))
+     // Szukamy znaku '=' przed nawiasem otwierającym funkcji
+     EqualPos := Pos('=', TrimmedLine);
+     if (EqualPos > 0) and (EqualPos < StartPosTrim) then
+     begin
+       // To jest forma przypisania - wyodrębnij zmienną
+       VarName := Trim(Copy(TrimmedLine, 1, EqualPos - 1));
+       PascalCode.Add(VarName + ' := Trim(' + TranslatedParamTrim + ');');
+     end
+     else
+     begin
+       // To jest zwykłe wywołanie funkcji
+       PascalCode.Add('Trim(' + TranslatedParamTrim + ');');
+     end;
+     Exit;
+   end;
+
   // Nowa obsługa funkcji przytnij() -> Trim()
-  if Pos('przytnij(', LowerTrimmedLine) > 0 then
+  {if Pos('przytnij(', LowerTrimmedLine) > 0 then
   begin
     StartPosTrim := Pos('(', TrimmedLine);
     EndPosTrim := RPos(')', TrimmedLine);
@@ -1261,6 +1290,7 @@ begin
     end;
     Exit;
   end;
+  }
   // Obsługa funkcji przytnij_z_lewa() -> TrimLeft()
   if Pos('przytnij_z_lewa(', LowerTrimmedLine) > 0 then
   begin
@@ -2581,7 +2611,7 @@ begin
       // Wykryj deklaracje zmiennych
       for i := 0 to AvocadoCode.Count - 1 do
         ProcessDeclaration(Trim(AvocadoCode[i]));
-      //// Generuj sekcję 'const' (PRZYWRÓCONO PEŁNĄ OBSŁUGĘ TYPÓW)
+
       //if Length(FVariables) > 0 then
       //begin
       //  PascalCode.Add('var');
@@ -2775,9 +2805,8 @@ begin
         PascalCode.Add('');
       end;
 
-      // Dodaje główny blok programu
+      // główny blok programu
       PascalCode.Add('begin');
-      // Zawsze dodawaj ustawienia konsoli
       //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
       //PascalCode.Add('  SetConsoleCP(CP_UTF8);');
       PascalCode.Add('  {$IFDEF WINDOWS}');
@@ -2785,14 +2814,15 @@ begin
       PascalCode.Add('  SetConsoleCP(CP_UTF8);');
       PascalCode.Add('  {$ENDIF}');
 
-      // --- inicjalizacje zmiennych (tylko gdy NoAssign = False) ---
+    // --- inicjalizacje zmiennych (tylko gdy NoAssign = False) ---
     for i := 0 to High(FVariables) do
     begin
       if FVariables[i].VarName = '' then Continue;
 
       // dla plików z przypisaniem
       if (LowerCase(FVariables[i].VarType) = 'plik') or
-         (LowerCase(FVariables[i].VarType) = 'plik_tekstowy') then
+         (LowerCase(FVariables[i].VarType) = 'plik_tekstowy')
+         then
       begin
         if not FVariables[i].NoAssign then
         begin
@@ -2811,6 +2841,7 @@ begin
         // Pomiń linie 'program', 'importuj', 'ModułyPas'
         if AnsiStartsText('program ', trimmedLine) or
            AnsiStartsText('importuj', trimmedLine) or
+           AnsiStartsText('import', trimmedLine) or
            AnsiStartsText('plik ', LowerCase(trimmedLine)) or
            AnsiStartsText('file ', LowerCase(trimmedLine)) or
             AnsiStartsText('text_file ', LowerCase(trimmedLine)) or

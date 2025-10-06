@@ -11,6 +11,7 @@ object FormMain: TFormMain
   Position = poMainFormCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   object ToolBar1: TToolBar
     Left = 0
@@ -123,11 +124,11 @@ object FormMain: TFormMain
     ClientWidth = 803
     ParentBackground = False
     TabOrder = 2
-    object Splitter3: TSplitter
+    object SplitterDown: TSplitter
       Cursor = crVSplit
       Left = 1
-      Height = 5
-      Top = 398
+      Height = 1
+      Top = 402
       Width = 801
       Align = alBottom
       ResizeAnchor = akBottom
@@ -143,22 +144,6 @@ object FormMain: TFormMain
       ClientWidth = 801
       ParentBackground = False
       TabOrder = 1
-      object MemoLogs: TMemo
-        Left = 1
-        Height = 128
-        Top = 28
-        Width = 799
-        Align = alClient
-        Color = clBlack
-        Font.CharSet = EASTEUROPE_CHARSET
-        Font.Color = clWhite
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        ReadOnly = True
-        ScrollBars = ssVertical
-        TabOrder = 0
-      end
       object StatusBar: TStatusBar
         Left = 1
         Height = 23
@@ -189,15 +174,15 @@ object FormMain: TFormMain
         Color = clMenuBar
         ParentBackground = False
         ParentColor = False
-        TabOrder = 2
+        TabOrder = 1
         object Label1: TLabel
           Left = 6
           Height = 15
           Top = 6
-          Width = 35
+          Width = 66
           Align = alLeft
           BorderSpacing.Around = 5
-          Caption = 'Debug'
+          Caption = 'Console Log'
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
           Font.Pitch = fpVariable
@@ -205,23 +190,56 @@ object FormMain: TFormMain
           ParentFont = False
         end
       end
+      object PageControl1: TPageControl
+        Left = 1
+        Height = 128
+        Top = 28
+        Width = 799
+        ActivePage = TabSheetLog
+        Align = alClient
+        TabIndex = 0
+        TabOrder = 2
+        object TabSheetLog: TTabSheet
+          Caption = 'Logs'
+          ClientHeight = 100
+          ClientWidth = 791
+          object MemoLogs: TMemo
+            Left = 0
+            Height = 100
+            Top = 0
+            Width = 791
+            Align = alClient
+            Color = clBlack
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clWhite
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 0
+          end
+        end
+        object TabSheetSearch: TTabSheet
+          Caption = 'Search results'
+        end
+      end
     end
-    object Panel4: TPanel
+    object PaneMain: TPanel
       Left = 1
-      Height = 397
+      Height = 401
       Top = 1
       Width = 801
       Align = alClient
-      Caption = 'Panel4'
-      ClientHeight = 397
+      ClientHeight = 401
       ClientWidth = 801
       ParentBackground = False
       TabOrder = 2
       inline SynEditCode: TSynEdit
-        Left = 1
-        Height = 367
+        Left = 213
+        Height = 371
         Top = 1
-        Width = 799
+        Width = 587
         Align = alClient
         BlockIndent = 1
         Color = clBlack
@@ -751,7 +769,7 @@ object FormMain: TFormMain
       object Panel5: TPanel
         Left = 1
         Height = 28
-        Top = 368
+        Top = 372
         Width = 799
         Align = alBottom
         ClientHeight = 28
@@ -808,6 +826,56 @@ object FormMain: TFormMain
           ParentFont = False
         end
       end
+      object SplitterLeft: TSplitter
+        Left = 1
+        Height = 371
+        Top = 1
+        Width = 1
+      end
+      object PanelLeft: TPanel
+        Left = 2
+        Height = 371
+        Top = 1
+        Width = 206
+        Align = alLeft
+        ClientHeight = 371
+        ClientWidth = 206
+        ParentBackground = False
+        TabOrder = 3
+        object TreeView: TTreeView
+          Left = 1
+          Height = 346
+          Top = 24
+          Width = 204
+          Align = alClient
+          Images = ImageListListView
+          StateImages = ImageListListView
+          TabOrder = 0
+          OnCollapsing = TreeViewCollapsing
+          OnDblClick = TreeViewDblClick
+          OnExpanding = TreeViewExpanding
+        end
+        object TreeFilterEdit1: TTreeFilterEdit
+          Left = 1
+          Height = 23
+          Top = 1
+          Width = 204
+          ButtonWidth = 23
+          Align = alTop
+          NumGlyphs = 1
+          Images = ImageListListView
+          ImageIndex = 4
+          MaxLength = 0
+          TabOrder = 1
+          FilteredTreeview = TreeView
+        end
+      end
+      object Splitter2: TSplitter
+        Left = 208
+        Height = 371
+        Top = 1
+        Width = 5
+      end
     end
   end
   object Splitter1: TSplitter
@@ -833,6 +901,10 @@ object FormMain: TFormMain
         Caption = 'Otwórz'
         ShortCut = 16463
         OnClick = MenuOpenClick
+      end
+      object MenuItemOpenFolder: TMenuItem
+        Caption = 'Open folder'
+        OnClick = MenuItemOpenFolderClick
       end
       object MenuItemSaveFile: TMenuItem
         Caption = 'Zapisz'
@@ -1397,8 +1469,8 @@ object FormMain: TFormMain
     ExecCommandID = ecSynCompletionExecute
     Editor = SynEditCode
     ToggleReplaceWhole = True
-    Left = 80
-    Top = 40
+    Left = 64
+    Top = 240
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
     Left = 536
@@ -1497,57 +1569,62 @@ object FormMain: TFormMain
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
-    CommentAttri.Foreground = clGreen
+    CommentAttri.Foreground = 11524290
     CommentAttri.FrameColor = clWindow
     CommentAttri.Style = [fsBold, fsItalic]
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
-    Comments = [csPasStyle]
+    Comments = [csPasStyle, csCStyle, csBasStyle]
     DetectPreprocessor = True
-    IdentifierAttri.Background = cl3DLight
-    IdentifierAttri.Foreground = clGradientInactiveCaption
-    IdentifierAttri.FrameColor = clBtnHighlight
+    IdentifierAttri.Foreground = 14408667
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
-    KeyAttri.Foreground = clHighlight
+    KeyAttri.Foreground = 14327160
     KeyAttri.StyleMask = [fsBold]
-    ConstantAttri.Foreground = 3456207
+    ConstantAttri.Foreground = 12970483
     ConstantAttri.StyleMask = [fsBold]
     ObjectAttri.Foreground = clYellow
     VariableAttri.Background = 7886547
     VariableAttri.FrameColor = clLime
     DotAttri.Foreground = clActiveCaption
-    DotAttri.FrameColor = clActiveCaption
     KeyWords.Strings = (
+      ''
       'APPEND'
       'ASSIGN_FILE'
       'CALC'
       'CHANGE_DIR'
       'CLOSE_FILE'
       'CREATE_DIR'
-      'CZY_ISTNIEJE_KATALOG'
-      'CZY_ISTNIEJE_PLIK'
       'CZYTAJ'
       'CZYTAJ_KLAWISZ'
       'CZYTAJ_LINIE'
+      'CZY_ISTNIEJE_KATALOG'
+      'CZY_ISTNIEJE_PLIK'
       'DIRECTORY_EXISTS'
+      'DLA'
+      'DłUGOść'
       'DOPóKI'
       'DUZE_LITERY_ANSI'
       'DUżE_LITERY_ANSI'
       'ELSE'
       'EOF'
       'FILE_EXISTS'
+      'FTP_POBIERZ'
       'GET_ARGUMENT'
       'GET_CURRENT_DIR'
       'GET_ENV'
       'IF'
+      'ILOść_PARAMETRóW'
       'IMPORTUJ'
       'INACZEJ'
+      'INSERT'
       'JEśLI'
       'KLAWISZ_WCIśNIęTY'
       'KOLOR_TEKSTU'
       'KONIEC_PLIKU'
+      'KOPIUJ'
       'LOSOWY'
       'LOSUJ'
       'MALE_LITERY_ANSI'
+      'MAłE_LITERY'
       'OBLICZ'
       'OPEN_READ'
       'OPEN_SAVE'
@@ -1555,31 +1632,43 @@ object FormMain: TFormMain
       'OTWóRZ_DO_ODCZYTU'
       'OTWóRZ_DO_ZAPISU'
       'PARAMETR_PROGRAMU'
+      'PING'
       'PISZ'
       'PISZ_LINIE'
       'POBIERZ_KATALOG_BIEżąCY'
       'POBIERZ_PLIK'
+      'POBIERZ_STRONE'
       'POBIERZ_ZMIENNą_śRODOWISKOWą'
+      'PORóWNAJ_TEKST'
+      'POWTóRZ_ZNAK'
       'POZYCJA_KURSORA'
       'PRINT'
       'PRINT_LINE'
       'PROGRAM'
       'PRZYPISZ_PLIK'
+      'PRZYTNIJ'
+      'PRZYTNIJ_Z_LEWA'
+      'PRZYTNIJ_Z_PRAWA'
       'RANDOM'
       'RANDOMIZE '
       'READ_KEY'
       'REMOVE_DIR'
       'SET_ENV'
       'SET_LENGTH'
+      'SZUKAJ'
       'THEN'
       'TłO_TEKSTU'
+      'TRIM'
       'USTAW_DłUGOść '
       'USTAW_ZMIENNą_śRODOWISKOWą'
+      'USUń'
       'USUń_KATALOG'
       'UTWóRZ_KATALOG'
+      'WSTAW'
       'WTEDY'
       'WYJść'
       'ZAKOńCZ'
+      'ZAMIEń_TEKST'
       'ZAMKNIJ_PLIK'
       'ZAPYTAJCHATGPT'
       'ZMIEń_KATALOG'
@@ -1673,10 +1762,11 @@ object FormMain: TFormMain
       'OD '
       'WTEDY'
     )
-    NumberAttri.Foreground = clAqua
+    NumberAttri.Foreground = 16295376
+    NumberAttri.FrameStyle = slsWaved
     PreprocessorAttri.Foreground = clTeal
-    StringAttri.Foreground = clFuchsia
-    StringAttri.FrameColor = cl3DDkShadow
+    StringAttri.Foreground = 11256540
+    StringAttri.Style = [fsItalic]
     SymbolAttri.Foreground = clWhite
     Markup = False
     Entity = True
@@ -1691,5 +1781,58 @@ object FormMain: TFormMain
     Interval = 300000
     Left = 56
     Top = 328
+  end
+  object ImageListIcons: TImageList
+    Left = 232
+    Top = 144
+  end
+  object ImageListListView: TImageList
+    Left = 336
+    Top = 155
+    Bitmap = {
+      4C7A050000001000000010000000430500000000000078DAED586B50546518FE
+      B4D42EFE6A9A7EF4BF0943340876C1C060D7958BEC1E0C51A92873709A91A61A
+      284B0D30140A170467300484E562ECEE5972068DA63FA8A5D30CE54CC365C9C4
+      6C6A26C7AC866674122FF5F6BC87EFACABAD7BA3EBD48F67BEEF7CE77DDEFBF9
+      CEF90E11099A01BC1E5139A68A298024A6782D5CBE26AF8A7B7CFA30C7DAA49F
+      BE60D0E4A2F55DD73313BED72D7E09D3D7DF41E7FE99FE1F39226E1F758B2D90
+      FB12B8A28D1E51F5B12AEE1C55455130BEC655C587903988BA3C04CCF5F68958
+      8C2EAC1DE3FBC1F8D2EEC13197580C9E51AB2F46BEC6FA21E8792D189F7D65BB
+      E32E918CF13CFC7E8947BE0616E2FE4408FE65F6599BBB4509E71BBD59C6D713
+      EF8B797ADF06B58F7803D91F51459CB41FB05721B78EF3ACE52A40FC587F0FF7
+      3705AB1DD708BA8EB32CC7CBB1B05D8DABA23CC87FA81E611999E7D39C0FCD67
+      B778351CEE5F81FFFAFE0144BD7FE8DCBFD9FFFFF933E34FCEA0FE93FF8467F8
+      5FF8FC4FFAD7209ABAFD91FC1387C45D51F6C1773C8EBBC5328C1F45E283CED1
+      F4B8C5767E57451483E4483F8EA166E60873A07124FF02E7205CAECCD7053952
+      B4B1FB9EC12863F77D034619BBF68DA48A6BD13CF791E42B1814B3F166C4D8CC
+      C646E073CC7FB6990C978009A039CF6488574C06817920DE6CC00E5C5B693612
+      037382AC0FCAF4D80ACCBD893B0BF02892936736D08AA509B43C39963297C481
+      23F56424913523916506017F1DF669AE41E3E742A6A3A399EAF7ECA2F6EE367A
+      AE289FF23353A9CDB197DEA8DCA4F901B91EC97D10F855F731372D81DA1DADD2
+      661265A72CA4A6E606727A7A697DA142D5559BC9AAC763363E0A34FAC7B94631
+      5363A31D7E269105FE5B97C653414E3A0D8D0FD3CEDA2ACAC1B5ED3ABF1738A9
+      C7BD22ED61EAEA6947DC8BC85EBB9DDE6E6BA20EF8A22C33D2BEB63D949B9EE8
+      6F9B710EB8A4C7BED69A410DF56F5169493195BD584CD9D09709FF1DD0B1C696
+      4EB56F562076A3CE655C86AEA9E9DA18A9E2F5322A2E5A4D1DCE2EE47D916607
+      35A7BADD3BC99214435DCE4ECD7F3DCFC015E4F2749EF4A9A66A0BE2B750A7B3
+      9B2CC6585F9C3B6A2A28272D9E1C9D6D94A5D5D3A0EBF81EF3BD8AEC8DE2A756
+      5265F92B54BDA39C363CA968BE730F387ABBC894B4805A5153AEBF5FFE0E608C
+      F7D52E7531F5B08F8F3D428D0DB5F48EAB9B9C6A0F15A2264D4DBBE9E955D95A
+      4DFD7AD2629BEEE7363D56259D7BA785EA76D5D00B25EBA97C6B2939F677D2C6
+      67566B35CDBBDEC7FD92CB98030CFAEA881C719D36AC2BA0271E5F8E1E8AF3D9
+      94CFC510E29FEFC767CCC3BAD326EB63D3E4926F788614B66F360C606DBEDEFB
+      FE3A504351906BB2E45952FAC1FD5131255FB5990D57716F323F2B75E0D9429B
+      55C948BCE1B98DE85DCD6717551C0654FF776E38F8A257DC0BDE59EC9D85D8FB
+      DA790F8DC8B62ABAC1AF97FB670B746C0E6BAFF5888D637D221FFC33C3DDE26E
+      19C3D970FC3FE914F7F3F705CEB11760AFE6448B9803DE0874AE0DC7F6295558
+      B0BF1F95368731F7621C0CC55355711B9F57473DE23C383F616E65DBF0A30EFC
+      8B380B26DC8A2BCFB5FD7C6E87DD78E848C7F529700F03DF208EE65BBD3B341B
+      AA18E0332BCFF5F5AF1CE20EE8F80C7C7B30BBB0E566DB7CB6E43332F3FCBEF3
+      ECE0BF1CF07DDC271E80DD51E4B5973932EF3F0C1F10F721F60670B3F95F02C6
+      EA407C9C895320FF2D73E537C171E8DB2AFBE6CC489F88017F1BE61541FACB05
+      FFF7F3B91AB21DB44DCCE6FC311FB76771DEB82621BE4986C0FD7AD42516C83E
+      75E87D8AF927D0BF2454DD61AF94BFEBBC6E7114315CF4BE2B56612D0B6BE7F4
+      7F19A1A0FD37408F024EF03E003E05F7F940B2BF0176D263FA
+    }
   end
 end

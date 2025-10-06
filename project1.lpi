@@ -80,6 +80,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="virtualtreeview_package"/>
+      </Item>
+      <Item>
         <PackageName Value="metadarkstyledsgn"/>
       </Item>
       <Item>

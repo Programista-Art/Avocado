@@ -129,7 +129,9 @@ msgid "Kompiluj"
 msgstr "تجميع"
 
 #: tformmain.label1.caption
-msgid "Debug"
+#, fuzzy
+#| msgid "Debug"
+msgid "Console Log"
 msgstr "تصحيح الأخطاء"
 
 #: tformmain.label2.caption
@@ -366,6 +368,10 @@ msgstr ""
 msgid "Slovenský"
 msgstr ""
 
+#: tformmain.menuitemopenfolder.caption
+msgid "Open folder"
+msgstr ""
+
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
@@ -445,12 +451,17 @@ msgstr ""
 msgid "Nowy Plik"
 msgstr "ملف جديد"
 
-#: tformmain.panel4.caption
-msgid "Panel4"
-msgstr ""
-
 #: tformmain.panellewy.caption
 msgid "PanelLewy"
+msgstr ""
+
+#: tformmain.tabsheetlog.caption
+msgctxt "tformmain.tabsheetlog.caption"
+msgid "Logs"
+msgstr ""
+
+#: tformmain.tabsheetsearch.caption
+msgid "Search results"
 msgstr ""
 
 #: tformmain.toolbar1.caption
