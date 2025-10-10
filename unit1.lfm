@@ -257,8 +257,8 @@ object FormMain: TFormMain
         Align = alClient
         BlockIndent = 1
         Color = clBtnShadow
-        Font.CharSet = EASTEUROPE_CHARSET
-        Font.Color = clWhite
+        Font.CharSet = 4
+        Font.Color = clNone
         Font.Height = -16
         Font.Name = 'Courier New'
         Font.Pitch = fpFixed
@@ -268,11 +268,15 @@ object FormMain: TFormMain
         PopupMenu = PopupMenuCode
         TabOrder = 0
         BookMarkOptions.BookmarkImages = ImageListListView
-        Gutter.Color = clBtnHighlight
+        Gutter.Color = clAppWorkspace
+        Gutter.CurrentLineColor.Background = clTeal
+        Gutter.CurrentLineColor.Foreground = clTeal
+        Gutter.CurrentLineColor.FrameColor = clTeal
         Gutter.Width = 51
         Gutter.MouseActions = <>
-        RightGutter.Color = clBtnShadow
+        RightGutter.Color = clHighlight
         RightGutter.CurrentLineColor.Background = clActiveBorder
+        RightGutter.CurrentLineColor.Foreground = clHighlight
         RightGutter.CurrentLineColor.FrameColor = clActiveBorder
         RightGutter.Width = 0
         RightGutter.MouseActions = <>
@@ -710,12 +714,12 @@ object FormMain: TFormMain
         MouseTextActions = <>
         MouseSelActions = <>
         Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoHalfPageScroll, eoHideRightMargin, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoDragDropEditing, eoShowCtrlMouseLinks]
-        Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
+        Options2 = [eoFoldedCopyPaste, eoPersistentBlock, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
         MouseOptions = [emDragDropEditing, emShowCtrlMouseLinks]
         VisibleSpecialChars = [vscSpace, vscTabAtLast]
-        RightEdgeColor = clBtnShadow
-        SelectedColor.Background = 16243131
-        SelectedColor.Foreground = clNone
+        RightEdgeColor = clBtnHighlight
+        SelectedColor.Background = clMoneyGreen
+        SelectedColor.Foreground = clWindowFrame
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
         SelectedColor.FramePriority = 50
@@ -724,21 +728,24 @@ object FormMain: TFormMain
         SelectedColor.UnderlinePriority = 50
         SelectedColor.StrikeOutPriority = 50
         SelectedColor.ForeAlpha = 230
+        IncrementColor.Background = clGreen
         IncrementColor.Foreground = clWindow
         HighlightAllColor.Background = clInactiveBorder
-        HighlightAllColor.Foreground = clHighlight
+        HighlightAllColor.Foreground = clGradientActiveCaption
         HighlightAllColor.FrameColor = clInactiveBorder
         BracketHighlightStyle = sbhsBoth
-        BracketMatchColor.Background = clForm
-        BracketMatchColor.Foreground = clNone
+        BracketMatchColor.Background = clTeal
+        BracketMatchColor.Foreground = clTeal
         BracketMatchColor.FrameColor = clAppWorkspace
         BracketMatchColor.Style = [fsBold]
         BracketMatchColor.StyleMask = [fsBold]
         FoldedCodeColor.Background = clBtnShadow
         FoldedCodeColor.Foreground = clNone
+        FoldedCodeColor.FrameColor = clGray
         MouseLinkColor.Background = clNone
         MouseLinkColor.Foreground = clActiveCaption
         MouseLinkColor.FrameColor = clRed
+        LineHighlightColor.Background = clNone
         LineHighlightColor.Foreground = clHighlight
         LineHighlightColor.FrameColor = clHighlight
         LineHighlightColor.FrameEdges = sfeBottom
@@ -870,6 +877,7 @@ object FormMain: TFormMain
           Width = 204
           Align = alClient
           Images = ImageListListView
+          SelectionFontColor = clMedGray
           StateImages = ImageListListView
           TabOrder = 0
           OnCollapsing = TreeViewCollapsing
@@ -1235,6 +1243,7 @@ object FormMain: TFormMain
   object SynCompletion1: TSynCompletion
     ItemList.Strings = (
       'pisz_linie('''')'
+      'jeśli=Instrukcja warunkowa'
       'print_line('''')'
       'calc('''')'
       'print('''')'
@@ -1482,13 +1491,13 @@ object FormMain: TFormMain
     )
     Position = 0
     LinesInWindow = 10
-    SelectedColor = clActiveCaption
+    SelectedColor = clTeal
     CaseSensitive = False
     Width = 150
     LongLineHintTime = 2
     DoubleClickSelects = False
     ShowSizeDrag = True
-    AutoUseSingleIdent = False
+    AutoUseSingleIdent = True
     ShortCut = 16416
     EndOfTokenChr = '()[].'
     ExecCommandID = ecSynCompletionExecute
@@ -1582,15 +1591,8 @@ object FormMain: TFormMain
     ShortCut = 32800
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
-    Left = 240
-    Top = 56
-  end
-  object SynMultiSyn1: TSynMultiSyn
-    Enabled = False
-    Schemes = <>
-    DefaultHighlighter = SynAnySyn1
-    Left = 72
-    Top = 112
+    Left = 40
+    Top = 64
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
@@ -1600,7 +1602,7 @@ object FormMain: TFormMain
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
     Comments = [csPasStyle, csCStyle, csBasStyle]
     DetectPreprocessor = True
-    IdentifierAttri.Foreground = 14408667
+    IdentifierAttri.Foreground = clMedGray
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
     KeyAttri.Foreground = 14327160
     KeyAttri.StyleMask = [fsBold]
@@ -1609,7 +1611,7 @@ object FormMain: TFormMain
     ObjectAttri.Background = clHighlight
     ObjectAttri.Foreground = clYellow
     VariableAttri.Background = 7886547
-    VariableAttri.FrameColor = clLime
+    VariableAttri.Foreground = clNone
     DotAttri.Foreground = clActiveCaption
     KeyWords.Strings = (
       'APPEND'
@@ -1618,11 +1620,11 @@ object FormMain: TFormMain
       'CHANGE_DIR'
       'CLOSE_FILE'
       'CREATE_DIR'
-      'CZY_ISTNIEJE_KATALOG'
-      'CZY_ISTNIEJE_PLIK'
       'CZYTAJ'
       'CZYTAJ_KLAWISZ'
       'CZYTAJ_LINIE'
+      'CZY_ISTNIEJE_KATALOG'
+      'CZY_ISTNIEJE_PLIK'
       'DIRECTORY_EXISTS'
       'DLA'
       'DłUGOść'
@@ -1780,13 +1782,13 @@ object FormMain: TFormMain
       'ZNAK_UNICODE'
     )
     Objects.Strings = (
-      '-'
       '('
       ')'
       '*'
+      '+'
+      '-'
       '/'
       '{}'
-      '+'
     )
     NumberAttri.Foreground = 16295376
     NumberAttri.FrameStyle = slsWaved
@@ -1794,7 +1796,7 @@ object FormMain: TFormMain
     StringAttri.Foreground = 11256540
     StringAttri.Style = [fsItalic]
     SymbolAttri.Foreground = clWhite
-    Markup = False
+    Markup = True
     Entity = True
     DollarVariables = False
     ActiveDot = True
@@ -1813,6 +1815,9 @@ object FormMain: TFormMain
     Top = 144
   end
   object ImageListListView: TImageList
+    BlendColor = clLime
+    BkColor = clRed
+    Masked = True
     Left = 336
     Top = 155
     Bitmap = {

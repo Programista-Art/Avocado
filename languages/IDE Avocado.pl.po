@@ -119,16 +119,13 @@ msgid "Kompiluj"
 msgstr "Kompiluj"
 
 #: tformmain.label1.caption
-#, fuzzy
-#| msgid "Debug"
 msgid "Console Log"
-msgstr "Debug"
+msgstr "Dziennik"
 
 #: tformmain.label2.caption
-#, fuzzy
 #| msgid "Informacja"
 msgid "Free Pascal Code"
-msgstr "Informacja"
+msgstr "Free Pascal Code"
 
 #: tformmain.label4.caption
 msgid "Rozmiar"
@@ -450,7 +447,7 @@ msgstr ""
 
 #: tformmain.tabsheetsearch.caption
 msgid "Search results"
-msgstr ""
+msgstr "Wyniki wyszukiwania"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -889,4 +886,3 @@ msgstr "Plik nie istnieje: "
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "Nie wybrano żadnego elementu"
-

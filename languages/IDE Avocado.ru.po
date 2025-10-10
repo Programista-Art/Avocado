@@ -119,16 +119,12 @@ msgid "Kompiluj"
 msgstr "Компилировать"
 
 #: tformmain.label1.caption
-#, fuzzy
-#| msgid "Debug"
 msgid "Console Log"
-msgstr "Отладка"
+msgstr "Журналы"
 
 #: tformmain.label2.caption
-#, fuzzy
-#| msgid "Informacja"
 msgid "Free Pascal Code"
-msgstr "Информация"
+msgstr "Free Pascal Code"
 
 #: tformmain.label4.caption
 msgid "Rozmiar"
@@ -889,4 +885,3 @@ msgstr "Файл не существует:"
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "Элемент не выбран"
-

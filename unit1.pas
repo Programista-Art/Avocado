@@ -7,12 +7,12 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCFluentSlider,
-  VirtualTrees, SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
+  SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
   Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8, ExtendedTabControls,
   ListViewFilterEdit, TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,SynEditTypes,Math,
-  LCLTranslator;
+  LCLTranslator,LCLType;
 
 type
   PNodeRec = ^TNodeRec;
@@ -96,7 +96,6 @@ type
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
     SynEditCode: TSynEdit;
-    SynMultiSyn1: TSynMultiSyn;
     TabSheetLog: TTabSheet;
     TabSheetSearch: TTabSheet;
     Transpiluj: TAction;
@@ -201,6 +200,7 @@ type
     procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
+
 
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
@@ -429,6 +429,8 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+
+
   FormMain.KeyPreview := True;
   if not Assigned(SynEditCode) then
   ShowMessage(TranslateSynEditCodeNotCreated);

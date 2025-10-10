@@ -80,13 +80,7 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="virtualtreeview_package"/>
-      </Item>
-      <Item>
         <PackageName Value="metadarkstyledsgn"/>
-      </Item>
-      <Item>
-        <PackageName Value="laz_synapse"/>
       </Item>
       <Item>
         <PackageName Value="TAChartLazarusPkg"/>
