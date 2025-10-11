@@ -9,6 +9,7 @@ object FormOprogramie: TFormOprogramie
   ClientHeight = 173
   ClientWidth = 320
   Position = poMainFormCenter
+  LCLVersion = '4.2.0.0'
   object Memo1: TMemo
     Left = 0
     Height = 141

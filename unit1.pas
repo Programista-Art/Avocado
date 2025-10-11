@@ -429,8 +429,8 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-
-
+  NeedsAsmIntel := False;
+  SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
   FormMain.KeyPreview := True;
   if not Assigned(SynEditCode) then
   ShowMessage(TranslateSynEditCodeNotCreated);

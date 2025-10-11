@@ -274,7 +274,7 @@ object FormMain: TFormMain
         Gutter.CurrentLineColor.FrameColor = clTeal
         Gutter.Width = 51
         Gutter.MouseActions = <>
-        RightGutter.Color = clHighlight
+        RightGutter.Color = clBtnShadow
         RightGutter.CurrentLineColor.Background = clActiveBorder
         RightGutter.CurrentLineColor.Foreground = clHighlight
         RightGutter.CurrentLineColor.FrameColor = clActiveBorder
@@ -713,13 +713,14 @@ object FormMain: TFormMain
           end>
         MouseTextActions = <>
         MouseSelActions = <>
-        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoHalfPageScroll, eoHideRightMargin, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoDragDropEditing, eoShowCtrlMouseLinks]
-        Options2 = [eoFoldedCopyPaste, eoPersistentBlock, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing, eoBookmarkRestoresScroll]
-        MouseOptions = [emDragDropEditing, emShowCtrlMouseLinks]
+        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces, eoShowCtrlMouseLinks]
+        Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing]
+        MouseOptions = [emShowCtrlMouseLinks]
         VisibleSpecialChars = [vscSpace, vscTabAtLast]
         RightEdgeColor = clBtnHighlight
         SelectedColor.Background = clMoneyGreen
         SelectedColor.Foreground = clWindowFrame
+        SelectedColor.FrameEdges = sfeNone
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
         SelectedColor.FramePriority = 50
@@ -730,9 +731,10 @@ object FormMain: TFormMain
         SelectedColor.ForeAlpha = 230
         IncrementColor.Background = clGreen
         IncrementColor.Foreground = clWindow
-        HighlightAllColor.Background = clInactiveBorder
-        HighlightAllColor.Foreground = clGradientActiveCaption
+        HighlightAllColor.Background = clBtnText
+        HighlightAllColor.Foreground = clBtnShadow
         HighlightAllColor.FrameColor = clInactiveBorder
+        HighlightAllColor.FrameEdges = sfeNone
         BracketHighlightStyle = sbhsBoth
         BracketMatchColor.Background = clTeal
         BracketMatchColor.Foreground = clTeal
@@ -742,9 +744,8 @@ object FormMain: TFormMain
         FoldedCodeColor.Background = clBtnShadow
         FoldedCodeColor.Foreground = clNone
         FoldedCodeColor.FrameColor = clGray
-        MouseLinkColor.Background = clNone
-        MouseLinkColor.Foreground = clActiveCaption
-        MouseLinkColor.FrameColor = clRed
+        MouseLinkColor.Background = clRed
+        MouseLinkColor.Foreground = clRed
         LineHighlightColor.Background = clNone
         LineHighlightColor.Foreground = clHighlight
         LineHighlightColor.FrameColor = clHighlight
