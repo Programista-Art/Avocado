@@ -102,7 +102,7 @@ msgid "Kompiluj"
 msgstr "Kompiluj"
 
 #: tformmain.caption
-msgid "IDE Avocado v 1.0.1.0"
+msgid "IDE Avocado v 1.0.1.1"
 msgstr ""
 
 #: tformmain.itemjaponski.caption
@@ -123,7 +123,6 @@ msgid "Console Log"
 msgstr "Dziennik"
 
 #: tformmain.label2.caption
-#| msgid "Informacja"
 msgid "Free Pascal Code"
 msgstr "Free Pascal Code"
 
@@ -886,3 +885,4 @@ msgstr "Plik nie istnieje: "
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "Nie wybrano żadnego elementu"
+

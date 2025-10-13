@@ -1059,7 +1059,7 @@ begin
   OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), ''); // nazwa bez rozszerzenia
 
 
-  Caption := 'IDE Avocado v 1.0.1.0' + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
+  Caption := 'IDE Avocado v 1.0.1.1' + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
   IdleTimer1.Enabled := True;
   ToolButton1Click(Sender);
 

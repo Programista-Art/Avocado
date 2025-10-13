@@ -126,7 +126,9 @@ msgid "Kompiluj"
 msgstr "Zostaviť"
 
 #: tformmain.caption
-msgid "IDE Avocado v 1.0.1.0"
+#, fuzzy
+#| msgid "IDE Avocado v 1.0.1.0"
+msgid "IDE Avocado v 1.0.1.1"
 msgstr "IDE Avocado v 1.0.1.0"
 
 #: tformmain.itemjaponski.caption

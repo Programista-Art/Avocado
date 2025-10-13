@@ -1,5 +1,5 @@
 {"version":1,"strings":[
-{"hash":82637872,"name":"tformmain.caption","sourcebytes":[73,68,69,32,65,118,111,99,97,100,111,32,118,32,49,46,48,46,49,46,48],"value":"IDE Avocado v 1.0.1.0"},
+{"hash":82637873,"name":"tformmain.caption","sourcebytes":[73,68,69,32,65,118,111,99,97,100,111,32,118,32,49,46,48,46,49,46,49],"value":"IDE Avocado v 1.0.1.1"},
 {"hash":106991073,"name":"tformmain.toolbar1.caption","sourcebytes":[84,111,111,108,66,97,114,49],"value":"ToolBar1"},
 {"hash":94591802,"name":"tformmain.toolbutton1.hint","sourcebytes":[84,114,97,110,115,112,105,108,117,106],"value":"Transpiluj"},
 {"hash":160486417,"name":"tformmain.toolbutton1.caption","sourcebytes":[84,111,111,108,66,117,116,116,111,110,49],"value":"ToolButton1"},

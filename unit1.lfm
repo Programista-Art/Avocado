@@ -3,7 +3,7 @@ object FormMain: TFormMain
   Height = 610
   Top = 221
   Width = 1055
-  Caption = 'IDE Avocado v 1.0.1.0'
+  Caption = 'IDE Avocado v 1.0.1.1'
   ClientHeight = 610
   ClientWidth = 1055
   Color = 5197647
@@ -1601,21 +1601,22 @@ object FormMain: TFormMain
     CommentAttri.FrameColor = clWindow
     CommentAttri.Style = [fsBold, fsItalic]
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
-    Comments = [csPasStyle, csCStyle, csBasStyle]
+    Comments = [csPasStyle]
     DetectPreprocessor = True
     IdentifierAttri.Foreground = clMedGray
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
-    KeyAttri.Foreground = 14327160
+    KeyAttri.Foreground = 14851674
     KeyAttri.StyleMask = [fsBold]
     ConstantAttri.Foreground = 12970483
     ConstantAttri.StyleMask = [fsBold]
-    ObjectAttri.Background = clHighlight
-    ObjectAttri.Foreground = clYellow
+    ObjectAttri.Background = 11384907
+    ObjectAttri.Foreground = clNone
     VariableAttri.Background = 7886547
     VariableAttri.Foreground = clNone
     DotAttri.Foreground = clActiveCaption
     KeyWords.Strings = (
       'APPEND'
+      'ASM'
       'ASSIGN_FILE'
       'CALC'
       'CHANGE_DIR'
@@ -1660,6 +1661,7 @@ object FormMain: TFormMain
       'OTWóRZ_DO_ODCZYTU'
       'OTWóRZ_DO_ZAPISU'
       'PARAMETR_PROGRAMU'
+      'PASCAL'
       'PING'
       'PISZ'
       'PISZ_LINIE'
@@ -1678,6 +1680,7 @@ object FormMain: TFormMain
       'PRZYTNIJ_Z_LEWA'
       'PRZYTNIJ_Z_PRAWA'
       'RANDOM'
+      'RANDOMIZE'
       'RANDOMIZE '
       'READ_KEY'
       'REMOVE_DIR'
@@ -1687,6 +1690,8 @@ object FormMain: TFormMain
       'THEN'
       'TłO_TEKSTU'
       'TRIM'
+      'TRIM_LEFT'
+      'TRIM_RIGHT'
       'USTAW_DłUGOść '
       'USTAW_ZMIENNą_śRODOWISKOWą'
       'USUń'
@@ -1797,8 +1802,8 @@ object FormMain: TFormMain
     StringAttri.Foreground = 11256540
     StringAttri.Style = [fsItalic]
     SymbolAttri.Foreground = clWhite
-    Markup = True
-    Entity = True
+    Markup = False
+    Entity = False
     DollarVariables = False
     ActiveDot = True
     Left = 72
@@ -1816,9 +1821,8 @@ object FormMain: TFormMain
     Top = 144
   end
   object ImageListListView: TImageList
-    BlendColor = clLime
-    BkColor = clRed
     Masked = True
+    Scaled = True
     Left = 336
     Top = 155
     Bitmap = {

@@ -1,1 +1,6 @@
-SynEditCode
+program pobierzstrone
+lista_tekstów a = nic
+pobierz_strone('https://avocado.dimitalart.pl/',a,'D:\bazy\info\strona.html')
+pisz_linie('Zawartość pobranej strony:')
+pisz_linie(a.tekst)
+pisz_linie('siema')

@@ -256,8 +256,11 @@ Moduly: String;
 //Dot. bloku kodu w pascalu
 InPurePascalBlock: Boolean = False;
 NeedsAsmIntel: Boolean;
+FPascalMode: Boolean;
+FAsmMode: Boolean;
 
 resourcestring
+  //Przetlumaczone wyjatki na rózne jezyki
   InvalidVariableDeclaration = 'Incorrect variable declaration: ';
   ErrorPrint = 'Incorrect syntax of the insert function. Expected: insert(source, target, index)';
   FunctionInsert = 'The insert function requires three arguments: source, target, index.';
@@ -291,6 +294,7 @@ begin
 end;
 
 //Trzeba to usunac
+
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
@@ -506,6 +510,39 @@ begin
 
   //We skip lines beginning with control statements.
   // Pomijamy linie zaczynające się od instrukcji sterujących
+  //Pomija kod pascala
+  if FPascalMode then
+  begin
+    // sprawdź czy to koniec bloku
+    if TrimmedLine = '}' then
+      FPascalMode := False;
+    Exit; // ignorujemy całą resztę
+  end;
+
+  // sprawdź czy zaczyna się blok Pascala
+  if LowerCase(TrimmedLine).StartsWith('pascal{') then
+  begin
+    FPascalMode := True;
+    Exit;
+  end;
+
+  //Pomija kod assemblera
+  if FAsmMode then
+  begin
+    // sprawdź czy to koniec bloku
+    if TrimmedLine = '}' then
+      FAsmMode := False;
+    Exit; // ignorujemy całą resztę
+  end;
+
+  // sprawdź czy zaczyna się blok assemblera asm
+  if LowerCase(TrimmedLine).StartsWith('asm{') then
+  begin
+    FAsmMode := True;
+    Exit;
+  end;
+
+
   if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
   if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
   if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
@@ -517,6 +554,7 @@ begin
   if LowerCase(TrimmedLine).StartsWith('then') then Exit;
   if LowerCase(TrimmedLine).StartsWith('else') then Exit;
   if LowerCase(TrimmedLine).StartsWith('exit') then Exit;
+
 
   if LowerCase(TrimmedLine).StartsWith('halt') then Exit;
    if LowerCase(TrimmedLine).StartsWith('for') then Exit;

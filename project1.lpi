@@ -12,10 +12,11 @@
       <XPManifest>
         <DpiAware Value="True/PM_V2"/>
         <TextName Value="ProgramistaArt.IDEAvocado.Avocado"/>
-        <TextDesc Value="IDE Avocado polski język programowania"/>
+        <TextDesc Value="IDE Avocado Polish programming language"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
+    <LazDoc Paths="docs"/>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="languages"/>

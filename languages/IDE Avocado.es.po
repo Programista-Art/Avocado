@@ -128,7 +128,7 @@ msgstr "Compilar"
 #: tformmain.caption
 #, fuzzy
 #| msgid "IDE Avocado v 1.0.0.9"
-msgid "IDE Avocado v 1.0.1.0"
+msgid "IDE Avocado v 1.0.1.1"
 msgstr "IDE Avocado v 1.0.0.9"
 
 #: tformmain.itemjaponski.caption

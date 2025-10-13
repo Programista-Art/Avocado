@@ -23,11 +23,13 @@ Polish, English, German, French, Italian, Spanish, Portuguese, Russian, Chinese,
 ### [Documentation](https://avocado.doc.dimitalart.pl/)
 ### [Official website](https://avocado.dimitalart.pl/) 
 ### [Download Avocado IDE](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
-![Avocado v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_2.png)
+![Avocado v 1.0.1.1](image/v1.0.1.1/Avocado-v1.0.1.1.jpg)
 ### Avocado application examples
-![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_3.png)
-### 
-![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_4.png)
+![Avocado ustawienia v 1.0.1.1](image/v1.0.1.1/Avocado-wyszukiwarka-w-kodzie.jpg)
+### Avocado and assembler code
+![Avocado ustawienia v 1.0.1.1](image/v1.0.1.1/avocado-i-assembler.jpg)
+### Avocado and Pascal Code
+![Avocado ustawienia v 1.0.1.1](image/v1.0.1.1/avocado-IDE-i-pascal.jpg)
 ### Avocado available languages 
 ![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_5.png)
 ### A simple console calculator in Avocado
@@ -85,9 +87,13 @@ polski, angielski, niemiecki, francuski, włoski, hiszpański, portugalski, rosy
 ### [Oficjalna strona](https://avocado.dimitalart.pl/) 
 ### [Pobrać IDE Avocado](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
 
-![Avocado v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_2.png)
-### Przykłady aplikacji w Avocado
-![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_3.png)
+![Avocado v 1.0.1.1](image/v1.0.1.1/Avocado-v1.0.1.1.jpg)
+### Wyszukiwarka w kodzie
+![Avocado ustawienia v 1.0.1.1](image/v1.0.1.1/Avocado-wyszukiwarka-w-kodzie.jpg)
+### Avocado i kod asemblera
+![Avocado ustawienia v 1.0.1.1](image/v1.0.1.1/avocado-i-assembler.jpg)
+### Avocado i kod Pascala
+![Avocado ustawienia v 1.0.1.1](image/v1.0.1.1/avocado-IDE-i-pascal.jpg)
 ### 
 ![Avocado ustawienia v 1.0.1.0](image/new-theme/avocado-polski-jezyk-programowania_4.png)
 ### Dostępne języki w Avocado

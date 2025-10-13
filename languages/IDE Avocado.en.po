@@ -102,7 +102,7 @@ msgid "Kompiluj"
 msgstr "Compile"
 
 #: tformmain.caption
-msgid "IDE Avocado v 1.0.1.0"
+msgid "IDE Avocado v 1.0.1.1"
 msgstr ""
 
 #: tformmain.itemjaponski.caption
