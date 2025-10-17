@@ -1,0 +1,27 @@
+int liczba = 10
+pascal{
+if liczba > 0 then
+    WriteLn('Liczba jest dodatnia.')
+  else if liczba < 0 then
+    WriteLn('Liczba jest ujemna.')
+  else
+    WriteLn('Liczba jest równa zero.');
+}
+//Kod Avocado
+print_line('Kod Avocado')
+liczba_całkowita a = 5
+liczba_całkowita b = 10
+liczba_całkowita c = 15
+pisz_linie(a,b,c)
+pisz_linie('Liczba 1: ', a)
+pisz_linie('Liczba 2: ', b)
+pisz_linie('Liczba 3: ', c)
+
+
+
+
+
+
+
+
+

@@ -519,7 +519,7 @@ begin
     Exit; // ignorujemy całą resztę
   end;
 
-  // sprawdź czy zaczyna się blok Pascala
+  // blok Pascala
   if LowerCase(TrimmedLine).StartsWith('pascal{') then
   begin
     FPascalMode := True;
@@ -535,7 +535,7 @@ begin
     Exit; // ignorujemy całą resztę
   end;
 
-  // sprawdź czy zaczyna się blok assemblera asm
+  // blok assemblera asm
   if LowerCase(TrimmedLine).StartsWith('asm{') then
   begin
     FAsmMode := True;
@@ -947,43 +947,7 @@ begin
   end;
 end;
 
-{
-function TAvocadoTranslator.JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
-var
-  WtedyLines, InaczejLines: TStringList;
-  i: Integer;
-begin
-  WtedyLines := TStringList.Create;
-    InaczejLines := TStringList.Create;
-    try
-      WtedyLines.Text := WartoscJesliPrawda;
-      InaczejLines.Text := WartoscJesliFalsz;
 
-      Result := 'if ' + TranslateExpression(Warunek) + ' then' + LineEnding +
-                'begin' + LineEnding;
-
-      // blok THEN
-      for i := 0 to WtedyLines.Count - 1 do
-        Result := Result + '  ' + WtedyLines[i] + LineEnding;
-      Result := Result + 'end';
-
-      // blok ELSE jeśli istnieje
-      if WartoscJesliFalsz <> '' then
-      begin
-        Result := Result + LineEnding + 'else' + LineEnding + 'begin' + LineEnding;
-        for i := 0 to InaczejLines.Count - 1 do
-          Result := Result + '  ' + InaczejLines[i] + LineEnding;
-        Result := Result + 'end;';
-      end
-      else
-        Result := Result + ';';
-
-    finally
-      WtedyLines.Free;
-      InaczejLines.Free;
-    end;
-end;
-}
 
 function TAvocadoTranslator.PrzetworzBlok(const Blok: string): string;
 var
@@ -1010,44 +974,42 @@ var
   Lines: TStringList;
   i: Integer;
   Line, ModulesList: string;
+
 begin
-  ModulesList := '';
-    Lines := TStringList.Create;
-    try
-      Lines.Text := Code; // Split the code into lines / Podziel kod na linie
+    ModulesList := '';
+  Lines := TStringList.Create;
+  try
+    Lines.Text := Code;
 
-      for i := 0 to Lines.Count - 1 do
+    for i := 0 to Lines.Count - 1 do
+    begin
+      Line := Trim(Lines[i]);
+
+      // Czy linia zaczyna się od 'importuj' lub 'import'
+      if AnsiStartsText('importuj', LowerCase(Line)) then
       begin
-        Line := Trim(Lines[i]); // Remove unnecessary spaces / Usuń zbędne spacje
+        Delete(Line, 1, Length('importuj'));
+      end
+      else if AnsiStartsText('import', LowerCase(Line)) then
+      begin
+        Delete(Line, 1, Length('import'));
+      end
+      else
+        Continue; // Nie pasuje, lecimy dalej
 
-        // Check if the line starts with "Import"
-        // Sprawdzenie, czy linia zaczyna się od "Importuj"
+      Line := Trim(Line);
 
-        if Pos('importuj', Line) = 1 then
-
-        begin
-          Delete(Line, 1, Length('importuj'));
-          Line := Trim(Line);
-
-          // Dodanie do listy modułów
-          if ModulesList = '' then
-            ModulesList := Line
-          else
-            ModulesList := ModulesList + ', ' + Line;
-        end;
+      // Dodaj do listy modułów
+      if Line <> '' then
+      begin
+        if ModulesList = '' then
+          ModulesList := Line
+        else
+          ModulesList := ModulesList + ', ' + Line;
       end;
-      //English alias
-        if Pos('import', Line) = 1 then
-        begin
-          Delete(Line, 1, Length('import'));
-          Line := Trim(Line);
+    end;
 
-          // Dodanie do listy modułów
-          if ModulesList = '' then
-            ModulesList := Line
-          else
-            ModulesList := ModulesList + ', ' + Line;
-        end;
+    Result := ModulesList;
 
 
     // Add “Crt” if keywords are detected in the code
@@ -2653,7 +2615,6 @@ end;
      // oblicza wyrażenie
      else
      begin
-       // Lista słów-kluczy, które mają działać jak "oblicz"
        if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or
           (LowerCase(TrimmedLine).StartsWith('calc(')) then
        begin
@@ -2665,6 +2626,25 @@ end;
            Value := Copy(TrimmedLine, OpenPos + 1,
                          Length(TrimmedLine) - OpenPos - 1);
            PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
+
+         end;
+       end
+
+     // oblicza wyrażenie
+     else
+     begin
+       if (LowerCase(TrimmedLine).StartsWith('oblicz_formatuj(')) or
+          (LowerCase(TrimmedLine).StartsWith('calc_format(')) then
+       begin
+         // znajdź pierwsze wystąpienie '('
+         OpenPos := Pos('(', TrimmedLine);
+         if OpenPos > 0 then
+         begin
+           // wytnij to, co jest w środku nawiasów
+           Value := Copy(TrimmedLine, OpenPos + 1,
+                         Length(TrimmedLine) - OpenPos - 1);
+           //PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
+           PascalCode.Add('format(ObliczWyrazenie(' + Value + ');');
          end;
        end
 
@@ -2880,6 +2860,7 @@ end
 end;
 
 
+end;
 
 
 

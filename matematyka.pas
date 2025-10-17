@@ -7,7 +7,12 @@ interface
 uses
   Classes, SysUtils, fpexprpars;
 
+
   function ObliczWyrazenie(const Expr: string): Double;
+
+  procedure format(Value: Double; DecimalPlaces: Integer = 2);
+  //Funkcja zaokraglenia
+
   //Tangens
   procedure ExprTan(var Result: TFPExpressionResult; const Args: TExprParameterArray);
   //ArcSin(x: Extended): Extended;
@@ -73,6 +78,41 @@ uses
   procedure ExprDecVar(var Result: TFPExpressionResult; const Args: TExprParameterArray);
   //Frac(x): Zwraca część ułamkową liczby zmiennoprzecinkowej.
   procedure ExprFrac(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //17.10.2025
+  //Zwraca część całkowitą z liczby rzeczywistej X (jako Real).
+  procedure ExprInt(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Sprawdza, czy liczba całkowita X jest nieparzysta (zwraca Boolean)
+  procedure ExprOdd(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprLog10(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprLog2(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Sufit: najmniejsza liczba całkowita ≥ X.
+  procedure ExprCeil(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprFloor(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //Przeciwprostokątna w trójkącie prostokątnym (X2+Y2).
+  procedure ExprHypot(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprMin(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprMax(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprRound(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprTrunc(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprIsNaN(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  //nowe
+  procedure ExprIsInfinite(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprIsNaNOrInfinity(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprIsZero(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprIsNegative(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
+  {PO Polsku}
+  procedure ExprSufit(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprPodloga(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprZaokraglic(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprMaks(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprOdciecie(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+  procedure ExprCzyJestNan(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+   //Inkrementuje zmienną x (zwiększa o 1).
+  procedure ExprZwieksz(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+    //Dekrementuje zmienną x (zmniejsza o 1). Dec(x, n)
+  procedure ExprZmniejsz(var Result: TFPExpressionResult; const Args: TExprParameterArray);
+
 
 
 
@@ -100,6 +140,13 @@ var
   Res: TFPExpressionResult;
 begin
   Result := 0;
+   // Sprawdź czy wyrażenie nie jest puste
+  if Trim(Expr) = '' then
+  begin
+    WriteLn('Błąd: Puste wyrażenie');
+    Exit;
+  end;
+
   Parser := TFPExpressionParser.Create(nil);
   try
     try
@@ -135,16 +182,53 @@ begin
       Parser.Identifiers.AddFunction('sech', 'F', 'F', @ExprSech);
       Parser.Identifiers.AddFunction('cot', 'F', 'F', @ExprCot);
       Parser.Identifiers.AddFunction('csc', 'F', 'F', @ExprCsc);
-      Parser.Identifiers.AddFunction('wbl', 'F', 'F', @ExprAbs);
+      Parser.Identifiers.AddFunction('abs', 'F', 'F', @ExprAbs);
       Parser.Identifiers.AddFunction('sqr', 'F', 'F', @ExprSqr);
-      Parser.Identifiers.AddFunction('kwadrat_liczby', 'F', 'F', @ExprSqr);
-      Parser.Identifiers.AddFunction('pierwiastek_kw', 'F', 'F', @ExprPierwiastek);
-      Parser.Identifiers.AddFunction('log_naturalny', 'F', 'F', @ExprLogarytmNaturalny);
-      Parser.Identifiers.AddFunction('wykładnicza', 'F', 'F', @ExprWykladnicza);
-      Parser.Identifiers.AddFunction('potęga', 'F', 'FF', @ExprPotega);
-      Parser.Identifiers.AddFunction('zwiększ', 'F','F', @ExprIncVar);
-      Parser.Identifiers.AddFunction('zmniejsz', 'F','F', @ExprDecVar);
+      //Parser.Identifiers.AddFunction('kwadrat_liczby', 'F', 'F', @ExprSqr);
+      Parser.Identifiers.AddFunction('sqrt', 'F', 'F', @ExprPierwiastek);
+      Parser.Identifiers.AddFunction('ln', 'F', 'F', @ExprLogarytmNaturalny);
+      Parser.Identifiers.AddFunction('exp', 'F', 'F', @ExprWykladnicza);
+      Parser.Identifiers.AddFunction('power', 'F', 'FF', @ExprPotega);
+      Parser.Identifiers.AddFunction('inc', 'F','F', @ExprIncVar);
+      Parser.Identifiers.AddFunction('dec', 'F','F', @ExprDecVar);
+
+      //17.10.2025
+      //nowa int Zwraca część całkowitą z liczby rzeczywistej X (jako Real).
+      Parser.Identifiers.AddFunction('int', 'F', 'F', @ExprInt);
+      Parser.Identifiers.AddFunction('odd', 'B', 'I', @ExprOdd);
+      //Logarytm dziesiętny (log10(X)).
+      Parser.Identifiers.AddFunction('log10', 'F', 'F', @ExprLog10);
+      //Logarytm binarny (log2(X)).
+      Parser.Identifiers.AddFunction('log2', 'F', 'F', @ExprLog2);
+      Parser.Identifiers.AddFunction('ceil', 'F', 'F', @ExprCeil);
+      Parser.Identifiers.AddFunction('floor', 'F', 'F', @ExprFloor);
+      Parser.Identifiers.AddFunction('hypot', 'F', 'FF', @ExprHypot);
+      Parser.Identifiers.AddFunction('min', 'F', 'FF', @ExprMin);
+      Parser.Identifiers.AddFunction('max', 'F', 'FF', @ExprMax);
+      Parser.Identifiers.AddFunction('round', 'F', 'F', @ExprRound);
+      Parser.Identifiers.AddFunction('trunc', 'F', 'F', @ExprTrunc);
+      Parser.Identifiers.AddFunction('is_nan', 'B', 'F', @ExprIsNaN);
+
+      //nowe
+      Parser.Identifiers.AddFunction('isinfinite', 'B', 'F', @ExprIsInfinite);
+      Parser.Identifiers.AddFunction('isnanorinfinity', 'B', 'F', @ExprIsNaNOrInfinity);
+      Parser.Identifiers.AddFunction('isnanorinf', 'B', 'F', @ExprIsNaNOrInfinity);
+      Parser.Identifiers.AddFunction('iszero', 'B', 'F', @ExprIsZero);
+      Parser.Identifiers.AddFunction('isnegative', 'B', 'F', @ExprIsNegative);
+      //Funkcja zaokraglij
+
+
+
+      {PO Polsku}
       Parser.Identifiers.AddFunction('ułamek', 'F', 'F', @ExprFrac);
+      Parser.Identifiers.AddFunction('sufit', 'F', 'F', @ExprSufit);
+      Parser.Identifiers.AddFunction('podłoga', 'F', 'F', @ExprPodloga);
+      Parser.Identifiers.AddFunction('zaokrąglić', 'F', 'F', @ExprZaokraglic);
+      Parser.Identifiers.AddFunction('maks', 'F', 'FF', @ExprMaks);
+      Parser.Identifiers.AddFunction('odcięcie', 'F', 'F', @ExprOdciecie);
+      Parser.Identifiers.AddFunction('czy_jest_nan', 'B', 'F', @ExprCzyJestNan);
+      Parser.Identifiers.AddFunction('zwiększ', 'F','F', @ExprZwieksz);
+      Parser.Identifiers.AddFunction('zmniejsz', 'F','F', @ExprZmniejsz);
 
 
 
@@ -156,12 +240,15 @@ begin
       case Res.ResultType of
         rtInteger: Result := Res.ResInteger;
         rtFloat:   Result := Res.ResFloat;
+        // Konwersja Boolean na Double
+        rtBoolean: if Res.ResBoolean then Result := 1 else Result := 0;
         else
           raise Exception.Create('Nieobsługiwany typ wyniku');
       end;
 
       // Zaokrąglenie do 2 miejsc po przecinku
-      Result := Round(Result * 100) / 100;
+     // Result := Round(Result * 100) / 100;
+
     except
       on E: Exception do
       begin
@@ -173,6 +260,15 @@ begin
     Parser.Free;
   end;
 end;
+
+procedure format(Value: Double; DecimalPlaces: Integer);
+begin
+  if DecimalPlaces >= 0 then
+    WriteLn(Value:0:DecimalPlaces)
+  else
+    WriteLn(Value);
+end;
+
 
 procedure ExprTan(var Result: TFPExpressionResult;
   const Args: TExprParameterArray);
@@ -463,6 +559,259 @@ procedure ExprFrac(var Result: TFPExpressionResult;
   const Args: TExprParameterArray);
 begin
   Result.ResFloat := Frac(ArgToFloat(Args[0]));
+end;
+
+procedure ExprInt(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+   Result.ResInteger := Trunc(ArgToFloat(Args[0]));
+end;
+
+procedure ExprOdd(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Int64;
+begin
+    x := Args[0].ResInteger; // Pobieramy wartość całkowitą
+    Result.ResBoolean := Odd(x); // Wykorzystujemy wbudowaną funkcję Odd
+    Result.ResultType := rtBoolean; // Ustawiamy typ wyniku na Boolean
+end;
+
+procedure ExprLog10(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+
+    if x <= 0 then
+      raise Exception.Create('log10(x) wymaga x > 0');
+
+    Result.ResFloat := Log10(x);
+end;
+
+procedure ExprLog2(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+
+   if x <= 0 then
+     raise Exception.Create('log2(x) wymaga x > 0');
+
+   Result.ResFloat := Log2(x);
+end;
+
+procedure ExprCeil(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Ceil(ArgToFloat(Args[0]));
+end;
+
+procedure ExprSufit(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Ceil(ArgToFloat(Args[0]));
+end;
+
+procedure ExprFloor(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Floor(ArgToFloat(Args[0]));
+end;
+
+procedure ExprHypot(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Hypot(ArgToFloat(Args[0]), ArgToFloat(Args[1]));
+end;
+
+procedure ExprMin(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, y: Double;
+begin
+   x := ArgToFloat(Args[0]);
+   y := ArgToFloat(Args[1]);
+
+   if x < y then
+     Result.ResFloat := x
+   else
+     Result.ResFloat := y;
+ end;
+
+procedure ExprMax(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, y: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  y := ArgToFloat(Args[1]);
+
+  if x > y then
+    Result.ResFloat := x
+  else
+    Result.ResFloat := y;
+end;
+
+procedure ExprRound(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResFloat := Round(x);
+end;
+
+procedure ExprTrunc(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResFloat := Trunc(x);
+end;
+
+procedure ExprIsNaN(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+   x := ArgToFloat(Args[0]);
+   Result.ResBoolean := IsNaN(x);
+   Result.ResultType := rtBoolean;
+end;
+
+procedure ExprIsInfinite(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResBoolean := IsInfinite(x);
+  Result.ResultType := rtBoolean;
+end;
+
+procedure ExprIsNaNOrInfinity(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResBoolean := IsNaN(x) or IsInfinite(x);
+  Result.ResultType := rtBoolean;
+end;
+
+procedure ExprIsZero(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResBoolean := IsZero(x);
+  Result.ResultType := rtBoolean;
+end;
+
+procedure ExprIsNegative(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResBoolean := x < 0;
+  Result.ResultType := rtBoolean;
+end;
+
+procedure ExprOdciecie(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+   Result.ResFloat := Trunc(x);
+end;
+
+procedure ExprCzyJestNan(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResBoolean := IsNaN(x);
+  Result.ResultType := rtBoolean;
+end;
+
+procedure ExprZwieksz(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, n: Int64;
+begin
+    if Length(Args) = 1 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     Result.ResFloat := x + 1;
+   end
+   else if Length(Args) = 2 then
+   begin
+     x := Round(ArgToFloat(Args[0]));
+     n := Round(ArgToFloat(Args[1]));
+     Result.ResFloat := x + n;
+   end
+   else
+     raise Exception.Create('zwiększ(x [,n]): oczekiwano 1 lub 2 argumentów.');
+
+end;
+
+procedure ExprZmniejsz(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, n: Int64;
+begin
+  if Length(Args) = 1 then
+ begin
+   x := Round(ArgToFloat(Args[0]));
+   Result.ResFloat := x - 1;
+ end
+ else if Length(Args) = 2 then
+ begin
+   x := Round(ArgToFloat(Args[0]));
+   n := Round(ArgToFloat(Args[1]));
+   Result.ResFloat := x - n;
+ end
+ else
+   raise Exception.Create('zmniejsz(x [,n]): oczekiwano 1 lub 2 argumentów.');
+
+end;
+
+
+procedure ExprPodloga(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+begin
+  Result.ResFloat := Floor(ArgToFloat(Args[0]));
+end;
+
+procedure ExprZaokraglic(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  Result.ResFloat := Round(x);
+end;
+
+procedure ExprMaks(var Result: TFPExpressionResult;
+  const Args: TExprParameterArray);
+var
+  x, y: Double;
+begin
+  x := ArgToFloat(Args[0]);
+  y := ArgToFloat(Args[1]);
+
+  if x > y then
+    Result.ResFloat := x
+  else
+    Result.ResFloat := y;
 end;
 
 
