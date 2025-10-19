@@ -113,6 +113,11 @@ msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
 
+#: tformmain.bottompaneltab.caption
+msgctxt "tformmain.bottompaneltab.caption"
+msgid "Functions"
+msgstr ""
+
 #: tformmain.butcompilecode.caption
 #, fuzzy
 msgctxt "tformmain.butcompilecode.caption"
@@ -157,6 +162,10 @@ msgstr "Informação"
 #: tformmain.label4.caption
 msgid "Rozmiar"
 msgstr "Tamanho"
+
+#: tformmain.listboxerrorcode.caption
+msgid "Mistakes"
+msgstr ""
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -473,6 +482,15 @@ msgstr "Novo Arquivo"
 msgid "PanelLewy"
 msgstr "PanelLewy"
 
+#: tformmain.tabsheet1.caption
+msgctxt "tformmain.tabsheet1.caption"
+msgid "Variables"
+msgstr ""
+
+#: tformmain.tabsheetcomments.caption
+msgid "Comments"
+msgstr ""
+
 #: tformmain.tabsheetlog.caption
 msgctxt "tformmain.tabsheetlog.caption"
 msgid "Logs"
@@ -494,6 +512,10 @@ msgstr "ToolButton1"
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
 msgstr "Transpilar"
+
+#: tformmain.toolbuttondebug.caption
+msgid "ToolButtonDebug"
+msgstr ""
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -836,6 +858,10 @@ msgstr ""
 msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
 msgstr ""
 
+#: unit1.translatefunctionnotfound
+msgid "Function not found."
+msgstr ""
+
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
 msgstr ""
@@ -864,8 +890,16 @@ msgstr ""
 msgid "Modules: "
 msgstr ""
 
+#: unit1.translatenocommentsfound
+msgid "No comments found."
+msgstr ""
+
 #: unit1.translatenoitemselected
 msgid "No item selected."
+msgstr ""
+
+#: unit1.translatenoprefixestosearch
+msgid "No prefixes to search!"
 msgstr ""
 
 #: unit1.translatenotexist
@@ -874,6 +908,10 @@ msgstr ""
 
 #: unit1.translatenotokenaiassistant
 msgid "No token from AI Assistant"
+msgstr ""
+
+#: unit1.translatenovariablesfound
+msgid "No variables found."
 msgstr ""
 
 #: unit1.translateplatform

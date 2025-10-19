@@ -1,6 +1,0 @@
-program pobierzstrone
-lista_tekstów a = nic
-pobierz_strone('https://avocado.dimitalart.pl/',a,'D:\bazy\info\strona.html')
-pisznl('Zawartość pobranej strony:')
-pisznl(a.tekst)
-pisznl('siema')

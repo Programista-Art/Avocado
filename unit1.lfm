@@ -1,10 +1,10 @@
 object FormMain: TFormMain
   Left = 347
-  Height = 610
+  Height = 637
   Top = 221
   Width = 1055
   Caption = 'IDE Avocado v 1.0.1.1'
-  ClientHeight = 610
+  ClientHeight = 637
   ClientWidth = 1055
   Color = 5197647
   Menu = MainMenu1
@@ -21,7 +21,7 @@ object FormMain: TFormMain
     Width = 1055
     Caption = 'ToolBar1'
     Color = clMenu
-    Images = ImageList1
+    Images = ImageListListView
     ParentColor = False
     TabOrder = 0
     object ToolButton1: TToolButton
@@ -29,7 +29,7 @@ object FormMain: TFormMain
       Hint = 'Transpiluj'
       Top = 2
       Caption = 'ToolButton1'
-      ImageIndex = 1
+      ImageIndex = 7
       ParentShowHint = False
       ShowHint = True
       OnClick = ToolButton1Click
@@ -39,30 +39,37 @@ object FormMain: TFormMain
       Hint = 'Kompiluj'
       Top = 2
       Caption = 'Kompiluj i zapisz'
-      ImageIndex = 0
+      ImageIndex = 8
       ParentShowHint = False
       ShowHint = True
       OnClick = butCompileCodeClick
     end
+    object ToolButtonDebug: TToolButton
+      Left = 47
+      Top = 2
+      Caption = 'ToolButtonDebug'
+      ImageIndex = 6
+      OnClick = ToolButtonDebugClick
+    end
   end
   object Panel1: TPanel
     Left = 806
-    Height = 584
+    Height = 611
     Top = 26
     Width = 249
     Align = alRight
-    ClientHeight = 584
+    ClientHeight = 611
     ClientWidth = 249
     ParentBackground = False
     ParentColor = False
     TabOrder = 1
     object PanelPrawy: TPanel
       Left = 1
-      Height = 582
+      Height = 609
       Top = 1
       Width = 247
       Align = alClient
-      ClientHeight = 582
+      ClientHeight = 609
       ClientWidth = 247
       ParentBackground = False
       TabOrder = 0
@@ -97,7 +104,7 @@ object FormMain: TFormMain
       end
       object MemoOutPut: TMemo
         Left = 1
-        Height = 553
+        Height = 580
         Top = 28
         Width = 245
         Align = alClient
@@ -116,12 +123,12 @@ object FormMain: TFormMain
   end
   object PanelLewy: TPanel
     Left = 0
-    Height = 584
+    Height = 611
     Top = 26
     Width = 803
     Align = alClient
     Caption = 'PanelLewy'
-    ClientHeight = 584
+    ClientHeight = 611
     ClientWidth = 803
     ParentBackground = False
     TabOrder = 2
@@ -129,7 +136,7 @@ object FormMain: TFormMain
       Cursor = crVSplit
       Left = 1
       Height = 1
-      Top = 402
+      Top = 429
       Width = 801
       Align = alBottom
       ResizeAnchor = akBottom
@@ -138,7 +145,7 @@ object FormMain: TFormMain
     object Panel3: TPanel
       Left = 1
       Height = 180
-      Top = 403
+      Top = 430
       Width = 801
       Align = alBottom
       ClientHeight = 180
@@ -191,14 +198,14 @@ object FormMain: TFormMain
           ParentFont = False
         end
       end
-      object PageControl1: TPageControl
+      object PageEroor: TPageControl
         Left = 1
         Height = 128
         Top = 28
         Width = 799
-        ActivePage = TabSheetLog
+        ActivePage = ListBoxErrorCode
         Align = alClient
-        TabIndex = 0
+        TabIndex = 5
         TabOrder = 2
         object TabSheetLog: TTabSheet
           Caption = 'Logs'
@@ -231,27 +238,196 @@ object FormMain: TFormMain
             Top = 0
             Width = 791
             Align = alClient
-            Color = clMenu
+            Color = clBlack
             ItemHeight = 0
             TabOrder = 0
             OnClick = ListBoxSeacrhClick
+          end
+        end
+        object BottomPanelTab: TTabSheet
+          Caption = 'Functions'
+          ClientHeight = 100
+          ClientWidth = 791
+          object ListBoxSearchFunctions: TListBox
+            Left = 0
+            Height = 65
+            Top = 35
+            Width = 791
+            Align = alClient
+            Color = clBlack
+            ItemHeight = 0
+            TabOrder = 0
+            OnClick = ListBoxSearchFunctionsClick
+          end
+          object PanelTopFunctions: TPanel
+            Left = 0
+            Height = 35
+            Top = 0
+            Width = 791
+            Align = alTop
+            ClientHeight = 35
+            ClientWidth = 791
+            ParentBackground = False
+            ParentColor = False
+            TabOrder = 1
+            object EditSearchFunctions: TEdit
+              Left = 6
+              Height = 23
+              Top = 6
+              Width = 200
+              Align = alLeft
+              BorderSpacing.Around = 5
+              TabOrder = 0
+            end
+            object SbSearchVariables: TSpeedButton
+              Left = 211
+              Height = 23
+              Top = 6
+              Width = 23
+              Align = alLeft
+              BorderSpacing.Top = 5
+              BorderSpacing.Right = 5
+              BorderSpacing.Bottom = 5
+              Images = ImageListListView
+              ImageIndex = 5
+              OnClick = SbSearchVariablesClick
+            end
+          end
+        end
+        object TabSheet1: TTabSheet
+          Caption = 'Variables'
+          ClientHeight = 100
+          ClientWidth = 791
+          object PanelTopVariables: TPanel
+            Left = 0
+            Height = 35
+            Top = 0
+            Width = 791
+            Align = alTop
+            ClientHeight = 35
+            ClientWidth = 791
+            ParentBackground = False
+            ParentColor = False
+            TabOrder = 0
+            object EditSearchVariables: TEdit
+              Left = 6
+              Height = 23
+              Top = 6
+              Width = 200
+              Align = alLeft
+              BorderSpacing.Around = 5
+              TabOrder = 0
+            end
+            object SpeedButtonSearchVariables: TSpeedButton
+              Left = 211
+              Height = 23
+              Top = 6
+              Width = 23
+              Align = alLeft
+              BorderSpacing.Top = 5
+              BorderSpacing.Right = 5
+              BorderSpacing.Bottom = 5
+              Images = ImageListListView
+              ImageIndex = 5
+            end
+          end
+          object ListBoxSearchVariables: TListBox
+            Left = 0
+            Height = 65
+            Top = 35
+            Width = 791
+            Align = alClient
+            Color = clBlack
+            ItemHeight = 0
+            TabOrder = 1
+            OnClick = ListBoxSearchVariablesClick
+          end
+        end
+        object TabSheetComments: TTabSheet
+          Caption = 'Comments'
+          ClientHeight = 100
+          ClientWidth = 791
+          object PanelTopComments: TPanel
+            Left = 0
+            Height = 35
+            Top = 0
+            Width = 791
+            Align = alTop
+            ClientHeight = 35
+            ClientWidth = 791
+            ParentBackground = False
+            ParentColor = False
+            TabOrder = 0
+            object EditSearchComments: TEdit
+              Left = 6
+              Height = 23
+              Top = 6
+              Width = 180
+              Align = alLeft
+              BorderSpacing.Around = 5
+              TabOrder = 0
+            end
+          end
+          object ListBoxSearchComments: TListBox
+            Left = 0
+            Height = 65
+            Top = 35
+            Width = 791
+            Align = alClient
+            Color = clBlack
+            ItemHeight = 0
+            TabOrder = 1
+          end
+        end
+        object ListBoxErrorCode: TTabSheet
+          Caption = 'Mistakes'
+          ClientHeight = 100
+          ClientWidth = 791
+          object PanelTopmistakes: TPanel
+            Left = 0
+            Height = 35
+            Top = 0
+            Width = 791
+            Align = alTop
+            ClientHeight = 35
+            ClientWidth = 791
+            ParentBackground = False
+            TabOrder = 0
+            object Edit1: TEdit
+              Left = 6
+              Height = 23
+              Top = 6
+              Width = 180
+              Align = alLeft
+              BorderSpacing.Around = 5
+              TabOrder = 0
+            end
+          end
+          object ListBoxErrCode: TListBox
+            Left = 0
+            Height = 65
+            Top = 35
+            Width = 791
+            Align = alClient
+            ItemHeight = 0
+            TabOrder = 1
           end
         end
       end
     end
     object PaneMain: TPanel
       Left = 1
-      Height = 401
+      Height = 428
       Top = 1
       Width = 801
       Align = alClient
-      ClientHeight = 401
+      ClientHeight = 428
       ClientWidth = 801
       ParentBackground = False
       TabOrder = 2
       inline SynEditCode: TSynEdit
         Left = 213
-        Height = 371
+        Height = 398
         Top = 1
         Width = 587
         Align = alClient
@@ -798,7 +974,7 @@ object FormMain: TFormMain
       object Panel5: TPanel
         Left = 1
         Height = 28
-        Top = 372
+        Top = 399
         Width = 799
         Align = alBottom
         ClientHeight = 28
@@ -857,23 +1033,23 @@ object FormMain: TFormMain
       end
       object SplitterLeft: TSplitter
         Left = 1
-        Height = 371
+        Height = 398
         Top = 1
         Width = 1
       end
       object PanelLeft: TPanel
         Left = 2
-        Height = 371
+        Height = 398
         Top = 1
         Width = 206
         Align = alLeft
-        ClientHeight = 371
+        ClientHeight = 398
         ClientWidth = 206
         ParentBackground = False
         TabOrder = 3
         object TreeView: TTreeView
           Left = 1
-          Height = 346
+          Height = 373
           Top = 24
           Width = 204
           Align = alClient
@@ -902,7 +1078,7 @@ object FormMain: TFormMain
       end
       object Splitter2: TSplitter
         Left = 208
-        Height = 371
+        Height = 398
         Top = 1
         Width = 5
       end
@@ -910,7 +1086,7 @@ object FormMain: TFormMain
   end
   object Splitter1: TSplitter
     Left = 803
-    Height = 584
+    Height = 611
     Top = 26
     Width = 3
     Align = alRight
@@ -1144,30 +1320,6 @@ object FormMain: TFormMain
     Left = 572
     Top = 328
   end
-  object ImageList1: TImageList
-    Left = 565
-    Top = 134
-    Bitmap = {
-      4C7A020000001000000010000000220200000000000078DAAD553D4F1451143D
-      C6CE8891C61820514B3A50A9A0024CAC0C6A4B49245063889D8D881088141895
-      56B2BB6FF90C3FC1444049607776974534910642ACC0C4846A3C677813C765D8
-      D99958DCBC9D7BCFB9DFEFADEBBA70CF082EE40DEE140D9E143218D6594AE3B6
-      F46E28FEAF10FFB860B043D9A6BC2B6431EA9DFCA69FB263F0D03D2726B19316
-      D719862966D1251FC44C54E642DB33EAD7371771B55A7EB213F75975F9BA9CC1
-      2DEA7E96536888AA4FB265D028FC760A376DEC71CA8B8A7C0E58CF34F3BD1EDA
-      278397CCE1958735C89FF6F71FBB4B3961BF7E53DE54FA71E67097F69CC5FEA2
-      FD7208DF0DFA21E6B56F2F2FA38EFA638B3D8ECBDFFD802BD41FF9F96B5FE2E4
-      5F48A38DF62DCB1F73321889D53FED1545BF358738F3CBCDA349F8D23C6E04F6
-      76587B11B53FF959D413F785353D3DB3BFDC4BED7E2983EE302E39F768FFAA7D
-      39CF3FB93DF6EEECB0BEF75E9D19CC884729B11F0F6AA9B138875672FBBCBA78
-      EABB16DEFF10CDB2627FF6E3F089DF659D2DB66703AC21552B57F788FC6F015F
-      6BF4753F4EEEFE2E3A69346BC7F9DDCB994DE97DA1FC88CCDDF69A9C7ED5CEF8
-      0BF431C4DF4B3CDFD69A7B5036567089B643E51495BBB0DE5BC9F881FB32C85E
-      2E46E4AE77FBBBDE13CA47CD4E7A63705175710EED55778EF11457F1FD37C0FF
-      4F60ECD5B87BE4F3D9BF4F4E168F92F0C9ED504DAA2109DF9B197730C93DB0FC
-      43BF1F49F89CE7F3A4F790FCBDDC02AE55C3FC0178B946E5
-    }
-  end
   object PopupMenuKonsola: TPopupMenu
     Left = 680
     Top = 112
@@ -1247,6 +1399,8 @@ object FormMain: TFormMain
       'jeśli=Instrukcja warunkowa'
       'print_line('''')'
       'calc('''')'
+      'oblicz_formatuj(''''), 4)'
+      'calc_format(''''), 4) '
       'print('''')'
       'czytaj('''')'
       'read_key('''')'
@@ -1254,7 +1408,7 @@ object FormMain: TFormMain
       'set_length'
       'oblicz('''')'
       'pisz('''')'
-      'pisznl('''')'
+      'pisz_linie('''')'
       'duże_litery(s)'
       'małe_litery(s)'
       'zamień_tekst()'
@@ -1387,10 +1541,35 @@ object FormMain: TFormMain
       'arsinh()'
       'arcosh()'
       'artanh()'
-      'wbl()'
-      'kwadrat_liczby()'
-      'pierwiastek_kwl()'
-      'log_naturalny() '
+      'odd()'
+      'int()'
+      'log10()'
+      'log2()'
+      'sufit()'
+      'ceil()'
+      'hypot()'
+      'min()'
+      'maks()'
+      'max()'
+      'pi'
+      'sqr()'
+      'sqrt()'
+      'ln()'
+      'exp()'
+      'power()'
+      'inc()'
+      'dec()'
+      'zaokrąglić()'
+      'round()'
+      'odcięcie()'
+      'trunc()'
+      'czy_jest_nan()'
+      'is_nan()'
+      'isinfinite()'
+      'isnanorinfinity()'
+      'iszero()'
+      'isnegative()'
+      'isnanorinf()'
       'potęga(2,3)'
       'matematyka'
       'czarny'
@@ -1489,6 +1668,8 @@ object FormMain: TFormMain
       'search_record'
       'get_env()'
       'set_env()'
+      'import'
+      'pascal_linia'
     )
     Position = 0
     LinesInWindow = 10
@@ -1587,6 +1768,7 @@ object FormMain: TFormMain
       'RozłóżCzas(czas, godzina, minuta, sekunda, milisekunda)'
       'NiebezpiecznyWskaźnikZAdresu(liczba całkowita)'
       '@zmienna '
+      'pascal_linia'
     )
     EndOfTokenChr = '()[].'
     ShortCut = 32800
@@ -1619,6 +1801,7 @@ object FormMain: TFormMain
       'ASM'
       'ASSIGN_FILE'
       'CALC'
+      'CALC_FORMAT'
       'CHANGE_DIR'
       'CLOSE_FILE'
       'CREATE_DIR'
@@ -1642,6 +1825,7 @@ object FormMain: TFormMain
       'GET_ENV'
       'IF'
       'ILOść_PARAMETRóW'
+      'IMPORT'
       'IMPORTUJ'
       'INACZEJ'
       'INSERT'
@@ -1655,6 +1839,7 @@ object FormMain: TFormMain
       'MALE_LITERY_ANSI'
       'MAłE_LITERY'
       'OBLICZ'
+      'OBLICZ_FORMATUJ'
       'OPEN_READ'
       'OPEN_SAVE'
       'OTWóRZ_DO_DOPISYWANIA LUB DOPISZ'
@@ -1662,6 +1847,7 @@ object FormMain: TFormMain
       'OTWóRZ_DO_ZAPISU'
       'PARAMETR_PROGRAMU'
       'PASCAL'
+      'PASCAL_LINIA'
       'PING'
       'PISZ'
       'PISZ_LINIE'
@@ -1816,70 +2002,94 @@ object FormMain: TFormMain
     Left = 56
     Top = 328
   end
-  object ImageListIcons: TImageList
-    Left = 232
-    Top = 144
-  end
   object ImageListListView: TImageList
     Masked = True
     Scaled = True
-    Left = 336
-    Top = 155
+    Left = 280
+    Top = 176
     Bitmap = {
-      4C7A050000001000000010000000430500000000000078DAED586B50546518FE
-      B4D42EFE6A9A7EF4BF0943340876C1C060D7958BEC1E0C51A92873709A91A61A
-      284B0D30140A170467300484E562ECEE5972068DA63FA8A5D30CE54CC365C9C4
-      6C6A26C7AC866674122FF5F6BC87EFACABAD7BA3EBD48F67BEEF7CE77DDEFBF9
-      CEF90E11099A01BC1E5139A68A298024A6782D5CBE26AF8A7B7CFA30C7DAA49F
-      BE60D0E4A2F55DD73313BED72D7E09D3D7DF41E7FE99FE1F39226E1F758B2D90
-      FB12B8A28D1E51F5B12AEE1C55455130BEC655C587903988BA3C04CCF5F68958
-      8C2EAC1DE3FBC1F8D2EEC13197580C9E51AB2F46BEC6FA21E8792D189F7D65BB
-      E32E918CF13CFC7E8947BE0616E2FE4408FE65F6599BBB4509E71BBD59C6D713
-      EF8B797ADF06B58F7803D91F51459CB41FB05721B78EF3ACE52A40FC587F0FF7
-      3705AB1DD708BA8EB32CC7CBB1B05D8DABA23CC87FA81E611999E7D39C0FCD67
-      B778351CEE5F81FFFAFE0144BD7FE8DCBFD9FFFFF933E34FCEA0FE93FF8467F8
-      5FF8FC4FFAD7209ABAFD91FC1387C45D51F6C1773C8EBBC5328C1F45E283CED1
-      F4B8C5767E57451483E4483F8EA166E60873A07124FF02E7205CAECCD7053952
-      B4B1FB9EC12863F77D034619BBF68DA48A6BD13CF791E42B1814B3F166C4D8CC
-      C646E073CC7FB6990C978009A039CF6488574C06817920DE6CC00E5C5B693612
-      037382AC0FCAF4D80ACCBD893B0BF02892936736D08AA509B43C39963297C481
-      23F56424913523916506017F1DF669AE41E3E742A6A3A399EAF7ECA2F6EE367A
-      AE289FF23353A9CDB197DEA8DCA4F901B91EC97D10F855F731372D81DA1DADD2
-      661265A72CA4A6E606727A7A697DA142D5559BC9AAC763363E0A34FAC7B94631
-      5363A31D7E269105FE5B97C653414E3A0D8D0FD3CEDA2ACAC1B5ED3ABF1738A9
-      C7BD22ED61EAEA6947DC8BC85EBB9DDE6E6BA20EF8A22C33D2BEB63D949B9EE8
-      6F9B710EB8A4C7BED69A410DF56F5169493195BD584CD9D09709FF1DD0B1C696
-      4EB56F562076A3CE655C86AEA9E9DA18A9E2F5322A2E5A4D1DCE2EE47D916607
-      35A7BADD3BC99214435DCE4ECD7F3DCFC015E4F2749EF4A9A66A0BE2B750A7B3
-      9B2CC6585F9C3B6A2A28272D9E1C9D6D94A5D5D3A0EBF81EF3BD8AEC8DE2A756
-      5265F92B54BDA39C363CA968BE730F387ABBC894B4805A5153AEBF5FFE0E608C
-      F7D52E7531F5B08F8F3D428D0DB5F48EAB9B9C6A0F15A2264D4DBBE9E955D95A
-      4DFD7AD2629BEEE7363D56259D7BA785EA76D5D00B25EBA97C6B2939F677D2C6
-      67566B35CDBBDEC7FD92CB98030CFAEA881C719D36AC2BA0271E5F8E1E8AF3D9
-      94CFC510E29FEFC767CCC3BAD326EB63D3E4926F788614B66F360C606DBEDEFB
-      FE3A504351906BB2E45952FAC1FD5131255FB5990D57716F323F2B75E0D9429B
-      55C948BCE1B98DE85DCD6717551C0654FF776E38F8A257DC0BDE59EC9D85D8FB
-      DA790F8DC8B62ABAC1AF97FB670B746C0E6BAFF5888D637D221FFC33C3DDE26E
-      19C3D970FC3FE914F7F3F705CEB11760AFE6448B9803DE0874AE0DC7F6295558
-      B0BF1F95368731F7621C0CC55355711B9F57473DE23C383F616E65DBF0A30EFC
-      8B380B26DC8A2BCFB5FD7C6E87DD78E848C7F529700F03DF208EE65BBD3B341B
-      AA18E0332BCFF5F5AF1CE20EE8F80C7C7B30BBB0E566DB7CB6E43332F3FCBEF3
-      ECE0BF1CF07DDC271E80DD51E4B5973932EF3F0C1F10F721F60670B3F95F02C6
-      EA407C9C895320FF2D73E537C171E8DB2AFBE6CC489F88017F1BE61541FACB05
-      FFF7F3B91AB21DB44DCCE6FC311FB76771DEB82621BE4986C0FD7AD42516C83E
-      75E87D8AF927D0BF2454DD61AF94BFEBBC6E7114315CF4BE2B56612D0B6BE7F4
-      7F19A1A0FD37408F024EF03E003E05F7F940B2BF0176D263FA
+      4C7A090000001000000010000000C90700000000000078DAED595970535518FE
+      2D0A2E38A3E2F0A04F3AE308224B913654164B6384024D0A15B5082ED0CA28AE
+      E006B289525A4A69D14281D2A68B36CD4D5A968AC30B14C4058419A71B0AC505
+      66447199EAE0C8AABFDF7F7B6E0D699ADC24803AF2F0E5DCE57CFF7ECE3DE784
+      9989A3408B8716366B7412608593F2CC2C5FEFAFD10D1DF2708D676D3EF28241
+      EF17A9ED869C68F82D6EFAC3A4AD9D60702FA4FDF5F57479939BE6A2DF97C069
+      BDF5D0E28F35BAAA49A3A9C1F83A57A39DE8B31979B903E8DEE2A57E68ABF16C
+      97BC0FC6577A373757D340F02C7A7ED1CA3D9ED741CEABC1F862ABE8DD5F4D43
+      D1FE00BB9F9756EE813BF1BE3504FF94D8AC5FBB69A6C41BB5395BEE5BDFA71E
+      46DD06D50F7F03E96FD4A8BFD21FB056D1EF3189B31EAB00FEE3F97B78FF72B0
+      DC498E20EB43E92BFE8A2FA257E76A480FE21FAA46A48F8AF32189876EB39B5E
+      31C3BD18F8BFCF1F40C4F387C1FD87EDBFC48F8EDF1645FEDBFE0D63F83F38FE
+      DB7C731049DECE277F5F1D5D1D611D1C9376BF9BEE45FB413836181C5D8E9BDE
+      906F55583E288EB2631772660D33063A47F18F4B0CCC7255BC8EAB9623F5BD63
+      0C46E87BC71A3042DFF5359246672319F7E1C42B181C568B3FFAD8AD9602E073
+      5CFF6E4F8A3F01B40245A949F1B18EA478C275205E0C900B9C9D60B5B000D78C
+      BE1D70B4B7EB80EE7EDCCB008F437152ADF13C6EE460BE6F683F1E7D777F7094
+      9C51719C326A88F4D906F8CAC86DE7C6EBFCF1E8535A5AC479AB5670494531CF
+      989AC669A38773B1730DBFBEF065DD0EF4AB54DCDB813F0D1BC78F18CC25CE75
+      4A671C2727DCC98545F9ECF254F1B474072F593C87530C7FAC96614081AF9F0F
+      3AAC5C50900B3BE3D806FB5346C6F2A4B189BC677F032FCB59CC63716FFF9B5F
+      057C61F83D6EC4202EAF2C81DF033837E70D5E5D5CC8A5B0C571AF85D717AFE2
+      F189437C750BBE074E18BE3F94328AF3F3B279D6CC0C9EFD5C062743DE68D8EF
+      848C07ED899CB374017CB7185CC129C83AD99E1B0B2F98379B33A63EC0A5AE72
+      C47D80AE0739E7E52B97B12DAE0F97BBCA74FB8D3803A711CB43A9CAA6ACC573
+      E1BF8DCB5C156CB3F4EBF0F3CDAC053C76442C3BCB8A798C9ECF7843C68FB85E
+      E350B5913165022F9CFF122F79733E673EECD06D971A70569573525C5F5E879C
+      4AFE7DE2578B36B62377C30772A5D878CF5D5C909FC3EF5657B04BABE474E4A4
+      B070253F727FB29E539F9AB4D9DBEBB9D8F0D59128B5B39697AFC8E267674EE3
+      F9AFCD62E73B65FCD4A30FE8394DFDBB8E3729AEE00A605B471E1123C953E663
+      9378F2C4FB5043FD3B74AA71B107FEF7F4E10B7AE0B9CBAEF263D7FB0D3D670C
+      3944BF357E0B9EF5346ADF5706724893C627D9526D099BC0FDD99134F48CDD1A
+      7F06EFDAD2C60CDFF278BA3DC5316AC839E336AC6FB5EC5D34DA0E68BEDF5C33
+      3850453782771473673AE6BE129943C3D2AD5105F8796AFE5C0B19734CCDB51E
+      7AAAD94B69E07FD55041D7281F8E9AB1FF0B17DD24EB0BEC638F435FD6BEB574
+      05788D90F99019DD0735B2617EDFA17436E0BA05EDB6503C4DA36EB25F6DF2D0
+      0FE0FC82EB14D10D3B9683FF1BF68283BBE2AA7DED26D9B7436F2C6424E2FE20
+      B8DB8123F0A3A8AB6F87AE43A32DB267956BE3F9D74EBA12323E033F37985EE8
+      728B6ED95BCA1E59783EEBBC5CF05F0CF83DF6D26DD0DB84B8560947C5FDA786
+      5AEA0DDFF3C14D96B304B44B02F1B1274E40FF6F85ABD6041F42DE6BAA6EBE6A
+      F4521FF017E17A4190FAAA86FDEFC8BE1A7D4B7911C548FC848FD79749DC2427
+      21D6247BC03DDC544D7D559D3A8D3AC5F5A7907F77A8BC43DF2C59D7B5B86907
+      7CF8ADA586EEC7B33178F6BD7196110AFAB9016A147081B715D80BEED366B88D
+      35742B7819724620ADDC8731BE3DC077E09501D97A2BF7982FE47D08EE41E188
+      ED9D7C71538EBCEF4A86C80796869807B2A55F407F61A36FAD06398BF9CE3F1E
+      7AACE0A7C9B9A80C399DEEB7FF99839AC932C3977EFEF35E58FADD54EEAFDFF0
+      DF3FEE5DF9DFA0D12D9DEC92718F1C85D8E71541775DA0779FD752AF60F947ED
+      AEC6FB3F9B642ED6685C901AD2F47A839F7ABEA5C5B811BD3E7BCC2E65F8D7BF
+      C4CAF0578DC1134A869C2BDAC35D6B8B5E3F3B6C51CAA88B64CDAFF63F756847
+      FED7CF0F2EE1E2E1EDAA9AD2C2F2DA5E98E533B0021C648693EFDC705DA1AB66
+      C2B04D25D726ECF2ECA5DDB535F444F3514A6FEC43D5CD03CDF0F3DCDE69BDB7
+      141DA68F4A3966B77684EE59CFBA0C777366689BBDA9C91585F5A46573B7BA02
+      BEB932E78F983DEE23F4496DADF8128AFF96CB3B8DF267ADEEB6662EF7CE7E81
+      2F870CB12361A767AFC4C34C0C62E64D9F71FD33935964881DE24B62BDD6D36C
+      DC096B916EF33233A960F6AA7115ABB6E75579A714BEEB1D1B76FEAA3D8F4B3C
+      24A6820B5527F29DF23BAF381AE6F9482BE6D7416ABE7B1273B1CBF4DC86B5B1
+      FCD7E1236BB7CCDDE1D86E7C8F651D07FEAFB89F82EFD74A59DF01DF84B41DEB
+      46F5CD9BA1F61AB5B2F6C5F546B46BCCDA1E607D79CC585B06B35DFACAF992E8
+      F7DD0721961B42D87E40FD4F785CCEA88C734A7D3FD2FEBFD1B010DFF819A2D7
+      D85F187CF0D2A0FB9348CF4911BF8FB1C69818D1FFB31A0D179FC48708CFE737
+      4A0D4671BE7F2CD2B33AE1CBBE258AFF170ECB1EEA7C8C696AA51E8288B82DD4
+      9DF6D266DA475BA93EF83A3B0897153AC920929F00E8CC0D28A34B7E606E2719
+      178C1FA5FDD1C6CF6CFE689F4C509DC14F50605CE29F577E34F80BBB16EDAD
     }
   end
   object FindDialog: TFindDialog
     OnShow = FindDialogShow
     OnFind = FindDialogFind
-    Left = 496
-    Top = 24
+    Left = 272
+    Top = 272
   end
   object ReplaceDialog: TReplaceDialog
     Options = [frDown, frReplace, frReplaceAll, frHidePromptOnReplace]
-    Left = 490
-    Top = 193
+    OnFind = ReplaceDialogFind
+    Left = 272
+    Top = 328
+  end
+  object TimerScanFunctions: TTimer
+    Enabled = False
+    Interval = 400
+    OnTimer = TimerScanFunctionsTimer
+    Left = 279
+    Top = 110
   end
 end

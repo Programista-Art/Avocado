@@ -12,7 +12,7 @@ uses
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
   Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8, ExtendedTabControls,
   ListViewFilterEdit, TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,SynEditTypes,Math,
-  LCLTranslator,LCLType;
+  LCLTranslator,LCLType,StrUtils;
 
 type
   PNodeRec = ^TNodeRec;
@@ -25,9 +25,16 @@ type
 type
   { TFormMain }
   TFormMain = class(TForm)
+    Edit1: TEdit;
+    EditSearchComments: TEdit;
+    EditSearchVariables: TEdit;
+    EditSearchFunctions: TEdit;
     FindDialog: TFindDialog;
     ImageListListView: TImageList;
-    ImageListIcons: TImageList;
+    ListBoxErrCode: TListBox;
+    ListBoxSearchComments: TListBox;
+    ListBoxSearchVariables: TListBox;
+    ListBoxSearchFunctions: TListBox;
     ListBoxSeacrh: TListBox;
     LRozmiarZccionkiEdytora: TLabel;
     MemoLogs: TMemo;
@@ -69,7 +76,11 @@ type
     MenuItemCzeski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    PageControl1: TPageControl;
+    PageEroor: TPageControl;
+    PanelTopmistakes: TPanel;
+    PanelTopComments: TPanel;
+    PanelTopVariables: TPanel;
+    PanelTopFunctions: TPanel;
     PanelLeft: TPanel;
     ReplaceDialog: TReplaceDialog;
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
@@ -90,14 +101,22 @@ type
     Panel3: TPanel;
     PaneMain: TPanel;
     PanelDolnynadKosnola: TPanel;
+    SbSearchVariables: TSpeedButton;
+    SpeedButtonSearchVariables: TSpeedButton;
     Splitter2: TSplitter;
     SplitterLeft: TSplitter;
     StatusBar: TStatusBar;
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
     SynEditCode: TSynEdit;
+    BottomPanelTab: TTabSheet;
+    TabSheet1: TTabSheet;
+    ListBoxErrorCode: TTabSheet;
+    TabSheetComments: TTabSheet;
     TabSheetLog: TTabSheet;
     TabSheetSearch: TTabSheet;
+    TimerScanFunctions: TTimer;
+    ToolButtonDebug: TToolButton;
     Transpiluj: TAction;
     TreeFilterEdit1: TTreeFilterEdit;
     TreeView: TTreeView;
@@ -130,7 +149,6 @@ type
     PopupMenuCode: TPopupMenu;
     Kompiluj: TAction;
     ActionList1: TActionList;
-    ImageList1: TImageList;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
@@ -157,6 +175,8 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure itemJaponskiClick(Sender: TObject);
     procedure ListBoxSeacrhClick(Sender: TObject);
+    procedure ListBoxSearchFunctionsClick(Sender: TObject);
+    procedure ListBoxSearchVariablesClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuIArabskiClick(Sender: TObject);
     procedure MenuItAiAsystantClick(Sender: TObject);
@@ -191,6 +211,7 @@ type
     procedure MenuItemTurkishLangClick(Sender: TObject);
     procedure MenuItIndonezyjskiClick(Sender: TObject);
     procedure MenuItWegierskiClick(Sender: TObject);
+    procedure ReplaceDialogFind(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -199,7 +220,10 @@ type
     procedure MenuItemCopyAllPascalzCodeClick(Sender: TObject);
     procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
+    procedure SbSearchVariablesClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
+    procedure TimerScanFunctionsTimer(Sender: TObject);
+    procedure ToolButtonDebugClick(Sender: TObject);
 
 
     procedure TranspilujExecute(Sender: TObject);
@@ -276,10 +300,34 @@ type
     destructor Destroy; override;
     //Code compilation / Kompilacja kodu
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
-   // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
-   procedure InternalLoadAvocadoFile(const FileName: string);
-   procedure TranspilujKod;
-  end;
+    // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
+    procedure InternalLoadAvocadoFile(const FileName: string);
+    procedure TranspilujKod;
+    //Wyszukiwanie funkcji z projektu i wstawienie w ListBox - ListBoxSearchFunctions
+    procedure ListFunctionsFromSynEdit;
+    function StartsWithWord(const S, Prefix: string; IgnoreCase: Boolean = True): Boolean;
+    function FirstDelimiterPos(const S: string; const Delims: TSysCharSet): Integer;
+    //load function to stringList
+    procedure LoadPrefixesFromFile(const FileName: string);
+    //Wyszukiwanie zmiennych z projketu i wstawienie w ListBox - ListBoxSearchVariables
+    procedure ListVariablesFromSynEdit;
+    // Loading variables from the variables.txt file / Ładowanie zmiennych z pliku variables.txt
+    procedure LoadVariablesPrefixesFromFile(const FileName: string);
+    //ladowanie komentazy do ListBoxSearchComments
+    //procedure LoadCommentsPrefixesFromFile(const FileName: string);
+    //Wyszukiwanie funkcji z projektu i wstawienie w ListBox - ListBoxSearchComments
+    procedure ListCommentsFromSynEdit;
+    //debuger
+    procedure LoadDebugKeywords(const FileName: string; var Keywords: TStringList);
+    //Sprawdza kod
+    procedure CheckAvocadoCode;
+    //Usuwa sudzyslowie z tekstu
+    function RemoveQuotes(const Line: string): string;
+    // usuwa komentarze // ... i { ... }
+    function RemoveComments(const Line: string): string;
+
+
+end;
 
   { TCompileThread }
 
@@ -353,7 +401,10 @@ var
   CharsTranslatet: string;
   OpenProjectDir: String;
   OpenProjectName : String;
-
+  //dotyczy funkcji ladowanych z pliku functions.txt
+  Prefixes: array of string;
+  PrefixesVariables: array of string;
+  AvocadoVersion: string;
 
 resourcestring
    NewProgramFile = 'New file';
@@ -415,6 +466,10 @@ resourcestring
    TranslateChackExamplesFolderExists = 'Check that the "examples" folder exists and contains the appropriate files.';
    TranslateErrOccurred = 'An error occurred: ';
    TranslateFailStartProgram = 'Failed to start program: ';
+   TranslateFunctionNotfound = 'Function not found.';
+   TranslateNoPrefixesToSearch = 'No prefixes to search!';
+   TranslateNoVariablesFound = 'No variables found.';
+   TranslateNoCommentsFound = 'No comments found.';
 
 
 implementation
@@ -429,6 +484,7 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+  AvocadoVersion := 'IDE Avocado v 1.0.1.1';
   NeedsAsmIntel := False;
   SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
   FormMain.KeyPreview := True;
@@ -442,6 +498,13 @@ begin
   SynAnySyn1.IdentifierChars := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyząćęłńóśźżĄĆĘŁŃÓŚŹŻ';
   SynEditCode.Repaint;
   LoadTokenGPT;
+  //ladowanie funkcji z pliku functions.txt
+  LoadPrefixesFromFile('functions.txt');
+  LoadVariablesPrefixesFromFile('variables.txt');
+  //Odswiezenie listboxow
+  ListFunctionsFromSynEdit;
+  ListVariablesFromSynEdit;
+
 end;
 
 procedure TFormMain.TranspilujExecute(Sender: TObject);
@@ -625,6 +688,60 @@ begin
          end;
        end;
      end;
+end;
+
+procedure TFormMain.ListBoxSearchFunctionsClick(Sender: TObject);
+var
+  S, NumStr: string;
+  LineNum, StartPos, EndPos: Integer;
+begin
+  if ListBoxSearchFunctions.ItemIndex < 0 then
+      Exit;
+
+    S := ListBoxSearchFunctions.Items[ListBoxSearchFunctions.ItemIndex];
+
+    // numer linii między '[' a ']'
+    StartPos := Pos('[', S);
+    EndPos := Pos(']', S);
+    if (StartPos > 0) and (EndPos > StartPos) then
+    begin
+      NumStr := Copy(S, StartPos + 1, EndPos - StartPos - 1);
+      LineNum := StrToIntDef(NumStr, 1);
+
+      if (LineNum > 0) and (LineNum <= SynEditCode.Lines.Count) then
+      begin
+        SynEditCode.CaretXY := Point(1, LineNum);
+        SynEditCode.EnsureCursorPosVisible;
+        SynEditCode.SetFocus;
+      end;
+    end;
+end;
+
+procedure TFormMain.ListBoxSearchVariablesClick(Sender: TObject);
+var
+  S, NumStr: string;
+  LineNum, StartPos, EndPos: Integer;
+begin
+  if ListBoxSearchVariables.ItemIndex < 0 then
+    Exit;
+
+  S := ListBoxSearchVariables.Items[ListBoxSearchVariables.ItemIndex];
+
+  // numer linii między '[' a ']'
+  StartPos := Pos('[', S);
+  EndPos := Pos(']', S);
+  if (StartPos > 0) and (EndPos > StartPos) then
+  begin
+    NumStr := Copy(S, StartPos + 1, EndPos - StartPos - 1);
+    LineNum := StrToIntDef(NumStr, 1);
+
+    if (LineNum > 0) and (LineNum <= SynEditCode.Lines.Count) then
+    begin
+      SynEditCode.CaretXY := Point(1, LineNum);
+      SynEditCode.EnsureCursorPosVisible;
+      SynEditCode.SetFocus;
+    end;
+  end;
 end;
 
 procedure TFormMain.MenuExamplesClick(Sender: TObject);
@@ -861,6 +978,61 @@ begin
   IsClickMainMenuLanguage(19);
 end;
 
+procedure TFormMain.ReplaceDialogFind(Sender: TObject);
+var
+SearchOptions: TSynSearchOptions;
+FoundCount: Integer;
+begin
+  ListFunctionsFromSynEdit;
+  {
+   ListBoxSearchFunctions.Clear;
+   FoundCount := 0;
+
+   // Inicjalizacja opcji wyszukiwania
+   SearchOptions := [ssoFindContinue];
+
+   // Mapowanie opcji z FindDialog na SynEdit
+   if frWholeWord in ReplaceDialog.Options then
+     Include(SearchOptions, ssoWholeWord);
+   if frMatchCase in ReplaceDialog.Options then
+     Include(SearchOptions, ssoMatchCase);
+
+   // Ustawienie kursora na początek dokumentu przed rozpoczęciem wyszukiwania
+   SynEditCode.CaretXY := Point(1, 1);
+
+   // Wyszukiwanie w pętli
+   while SynEditCode.SearchReplace(ReplaceDialog.FindText, '', SearchOptions) > 0 do
+   begin
+     Inc(FoundCount);
+     // Dodanie znalezionego wyniku do ListBox
+     ListBoxSearchFunctions.Items.Add(Format('[%d]: %s', [
+       SynEditCode.CaretY,  // Numer linii (od 1)
+       SynEditCode.Lines[SynEditCode.CaretY - 1]  // Pobranie tekstu linii
+     ]));
+
+     // Przesunięcie kursora za znalezione wystąpienie, aby kontynuować wyszukiwanie
+     SynEditCode.CaretX := SynEditCode.CaretX + 1;
+
+     // Jeśli jesteśmy na końcu linii, przejdź do następnej
+     if SynEditCode.CaretX > Length(SynEditCode.LineText) + 1 then
+     begin
+       SynEditCode.CaretY := SynEditCode.CaretY + 1;
+       SynEditCode.CaretX := 1;
+     end;
+
+     // Zabezpieczenie przed wyszukiwaniem poza dokumentem
+     if SynEditCode.CaretY > SynEditCode.Lines.Count then
+       Break;
+   end;
+
+   // Komunikat podsumowujący
+   if FoundCount = 0 then
+     ListBoxSearchFunctions.Items.Add('Znaleziono 0 wystąpień')
+   else
+     ListBoxSearchFunctions.Items.Insert(0, Format('Znaleziono %d wystąpień', [FoundCount]));
+}
+end;
+
 procedure TFormMain.MenuItem4Click(Sender: TObject);
 begin
   Settingai.ShowModal;
@@ -895,12 +1067,20 @@ begin
   Wsparcie.ShowModal;
 end;
 
+procedure TFormMain.SbSearchVariablesClick(Sender: TObject);
+begin
+  ListFunctionsFromSynEdit
+
+end;
+
 
 procedure TFormMain.SynEditCodeChange(Sender: TObject);
 begin
 
  if Assigned(SynEditCode) then
   begin
+
+
     ToolButton1Click(sender);
     NumberWordSynEdit := Length(SynEditCode.Text);
     //StatusBar.Panels.Items[0].Text := IntToStr(SynEditCode.Lines.Count) + 'LinesofCodeTranslate';
@@ -909,10 +1089,32 @@ begin
     //StatusBar.Panels.Items[1].Text := IntToStr(NumberWordSynEdit) + 'CharsTranslate';
     IdleTimer1.Enabled := False;
     IdleTimer1.Enabled := True;
+
+    // Zrestartowanie timera za każdym naciśnięciem klawisza
+    TimerScanFunctions.Enabled := False;
+    TimerScanFunctions.Enabled := True;
+
+    //Wczytuje tylko funkcji
+    //ListFunctionsFromSynEdit
+
   end;
 end;
 
+procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
+begin
+  TimerScanFunctions.Enabled := False; // zatrzymujemy timer do następnej zmiany
+  // update feature list / aktualizacja listy funkcji
+  ListFunctionsFromSynEdit;
+  // updating the list of variables. / aktualizacja listy zmiennych.
+  ListVariablesFromSynEdit;
+  //Updating comment list. / Aktualizacja listy komentarzy.
+  ListCommentsFromSynEdit;
+end;
 
+procedure TFormMain.ToolButtonDebugClick(Sender: TObject);
+begin
+  CheckAvocadoCode;
+end;
 
 procedure TFormMain.NowyPlikExecute(Sender: TObject);
 begin
@@ -1046,26 +1248,23 @@ begin
 end;
 
 procedure TFormMain.MenuOpenClick(Sender: TObject);
-//var
-  //OpenProjectDir,OpenProjectName : String;
 begin
-
   if OD.Execute then
   begin
   SynEditCode.Lines.LoadFromFile(OD.FileName);
-
   OpenFileProject := OD.FileName;                           // pełna ścieżka
   OpenProjectDir  := ExtractFilePath(OD.FileName);          // katalog projektu
-  OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), ''); // nazwa bez rozszerzenia
-
-
-  Caption := 'IDE Avocado v 1.0.1.1' + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
+  OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), '');
+  Caption := AvocadoVersion  + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
   IdleTimer1.Enabled := True;
   ToolButton1Click(Sender);
-
-   end;
-
-
+  //update feature list. / aktualizacja listy funkcji.
+  ListFunctionsFromSynEdit;
+  //updating the list of variables. / aktualizacja listy zmiennych.
+  ListVariablesFromSynEdit;
+  //Updating comment list. / Aktualizacja listy komentarzy.
+  ListCommentsFromSynEdit;
+  end;
 end;
 
 procedure TFormMain.MenuSaveAsClick(Sender: TObject);
@@ -1187,11 +1386,16 @@ begin
     // Plik — otwieramy
     try
       SynEditCode.Lines.LoadFromFile(P^.FullPath);
-      OpenFileProject := P^.FullPath; // aktualizujemy aktualny plik
-      Caption := 'IDE Avocado v 1.0.1.0' + ' ' + OpenProjectTranslate + ' ' + ExtractFileName(OpenProjectName);
+      OpenFileProject := P^.FullPath; // aktualizuje aktualny plik
+      Caption := AvocadoVersion + ' ' + OpenProjectTranslate + ' ' + ExtractFileName(OpenProjectName);
       IdleTimer1.Enabled := True;
       ToolButton1Click(Sender);
-      //Caption := 'IDE Avocado v 1.0.1.0 - ' + ExtractFileName(OpenFileProject);
+      //update feature list. / aktualizacja listy funkcji.
+      ListFunctionsFromSynEdit;
+      //updating the list of variables. / aktualizacja listy zmiennych.
+      ListVariablesFromSynEdit;
+      //Updating comment list. / Aktualizacja listy komentarzy.
+      ListCommentsFromSynEdit;
     except
       on E: Exception do
         MemoLogs.Lines.Add('Błąd otwarcia pliku: ' + E.Message);
@@ -1703,7 +1907,402 @@ begin
   end;
 end;
 
-//end;
+procedure TFormMain.ListFunctionsFromSynEdit;
+var
+  i,p: Integer;
+  LineText, LineLow: string;
+begin
+   ListBoxSearchFunctions.Clear;
+
+  // lista słów kluczowych teraz jest w  pliku functions.txt tak jest lepiej
+ // Prefixes := ['function', 'procedure', 'pisz_linie', 'print_line', 'print',
+             //  'pisz', 'funkcja'];
+  if Length(Prefixes) = 0 then
+  begin
+    ListBoxSearchFunctions.Items.Add(TranslateNoPrefixesToSearch);
+    Exit;
+  end;
+
+  for i := 0 to SynEditCode.Lines.Count - 1 do
+  begin
+    LineText := Trim(SynEditCode.Lines[i]);
+    if LineText = '' then Continue;
+
+    LineLow := LowerCase(LineText);
+
+    for p := Low(Prefixes) to High(Prefixes) do
+    begin
+      //if StartsWithCI(LineLow, Prefixes[p]) then
+      if StartsWithWord(LineText, Prefixes[p], True) then
+      begin
+        // linijka i numer w formacie [linia]:
+        ListBoxSearchFunctions.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
+        Break;
+      end;
+    end;
+  end;
+
+  if ListBoxSearchFunctions.Items.Count = 0 then
+    ListBoxSearchFunctions.Items.Add(TranslateFunctionNotfound);
+
+end;
+
+function TFormMain.StartsWithWord(const S, Prefix: string; IgnoreCase: Boolean
+  ): Boolean;
+var
+  CompareS, ComparePrefix: string;
+  NextChar: Char;
+begin
+  Result := False;
+
+    if IgnoreCase then
+    begin
+      CompareS := LowerCase(S);
+      ComparePrefix := LowerCase(Prefix);
+    end
+    else
+    begin
+      CompareS := S;
+      ComparePrefix := Prefix;
+      end;
+
+  if Length(CompareS) < Length(ComparePrefix) then Exit;
+
+  if Copy(CompareS, 1, Length(ComparePrefix)) = ComparePrefix then
+  begin
+    // Sprawdzenie znaku po słowie (jeśli istnieje)
+    if Length(CompareS) = Length(ComparePrefix) then
+      Result := True
+    else
+    begin
+      NextChar := CompareS[Length(ComparePrefix) + 1];
+      if NextChar in [' ', '(', ';'] then
+        Result := True;
+    end;
+  end;
+end;
+
+function TFormMain.FirstDelimiterPos(const S: string; const Delims: TSysCharSet
+  ): Integer;
+var
+  i: Integer;
+begin
+  Result := 0;
+    for i := 1 to Length(S) do
+      if S[i] in Delims then
+      begin
+        Result := i;
+        Exit;
+      end;
+end;
+
+procedure TFormMain.LoadPrefixesFromFile(const FileName: string);
+var
+  SL: TStringList;
+  i: Integer;
+begin
+  SL := TStringList.Create;
+  try
+    if FileExists(FileName) then
+    begin
+      SL.LoadFromFile(FileName);
+      SetLength(Prefixes, SL.Count); // dynamiczna tablica
+      for i := 0 to SL.Count - 1 do
+        Prefixes[i] := Trim(SL[i]);
+    end
+    else
+      raise Exception.Create('Nie znaleziono pliku: ' + FileName);
+  finally
+    SL.Free;
+  end;
+end;
+
+procedure TFormMain.ListVariablesFromSynEdit;
+var
+  i,p: Integer;
+  LineText, LineLow: string;
+begin
+    ListBoxSearchVariables.Clear;
+    if Length(PrefixesVariables ) = 0 then
+    begin
+      ListBoxSearchVariables.Items.Add(TranslateNoPrefixesToSearch);
+      Exit;
+    end;
+
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := Trim(SynEditCode.Lines[i]);
+      if LineText = '' then Continue;
+
+      LineLow := LowerCase(LineText);
+
+      for p := Low(PrefixesVariables ) to High(PrefixesVariables ) do
+      begin
+        //if StartsWithCI(LineLow, Prefixes[p]) then
+        if StartsWithWord(LineText, PrefixesVariables [p], True) then
+        begin
+          // linijka i numer w formacie [linia]:
+          ListBoxSearchVariables.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
+          Break;
+        end;
+      end;
+    end;
+
+    if ListBoxSearchVariables.Items.Count = 0 then
+      ListBoxSearchVariables.Items.Add(TranslateNoVariablesFound);
+end;
+
+procedure TFormMain.LoadVariablesPrefixesFromFile(const FileName: string);
+var
+  SL: TStringList;
+  i: Integer;
+begin
+  SL := TStringList.Create;
+  try
+    if FileExists(FileName) then
+    begin
+      SL.LoadFromFile(FileName);
+      SetLength(PrefixesVariables, SL.Count); // dynamiczna tablica
+      for i := 0 to SL.Count - 1 do
+        PrefixesVariables[i] := Trim(SL[i]);
+    end
+    else
+      raise Exception.Create('Nie znaleziono pliku: ' + FileName);
+  finally
+    SL.Free;
+  end;
+end;
+
+procedure TFormMain.ListCommentsFromSynEdit;
+var
+  i,p: Integer;
+  LineText, LineLow: string;
+  PrefixesComments: array of string;
+begin
+    ListBoxSearchComments.Clear;
+
+    // lista słów kluczowych teraz jest w  pliku functions.txt tak jest lepiej
+    PrefixesComments := ['//'];
+    if Length(PrefixesComments) = 0 then
+    begin
+      ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
+      Exit;
+    end;
+
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := Trim(SynEditCode.Lines[i]);
+      if LineText = '' then Continue;
+
+      LineLow := LowerCase(LineText);
+
+      for p := Low(PrefixesComments) to High(PrefixesComments) do
+      begin
+        //if StartsWithCI(LineLow, Prefixes[p]) then
+        if StartsWithWord(LineText, PrefixesComments[p], True) then
+        begin
+          // linijka i numer w formacie [linia]:
+          ListBoxSearchComments.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
+          Break;
+        end;
+      end;
+    end;
+
+    if ListBoxSearchComments.Items.Count = 0 then
+      ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
+
+end;
+
+procedure TFormMain.LoadDebugKeywords(const FileName: string;
+  var Keywords: TStringList);
+begin
+  Keywords := TStringList.Create;
+  if FileExists(FileName) then
+    Keywords.LoadFromFile(FileName)
+  else
+    raise Exception.Create('Nie znaleziono pliku debuger.txt');
+end;
+
+procedure TFormMain.CheckAvocadoCode;
+var
+  i, j: Integer;
+  LineText, Token, CleanLine, ErrorMsg: string;
+  Tokens, Keywords, LineErrors, LineTokens: TStringList;
+  FoundError: Boolean;
+  Value: Double;
+  L: string;
+begin
+  ListBoxErrCode.Clear;
+  FoundError := False;
+
+  // UTWORZ Keywords PRZED użyciem
+  Keywords := TStringList.Create;
+  LoadDebugKeywords('debuger.txt', Keywords);
+
+  Tokens := TStringList.Create;
+  LineErrors := TStringList.Create;
+  LineTokens := TStringList.Create;
+
+  try
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := SynEditCode.Lines[i];
+
+      // Usuń komentarze i cudzysłowy
+      CleanLine := RemoveComments(LineText);
+      CleanLine := RemoveQuotes(CleanLine);
+      CleanLine := Trim(CleanLine);
+      if CleanLine = '' then Continue;
+
+      // Ignoruj linie "program ..."
+      if Pos('program ', LowerCase(CleanLine)) = 1 then
+        Continue;
+      // IGNORUJ linie z importowaniem modułów
+      //if Pos('importuj ', LowerCase(CleanLine)) = 1  then
+      L := LowerCase(CleanLine);
+      if (Copy(L,1,8) = 'importuj') or (Copy(L,1,6) = 'import') then
+      begin
+        // Pobierz nazwę modułu
+        Tokens.Clear;
+        ExtractStrings([' ', #9], [], PChar(CleanLine), Tokens);
+
+        // Jeśli np. "importuj matematyka", to Tokens[1] = "matematyka"
+        if Tokens.Count > 1 then
+        begin
+          if Keywords.IndexOf(Tokens[1]) = -1 then
+            Keywords.Add(Tokens[1]);  // traktujemy moduł jako dozwoloną nazwę
+        end;
+
+        Continue; // nie sprawdzaj dalej tej linii
+      end;
+
+
+      Tokens.Clear;
+      ExtractStrings([' ', #9, '(', ')', ';', ',', '='], [], PChar(CleanLine), Tokens);
+
+      // Sprawdź deklarację zmiennej
+      for j := Low(PrefixesVariables) to High(PrefixesVariables) do
+      begin
+      if LowerCase(Tokens[0]) = LowerCase(PrefixesVariables[j]) then
+      begin
+        // to jest deklaracja zmiennej
+        if Tokens.Count > 1 then
+        begin
+          if Keywords.IndexOf(Tokens[1]) = -1 then
+            Keywords.Add(Tokens[1]); // dodaj nazwę zmiennej jako znaną
+        end;
+      Break;
+      end;
+      end;
+
+     { if (LowerCase(Tokens[0]) = 'int') or
+         (LowerCase(Tokens[0]) = 'string') or
+         (LowerCase(Tokens[0]) = 'float') or
+         (LowerCase(Tokens[0]) = 'bool') then
+      begin
+        if Tokens.Count > 1 then
+        begin
+          if Keywords.IndexOf(Tokens[1]) = -1 then
+            Keywords.Add(Tokens[1]);
+        end;
+      end;
+      }
+
+      LineErrors.Clear;
+      LineTokens.Clear;
+
+      for j := 0 to Tokens.Count - 1 do
+      begin
+        Token := Tokens[j];
+        if Token = '' then Continue;
+
+        // Ignoruj liczby
+        if TryStrToFloat(Token, Value) then Continue;
+
+        // Unikaj duplikatów tokenów w tej linii
+        if LineTokens.IndexOf(Token) <> -1 then Continue;
+        LineTokens.Add(Token);
+
+        // Jeśli token nie jest znany → błąd
+        if Keywords.IndexOf(Token) = -1 then
+        begin
+          ErrorMsg := Format('[%d]: Nieznana nazwa "%s"', [i + 1, Token]);
+          if LineErrors.IndexOf(ErrorMsg) = -1 then
+            LineErrors.Add(ErrorMsg);
+        end;
+      end;
+
+      // Dodaj błędy z tej linii
+      for j := 0 to LineErrors.Count - 1 do
+      begin
+        ListBoxErrCode.Items.Add(LineErrors[j]);
+        FoundError := True;
+      end;
+    end;
+
+  finally
+    Tokens.Free;
+    LineErrors.Free;
+    LineTokens.Free;
+    Keywords.Free;
+  end;
+
+  if FoundError then
+    ShowMessage('Błędy w kodzie. Kompilacja zatrzymana!')
+  else
+    ShowMessage('Brak błędów. Kod gotowy do kompilacji.');
+
+end;
+
+function TFormMain.RemoveQuotes(const Line: string): string;
+var
+  k: Integer;
+  InSingle, InDouble: Boolean;
+  Ch: Char;
+  ResultLine: string;
+begin
+  ResultLine := '';
+  InSingle := False;
+  InDouble := False;
+  for k := 1 to Length(Line) do
+  begin
+    Ch := Line[k];
+    if (Ch = '''') and not InDouble then
+      InSingle := not InSingle
+    else if (Ch = '"') and not InSingle then
+      InDouble := not InDouble
+    else if not InSingle and not InDouble then
+      ResultLine := ResultLine + Ch;
+  end;
+  Result := ResultLine;
+end;
+
+function TFormMain.RemoveComments(const Line: string): string;
+var
+  p1, p2: Integer;
+  s: string;
+begin
+  s := Line;
+
+    // komentarze jednolinijkowe //
+    p1 := Pos('//', s);
+    if p1 > 0 then
+      s := Copy(s, 1, p1 - 1);
+
+    // komentarze { ... }
+    p1 := Pos('{', s);
+    while p1 > 0 do
+    begin
+      p2 := Pos('}', s);
+      if p2 = 0 then
+        p2 := Length(s);
+      Delete(s, p1, p2 - p1 + 1);
+      p1 := Pos('{', s);
+    end;
+
+    Result := s;
+end;
+
 
 procedure TFormMain.KompilacjaKoduwPascal(const Code, OutputFile: string);
 var
@@ -1882,9 +2481,7 @@ begin
      P^.IsFolder := True;
      P^.FullPath := IncludeTrailingPathDelimiter(RootPath);
      RootNode.Data := P;
-
      AddSubNodes(RootNode, P^.FullPath);
-
      RootNode.Expand(True);
    finally
      TreeView.Items.EndUpdate;
@@ -2005,6 +2602,12 @@ begin
       // Direct call to the loading method
       // Bezpośrednie wywołanie metody ładującej
       InternalLoadAvocadoFile(FileNameExample); // Zmiana nazwy metody wewnętrznej
+      //loads the function list from the functions.txt file / ładuje liste funkcję z pliku functions.txt
+      ListFunctionsFromSynEdit;
+      //updating the list of variables. / aktualizacja listy zmiennych.
+      ListVariablesFromSynEdit;
+      //Updating comment list. / Aktualizacja listy komentarzy.
+      ListCommentsFromSynEdit;
 
     except
       on E: Exception do
@@ -2089,6 +2692,8 @@ begin
   FProcess.ShowWindow := swoHIDE;
   FProcess.Execute;
 end;
+
+
 
 procedure TInterpreterThread.SyncAppendOutput;
 begin

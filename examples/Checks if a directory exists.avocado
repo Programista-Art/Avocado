@@ -1,4 +1,0 @@
-program czyistniejefolder
-string a = 'D:\Programowanie na Delphi\Lazarus projekty\2025\Luty-2025\moj-jezyk-programowania\testowanie-kodu\foldery\'
-jeśli directory_exists(a) wtedy print_line('katalog istnieje') inaczej print_line('katalog nie istnieje')
-

@@ -125,6 +125,7 @@ const
     (FromText: 'ord('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'char('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'string('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'repeat_char('; ToText: 'StringOfChar('; Flags: [rfReplaceAll]; IsPrefix: False),
     // logical conversions / konwersje logiczne
     //Polish aliases
     (FromText: 'tekst_na_logiczny('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
@@ -220,6 +221,7 @@ const
     (FromText: 'blink'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // funkcje string
     //Polish aliases
+    (FromText: 'powtórz_znak('; ToText: 'StringOfChar('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'kopiuj'; ToText: 'Copy'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'wstaw'; ToText: 'Insert'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'szukaj'; ToText: 'Pos'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
@@ -458,6 +460,58 @@ begin
     end;
 
     raise Exception.Create(TranslateUnknownFileType + VarType);
+end;
+
+function IsInsideAnotherFunction(const Line, FuncName: string): Boolean;
+var
+  FuncPos, OpenParenBefore, CloseParenAfter: Integer;
+begin
+  FuncPos := Pos(FuncName + '(', Line);
+    if FuncPos = 0 then
+      Exit(False);
+
+    // Sprawdź czy przed funkcją jest inna funkcja
+    OpenParenBefore := Pos('(', Copy(Line, 1, FuncPos - 1));
+    CloseParenAfter := Pos(')', Copy(Line, FuncPos, Length(Line)));
+
+    // Jeśli przed naszą funkcją jest '(' i po niej jest ')', to jest wewnątrz innej funkcji
+    Result := (OpenParenBefore > 0) and (CloseParenAfter > 0);
+end;
+
+function ReplaceFunctionCall(const Line, FuncName, Replacement: string): string;
+var
+  StartPos, EndPos, ParenCount, i: Integer;
+begin
+   Result := Line;
+  StartPos := Pos(FuncName + '(', Result);
+
+  if StartPos > 0 then
+  begin
+    // Znajdź odpowiadający zamykający nawias
+    EndPos := StartPos + Length(FuncName);
+    ParenCount := 1;
+    i := EndPos + 1;
+
+    while (i <= Length(Result)) and (ParenCount > 0) do
+    begin
+      if Result[i] = '(' then
+        Inc(ParenCount)
+      else if Result[i] = ')' then
+        Dec(ParenCount);
+
+      if ParenCount = 0 then
+        Break;
+
+      Inc(i);
+    end;
+
+    if ParenCount = 0 then
+    begin
+      // Zamień całe wywołanie funkcji
+      Delete(Result, StartPos, i - StartPos + 1);
+      Insert(Replacement, Result, StartPos);
+    end;
+  end;
 end;
 
 //function to check whether a string is a string literal
@@ -726,63 +780,6 @@ begin
   inherited Destroy;
 end;
 
-
-
-{ Przetwarzanie pętli for w formacie:
-  dla <zmienna> od <początek> do <koniec> { <ciało> } }
-  //stara
-  {
-procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
-var
-  WithoutFor, Header, Body: string;
-  VarName, StartValue, EndValue: string;
-  OpenBracketPos, CloseBracketPos: Integer;
-  HeaderParts: TStringArray;
-  BodyStatements: TStringArray;
-  i: Integer;
-begin
-  // Usuwamy słowo "dla " (4 znaki) i przycinamy
-  WithoutFor := Trim(Copy(Line, 5, Length(Line)));
-  // Znajdź otwierający nawias klamrowy '{'
-  OpenBracketPos := Pos('{', WithoutFor);
-  if OpenBracketPos = 0 then
-    raise Exception.Create('Brak otwierającego nawiasu { w pętli for.');
-  // Znajdź zamykający nawias klamrowy '}'
-  CloseBracketPos := Pos('}', WithoutFor);
-  if CloseBracketPos = 0 then
-    raise Exception.Create('Brak zamykającego nawiasu } w pętli for.');
-  // Header: wszystko przed '{'
-  Header := Trim(Copy(WithoutFor, 1, OpenBracketPos - 1));
-  // Body: zawartość między '{' i '}'
-  Body := Trim(Copy(WithoutFor, OpenBracketPos + 1, CloseBracketPos - OpenBracketPos - 1));
-
-  // Nagłówek oczekiwany w formacie: "<zmienna> od <początek> do <koniec>"
-  HeaderParts := SplitString(Header, ' ');
-  if Length(HeaderParts) < 5 then
-    raise Exception.Create('Nieprawidłowy format nagłówka pętli for.');
-  VarName := HeaderParts[0];
-  if LowerCase(HeaderParts[1]) <> 'od' then
-    raise Exception.Create('Oczekiwano słowa "od" w pętli for.');
-  StartValue := HeaderParts[2];
-  if LowerCase(HeaderParts[3]) <> 'do' then
-    raise Exception.Create('Oczekiwano słowa "do" w pętli for.');
-  EndValue := HeaderParts[4];
-
-  // Generujemy kod pętli for w Pascalu
-  PascalCode.Add(Format('for %s := %s to %s do', [VarName, TranslateExpression(StartValue), TranslateExpression(EndValue)]));
-  PascalCode.Add('begin');
-
-  // Przetwarzamy ciało pętli – instrukcje oddzielone średnikami
-  BodyStatements := SplitString(Body, ';');
-  for i := 0 to High(BodyStatements) do
-    if Trim(BodyStatements[i]) <> '' then
-      ProcessLine(Trim(BodyStatements[i]), PascalCode);
-
-
-  PascalCode.Add('end;');
-end;
-}
-}
 
 //nowa
 procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
@@ -1411,9 +1408,7 @@ var
   ParamTrim: string;
   TranslatedParam: string;
   // zmienne dla funkcji powtórz_znak()
-  StartPosStringOfChar, EndPosStringOfChar: Integer;
-  ParamStringOfChar: string;
-  ParamPartsStringOfChar: TStringArray;
+
   TranslatedCharArg, TranslatedCountArg: string;
   //zmienne dla funkcji porównaj_tekst()
   StartPosCompareStr, EndPosCompareStr: Integer;
@@ -1461,6 +1456,9 @@ var
   //Value: string;
   EqualPos: Integer;
   CodePascal: String;
+  ParamStr: string;
+  ParamString: string;
+  TempExpression:string;
 
 begin
   TrimmedLine := Trim(Line);
@@ -1620,15 +1618,25 @@ begin
      Exit;
    end;
 
-    // pascal code w jednej linii
-    if AnsiStartsText('pascal_line', TrimmedLine) then
+     if AnsiStartsText('pascal_line', TrimmedLine) or
+       AnsiStartsText('pascal_linia{', TrimmedLine) then
     begin
-      CodePascal := Trim(Copy(TrimmedLine, Length('pascal_line') + 1, MaxInt));
-      if (CodePascal.StartsWith('{')) and (CodePascal.EndsWith('}')) then
-        CodePascal := CodePascal.Substring(1, CodePascal.Length - 2).Trim;
-        PascalCode.Add(CodePascal);
+      if AnsiStartsText('pascal_line', TrimmedLine) then
+        CodePascal := Trim(Copy(TrimmedLine, Length('pascal_line') + 1, MaxInt))
+      else
+        CodePascal := Trim(Copy(TrimmedLine, Length('pascal_linia{') + 1, MaxInt));
+
+      if CodePascal.StartsWith('{') then
+        CodePascal := CodePascal.Substring(1).Trim;
+
+      // Usuń opcjonalną klamrę zamykającą
+      if CodePascal.EndsWith('}') then
+        CodePascal := CodePascal.Substring(0, CodePascal.Length - 1).Trim;
+
+      PascalCode.Add(CodePascal);
       Exit;
     end;
+
 
     //pascal code blok kodu
     if not InPurePascalBlock then
@@ -1768,7 +1776,44 @@ begin
     Exit;
   end;
 
-   // Obsługa funkcji powtórz_znak() -> StringOfChar()
+
+   // Obsługa funkcji powtórz_znak() -> StringOfChar()    nowa
+  if (Pos('powtórz_znak(', LowerTrimmedLine) > 0) or (Pos('repeat_char(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create('Błędna składnia funkcji powtórz_znak/repeat_char. Oczekiwano: powtórz_znak(znak, liczba) lub repeat_char(znak, liczba)');
+
+    if StartPos > EndPos then
+      raise Exception.Create('Błędna składnia funkcji powtórz_znak/repeat_char. Oczekiwano: powtórz_znak(znak, liczba) lub repeat_char(znak, liczba)');
+
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    ParamParts := ParamStr.Split([',']);
+
+    if Length(ParamParts) <> 2 then
+      raise Exception.Create('Funkcja powtórz_znak/repeat_char wymaga dwóch argumentów: znak i liczba');
+
+    TranslatedCharArg := TranslateExpression(Trim(ParamParts[0]));
+    TranslatedCountArg := TranslateExpression(Trim(ParamParts[1]));
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
+    end
+    else
+    begin
+      PascalCode.Add('StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
+    end;
+    Exit;
+  end;
+
+//dzila
+    {
+     // Obsługa funkcji powtórz_znak() -> StringOfChar()
   if Pos('powtórz_znak(', LowerTrimmedLine) > 0 then
   begin
     StartPosStringOfChar := Pos('(', TrimmedLine);
@@ -1801,6 +1846,8 @@ begin
     end;
     Exit;
   end;
+
+    }
      // Nowa obsługa funkcji porównaj_tekst() -> CompareStr()
   if Pos('porównaj_tekst(', LowerTrimmedLine) > 0 then
   begin
@@ -2518,7 +2565,7 @@ end;
   end
 
 
-    // 2. Obsługa funkcji pisznl
+    // 2. Obsługa funkcji pisz_linie
     else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
             (LowerCase(TrimmedLine).StartsWith('print_line(')) then
     begin

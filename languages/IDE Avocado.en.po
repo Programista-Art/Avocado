@@ -91,6 +91,11 @@ msgctxt "tformautor.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
 
+#: tformmain.bottompaneltab.caption
+msgctxt "tformmain.bottompaneltab.caption"
+msgid "Functions"
+msgstr ""
+
 #: tformmain.butcompilecode.caption
 msgctxt "tformmain.butcompilecode.caption"
 msgid "Kompiluj i zapisz"
@@ -133,6 +138,10 @@ msgstr "Information"
 #: tformmain.label4.caption
 msgid "Rozmiar"
 msgstr "Size"
+
+#: tformmain.listboxerrorcode.caption
+msgid "Mistakes"
+msgstr ""
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -443,6 +452,15 @@ msgstr "New File"
 msgid "PanelLewy"
 msgstr "PanelLewy"
 
+#: tformmain.tabsheet1.caption
+msgctxt "tformmain.tabsheet1.caption"
+msgid "Variables"
+msgstr ""
+
+#: tformmain.tabsheetcomments.caption
+msgid "Comments"
+msgstr ""
+
 #: tformmain.tabsheetlog.caption
 msgctxt "tformmain.tabsheetlog.caption"
 msgid "Logs"
@@ -464,6 +482,10 @@ msgstr "ToolButton1"
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
 msgstr "Transpile"
+
+#: tformmain.toolbuttondebug.caption
+msgid "ToolButtonDebug"
+msgstr ""
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -783,6 +805,10 @@ msgstr "FATAL ERROR: The path to the FPC compiler does not exist or is not set i
 msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
 msgstr "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
 
+#: unit1.translatefunctionnotfound
+msgid "Function not found."
+msgstr ""
+
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
 msgstr " - Info: IDE modules path is same as user modules, skipping duplicate."
@@ -811,9 +837,17 @@ msgstr "Mistake"
 msgid "Modules: "
 msgstr "Modules: "
 
+#: unit1.translatenocommentsfound
+msgid "No comments found."
+msgstr ""
+
 #: unit1.translatenoitemselected
 msgid "No item selected."
 msgstr "No item selected."
+
+#: unit1.translatenoprefixestosearch
+msgid "No prefixes to search!"
+msgstr ""
 
 #: unit1.translatenotexist
 msgid " ) does not exist! "
@@ -822,6 +856,10 @@ msgstr " ) does not exist! "
 #: unit1.translatenotokenaiassistant
 msgid "No token from AI Assistant"
 msgstr "No token from AI Assistant"
+
+#: unit1.translatenovariablesfound
+msgid "No variables found."
+msgstr ""
 
 #: unit1.translateplatform
 msgid "Platform: "

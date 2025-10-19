@@ -1,8 +1,0 @@
-program testowytest
-importuj matematyka
-calc('round(2.7)')
-oblicz_formatuj('pi'),5)
-calc_format('pi'),2)
-oblicz('2+3')
-oblicz('pi')
-
