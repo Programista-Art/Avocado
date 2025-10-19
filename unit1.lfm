@@ -203,9 +203,9 @@ object FormMain: TFormMain
         Height = 128
         Top = 28
         Width = 799
-        ActivePage = ListBoxErrorCode
+        ActivePage = TabSheetLog
         Align = alClient
-        TabIndex = 5
+        TabIndex = 0
         TabOrder = 2
         object TabSheetLog: TTabSheet
           Caption = 'Logs'
@@ -277,6 +277,8 @@ object FormMain: TFormMain
               Width = 200
               Align = alLeft
               BorderSpacing.Around = 5
+              Color = clWindow
+              Enabled = False
               TabOrder = 0
             end
             object SbSearchVariables: TSpeedButton
@@ -316,6 +318,8 @@ object FormMain: TFormMain
               Width = 200
               Align = alLeft
               BorderSpacing.Around = 5
+              Color = clWindow
+              Enabled = False
               TabOrder = 0
             end
             object SpeedButtonSearchVariables: TSpeedButton
@@ -365,6 +369,8 @@ object FormMain: TFormMain
               Width = 180
               Align = alLeft
               BorderSpacing.Around = 5
+              Color = clWindow
+              Enabled = False
               TabOrder = 0
             end
           end
@@ -377,6 +383,7 @@ object FormMain: TFormMain
             Color = clBlack
             ItemHeight = 0
             TabOrder = 1
+            OnClick = ListBoxSearchCommentsClick
           end
         end
         object ListBoxErrorCode: TTabSheet
@@ -392,6 +399,7 @@ object FormMain: TFormMain
             ClientHeight = 35
             ClientWidth = 791
             ParentBackground = False
+            ParentColor = False
             TabOrder = 0
             object Edit1: TEdit
               Left = 6
@@ -400,6 +408,8 @@ object FormMain: TFormMain
               Width = 180
               Align = alLeft
               BorderSpacing.Around = 5
+              Color = clWindow
+              Enabled = False
               TabOrder = 0
             end
           end
@@ -409,8 +419,10 @@ object FormMain: TFormMain
             Top = 35
             Width = 791
             Align = alClient
+            Color = clBlack
             ItemHeight = 0
             TabOrder = 1
+            OnClick = ListBoxErrCodeClick
           end
         end
       end

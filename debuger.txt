@@ -135,7 +135,7 @@ ole_variant
 search_record
 string_list
 lc
-liczba_całkowita 
+liczba_całkowita
 liczba_krótka
 liczba_mała
 liczba_długa
@@ -258,6 +258,7 @@ str_bool_def
 bool
 Int
 ord
+lista_tekstów
 get_enum_name
 get_enum_value
 date_str
@@ -282,3 +283,16 @@ cardinal
 single
 extended
 black
+randomize
+random
+prawda
+falsz
+true
+false
+.text
+.tekst
++
+-
+/
+*
+:

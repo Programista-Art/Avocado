@@ -174,7 +174,9 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure itemJaponskiClick(Sender: TObject);
+    procedure ListBoxErrCodeClick(Sender: TObject);
     procedure ListBoxSeacrhClick(Sender: TObject);
+    procedure ListBoxSearchCommentsClick(Sender: TObject);
     procedure ListBoxSearchFunctionsClick(Sender: TObject);
     procedure ListBoxSearchVariablesClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
@@ -325,6 +327,8 @@ type
     function RemoveQuotes(const Line: string): string;
     // usuwa komentarze // ... i { ... }
     function RemoveComments(const Line: string): string;
+    //Pdswietla bledy w SynEditCode
+    procedure HighlightErrorLine(LineNum: Integer);
 
 
 end;
@@ -655,6 +659,40 @@ begin
   IsClickMainMenuLanguage(21);
 end;
 
+procedure TFormMain.ListBoxErrCodeClick(Sender: TObject);
+var
+S, NumStr: string;
+LineNum, StartPos, EndPos: Integer;
+begin
+  if ListBoxErrCode.ItemIndex < 0 then Exit;
+
+  S := ListBoxErrCode.Items[ListBoxErrCode.ItemIndex];
+
+  // Wyciągnięcie numeru linii między '[' a ']'
+  StartPos := Pos('[', S);
+  EndPos := Pos(']', S);
+
+  if (StartPos > 0) and (EndPos > StartPos) then
+  begin
+    NumStr := Copy(S, StartPos + 1, EndPos - StartPos - 1);
+    LineNum := StrToIntDef(NumStr, -1);
+
+    if (LineNum >= 1) and (LineNum <= SynEditCode.Lines.Count) then
+    begin
+
+       HighlightErrorLine(LineNum);  // <<< podświetlenie
+      // Ustawienie kursora na początku linii
+      SynEditCode.CaretXY := Point(1, LineNum);
+
+      // Zapewnienie, że linia będzie widoczna
+      SynEditCode.TopLine := LineNum;
+
+      // Ustawienie fokusu
+      SynEditCode.SetFocus;
+    end;
+  end;
+end;
+
 procedure TFormMain.ListBoxSeacrhClick(Sender: TObject);
 var
 LineNumber: Integer;
@@ -688,6 +726,36 @@ begin
          end;
        end;
      end;
+end;
+
+procedure TFormMain.ListBoxSearchCommentsClick(Sender: TObject);
+var
+  S, NumStr: string;
+  LineNum, StartPos, EndPos: Integer;
+begin
+ if ListBoxSearchComments.ItemIndex < 0 then
+    Exit;
+
+  S := ListBoxSearchComments.Items[ListBoxSearchComments.ItemIndex];
+
+  // numer linii między '[' a ']'
+  StartPos := Pos('[', S);
+  EndPos := Pos(']', S);
+
+  if (StartPos > 0) and (EndPos > StartPos) then
+  begin
+    NumStr := Copy(S, StartPos + 1, EndPos - StartPos - 1);
+    LineNum := StrToIntDef(NumStr, -1);
+
+    if (LineNum >= 1) and (LineNum <= SynEditCode.Lines.Count) then
+    begin
+      // ustaw kursor w SynEdit na początku wskazanej linii
+      SynEditCode.CaretXY := Point(1, LineNum);
+      SynEditCode.EnsureCursorPosVisible;
+      SynEditCode.SetFocus;
+    end;
+  end;
+
 end;
 
 procedure TFormMain.ListBoxSearchFunctionsClick(Sender: TObject);
@@ -2075,42 +2143,25 @@ end;
 
 procedure TFormMain.ListCommentsFromSynEdit;
 var
-  i,p: Integer;
-  LineText, LineLow: string;
-  PrefixesComments: array of string;
+  i: Integer;
+  LineText: string;
 begin
-    ListBoxSearchComments.Clear;
+   ListBoxSearchComments.Clear;
 
-    // lista słów kluczowych teraz jest w  pliku functions.txt tak jest lepiej
-    PrefixesComments := ['//'];
-    if Length(PrefixesComments) = 0 then
+  for i := 0 to SynEditCode.Lines.Count - 1 do
+  begin
+    LineText := Trim(SynEditCode.Lines[i]);
+    if LineText = '' then Continue;
+
+    // Sprawdź, czy linia zaczyna się od //
+    if Copy(LineText, 1, 2) = '//' then
     begin
-      ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
-      Exit;
+      ListBoxSearchComments.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
     end;
+  end;
 
-    for i := 0 to SynEditCode.Lines.Count - 1 do
-    begin
-      LineText := Trim(SynEditCode.Lines[i]);
-      if LineText = '' then Continue;
-
-      LineLow := LowerCase(LineText);
-
-      for p := Low(PrefixesComments) to High(PrefixesComments) do
-      begin
-        //if StartsWithCI(LineLow, Prefixes[p]) then
-        if StartsWithWord(LineText, PrefixesComments[p], True) then
-        begin
-          // linijka i numer w formacie [linia]:
-          ListBoxSearchComments.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
-          Break;
-        end;
-      end;
-    end;
-
-    if ListBoxSearchComments.Items.Count = 0 then
-      ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
-
+  if ListBoxSearchComments.Items.Count = 0 then
+    ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
 end;
 
 procedure TFormMain.LoadDebugKeywords(const FileName: string;
@@ -2154,13 +2205,19 @@ begin
       CleanLine := Trim(CleanLine);
       if CleanLine = '' then Continue;
 
-      // Ignoruj linie "program ..."
-      if Pos('program ', LowerCase(CleanLine)) = 1 then
-        Continue;
-      // IGNORUJ linie z importowaniem modułów
-      //if Pos('importuj ', LowerCase(CleanLine)) = 1  then
       L := LowerCase(CleanLine);
-      if (Copy(L,1,8) = 'importuj') or (Copy(L,1,6) = 'import') then
+
+      // Ignoruj linie "program ..."
+      if Pos('program ', L) = 1 then Continue;
+
+      // Ignoruj linie debugowe rozpoczynające się od ':'
+      //if Copy(L,1,1) = ':' then Continue;
+
+
+      // IGNORUJ linie z importowaniem modułów
+
+      //if (Copy(L,1,8) = 'importuj') or (Copy(L,1,6) = 'import') then
+       if (StartsStr('importuj', L)) or (StartsStr('import', L)) then
       begin
         // Pobierz nazwę modułu
         Tokens.Clear;
@@ -2183,30 +2240,18 @@ begin
       // Sprawdź deklarację zmiennej
       for j := Low(PrefixesVariables) to High(PrefixesVariables) do
       begin
-      if LowerCase(Tokens[0]) = LowerCase(PrefixesVariables[j]) then
+     // if LowerCase(Tokens[0]) = LowerCase(PrefixesVariables[j]) then
+        if (Tokens.Count > 1) and (LowerCase(Tokens[0]) = LowerCase(PrefixesVariables[j])) then
       begin
         // to jest deklaracja zmiennej
-        if Tokens.Count > 1 then
-        begin
+        //if Tokens.Count > 1 then
+        //begin
           if Keywords.IndexOf(Tokens[1]) = -1 then
             Keywords.Add(Tokens[1]); // dodaj nazwę zmiennej jako znaną
-        end;
-      Break;
-      end;
+            Break;
+         end;
       end;
 
-     { if (LowerCase(Tokens[0]) = 'int') or
-         (LowerCase(Tokens[0]) = 'string') or
-         (LowerCase(Tokens[0]) = 'float') or
-         (LowerCase(Tokens[0]) = 'bool') then
-      begin
-        if Tokens.Count > 1 then
-        begin
-          if Keywords.IndexOf(Tokens[1]) = -1 then
-            Keywords.Add(Tokens[1]);
-        end;
-      end;
-      }
 
       LineErrors.Clear;
       LineTokens.Clear;
@@ -2216,7 +2261,20 @@ begin
         Token := Tokens[j];
         if Token = '' then Continue;
 
+        // Usuń końcowe znaki typu ; , ) jeśli są
+        while (Token <> '') and (Token[Length(Token)] in [';', ',', ')']) do
+        SetLength(Token, Length(Token) - 1);
+
+
+
         // Ignoruj liczby
+      // Ignoruj liczby
+     // if IsNumberToken(Token) then Continue;
+
+        // Ignoruj tokeny typu suma:0:2
+        if Pos(':', Token) > 0 then Continue;
+
+        // Ignoruj liczby w formacie 2.2, 3,14 itp.
         if TryStrToFloat(Token, Value) then Continue;
 
         // Unikaj duplikatów tokenów w tej linii
@@ -2301,6 +2359,21 @@ begin
     end;
 
     Result := s;
+end;
+
+procedure TFormMain.HighlightErrorLine(LineNum: Integer);
+begin
+  // ustaw kursora
+  SynEditCode.CaretXY := Point(1, LineNum);
+  SynEditCode.TopLine := LineNum;
+
+  // zaznaczenie całej linii - podświetlenie
+  SynEditCode.BlockBegin := Point(1, LineNum);
+  SynEditCode.BlockEnd := Point(Length(SynEditCode.Lines[LineNum - 1]) + 1, LineNum);
+
+  // styl zaznaczenia na czerwono
+  SynEditCode.SelectedColor.Foreground := clWhite; // kolor czcionki
+  SynEditCode.SelectedColor.Background := clRed;   // kolor tła
 end;
 
 
