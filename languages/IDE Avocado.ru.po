@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: avocadotranslator.errorprint
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
@@ -94,7 +94,7 @@ msgstr "Ок"
 #: tformmain.bottompaneltab.caption
 msgctxt "tformmain.bottompaneltab.caption"
 msgid "Functions"
-msgstr ""
+msgstr "Функции"
 
 #: tformmain.butcompilecode.caption
 msgctxt "tformmain.butcompilecode.caption"
@@ -106,8 +106,26 @@ msgctxt "tformmain.butcompilecode.hint"
 msgid "Kompiluj"
 msgstr "Компилировать"
 
-#: tformmain.caption
-msgid "IDE Avocado v 1.0.1.1"
+#: tformmain.editsearchcomments.texthint
+msgid "filter comments"
+msgstr ""
+
+#: tformmain.editsearchfunctions.texthint
+msgctxt "tformmain.editsearchfunctions.texthint"
+msgid "filter functions"
+msgstr ""
+
+#: tformmain.editsearchmistakes.texthint
+msgid "filter errors"
+msgstr ""
+
+#: tformmain.editsearchresults.texthint
+msgctxt "tformmain.editsearchresults.texthint"
+msgid "filter functions"
+msgstr ""
+
+#: tformmain.editsearchvariables.texthint
+msgid "filter variables"
 msgstr ""
 
 #: tformmain.itemjaponski.caption
@@ -134,10 +152,6 @@ msgstr "Free Pascal Code"
 #: tformmain.label4.caption
 msgid "Rozmiar"
 msgstr "Размер"
-
-#: tformmain.listboxerrorcode.caption
-msgid "Mistakes"
-msgstr ""
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -361,7 +375,7 @@ msgstr ""
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
-msgstr ""
+msgstr "Открыть папку"
 
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
@@ -385,7 +399,7 @@ msgstr "Сохранить"
 
 #: tformmain.menuitemsearch.caption
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: tformmain.menuitemslovenianlang.caption
 msgid "Slovenščina"
@@ -448,23 +462,28 @@ msgstr "Новый файл"
 msgid "PanelLewy"
 msgstr "PanelLewy"
 
+#: tformmain.taberrors.caption
+msgctxt "tformmain.taberrors.caption"
+msgid "Mistakes"
+msgstr "Ошибки"
+
 #: tformmain.tabsheet1.caption
 msgctxt "tformmain.tabsheet1.caption"
 msgid "Variables"
-msgstr ""
+msgstr "Переменные"
 
 #: tformmain.tabsheetcomments.caption
 msgid "Comments"
-msgstr ""
+msgstr "Комментарии"
 
 #: tformmain.tabsheetlog.caption
 msgctxt "tformmain.tabsheetlog.caption"
 msgid "Logs"
-msgstr ""
+msgstr "Журналы"
 
 #: tformmain.tabsheetsearch.caption
 msgid "Search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: tformmain.toolbar1.caption
 msgid "ToolBar1"
@@ -482,6 +501,10 @@ msgstr "Перевод"
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
 msgstr ""
+
+#: tformmain.toolbuttondebug.hint
+msgid "Check the code"
+msgstr "Проверить код"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -673,6 +696,13 @@ msgid "Answer!"
 msgstr "Ответ!"
 
 #: unit1.translateattention
+msgctxt "unit1.translateattention"
+msgid "Attention!"
+msgstr "Внимание!"
+
+#: unit1.translateattentionmsg
+#, fuzzy
+msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr "Внимание!"
 
@@ -688,6 +718,14 @@ msgstr "Проверьте API-токен и подключение к Инте�
 #: unit1.translatecheckmodulesdir
 msgid "Checking the IDE s own modules directory: "
 msgstr "Проверка каталога собственных модулей IDE:"
+
+#: unit1.translatecodecorrect
+msgid "Code correct!"
+msgstr "Код корректный!"
+
+#: unit1.translatecodeerrorscompilationstopped
+msgid "Code errors. Compilation stopped!"
+msgstr "Ошибки кода. Компиляция остановлена!"
 
 #: unit1.translatecomilationsuccessoutputfile
 msgctxt "unit1.translatecomilationsuccessoutputfile"
@@ -727,6 +765,10 @@ msgstr "ОШИБКА КОНФИГУРАЦИИ: целевая платформа
 msgid "Info: IDE custom modules directory not found: "
 msgstr "Информация: каталог пользовательских модулей IDE не найден:"
 
+#: unit1.translatedebuggerfilenotfound
+msgid "Debugger.txt file not found"
+msgstr "Файл Debugger.txt не найден"
+
 #: unit1.translateeditorfontsizeloaded
 msgid "Editor font size loaded: "
 msgstr "Размер шрифта редактора загружен:"
@@ -760,6 +802,10 @@ msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
 msgstr "Произошла ошибка: "
 
+#: unit1.translateerrorsinthecode
+msgid "Errors in the code!"
+msgstr "Ошибки в коде!"
+
 #: unit1.translateerrpacalcodecompile
 msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
 msgstr "Ошибка: нет кода Pascal для компиляции (параметр PascalCode пуст)."
@@ -785,6 +831,10 @@ msgctxt "unit1.translatefiledoesnotexist"
 msgid "File does not exist: "
 msgstr "Файл не существует: "
 
+#: unit1.translatefilenotfound
+msgid "File not found: "
+msgstr "Файл не найден: "
+
 #: unit1.translatefilenotsaved
 msgid "File not saved. Compilation canceled."
 msgstr "Файл не сохранён. Компиляция отменена."
@@ -792,6 +842,10 @@ msgstr "Файл не сохранён. Компиляция отменена."
 #: unit1.translatefilenotsavedbuildcancel
 msgid "Project not saved. Build canceled."
 msgstr "Проект не сохранён. Сборка отменена."
+
+#: unit1.translatefound
+msgid "Found"
+msgstr ""
 
 #: unit1.translatefpccompilernotexist
 msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
@@ -803,7 +857,7 @@ msgstr "ОШИБКА КОНФИГУРАЦИИ: Базовый путь к пап
 
 #: unit1.translatefunctionnotfound
 msgid "Function not found."
-msgstr ""
+msgstr "Функция не найдена."
 
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
@@ -835,7 +889,15 @@ msgstr "Модули: "
 
 #: unit1.translatenocommentsfound
 msgid "No comments found."
+msgstr "Комментарии не найдены."
+
+#: unit1.translatenodatacode
+msgid "No data in the code!"
 msgstr ""
+
+#: unit1.translatenoerrorscodereadytocompile
+msgid "No errors. Code ready to compile."
+msgstr "Ошибок нет. Код готов к компиляции."
 
 #: unit1.translatenoitemselected
 msgid "No item selected."
@@ -843,7 +905,7 @@ msgstr "Элемент не выбран."
 
 #: unit1.translatenoprefixestosearch
 msgid "No prefixes to search!"
-msgstr ""
+msgstr "Нет префиксов для поиска!"
 
 #: unit1.translatenotexist
 msgid " ) does not exist! "
@@ -855,6 +917,10 @@ msgstr "Нет токена от ИИ Помощника"
 
 #: unit1.translatenovariablesfound
 msgid "No variables found."
+msgstr "Переменные не найдены."
+
+#: unit1.translateoccurrenceszerofound
+msgid "0 occurrences found"
 msgstr ""
 
 #: unit1.translateplatform
@@ -864,6 +930,10 @@ msgstr "Платформа: "
 #: unit1.translatesaveproject
 msgid "Project not saved. Save project before compiling?"
 msgstr "Проект не сохранён. Сохранить проект перед компиляцией?"
+
+#: unit1.translatespeeches
+msgid "speeches"
+msgstr ""
 
 #: unit1.translatestandardfpcunits
 msgid " .Standard FPC units will not be found!"
@@ -888,6 +958,14 @@ msgstr "Ошибка перевода:"
 #: unit1.translateunableunitdirectory
 msgid " .Unable to determine unit directory!"
 msgstr "Невозможно определить каталог объекта!"
+
+#: unit1.translateunknownname
+msgid "Unknown name"
+msgstr "Неизвестное имя"
+
+#: unit1.translatevaluelookingfound
+msgid "The value you were looking for has been found!"
+msgstr ""
 
 #: uprzyklady.translateanerroroccurred
 msgctxt "uprzyklady.translateanerroroccurred"

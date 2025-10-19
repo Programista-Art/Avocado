@@ -1,4 +1,0 @@
-program inserttest
-string a = 'Ala ma kota'
-insert(' czarnego', a, 7)
-print_line(a)

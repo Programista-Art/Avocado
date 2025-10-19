@@ -130,8 +130,26 @@ msgctxt "tformmain.butcompilecode.hint"
 msgid "Kompiluj"
 msgstr "编译"
 
-#: tformmain.caption
-msgid "IDE Avocado v 1.0.1.1"
+#: tformmain.editsearchcomments.texthint
+msgid "filter comments"
+msgstr ""
+
+#: tformmain.editsearchfunctions.texthint
+msgctxt "tformmain.editsearchfunctions.texthint"
+msgid "filter functions"
+msgstr ""
+
+#: tformmain.editsearchmistakes.texthint
+msgid "filter errors"
+msgstr ""
+
+#: tformmain.editsearchresults.texthint
+msgctxt "tformmain.editsearchresults.texthint"
+msgid "filter functions"
+msgstr ""
+
+#: tformmain.editsearchvariables.texthint
+msgid "filter variables"
 msgstr ""
 
 #: tformmain.itemjaponski.caption
@@ -162,10 +180,6 @@ msgstr "信息"
 #: tformmain.label4.caption
 msgid "Rozmiar"
 msgstr "尺寸"
-
-#: tformmain.listboxerrorcode.caption
-msgid "Mistakes"
-msgstr ""
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -482,6 +496,11 @@ msgstr "新文件"
 msgid "PanelLewy"
 msgstr "PanelLewy"
 
+#: tformmain.taberrors.caption
+msgctxt "tformmain.taberrors.caption"
+msgid "Mistakes"
+msgstr ""
+
 #: tformmain.tabsheet1.caption
 msgctxt "tformmain.tabsheet1.caption"
 msgid "Variables"
@@ -515,6 +534,10 @@ msgstr "转录"
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
+msgstr ""
+
+#: tformmain.toolbuttondebug.hint
+msgid "Check the code"
 msgstr ""
 
 #: tformmain.transpiluj.caption
@@ -730,6 +753,12 @@ msgid "Answer!"
 msgstr ""
 
 #: unit1.translateattention
+msgctxt "unit1.translateattention"
+msgid "Attention!"
+msgstr ""
+
+#: unit1.translateattentionmsg
+msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr ""
 
@@ -744,6 +773,14 @@ msgstr ""
 
 #: unit1.translatecheckmodulesdir
 msgid "Checking the IDE s own modules directory: "
+msgstr ""
+
+#: unit1.translatecodecorrect
+msgid "Code correct!"
+msgstr ""
+
+#: unit1.translatecodeerrorscompilationstopped
+msgid "Code errors. Compilation stopped!"
 msgstr ""
 
 #: unit1.translatecomilationsuccessoutputfile
@@ -784,6 +821,10 @@ msgstr ""
 msgid "Info: IDE custom modules directory not found: "
 msgstr ""
 
+#: unit1.translatedebuggerfilenotfound
+msgid "Debugger.txt file not found"
+msgstr ""
+
 #: unit1.translateeditorfontsizeloaded
 msgid "Editor font size loaded: "
 msgstr ""
@@ -817,6 +858,10 @@ msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
 msgstr ""
 
+#: unit1.translateerrorsinthecode
+msgid "Errors in the code!"
+msgstr ""
+
 #: unit1.translateerrpacalcodecompile
 msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
 msgstr ""
@@ -842,12 +887,20 @@ msgctxt "unit1.translatefiledoesnotexist"
 msgid "File does not exist: "
 msgstr ""
 
+#: unit1.translatefilenotfound
+msgid "File not found: "
+msgstr ""
+
 #: unit1.translatefilenotsaved
 msgid "File not saved. Compilation canceled."
 msgstr ""
 
 #: unit1.translatefilenotsavedbuildcancel
 msgid "Project not saved. Build canceled."
+msgstr ""
+
+#: unit1.translatefound
+msgid "Found"
 msgstr ""
 
 #: unit1.translatefpccompilernotexist
@@ -894,6 +947,14 @@ msgstr ""
 msgid "No comments found."
 msgstr ""
 
+#: unit1.translatenodatacode
+msgid "No data in the code!"
+msgstr ""
+
+#: unit1.translatenoerrorscodereadytocompile
+msgid "No errors. Code ready to compile."
+msgstr ""
+
 #: unit1.translatenoitemselected
 msgid "No item selected."
 msgstr ""
@@ -914,12 +975,20 @@ msgstr ""
 msgid "No variables found."
 msgstr ""
 
+#: unit1.translateoccurrenceszerofound
+msgid "0 occurrences found"
+msgstr ""
+
 #: unit1.translateplatform
 msgid "Platform: "
 msgstr ""
 
 #: unit1.translatesaveproject
 msgid "Project not saved. Save project before compiling?"
+msgstr ""
+
+#: unit1.translatespeeches
+msgid "speeches"
 msgstr ""
 
 #: unit1.translatestandardfpcunits
@@ -944,6 +1013,14 @@ msgstr ""
 
 #: unit1.translateunableunitdirectory
 msgid " .Unable to determine unit directory!"
+msgstr ""
+
+#: unit1.translateunknownname
+msgid "Unknown name"
+msgstr ""
+
+#: unit1.translatevaluelookingfound
+msgid "The value you were looking for has been found!"
 msgstr ""
 
 #: uprzyklady.translateanerroroccurred

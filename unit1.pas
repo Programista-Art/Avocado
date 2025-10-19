@@ -7,12 +7,12 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCFluentSlider,
-  SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
-  SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
-  SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, laz.VTHeaderPopup,
-  Process, IniFiles, AvocadoTranslator, ShellAPI, LazUTF8, ExtendedTabControls,
-  ListViewFilterEdit, TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,SynEditTypes,Math,
-  LCLTranslator,LCLType,StrUtils;
+  SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit, SynHighlighterHTML,
+  SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff, SynHighlighterMulti,
+  SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
+  AvocadoTranslator, ShellAPI, LazUTF8,
+  TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,
+  SynEditTypes, Math, LCLTranslator, LCLType, StrUtils;
 
 type
   PNodeRec = ^TNodeRec;
@@ -25,7 +25,8 @@ type
 type
   { TFormMain }
   TFormMain = class(TForm)
-    Edit1: TEdit;
+    EditSearchResults: TEdit;
+    EditSearchMistakes: TEdit;
     EditSearchComments: TEdit;
     EditSearchVariables: TEdit;
     EditSearchFunctions: TEdit;
@@ -76,7 +77,8 @@ type
     MenuItemCzeski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    PageEroor: TPageControl;
+    PageInfo: TPageControl;
+    Panel4: TPanel;
     PanelTopmistakes: TPanel;
     PanelTopComments: TPanel;
     PanelTopVariables: TPanel;
@@ -101,8 +103,11 @@ type
     Panel3: TPanel;
     PaneMain: TPanel;
     PanelDolnynadKosnola: TPanel;
-    SbSearchVariables: TSpeedButton;
-    SpeedButtonSearchVariables: TSpeedButton;
+    SBClearSearchFunctions: TSpeedButton;
+    SBClearSearcResults: TSpeedButton;
+    SBClearSearchVariables: TSpeedButton;
+    SBClearSearchComments: TSpeedButton;
+    SBClearSearchMistakes: TSpeedButton;
     Splitter2: TSplitter;
     SplitterLeft: TSplitter;
     StatusBar: TStatusBar;
@@ -111,7 +116,7 @@ type
     SynEditCode: TSynEdit;
     BottomPanelTab: TTabSheet;
     TabSheet1: TTabSheet;
-    ListBoxErrorCode: TTabSheet;
+    TabErrors: TTabSheet;
     TabSheetComments: TTabSheet;
     TabSheetLog: TTabSheet;
     TabSheetSearch: TTabSheet;
@@ -168,6 +173,12 @@ type
     ToolButton1: TToolButton;
     butCompileCode: TToolButton;
     //procedure FileTreeDblClick(Sender: TObject);
+
+    procedure EditSearchCommentsChange(Sender: TObject);
+    procedure EditSearchFunctionsChange(Sender: TObject);
+    procedure EditSearchMistakesChange(Sender: TObject);
+    procedure EditSearchResultsChange(Sender: TObject);
+    procedure EditSearchVariablesChange(Sender: TObject);
     procedure FindDialogFind(Sender: TObject);
     procedure FindDialogShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -222,7 +233,11 @@ type
     procedure MenuItemCopyAllPascalzCodeClick(Sender: TObject);
     procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
-    procedure SbSearchVariablesClick(Sender: TObject);
+    procedure SBClearSearchCommentsClick(Sender: TObject);
+    procedure SBClearSearchFunctionsClick(Sender: TObject);
+    procedure SBClearSearchMistakesClick(Sender: TObject);
+    procedure SBClearSearchVariablesClick(Sender: TObject);
+    procedure SBClearSearcResultsClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
     procedure TimerScanFunctionsTimer(Sender: TObject);
     procedure ToolButtonDebugClick(Sender: TObject);
@@ -294,6 +309,9 @@ type
     procedure SaveCurrentFile;
     //Dodawanie nod
     procedure AddSubNodes(ParentNode: TTreeNode; const Path: string);
+    //Filtrowanie w Listboxach ListBoxSearchComments, ListBoxSearchVariables, ListBoxSearchFunctions, ListBoxSeacrh, ListBoxErrCode
+    procedure FilterListBox(const FilterText: string; const SourceList: TStringList; ListBox: TListBox);
+
 
 
   public
@@ -315,9 +333,7 @@ type
     procedure ListVariablesFromSynEdit;
     // Loading variables from the variables.txt file / Ładowanie zmiennych z pliku variables.txt
     procedure LoadVariablesPrefixesFromFile(const FileName: string);
-    //ladowanie komentazy do ListBoxSearchComments
-    //procedure LoadCommentsPrefixesFromFile(const FileName: string);
-    //Wyszukiwanie funkcji z projektu i wstawienie w ListBox - ListBoxSearchComments
+    //Wyszukiwanie komentarzy z projektu i wstawienie w ListBox - ListBoxSearchComments
     procedure ListCommentsFromSynEdit;
     //debuger
     procedure LoadDebugKeywords(const FileName: string; var Keywords: TStringList);
@@ -327,8 +343,10 @@ type
     function RemoveQuotes(const Line: string): string;
     // usuwa komentarze // ... i { ... }
     function RemoveComments(const Line: string): string;
-    //Pdswietla bledy w SynEditCode
+    //Podswietla bledy w SynEditCode
     procedure HighlightErrorLine(LineNum: Integer);
+    // Podswietla komentarzy, zmienne, funkcje
+    procedure HighlithSynEditLine(LineNum: Integer);
 
 
 end;
@@ -409,6 +427,15 @@ var
   Prefixes: array of string;
   PrefixesVariables: array of string;
   AvocadoVersion: string;
+  //It deals with errors in the project and error filtering in EditSearchMistakes / Dotyczy błędów w projekcie i filtrowanie błedów w EditSearchMistakes
+  //FAllErrors: TStringList;
+
+  FErrAll: TStringList;
+  FCmtAll: TStringList;
+  FVarAll: TStringList;
+  FFuncAll: TStringList;
+  FSearchAll: TStringList;
+
 
 resourcestring
    NewProgramFile = 'New file';
@@ -474,21 +501,34 @@ resourcestring
    TranslateNoPrefixesToSearch = 'No prefixes to search!';
    TranslateNoVariablesFound = 'No variables found.';
    TranslateNoCommentsFound = 'No comments found.';
-
+   TranslateFileNotFound = 'File not found: ';
+   TranslateDebuggerFileNotFound = 'Debugger.txt file not found';
+   TranslateUnknownName = 'Unknown name';
+   TranslateCodeErrorsCompilationStopped = 'Code errors. Compilation stopped!';
+   TranslateNoErrorsCodeReadyToCompile = 'No errors. Code ready to compile.';
+   TranslateErrorsInTheCode = 'Errors in the code!';
+   TranslateCodeCorrect = 'Code correct!';
+   TranslateOccurrencesZerofound = '0 occurrences found';
+   TranslateFound = 'Found';
+   TranslateSpeeches = 'speeches';
+   TranslateValueLookingFound = 'The value you were looking for has been found!';
+   TranslateNoDataCode = 'No data in the code!';
+   TranslateAttentionMsg = 'Attention!';
 
 implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- chatgptavocado,uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper;
-
+ uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper;
+ //chatgptavocado
 {$R *.lfm}
 
 { TFormMain }
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-  AvocadoVersion := 'IDE Avocado v 1.0.1.1';
+  AvocadoVersion := 'IDE Avocado v 1.0.1.2';
+  FormMain.Caption := AvocadoVersion;
   NeedsAsmIntel := False;
   SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
   FormMain.KeyPreview := True;
@@ -508,6 +548,9 @@ begin
   //Odswiezenie listboxow
   ListFunctionsFromSynEdit;
   ListVariablesFromSynEdit;
+  PageInfo.ActivePage := TabSheetLog;
+  //
+  //FAllErrors := TStringList.Create;
 
 end;
 
@@ -540,8 +583,14 @@ procedure TFormMain.FindDialogFind(Sender: TObject);
 var
 SearchOptions: TSynSearchOptions;
 FoundCount: Integer;
+rezultat :TModalResult;
 begin
-  ListBoxSeacrh.Clear;
+    if not Assigned(FSearchAll) then
+      FSearchAll := TStringList.Create
+    else
+      FSearchAll.Clear;
+
+   ListBoxSeacrh.Clear;
    FoundCount := 0;
 
    // Inicjalizacja opcji wyszukiwania
@@ -566,6 +615,8 @@ begin
        SynEditCode.Lines[SynEditCode.CaretY - 1]  // Pobranie tekstu linii
      ]));
 
+     //FSearchAll.Add(Format('[%d]: %s', [SynEditCode.CaretY,SynEditCode.Lines[SynEditCode.CaretY - 1]]));
+     FSearchAll.Add(ListBoxSeacrh.Items[ListBoxSeacrh.Items.Count - 1]);
      // Przesunięcie kursora za znalezione wystąpienie, aby kontynuować wyszukiwanie
      SynEditCode.CaretX := SynEditCode.CaretX + 1;
 
@@ -583,10 +634,137 @@ begin
 
    // Komunikat podsumowujący
    if FoundCount = 0 then
-     ListBoxSeacrh.Items.Add('Znaleziono 0 wystąpień')
+     ListBoxSeacrh.Items.Add(TranslateOccurrencesZerofound)
    else
-     ListBoxSeacrh.Items.Insert(0, Format('Znaleziono %d wystąpień', [FoundCount]));
+     //ListBoxSeacrh.Items.Insert(0, Format('Znaleziono %d wystąpień', [FoundCount]));
+     ListBoxSeacrh.Items.Insert(0, Format(TranslateFound + ' %d ' + TranslateSpeeches, [FoundCount]));
+  if FoundCount > 0  then
+  begin
+    rezultat := MessageDlg(TranslateAttentionMsg , TranslateValueLookingFound, mtInformation,[mbOk],0);
+    if rezultat = mrOk then
+    begin
+      PageInfo.ActivePage := TabSheetSearch;
+      ListBoxSeacrh.SetFocus;
+    end;
+    end
+  else
+    MessageDlg(TranslateAttentionMsg, TranslateNoDataCode, mtWarning,[mbOk],0);
+
 end;
+
+procedure TFormMain.EditSearchMistakesChange(Sender: TObject);
+var
+  i: Integer;
+  SearchText: string;
+begin
+    // brak danych do filtrowania
+    if not Assigned(FErrAll) then Exit;
+    FilterListBox(EditSearchMistakes.Text, FErrAll, ListBoxErrCode);
+
+    SearchText := LowerCase(EditSearchMistakes.Text);
+    ListBoxErrCode.Items.BeginUpdate;
+    try
+      ListBoxErrCode.Items.Clear;
+      for i := 0 to FErrAll.Count - 1 do
+      begin
+        if (SearchText = '') or
+           (Pos(SearchText, LowerCase(FErrAll[i])) > 0) then
+          ListBoxErrCode.Items.Add(FErrAll[i]);
+      end;
+    finally
+      ListBoxErrCode.Items.EndUpdate;
+    end;
+end;
+
+procedure TFormMain.EditSearchResultsChange(Sender: TObject);
+var
+  i: Integer;
+  SearchText: string;
+begin
+    // brak danych do filtrowania
+    if not Assigned(FSearchAll) then Exit;
+
+    SearchText := LowerCase(EditSearchResults.Text);
+    ListBoxSeacrh.Items.BeginUpdate;
+    try
+      ListBoxSeacrh.Items.Clear;
+      for i := 0 to FSearchAll.Count - 1 do
+      begin
+        if (SearchText = '') or
+           (Pos(SearchText, LowerCase(FSearchAll[i])) > 0) then
+          ListBoxSeacrh.Items.Add(FSearchAll[i]);
+      end;
+    finally
+      ListBoxSeacrh.Items.EndUpdate;
+    end;
+end;
+
+procedure TFormMain.EditSearchVariablesChange(Sender: TObject);
+var
+  i: Integer;
+  SearchText: string;
+begin
+    // brak danych do filtrowania
+    if not Assigned(FVarAll) then Exit;
+    SearchText := LowerCase(EditSearchVariables.Text);
+    ListBoxSearchVariables.Items.BeginUpdate;
+    try
+      ListBoxSearchVariables.Items.Clear;
+      for i := 0 to FVarAll.Count - 1 do
+      begin
+        if (SearchText = '') or
+           (Pos(SearchText, LowerCase(FVarAll[i])) > 0) then
+          ListBoxSearchVariables.Items.Add(FVarAll[i]);
+      end;
+    finally
+      ListBoxSearchVariables.Items.EndUpdate;
+    end;
+end;
+
+procedure TFormMain.EditSearchCommentsChange(Sender: TObject);
+var
+   i: Integer;
+   FilterText: string;
+begin
+   if not Assigned(FCmtAll) then Exit;
+
+  FilterText := Trim(LowerCase(EditSearchComments.Text)); // tekst filtrujący
+  ListBoxSearchComments.Items.BeginUpdate;
+  try
+    ListBoxSearchComments.Clear;
+    for i := 0 to FCmtAll.Count - 1 do
+    begin
+      if (FilterText = '') or (Pos(FilterText, LowerCase(FCmtAll[i])) > 0) then
+        ListBoxSearchComments.Items.Add(FCmtAll[i]);
+    end;
+  finally
+    ListBoxSearchComments.Items.EndUpdate;
+  end;
+end;
+
+procedure TFormMain.EditSearchFunctionsChange(Sender: TObject);
+var
+  i: Integer;
+  SearchText: string;
+begin
+    // brak danych do filtrowania
+    if not Assigned(FFuncAll) then Exit;
+    SearchText := LowerCase(EditSearchFunctions.Text);
+    ListBoxSearchFunctions.Items.BeginUpdate;
+    try
+      ListBoxSearchFunctions.Items.Clear;
+      for i := 0 to FFuncAll.Count - 1 do
+      begin
+        if (SearchText = '') or
+           (Pos(SearchText, LowerCase(FFuncAll[i])) > 0) then
+          ListBoxSearchFunctions.Items.Add(FFuncAll[i]);
+      end;
+    finally
+      ListBoxSearchFunctions.Items.EndUpdate;
+    end;
+end;
+
+
 
 procedure TFormMain.FindDialogShow(Sender: TObject);
 var
@@ -616,6 +794,14 @@ begin
        Node.Data := nil;
      end;
    end;
+   //zwalnia pamiec bledy
+   //if Assigned(FAllErrors) then
+  //  FAllErrors.Free;
+  if Assigned(FErrAll) then FErrAll.Free;
+  if Assigned(FCmtAll) then FCmtAll.Free;
+  if Assigned(FVarAll) then FVarAll.Free;
+  if Assigned(FFuncAll) then FFuncAll.Free;
+  if Assigned(FSearchAll) then FSearchAll.Free;
 end;
 
 procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word;
@@ -717,9 +903,11 @@ begin
          begin
            //Positioning the cursor in SynEdit on the appropriate line
            // Ustawienie kursora w SynEdit na odpowiedniej linii
+
            SynEditCode.CaretY := LineNumber;
            SynEditCode.CaretX := 1;
-
+            //podświetlenie
+           HighlithSynEditLine(LineNumber);
            // Opcjonalnie: przewiń do widoczności
            SynEditCode.TopLine := Max(1, LineNumber - (SynEditCode.LinesInWindow div 2));
            SynEditCode.SetFocus;
@@ -749,6 +937,8 @@ begin
 
     if (LineNum >= 1) and (LineNum <= SynEditCode.Lines.Count) then
     begin
+      //podświetlenie
+      HighlithSynEditLine(LineNum);
       // ustaw kursor w SynEdit na początku wskazanej linii
       SynEditCode.CaretXY := Point(1, LineNum);
       SynEditCode.EnsureCursorPosVisible;
@@ -778,6 +968,8 @@ begin
 
       if (LineNum > 0) and (LineNum <= SynEditCode.Lines.Count) then
       begin
+       //podświetlenie
+        HighlithSynEditLine(LineNum);
         SynEditCode.CaretXY := Point(1, LineNum);
         SynEditCode.EnsureCursorPosVisible;
         SynEditCode.SetFocus;
@@ -805,12 +997,16 @@ begin
 
     if (LineNum > 0) and (LineNum <= SynEditCode.Lines.Count) then
     begin
+      //podświetlenie
+      HighlithSynEditLine(LineNum);
       SynEditCode.CaretXY := Point(1, LineNum);
       SynEditCode.EnsureCursorPosVisible;
       SynEditCode.SetFocus;
     end;
   end;
 end;
+
+
 
 procedure TFormMain.MenuExamplesClick(Sender: TObject);
 begin
@@ -1135,10 +1331,29 @@ begin
   Wsparcie.ShowModal;
 end;
 
-procedure TFormMain.SbSearchVariablesClick(Sender: TObject);
+procedure TFormMain.SBClearSearchCommentsClick(Sender: TObject);
 begin
-  ListFunctionsFromSynEdit
+  EditSearchComments.Clear;
+end;
 
+procedure TFormMain.SBClearSearchFunctionsClick(Sender: TObject);
+begin
+  EditSearchFunctions.Clear;
+end;
+
+procedure TFormMain.SBClearSearchMistakesClick(Sender: TObject);
+begin
+  EditSearchMistakes.Clear;
+end;
+
+procedure TFormMain.SBClearSearchVariablesClick(Sender: TObject);
+begin
+  EditSearchVariables.Clear;
+end;
+
+procedure TFormMain.SBClearSearcResultsClick(Sender: TObject);
+begin
+  EditSearchResults.Clear;
 end;
 
 
@@ -1980,11 +2195,17 @@ var
   i,p: Integer;
   LineText, LineLow: string;
 begin
-   ListBoxSearchFunctions.Clear;
+    //Dotyczy wyszukiwania w funkcjach w Edit - EditSearchFunctions
+    if not Assigned(FFuncAll) then
+    FFuncAll := TStringList.Create
+    else
+    FFuncAll.Clear;
 
-  // lista słów kluczowych teraz jest w  pliku functions.txt tak jest lepiej
- // Prefixes := ['function', 'procedure', 'pisz_linie', 'print_line', 'print',
-             //  'pisz', 'funkcja'];
+    ListBoxSearchFunctions.Clear;
+    //Teraz laduje sie z pliku functions.txt do Prefixes
+    // lista słów kluczowych teraz jest w  pliku functions.txt tak jest lepiej
+    // Prefixes := ['function', 'procedure', 'pisz_linie', 'print_line', 'print',
+    // 'pisz', 'funkcja'];
   if Length(Prefixes) = 0 then
   begin
     ListBoxSearchFunctions.Items.Add(TranslateNoPrefixesToSearch);
@@ -2005,6 +2226,7 @@ begin
       begin
         // linijka i numer w formacie [linia]:
         ListBoxSearchFunctions.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
+        FFuncAll.Add(Format('[%d]: %s', [i + 1, LineText]));
         Break;
       end;
     end;
@@ -2079,7 +2301,7 @@ begin
         Prefixes[i] := Trim(SL[i]);
     end
     else
-      raise Exception.Create('Nie znaleziono pliku: ' + FileName);
+      raise Exception.Create(TranslateFileNotFound + FileName);
   finally
     SL.Free;
   end;
@@ -2090,6 +2312,11 @@ var
   i,p: Integer;
   LineText, LineLow: string;
 begin
+    if not Assigned(FVarAll) then
+      FVarAll := TStringList.Create
+    else
+      FVarAll.Clear;
+
     ListBoxSearchVariables.Clear;
     if Length(PrefixesVariables ) = 0 then
     begin
@@ -2111,6 +2338,8 @@ begin
         begin
           // linijka i numer w formacie [linia]:
           ListBoxSearchVariables.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
+          // Zapisz też do listy do filtrowania
+          FVarAll.Add(Format('[%d]: %s', [i + 1, LineText]));
           Break;
         end;
       end;
@@ -2135,7 +2364,7 @@ begin
         PrefixesVariables[i] := Trim(SL[i]);
     end
     else
-      raise Exception.Create('Nie znaleziono pliku: ' + FileName);
+      raise Exception.Create(TranslateFileNotFound + FileName);
   finally
     SL.Free;
   end;
@@ -2146,6 +2375,11 @@ var
   i: Integer;
   LineText: string;
 begin
+    if not Assigned(FCmtAll) then
+      FCmtAll := TStringList.Create
+    else
+      FCmtAll.Clear;
+
    ListBoxSearchComments.Clear;
 
   for i := 0 to SynEditCode.Lines.Count - 1 do
@@ -2157,6 +2391,8 @@ begin
     if Copy(LineText, 1, 2) = '//' then
     begin
       ListBoxSearchComments.Items.Add(Format('[%d]: %s', [i + 1, LineText]));
+      // Zapisz też do listy do filtrowania
+      FCmtAll.Add(Format('[%d]: %s', [i + 1, LineText]));
     end;
   end;
 
@@ -2171,7 +2407,7 @@ begin
   if FileExists(FileName) then
     Keywords.LoadFromFile(FileName)
   else
-    raise Exception.Create('Nie znaleziono pliku debuger.txt');
+    raise Exception.Create(TranslateDebuggerFileNotFound);
 end;
 
 procedure TFormMain.CheckAvocadoCode;
@@ -2182,11 +2418,18 @@ var
   FoundError: Boolean;
   Value: Double;
   L: string;
+  rezultat :TModalResult;
 begin
+    //Dotyczy błędów w projekcie i filtrowanie błedów w EditSearchMistakes
+    if not Assigned(FErrAll) then
+    FErrAll := TStringList.Create
+    else
+    FErrAll.Clear; // wyczyść starą zawartość przed nowym sprawdzaniem
+
+
   ListBoxErrCode.Clear;
   FoundError := False;
 
-  // UTWORZ Keywords PRZED użyciem
   Keywords := TStringList.Create;
   LoadDebugKeywords('debuger.txt', Keywords);
 
@@ -2252,7 +2495,6 @@ begin
          end;
       end;
 
-
       LineErrors.Clear;
       LineTokens.Clear;
 
@@ -2265,8 +2507,6 @@ begin
         while (Token <> '') and (Token[Length(Token)] in [';', ',', ')']) do
         SetLength(Token, Length(Token) - 1);
 
-
-
         // Ignoruj liczby
       // Ignoruj liczby
      // if IsNumberToken(Token) then Continue;
@@ -2274,17 +2514,17 @@ begin
         // Ignoruj tokeny typu suma:0:2
         if Pos(':', Token) > 0 then Continue;
 
-        // Ignoruj liczby w formacie 2.2, 3,14 itp.
+        // Ignoruj liczby w formacie 2.2, 3,14
         if TryStrToFloat(Token, Value) then Continue;
 
         // Unikaj duplikatów tokenów w tej linii
         if LineTokens.IndexOf(Token) <> -1 then Continue;
         LineTokens.Add(Token);
 
-        // Jeśli token nie jest znany → błąd
+        // Jeśli token nie jest znany to błąd
         if Keywords.IndexOf(Token) = -1 then
         begin
-          ErrorMsg := Format('[%d]: Nieznana nazwa "%s"', [i + 1, Token]);
+          ErrorMsg := Format('[%d]: ' + TranslateUnknownName + '"%s"', [i + 1, Token]);
           if LineErrors.IndexOf(ErrorMsg) = -1 then
             LineErrors.Add(ErrorMsg);
         end;
@@ -2294,6 +2534,7 @@ begin
       for j := 0 to LineErrors.Count - 1 do
       begin
         ListBoxErrCode.Items.Add(LineErrors[j]);
+        FErrAll.Add(LineErrors[j]);
         FoundError := True;
       end;
     end;
@@ -2306,9 +2547,16 @@ begin
   end;
 
   if FoundError then
-    ShowMessage('Błędy w kodzie. Kompilacja zatrzymana!')
+  begin
+    rezultat := MessageDlg(TranslateErrorsInTheCode ,TranslateCodeErrorsCompilationStopped, mtError,[mbOk],0);
+    if rezultat = mrOk then
+    begin
+      PageInfo.ActivePage := TabErrors;
+      ListBoxErrCode.SetFocus;
+    end;
+    end
   else
-    ShowMessage('Brak błędów. Kod gotowy do kompilacji.');
+    MessageDlg(TranslateCodeCorrect,TranslateNoErrorsCodeReadyToCompile, mtInformation,[mbOk],0);
 
 end;
 
@@ -2374,6 +2622,20 @@ begin
   // styl zaznaczenia na czerwono
   SynEditCode.SelectedColor.Foreground := clWhite; // kolor czcionki
   SynEditCode.SelectedColor.Background := clRed;   // kolor tła
+end;
+
+procedure TFormMain.HighlithSynEditLine(LineNum: Integer);
+begin
+  SynEditCode.CaretXY := Point(1, LineNum);
+  SynEditCode.TopLine := LineNum;
+
+  // zaznaczenie całej linii - podświetlenie
+  SynEditCode.BlockBegin := Point(1, LineNum);
+  SynEditCode.BlockEnd := Point(Length(SynEditCode.Lines[LineNum - 1]) + 1, LineNum);
+
+  // styl zaznaczenia na czerwono
+  SynEditCode.SelectedColor.Foreground := clWhite; // kolor czcionki
+  SynEditCode.SelectedColor.Background := clGreen;   // kolor tła
 end;
 
 
@@ -2634,6 +2896,22 @@ begin
      FindClose(SR);
    end;
 
+end;
+
+procedure TFormMain.FilterListBox(const FilterText: string;
+  const SourceList: TStringList; ListBox: TListBox);
+var
+  I: Integer;
+begin
+    ListBox.Items.BeginUpdate;
+    try
+      ListBox.Items.Clear;
+      for I := 0 to SourceList.Count - 1 do
+        if Pos(LowerCase(FilterText), LowerCase(SourceList[I])) > 0 then
+          ListBox.Items.Add(SourceList[I]);
+    finally
+      ListBox.Items.EndUpdate;
+    end;
 end;
 
 
