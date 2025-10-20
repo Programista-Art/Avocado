@@ -81,6 +81,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="JvCtrlsLazR"/>
+      </Item>
+      <Item>
+        <PackageName Value="JvCtrlsLazD"/>
+      </Item>
+      <Item>
         <PackageName Value="metadarkstyledsgn"/>
       </Item>
       <Item>

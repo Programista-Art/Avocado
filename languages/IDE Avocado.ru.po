@@ -106,8 +106,17 @@ msgctxt "tformmain.butcompilecode.hint"
 msgid "Kompiluj"
 msgstr "Компилировать"
 
+#: tformmain.documentation.caption
+msgctxt "tformmain.documentation.caption"
+msgid "Documentation"
+msgstr ""
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
+msgstr ""
+
+#: tformmain.editsearchdocumentation.texthint
+msgid "Enter the name of the function"
 msgstr ""
 
 #: tformmain.editsearchfunctions.texthint
@@ -128,6 +137,11 @@ msgstr ""
 msgid "filter variables"
 msgstr ""
 
+#: tformmain.fpccode.caption
+msgctxt "tformmain.fpccode.caption"
+msgid "Free Pascal Code"
+msgstr ""
+
 #: tformmain.itemjaponski.caption
 msgid "日本語"
 msgstr ""
@@ -145,13 +159,19 @@ msgstr "Компилировать"
 msgid "Console Log"
 msgstr "Журналы"
 
-#: tformmain.label2.caption
-msgid "Free Pascal Code"
-msgstr "Free Pascal Code"
-
 #: tformmain.label4.caption
 msgid "Rozmiar"
 msgstr "Размер"
+
+#: tformmain.label5.caption
+#, fuzzy
+msgctxt "tformmain.label5.caption"
+msgid "Free Pascal Code"
+msgstr "Free Pascal Code"
+
+#: tformmain.label6.caption
+msgid "Definition"
+msgstr ""
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"

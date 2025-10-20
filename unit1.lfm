@@ -2,9 +2,9 @@ object FormMain: TFormMain
   Left = 347
   Height = 637
   Top = 221
-  Width = 1055
+  Width = 1145
   ClientHeight = 637
-  ClientWidth = 1055
+  ClientWidth = 1145
   Color = 5197647
   Menu = MainMenu1
   Position = poMainFormCenter
@@ -17,7 +17,7 @@ object FormMain: TFormMain
     Left = 0
     Height = 26
     Top = 0
-    Width = 1055
+    Width = 1145
     Caption = 'ToolBar1'
     Color = clMenu
     Images = ImageListListView
@@ -55,13 +55,13 @@ object FormMain: TFormMain
     end
   end
   object Panel1: TPanel
-    Left = 806
+    Left = 877
     Height = 611
     Top = 26
-    Width = 249
+    Width = 268
     Align = alRight
     ClientHeight = 611
-    ClientWidth = 249
+    ClientWidth = 268
     ParentBackground = False
     ParentColor = False
     TabOrder = 1
@@ -69,57 +69,155 @@ object FormMain: TFormMain
       Left = 1
       Height = 609
       Top = 1
-      Width = 247
+      Width = 266
       Align = alClient
       ClientHeight = 609
-      ClientWidth = 247
+      ClientWidth = 266
       ParentBackground = False
       TabOrder = 0
       object Panel2: TPanel
         Left = 1
-        Height = 27
+        Height = 35
         Top = 1
-        Width = 245
+        Width = 264
         Align = alTop
-        ClientHeight = 27
-        ClientWidth = 245
         ParentBackground = False
         ParentColor = False
         TabOrder = 0
-        object Label2: TLabel
-          Left = 6
-          Height = 15
-          Top = 6
-          Width = 233
-          Align = alClient
-          Alignment = taCenter
-          BorderSpacing.Around = 5
-          Caption = 'Free Pascal Code'
-          Color = clMenu
-          Font.CharSet = EASTEUROPE_CHARSET
-          Font.Color = clWhite
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentColor = False
-          ParentFont = False
-        end
       end
-      object MemoOutPut: TMemo
+      object PagePanelRight: TPageControl
         Left = 1
-        Height = 580
-        Top = 28
-        Width = 245
+        Height = 572
+        Top = 36
+        Width = 264
+        ActivePage = Documentation
         Align = alClient
-        Color = clBlack
-        Font.CharSet = EASTEUROPE_CHARSET
-        Font.Color = clWhite
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        PopupMenu = PopupMenuOutPutPascalCode
-        ReadOnly = True
-        ScrollBars = ssBoth
+        TabIndex = 1
         TabOrder = 1
+        TabPosition = tpBottom
+        object FPCCode: TTabSheet
+          Caption = 'Free Pascal Code'
+          ClientHeight = 544
+          ClientWidth = 256
+          object MemoOutPut: TMemo
+            Left = 0
+            Height = 519
+            Top = 25
+            Width = 256
+            Align = alClient
+            Color = clBlack
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clWhite
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
+            PopupMenu = PopupMenuOutPutPascalCode
+            ReadOnly = True
+            ScrollBars = ssBoth
+            TabOrder = 0
+          end
+          object Label5: TLabel
+            Left = 5
+            Height = 15
+            Top = 5
+            Width = 246
+            Align = alTop
+            Alignment = taCenter
+            BorderSpacing.Around = 5
+            Caption = 'Free Pascal Code'
+            Color = clMenu
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clWhite
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentColor = False
+            ParentFont = False
+          end
+        end
+        object Documentation: TTabSheet
+          Caption = 'Documentation'
+          ClientHeight = 544
+          ClientWidth = 256
+          object PanelTopDocumentation: TPanel
+            Left = 0
+            Height = 35
+            Top = 0
+            Width = 256
+            Align = alTop
+            ClientHeight = 35
+            ClientWidth = 256
+            TabOrder = 0
+            object EditSearchDocumentation: TEdit
+              Left = 6
+              Height = 23
+              Top = 6
+              Width = 216
+              Align = alClient
+              BorderSpacing.Around = 5
+              TabOrder = 0
+              TextHint = 'Enter the name of the function'
+            end
+            object SBClearSearchDocumentaion: TSpeedButton
+              Left = 227
+              Height = 23
+              Top = 6
+              Width = 23
+              Align = alRight
+              BorderSpacing.Top = 5
+              BorderSpacing.Right = 5
+              BorderSpacing.Bottom = 5
+              Images = ImageListListView
+              ImageIndex = 4
+              OnClick = SBClearSearchDocumentaionClick
+            end
+          end
+          object ListBoxSearchDocumentaion: TListBox
+            Left = 0
+            Height = 288
+            Top = 35
+            Width = 256
+            Align = alTop
+            ItemHeight = 0
+            TabOrder = 1
+            OnDblClick = ListBoxSearchDocumentaionDblClick
+          end
+          object MemoSearchDocumentation: TMemo
+            Left = 0
+            Height = 186
+            Top = 358
+            Width = 256
+            Align = alClient
+            ScrollBars = ssBoth
+            TabOrder = 2
+          end
+          object Panel6: TPanel
+            Left = 0
+            Height = 35
+            Top = 323
+            Width = 256
+            Align = alTop
+            ClientHeight = 35
+            ClientWidth = 256
+            TabOrder = 3
+            object Label6: TLabel
+              Left = 6
+              Height = 23
+              Top = 6
+              Width = 244
+              Align = alClient
+              Alignment = taCenter
+              BorderSpacing.Around = 5
+              Caption = 'Definition'
+              Color = clMenu
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clWhite
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
+              ParentColor = False
+              ParentFont = False
+            end
+          end
+        end
       end
     end
   end
@@ -127,11 +225,11 @@ object FormMain: TFormMain
     Left = 0
     Height = 611
     Top = 26
-    Width = 803
+    Width = 874
     Align = alClient
     Caption = 'PanelLewy'
     ClientHeight = 611
-    ClientWidth = 803
+    ClientWidth = 874
     ParentBackground = False
     TabOrder = 2
     object SplitterDown: TSplitter
@@ -139,7 +237,7 @@ object FormMain: TFormMain
       Left = 1
       Height = 1
       Top = 429
-      Width = 801
+      Width = 872
       Align = alBottom
       ResizeAnchor = akBottom
       ResizeStyle = rsLine
@@ -148,17 +246,17 @@ object FormMain: TFormMain
       Left = 1
       Height = 180
       Top = 430
-      Width = 801
+      Width = 872
       Align = alBottom
       ClientHeight = 180
-      ClientWidth = 801
+      ClientWidth = 872
       ParentBackground = False
       TabOrder = 1
       object StatusBar: TStatusBar
         Left = 1
         Height = 23
         Top = 156
-        Width = 799
+        Width = 870
         Color = clMenuBar
         Panels = <        
           item
@@ -177,10 +275,10 @@ object FormMain: TFormMain
         Left = 1
         Height = 27
         Top = 1
-        Width = 799
+        Width = 870
         Align = alTop
         ClientHeight = 27
-        ClientWidth = 799
+        ClientWidth = 870
         Color = clMenuBar
         ParentBackground = False
         ParentColor = False
@@ -204,7 +302,7 @@ object FormMain: TFormMain
         Left = 1
         Height = 128
         Top = 28
-        Width = 799
+        Width = 870
         ActivePage = TabSheetSearch
         Align = alClient
         TabIndex = 1
@@ -212,12 +310,12 @@ object FormMain: TFormMain
         object TabSheetLog: TTabSheet
           Caption = 'Logs'
           ClientHeight = 100
-          ClientWidth = 791
+          ClientWidth = 862
           object MemoLogs: TMemo
             Left = 0
             Height = 100
             Top = 0
-            Width = 791
+            Width = 862
             Align = alClient
             Color = clBlack
             Font.CharSet = EASTEUROPE_CHARSET
@@ -233,12 +331,12 @@ object FormMain: TFormMain
         object TabSheetSearch: TTabSheet
           Caption = 'Search results'
           ClientHeight = 100
-          ClientWidth = 791
+          ClientWidth = 862
           object ListBoxSeacrh: TListBox
             Left = 0
             Height = 68
             Top = 32
-            Width = 791
+            Width = 862
             Align = alBottom
             Color = clBlack
             ItemHeight = 0
@@ -249,10 +347,10 @@ object FormMain: TFormMain
             Left = 0
             Height = 35
             Top = 0
-            Width = 791
+            Width = 862
             Align = alTop
             ClientHeight = 35
-            ClientWidth = 791
+            ClientWidth = 862
             ParentBackground = False
             ParentColor = False
             TabOrder = 1
@@ -286,12 +384,12 @@ object FormMain: TFormMain
         object BottomPanelTab: TTabSheet
           Caption = 'Functions'
           ClientHeight = 100
-          ClientWidth = 791
+          ClientWidth = 862
           object ListBoxSearchFunctions: TListBox
             Left = 0
             Height = 65
             Top = 35
-            Width = 791
+            Width = 862
             Align = alClient
             Color = clBlack
             ItemHeight = 0
@@ -302,10 +400,10 @@ object FormMain: TFormMain
             Left = 0
             Height = 35
             Top = 0
-            Width = 791
+            Width = 862
             Align = alTop
             ClientHeight = 35
-            ClientWidth = 791
+            ClientWidth = 862
             ParentBackground = False
             ParentColor = False
             TabOrder = 1
@@ -339,15 +437,15 @@ object FormMain: TFormMain
         object TabSheet1: TTabSheet
           Caption = 'Variables'
           ClientHeight = 100
-          ClientWidth = 791
+          ClientWidth = 862
           object PanelTopVariables: TPanel
             Left = 0
             Height = 35
             Top = 0
-            Width = 791
+            Width = 862
             Align = alTop
             ClientHeight = 35
-            ClientWidth = 791
+            ClientWidth = 862
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
@@ -381,7 +479,7 @@ object FormMain: TFormMain
             Left = 0
             Height = 65
             Top = 35
-            Width = 791
+            Width = 862
             Align = alClient
             Color = clBlack
             ItemHeight = 0
@@ -392,15 +490,15 @@ object FormMain: TFormMain
         object TabSheetComments: TTabSheet
           Caption = 'Comments'
           ClientHeight = 100
-          ClientWidth = 791
+          ClientWidth = 862
           object PanelTopComments: TPanel
             Left = 0
             Height = 35
             Top = 0
-            Width = 791
+            Width = 862
             Align = alTop
             ClientHeight = 35
-            ClientWidth = 791
+            ClientWidth = 862
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
@@ -434,7 +532,7 @@ object FormMain: TFormMain
             Left = 0
             Height = 65
             Top = 35
-            Width = 791
+            Width = 862
             Align = alClient
             Color = clBlack
             ItemHeight = 0
@@ -445,15 +543,15 @@ object FormMain: TFormMain
         object TabErrors: TTabSheet
           Caption = 'Mistakes'
           ClientHeight = 100
-          ClientWidth = 791
+          ClientWidth = 862
           object PanelTopmistakes: TPanel
             Left = 0
             Height = 35
             Top = 0
-            Width = 791
+            Width = 862
             Align = alTop
             ClientHeight = 35
-            ClientWidth = 791
+            ClientWidth = 862
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
@@ -486,7 +584,7 @@ object FormMain: TFormMain
             Left = 0
             Height = 65
             Top = 35
-            Width = 791
+            Width = 862
             Align = alClient
             Color = clBlack
             ItemHeight = 0
@@ -500,17 +598,17 @@ object FormMain: TFormMain
       Left = 1
       Height = 428
       Top = 1
-      Width = 801
+      Width = 872
       Align = alClient
       ClientHeight = 428
-      ClientWidth = 801
+      ClientWidth = 872
       ParentBackground = False
       TabOrder = 2
       inline SynEditCode: TSynEdit
         Left = 213
         Height = 398
         Top = 1
-        Width = 587
+        Width = 658
         Align = alClient
         BlockIndent = 1
         Color = clBtnShadow
@@ -524,6 +622,7 @@ object FormMain: TFormMain
         ParentFont = False
         PopupMenu = PopupMenuCode
         TabOrder = 0
+        OnKeyPress = SynEditCodeKeyPress
         BookMarkOptions.BookmarkImages = ImageListListView
         Gutter.Color = clAppWorkspace
         Gutter.CurrentLineColor.Background = clTeal
@@ -1056,10 +1155,10 @@ object FormMain: TFormMain
         Left = 1
         Height = 28
         Top = 399
-        Width = 799
+        Width = 870
         Align = alBottom
         ClientHeight = 28
-        ClientWidth = 799
+        ClientWidth = 870
         Color = clMenuBar
         ParentBackground = False
         ParentColor = False
@@ -1166,7 +1265,7 @@ object FormMain: TFormMain
     end
   end
   object Splitter1: TSplitter
-    Left = 803
+    Left = 874
     Height = 611
     Top = 26
     Width = 3
@@ -1476,69 +1575,165 @@ object FormMain: TFormMain
   end
   object SynCompletion1: TSynCompletion
     ItemList.Strings = (
-      'pisz_linie('''')'
-      'jeśli=Instrukcja warunkowa'
-      'print_line('''')'
-      'calc('''')'
-      'oblicz_formatuj(''''), 4)'
-      'calc_format(''''), 4) '
-      'print('''')'
-      'czytaj('''')'
-      'read_key('''')'
-      'czytaj_linie('''')'
+      'calc'
+      'print'
+      'print_line'
+      'read_key'
       'set_length'
-      'oblicz('''')'
-      'pisz('''')'
-      'pisz_linie('''')'
-      'duże_litery(s)'
-      'małe_litery(s)'
-      'zamień_tekst()'
-      'powtórz_znak(znak, ilość powtórzeń) '
-      'przytnij(s) '
-      'zamień_tekst(oryginalny_tekst, szukany_tekst, nowy_tekst)   '
-      'przytnij_z_lewa(s)'
-      'przytnij_z_prawa(s) '
-      'wstaw(‘tekst’,zmienna, indeks)'
-      'duze_litery_ansi(zmienna)'
-      'porównaj_tekst(zmienna1,zmienna2)'
-      'usuń(zmienna, indeks, ilość znaków)'
-      'kopiuj(zmienna,początek_kopiowania,koniec_kopiowania)'
-      'klawisz_wciśnięty'
-      'czytaj_klawisz()'
-      'tło_tekstu()'
-      'długość()'
-      'kolor_tekstu()'
-      'pozycja_kursora(x,y)'
-      'czytaj_klawisz'
-      'zapytaj(''token'',''gpt-4o-mini'',''promt'')'
-      'program'
+      'random'
+      'randomize '
+      'assign_file'
+      'open_read'
+      'open_save'
+      'append'
+      'close_file'
+      'eof'
+      'file_exists'
+      'change_dir'
+      'create_dir'
+      'remove_dir'
+      'get_current_dir'
+      'directory_exists'
+      'get_argument'
+      'get_env'
+      'set_env'
+      'if'
+      'then'
+      'else'
+      'trim'
+      'insert'
+      'pascal_line'
+      'import'
+      'asm'
       'importuj'
-      'jeśli i = 0  wtedy  inaczej '
-      'dla i od 0 do 2 '
+      'oblicz'
+      'pisz'
+      'pisz_linie'
+      'program'
+      'czytaj_klawisz'
+      'ustaw_długość '
+      'losowy'
+      'losuj'
+      'przypisz_plik'
+      'otwórz_do_odczytu'
+      'otwórz_do_zapisu'
+      'otwórz_do_dopisywania lub dopisz'
+      'zamknij_plik'
+      'koniec_pliku'
+      'czy_istnieje_plik'
+      'zmień_katalog'
+      'utwórz_katalog'
+      'usuń_katalog'
+      'pobierz_katalog_bieżący'
+      'czy_istnieje_katalog'
+      'parametr_programu'
+      'pobierz_zmienną_środowiskową'
+      'ustaw_zmienną_środowiskową'
+      'jeśli'
+      'wtedy'
+      'inaczej'
+      'dopóki'
+      'wyjść'
+      'zakończ'
+      'tło_tekstu'
+      'kolor_tekstu'
+      'pozycja_kursora'
+      'klawisz_wciśnięty'
+      'duże_litery_ansi'
+      'pobierz_plik'
+      'ZapytajChatGPT'
+      'duze_litery_ansi'
+      'male_litery_ansi'
+      'czytaj'
+      'czytaj_linie'
+      'przytnij'
+      'przytnij_z_lewa'
+      'przytnij_z_prawa'
+      'dla'
+      'usuń'
+      'duże_litery_ansi'
+      'małe_litery'
+      'powtórz_znak'
+      'porównaj_tekst'
+      'zamień_tekst'
+      'ilość_parametrów'
+      'dopóki'
+      'ftp_pobierz'
+      'ping'
+      'pobierz_plik'
+      'pobierz_strone'
+      'długość'
+      'kopiuj'
+      'szukaj'
+      'pozycja_kursora'
+      'kolor_tekstu'
+      'tło_tekstu'
+      'wstaw'
+      'pascal_linia'
+      'import'
+      'int'
+      'int8'
+      'int16'
+      'int32'
+      'int64'
+      'ubyte'
+      'real'
+      'byte'
+      'uint16'
+      'uint32'
+      'float'
+      'float80'
+      'comp'
+      'decimal'
+      'bool'
+      'byte_bool'
+      'long_bool'
+      'char'
+      'char32'
+      'string255'
+      'string'
+      'ansi_string'
+      'unicode_string'
+      'wide_string'
+      'static_array'
+      'dynamic_array'
+      'struct'
+      'set'
+      'file'
+      'text_file'
+      'binary_file'
+      'file_struct'
+      'pointer'
+      'pointer_to'
+      'class'
+      'range'
+      'any'
+      'ole_variant'
+      'search_record'
+      'string_list'
+      'lc'
       'liczba_całkowita'
+      'liczba_krótka'
       'liczba_mała'
       'liczba_długa'
       'liczba64'
+      'liczba_pojedyncza'
+      'liczba_zm'
+      'lzm'
       'bajt'
       'liczba16'
       'liczba32'
-      'dla .. od .. do{}'
-      '//'
-      'jeśli.. wtedy .. inaczej'
-      'liczba_zm'
-      'tekst'
-      'liczba_pojedyncza'
       'liczba_podwójna'
       'liczba_rozszerzona'
       'liczba_zgodna_delphi'
       'liczba_waluta'
       'logiczny'
       'logiczny_bajt'
-      'logiczne_słowo'
       'logiczny_długi'
       'znak'
       'znak_unicode'
       'tekst255'
+      'tekst'
       'tekst_ansi'
       'tekst_unicode'
       'tekst_systemowy'
@@ -1552,205 +1747,132 @@ object FormMain: TFormMain
       'wskaźnik'
       'wskaźnik_na'
       'wariant'
-      'olevariant'
-      'tekstwliczbac() '#9
-      'tekstwliczbar() '#9
-      'liczbarwtekst() '#9
-      'liczbacwr() '#9
-      'liczbarwc() '#9
-      'liczbacwlk() '#9
-      'logicznywtekst() '#9
-      'tekstld(tekst,wartość domyślna) '#9
-      'zaokrąglij(liczba zmiennoprzecinkowa) '
-      'słowo(większa liczba całkowita) '#9
-      'liczba_dc(większa_liczba_całkowita)'
-      'kard(liczba_całkowita)'
-      'formatliczby(liczba_zmiennoprzecinkowa, format, precyzja, cyfry)'
-      'tekstwlzm(string, wartość_domyślna)'
-      'liczbarwr(liczba_rozszerzona)'
-      'liczba_pojedynczawzm(liczba_podwójna/liczba_rozszerzona) '
-      'liczba_rozszerzonawpojedynczą(liczba_pojedyncza/liczba_podwójna) '
-      'znakwascii(kod_ascii)'
-      'ord(znak)'
-      'tekstwznak(znak)'
-      'znakwtekst(tekst[indeks])'
-      'logicznywtekst(wartość_logiczna, użyj wartości prawda lub falsz)'
-      'tekstwlogiczny(string)'
-      'tekstwlogicznydom(string, wartość domyślna)'
-      'logicznyzliczby(liczba)'
-      'liczbaczlogicznego(logiczny)'
-      'liczbaczwyliczenia(wartość wyliczeniowa)'
-      'wyliczeniezliczbac(liczba_całkowita)'
-      'zwróćnazwętekst(typwyliczeniowy, liczba(wartość wyliczeniowa))'
-      'zwróćliczbac(typwyliczeniowy, nazwa wartości)'
-      'datawtekst(data)'
-      'czaswtekst(czas)'
-      'dataczaswtekst(data i czas)'
-      'dataczaswtekstf(format, data i czas)'
-      'tekstwdatę(tekst)'
-      'tekstwczas(tekst)'
-      'tekstwdatęczas(tekst)'
-      'tekstwdatędom(tekst, wartość domyślna)'
-      'dataczasz(rok, miesiąc, dzień)'
-      'czasz(godzina, minuta, sekunda, milisekunda)'
-      'rozłóżdatę(data, rok, miesiąc, dzień)'
-      'rozłóżczas(czas, godzina, minuta, sekunda, milisekunda)'
-      'niebezpiecznywskaźnikzadresu(liczba całkowita)'
-      '@zmienna '
-      'sin()'
-      'cos()'
-      'tan()'
-      'arcsin()'
-      'arccos()'
-      'arctan()'
-      'arctan2()'
-      'degtorad()'
-      'radtodeg()'
-      'pi'
-      'sec()'
-      'csc()'
-      'cot()'
-      'arcsec()'
-      'arcsec()'
-      'arccot()'
-      'sinh()'
-      'cosh()'
-      'tanh()'
-      'sech()'
-      'csch()'
-      'coth()'
-      'arsinh()'
-      'arcosh()'
-      'artanh()'
-      'odd()'
-      'int()'
-      'log10()'
-      'log2()'
-      'sufit()'
-      'ceil()'
-      'hypot()'
-      'min()'
-      'maks()'
-      'max()'
-      'pi'
-      'sqr()'
-      'sqrt()'
-      'ln()'
-      'exp()'
-      'power()'
-      'inc()'
-      'dec()'
-      'zaokrąglić()'
-      'round()'
-      'odcięcie()'
-      'trunc()'
-      'czy_jest_nan()'
-      'is_nan()'
-      'isinfinite()'
-      'isnanorinfinity()'
-      'iszero()'
-      'isnegative()'
-      'isnanorinf()'
-      'potęga(2,3)'
-      'matematyka'
+      'oleVariant'
+      'informacje_o_wyszukaniu'
+      'lista_tekstów'
+      '//'
+      'program'
+      'tekst_na_liczbę'
+      'tekst_na_zmiennoprzecinkową'
+      'liczba_na_tekst'
+      'zmiennoprzecinkowa_na_tekst'
+      'rzeczywista'
+      'obetnij'
+      'logiczny_na_tekst'
+      'bajt_na_logiczny'
+      'tekst_na_liczbę_lub_domyślną'
+      'liczba_całkowita_32'
+      'zmiennoprzecinkowa_na_tekst_formatowany'
+      'podwójna_precyzja'
+      'liczba_na_znak'
+      'znak_na_liczbę'
+      'znak_na_tekst'
+      'tekst_na_znak'
+      'logiczny_na_tekst'
+      'tekst_na_logiczny'
+      'tekst_na_logiczny_dom'
+      'logiczny_z_liczby'
+      'liczba_całkowita_z_logicznego'
+      'liczba_całkowita_z_wyliczenia'
+      'pobierz_nazwę_tekstu'
+      'pobierz_wartość_wyliczenia'
+      'data_na_tekst'
+      'czas_na_tekst'
+      'data_czas_na_tekst'
+      'formatuj_data_czas_na_tekst'
+      'tekst_na_datę'
+      'tekst_na_czas'
+      'tekst_na_datę_czas'
+      'tekst_na_datę_dom'
+      'tekst_na_czas_dom'
+      'tekst_na_datę_czas_dom'
+      'utwórz_datę'
+      'utwórz_czas'
+      'rozłóż_datę'
+      'rozłóż_czas'
+      'adres_zmiennej'
+      'adres_zmiennej_z_wskażnika'
+      'zaokrąglij'
+      'na_całkowitą_16'
+      'liczebnik'
+      'Liczba_pojedyncza_na_zm'
+      'liczba_rozszerzona_na_pojedyńczą'
       'czarny'
-      'zielony'
-      'żółty'
-      'niebieski '
       'biały'
-      'cyjan '
+      'niebieski'
+      'zielony'
       'czerwony'
+      'żółty'
+      'cyjan'
       'magenta'
       'brązowy'
       'jasnoszary'
       'ciemnoszary'
       'jasnoniebieski'
-      'jasnozielony '
-      'jasnoniebieski'
-      'jasnoczerwony '
+      'jasnozielony'
+      'jasnoczerwony'
       'jasnoróżowy'
       'migotanie'
-      'oblicz(''zwiększ(0)'')'
-      'oblicz(''zmniejsz(0)'')'
-      'oblicz(''ułamek(3.1415)'')'
-      'lista_tekstów'
-      'nic'
-      '.tekst'
-      'zwolnij'
-      'zakończ(2)'
-      'internet'
-      'pliki'
-      'ping(''www.programista.art'')'
-      'pobierz_plik(''link do strony www'', ''ścieżak do zapisu i nazwa pliku.jpg)'
-      'pobierz_strone(‘link do strony internetowej’, zmienna lista_tekstów, gdzie zapisać i jaką nazwę nadać pliku )'
-      'wyjść'
-      'losowy()'
-      'losuj()'
-      'przypisz_plik()'
-      'otwórz_do_odczytu()'
-      'otwórz_do_zapisu()'
-      'dopisz()'
-      'zamknij_plik()'
-      'koniec_pliku()'
-      'przypisz_plik'
-      'zmień_katalog()'
-      'utwórz_katalog()'
-      'usuń_katalog()'
-      'pobierz_katalog_bieżący'
-      'czy_istnieje_katalog()'
-      'informacje_o_wyszukaniu'
-      'pobierz_zmienną_środowiskową()'
-      'ustaw_zmienną_środowiskową()'
-      'ENGLISH----------------------------------------------------'
-      'int'
-      'int8'
-      'int16'
-      'int32'
-      'int64'
-      'ubyte'
+      'str_int'
+      'str_float'
+      'int_str'
+      'float_str'
       'real'
-      'byte'
-      'uint16'
-      'uint32'
-      'float'
-      'float80'
-      'decimal'
+      'trunc'
+      'bool_str'
+      'byte_bool'
+      'str_int_def'
+      'long_int'
+      'float_strf'
+      'double'
+      'chr'
+      'ord  '
+      'char '
+      'string '
+      'bool_str'
+      'str_bool'
+      'str_bool_def'
       'bool'
-      'char'
-      'char32'
-      'string255'
-      'string'
-      'ansi_string'
-      'unicode_string'
-      'dynamic_array'
-      'set'
-      'file'
-      'text_file'
-      'binary_file'
-      'file_struct'
-      'pointer'
-      'pointer_to'
-      'any'
-      'ole_variant'
-      'assign_file '
-      'open_read'
-      'open_save '
-      'append'
-      'close_file'
-      'eof'
-      'file_exists() '
-      'random()'
-      'randomize()'
-      'change_dir()'
-      'create_dir()'
-      'remove_dir()'
-      'get_current_dir'
-      'directory_exists()'
-      'search_record'
-      'get_env()'
-      'set_env()'
-      'import'
-      'pascal_linia'
+      'Int'
+      'ord'
+      'lista_tekstów'
+      'get_enum_name'
+      'get_enum_value'
+      'date_str'
+      'time_str'
+      'date_time_str'
+      'format_date_time'
+      'str_date'
+      'str_to_time'
+      'str_date_time'
+      'str_date_def'
+      'str_time_def'
+      'str_datetime_def'
+      'encode_date'
+      'encode_time'
+      'decode_date'
+      'decode_time'
+      'ptr'
+      'int_ptr'
+      'round'
+      'word'
+      'cardinal'
+      'single'
+      'extended'
+      'black'
+      'randomize'
+      'random'
+      'prawda'
+      'falsz'
+      'true'
+      'false'
+      '.text'
+      '.tekst'
+      '+'
+      '-'
+      '/'
+      '*'
+      ':'
     )
     Position = 0
     LinesInWindow = 10
@@ -2181,5 +2303,11 @@ object FormMain: TFormMain
     OnTimer = TimerScanFunctionsTimer
     Left = 279
     Top = 110
+  end
+  object AutoCompleteDocumentation: TJvLookupAutoComplete
+    Edit = EditSearchDocumentation
+    ListBox = ListBoxSearchDocumentaion
+    Left = 880
+    Top = 104
   end
 end

@@ -7,12 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCFluentSlider,
-  SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit, SynHighlighterHTML,
-  SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff, SynHighlighterMulti,
-  SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
-  AvocadoTranslator, ShellAPI, LazUTF8,
-  TreeFilterEdit, LCLIntf, InterfaceBase, DefaultTranslator,
-  SynEditTypes, Math, LCLTranslator, LCLType, StrUtils;
+  JvAutoComplete, SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
+  SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
+  SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
+  AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
+  DefaultTranslator, SynEditTypes, Math, LCLTranslator, LCLType, StrUtils;
 
 type
   PNodeRec = ^TNodeRec;
@@ -25,6 +24,7 @@ type
 type
   { TFormMain }
   TFormMain = class(TForm)
+    EditSearchDocumentation: TEdit;
     EditSearchResults: TEdit;
     EditSearchMistakes: TEdit;
     EditSearchComments: TEdit;
@@ -32,12 +32,17 @@ type
     EditSearchFunctions: TEdit;
     FindDialog: TFindDialog;
     ImageListListView: TImageList;
+    AutoCompleteDocumentation: TJvLookupAutoComplete;
+    Label5: TLabel;
+    Label6: TLabel;
+    ListBoxSearchDocumentaion: TListBox;
     ListBoxErrCode: TListBox;
     ListBoxSearchComments: TListBox;
     ListBoxSearchVariables: TListBox;
     ListBoxSearchFunctions: TListBox;
     ListBoxSeacrh: TListBox;
     LRozmiarZccionkiEdytora: TLabel;
+    MemoSearchDocumentation: TMemo;
     MemoLogs: TMemo;
     MemoOutPut: TMemo;
     MenuExamples: TMenuItem;
@@ -77,8 +82,11 @@ type
     MenuItemCzeski: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
+    PagePanelRight: TPageControl;
     PageInfo: TPageControl;
     Panel4: TPanel;
+    Panel6: TPanel;
+    PanelTopDocumentation: TPanel;
     PanelTopmistakes: TPanel;
     PanelTopComments: TPanel;
     PanelTopVariables: TPanel;
@@ -88,7 +96,6 @@ type
     RozmiarCzcionkiSynEditor: TBCFluentSlider;
     Label3: TLabel;
     Label4: TLabel;
-    Label2: TLabel;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -103,6 +110,7 @@ type
     Panel3: TPanel;
     PaneMain: TPanel;
     PanelDolnynadKosnola: TPanel;
+    SBClearSearchDocumentaion: TSpeedButton;
     SBClearSearchFunctions: TSpeedButton;
     SBClearSearcResults: TSpeedButton;
     SBClearSearchVariables: TSpeedButton;
@@ -117,6 +125,8 @@ type
     BottomPanelTab: TTabSheet;
     TabSheet1: TTabSheet;
     TabErrors: TTabSheet;
+    FPCCode: TTabSheet;
+    Documentation: TTabSheet;
     TabSheetComments: TTabSheet;
     TabSheetLog: TTabSheet;
     TabSheetSearch: TTabSheet;
@@ -188,6 +198,7 @@ type
     procedure ListBoxErrCodeClick(Sender: TObject);
     procedure ListBoxSeacrhClick(Sender: TObject);
     procedure ListBoxSearchCommentsClick(Sender: TObject);
+    procedure ListBoxSearchDocumentaionDblClick(Sender: TObject);
     procedure ListBoxSearchFunctionsClick(Sender: TObject);
     procedure ListBoxSearchVariablesClick(Sender: TObject);
     procedure MenuExamplesClick(Sender: TObject);
@@ -234,15 +245,15 @@ type
     procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
     procedure SBClearSearchCommentsClick(Sender: TObject);
+    procedure SBClearSearchDocumentaionClick(Sender: TObject);
     procedure SBClearSearchFunctionsClick(Sender: TObject);
     procedure SBClearSearchMistakesClick(Sender: TObject);
     procedure SBClearSearchVariablesClick(Sender: TObject);
     procedure SBClearSearcResultsClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
+    procedure SynEditCodeKeyPress(Sender: TObject; var Key: char);
     procedure TimerScanFunctionsTimer(Sender: TObject);
     procedure ToolButtonDebugClick(Sender: TObject);
-
-
     procedure TranspilujExecute(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -347,6 +358,10 @@ type
     procedure HighlightErrorLine(LineNum: Integer);
     // Podswietla komentarzy, zmienne, funkcje
     procedure HighlithSynEditLine(LineNum: Integer);
+    //Load documentation
+    procedure LoadTextDocumenation(FileName: string);
+    procedure LoadDocToListBox(const FileName: string; var Keywords: TStringList);
+
 
 
 end;
@@ -435,7 +450,7 @@ var
   FVarAll: TStringList;
   FFuncAll: TStringList;
   FSearchAll: TStringList;
-
+  FSearcDoc: TStringList;
 
 resourcestring
    NewProgramFile = 'New file';
@@ -545,12 +560,14 @@ begin
   //ladowanie funkcji z pliku functions.txt
   LoadPrefixesFromFile('functions.txt');
   LoadVariablesPrefixesFromFile('variables.txt');
+
   //Odswiezenie listboxow
   ListFunctionsFromSynEdit;
   ListVariablesFromSynEdit;
+  //laduje pliki do ListBoxSearchDocumentaion
   PageInfo.ActivePage := TabSheetLog;
-  //
-  //FAllErrors := TStringList.Create;
+  PagePanelRight.ActivePage := FPCCode;
+
 
 end;
 
@@ -742,6 +759,8 @@ begin
   end;
 end;
 
+
+
 procedure TFormMain.EditSearchFunctionsChange(Sender: TObject);
 var
   i: Integer;
@@ -802,6 +821,7 @@ begin
   if Assigned(FVarAll) then FVarAll.Free;
   if Assigned(FFuncAll) then FFuncAll.Free;
   if Assigned(FSearchAll) then FSearchAll.Free;
+  if Assigned(FSearcDoc) then FSearcDoc.Free;
 end;
 
 procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word;
@@ -946,6 +966,20 @@ begin
     end;
   end;
 
+end;
+
+procedure TFormMain.ListBoxSearchDocumentaionDblClick(Sender: TObject);
+var
+  y:integer;
+begin
+  MemoSearchDocumentation.Clear;
+  y:= ListBoxSearchDocumentaion.ItemIndex;
+  if ListBoxSearchDocumentaion.selected[y] then
+  begin
+    MemoSearchDocumentation.Lines.add(ListBoxSearchDocumentaion.Items.Strings[y]);
+    //PodliczLinijki(ListBox1, StatusBar2);
+    //Status.Panels.Items[3].Text := ' ';
+    end;
 end;
 
 procedure TFormMain.ListBoxSearchFunctionsClick(Sender: TObject);
@@ -1336,6 +1370,11 @@ begin
   EditSearchComments.Clear;
 end;
 
+procedure TFormMain.SBClearSearchDocumentaionClick(Sender: TObject);
+begin
+  EditSearchDocumentation.Clear;
+end;
+
 procedure TFormMain.SBClearSearchFunctionsClick(Sender: TObject);
 begin
   EditSearchFunctions.Clear;
@@ -1382,6 +1421,16 @@ begin
 
   end;
 end;
+
+
+procedure TFormMain.SynEditCodeKeyPress(Sender: TObject; var Key: char);
+begin
+   // if Key in ['a'..'z', 'A'..'Z', '_'] then
+   //  ShowCode;
+    //ShowCompletionListAtCursor;
+end;
+
+
 
 procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
@@ -1747,12 +1796,14 @@ begin
       //English language
       SetDefaultLang('en');
       IsClickMainMenuLanguage(0);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'pl':
     begin
       //Polish language
       SetDefaultLang('pl');
       IsClickMainMenuLanguage(6);
+      LoadTextDocumenation('documentation-pl.txt');
     end;
     'ru':
     begin
@@ -2637,6 +2688,26 @@ begin
   SynEditCode.SelectedColor.Foreground := clWhite; // kolor czcionki
   SynEditCode.SelectedColor.Background := clGreen;   // kolor tła
 end;
+
+
+procedure TFormMain.LoadTextDocumenation(FileName: string);
+begin
+  ListBoxSearchDocumentaion.Items.LoadFromFile(ExtractFilePath(ParamStr(0))+ '\docs\' + FileName ,TEncoding.UTF8);
+end;
+
+
+
+procedure TFormMain.LoadDocToListBox(const FileName: string;
+  var Keywords: TStringList);
+begin
+  Keywords := TStringList.Create;
+  if FileExists(FileName) then
+    Keywords.LoadFromFile(FileName)
+  else
+    raise Exception.Create('Nie znaleziono pliku documentation.txt');
+end;
+
+
 
 
 procedure TFormMain.KompilacjaKoduwPascal(const Code, OutputFile: string);

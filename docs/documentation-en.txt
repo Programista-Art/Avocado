@@ -1,0 +1,2 @@
+int - A signed integer with a platform-dependent size (typically 4 bytes, e.g., -2147483648 to 2147483647) – the recommended default type.
+int16 - A signed integer with a size of 2 bytes (-32,768 to 32,767).

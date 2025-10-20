@@ -106,9 +106,18 @@ msgctxt "tformmain.butcompilecode.hint"
 msgid "Kompiluj"
 msgstr "Compilar"
 
+#: tformmain.documentation.caption
+msgctxt "tformmain.documentation.caption"
+msgid "Documentation"
+msgstr ""
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr "filtrar comentarios"
+
+#: tformmain.editsearchdocumentation.texthint
+msgid "Enter the name of the function"
+msgstr ""
 
 #: tformmain.editsearchfunctions.texthint
 msgctxt "tformmain.editsearchfunctions.texthint"
@@ -128,6 +137,11 @@ msgstr "funciones de filtro"
 msgid "filter variables"
 msgstr "variables de filtro"
 
+#: tformmain.fpccode.caption
+msgctxt "tformmain.fpccode.caption"
+msgid "Free Pascal Code"
+msgstr ""
+
 #: tformmain.itemjaponski.caption
 msgid "日本語"
 msgstr "日本語"
@@ -145,14 +159,19 @@ msgstr "Compilar"
 msgid "Console Log"
 msgstr "DepuraciónRegistro de la consola"
 
-#: tformmain.label2.caption
-#| msgid "Informacja"
-msgid "Free Pascal Code"
-msgstr "Free Pascal Code"
-
 #: tformmain.label4.caption
 msgid "Rozmiar"
 msgstr "Tamaño"
+
+#: tformmain.label5.caption
+#, fuzzy
+msgctxt "tformmain.label5.caption"
+msgid "Free Pascal Code"
+msgstr "Free Pascal Code"
+
+#: tformmain.label6.caption
+msgid "Definition"
+msgstr ""
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -1001,3 +1020,4 @@ msgstr "El archivo no existe: "
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "No hay ningún elemento seleccionado"
+

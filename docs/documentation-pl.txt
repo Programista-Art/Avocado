@@ -1,0 +1,3 @@
+liczba_całkowita - Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
+lc - Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
+liczba_mała - Liczba całkowita ze znakiem o rozmiarze 2 bajtów (-32768 do 32767).
