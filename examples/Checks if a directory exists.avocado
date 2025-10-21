@@ -1,0 +1,5 @@
+program test
+char a = 'f'
+print_line('Enter a letter')
+czytaj_linie(a)
+print_line('Selected letter: ', a)

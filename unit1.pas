@@ -1796,7 +1796,7 @@ begin
       //English language
       SetDefaultLang('en');
       IsClickMainMenuLanguage(0);
-       LoadTextDocumenation('documentation-en.txt');
+      LoadTextDocumenation('documentation-en.txt')
     end;
     'pl':
     begin
@@ -1810,60 +1810,70 @@ begin
       //Russian language
       SetDefaultLang('ru');
       IsClickMainMenuLanguage(7);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'de':
     begin
       //German language
       SetDefaultLang('de');
       IsClickMainMenuLanguage(3);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'pt':
     begin
       //Portuguese language
       SetDefaultLang('pt');
       IsClickMainMenuLanguage(5);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'es':
     begin
       //Spanish language
       SetDefaultLang('es');
       IsClickMainMenuLanguage(1);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'dk':
     begin
       //Danish language
       SetDefaultLang('dk');
        IsClickMainMenuLanguage(13);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'it':
     begin
       //Italian language
       SetDefaultLang('it');
       IsClickMainMenuLanguage(4);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'hi':
     begin
       //Hindi language
       SetDefaultLang('hi');
       IsClickMainMenuLanguage(9);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'fr':
     begin
       //French language
       SetDefaultLang('fr');
       IsClickMainMenuLanguage(2);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'cz':
     begin
       //Czech language
       SetDefaultLang('cz');
       IsClickMainMenuLanguage(11);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'zh':
     begin
       //Chinese language
       SetDefaultLang('zh');
       IsClickMainMenuLanguage(8);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'bn':
     begin
@@ -1876,12 +1886,14 @@ begin
       //Arabic language
       SetDefaultLang('ar');
       IsClickMainMenuLanguage(10);
+      LoadTextDocumenation('documentation-en.txt');
     end;
     'bg':
     begin
       //Bulgarian language
        SetDefaultLang('bg');
        IsClickMainMenuLanguage(14);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'pnb':
     begin
@@ -1894,100 +1906,117 @@ begin
        //Ukrainian language
        SetDefaultLang('ua');
        IsClickMainMenuLanguage(12);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'nl':
     begin
        //Dutch language
        SetDefaultLang('nl');
        IsClickMainMenuLanguage(15);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'et':
     begin
        //Estonian language
        SetDefaultLang('et');
        IsClickMainMenuLanguage(16);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'fi':
     begin
        //Finnish language
        SetDefaultLang('fi');
        IsClickMainMenuLanguage(17);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'gr':
     begin
        //Greek language
        SetDefaultLang('gr');
        IsClickMainMenuLanguage(18);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'hu':
     begin
        //Hungarian language
        SetDefaultLang('hu');
        IsClickMainMenuLanguage(19);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'id':
     begin
        //Indonesian language
        SetDefaultLang('id');
        IsClickMainMenuLanguage(20);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'jp':
     begin
        //Japanese language
        SetDefaultLang('jp');
        IsClickMainMenuLanguage(21);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'kr':
     begin
        //Korean language
        SetDefaultLang('kr');
        IsClickMainMenuLanguage(22);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'lv':
     begin
        //Latvian language
        SetDefaultLang('lv');
        IsClickMainMenuLanguage(23);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'lt':
     begin
        //Lithuanian language
        SetDefaultLang('lt');
        IsClickMainMenuLanguage(24);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'ro':
     begin
        //Romanian language
        SetDefaultLang('ro');
        IsClickMainMenuLanguage(25);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'sk':
     begin
        //Slovak language
        SetDefaultLang('sk');
        IsClickMainMenuLanguage(26);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'sl':
     begin
        //Slovenian language
        SetDefaultLang('sl');
        IsClickMainMenuLanguage(27);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'se':
     begin
        //Swedish language
        SetDefaultLang('sv');
        IsClickMainMenuLanguage(28);
+       LoadTextDocumenation('documentation-en.txt');
     end;
     'tr':
     begin
        //Turkish language
        SetDefaultLang('tr');
        IsClickMainMenuLanguage(29);
+       LoadTextDocumenation('documentation-en.txt');
     end
     else
       SetDefaultLang('en');
       IsClickMainMenuLanguage(0);
+      LoadTextDocumenation('documentation-en.txt');
     end;
      // end
 
