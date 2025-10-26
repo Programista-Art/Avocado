@@ -28,6 +28,8 @@
 {"hash":48,"name":"tformmain.lrozmiarzccionkiedytora.caption","sourcebytes":[48],"value":"0"},
 {"hash":357115,"name":"tformmain.menuitem1.caption","sourcebytes":[80,108,105,107],"value":"Plik"},
 {"hash":349929,"name":"tformmain.menunewfile.caption","sourcebytes":[78,111,119,121],"value":"Nowy"},
+{"hash":36930925,"name":"tformmain.menuitemconsoleprogram.caption","sourcebytes":[67,111,110,115,111,108,101,32,112,114,111,103,114,97,109],"value":"Console program"},
+{"hash":127264813,"name":"tformmain.menuitem20.caption","sourcebytes":[80,114,111,103,114,97,109],"value":"Program"},
 {"hash":113502922,"name":"tformmain.menuopen.caption","sourcebytes":[79,116,119,195,179,114,122],"value":"Otw\u00F3rz"},
 {"hash":111429314,"name":"tformmain.menuitemopenfolder.caption","sourcebytes":[79,112,101,110,32,102,111,108,100,101,114],"value":"Open folder"},
 {"hash":101216426,"name":"tformmain.menuitemsavefile.caption","sourcebytes":[90,97,112,105,115,122],"value":"Zapisz"},

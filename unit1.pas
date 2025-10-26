@@ -65,6 +65,8 @@ type
     MenuItem19: TMenuItem;
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItemConsoleProgram: TMenuItem;
     MenuItemCompile: TMenuItem;
     MenuItemRun: TMenuItem;
     MenuItemSearch: TMenuItem;
@@ -227,8 +229,10 @@ type
     procedure MenuItem17Click(Sender: TObject);
     procedure MenuItem18Click(Sender: TObject);
     procedure MenuItem19Click(Sender: TObject);
+    procedure MenuItem20Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
     procedure MenuItemCompileClick(Sender: TObject);
+    procedure MenuItemConsoleProgramClick(Sender: TObject);
     procedure MenuItemCzeskiClick(Sender: TObject);
     procedure MenuItemDanskClick(Sender: TObject);
     procedure MenuItemEstonskiClick(Sender: TObject);
@@ -264,7 +268,7 @@ type
     procedure TimerScanFunctionsTimer(Sender: TObject);
     procedure ToolButtonDebugClick(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
-    procedure NowyPlikExecute(Sender: TObject);
+    //procedure NowyPlikExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MenuAboutProgramClick(Sender: TObject);
@@ -281,7 +285,6 @@ type
     procedure MenuItemPasteClick(Sender: TObject);
     procedure MenuItemPasteCodeClick(Sender: TObject);
     procedure MenuItemSaveFileClick(Sender: TObject);
-    procedure MenuNewFileClick(Sender: TObject);
     procedure MenuOpcjeProjektuClick(Sender: TObject);
     procedure MenuOpenClick(Sender: TObject);
     procedure MenuSaveAsClick(Sender: TObject);
@@ -533,6 +536,7 @@ resourcestring
    TranslateValueLookingFound = 'The value you were looking for has been found!';
    TranslateNoDataCode = 'No data in the code!';
    TranslateAttentionMsg = 'Attention!';
+   TranslateCreateNewFile = 'Create a new file?';
 
 implementation
 
@@ -1316,6 +1320,33 @@ begin
   SettingTheme.ShowModal;
 end;
 
+procedure TFormMain.MenuItem20Click(Sender: TObject);
+var
+i: TModalResult;
+begin
+    i := MessageDlg(TranslateAttentionMsg,TranslateCreateNewFile, mtInformation,[mbOk,mbCancel],0);
+    if i = mrOk then
+    begin
+      SynEditCode.ClearAll;
+      if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
+    begin
+      // We clean the code editor and the log and output windows
+      // Czyścimy edytor kodu oraz okna logów i outputu
+      SynEditCode.Clear;
+      MemoOutPut.Clear;
+      MemoLogs.Clear;
+      // We add the initial program declaration based on the entered name
+      // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
+      SynEditCode.Lines.Add('program ' + NameProgram);
+    end;
+    end;
+
+    if i = mrCancel then
+    begin
+     ModalResult := mrCancel;
+    end;
+end;
+
 procedure TFormMain.MenuItem9Click(Sender: TObject);
 begin
   SetDefaultLang('pl');
@@ -1326,6 +1357,33 @@ end;
 procedure TFormMain.MenuItemCompileClick(Sender: TObject);
 begin
   butCompileCodeClick(Sender);
+end;
+
+procedure TFormMain.MenuItemConsoleProgramClick(Sender: TObject);
+var
+  i: TModalResult;
+begin
+    i := MessageDlg(TranslateAttentionMsg,TranslateCreateNewFile, mtInformation,[mbOk,mbCancel],0);
+  if i = mrOk then
+  begin
+    SynEditCode.ClearAll;
+    if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
+  begin
+    // We clean the code editor and the log and output windows
+    // Czyścimy edytor kodu oraz okna logów i outputu
+    SynEditCode.Clear;
+    MemoOutPut.Clear;
+    MemoLogs.Clear;
+    // We add the initial program declaration based on the entered name
+    // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
+    SynEditCode.Lines.Add('program ' + NameProgram);
+  end;
+  end;
+
+  if i = mrCancel then
+  begin
+   ModalResult := mrCancel;
+  end;
 end;
 
 procedure TFormMain.MenuItemCzeskiClick(Sender: TObject);
@@ -1604,10 +1662,10 @@ begin
   CheckAvocadoCode;
 end;
 
-procedure TFormMain.NowyPlikExecute(Sender: TObject);
-begin
-  MenuNewFileClick(sender);
-end;
+//procedure TFormMain.NowyPlikExecute(Sender: TObject);
+//begin
+//  MenuNewFileClick(sender);
+//end;
 
 constructor TFormMain.Create(TheOwner: TComponent);
 begin
@@ -1712,21 +1770,6 @@ begin
     MenuSaveAsClick(Sender);
 end;
 
-procedure TFormMain.MenuNewFileClick(Sender: TObject);
-begin
-  if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
-  begin
-    // We clean the code editor and the log and output windows
-    // Czyścimy edytor kodu oraz okna logów i outputu
-    SynEditCode.Clear;
-    MemoOutPut.Clear;
-    MemoLogs.Clear;
-    // We add the initial program declaration based on the entered name
-    // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
-    SynEditCode.Lines.Add('program ' + NameProgram);
-  end;
-
-end;
 
 procedure TFormMain.MenuOpcjeProjektuClick(Sender: TObject);
 begin
@@ -1776,6 +1819,7 @@ begin
   try
     MemoOutPut.Clear;
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+
     //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
 
     MemoOutPut.Lines.Add(FTranslatedCode.Text);

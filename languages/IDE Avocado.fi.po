@@ -305,6 +305,10 @@ msgctxt "tformmain.menuitem2.caption"
 msgid "Settings"
 msgstr "Asetukset"
 
+#: tformmain.menuitem20.caption
+msgid "Program"
+msgstr ""
+
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
 msgstr "Apua"
@@ -343,6 +347,10 @@ msgstr "Polski"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
+msgstr ""
+
+#: tformmain.menuitemconsoleprogram.caption
+msgid "Console program"
 msgstr ""
 
 #: tformmain.menuitemcopyallpascalzcode.caption
@@ -817,6 +825,10 @@ msgstr ""
 
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
+msgstr ""
+
+#: unit1.translatecreatenewfile
+msgid "Create a new file?"
 msgstr ""
 
 #: unit1.translatecustmodulesdirnotfound

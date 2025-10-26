@@ -623,6 +623,8 @@ object FormMain: TFormMain
         Color = clWindow
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clActiveCaption
+        Font.Height = -13
+        Font.Name = 'Courier New'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         ParentColor = False
@@ -635,7 +637,7 @@ object FormMain: TFormMain
         Gutter.CurrentLineColor.Background = 2458919
         Gutter.CurrentLineColor.Foreground = 2458919
         Gutter.CurrentLineColor.FrameColor = 2458919
-        Gutter.Width = 41
+        Gutter.Width = 33
         Gutter.MouseActions = <>
         RightGutter.Color = 2458919
         RightGutter.CurrentLineColor.Background = clActiveBorder
@@ -1127,7 +1129,7 @@ object FormMain: TFormMain
             Options = [sgmoDeDuplicateMarks, sgmoDeDuplicateMarksOnOverflow]
           end
           object SynGutterLineNumber1: TSynGutterLineNumber
-            Width = 25
+            Width = 17
             MouseActions = <>
             MarkupInfo.Background = clWindow
             MarkupInfo.Foreground = 2458919
@@ -1302,7 +1304,14 @@ object FormMain: TFormMain
       object MenuNewFile: TMenuItem
         Caption = 'Nowy'
         ShortCut = 16462
-        OnClick = MenuNewFileClick
+        object MenuItemConsoleProgram: TMenuItem
+          Caption = 'Console program'
+          OnClick = MenuItemConsoleProgramClick
+        end
+        object MenuItem20: TMenuItem
+          Caption = 'Program'
+          OnClick = MenuItem20Click
+        end
       end
       object MenuOpen: TMenuItem
         Caption = 'Otwórz'
@@ -1554,7 +1563,6 @@ object FormMain: TFormMain
       Caption = 'NowyPLik'
       Hint = 'Nowy Plik'
       ShortCut = 16462
-      OnExecute = NowyPlikExecute
     end
     object ZapiszPlik: TAction
       Caption = 'ZapiszPlik'

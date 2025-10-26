@@ -279,6 +279,10 @@ msgctxt "tformmain.menuitem2.caption"
 msgid "Settings"
 msgstr "Ustawienia"
 
+#: tformmain.menuitem20.caption
+msgid "Program"
+msgstr ""
+
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
 msgstr "Pomoc"
@@ -315,6 +319,10 @@ msgstr "Polski"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
+msgstr ""
+
+#: tformmain.menuitemconsoleprogram.caption
+msgid "Console program"
 msgstr ""
 
 #: tformmain.menuitemcopyallpascalzcode.caption
@@ -767,6 +775,10 @@ msgstr "BŁĄD KONFIGURACJI: brak ustawionej ścieżki do modułów "
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w "
+
+#: unit1.translatecreatenewfile
+msgid "Create a new file?"
+msgstr ""
 
 #: unit1.translatecustmodulesdirnotfound
 msgid "Info: IDE custom modules directory not found: "
