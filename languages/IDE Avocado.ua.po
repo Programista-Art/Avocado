@@ -340,6 +340,10 @@ msgstr "Мова"
 msgid "Polski"
 msgstr "Polski"
 
+#: tformmain.menuitemcompile.caption
+msgid "Compile"
+msgstr ""
+
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
@@ -418,6 +422,10 @@ msgstr "Видалити"
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
 msgstr "Вставити"
+
+#: tformmain.menuitemrun.caption
+msgid "Run"
+msgstr ""
 
 #: tformmain.menuitemsavefile.caption
 #, fuzzy

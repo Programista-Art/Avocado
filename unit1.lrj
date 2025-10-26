@@ -33,6 +33,8 @@
 {"hash":101216426,"name":"tformmain.menuitemsavefile.caption","sourcebytes":[90,97,112,105,115,122],"value":"Zapisz"},
 {"hash":11171851,"name":"tformmain.menusaveas.caption","sourcebytes":[90,97,112,105,115,122,32,106,97,107],"value":"Zapisz jak"},
 {"hash":8660122,"name":"tformmain.menuclose.caption","sourcebytes":[90,97,109,107,110,105,106],"value":"Zamknij"},
+{"hash":22974,"name":"tformmain.menuitemrun.caption","sourcebytes":[82,117,110],"value":"Run"},
+{"hash":174354533,"name":"tformmain.menuitemcompile.caption","sourcebytes":[67,111,109,112,105,108,101],"value":"Compile"},
 {"hash":127274100,"name":"tformmain.menuprojekt.caption","sourcebytes":[80,114,111,106,101,107,116],"value":"Projekt"},
 {"hash":53397,"name":"tformmain.menuopcjeprojektu.caption","sourcebytes":[79,112,99,106,101,32,112,114,111,106,101,107,116,117],"value":"Opcje projektu"},
 {"hash":94079128,"name":"tformmain.menuitemsearch.caption","sourcebytes":[83,101,97,114,99,104],"value":"Search"},

@@ -1454,11 +1454,11 @@ var
   ParamTrimWhile: string;
   OpenPos: Integer;
   //Value: string;
-  EqualPos: Integer;
+  //EqualPos: Integer;
   CodePascal: String;
   ParamStr: string;
-  ParamString: string;
-  TempExpression:string;
+ // ParamString: string;
+  //TempExpression:string;
 
 begin
   TrimmedLine := Trim(Line);
@@ -1468,7 +1468,7 @@ begin
   // 1. Zignoruj puste linie i komentarze
   if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then Exit;
    // 2. Obsługa INSTUKCJI KONTROLNYCH (jeżeli, dla, dopóki, itd.) i FUNKCJI (drukuj, usuń, itd.)
-  if LowerCase(TrimmedLine).StartsWith('jeżeli ') then
+  if LowerCase(TrimmedLine).StartsWith('if ') then
   begin
     ProcessIfStatement(TrimmedLine, PascalCode);
     Exit;

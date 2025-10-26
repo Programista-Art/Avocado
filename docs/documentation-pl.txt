@@ -1,3 +1,9 @@
-liczba_całkowita - Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
-lc - Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
-liczba_mała - Liczba całkowita ze znakiem o rozmiarze 2 bajtów (-32768 do 32767).
+liczba_całkowita - int - Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
+lc - int - Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
+liczba_mała - int16 - Liczba całkowita ze znakiem o rozmiarze 2 bajtów (-32768 do 32767).
+liczba_długa - int32 - Liczba całkowita ze znakiem o rozmiarze 4 bajtów (-2147483648 do 2147483647).
+liczba_krótka - int8 - Liczba całkowita ze znakiem o rozmiarze 1 bajta (-128 do 127) 
+liczba64 - int64 - Liczba całkowita ze znakiem o rozmiarze 8 bajtów (-9223372036854775808 do 9223372036854775807).
+bajt - byte - Liczba całkowita bez znaku o rozmiarze 1 bajta (0 do 255).
+liczba16 - liczba16 - Liczba całkowita bez znaku o rozmiarze 2 bajtów (0 do 65535) – liczba dodatnia, 16-bitowa.
+liczba32 - uint32 - Liczba całkowita bez znaku o rozmiarze 4 bajtów (0 do 4294967295) – liczba dodatnia, 32-bitowa.

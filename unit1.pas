@@ -1,5 +1,4 @@
 unit Unit1;
-
 {$mode objfpc}{$H+}
 
 interface
@@ -11,8 +10,8 @@ uses
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
   AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
-  DefaultTranslator, SynEditTypes, SynPopupMenu, laz.VTHeaderPopup, Math,
-  LCLTranslator, LCLType, PopupNotifier, StrUtils, Types;
+  DefaultTranslator, SynEditTypes, Math,
+  LCLTranslator, LCLType, StrUtils, Types;
 
 type
   PNodeRec = ^TNodeRec;
@@ -66,6 +65,8 @@ type
     MenuItem19: TMenuItem;
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
+    MenuItemCompile: TMenuItem;
+    MenuItemRun: TMenuItem;
     MenuItemSearch: TMenuItem;
     MenuItemOpenFolder: TMenuItem;
     MenuItemTurkishLang: TMenuItem;
@@ -227,6 +228,7 @@ type
     procedure MenuItem18Click(Sender: TObject);
     procedure MenuItem19Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure MenuItemCompileClick(Sender: TObject);
     procedure MenuItemCzeskiClick(Sender: TObject);
     procedure MenuItemDanskClick(Sender: TObject);
     procedure MenuItemEstonskiClick(Sender: TObject);
@@ -259,7 +261,6 @@ type
     procedure SBClearSearcResultsClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
     procedure SynEditCodeClick(Sender: TObject);
-    procedure SynEditCodeKeyPress(Sender: TObject; var Key: char);
     procedure TimerScanFunctionsTimer(Sender: TObject);
     procedure ToolButtonDebugClick(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
@@ -1322,6 +1323,11 @@ begin
   IsClickMainMenuLanguage(0);
 end;
 
+procedure TFormMain.MenuItemCompileClick(Sender: TObject);
+begin
+  butCompileCodeClick(Sender);
+end;
+
 procedure TFormMain.MenuItemCzeskiClick(Sender: TObject);
 begin
   SetDefaultLang('cz');
@@ -1582,16 +1588,6 @@ begin
    SynEditCode.SelectedColor.BackAlpha := 200;
 end;
 
-
-procedure TFormMain.SynEditCodeKeyPress(Sender: TObject; var Key: char);
-begin
-   // if Key in ['a'..'z', 'A'..'Z', '_'] then
-   //  ShowCode;
-    //ShowCompletionListAtCursor;
-end;
-
-
-
 procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
   TimerScanFunctions.Enabled := False; // zatrzymujemy timer do następnej zmiany
@@ -1622,8 +1618,6 @@ begin
   FPC_Params.Add('-Sg');
   FPC_Params.Add('-Mobjfpc');
 end;
-
-
 
 procedure TFormMain.FormShow(Sender: TObject);
 begin
@@ -2240,13 +2234,13 @@ procedure TFormMain.IsClickMainMenuLanguage(number: Integer);
 var
   i: Integer;
 begin
-  for i := 0 to MainMenu1.Items[4].Count - 1 do
+  for i := 0 to MainMenu1.Items[5].Count - 1 do
     begin
       if i <> number then
-        MainMenu1.Items[4].Items[i].Checked := False;
+        MainMenu1.Items[5].Items[i].Checked := False;
     end;
     // Select the selected item
-    MainMenu1.Items[4].Items[number].Checked := True;
+    MainMenu1.Items[5].Items[number].Checked := True;
 end;
 
 

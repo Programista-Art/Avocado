@@ -1,5 +1,0 @@
-program test
-znak a = 'f'
-pisznl('Wpisz litere')
-czytaj_linie(a)
-pisznl('Wybrana litera: ', a)

@@ -236,6 +236,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="avocadolclcomponents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="AvocadoLCLComponents"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

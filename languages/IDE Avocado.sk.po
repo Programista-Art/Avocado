@@ -340,6 +340,10 @@ msgstr "Language"
 msgid "Polski"
 msgstr ""
 
+#: tformmain.menuitemcompile.caption
+msgid "Compile"
+msgstr ""
+
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
@@ -418,6 +422,10 @@ msgstr "Odstrániť"
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
 msgstr "Vložiť"
+
+#: tformmain.menuitemrun.caption
+msgid "Run"
+msgstr ""
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
