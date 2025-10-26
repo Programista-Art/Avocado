@@ -1303,7 +1303,6 @@ object FormMain: TFormMain
       Caption = 'Plik'
       object MenuNewFile: TMenuItem
         Caption = 'Nowy'
-        ShortCut = 16462
         object MenuItemConsoleProgram: TMenuItem
           Caption = 'Console program'
           OnClick = MenuItemConsoleProgramClick
@@ -1563,6 +1562,7 @@ object FormMain: TFormMain
       Caption = 'NowyPLik'
       Hint = 'Nowy Plik'
       ShortCut = 16462
+      OnExecute = NowyPlikExecute
     end
     object ZapiszPlik: TAction
       Caption = 'ZapiszPlik'
@@ -1617,6 +1617,9 @@ object FormMain: TFormMain
       'if'
       'then'
       'else'
+      'start'
+      'end'
+      'end!'
       'trim'
       'insert'
       'pascal_line'
@@ -1646,10 +1649,13 @@ object FormMain: TFormMain
       'parametr_programu'
       'pobierz_zmienną_środowiskową'
       'ustaw_zmienną_środowiskową'
-      'jeśli'
+      'jeżeli'
       'wtedy'
       'inaczej'
       'dopóki'
+      'początek'
+      'koniec'
+      'koniec!'
       'wyjść'
       'zakończ'
       'tło_tekstu'

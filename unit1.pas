@@ -248,6 +248,7 @@ type
     procedure MenuItemTurkishLangClick(Sender: TObject);
     procedure MenuItIndonezyjskiClick(Sender: TObject);
     procedure MenuItWegierskiClick(Sender: TObject);
+    procedure NowyPlikExecute(Sender: TObject);
     procedure ReplaceDialogFind(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
     procedure MenuINformacjaIDEClick(Sender: TObject);
@@ -550,7 +551,7 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-  AvocadoVersion := 'IDE Avocado v 1.0.1.2';
+  AvocadoVersion := 'IDE Avocado v 1.0.1.3';
   FormMain.Caption := AvocadoVersion;
   NeedsAsmIntel := False;
   SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
@@ -1491,6 +1492,11 @@ begin
   SetDefaultLang('hu');
   lang := 'hu';
   IsClickMainMenuLanguage(19);
+end;
+
+procedure TFormMain.NowyPlikExecute(Sender: TObject);
+begin
+  MenuItemConsoleProgramClick(sender);
 end;
 
 

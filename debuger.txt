@@ -296,3 +296,10 @@ false
 /
 *
 :
+początek
+koniec
+koniec!
+start
+end
+end!
+jeżeli

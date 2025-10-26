@@ -1457,8 +1457,9 @@ var
   //EqualPos: Integer;
   CodePascal: String;
   ParamStr: string;
- // ParamString: string;
-  //TempExpression:string;
+  TranslatedLine: string;
+  NeedsSemicolon: Boolean;
+  NextTrimmedLowerLine: String;
 
 begin
   TrimmedLine := Trim(Line);
@@ -1467,11 +1468,62 @@ begin
 
   // 1. Zignoruj puste linie i komentarze
   if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then Exit;
-   // 2. Obsługa INSTUKCJI KONTROLNYCH (jeżeli, dla, dopóki, itd.) i FUNKCJI (drukuj, usuń, itd.)
-  if LowerCase(TrimmedLine).StartsWith('if ') then
+
+  // Obsługa słowa kluczowego początek / start
+  if (LowerTrimmedLine = 'początek') or (LowerTrimmedLine = 'start')then
   begin
-    ProcessIfStatement(TrimmedLine, PascalCode);
+    PascalCode.Add('begin');
     Exit;
+  end;
+
+  // Obsługa słowa kluczowego koniec / end
+  if (LowerTrimmedLine = 'koniec!') or (LowerTrimmedLine = 'end!') then
+  begin
+    PascalCode.Add('end;');
+    Exit;
+  end;
+
+  // Obsługa słowa kluczowego koniec / end
+  if (LowerTrimmedLine = 'koniec') or (LowerTrimmedLine = 'end') then
+  begin
+    PascalCode.Add('end');
+    Exit;
+  end;
+
+  // Obsługa słowa kluczowego KONIEC. (z kropką, na końcu programu)
+  if LowerTrimmedLine = 'koniec.' then
+  begin
+    PascalCode.Add('end.');
+    Exit;
+  end;
+  NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
+  // Obsługa JEŻELI, WTEDY, INACZEJ
+  // Sprawdzamy, czy linia zawiera którekolwiek z tych słów
+  if (Pos('jeżeli', LowerTrimmedLine) > 0) or   (Pos('if', LowerTrimmedLine) > 0) or
+     (Pos('wtedy', LowerTrimmedLine) > 0) or   (Pos('then', LowerTrimmedLine) > 0) or
+     (Pos('inaczej', LowerTrimmedLine) > 0) or (Pos('else', LowerTrimmedLine) > 0) then
+  begin
+
+
+
+    // Zaczynamy od oryginalnej linii (zachowując wielkość liter zmiennych)
+    TranslatedLine := TrimmedLine;
+
+    // Używamy StringReplace z opcjami:
+    // [rfReplaceAll] - zamienia wszystkie wystąpienia w linii
+    // [rfIgnoreCase] - ignoruje wielkość liter (zamieni 'jeżeli', 'Jeżeli', 'JEŻELI' itd.)
+
+    // WAŻNA KOLEJNOŚĆ: Najpierw musimy zamienić złożone "inaczej jeżeli"
+    TranslatedLine := StringReplace(TranslatedLine, 'inaczej jeżeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
+
+    // Dopiero teraz zamieniamy pojedyncze słowa
+    TranslatedLine := StringReplace(TranslatedLine, 'jeżeli', 'if', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wtedy', 'then', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'inaczej', 'else', [rfReplaceAll, rfIgnoreCase]);
+
+    // Dodajemy przetłumaczoną linię do wynikowego kodu
+    PascalCode.Add(TranslatedLine);
+    Exit; // Kończymy przetwarzanie tej linii
   end;
 
 
@@ -1659,6 +1711,7 @@ begin
       PascalCode.Add(TrimmedLine);
       Exit;
     end;
+
 
     //kod assemblera blok kodu
     if not InPurePascalBlock then
@@ -2076,6 +2129,7 @@ begin
   ProcessWhileLoop(TrimmedLine, PascalCode);
   Exit;
 end;
+
 
 
 {INTERNET BLOK KODU}
@@ -2893,19 +2947,38 @@ end
         AddVariable(VarName, VarType,False);
       end;
 
-      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';');
+    // POPRAWKA: Dodajemy średnik tylko warunkowo
+    if NeedsSemicolon then
+      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
+    else
+      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value)); // Bez średnika
+
+     // PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';');
     end
 
-
+    {
     // 5. Obsługa pozostałych linii
     else if TrimmedLine <> '' then
     begin
       PascalCode.Add(TrimmedLine + ';');
     end;
-  end;
+  end;}
+  // 5. Obsługa pozostałych linii
+  else if TrimmedLine <> '' then
+  begin
 
-end;
+    // Musimy też przetłumaczyć funkcje typu 'pisz_linie'
+    TranslatedLine := TranslateExpression(TrimmedLine);
 
+    // POPRAWKA: Dodajemy średnik tylko warunkowo
+    if NeedsSemicolon then
+      PascalCode.Add(TranslatedLine + ';')
+    else
+      PascalCode.Add(TranslatedLine); // Bez średnika
+   end;
+   end;
+
+     end;
 
 end;
 
