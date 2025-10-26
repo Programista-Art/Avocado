@@ -8,7 +8,6 @@ object FormMain: TFormMain
   Color = 5197647
   Menu = MainMenu1
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -304,9 +303,9 @@ object FormMain: TFormMain
         Height = 128
         Top = 28
         Width = 870
-        ActivePage = TabSheetSearch
+        ActivePage = TabErrors
         Align = alClient
-        TabIndex = 1
+        TabIndex = 5
         TabOrder = 2
         object TabSheetLog: TTabSheet
           Caption = 'Logs'
@@ -339,10 +338,12 @@ object FormMain: TFormMain
             Top = 32
             Width = 862
             Align = alBottom
-            Color = clBlack
+            Color = clWindow
             ItemHeight = 0
+            Style = lbOwnerDrawFixed
             TabOrder = 0
             OnClick = ListBoxSeacrhClick
+            OnDrawItem = ListBoxSeacrhDrawItem
           end
           object Panel4: TPanel
             Left = 0
@@ -392,10 +393,12 @@ object FormMain: TFormMain
             Top = 35
             Width = 862
             Align = alClient
-            Color = clBlack
+            Color = clWindow
             ItemHeight = 0
+            Style = lbOwnerDrawFixed
             TabOrder = 0
             OnClick = ListBoxSearchFunctionsClick
+            OnDrawItem = ListBoxSearchFunctionsDrawItem
           end
           object PanelTopFunctions: TPanel
             Left = 0
@@ -482,10 +485,12 @@ object FormMain: TFormMain
             Top = 35
             Width = 862
             Align = alClient
-            Color = clBlack
+            Color = clWindow
             ItemHeight = 0
+            Style = lbOwnerDrawFixed
             TabOrder = 1
             OnClick = ListBoxSearchVariablesClick
+            OnDrawItem = ListBoxSearchVariablesDrawItem
           end
         end
         object TabSheetComments: TTabSheet
@@ -535,10 +540,12 @@ object FormMain: TFormMain
             Top = 35
             Width = 862
             Align = alClient
-            Color = clBlack
+            Color = clWindow
             ItemHeight = 0
+            Style = lbOwnerDrawFixed
             TabOrder = 1
             OnClick = ListBoxSearchCommentsClick
+            OnDrawItem = ListBoxSearchCommentsDrawItem
           end
         end
         object TabErrors: TTabSheet
@@ -587,10 +594,12 @@ object FormMain: TFormMain
             Top = 35
             Width = 862
             Align = alClient
-            Color = clBlack
+            Color = clWindow
             ItemHeight = 0
+            Style = lbOwnerDrawFixed
             TabOrder = 1
             OnClick = ListBoxErrCodeClick
+            OnDrawItem = ListBoxErrCodeDrawItem
           end
         end
       end
@@ -611,30 +620,28 @@ object FormMain: TFormMain
         Top = 1
         Width = 658
         Align = alClient
-        BlockIndent = 1
-        Color = clBtnShadow
-        Font.CharSet = 4
-        Font.Color = clNone
-        Font.Height = -16
-        Font.Name = 'Courier New'
-        Font.Pitch = fpFixed
+        Color = clWindow
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Color = clActiveCaption
+        Font.Pitch = fpVariable
         Font.Quality = fqDraft
         ParentColor = False
         ParentFont = False
         PopupMenu = PopupMenuCode
         TabOrder = 0
+        OnClick = SynEditCodeClick
         OnKeyPress = SynEditCodeKeyPress
         BookMarkOptions.BookmarkImages = ImageListListView
-        Gutter.Color = clAppWorkspace
-        Gutter.CurrentLineColor.Background = clTeal
-        Gutter.CurrentLineColor.Foreground = clTeal
-        Gutter.CurrentLineColor.FrameColor = clTeal
-        Gutter.Width = 51
+        Gutter.Color = clBtnShadow
+        Gutter.CurrentLineColor.Background = 2458919
+        Gutter.CurrentLineColor.Foreground = 2458919
+        Gutter.CurrentLineColor.FrameColor = 2458919
+        Gutter.Width = 41
         Gutter.MouseActions = <>
-        RightGutter.Color = clBtnShadow
+        RightGutter.Color = 2458919
         RightGutter.CurrentLineColor.Background = clActiveBorder
         RightGutter.CurrentLineColor.Foreground = clHighlight
-        RightGutter.CurrentLineColor.FrameColor = clActiveBorder
+        RightGutter.CurrentLineColor.FrameColor = clForm
         RightGutter.Width = 0
         RightGutter.MouseActions = <>
         HideSelection = True
@@ -1070,13 +1077,13 @@ object FormMain: TFormMain
           end>
         MouseTextActions = <>
         MouseSelActions = <>
-        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces, eoShowCtrlMouseLinks]
-        Options2 = [eoFoldedCopyPaste, eoOverwriteBlock, eoColorSelectionTillEol, eoAcceptDragDropEditing]
-        MouseOptions = [emShowCtrlMouseLinks]
+        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options2 = [eoCaretMoveEndsSelection, eoFoldedCopyPaste, eoOverwriteBlock, eoAcceptDragDropEditing]
+        MouseOptions = [emCtrlWheelZoom]
         VisibleSpecialChars = [vscSpace, vscTabAtLast]
-        RightEdgeColor = clBtnHighlight
-        SelectedColor.Background = clMoneyGreen
-        SelectedColor.Foreground = clWindowFrame
+        SelectedColor.Background = 3101488
+        SelectedColor.Foreground = clNone
+        SelectedColor.FrameColor = clBtnShadow
         SelectedColor.FrameEdges = sfeNone
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
@@ -1085,46 +1092,51 @@ object FormMain: TFormMain
         SelectedColor.ItalicPriority = 50
         SelectedColor.UnderlinePriority = 50
         SelectedColor.StrikeOutPriority = 50
+        SelectedColor.BackAlpha = 200
         SelectedColor.ForeAlpha = 230
         IncrementColor.Background = clGreen
-        IncrementColor.Foreground = clWindow
-        HighlightAllColor.Background = clBtnText
-        HighlightAllColor.Foreground = clBtnShadow
-        HighlightAllColor.FrameColor = clInactiveBorder
+        IncrementColor.Foreground = clGreen
+        IncrementColor.FrameColor = 2458919
+        HighlightAllColor.Foreground = 5828944
+        HighlightAllColor.FrameColor = 5828944
         HighlightAllColor.FrameEdges = sfeNone
+        HighlightAllColor.Style = [fsBold]
         BracketHighlightStyle = sbhsBoth
         BracketMatchColor.Background = clTeal
         BracketMatchColor.Foreground = clTeal
-        BracketMatchColor.FrameColor = clAppWorkspace
+        BracketMatchColor.FrameColor = clDefault
         BracketMatchColor.Style = [fsBold]
         BracketMatchColor.StyleMask = [fsBold]
-        FoldedCodeColor.Background = clBtnShadow
-        FoldedCodeColor.Foreground = clNone
+        FoldedCodeColor.Background = clNone
+        FoldedCodeColor.Foreground = clGray
         FoldedCodeColor.FrameColor = clGray
-        MouseLinkColor.Background = clRed
-        MouseLinkColor.Foreground = clRed
+        MouseLinkColor.Background = clNone
+        MouseLinkColor.Foreground = clNone
         LineHighlightColor.Background = clNone
-        LineHighlightColor.Foreground = clHighlight
-        LineHighlightColor.FrameColor = clHighlight
+        LineHighlightColor.Foreground = 2458919
+        LineHighlightColor.FrameColor = 2458919
         LineHighlightColor.FrameEdges = sfeBottom
+        LineHighlightColor.Style = [fsBold]
         OnChange = SynEditCodeChange
         inline SynLeftGutterPartList1: TSynGutterPartList
           object SynGutterMarks1: TSynGutterMarks
             Width = 24
             LeftOffset = -10
+            Visible = False
             MouseActions = <>
             MaxExtraMarksColums = 0
             Options = [sgmoDeDuplicateMarks, sgmoDeDuplicateMarksOnOverflow]
-            MarkupInfoCurrentLine.Background = clHighlight
           end
           object SynGutterLineNumber1: TSynGutterLineNumber
-            Width = 21
+            Width = 25
             MouseActions = <>
-            MarkupInfo.Background = clBlack
-            MarkupInfo.Foreground = clWindow
-            MarkupInfo.FrameColor = 5197647
-            MarkupInfo.FrameEdges = sfeBottom
-            MarkupInfoCurrentLine.Background = clMenuText
+            MarkupInfo.Background = clWindow
+            MarkupInfo.Foreground = 2458919
+            MarkupInfo.FrameColor = clWindow
+            MarkupInfo.FrameAlpha = 44
+            MarkupInfoCurrentLine.Background = clInactiveBorder
+            MarkupInfoCurrentLine.Foreground = 2458919
+            MarkupInfoCurrentLine.FrameColor = clInfoBk
             DigitCount = 2
             ShowOnlyLineNumbersMultiplesOf = 1
             ZeroStart = False
@@ -1133,7 +1145,7 @@ object FormMain: TFormMain
           object SynGutterChanges1: TSynGutterChanges
             Width = 4
             MouseActions = <>
-            ModifiedColor = 59900
+            ModifiedColor = 4842717
             SavedColor = clGreen
           end
           object SynGutterSeparator1: TSynGutterSeparator
@@ -1141,7 +1153,6 @@ object FormMain: TFormMain
             MouseActions = <>
             MarkupInfo.Background = clWhite
             MarkupInfo.Foreground = clGray
-            MarkupInfoCurrentLine.Background = clMenuHighlight
           end
           object SynGutterCodeFolding1: TSynGutterCodeFolding
             MouseActions = <>
@@ -1173,7 +1184,7 @@ object FormMain: TFormMain
           MaxValue = 50
           Value = 10
           LineColor = clMenuHighlight
-          LineBkgColor = clHighlight
+          LineBkgColor = 2458919
           OnChangeValue = RozmiarCzcionkiSynEditorChangeValue
           Align = alLeft
         end
@@ -1234,10 +1245,19 @@ object FormMain: TFormMain
           Top = 24
           Width = 204
           Align = alClient
+          ExpandSignColor = 8446794
+          ExpandSignType = tvestPlusMinus
+          Font.Color = clWhite
+          HideSelection = False
           Images = ImageListListView
-          SelectionFontColor = clMedGray
+          ParentFont = False
+          SelectionColor = 2458919
+          SelectionFontColor = clMenuText
+          SeparatorColor = clWindowFrame
           StateImages = ImageListListView
           TabOrder = 0
+          Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+          TreeLinePenStyle = psSolid
           OnCollapsing = TreeViewCollapsing
           OnDblClick = TreeViewDblClick
           OnExpanding = TreeViewExpanding
@@ -1498,8 +1518,8 @@ object FormMain: TFormMain
   end
   object SD: TSaveDialog
     Filter = 'Avocado|.avocado'
-    Left = 572
-    Top = 328
+    Left = 552
+    Top = 160
   end
   object PopupMenuKonsola: TPopupMenu
     Left = 680
@@ -1533,30 +1553,9 @@ object FormMain: TFormMain
       OnExecute = ZapiszPlikExecute
     end
   end
-  object SynPopupMenuCode: TSynPopupMenu
-    Alignment = paRight
-    Left = 725
-    Top = 184
-    object MenuItemCopy: TMenuItem
-      Caption = 'Kopiuj'
-      OnClick = MenuItemCopyClick
-    end
-    object MenuItemPaste: TMenuItem
-      Caption = 'Wklej'
-      OnClick = MenuItemPasteClick
-    end
-    object MenuItemCut: TMenuItem
-      Caption = 'Wytnij'
-      OnClick = MenuItemCutClick
-    end
-    object MenuItemDeleteCode: TMenuItem
-      Caption = 'Usuń kod'
-      OnClick = MenuItemDeleteCodeClick
-    end
-  end
   object PopupMenuCode: TPopupMenu
-    Left = 447
-    Top = 88
+    Left = 432
+    Top = 336
     object MenuItemCopyCode: TMenuItem
       Caption = 'Kopiuj'
       OnClick = MenuItemCopyCodeClick
@@ -1877,7 +1876,7 @@ object FormMain: TFormMain
     )
     Position = 0
     LinesInWindow = 10
-    SelectedColor = clTeal
+    SelectedColor = 2458919
     CaseSensitive = False
     Width = 150
     LongLineHintTime = 2
@@ -2308,7 +2307,7 @@ object FormMain: TFormMain
   object AutoCompleteDocumentation: TJvLookupAutoComplete
     Edit = EditSearchDocumentation
     ListBox = ListBoxSearchDocumentaion
-    Left = 880
-    Top = 104
+    Left = 768
+    Top = 40
   end
 end

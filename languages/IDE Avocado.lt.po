@@ -340,11 +340,6 @@ msgstr "Language"
 msgid "Polski"
 msgstr "Polski"
 
-#: tformmain.menuitemcopy.caption
-msgctxt "tformmain.menuitemcopy.caption"
-msgid "Kopiuj"
-msgstr "Kopijuoti"
-
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
@@ -359,11 +354,6 @@ msgstr "Kopijuoti"
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
 msgstr "Kopijuoti"
-
-#: tformmain.menuitemcut.caption
-msgctxt "tformmain.menuitemcut.caption"
-msgid "Wytnij"
-msgstr "Iškirpti"
 
 #: tformmain.menuitemcutcode.caption
 msgctxt "tformmain.menuitemcutcode.caption"
@@ -380,10 +370,6 @@ msgstr "Dansk"
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "Ištrinti kodą"
-
-#: tformmain.menuitemdeletecode.caption
-msgid "Usuń kod"
 msgstr "Ištrinti kodą"
 
 #: tformmain.menuitemdeletememologs.caption
@@ -427,11 +413,6 @@ msgstr ""
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
 msgstr "Ištrinti"
-
-#: tformmain.menuitempaste.caption
-msgctxt "tformmain.menuitempaste.caption"
-msgid "Wklej"
-msgstr "Įklijuoti"
 
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"

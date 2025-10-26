@@ -303,11 +303,6 @@ msgstr ""
 msgid "Polski"
 msgstr ""
 
-#: tformmain.menuitemcopy.caption
-msgctxt "tformmain.menuitemcopy.caption"
-msgid "Kopiuj"
-msgstr ""
-
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
@@ -321,11 +316,6 @@ msgstr ""
 #: tformmain.menuitemcopypascalcode.caption
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
-msgstr ""
-
-#: tformmain.menuitemcut.caption
-msgctxt "tformmain.menuitemcut.caption"
-msgid "Wytnij"
 msgstr ""
 
 #: tformmain.menuitemcutcode.caption
@@ -343,10 +333,6 @@ msgstr ""
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr ""
-
-#: tformmain.menuitemdeletecode.caption
-msgid "Usuń kod"
 msgstr ""
 
 #: tformmain.menuitemdeletememologs.caption
@@ -389,11 +375,6 @@ msgstr ""
 #: tformmain.menuitemoutputcodeclear.caption
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
-msgstr ""
-
-#: tformmain.menuitempaste.caption
-msgctxt "tformmain.menuitempaste.caption"
-msgid "Wklej"
 msgstr ""
 
 #: tformmain.menuitempastecode.caption

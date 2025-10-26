@@ -314,11 +314,6 @@ msgstr "Language"
 msgid "Polski"
 msgstr ""
 
-#: tformmain.menuitemcopy.caption
-msgctxt "tformmain.menuitemcopy.caption"
-msgid "Kopiuj"
-msgstr "Копировать"
-
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
 msgid "Kopiuj wszystko"
@@ -333,11 +328,6 @@ msgstr "Копировать"
 msgctxt "tformmain.menuitemcopypascalcode.caption"
 msgid "Kopiuj"
 msgstr "Копировать"
-
-#: tformmain.menuitemcut.caption
-msgctxt "tformmain.menuitemcut.caption"
-msgid "Wytnij"
-msgstr "Вырезать"
 
 #: tformmain.menuitemcutcode.caption
 msgctxt "tformmain.menuitemcutcode.caption"
@@ -354,10 +344,6 @@ msgstr ""
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
-msgstr "Удалить код "
-
-#: tformmain.menuitemdeletecode.caption
-msgid "Usuń kod"
 msgstr "Удалить код "
 
 #: tformmain.menuitemdeletememologs.caption
@@ -401,11 +387,6 @@ msgstr "Открыть папку"
 msgctxt "tformmain.menuitemoutputcodeclear.caption"
 msgid "Usuń"
 msgstr "Удалить"
-
-#: tformmain.menuitempaste.caption
-msgctxt "tformmain.menuitempaste.caption"
-msgid "Wklej"
-msgstr "Вставить"
 
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"

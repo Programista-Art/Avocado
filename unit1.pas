@@ -7,11 +7,12 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ExtCtrls,
   ComCtrls, Buttons, StdCtrls, ActnList, BCExpandPanels, BCFluentSlider,
-  JvAutoComplete, SynEdit, SynPopupMenu, SynCompletion, SynPluginSyncroEdit,
+  JvAutoComplete, SynEdit, SynCompletion, SynPluginSyncroEdit,
   SynHighlighterHTML, SynHighlighterPas, SynHighlighterTeX, SynHighlighterDiff,
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
   AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
-  DefaultTranslator, SynEditTypes, Math, LCLTranslator, LCLType, StrUtils;
+  DefaultTranslator, SynEditTypes, SynPopupMenu, laz.VTHeaderPopup, Math,
+  LCLTranslator, LCLType, PopupNotifier, StrUtils, Types;
 
 type
   PNodeRec = ^TNodeRec;
@@ -123,6 +124,7 @@ type
     SynAutoComplete1: TSynAutoComplete;
     SynEditCode: TSynEdit;
     BottomPanelTab: TTabSheet;
+
     TabSheet1: TTabSheet;
     TabErrors: TTabSheet;
     FPCCode: TTabSheet;
@@ -151,10 +153,6 @@ type
     MenuItemCutCode: TMenuItem;
     MenuItemPasteCode: TMenuItem;
     MenuItemCopyCode: TMenuItem;
-    MenuItemDeleteCode: TMenuItem;
-    MenuItemCut: TMenuItem;
-    MenuItemPaste: TMenuItem;
-    MenuItemCopy: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
     PanelLewy: TPanel;
@@ -178,7 +176,6 @@ type
     Splitter1: TSplitter;
     SplitterDown: TSplitter;
     SynCompletion1: TSynCompletion;
-    SynPopupMenuCode: TSynPopupMenu;
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     butCompileCode: TToolButton;
@@ -196,11 +193,21 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure itemJaponskiClick(Sender: TObject);
     procedure ListBoxErrCodeClick(Sender: TObject);
+    procedure ListBoxErrCodeDrawItem(Control: TWinControl; Index: Integer;
+      ARect: TRect; State: TOwnerDrawState);
     procedure ListBoxSeacrhClick(Sender: TObject);
+    procedure ListBoxSeacrhDrawItem(Control: TWinControl; Index: Integer;
+      ARect: TRect; State: TOwnerDrawState);
     procedure ListBoxSearchCommentsClick(Sender: TObject);
+    procedure ListBoxSearchCommentsDrawItem(Control: TWinControl;
+      Index: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure ListBoxSearchDocumentaionDblClick(Sender: TObject);
     procedure ListBoxSearchFunctionsClick(Sender: TObject);
+    procedure ListBoxSearchFunctionsDrawItem(Control: TWinControl;
+      Index: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure ListBoxSearchVariablesClick(Sender: TObject);
+    procedure ListBoxSearchVariablesDrawItem(Control: TWinControl;
+      Index: Integer; ARect: TRect; State: TOwnerDrawState);
     procedure MenuExamplesClick(Sender: TObject);
     procedure MenuIArabskiClick(Sender: TObject);
     procedure MenuItAiAsystantClick(Sender: TObject);
@@ -251,6 +258,7 @@ type
     procedure SBClearSearchVariablesClick(Sender: TObject);
     procedure SBClearSearcResultsClick(Sender: TObject);
     procedure SynEditCodeChange(Sender: TObject);
+    procedure SynEditCodeClick(Sender: TObject);
     procedure SynEditCodeKeyPress(Sender: TObject; var Key: char);
     procedure TimerScanFunctionsTimer(Sender: TObject);
     procedure ToolButtonDebugClick(Sender: TObject);
@@ -323,8 +331,6 @@ type
     //Filtrowanie w Listboxach ListBoxSearchComments, ListBoxSearchVariables, ListBoxSearchFunctions, ListBoxSeacrh, ListBoxErrCode
     procedure FilterListBox(const FilterText: string; const SourceList: TStringList; ListBox: TListBox);
 
-
-
   public
     procedure LoadAvocadoFileToEditor(const FileName: string);
     constructor Create(TheOwner: TComponent); override;
@@ -361,9 +367,6 @@ type
     //Load documentation
     procedure LoadTextDocumenation(FileName: string);
     procedure LoadDocToListBox(const FileName: string; var Keywords: TStringList);
-
-
-
 end;
 
   { TCompileThread }
@@ -899,6 +902,36 @@ begin
   end;
 end;
 
+procedure TFormMain.ListBoxErrCodeDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+var
+  t: string;
+  TextOffset: Integer;
+begin
+   with (Control as TListBox).Canvas do
+     begin
+       t := (Control as TListBox).Items[Index];
+       TextOffset := 2;
+
+       if (odSelected in State) then
+       begin
+         Brush.Color := ClRed;
+         Font.Color  := clWhite;
+       end
+       else
+       begin
+         Brush.Color := (Control as TListBox).Color;
+         Font.Color  := (Control as TListBox).Font.Color;
+       end;
+       FillRect(ARect);
+       TextOut(ARect.Left + TextOffset, ARect.Top, t);
+       if (odFocused in State) then
+       begin
+         DrawFocusRect(ARect);
+       end;
+     end;
+end;
+
 procedure TFormMain.ListBoxSeacrhClick(Sender: TObject);
 var
 LineNumber: Integer;
@@ -936,6 +969,36 @@ begin
      end;
 end;
 
+procedure TFormMain.ListBoxSeacrhDrawItem(Control: TWinControl; Index: Integer;
+  ARect: TRect; State: TOwnerDrawState);
+var
+  t: string;
+  TextOffset: Integer;
+begin
+  with (Control as TListBox).Canvas do
+       begin
+         t := (Control as TListBox).Items[Index];
+         TextOffset := 2;
+
+         if (odSelected in State) then
+         begin
+           Brush.Color := $00258527;
+           Font.Color  := clWhite;
+         end
+         else
+         begin
+           Brush.Color := (Control as TListBox).Color;
+           Font.Color  := (Control as TListBox).Font.Color;
+         end;
+         FillRect(ARect);
+         TextOut(ARect.Left + TextOffset, ARect.Top, t);
+         if (odFocused in State) then
+         begin
+           DrawFocusRect(ARect);
+         end;
+       end;
+end;
+
 procedure TFormMain.ListBoxSearchCommentsClick(Sender: TObject);
 var
   S, NumStr: string;
@@ -966,6 +1029,36 @@ begin
     end;
   end;
 
+end;
+
+procedure TFormMain.ListBoxSearchCommentsDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+var
+  t: string;
+  TextOffset: Integer;
+begin
+  with (Control as TListBox).Canvas do
+      begin
+        t := (Control as TListBox).Items[Index];
+        TextOffset := 2;
+
+        if (odSelected in State) then
+        begin
+          Brush.Color := $00258527;
+          Font.Color  := clWhite;
+        end
+        else
+        begin
+          Brush.Color := (Control as TListBox).Color;
+          Font.Color  := (Control as TListBox).Font.Color;
+        end;
+        FillRect(ARect);
+        TextOut(ARect.Left + TextOffset, ARect.Top, t);
+        if (odFocused in State) then
+        begin
+          DrawFocusRect(ARect);
+        end;
+      end;
 end;
 
 procedure TFormMain.ListBoxSearchDocumentaionDblClick(Sender: TObject);
@@ -1011,6 +1104,36 @@ begin
     end;
 end;
 
+procedure TFormMain.ListBoxSearchFunctionsDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+var
+  t: string;
+  TextOffset: Integer;
+begin
+     with (Control as TListBox).Canvas do
+     begin
+       t := (Control as TListBox).Items[Index];
+       TextOffset := 2;
+
+       if (odSelected in State) then
+       begin
+         Brush.Color := $00258527;
+         Font.Color  := clWhite;
+       end
+       else
+       begin
+         Brush.Color := (Control as TListBox).Color;
+         Font.Color  := (Control as TListBox).Font.Color;
+       end;
+       FillRect(ARect);
+       TextOut(ARect.Left + TextOffset, ARect.Top, t);
+       if (odFocused in State) then
+       begin
+         DrawFocusRect(ARect);
+       end;
+     end;
+end;
+
 procedure TFormMain.ListBoxSearchVariablesClick(Sender: TObject);
 var
   S, NumStr: string;
@@ -1038,6 +1161,36 @@ begin
       SynEditCode.SetFocus;
     end;
   end;
+end;
+
+procedure TFormMain.ListBoxSearchVariablesDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+var
+  t: string;
+  TextOffset: Integer;
+begin
+  with (Control as TListBox).Canvas do
+       begin
+         t := (Control as TListBox).Items[Index];
+         TextOffset := 2;
+
+         if (odSelected in State) then
+         begin
+           Brush.Color := $00258527;
+           Font.Color  := clWhite;
+         end
+         else
+         begin
+           Brush.Color := (Control as TListBox).Color;
+           Font.Color  := (Control as TListBox).Font.Color;
+         end;
+         FillRect(ARect);
+         TextOut(ARect.Left + TextOffset, ARect.Top, t);
+         if (odFocused in State) then
+         begin
+           DrawFocusRect(ARect);
+         end;
+       end;
 end;
 
 
@@ -1276,6 +1429,7 @@ begin
   IsClickMainMenuLanguage(19);
 end;
 
+
 procedure TFormMain.ReplaceDialogFind(Sender: TObject);
 var
 SearchOptions: TSynSearchOptions;
@@ -1420,6 +1574,12 @@ begin
     //ListFunctionsFromSynEdit
 
   end;
+end;
+
+procedure TFormMain.SynEditCodeClick(Sender: TObject);
+begin
+   SynEditCode.SelectedColor.Background := $002F5330;
+   SynEditCode.SelectedColor.BackAlpha := 200;
 end;
 
 
@@ -2715,7 +2875,7 @@ begin
 
   // styl zaznaczenia na czerwono
   SynEditCode.SelectedColor.Foreground := clWhite; // kolor czcionki
-  SynEditCode.SelectedColor.Background := clGreen;   // kolor tła
+  SynEditCode.SelectedColor.Background := $00258527;   // kolor tła
 end;
 
 
