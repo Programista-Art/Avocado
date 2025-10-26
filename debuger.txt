@@ -296,6 +296,14 @@ false
 /
 *
 :
+>
+<
+=
+{
+}
+(
+)
+.
 początek
 koniec
 koniec!
@@ -303,3 +311,7 @@ start
 end
 end!
 jeżeli
+break
+przerwać
+kontynuować
+continue
