@@ -315,3 +315,8 @@ break
 przerwać
 kontynuować
 continue
+goto
+label
+etykieta
+iść_do
+idę_do

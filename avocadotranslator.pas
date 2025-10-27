@@ -22,11 +22,21 @@ type
   NoAssign: Boolean;
   end;
 
+type
+  TStringArrayLabels = array of string;
+  TAvocadoLabel = record
+  Name, LabelType: string;
+  LabelName: string;
+  //NoAssign: Boolean;
+end;
+
   { TAvocadoTranslator }
 
   TAvocadoTranslator = class
   private
     FVariables: array of TAvocadoVariable;
+    //Labels / Etykiety
+    FLabels: array of TAvocadoLabel;
     constructor Create;
     destructor Destroy; override;
 
@@ -44,6 +54,8 @@ type
     function PrzetworzBlok(const Blok: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Interface
     function GetImportedModules(const Code: string): string;
+    //Otrzumuje nazwy stykiet i wstawia do sekcji Interface
+    function GetLabels(const Code: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Implementation
     function GetImplementationModules(const Code: string): string;
     //Centralizacja Logiki Parsowania 10.10.2025
@@ -973,7 +985,7 @@ var
   Line, ModulesList: string;
 
 begin
-    ModulesList := '';
+  ModulesList := '';
   Lines := TStringList.Create;
   try
     Lines.Text := Code;
@@ -1074,6 +1086,54 @@ begin
       Lines.Free;
     end;
 
+end;
+
+function TAvocadoTranslator.GetLabels(const Code: string): string;
+var
+Lines: TStringList;
+i: Integer;
+Line, LabelList: string;
+begin
+  LabelList := '';
+    Lines := TStringList.Create;
+    try
+      Lines.Text := Code;
+
+      for i := 0 to Lines.Count - 1 do
+      begin
+        Line := Trim(Lines[i]);
+
+        // Czy linia zaczyna się od 'importuj' lub 'import'
+        if AnsiStartsText('label', LowerCase(Line)) then
+        begin
+          Delete(Line, 1, Length('label'));
+        end
+        else if AnsiStartsText('etykieta', LowerCase(Line)) then
+        begin
+          Delete(Line, 1, Length('etykieta'));
+        end
+        else
+          Continue; // Nie pasuje, lecimy dalej
+
+        Line := Trim(Line);
+
+        // Dodaj do listy modułów
+        if Line <> '' then
+        begin
+          if LabelList = '' then
+            LabelList := Line
+          else
+            LabelList := LabelList + ', ' + Line;
+        end;
+      end;
+
+      Result := LabelList;
+
+        // Zwrócenie wynikowej listy etykiet
+       // Result := LabelList;
+      finally
+        Lines.Free;
+      end;
 end;
 
 function TAvocadoTranslator.GetImplementationModules(const Code: string
@@ -1526,6 +1586,43 @@ begin
     PascalCode.Add(TranslatedLine);
     Exit;
   end;
+  //Petle
+  //for to do / dla do, wykonac albo fo to make
+  NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
+  NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
+  if (Pos('dla', LowerTrimmedLine) > 0) or (Pos('for', LowerTrimmedLine) > 0) or
+     (Pos('do', LowerTrimmedLine) > 0) or (Pos('to', LowerTrimmedLine) > 0) or
+     (Pos('wykonać', LowerTrimmedLine) > 0) or (Pos('make', LowerTrimmedLine) > 0) or
+     (Pos('==', LowerTrimmedLine) > 0)
+     then
+   begin
+    TranslatedLine := TrimmedLine;
+    TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'for', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, '==', ':=', [rfReplaceAll, rfIgnoreCase]);
+    PascalCode.Add(TranslatedLine);
+    Exit;
+  end;
+
+  //etykieta label goto
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
+   if (Pos('iść_do', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
+      (Pos('idę_do', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
+      (Pos('label', LowerTrimmedLine) > 0) or (Pos('etykieta', LowerTrimmedLine) > 0)
+      then
+    begin
+     TranslatedLine := TrimmedLine;
+     TranslatedLine := StringReplace(TranslatedLine, 'iść_do', 'goto', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'goto', 'goto', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'label', 'label', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'etykieta', 'label', [rfReplaceAll, rfIgnoreCase]);
+     PascalCode.Add(TranslatedLine);
+     Exit;
+   end;
 
 
 
@@ -2990,18 +3087,22 @@ function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
   PascalCode: TStringList;
   i: Integer;
-  trimmedLine, ModulesStr: string;
+  trimmedLine, ModulesStr, LabelStr: string;
   ModulPascalowy: string;
   DetectedProgramName: string; // Do przechowania finalnej nazwy programu
   UsesList: TStringList;     // Pomocnicza lista do budowania 'uses'
+  LabelList: TStringList;
   UName: string;             // Pomocnicza do sprawdzania duplikatów i w pętlach
   ExistingUnits: TStringList;  // Do sprawdzania duplikatów
+  ExistingLabes: TStringList;  // Do sprawdzania duplikatów dla label
+  LabelName: string; // Pomocnicza do sprawdzania duplikatów i w pętlach dla label
 begin
   SetLength(FVariables, 0); // Czyści listę zmiennych
     PascalCode := TStringList.Create;
     UsesList := TStringList.Create; // Inicjalizacja listy uses
+    LabelList := TStringList.Create;
     ExistingUnits := TStringList.Create; // Do śledzenia dodanych unitów
-
+    ExistingLabes := TStringList.Create;  // Do śledzenia dodanych w label / etykietach
     // --- Skanowanie dla standardowego 'program' ---
     NameProgram := ''; // Resetuj zmienną globalną/pole
     DetectedProgramName := 'programbeznazwy'; // Domyślna nazwa
@@ -3022,17 +3123,20 @@ begin
 
     try
       AddCompilerDirective(PascalCode);
-      {
+      (*
       PascalCode.Add('{$codepage utf8}');
       PascalCode.Add('{$mode objfpc}');
       PascalCode.Add('{$H+}');
-      }
+      *)
 
       //Nazwa programu
       PascalCode.Add('program ' + DetectedProgramName + ';');
 
       // --- UPROSZCZONA SEKCJA 'uses' ---
       ModulesStr := GetImportedModules(AvocadoCode.Text);
+
+
+
       ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
 
       // Podstawowe moduły + Classes + Windows (dla konsoli). LCL użytkownik musi dodać sam przez Importuj.
@@ -3045,16 +3149,11 @@ begin
       //UsesList.Add('LazUTF8');
       //UsesList.Add('Utf8Process');
 
-
-
-      //UsesList.Add('Crt');
-
       // Dodaj moduły użytkownika z 'Importuj'
       if ModulesStr <> '' then
       begin
          for UName in ModulesStr.Split([',']) do UsesList.Add(Trim(UName));
       end;
-
 
       // Dodaj moduły z 'ModułyPas'
       if ModulPascalowy <> '' then
@@ -3088,15 +3187,12 @@ begin
       PascalCode.Add('');
       // --- KONIEC SEKCJI 'uses' ---
 
+
+
       // Wykryj deklaracje zmiennych
       for i := 0 to AvocadoCode.Count - 1 do
         ProcessDeclaration(Trim(AvocadoCode[i]));
 
-      //if Length(FVariables) > 0 then
-      //begin
-      //  PascalCode.Add('var');
-      //  for i := 0 to High(FVariables) do
-      //  begin
       // Generuj sekcję 'var'
       if Length(FVariables) > 0 then
       begin
@@ -3285,6 +3381,39 @@ begin
         PascalCode.Add('');
       end;
 
+      //label etykieta
+      LabelStr := GetLabels(AvocadoCode.Text);
+
+      if LabelStr <> '' then
+      begin
+         for LabelName in LabelStr.Split([',']) do LabelList.Add(Trim(LabelName));
+      end;
+
+      PascalCode.Add('label');
+      ExistingLabes.Clear;
+      ExistingLabes.CaseSensitive := False;
+      ExistingLabes.Sorted := True;
+
+
+      for i := 0 to LabelList.Count - 1 do
+      begin
+         LabelName := Trim(LabelList[i]);
+         if (LabelName <> '') and (ExistingLabes.IndexOf(LabelName) = -1) then
+         begin
+            if ExistingLabes.Count = 0 then
+               PascalCode.Add('  ' + LabelName)
+            else
+               PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ', ' + LabelName;
+               ExistingLabes.Add(LabelName);
+         end;
+      end;
+        if ExistingLabes.Count > 0 then
+         PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ';'
+      else
+         PascalCode.Delete(PascalCode.Count - 1); // Usuń pustą linię 'uses'
+      PascalCode.Add('');
+      //koniec sekcji label
+
       // główny blok programu
       PascalCode.Add('begin');
       //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
@@ -3322,6 +3451,8 @@ begin
         if AnsiStartsText('program ', trimmedLine) or
            AnsiStartsText('importuj', trimmedLine) or
            AnsiStartsText('import', trimmedLine) or
+           AnsiStartsText('label', trimmedLine) or
+           AnsiStartsText('etykieta', trimmedLine) or
            AnsiStartsText('plik ', LowerCase(trimmedLine)) or
            AnsiStartsText('file ', LowerCase(trimmedLine)) or
             AnsiStartsText('text_file ', LowerCase(trimmedLine)) or
@@ -3345,7 +3476,9 @@ begin
       Result := PascalCode;
     finally
       UsesList.Free;
+      LabelList.Free;
       ExistingUnits.Free;
+      ExistingLabes.Free
     end;
   end;
 
