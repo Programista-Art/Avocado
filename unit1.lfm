@@ -1900,6 +1900,10 @@ object FormMain: TFormMain
       'przerwać'
       'kontynuować'
       'continue'
+      'jump'
+      'skok'
+      'etykieta'
+      'label'
     )
     Position = 0
     LinesInWindow = 10
@@ -2068,6 +2072,7 @@ object FormMain: TFormMain
       'INSERT'
       'Iść_DO'
       'JEśLI'
+      'JUMP'
       'KLAWISZ_WCIśNIęTY'
       'KOLOR_TEKSTU'
       'KONIEC'
@@ -2116,6 +2121,7 @@ object FormMain: TFormMain
       'REMOVE_DIR'
       'SET_ENV'
       'SET_LENGTH'
+      'SKOK'
       'START'
       'SZUKAJ'
       'THEN'

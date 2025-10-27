@@ -1,0 +1,78 @@
+object aiassistant: Taiassistant
+  Left = 350
+  Height = 505
+  Top = 250
+  Width = 305
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'AI Helper'
+  ClientHeight = 505
+  ClientWidth = 305
+  FormStyle = fsStayOnTop
+  Position = poOwnerFormCenter
+  object Panel1: TPanel
+    Left = 0
+    Height = 32
+    Top = 0
+    Width = 305
+    Align = alTop
+    ClientHeight = 32
+    ClientWidth = 305
+    TabOrder = 0
+    object EditAskPromt: TEdit
+      Left = 3
+      Height = 26
+      Top = 3
+      Width = 273
+      Align = alClient
+      Alignment = taCenter
+      BorderSpacing.Left = 2
+      BorderSpacing.Top = 2
+      BorderSpacing.Right = 2
+      BorderSpacing.Bottom = 2
+      BorderStyle = bsNone
+      Color = clBlack
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Height = -16
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabOrder = 0
+      TextHint = 'Wpisz zapytanie'
+    end
+    object sbzapytaj: TSpeedButton
+      Left = 278
+      Height = 26
+      Top = 3
+      Width = 24
+      Align = alRight
+      BorderSpacing.Top = 2
+      BorderSpacing.Right = 2
+      BorderSpacing.Bottom = 2
+      Caption = ' >'
+      OnClick = sbzapytajClick
+    end
+  end
+  object MemoAnswerChatGPT: TMemo
+    Left = 0
+    Height = 473
+    Top = 32
+    Width = 305
+    Align = alClient
+    Color = clBlack
+    TabOrder = 1
+  end
+  object PopupMenuOutPutPascalCode: TPopupMenu
+    Left = 208
+    Top = 248
+    object MenuItemOutputCodeClear: TMenuItem
+      Caption = 'Usuń'
+    end
+    object MenuItemcopyPascalCode: TMenuItem
+      Caption = 'Kopiuj'
+    end
+    object MenuItemCopyAllPascalzCode: TMenuItem
+      Caption = 'Kopiuj wszystko'
+    end
+  end
+end

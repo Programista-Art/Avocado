@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":82604914,"name":"taiassistant.caption","sourcebytes":[65,73,32,72,101,108,112,101,114],"value":"AI Helper"},
+{"hash":145119749,"name":"taiassistant.editaskpromt.texthint","sourcebytes":[87,112,105,115,122,32,122,97,112,121,116,97,110,105,101],"value":"Wpisz zapytanie"},
+{"hash":574,"name":"taiassistant.sbzapytaj.caption","sourcebytes":[32,62],"value":" >"},
+{"hash":6074836,"name":"taiassistant.menuitemoutputcodeclear.caption","sourcebytes":[85,115,117,197,132],"value":"Usu\u0144"},
+{"hash":86405306,"name":"taiassistant.menuitemcopypascalcode.caption","sourcebytes":[75,111,112,105,117,106],"value":"Kopiuj"},
+{"hash":237715615,"name":"taiassistant.menuitemcopyallpascalzcode.caption","sourcebytes":[75,111,112,105,117,106,32,119,115,122,121,115,116,107,111],"value":"Kopiuj wszystko"}
+]}

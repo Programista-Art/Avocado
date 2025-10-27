@@ -1521,6 +1521,8 @@ var
   NeedsSemicolon: Boolean;
   NextTrimmedLowerLine: String;
 
+   LabelName: string;
+   SpacePos: Integer;
 begin
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := LowerCase(TrimmedLine);
@@ -1610,19 +1612,45 @@ begin
 
   //etykieta label goto
     NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
-   if (Pos('iść_do', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
-      (Pos('idę_do', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
+   if //(Pos('skocz', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
       (Pos('label', LowerTrimmedLine) > 0) or (Pos('etykieta', LowerTrimmedLine) > 0)
       then
     begin
      TranslatedLine := TrimmedLine;
-     TranslatedLine := StringReplace(TranslatedLine, 'iść_do', 'goto', [rfReplaceAll, rfIgnoreCase]);
-     TranslatedLine := StringReplace(TranslatedLine, 'goto', 'goto', [rfReplaceAll, rfIgnoreCase]);
+     //TranslatedLine := StringReplace(TranslatedLine, 'skocz', 'goto', [rfReplaceAll, rfIgnoreCase]);
+    // TranslatedLine := StringReplace(TranslatedLine, 'goto', 'goto', [rfReplaceAll, rfIgnoreCase]);
      TranslatedLine := StringReplace(TranslatedLine, 'label', 'label', [rfReplaceAll, rfIgnoreCase]);
      TranslatedLine := StringReplace(TranslatedLine, 'etykieta', 'label', [rfReplaceAll, rfIgnoreCase]);
      PascalCode.Add(TranslatedLine);
      Exit;
    end;
+   //goto w innych miejscach
+
+ // --- BLOK 2: Obsługa polecenia SKOCZ_DO (goto) ---
+  // Musi być PRZED Blokiem #4 i #5
+  if LowerTrimmedLine.StartsWith('jump') or
+     LowerTrimmedLine.StartsWith('skocz') then
+  begin
+
+    // 1. Znajdź pierwszą spację, aby wyciąć nazwę etykiety
+    SpacePos := Pos(' ', TrimmedLine);
+    if SpacePos = 0 then
+      raise Exception.Create('Brak nazwy etykiety po poleceniu skocz / jump');
+
+    // 2. Wyodrębnij nazwę etykiety
+    LabelName := Trim(TrimmedLine.Substring(SpacePos ));
+
+    // 3. Usuń ewentualny średnik z końca (jeśli użytkownik go dodał)
+    if LabelName.EndsWith(';') then
+      LabelName := LabelName.Substring(0, Length(LabelName) - 1);
+
+    // 4. POPRAWKA: Dodaj poprawny kod Pascala ZE ŚREDNIKIEM
+    PascalCode.Add('goto ' + LabelName + ';');
+
+    Exit; // Linia przetworzona
+  end;
+
 
 
 

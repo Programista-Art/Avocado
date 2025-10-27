@@ -1,0 +1,15 @@
+program warunek
+liczba_całkowita a = 12
+real c = 5.5
+jeżeli a > 11 wtedy
+start
+pisz_linie('a>11')
+koniec
+inaczej jeżeli a > 10 wtedy
+początek
+pisz_linie('a>9')
+koniec
+inaczej
+pisz_linie('a<9')
+
+
