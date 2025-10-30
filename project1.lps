@@ -44,7 +44,7 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="23"/>
         <CursorPos Y="49"/>
         <UsageCount Value="201"/>
@@ -76,7 +76,7 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="1633"/>
         <CursorPos X="47" Y="1641"/>
         <UsageCount Value="200"/>
@@ -103,7 +103,7 @@
         <ComponentName Value="FormOprogramie"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="11"/>
         <CursorPos Y="32"/>
         <UsageCount Value="200"/>
@@ -116,7 +116,8 @@
         <ComponentName Value="FormAutor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
         <CursorPos X="53" Y="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -137,9 +138,9 @@
       <Unit>
         <Filename Value="moduly\chatgptavocado.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="16"/>
-        <TopLine Value="115"/>
-        <CursorPos Y="31"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="122"/>
+        <CursorPos X="33" Y="52"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -158,7 +159,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Uwsparcie"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <CursorPos X="39" Y="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -170,7 +171,7 @@
         <ComponentName Value="Settingai"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <CursorPos X="116" Y="9"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
@@ -191,7 +192,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Uprzyklady"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <CursorPos X="25" Y="17"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -200,7 +201,7 @@
       <Unit>
         <Filename Value="moduly\matematyka.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="202"/>
         <CursorPos X="47" Y="226"/>
         <UsageCount Value="200"/>
@@ -221,11 +222,9 @@
         <ComponentName Value="SettingTheme"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="70" Y="9"/>
-        <UsageCount Value="164"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="165"/>
       </Unit>
       <Unit>
         <Filename Value="aihelper.pas"/>
@@ -233,10 +232,10 @@
         <ComponentName Value="aiassistant"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="83"/>
         <CursorPos X="49" Y="98"/>
-        <UsageCount Value="152"/>
+        <UsageCount Value="153"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -244,11 +243,10 @@
         <Filename Value="avocadolclcomponents.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoLCLComponents"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="39"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="329"/>
+        <UsageCount Value="40"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="matematyka.pas"/>
@@ -355,7 +353,7 @@
       <Unit>
         <Filename Value="D:\Lazarus4.2\components\synedit\syncompletion.pas"/>
         <UnitName Value="SynCompletion"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="1453"/>
         <CursorPos Y="1478"/>
         <UsageCount Value="56"/>
@@ -385,7 +383,6 @@
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\lcl\include\menuitem.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="607"/>
         <CursorPos X="38" Y="625"/>

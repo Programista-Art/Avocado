@@ -49,7 +49,7 @@ destructor TChatGPTWrapper.Destroy;
 begin
   if Assigned(FChatGPT) then
   begin
-    FChatGPT.OnResponse := nil; // Usuń referencję do metody
+    FChatGPT.OnResponse := nil;
     FChatGPT.Free;
   end;
   inherited Destroy;
