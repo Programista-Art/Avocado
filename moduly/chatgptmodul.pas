@@ -25,7 +25,7 @@ begin
   GlobalChatResponse := '';
 
   // Wywołanie funkcji wysyłającej zapytanie. Upewnij się, że wstawisz poprawny klucz API.
-  ZapytajChatGPT('sk-0tmz8yl8btgbMe1eQbPOEeCZ9HmjZkhHnt4jVHTvoET3BlbkFJxLdlT7wUc8Jf5ocslX4hR2p3QYo7Grr1us0cQbjzUA', 'gpt-4o-mini', userQuestion, @GlobalResponseCallback);
+  ZapytajChatGPT('token', 'gpt-4o-mini', userQuestion, @GlobalResponseCallback);
 
   // Pętla oczekująca na odpowiedź – przetwarzamy wywołania synchronizowane.
   while not GlobalResponseReceived do

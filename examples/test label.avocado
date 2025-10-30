@@ -1,16 +1,15 @@
 program testlabel
 etykieta skok
-int a = 6
+liczba_całkowita a = 6
 jeżeli a = 5 wtedy
 początek
   pisz_linie('a równa się 5')
 koniec
 inaczej
 początek
-  jump skok
+  //jump skok
   pisz_linie('a nie równa się 5')
 koniec!
-jump skok
 skok:
-pisz_linie('Przeskoczylo tu')
+pisz_linie('tu')
 
