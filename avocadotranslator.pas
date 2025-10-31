@@ -35,11 +35,10 @@ end;
   TAvocadoTranslator = class
   private
     FVariables: array of TAvocadoVariable;
-    //Labels / Etykiety
+    FInRepeatBlock: Boolean;
     FLabels: array of TAvocadoLabel;
-    constructor Create;
     destructor Destroy; override;
-
+    constructor Create;
 
     //dotyczy petli while
     procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
@@ -623,6 +622,11 @@ begin
   if LowerCase(TrimmedLine).StartsWith('else') then Exit;
   if LowerCase(TrimmedLine).StartsWith('exit') then Exit;
 
+   if LowerCase(TrimmedLine).StartsWith('repeat') then Exit;
+   if LowerCase(TrimmedLine).StartsWith('until') then Exit;
+   if LowerCase(TrimmedLine).StartsWith('powtarzaj') then Exit;
+   if LowerCase(TrimmedLine).StartsWith('aż_do') then Exit;
+
 
   if LowerCase(TrimmedLine).StartsWith('halt') then Exit;
    if LowerCase(TrimmedLine).StartsWith('for') then Exit;
@@ -650,7 +654,8 @@ begin
 
   VarParts := VarDecl.Split([' '], 2);
   if Length(VarParts) < 2 then
-    raise Exception.Create(InvalidVariableDeclaration + Line);
+  exit;
+    //raise Exception.Create(InvalidVariableDeclaration + Line);
 
   VarType := LowerCase(Trim(VarParts[0]));
   VarName := Trim(VarParts[1]);
@@ -1320,19 +1325,11 @@ var
   URLtekst: string;
   //name of the file to save / nazwa pliku do zapisania
   FileName: string;
-  //Chat GPT
-  ArgList: TStringList;
-  ArgStrz, TranslatedApiKeyz, TranslatedModelz, QuestionArgz: string;
-  StartPosz, EndPosz: Integer;
+
   //Ping
   Site: String;
   //While loop
-  TranslatedParamTrimWhile, BodyWhile:  String;
-  LinesWhile: TStringArray;
-  k: Integer;
-  StartPosTrimWhile: Integer;
-  EndPosTrimWhile: Integer;
-  ParamTrimWhile: string;
+
   OpenPos: Integer;
   //Value: string;
   //EqualPos: Integer;
@@ -1344,7 +1341,14 @@ var
 
    LabelName: string;
    SpacePos: Integer;
+   //dla repeat until
+
+
+  ConditionStr: String;         // Zamiast 'Warunek'
+  TranslatedCondition: String;
+  LowerLineRepeat: String;
 begin
+
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := LowerCase(TrimmedLine);
   LowerLine := AnsiLowerCase(TrimmedLine);
@@ -1510,7 +1514,47 @@ begin
     Exit; // Linia przetworzona
   end;
 
+ //
+  // Obsługa petli repeat until
+  // --- 1. Obsługa POCZĄTKU pętli (repeat / powtarzaj) ---
+  // Sprawdzamy DOKŁADNE dopasowanie linii
+  if (LowerLine = 'powtarzaj') or (LowerLine = 'repeat') then
+  begin
+    // Sprawdzenie, czy nie jesteśmy już w bloku
+    if FInRepeatBlock then
+      raise Exception.Create('Błąd: Znaleziono "powtarzaj" wewnątrz innego "powtarzaj"');
 
+    PascalCode.Add('repeat');
+    FInRepeatBlock := True; // Ustawiamy pole KLASY
+    Exit;                   // Przechodzimy do następnej linii
+  end;
+
+  // --- 2. Obsługa KOŃCA pętli (until / aż) ---
+  // Sprawdzamy, czy linia ZACZYNA SIĘ od słów kluczowych ZE SPACJĄ
+  if LowerLine.StartsWith('aż ') or LowerLine.StartsWith('until ') then
+  begin
+    // Sprawdzenie, czy na pewno byliśmy w bloku
+    if not FInRepeatBlock then
+      raise Exception.Create('Błąd: Znaleziono "aż" lub "until" bez pasującego "powtarzaj"');
+
+    // Wyciągamy sam warunek (string po słowie kluczowym)
+    if LowerLine.StartsWith('aż ') then
+      // Kopiuje wszystko PO "aż " (długość 3 + spacja = 4)
+      ConditionStr := Trim(Copy(TrimmedLine, 4, Length(TrimmedLine)))
+    else
+      // Kopiuje wszystko PO "until " (długość 6 + spacja = 7)
+      ConditionStr := Trim(Copy(TrimmedLine, 7, Length(TrimmedLine)));
+
+    if ConditionStr = '' then
+      raise Exception.Create('Błąd: Brak warunku po "aż" / "until"');
+
+    // Tłumaczymy wyrażenie warunku
+    TranslatedCondition := TranslateExpression(ConditionStr);
+
+    PascalCode.Add('until ' + TranslatedCondition + ';');
+    FInRepeatBlock := False; // Zerujemy flagę (pole KLASY)
+    Exit;                    // Przechodzimy do następnej linii
+  end;
 
 
   //Insert() function support
@@ -2688,64 +2732,6 @@ end;
          end;
        end
 
-
-
-    // Obsługa 'zapytaj' 3 argumenty
-
-else if LowerCase(TrimmedLine).StartsWith('ZapytajChatGPT(') then
-begin
-
-
-  // Znajdź pozycję otwierającego i zamykającego nawiasu
-  StartPos := Pos('(', TrimmedLine);
-  EndPos := RPos(')', TrimmedLine);
-
- if (StartPos > 0) and (EndPos > StartPos) then
-  begin
-    // Wyodrębnij string z argumentami, usuwając zewnętrzne nawiasy
-    ArgStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-
-    // Stwórz listę do przechowywania sparsowanych argumentów
-    ArgList := TStringList.Create;
-    try
-      // Użyj naszej nowej, niezawodnej funkcji do parsowania
-      if SplitArguments(ArgStr, ArgList) then
-      begin
-        // Sprawdź, czy są dokładnie 3 argumenty
-        if ArgList.Count = 3 then
-        begin
-          TranslatedApiKey := TranslateExpression(ArgList[0]);
-          TranslatedModel := TranslateExpression(ArgList[1]);
-          QuestionArg := ArgList[2];
-
-          // Walidacja pytania
-          if not IsQuotedString(QuestionArg) then
-            raise Exception.Create('Błąd: Ostatni argument musi być literałem string w apostrofach lub cudzysłowach. Otrzymano: ' + QuestionArg);
-
-          // Generowanie kodu Pascala
-          PascalCode.Add('ZapytajChatGPT(' +
-                            TranslatedApiKey + ', ' +
-                            TranslatedModel + ', ' +
-                            QuestionArg + ', ' +
-                            '@GlobalResponseCallback);');
-        end
-        else
-        begin
-          raise Exception.Create('Błąd składni zapytaj: Oczekiwano 3 argumentów (klucz, model, pytanie), otrzymano ' + IntToStr(ArgList.Count));
-        end;
-      end
-      else
-        raise Exception.Create('Błąd parsowania argumentów w linii: ' + TrimmedLine);
-    finally
-      ArgList.Free;
-    end;
-  end
-  else
-    raise Exception.Create('Błąd składni zapytaj (nawiasy): ' + TrimmedLine);
-
-  //Exit;
-end
-
 // 3. Obsługa instrukcji czytaj()
 else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
 begin
@@ -2929,7 +2915,8 @@ var
   ExistingLabes: TStringList;  // Do sprawdzania duplikatów dla label
   LabelName: string; // Pomocnicza do sprawdzania duplikatów i w pętlach dla label
 begin
-  SetLength(FVariables, 0); // Czyści listę zmiennych
+    SetLength(FVariables, 0); // Czyści listę zmiennych
+    FInRepeatBlock := False;
     PascalCode := TStringList.Create;
     UsesList := TStringList.Create; // Inicjalizacja listy uses
     LabelList := TStringList.Create;
