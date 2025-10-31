@@ -1365,8 +1365,46 @@ begin
 
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := LowerCase(TrimmedLine);
-  LowerLine := AnsiLowerCase(TrimmedLine);
+  //LowerLine := AnsiLowerCase(TrimmedLine);
 
+  // 1. Zignoruj puste linie i komentarze
+  if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then Exit;
+
+  // Używamy tylko JEDNEJ znormalizowanej wersji
+  LowerTrimmedLine := LowerCase(TrimmedLine);
+  // LowerLine := AnsiLowerCase(TrimmedLine); // <-- TA LINIA JEST ZBĘDNA
+
+
+ //
+  // 2. Grupujemy wszystkie słowa kluczowe w jeden 'case'
+  case LowerTrimmedLine of
+    'początek',
+    'start':
+    begin
+      PascalCode.Add('begin');
+      Exit;
+    end;
+
+    'koniec',
+    'end':
+    begin
+      // To jest implementacja Twojego pomysłu:
+      if (NextTrimmedLowerLine = 'inaczej') or (NextTrimmedLowerLine = 'else') then
+        PascalCode.Add('end') // Bez średnika
+      else
+        PascalCode.Add('end;'); // Ze średnikiem
+      Exit;
+    end;
+
+    'koniec.',
+    'end.':
+    begin
+      PascalCode.Add('end.');
+      Exit;
+    end;
+  end; // koniec case
+
+  {
   // 1. Zignoruj puste linie i komentarze
   if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then Exit;
 
@@ -1398,7 +1436,7 @@ begin
     PascalCode.Add('end.');
     Exit;
   end;
-
+  }
 
      //warunek If then else
     NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
@@ -1415,27 +1453,25 @@ begin
       Exit;
     end;
 
-
-  CleanLowerLine := LowerTrimmedLine;
-  if CleanLowerLine.EndsWith(';') then
-    CleanLowerLine := CleanLowerLine.Substring(0, CleanLowerLine.Length - 1);
-  if (CleanLowerLine = 'przerwać') or (CleanLowerLine = 'break') then
-  begin
-    PascalCode.Add('break;');
-    Exit;
-  end;
-  if (CleanLowerLine = 'kontynuować') or (CleanLowerLine = 'continue') then
-  begin
-    PascalCode.Add('continue;');
-    Exit;
-  end;
+    //break / continue w petlach
+    CleanLowerLine := LowerTrimmedLine;
+    if CleanLowerLine.EndsWith(';') then
+      CleanLowerLine := CleanLowerLine.Substring(0, CleanLowerLine.Length - 1);
+    if (CleanLowerLine = 'przerwać') or (CleanLowerLine = 'break') then
+    begin
+      PascalCode.Add('break;');
+      Exit;
+    end;
+    if (CleanLowerLine = 'kontynuować') or (CleanLowerLine = 'continue') then
+    begin
+      PascalCode.Add('continue;');
+      Exit;
+    end;
 
     //Petle
-    // Obsługa pętli FOR ('dla ... do ... wykonać')
+    //petal for ('dla ... do ... wykonać')
     NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
     NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
-
-    // Sprawdzamy tylko początek linii!
     if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
      begin
       ProcessForLoop(TrimmedLine, PascalCode); // Używamy nowej, dedykowanej funkcji
@@ -1471,7 +1507,7 @@ begin
    end;
    //goto w innych miejscach
 
- // --- BLOK 2: Obsługa polecenia SKOCZ_DO (goto) ---
+   //Obsługa polecenia SKOCZ_DO (goto) ---
   if LowerTrimmedLine.StartsWith('jump') or
      LowerTrimmedLine.StartsWith('skocz') then
   begin
@@ -1494,7 +1530,7 @@ begin
     Exit; // Linia przetworzona
   end;
 
- //
+
   // Obsługa petli repeat until
   //Obsługa POCZĄTKU pętli (repeat / powtarzaj)
   if (LowerLine = 'powtarzaj') or (LowerLine = 'repeat') then
