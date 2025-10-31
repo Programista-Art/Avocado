@@ -318,5 +318,7 @@ continue
 goto
 label
 etykieta
-skok
+skocz
 jump
+malejąco
+descending

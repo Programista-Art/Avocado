@@ -40,7 +40,7 @@ end;
     constructor Create;
     destructor Destroy; override;
 
-    procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
+
     //dotyczy petli while
     procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
     // procedure AddVariable(const Name, VarType: string);
@@ -49,8 +49,6 @@ end;
     //Stara duza procedura parsowania
     procedure ProcessLine(const Line: string; PascalCode: TStringList);
 
-
-    function JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
     function PrzetworzBlok(const Blok: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Interface
     function GetImportedModules(const Code: string): string;
@@ -60,8 +58,7 @@ end;
     function GetImplementationModules(const Code: string): string;
     //Centralizacja Logiki Parsowania 10.10.2025
     function ExtractFunctionCall(const Line: string; var VarName: string; var Params: TStringArray): string;
-    //obsluga for
-    procedure ProcessIfStatement(const Line: string; PascalCode: TStringList);
+
   public
     //Ustawienia dyrektyw kompilatora
     procedure AddCompilerDirective(PascalCode: TStringList);
@@ -246,6 +243,7 @@ const
     (FromText: 'nic'; ToText: 'nil'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: '.tekst'; ToText: '.Text'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'zwolnij'; ToText: 'free'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+     (FromText: 'zwiększ'; ToText: 'inc'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // English aliases
     (FromText: 'nil'; ToText: 'nil'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: '.text'; ToText: '.Text'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
@@ -415,11 +413,12 @@ begin
     //We skip the control instructions.
     // Pomijamy instrukcje sterujące
 
-    if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('jeżeli') then Exit;
     if LowerCase(TrimmedLine).StartsWith('if') then Exit;
     if LowerCase(TrimmedLine).StartsWith('then') then Exit;
     if LowerCase(TrimmedLine).StartsWith('else') then Exit;
     if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
+    if LowerCase(TrimmedLine).StartsWith('podczas') then Exit;
     if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
     if LowerCase(TrimmedLine).StartsWith('exit') then Exit;
     if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
@@ -609,8 +608,11 @@ begin
   end;
 
 
-  if LowerCase(TrimmedLine).StartsWith('jeśli') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('jeżeli') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('while') then Exit;
   if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('podczas') then Exit;
+
   if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
   if LowerCase(TrimmedLine).StartsWith('zakończ') then Exit;
   if LowerCase(TrimmedLine).StartsWith('dla') then Exit;
@@ -793,74 +795,6 @@ begin
 end;
 
 
-//nowa
-procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
-var
-  WithoutFor, Header, Body: string;
-  VarName, StartValue, EndValue, Direction: string;
-  OpenBracketPos, CloseBracketPos: Integer;
-  OdPos, DoPos: Integer;
-  BodyStatements: TStringList; // Używamy TStringList do parsowania wierszy
-  i: Integer;
-begin
-  // 1. Wstępne Parsowanie i Walidacja Klamer
-  WithoutFor := Trim(Copy(Line, 5, MaxInt)); // Usuwamy 'dla '
-
-  OpenBracketPos := Pos('{', WithoutFor);
-  if OpenBracketPos = 0 then
-    raise Exception.Create('Brak otwierającego nawiasu { w pętli dla.');
-
-  CloseBracketPos := LastDelimiter('}', WithoutFor);
-  if CloseBracketPos = 0 then
-    raise Exception.Create('Brak zamykającego nawiasu } w pętli dla.');
-
-  // Wyodrębnienie Nagłówka i Ciała
-  Header := Trim(Copy(WithoutFor, 1, OpenBracketPos - 1));
-  // Body zawiera cały tekst między klamrami, w tym znaki nowej linii
-  Body := Trim(Copy(WithoutFor, OpenBracketPos + 1, CloseBracketPos - OpenBracketPos - 1));
-
-  // 2. Niezawodne Parsowanie Nagłówka (od, do)
-  OdPos := Pos(' od ', LowerCase(Header));
-  DoPos := Pos(' do ', LowerCase(Header));
-
-  if (OdPos = 0) or (DoPos = 0) or (OdPos >= DoPos) then
-    raise Exception.Create('Nieprawidłowy format nagłówka pętli dla.');
-
-  VarName := Trim(Copy(Header, 1, OdPos - 1));
-  StartValue := Trim(Copy(Header, OdPos + 4, DoPos - OdPos - 4));
-  EndValue := Trim(Copy(Header, DoPos + 4, MaxInt));
-
-  // 3. Generowanie Kodu Pascala
-  Direction := 'to'; // Domyślnie iteracja rosnąca
-
-  PascalCode.Add(Format('for %s := %s %s %s do', [
-    VarName,
-    TranslateExpression(StartValue),
-    Direction,
-    TranslateExpression(EndValue)
-  ]));
-  PascalCode.Add('begin'); // Odpowiednik klamry '{'
-
-  // 4. Przetwarzanie Ciała Pętli na podstawie Nowych Linii
-  BodyStatements := TStringList.Create;
-  try
-    // Przypisanie tekstu 'Body' do właściwości .Text powoduje,
-    // że TStringList automatycznie dzieli go na elementy (linie)
-    // używając znaku nowej linii jako separatora.
-    BodyStatements.Text := Body;
-
-    for i := 0 to BodyStatements.Count - 1 do
-      if Trim(BodyStatements[i]) <> '' then
-        // Przetwarzamy każdą linię/instrukcję, która jest rozdzielona znakiem nowej linii
-        ProcessLine(Trim(BodyStatements[i]), PascalCode);
-
-  finally
-    BodyStatements.Free; // Zwolnienie pamięci
-  end;
-
-  PascalCode.Add('end;'); // Odpowiednik klamry '}'
-end;
-
 procedure TAvocadoTranslator.ProcessWhileLoop(const Line: string;
   PascalCode: TStringList);
 var
@@ -894,67 +828,7 @@ begin
 end;
 
 
-function TAvocadoTranslator.JesliWtedyInaczej(const Warunek, WartoscJesliPrawda, WartoscJesliFalsz: string): string;
-var
-  WtedySource, InaczejSource: TStringList; // Kod źródłowy Avocado
-  PascalCodeBlock: TStringList; // Przechowuje PRZETŁUMACZONY kod Pascala dla bloku
-  i: Integer;
-begin
-  WtedySource := TStringList.Create;
-  InaczejSource := TStringList.Create;
-  PascalCodeBlock := TStringList.Create; // Inicjalizacja listy na wynikowy kod
-  try
-    // Wczytanie nieprzetłumaczonych instrukcji, rozdzielonych nową linią
-    WtedySource.Text := WartoscJesliPrawda;
-    InaczejSource.Text := WartoscJesliFalsz;
 
-    // Nagłówek 'if...then begin'
-    PascalCodeBlock.Add('if ' + TranslateExpression(Warunek) + ' then');
-    PascalCodeBlock.Add('begin');
-
-    // --- 1. BLOK THEN (Transpilacja WtedyLines) ---
-    for i := 0 to WtedySource.Count - 1 do
-      if Trim(WtedySource[i]) <> '' then
-        // KLUCZOWA ZMIANA: Przetłumacz instrukcję i dodaj do PascalCodeBlock
-        // Użyjemy tymczasowej listy, by ProcessLine dodał wynik do niej
-        ProcessLine(Trim(WtedySource[i]), PascalCodeBlock);
-
-    // Zakończenie bloku THEN
-    PascalCodeBlock.Add('end');
-
-    // --- 2. BLOK ELSE (Transpilacja InaczejLines) ---
-    if WartoscJesliFalsz <> '' then
-    begin
-      PascalCodeBlock.Add('else');
-      PascalCodeBlock.Add('begin');
-
-      for i := 0 to InaczejSource.Count - 1 do
-        if Trim(InaczejSource[i]) <> '' then
-          // Transpilacja instrukcji 'else'
-          ProcessLine(Trim(InaczejSource[i]), PascalCodeBlock);
-
-      // Zakończenie bloku ELSE. W Pascalu ten 'end' musi mieć średnik,
-      // jeśli za nim ma iść więcej kodu (jeśli nie jest ostatnim 'end.').
-      PascalCodeBlock.Add('end;');
-    end
-    else
-    begin
-      // Jeśli nie ma bloku ELSE, musimy dodać średnik po kończącym 'end' bloku THEN
-      // Upewniamy się, że ostatnia linia w PascalCodeBlock to 'end',
-      // i zmieniamy ją na 'end;'
-      if PascalCodeBlock.Count > 0 then
-        PascalCodeBlock[PascalCodeBlock.Count - 1] := 'end;';
-    end;
-
-    // Zwróć cały przetłumaczony blok jako pojedynczy string
-    Result := PascalCodeBlock.Text;
-
-  finally
-    WtedySource.Free;
-    InaczejSource.Free;
-    PascalCodeBlock.Free;
-  end;
-end;
 
 
 
@@ -1221,59 +1095,6 @@ begin
     VarName := ParamStr;
 end;
 
-procedure TAvocadoTranslator.ProcessIfStatement(const Line: string;
-  PascalCode: TStringList);
-var
-  WithoutIf: string;
-  Condition, ThenBlock, ElseBlock: string;
-  ThenPos, ElsePos, OpenBracketPos, CloseBracketPos: Integer;
-begin
-  // 1. Usuń 'jeżeli ' i przygotuj do parsowania
-    WithoutIf := Trim(Copy(Line, Length('jeżeli ') + 1, MaxInt));
-
-    // 2. Znajdź początek bloku THEN (klamra '{')
-    OpenBracketPos := Pos('{', WithoutIf);
-    if OpenBracketPos = 0 then
-      raise Exception.Create('Błąd składni: Brak otwierającej klamry { w instrukcji "jeżeli".');
-
-    // Warunek to wszystko przed '{'
-    Condition := Trim(Copy(WithoutIf, 1, OpenBracketPos - 1));
-
-    // 3. Znajdź 'w przeciwnym razie'
-    ElsePos := Pos(' w przeciwnym razie ', LowerCase(WithoutIf));
-
-    if ElsePos > 0 then
-    begin
-      // Mamy blok ELSE
-
-      // Zablokuj THEN: Od pierwszej klamry do początku 'w przeciwnym razie'
-      ThenBlock := Trim(Copy(WithoutIf, OpenBracketPos + 1, ElsePos - OpenBracketPos - 1));
-
-      // Zablokuj ELSE: Wszystko po 'w przeciwnym razie {'
-      OpenBracketPos := Pos('{', Copy(WithoutIf, ElsePos, MaxInt)) + ElsePos - 1;
-
-      if OpenBracketPos = ElsePos - 1 then // Walidacja, czy za 'w przeciwnym razie' jest klamra
-        raise Exception.Create('Błąd składni: Brak klamry { po "w przeciwnym razie".');
-
-      ElseBlock := Trim(Copy(WithoutIf, OpenBracketPos + 1, MaxInt));
-
-      // Usuń zamykające klamry '}' z obu bloków
-      ThenBlock := Trim(StringReplace(ThenBlock, '}', '', [rfReplaceAll]));
-      ElseBlock := Trim(StringReplace(ElseBlock, '}', '', [rfReplaceAll]));
-    end
-    else
-    begin
-      // Brak bloku ELSE - proste IF THEN
-      ThenBlock := Trim(Copy(WithoutIf, OpenBracketPos + 1, MaxInt));
-      ThenBlock := Trim(StringReplace(ThenBlock, '}', '', [rfReplaceAll])); // Usuń zamykającą klamrę
-      ElseBlock := ''; // Brak bloku ELSE
-    end;
-
-    // 4. Dodaj przetłumaczony kod do głównej listy wynikowej
-    PascalCode.Add(
-      JesliWtedyInaczej(Condition, ThenBlock, ElseBlock)
-    );
-end;
 
 procedure TAvocadoTranslator.AddCompilerDirective(PascalCode: TStringList);
 var
@@ -1559,6 +1380,14 @@ begin
     PascalCode.Add('end.');
     Exit;
   end;
+
+
+  // Obsługa słowa kluczowego KONIEC. (z kropką, na końcu programu)
+  if LowerTrimmedLine = 'podczas.' then
+  begin
+    PascalCode.Add('while');
+    Exit;
+  end;
   NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
   // Obsługa JEŻELI, WTEDY, INACZEJ - If then esle
   if (Pos('jeżeli', LowerTrimmedLine) > 0) or   (Pos('if', LowerTrimmedLine) > 0) or
@@ -1595,6 +1424,7 @@ begin
   if (Pos('dla', LowerTrimmedLine) > 0) or (Pos('for', LowerTrimmedLine) > 0) or
      (Pos('do', LowerTrimmedLine) > 0) or (Pos('to', LowerTrimmedLine) > 0) or
      (Pos('wykonać', LowerTrimmedLine) > 0) or (Pos('make', LowerTrimmedLine) > 0) or
+     (Pos('malejąco"', LowerTrimmedLine) > 0) or (Pos('descending', LowerTrimmedLine) > 0) or
      (Pos('==', LowerTrimmedLine) > 0)
      then
    begin
@@ -1603,6 +1433,8 @@ begin
     TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'for', 'for', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, '==', ':=', [rfReplaceAll, rfIgnoreCase]);
@@ -1610,7 +1442,34 @@ begin
     Exit;
   end;
 
-  //etykieta label goto
+  //Petla while do
+  NeedsSemicolon := (NextTrimmedLowerLine <> 'while');
+  NeedsSemicolon := (NextTrimmedLowerLine <> 'podczas');
+  if (Pos('podczas', LowerTrimmedLine) > 0) or (Pos('while', LowerTrimmedLine) > 0) or
+     (Pos('do', LowerTrimmedLine) > 0) or (Pos('to', LowerTrimmedLine) > 0) or
+     //(Pos('wykonać', LowerTrimmedLine) > 0) or (Pos('make', LowerTrimmedLine) > 0) or
+     (Pos('==', LowerTrimmedLine) > 0)
+     then
+   begin
+    TranslatedLine := TrimmedLine;
+
+    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'for', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'while', 'while', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'podczas', 'while', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, '==', ':=', [rfReplaceAll, rfIgnoreCase]);
+    PascalCode.Add(TranslatedLine);
+    Exit;
+  end;
+
+
+
+    //etykieta label goto
     NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
     NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
    if //(Pos('skocz', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
@@ -1864,13 +1723,13 @@ begin
     end;
 
 
-
-  //Obsługa pętli for
-  if LowerTrimmedLine.StartsWith('dla ') then
-  begin
-    ProcessForLoop(TrimmedLine, PascalCode);
-    Exit;
-  end;
+//
+//  //Obsługa pętli for
+//  if LowerTrimmedLine.StartsWith('dla ') then
+//  begin
+//    ProcessForLoop(TrimmedLine, PascalCode);
+//    Exit;
+//  end;
 
   // Obsługa funkcji usun() -> Delete()
   if Pos('usuń(', LowerTrimmedLine) > 0 then
@@ -2510,56 +2369,9 @@ end;
       Exit;
     end;
 
-  // 0. Obsługa pętli for
-      if LowerCase(TrimmedLine).StartsWith('dla ') then
-      begin
-        ProcessForLoop(TrimmedLine, PascalCode);
-        Exit;
-      end;
 
-    // 1. Najpierw obsługujemy instrukcje warunkowe
-    if Pos('jeśli ', LowerCase(TrimmedLine)) = 1 then
-    begin
-      InstrukcjaWarunkowa := TrimmedLine.Split(['wtedy'], 2);
-      if Length(InstrukcjaWarunkowa) = 2 then
-      begin
-        Parts := InstrukcjaWarunkowa[1].Split(['inaczej'], 2);
-
-        // Przetwarzanie bloku 'wtedy'
-        KodWtedy := '';
-        TempList := TStringList.Create;
-        try
-          Statements := SplitString(Trim(Parts[0]), ';');
-          for Statement in Statements do
-            if Trim(Statement) <> '' then
-              //ProcessLine(Trim(Statement), TempList);
-          KodWtedy := Trim(TempList.Text);
-        finally
-          TempList.Free;
-        end;
-
-        // Przetwarzanie bloku 'inaczej'
-        KodInaczej := '';
-        if Length(Parts) = 2 then
-        begin
-          TempList := TStringList.Create;
-          try
-            Statements := SplitString(Trim(Parts[1]), ';');
-            for Statement in Statements do
-              if Trim(Statement) <> '' then
-               // ProcessLine(Trim(Statement), TempList);
-            KodInaczej := Trim(TempList.Text);
-          finally
-            TempList.Free;
-          end;
-        end;
-
-        PascalCode.Add(JesliWtedyInaczej(Trim(Copy(InstrukcjaWarunkowa[0], 7)), KodWtedy, KodInaczej));
-        Exit;
-      end;
-    end
     // Obsługa funkcji długość (Length)
-    else if Pos('długość(', LowerCase(TrimmedLine)) > 0 then
+      if Pos('długość(', LowerCase(TrimmedLine)) > 0 then
 
     begin
       // Znajdź pozycje nawiasów
@@ -3079,8 +2891,6 @@ end
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
     else
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value)); // Bez średnika
-
-     // PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';');
     end
 
     {
@@ -3093,20 +2903,14 @@ end
   // 5. Obsługa pozostałych linii
   else if TrimmedLine <> '' then
   begin
-
-    // Musimy też przetłumaczyć funkcje typu 'pisz_linie'
     TranslatedLine := TranslateExpression(TrimmedLine);
-
-    // POPRAWKA: Dodajemy średnik tylko warunkowo
     if NeedsSemicolon then
       PascalCode.Add(TranslatedLine + ';')
     else
-      PascalCode.Add(TranslatedLine); // Bez średnika
+      PascalCode.Add(TranslatedLine);
    end;
    end;
-
-     end;
-
+ end;
 end;
 
 
@@ -3133,7 +2937,7 @@ begin
     ExistingLabes := TStringList.Create;  // Do śledzenia dodanych w label / etykietach
     // --- Skanowanie dla standardowego 'program' ---
     NameProgram := ''; // Resetuj zmienną globalną/pole
-    DetectedProgramName := 'programbeznazwy'; // Domyślna nazwa
+    DetectedProgramName := 'untitledprogram'; // Domyślna nazwa
 
     for i := 0 to AvocadoCode.Count - 1 do
     begin
@@ -3142,7 +2946,7 @@ begin
       if LowerCase(trimmedLine).StartsWith('program ') then
       begin
         NameProgram := Trim(Copy(trimmedLine, Length('program ') + 1, MaxInt));
-        if NameProgram = '' then NameProgram := 'programbeznazwy';
+        if NameProgram = '' then NameProgram := 'untitledprogram';
         DetectedProgramName := NameProgram;
         Break; // Znaleziono deklarację, przerwij skanowanie
       end;
