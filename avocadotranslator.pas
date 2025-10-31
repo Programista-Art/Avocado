@@ -42,6 +42,7 @@ end;
 
     //dotyczy petli while
     procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
+    procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
     // procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
@@ -803,33 +804,45 @@ end;
 procedure TAvocadoTranslator.ProcessWhileLoop(const Line: string;
   PascalCode: TStringList);
 var
-StartBrace, EndBrace: Integer;
-LoopContent, Condition, Body: string;
-Statements: TStringArray;
-stmt: string;
+TrimmedLine, LowerTrimmedLine: string;
+TranslatedLine: string;
 begin
-  // Szukamy nawiasów klamrowych { ... }
-    StartBrace := Pos('{', Line);
-    EndBrace := RPos('}', Line);
-    if (StartBrace = 0) or (EndBrace = 0) or (EndBrace <= StartBrace) then
-      raise Exception.Create('Błędna składnia pętli dopóki: ' + Line);
+  TrimmedLine := Trim(Line);
+  LowerTrimmedLine := AnsiLowerCase(TrimmedLine);
+  if not (LowerTrimmedLine.StartsWith('podczas ') or LowerTrimmedLine.StartsWith('while ')) then
+  begin
+    Exit;
+  end;
 
-    LoopContent := Trim(Copy(Line, StartBrace + 1, EndBrace - StartBrace - 1));
+  // pętla while.
+  TranslatedLine := TrimmedLine;
+  TranslatedLine := ReplaceText(TranslatedLine, 'podczas', 'while');
+  TranslatedLine := ReplaceText(TranslatedLine, 'Podczas', 'while');
 
-    // Wyciągamy warunek (pierwsza część w nawiasach) i ciało pętli
-    if (LoopContent[1] <> '(') then
-      raise Exception.Create('Brak warunku w pętli dopóki: ' + Line);
+  // 2.'wykonać' -> 'do'
+  TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
+  PascalCode.Add(TranslatedLine);
+end;
 
-    // Szukamy końca warunku
-    EndBrace := Pos(')', LoopContent);
-    if EndBrace = 0 then
-      raise Exception.Create('Brak zamykającego nawiasu warunku w dopóki: ' + Line);
+procedure TAvocadoTranslator.ProcessForLoop(const Line: string;
+  PascalCode: TStringList);
+var
+  TranslatedLine: string;
+begin
+  TranslatedLine := Trim(Line);
+    TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, ' == ', '=', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, '==', '=', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, ' = ', ' := ', [rfReplaceAll]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
 
-    Condition := Trim(Copy(LoopContent, 2, EndBrace - 2));
-    Body := Trim(Copy(LoopContent, EndBrace + 1, MaxInt));
 
-    PascalCode.Add('while ' + TranslateExpression(Condition) + ' do begin');
-    PascalCode.Add('end;');
+    TranslatedLine := StringReplace(TranslatedLine, ' do ', ' to ', [rfReplaceAll, rfIgnoreCase]);
+    PascalCode.Add(TranslatedLine);
 end;
 
 
@@ -1347,6 +1360,7 @@ var
   ConditionStr: String;         // Zamiast 'Warunek'
   TranslatedCondition: String;
   LowerLineRepeat: String;
+  CleanLowerLine: string;
 begin
 
   TrimmedLine := Trim(Line);
@@ -1386,90 +1400,59 @@ begin
   end;
 
 
-  // Obsługa słowa kluczowego KONIEC. (z kropką, na końcu programu)
-  if LowerTrimmedLine = 'podczas.' then
+     //warunek If then else
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
+    if (LowerTrimmedLine.StartsWith('jeżeli ')) or (LowerTrimmedLine.StartsWith('if ')) or
+      (LowerTrimmedLine.StartsWith('inaczej')) or (LowerTrimmedLine.StartsWith('else')) then
+    begin
+      TranslatedLine := TrimmedLine;
+      TranslatedLine := StringReplace(TranslatedLine, 'inaczej jeżeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
+      TranslatedLine := StringReplace(TranslatedLine, 'jeżeli', 'if', [rfReplaceAll, rfIgnoreCase]);
+      TranslatedLine := StringReplace(TranslatedLine, 'wtedy', 'then', [rfReplaceAll, rfIgnoreCase]);
+      TranslatedLine := StringReplace(TranslatedLine, 'inaczej', 'else', [rfReplaceAll, rfIgnoreCase]);
+
+      PascalCode.Add(TranslatedLine);
+      Exit;
+    end;
+
+
+  CleanLowerLine := LowerTrimmedLine;
+  if CleanLowerLine.EndsWith(';') then
+    CleanLowerLine := CleanLowerLine.Substring(0, CleanLowerLine.Length - 1);
+  if (CleanLowerLine = 'przerwać') or (CleanLowerLine = 'break') then
   begin
-    PascalCode.Add('while');
+    PascalCode.Add('break;');
     Exit;
   end;
-  NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
-  // Obsługa JEŻELI, WTEDY, INACZEJ - If then esle
-  if (Pos('jeżeli', LowerTrimmedLine) > 0) or   (Pos('if', LowerTrimmedLine) > 0) or
-     (Pos('wtedy', LowerTrimmedLine) > 0) or   (Pos('then', LowerTrimmedLine) > 0) or
-     (Pos('inaczej', LowerTrimmedLine) > 0) or (Pos('else', LowerTrimmedLine) > 0) then
+  if (CleanLowerLine = 'kontynuować') or (CleanLowerLine = 'continue') then
   begin
-    TranslatedLine := TrimmedLine;
-    TranslatedLine := StringReplace(TranslatedLine, 'inaczej jeżeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'jeżeli', 'if', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wtedy', 'then', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'inaczej', 'else', [rfReplaceAll, rfIgnoreCase]);
-    PascalCode.Add(TranslatedLine);
+    PascalCode.Add('continue;');
     Exit;
   end;
 
-  //break - przerwać  continue - kontynuować
-  if (Pos('przerwać', LowerTrimmedLine) > 0) or (Pos('break', LowerTrimmedLine) > 0) or
-     (Pos('kontynuować', LowerTrimmedLine) > 0) or (Pos('continue', LowerTrimmedLine) > 0)
-     then
-   begin
-    TranslatedLine := TrimmedLine;
-    TranslatedLine := StringReplace(TranslatedLine, 'przerwać', 'break', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'kontynuować', 'continue', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'break', 'break;', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'continue', 'continue;', [rfReplaceAll, rfIgnoreCase]);
+    //Petle
+    // Obsługa pętli FOR ('dla ... do ... wykonać')
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
 
-    PascalCode.Add(TranslatedLine);
-    Exit;
-  end;
-  //Petle
-  //for to do / dla do, wykonac albo fo to make
-  NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
-  NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
-  if (Pos('dla', LowerTrimmedLine) > 0) or (Pos('for', LowerTrimmedLine) > 0) or
-     (Pos('do', LowerTrimmedLine) > 0) or (Pos('to', LowerTrimmedLine) > 0) or
-     (Pos('wykonać', LowerTrimmedLine) > 0) or (Pos('make', LowerTrimmedLine) > 0) or
-     (Pos('malejąco"', LowerTrimmedLine) > 0) or (Pos('descending', LowerTrimmedLine) > 0) or
-     (Pos('==', LowerTrimmedLine) > 0)
-     then
-   begin
-    TranslatedLine := TrimmedLine;
-    TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'for', 'for', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, '==', ':=', [rfReplaceAll, rfIgnoreCase]);
-    PascalCode.Add(TranslatedLine);
-    Exit;
-  end;
+    // Sprawdzamy tylko początek linii!
+    if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
+     begin
+      ProcessForLoop(TrimmedLine, PascalCode); // Używamy nowej, dedykowanej funkcji
+      Exit;
+    end;
 
-  //Petla while do
-  NeedsSemicolon := (NextTrimmedLowerLine <> 'while');
-  NeedsSemicolon := (NextTrimmedLowerLine <> 'podczas');
-  if (Pos('podczas', LowerTrimmedLine) > 0) or (Pos('while', LowerTrimmedLine) > 0) or
-     (Pos('do', LowerTrimmedLine) > 0) or (Pos('to', LowerTrimmedLine) > 0) or
-     //(Pos('wykonać', LowerTrimmedLine) > 0) or (Pos('make', LowerTrimmedLine) > 0) or
-     (Pos('==', LowerTrimmedLine) > 0)
-     then
-   begin
-    TranslatedLine := TrimmedLine;
 
-    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'for', 'for', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'do', 'to', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'while', 'while', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'podczas', 'while', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, '==', ':=', [rfReplaceAll, rfIgnoreCase]);
-    PascalCode.Add(TranslatedLine);
-    Exit;
-  end;
+    //Petla while do
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'while');
+    NeedsSemicolon := (NextTrimmedLowerLine <> 'podczas');
+
+    if (LowerTrimmedLine.StartsWith('podczas ')) or (LowerTrimmedLine.StartsWith('while ')) then
+    begin
+      // Przekazujemy linię do nowej, dedykowanej procedury
+      ProcessWhileLoop(TrimmedLine, PascalCode);
+      Exit; // Linia została przetworzona, kończymy
+    end;
 
 
 
@@ -1481,8 +1464,6 @@ begin
       then
     begin
      TranslatedLine := TrimmedLine;
-     //TranslatedLine := StringReplace(TranslatedLine, 'skocz', 'goto', [rfReplaceAll, rfIgnoreCase]);
-    // TranslatedLine := StringReplace(TranslatedLine, 'goto', 'goto', [rfReplaceAll, rfIgnoreCase]);
      TranslatedLine := StringReplace(TranslatedLine, 'label', 'label', [rfReplaceAll, rfIgnoreCase]);
      TranslatedLine := StringReplace(TranslatedLine, 'etykieta', 'label', [rfReplaceAll, rfIgnoreCase]);
      PascalCode.Add(TranslatedLine);
@@ -1491,7 +1472,6 @@ begin
    //goto w innych miejscach
 
  // --- BLOK 2: Obsługa polecenia SKOCZ_DO (goto) ---
-  // Musi być PRZED Blokiem #4 i #5
   if LowerTrimmedLine.StartsWith('jump') or
      LowerTrimmedLine.StartsWith('skocz') then
   begin
@@ -1516,8 +1496,7 @@ begin
 
  //
   // Obsługa petli repeat until
-  // --- 1. Obsługa POCZĄTKU pętli (repeat / powtarzaj) ---
-  // Sprawdzamy DOKŁADNE dopasowanie linii
+  //Obsługa POCZĄTKU pętli (repeat / powtarzaj)
   if (LowerLine = 'powtarzaj') or (LowerLine = 'repeat') then
   begin
     // Sprawdzenie, czy nie jesteśmy już w bloku
@@ -1529,7 +1508,7 @@ begin
     Exit;                   // Przechodzimy do następnej linii
   end;
 
-  // --- 2. Obsługa KOŃCA pętli (until / aż) ---
+  // Obsługa KOŃCA pętli (until / aż)
   // Sprawdzamy, czy linia ZACZYNA SIĘ od słów kluczowych ZE SPACJĄ
   if LowerLine.StartsWith('aż ') or LowerLine.StartsWith('until ') then
   begin

@@ -4,7 +4,7 @@ int a = 5
 if a = 5 then
 start
 jump test;
-print_line('a równa sie 5')
+print_line('a = 5')
 end
 else
 print_line('a nie równa sie 5')
