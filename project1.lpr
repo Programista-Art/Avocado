@@ -21,8 +21,6 @@ uses
 
 begin
 
-
-
   RequireDerivedFormResource:=True;
   Application.Title:='IDE Avocado';
   Application.Scaled:=True;

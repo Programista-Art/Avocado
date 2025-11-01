@@ -77,3 +77,5 @@ wariant
 oleVariant
 informacje_o_wyszukaniu
 lista_tekstów
+qliczba
+qword

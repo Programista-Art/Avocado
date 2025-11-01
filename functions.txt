@@ -114,3 +114,13 @@ skocz
 jump
 malejąco
 descending
+for 
+in
+dla
+do
+w
+label
+etykieta
+powtarzaj
+aż
+oblicz_formatuj

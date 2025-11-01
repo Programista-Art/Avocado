@@ -2031,7 +2031,7 @@ object FormMain: TFormMain
     CommentAttri.FrameColor = clWindow
     CommentAttri.Style = [fsBold, fsItalic]
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
-    Comments = [csPasStyle]
+    Comments = [csAnsiStyle, csPasStyle, csAsmStyle, csBasStyle]
     DetectPreprocessor = True
     IdentifierAttri.Foreground = clMedGray
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'

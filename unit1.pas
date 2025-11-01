@@ -21,6 +21,13 @@ type
     Loaded: Boolean;
  end;
 
+  PFileNode = ^TFileNode;
+  TFileNode = record
+    Name: string;
+    FullPath: string;
+    IsFolder: Boolean;
+  end;
+
 type
   { TFormMain }
   TFormMain = class(TForm)
@@ -189,6 +196,7 @@ type
     procedure EditSearchMistakesChange(Sender: TObject);
     procedure EditSearchResultsChange(Sender: TObject);
     procedure EditSearchVariablesChange(Sender: TObject);
+
     procedure FindDialogFind(Sender: TObject);
     procedure FindDialogShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -300,13 +308,7 @@ type
       var AllowExpansion: Boolean);
     procedure ZapiszPlikExecute(Sender: TObject);
 
-    type
-      PFileNode = ^TFileNode;
-      TFileNode = record
-        Name: string;
-        FullPath: string;
-        IsFolder: Boolean;
-      end;
+
   private
     FTranslator: TAvocadoTranslator;
     FTranslatedCode: TStringList;
@@ -318,7 +320,8 @@ type
 
 
     //Delete Kompilacja kodu release debug
-    procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
+    //procedure KompilacjaKoduwPascal(const Code, OutputFile: string);
+
     //Dotyczy nazwy programu
     procedure ExtractProgramFromSynEdit;
     function ExtractProgramName(const Line: string): string;
@@ -342,7 +345,6 @@ type
     destructor Destroy; override;
     //Code compilation / Kompilacja kodu
     procedure CompilePascalCode(const PascalCode, OutputFile: string);
-    // function CompilePascalCode(const SourceFile, ExeFile: string): Boolean;
     procedure InternalLoadAvocadoFile(const FileName: string);
     procedure TranspilujKod;
     //Wyszukiwanie funkcji z projektu i wstawienie w ListBox - ListBoxSearchFunctions
@@ -675,124 +677,37 @@ begin
     end
   else
     MessageDlg(TranslateAttentionMsg, TranslateNoDataCode, mtWarning,[mbOk],0);
-
 end;
 
 procedure TFormMain.EditSearchMistakesChange(Sender: TObject);
-var
-  i: Integer;
-  SearchText: string;
 begin
-    // brak danych do filtrowania
-    if not Assigned(FErrAll) then Exit;
-    FilterListBox(EditSearchMistakes.Text, FErrAll, ListBoxErrCode);
-
-    SearchText := LowerCase(EditSearchMistakes.Text);
-    ListBoxErrCode.Items.BeginUpdate;
-    try
-      ListBoxErrCode.Items.Clear;
-      for i := 0 to FErrAll.Count - 1 do
-      begin
-        if (SearchText = '') or
-           (Pos(SearchText, LowerCase(FErrAll[i])) > 0) then
-          ListBoxErrCode.Items.Add(FErrAll[i]);
-      end;
-    finally
-      ListBoxErrCode.Items.EndUpdate;
-    end;
+  if not Assigned(FErrAll) then Exit;
+  FilterListBox(EditSearchMistakes.Text, FErrAll, ListBoxErrCode);
 end;
 
 procedure TFormMain.EditSearchResultsChange(Sender: TObject);
-var
-  i: Integer;
-  SearchText: string;
 begin
-    // brak danych do filtrowania
-    if not Assigned(FSearchAll) then Exit;
-
-    SearchText := LowerCase(EditSearchResults.Text);
-    ListBoxSeacrh.Items.BeginUpdate;
-    try
-      ListBoxSeacrh.Items.Clear;
-      for i := 0 to FSearchAll.Count - 1 do
-      begin
-        if (SearchText = '') or
-           (Pos(SearchText, LowerCase(FSearchAll[i])) > 0) then
-          ListBoxSeacrh.Items.Add(FSearchAll[i]);
-      end;
-    finally
-      ListBoxSeacrh.Items.EndUpdate;
-    end;
+  if not Assigned(FSearchAll) then Exit;
+  FilterListBox(EditSearchResults.Text, FSearchAll, ListBoxSeacrh);
 end;
 
 procedure TFormMain.EditSearchVariablesChange(Sender: TObject);
-var
-  i: Integer;
-  SearchText: string;
 begin
-    // brak danych do filtrowania
-    if not Assigned(FVarAll) then Exit;
-    SearchText := LowerCase(EditSearchVariables.Text);
-    ListBoxSearchVariables.Items.BeginUpdate;
-    try
-      ListBoxSearchVariables.Items.Clear;
-      for i := 0 to FVarAll.Count - 1 do
-      begin
-        if (SearchText = '') or
-           (Pos(SearchText, LowerCase(FVarAll[i])) > 0) then
-          ListBoxSearchVariables.Items.Add(FVarAll[i]);
-      end;
-    finally
-      ListBoxSearchVariables.Items.EndUpdate;
-    end;
+  if not Assigned(FVarAll) then Exit;
+  FilterListBox(EditSearchVariables.Text, FVarAll, ListBoxSearchVariables);
 end;
 
 procedure TFormMain.EditSearchCommentsChange(Sender: TObject);
-var
-   i: Integer;
-   FilterText: string;
 begin
-   if not Assigned(FCmtAll) then Exit;
-
-  FilterText := Trim(LowerCase(EditSearchComments.Text)); // tekst filtrujący
-  ListBoxSearchComments.Items.BeginUpdate;
-  try
-    ListBoxSearchComments.Clear;
-    for i := 0 to FCmtAll.Count - 1 do
-    begin
-      if (FilterText = '') or (Pos(FilterText, LowerCase(FCmtAll[i])) > 0) then
-        ListBoxSearchComments.Items.Add(FCmtAll[i]);
-    end;
-  finally
-    ListBoxSearchComments.Items.EndUpdate;
-  end;
+  if not Assigned(FCmtAll) then Exit;
+  FilterListBox(EditSearchComments.Text, FCmtAll, ListBoxSearchComments);
 end;
-
-
 
 procedure TFormMain.EditSearchFunctionsChange(Sender: TObject);
-var
-  i: Integer;
-  SearchText: string;
 begin
-    // brak danych do filtrowania
-    if not Assigned(FFuncAll) then Exit;
-    SearchText := LowerCase(EditSearchFunctions.Text);
-    ListBoxSearchFunctions.Items.BeginUpdate;
-    try
-      ListBoxSearchFunctions.Items.Clear;
-      for i := 0 to FFuncAll.Count - 1 do
-      begin
-        if (SearchText = '') or
-           (Pos(SearchText, LowerCase(FFuncAll[i])) > 0) then
-          ListBoxSearchFunctions.Items.Add(FFuncAll[i]);
-      end;
-    finally
-      ListBoxSearchFunctions.Items.EndUpdate;
-    end;
+  if not Assigned(FFuncAll) then Exit;
+  FilterListBox(EditSearchFunctions.Text, FFuncAll, ListBoxSearchFunctions);
 end;
-
-
 
 procedure TFormMain.FindDialogShow(Sender: TObject);
 var
@@ -1622,27 +1537,17 @@ end;
 
 procedure TFormMain.SynEditCodeChange(Sender: TObject);
 begin
-
  if Assigned(SynEditCode) then
   begin
-
-
-    ToolButton1Click(sender);
+    //ToolButton1Click(sender);
     NumberWordSynEdit := Length(SynEditCode.Text);
-    //StatusBar.Panels.Items[0].Text := IntToStr(SynEditCode.Lines.Count) + 'LinesofCodeTranslate';
     StatusBar.Panels.Items[0].Text := (CountLine) + ' ' + IntToStr(SynEditCode.Lines.Count);
     StatusBar.Panels.Items[1].Text := (CountChars) + ' ' + IntToStr(NumberWordSynEdit);
-    //StatusBar.Panels.Items[1].Text := IntToStr(NumberWordSynEdit) + 'CharsTranslate';
     IdleTimer1.Enabled := False;
     IdleTimer1.Enabled := True;
-
     // Zrestartowanie timera za każdym naciśnięciem klawisza
     TimerScanFunctions.Enabled := False;
     TimerScanFunctions.Enabled := True;
-
-    //Wczytuje tylko funkcji
-    //ListFunctionsFromSynEdit
-
   end;
 end;
 
@@ -1656,6 +1561,7 @@ procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
   TimerScanFunctions.Enabled := False; // zatrzymujemy timer do następnej zmiany
   // update feature list / aktualizacja listy funkcji
+  ToolButton1Click(Sender);
   ListFunctionsFromSynEdit;
   // updating the list of variables. / aktualizacja listy zmiennych.
   ListVariablesFromSynEdit;
@@ -2302,6 +2208,7 @@ var
   FpcUnitPath, SourceDir: string;
   IdeDirectory, IdeModulesPath: string;
   UserModulesPath: string;
+  BuildMode: string;
 begin
   // --- Sprawdzenie krytycznych ustawień--
   if (FFpcPath = '') or not FileExists(FFpcPath) then
@@ -2343,6 +2250,8 @@ begin
   else
      TempFile := ExtractFilePath(Application.ExeName) + 'temp_compile.pas';
 
+  //tryb kompilacji na sztywno
+  BuildMode := 'Release';
   try
     // Saving code to a temporary file / Zapis kodu do pliku tymczasowego
     OutputLines := TStringList.Create;
@@ -2370,6 +2279,23 @@ begin
         AProcess.Parameters.Add('-Fu' + FpcUnitPath)
       else
         MemoLogs.Lines.Add(TranslateErrRequiredFPCstandardUnitDirfound + FpcUnitPath);
+
+      // Dodajemy opcje dla trybu Release
+        if BuildMode = 'Release' then
+        begin
+          MemoLogs.Lines.Add(TranslateCompilingReleaseMode);
+          AProcess.Parameters.Add('-O3');
+          AProcess.Parameters.Add('-Os');
+          AProcess.Parameters.Add('-CX');
+          AProcess.Parameters.Add('-XX');
+          AProcess.Parameters.Add('-g-');
+        end
+      else
+        begin
+          MemoLogs.Lines.Add(TranslateCompilingDebugMode);
+          // (Domyślnie FPC kompiluje z informacjami debugowania)
+        end;
+
 
       //Path to the directory with the source file (TempFile)
       // 3. Ścieżka do katalogu z plikiem źródłowym (TempFile)
@@ -2942,7 +2868,7 @@ end;
 
 
 
-
+{
 procedure TFormMain.KompilacjaKoduwPascal(const Code, OutputFile: string);
 var
   AProcess: TProcess;
@@ -2996,8 +2922,6 @@ begin
         AProcess.WaitOnExit;
         OutputLines.LoadFromStream(AProcess.Output);
         MemoLogs.Lines.AddStrings(OutputLines);
-
-
         if AProcess.ExitStatus = 0 then
           MemoLogs.Lines.Add(TranslateComilationSuccessOutputFile + OutputFile)
         else
@@ -3012,6 +2936,7 @@ begin
         MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
     end;
 end;
+}
 
 procedure TFormMain.ExtractProgramFromSynEdit;
 var
@@ -3218,8 +3143,6 @@ begin
     end;
 end;
 
-
-
 procedure TFormMain.LoadAvocadoFileToEditor(const FileName: string);
 var
     FolderPath: string;
@@ -3283,22 +3206,13 @@ end;
 procedure TCompileThread.Execute;
 begin
   try
-      FOwner.CompilePascalCode(FPascalCode, FExeName);
-      FSuccess := FileExists(FExeName);
-    except
-      FSuccess := False;
-    end;
-
-    // Po zakończeniu – powiadom GUI
-    Synchronize(@AfterCompile);
-
-   //FOwner.CompilePascalCode(FPascalCode, FExeName);
-   //
-   //
-   //if FileExists(FExeName) then
-   //  Synchronize(@ShowSuccess)
-   //else
-   //  Synchronize(@ShowError);
+    FOwner.CompilePascalCode(FPascalCode, FExeName);
+    FSuccess := FileExists(FExeName);
+  except
+    FSuccess := False;
+  end;
+  // Po zakończeniu – powiadom GUI
+  Synchronize(@AfterCompile);
 end;
 
 procedure TCompileThread.AfterCompile;
@@ -3348,8 +3262,6 @@ begin
   FProcess.Execute;
 end;
 
-
-
 procedure TInterpreterThread.SyncAppendOutput;
 begin
   // Add the read text to the control – the text is added here
@@ -3357,7 +3269,6 @@ begin
   FConsole.SelStart := Length(FConsole.Text);
   FConsole.SelText := FOutput;
 end;
-
 
 procedure TInterpreterThread.Execute;
 var
@@ -3375,13 +3286,7 @@ begin
       SetString(NewText, PAnsiChar(@Buffer[0]), BytesRead);
       FOutput := NewText;
       Synchronize(@SyncAppendOutput);
-      // If the .exe file has been generated correctly, run it
-      // Jeśli plik .exe został poprawnie wygenerowany, uruchamiamy go
-      if FileExists(ExeName) then
-        ShellExecute(Handle, 'open', PChar(ExeName), nil, nil, 1)
-      else
-        MessageDlg(TranslateMistake, TranslateFailStartProgram + ExeName, mtError, [mbOk], 0);
-      end
+    end
     //
     else
       //Sleep(10);

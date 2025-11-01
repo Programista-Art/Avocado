@@ -36,19 +36,21 @@ end;
   private
     FVariables: array of TAvocadoVariable;
     FInRepeatBlock: Boolean;
+    FInMultiLineComment: Boolean;
     FLabels: array of TAvocadoLabel;
     destructor Destroy; override;
     constructor Create;
 
+
     //dotyczy petli while
     procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
+    procedure ProcessForInLoop(const Line: string; PascalCode: TStringList);
     // procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
-    //Stara duza procedura parsowania
+
     //procedure ProcessLine(const Line: string; PascalCode: TStringList);
-    //procedure ProcessLine(const Ln: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
     procedure ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 
     function PrzetworzBlok(const Blok: string): string;
@@ -577,7 +579,6 @@ begin
 
   //We skip lines beginning with control statements.
   // Pomijamy linie zaczynające się od instrukcji sterujących
-  //Pomija kod pascala
   if FPascalMode then
   begin
     // sprawdź czy to koniec bloku
@@ -648,7 +649,6 @@ begin
   // Obsługa deklaracji Z wartością (=)
   if Pos('=', Line) = 0 then Exit;
 
-
   Parts := Line.Split(['='], 2);
   if Length(Parts) < 2 then Exit;
 
@@ -707,6 +707,9 @@ begin
      (VarType = 'lista_tekstów') or
      (VarType = 'stała') or
      (VarType = 'tekstld') or
+     (VarType = 'qliczba') or
+
+
      // angielskie odpowiedniki
      (VarType = 'int') or
      (VarType = 'int8') or
@@ -740,6 +743,7 @@ begin
      (VarType = 'any') or
      (VarType = 'ole_variant') or
      (VarType = 'informacje_o_wyszukaniu') or
+     (VarType = 'qWord') or
      (VarType = 'search_record')
   then
   begin
@@ -847,9 +851,19 @@ begin
     PascalCode.Add(TranslatedLine);
 end;
 
+procedure TAvocadoTranslator.ProcessForInLoop(const Line: string;
+  PascalCode: TStringList);
+var
+  TranslatedLine: string;
+begin
+    TranslatedLine := Trim(Line);
+    TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, ' w ', ' in ', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
 
-
-
+    PascalCode.Add(TranslatedLine);
+end;
 
 
 function TAvocadoTranslator.PrzetworzBlok(const Blok: string): string;
@@ -1258,6 +1272,7 @@ procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TString
 var
   Parts: TStringArray;
    VarType, VarName, Value, TrimmedLine,LowerLine: string;
+
    InstrukcjaWarunkowa: TStringArray;
    KodWtedy, KodInaczej,LowerTrimmedLine: string;
    TempList: TStringList;
@@ -1265,8 +1280,6 @@ var
    Statement: string;
    Start,EndPos: Integer;
    pisznfStart,pisznfEndPos:Integer;
-   //Param: string;
-   //TranslatedParam: String;
    // Do przechowywania argumentów pisznf
    FullArgs: String;
    // Do przechowywania wyodrębnionego stringu formatującego
@@ -1336,19 +1349,9 @@ var
   Result_plik: string;
   // to separate lines (e.g. Split) / do rozdzielania linii (np. Split)
   PartsPobierz: TStringArray;
-  // for storage [URL, file] / do przechowania [URL, plik]
-  InstrukcjaWarunkowaPobierz: TStringArray;
-  // the rest of the line after "download" / pozostała część linii po "pobierz "
-  LineRest: string;
-  // URL address / adres URL
-  URLtekst: string;
-  //name of the file to save / nazwa pliku do zapisania
-  FileName: string;
-
   //Ping
   Site: String;
   //While loop
-
   OpenPos: Integer;
   //Value: string;
   //EqualPos: Integer;
@@ -1357,32 +1360,92 @@ var
   TranslatedLine: string;
   NeedsSemicolon: Boolean;
  // NextTrimmedLowerLine: String;
-
-   LabelName: string;
-   SpacePos: Integer;
-   //dla repeat until
-
-
-  ConditionStr: String;         // Zamiast 'Warunek'
+    LabelName: string;
+  SpacePos: Integer;
+ //dla repeat until
+  ConditionStr: String;
   TranslatedCondition: String;
   LowerLineRepeat: String;
   CleanLowerLine: string;
-  //Ln = 'jakaś stała';
+  //StartPos, EndPos: Integer;
+  LineBefore, LineAfter: string;
+
 begin
 
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := LowerCase(TrimmedLine);
-  //LowerLine := AnsiLowerCase(TrimmedLine);
+
+  //POCZĄTEK GLOBALNEJ OBSŁUGI KOMENTARZY
+
+  // 1. Sprawdź, czy jesteśmy W ŚRODKU komentarza z poprzedniej linii
+  if FInMultiLineComment then
+  begin
+    EndPos := Pos('*)', TrimmedLine);
+    if EndPos > 0 then
+    begin
+      // Komentarz się tutaj KOŃCZY
+      FInMultiLineComment := False;
+      // Bierzemy tylko tekst PO komentarzu
+      TrimmedLine := Trim(Copy(TrimmedLine, EndPos + 2, MaxInt));
+    end
+    else
+    begin
+      // Komentarz nadal trwa, zignoruj całą tę linię
+      Exit;
+    end;
+  end;
+
+  // 2. Pętla wycinająca komentarze (* ... *) z wnętrza linii
+  //    (np. kod (* komentarz *) kod )
+  while Pos('(*', TrimmedLine) > 0 do
+  begin
+    StartPos := Pos('(*', TrimmedLine);
+    EndPos := Pos('*)', TrimmedLine);
+
+    if (EndPos > StartPos) then
+    begin
+      // Przypadek 1: Komentarz zamyka się w tej samej linii
+      LineBefore := Copy(TrimmedLine, 1, StartPos - 1);
+      LineAfter := Copy(TrimmedLine, EndPos + 2, MaxInt);
+      TrimmedLine := Trim(LineBefore + ' ' + LineAfter);
+    end
+    else
+    begin
+      // Przypadek 2: Komentarz (*... ROZPOCZYNA SIĘ tutaj
+      FInMultiLineComment := True;
+      // Bierzemy tylko kod PRZED komentarzem
+      TrimmedLine := Trim(Copy(TrimmedLine, 1, StartPos - 1));
+      Break; // Przerwij pętlę while, przetworzymy to, co zostało
+    end;
+  end;
+
+  // 3. Wytnij komentarze jednoliniowe //
+  // (Ten blok musi być PO bloku 2)
+  if Pos('//', TrimmedLine) > 0 then
+  begin
+    TrimmedLine := Trim(Copy(TrimmedLine, 1, Pos('//', TrimmedLine) - 1));
+  end;
+
+  // 4. Jeśli po wycięciu wszystkich komentarzy nic nie zostało, zakończ
+  if TrimmedLine = '' then
+    Exit;
+  // --- KONIEC BRAKUJĄCEJ LOGIKI ---
+
+  // 5. Dopiero teraz ustawiamy zmienne robocze
+  LowerTrimmedLine := LowerCase(TrimmedLine);
+  LowerLine := AnsiLowerCase(TrimmedLine);
+
+
 
   // 1. Zignoruj puste linie i komentarze
   if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then Exit;
 
   // Używamy tylko JEDNEJ znormalizowanej wersji
-  LowerTrimmedLine := LowerCase(TrimmedLine);
-  // LowerLine := AnsiLowerCase(TrimmedLine); // <-- TA LINIA JEST ZBĘDNA
+ LowerTrimmedLine := LowerCase(TrimmedLine);
 
 
- //
+
+
   // 2. Grupujemy wszystkie słowa kluczowe w jeden 'case'
   case LowerTrimmedLine of
     'początek',
@@ -1445,14 +1508,35 @@ begin
 
     //Petle
     //petal for ('dla ... do ... wykonać')
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
+     NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
+     NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
+
+    if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
+     begin
+      // Sprawdzamy, CZY TO JEST PĘTLA FOR...IN
+      // Sprawdzamy obecność ' w ' lub ' in ' (ze spacjami)
+        if (Pos(' w ', LowerTrimmedLine) > 0) or (Pos(' in ', LowerTrimmedLine) > 0) then
+        begin
+          // Tak, to pętla FOR...IN
+          ProcessForInLoop(TrimmedLine, PascalCode);
+          Exit;
+        end
+        else
+        begin
+          // Nie, to jest zwykła pętla FOR...TO/DOWNTO
+          ProcessForLoop(TrimmedLine, PascalCode);
+          Exit;
+        end;
+    end;
+
+    {NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
     NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
     if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
      begin
       ProcessForLoop(TrimmedLine, PascalCode);
       Exit;
     end;
-
+   }
 
     //Petla while do
     NeedsSemicolon := (NextTrimmedLowerLine <> 'while');
@@ -2894,7 +2978,7 @@ begin
         Break; // Znaleziono deklarację, przerwij skanowanie
       end;
     end;
-    // --- KONIEC SKANOWANIA ---
+
 
     try
       AddCompilerDirective(PascalCode);
@@ -3068,6 +3152,8 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': TStringList;') // Użyj zdefiniowanego typu
           else if LowerCase(FVariables[i].VarType) = 'stała' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': Const;')
+          else if LowerCase(FVariables[i].VarType) = 'qliczba' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': QWord;')
 
           //Tu drodzy panstwo beda zmienne po angielsku
           else if LowerCase(FVariables[i].VarType) = 'int' then
@@ -3144,6 +3230,8 @@ begin
             PascalCode.Add('  ' + FVariables[i].VarName + ': TSearchRec;')
           else if LowerCase(FVariables[i].VarType) = 'search_record' then
             PascalCode.Add('  ' + FVariables[i].VarName + ': TSearchRec;')
+          else if LowerCase(FVariables[i].VarType) = 'qword' then
+            PascalCode.Add('  ' + FVariables[i].VarName + ': QWord;')
           else
            begin
               PascalCode.Add('  { ERROR: Nieznany typ: ' + FVariables[i].VarType + ' }');
@@ -3264,8 +3352,6 @@ begin
         end
         else
         begin
-          //Wywolanie ntarnspilacji stara procedura
-          //ProcessLine(trimmedLine, PascalCode);
 
         end;
       end;
@@ -3279,9 +3365,5 @@ begin
       ExistingLabes.Free
     end;
   end;
-
-
-
-
 
 end.
