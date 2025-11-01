@@ -47,7 +47,9 @@ end;
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
     //Stara duza procedura parsowania
-    procedure ProcessLine(const Line: string; PascalCode: TStringList);
+    //procedure ProcessLine(const Line: string; PascalCode: TStringList);
+    //procedure ProcessLine(const Ln: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
+    procedure ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 
     function PrzetworzBlok(const Blok: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Interface
@@ -626,7 +628,7 @@ begin
    if LowerCase(TrimmedLine).StartsWith('repeat') then Exit;
    if LowerCase(TrimmedLine).StartsWith('until') then Exit;
    if LowerCase(TrimmedLine).StartsWith('powtarzaj') then Exit;
-   if LowerCase(TrimmedLine).StartsWith('aż_do') then Exit;
+   if LowerCase(TrimmedLine).StartsWith('aż') then Exit;
 
 
   if LowerCase(TrimmedLine).StartsWith('halt') then Exit;
@@ -862,7 +864,7 @@ begin
       Statements := SplitString(Blok, '#10');
       for Statement in Statements do
         if Trim(Statement) <> '' then
-         ProcessLine(Trim(Statement), TempList);
+        // ProcessLine(Trim(Statement), TempList);
 
       Result := Trim(TempList.Text);
     finally
@@ -1244,11 +1246,15 @@ end;
 
 
 
+
 //processing nested statements.
 //przetwarzanie zagnieżdżonych instrukcji.
 
-procedure TAvocadoTranslator.ProcessLine(const Line: string;
-  PascalCode: TStringList);
+//procedure TAvocadoTranslator.ProcessLine(const Line: string;
+//procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
+//const Ln: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
+////PascalCode: TStringList);
+procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 var
   Parts: TStringArray;
    VarType, VarName, Value, TrimmedLine,LowerLine: string;
@@ -1350,7 +1356,7 @@ var
   ParamStr: string;
   TranslatedLine: string;
   NeedsSemicolon: Boolean;
-  NextTrimmedLowerLine: String;
+ // NextTrimmedLowerLine: String;
 
    LabelName: string;
    SpacePos: Integer;
@@ -1361,6 +1367,7 @@ var
   TranslatedCondition: String;
   LowerLineRepeat: String;
   CleanLowerLine: string;
+  //Ln = 'jakaś stała';
 begin
 
   TrimmedLine := Trim(Line);
@@ -1402,41 +1409,9 @@ begin
       PascalCode.Add('end.');
       Exit;
     end;
-  end; // koniec case
-
-  {
-  // 1. Zignoruj puste linie i komentarze
-  if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then Exit;
-
-
-  // Obsługa słowa kluczowego początek / start
-  if (LowerTrimmedLine = 'początek') or (LowerTrimmedLine = 'start')then
-  begin
-    PascalCode.Add('begin');
-    Exit;
   end;
 
-  // Obsługa słowa kluczowego koniec / end
-  if (LowerTrimmedLine = 'koniec!') or (LowerTrimmedLine = 'end!') then
-  begin
-    PascalCode.Add('end;');
-    Exit;
-  end;
 
-  // Obsługa słowa kluczowego koniec / end
-  if (LowerTrimmedLine = 'koniec') or (LowerTrimmedLine = 'end') then
-  begin
-    PascalCode.Add('end');
-    Exit;
-  end;
-
-  // Obsługa słowa kluczowego KONIEC. (z kropką, na końcu programu)
-  if LowerTrimmedLine = 'koniec.' then
-  begin
-    PascalCode.Add('end.');
-    Exit;
-  end;
-  }
 
      //warunek If then else
     NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
@@ -1474,7 +1449,7 @@ begin
     NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
     if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
      begin
-      ProcessForLoop(TrimmedLine, PascalCode); // Używamy nowej, dedykowanej funkcji
+      ProcessForLoop(TrimmedLine, PascalCode);
       Exit;
     end;
 
@@ -1485,29 +1460,14 @@ begin
 
     if (LowerTrimmedLine.StartsWith('podczas ')) or (LowerTrimmedLine.StartsWith('while ')) then
     begin
-      // Przekazujemy linię do nowej, dedykowanej procedury
       ProcessWhileLoop(TrimmedLine, PascalCode);
-      Exit; // Linia została przetworzona, kończymy
+      Exit;
     end;
 
 
 
     //etykieta label goto
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
-   if //(Pos('skocz', LowerTrimmedLine) > 0) or (Pos('goto', LowerTrimmedLine) > 0) or
-      (Pos('label', LowerTrimmedLine) > 0) or (Pos('etykieta', LowerTrimmedLine) > 0)
-      then
-    begin
-     TranslatedLine := TrimmedLine;
-     TranslatedLine := StringReplace(TranslatedLine, 'label', 'label', [rfReplaceAll, rfIgnoreCase]);
-     TranslatedLine := StringReplace(TranslatedLine, 'etykieta', 'label', [rfReplaceAll, rfIgnoreCase]);
-     PascalCode.Add(TranslatedLine);
-     Exit;
-   end;
-   //goto w innych miejscach
-
-   //Obsługa polecenia SKOCZ_DO (goto) ---
+    // Obsługa polecenia SKOCZ_DO (goto)
   if LowerTrimmedLine.StartsWith('jump') or
      LowerTrimmedLine.StartsWith('skocz') then
   begin
@@ -1524,10 +1484,10 @@ begin
     if LabelName.EndsWith(';') then
       LabelName := LabelName.Substring(0, Length(LabelName) - 1);
 
-    // 4. POPRAWKA: Dodaj poprawny kod Pascala ZE ŚREDNIKIEM
+    // 4. Dodaj poprawny kod Pascala ZE ŚREDNIKIEM
     PascalCode.Add('goto ' + LabelName + ';');
 
-    Exit; // Linia przetworzona
+    Exit;
   end;
 
 
@@ -2893,6 +2853,28 @@ end
     else
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value)); // Bez średnika
     end
+    end;
+
+
+        // --- BLOK OBSŁUGI DEFINICJI ETYKIETY (np. test:) ---
+      // Musi być PRZED domyślną obsługą na końcu
+      if (TrimmedLine.EndsWith(':')) and (Pos(' ', TrimmedLine) = 0) then
+      begin
+        PascalCode.Add(TrimmedLine); // Dodaj etykietę (np. "test:") bez średnika
+        Exit;
+      end
+
+      // --- BLOK DOMYŚLNY (zwykłe przypisania lub inne linie) ---
+      else if Pos('=', TrimmedLine) > 0 then
+      begin
+        // ... (twoja logika dla a = a + 1)
+      end
+
+      // --- OSTATNI BLOK (jeśli nic innego nie pasowało) ---
+      else if TrimmedLine <> '' then
+      begin
+        // ... (twoja logika dla pozostałych linii)
+      end
 
     {
     // 5. Obsługa pozostałych linii
@@ -2902,6 +2884,9 @@ end
     end;
   end;}
   // 5. Obsługa pozostałych linii
+
+
+
   else if TrimmedLine <> '' then
   begin
     TranslatedLine := TranslateExpression(TrimmedLine);
@@ -2912,7 +2897,7 @@ end
    end;
    end;
  end;
-end;
+
 
 
 
@@ -2929,6 +2914,7 @@ var
   ExistingUnits: TStringList;  // Do sprawdzania duplikatów
   ExistingLabes: TStringList;  // Do sprawdzania duplikatów dla label
   LabelName: string; // Pomocnicza do sprawdzania duplikatów i w pętlach dla label
+  NextTrimmedLowerLine: string;
 begin
     SetLength(FVariables, 0); // Czyści listę zmiennych
     FInRepeatBlock := False;
@@ -3275,11 +3261,33 @@ begin
       end;
     end;
 
+
       // Przetwarzaj linie kodu wykonywalnego
       for i := 0 to AvocadoCode.Count - 1 do
       begin
         trimmedLine := Trim(AvocadoCode[i]);
         if trimmedLine = '' then Continue;
+
+        // --- NOWA LOGIKA: Pobierz następną linię ---
+        if i + 1 < AvocadoCode.Count then
+          NextTrimmedLowerLine := LowerCase(Trim(AvocadoCode[i+1]))
+        else
+          NextTrimmedLowerLine := ''; // Jesteśmy na końcu pliku
+        // --- KONIEC NOWEJ LOGIKI ---
+
+        // ... (logika pomijania linii - zostaje bez zmian) ...
+        if AnsiStartsText('program ', trimmedLine) or
+           // ... (cała reszta warunków) ...
+           AnsiStartsText('ModułyPas', trimmedLine) then
+        begin
+          Continue;
+        end
+        else
+        begin
+          // Wywołanie nowej procedury z dodatkowym parametrem
+          ProcessLine(trimmedLine, PascalCode, NextTrimmedLowerLine);
+        end;
+
 
         // Pomiń linie 'program', 'importuj', 'ModułyPas'
         if AnsiStartsText('program ', trimmedLine) or
@@ -3295,13 +3303,14 @@ begin
            AnsiStartsText('informacje_o_wyszukaniu ', LowerCase(trimmedLine)) or
            AnsiStartsText('search_record ', LowerCase(trimmedLine)) or
            AnsiStartsText('ModułyPas', trimmedLine) then
+
         begin
           Continue;
         end
         else
         begin
           //Wywolanie ntarnspilacji stara procedura
-          ProcessLine(trimmedLine, PascalCode);
+          //ProcessLine(trimmedLine, PascalCode);
 
         end;
       end;
