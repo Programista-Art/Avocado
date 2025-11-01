@@ -1869,43 +1869,7 @@ begin
     Exit;
   end;
 
-//dzila
-    {
-     // Obsługa funkcji powtórz_znak() -> StringOfChar()
-  if Pos('powtórz_znak(', LowerTrimmedLine) > 0 then
-  begin
-    StartPosStringOfChar := Pos('(', TrimmedLine);
-    EndPosStringOfChar := RPos(')', TrimmedLine);
 
-    if (StartPosStringOfChar = 0) or (EndPosStringOfChar = 0) then
-      raise Exception.Create('Błędna składnia funkcji powtórz_znak. Oczekiwano: powtórz_znak(char, count)');
-
-    if StartPosStringOfChar > EndPosStringOfChar then
-      raise Exception.Create('Błędna składnia funkcji powtórz_znak. Oczekiwano: powtórz_znak(char, count)');
-
-    ParamStringOfChar := Trim(Copy(TrimmedLine, StartPosStringOfChar + 1, EndPosStringOfChar - StartPosStringOfChar - 1));
-    ParamPartsStringOfChar := ParamStringOfChar.Split([',']);
-
-    if Length(ParamPartsStringOfChar) <> 2 then
-      raise Exception.Create('Funkcja powtórz_znak wymaga dwóch argumentów: char i count');
-
-    TranslatedCharArg := TranslateExpression(Trim(ParamPartsStringOfChar[0]));
-    TranslatedCountArg := TranslateExpression(Trim(ParamPartsStringOfChar[1]));
-
-    if Pos('=', TrimmedLine) > 0 then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
-      PascalCode.Add(VarName + ' := StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
-    end
-    else
-    begin
-      PascalCode.Add('StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
-    end;
-    Exit;
-  end;
-
-    }
      // Nowa obsługa funkcji porównaj_tekst() -> CompareStr()
   if Pos('porównaj_tekst(', LowerTrimmedLine) > 0 then
   begin
@@ -2577,8 +2541,23 @@ end;
   end
 
 
-    // 2. Obsługa funkcji pisz_linie
+    // Obsługa funkcji pisz_linie
     else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
+            (LowerCase(TrimmedLine).StartsWith('print_line(')) then
+    begin
+      OpenPos := Pos('(', TrimmedLine);
+      EndPos := RPos(')', TrimmedLine); // Użyj RPos, aby znaleźć ostatni nawias
+
+      if (OpenPos > 0) and (EndPos > OpenPos) then
+      begin
+        // Kopiuj tylko tekst POMIĘDZY nawiasami
+        Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
+        PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
+        Exit; // Dodaj Exit, aby zakończyć przetwarzanie
+      end;
+    end
+
+    {else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
             (LowerCase(TrimmedLine).StartsWith('print_line(')) then
     begin
       OpenPos := Pos('(', TrimmedLine);
@@ -2592,6 +2571,7 @@ end;
       //Exit;
     end;
     end
+    }
 
     // Obsługa funkcji random
     else if (LowerCase(TrimmedLine).StartsWith('losowy(')) or
@@ -2621,27 +2601,23 @@ end;
     end;
     end
 
-    // 2. Obsługa funkcji pisz
-   { else if LowerCase(TrimmedLine).StartsWith('pisz(') then
-    begin
-      Value := Copy(TrimmedLine, 6, Length(TrimmedLine) - 6);
-      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-      //Exit;
-    end
-   }
-    //Nowa funkcja pisz ulepsozna
-        // 2. Obsługa funkcji pisz
+
+    {funkcja pisz}
     else if (LowerCase(TrimmedLine).StartsWith('pisz(')) or
             (LowerCase(TrimmedLine).StartsWith('print(')) then
     begin
-     OpenPos := Pos('(', TrimmedLine);
-     if OpenPos > 0 then
-     begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-       PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-    end;
-   end
+      OpenPos := Pos('(', TrimmedLine);
+      EndPos := RPos(')', TrimmedLine); // Użyj RPos, aby znaleźć ostatni nawias
+
+      if (OpenPos > 0) and (EndPos > OpenPos) then
+      begin
+        // Kopiuj tylko tekst POMIĘDZY nawiasami
+        Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
+        PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+        Exit; // Dodaj Exit, aby zakończyć przetwarzanie
+      end;
+    end
+
 
     //ParamStr(index): Zwraca parametr o numerze index przekazany do programu z linii poleceń.
     else if (LowerCase(TrimmedLine).StartsWith('parametr_programu(')) or
@@ -2669,43 +2645,41 @@ end;
     end;
    end
 
-
-
-     // oblicza wyrażenie
-     else
+   // oblicza wyrażenie
+   else
+   begin
+     if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or
+        (LowerCase(TrimmedLine).StartsWith('calc(')) then
      begin
-       if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or
-          (LowerCase(TrimmedLine).StartsWith('calc(')) then
+       // znajdź pierwsze wystąpienie '('
+       OpenPos := Pos('(', TrimmedLine);
+       if OpenPos > 0 then
        begin
-         // znajdź pierwsze wystąpienie '('
-         OpenPos := Pos('(', TrimmedLine);
-         if OpenPos > 0 then
-         begin
-           // wytnij to, co jest w środku nawiasów
-           Value := Copy(TrimmedLine, OpenPos + 1,
-                         Length(TrimmedLine) - OpenPos - 1);
-           PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
+         // wytnij to, co jest w środku nawiasów
+         Value := Copy(TrimmedLine, OpenPos + 1,
+                       Length(TrimmedLine) - OpenPos - 1);
+         PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
 
-         end;
-       end
+       end;
+     end
 
-     // oblicza wyrażenie
-     else
+ // oblicza wyrażenie
+ else
+ begin
+   if (LowerCase(TrimmedLine).StartsWith('oblicz_formatuj(')) or
+      (LowerCase(TrimmedLine).StartsWith('calc_format(')) then
+   begin
+     // znajdź pierwsze wystąpienie '('
+     OpenPos := Pos('(', TrimmedLine);
+     if OpenPos > 0 then
      begin
-       if (LowerCase(TrimmedLine).StartsWith('oblicz_formatuj(')) or
-          (LowerCase(TrimmedLine).StartsWith('calc_format(')) then
-       begin
-         // znajdź pierwsze wystąpienie '('
-         OpenPos := Pos('(', TrimmedLine);
-         if OpenPos > 0 then
-         begin
-           // wytnij to, co jest w środku nawiasów
-           Value := Copy(TrimmedLine, OpenPos + 1,
-                         Length(TrimmedLine) - OpenPos - 1);
-           //PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
-           PascalCode.Add('format(ObliczWyrazenie(' + Value + ');');
-         end;
-       end
+       // wytnij to, co jest w środku nawiasów
+       Value := Copy(TrimmedLine, OpenPos + 1,
+                     Length(TrimmedLine) - OpenPos - 1);
+       //PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
+       PascalCode.Add('format(ObliczWyrazenie(' + Value + ');');
+     end;
+   end
 
 // 3. Obsługa instrukcji czytaj()
 else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
@@ -2804,10 +2778,6 @@ begin
     if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
       Value := Copy(Value, 1, Length(Value) - 1);
 
-    //// Sprawdź, czy zmienna jest już zadeklarowana
-    //if not VariableExists(Value) then
-    //  AddVariable(Value, 'znak', False); // Domyślnie zakładamy typ 'znak'
-
     PascalCode.Add('ReadLn(' + Value + ');');
   end;
 end
@@ -2822,11 +2792,6 @@ end
        Value := Copy(TrimmedLine, OpenPos + 1,
        Length(TrimmedLine) - OpenPos - 1);
 
-      // Wycinamy zawartość nawiasów.
-      // Długość frazy "ustaw długość(" wynosi: Length('ustaw długość(')
-     // Value := Copy(TrimmedLine, Length('ustaw_długość(') + 1, Length(TrimmedLine) - Length('ustaw długość(') - 1);
-      //Value := Trim(Value);
-      // Generujemy kod: SetLength( <argumenty> );
       PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');');
       //Exit;
     end;
@@ -2847,7 +2812,7 @@ end
         AddVariable(VarName, VarType,False);
       end;
 
-    // POPRAWKA: Dodajemy średnik tylko warunkowo
+    // Dodaje średnik tylko warunkowo
     if NeedsSemicolon then
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
     else
@@ -2876,26 +2841,16 @@ end
         // ... (twoja logika dla pozostałych linii)
       end
 
-    {
-    // 5. Obsługa pozostałych linii
+
     else if TrimmedLine <> '' then
     begin
-      PascalCode.Add(TrimmedLine + ';');
-    end;
-  end;}
-  // 5. Obsługa pozostałych linii
-
-
-
-  else if TrimmedLine <> '' then
-  begin
-    TranslatedLine := TranslateExpression(TrimmedLine);
-    if NeedsSemicolon then
-      PascalCode.Add(TranslatedLine + ';')
-    else
-      PascalCode.Add(TranslatedLine);
-   end;
-   end;
+      TranslatedLine := TranslateExpression(TrimmedLine);
+      if NeedsSemicolon then
+        PascalCode.Add(TranslatedLine + ';')
+      else
+        PascalCode.Add(TranslatedLine);
+     end;
+     end;
  end;
 
 

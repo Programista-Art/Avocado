@@ -80,11 +80,11 @@
         <UnitName Value="AvocadoTranslator"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="1465"/>
-        <CursorPos X="47" Y="1452"/>
+        <TopLine Value="2535"/>
+        <CursorPos X="8" Y="2544"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
-          <Item0 Y="2265" Left="1" Top="2265"/>
+          <Item0 Y="2229" Left="1" Top="2229"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -226,7 +226,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="70" Y="9"/>
-        <UsageCount Value="178"/>
+        <UsageCount Value="179"/>
       </Unit>
       <Unit>
         <Filename Value="aihelper.pas"/>
@@ -237,7 +237,7 @@
         <EditorIndex Value="11"/>
         <TopLine Value="83"/>
         <CursorPos X="49" Y="98"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="167"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -247,7 +247,7 @@
         <UnitName Value="AvocadoLCLComponents"/>
         <EditorIndex Value="17"/>
         <TopLine Value="329"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="54"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -358,7 +358,7 @@
         <EditorIndex Value="10"/>
         <TopLine Value="1453"/>
         <CursorPos Y="1478"/>
-        <UsageCount Value="63"/>
+        <UsageCount Value="64"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -388,7 +388,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="607"/>
         <CursorPos X="38" Y="625"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
