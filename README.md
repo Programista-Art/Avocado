@@ -2,9 +2,9 @@
 # Avocado - Polish programming language (compiled)
 ## The Avocado language is compiled and currently allows for the creation of console applications. Work on Avocado and the integrated development environment (IDE) began on 19 February 2025.
 
-## A unique feature of this language is the ability to write commands in Polish and compile code into .exe format. The language is available free of charge for commercial and non-commercial projects. 236 functions have been implemented!
+## A unique feature of this language is the ability to write commands in Polish and compile code into .exe format. The language is available free of charge for commercial and non-commercial projects. 252 functions have been implemented!
 
-1 Avocado enables the creation of executable applications and provides performance comparable to C or Rust, while maintaining a syntax similar to Python.
+## Avocado enables the creation of executable applications and provides performance comparable to C or Rust, while maintaining a syntax similar to Python.
 
 
 
@@ -37,6 +37,9 @@ Thank you for all your support and motivation ❤️
 ### [Documentation](https://avocado.doc.dimitalart.pl/)
 ### [Official website](https://avocado.dimitalart.pl/) 
 ### [Download Avocado IDE](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
+
+### Avocado Speed ​​Test Compared to Other Languages
+![Avocado v 1.0.1.2](image/v1.0.1.3/eng/speed-comparison.jpg)
 
 ![Avocado v 1.0.1.2](image/v1.0.1.2/en/IDE-Avocado-v-1.0.1.2-functions.jpg)
 ### Avocado application examples
@@ -81,9 +84,9 @@ Thank you for all your support and motivation ❤️
 # Avocado - polski język programowania (kompilowany )
 ## Język Avocado jest kompilowany i aktualnie pozwala na tworzenie aplikacji konsolowych. Prace nad Avocado oraz zintegrowanym środowiskiem programistycznym (IDE) rozpoczęły się 19 lutego 2025 roku.
 
-## Unikalną cechą tego języka jest możliwość pisania komend w języku polskim oraz angielskim, kompilacja kodu do formatu .exe. Język jest dostępny bezpłatnie dla projektów komercyjnych i niekomercyjnych. Zrealizowano 236 funkcji!
+## Unikalną cechą tego języka jest możliwość pisania komend w języku polskim oraz angielskim, kompilacja kodu do formatu .exe. Język jest dostępny bezpłatnie dla projektów komercyjnych i niekomercyjnych. Zrealizowano 252 funkcji!
 
-1 Avocado umożliwia tworzenie aplikacji wykonywalnych i zapewnia wydajność porównywalną z C lub Rust, przy zachowaniu składni zbliżonej do Pythona.
+## Avocado umożliwia tworzenie aplikacji wykonywalnych i zapewnia wydajność porównywalną z C lub Rust, przy zachowaniu składni zbliżonej do Pythona.
 
 
 
@@ -116,6 +119,18 @@ Dzięki za każde wsparcie i motywację do dalszej pracy ❤️
 ### [Dokumentacja po polsku](https://avocado.doc.dimitalart.pl/)
 ### [Oficjalna strona](https://avocado.dimitalart.pl/) 
 ### [Pobrać IDE Avocado](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
+
+### Test prędkości Avocado na tle innych jezyków
+![Avocado v 1.0.1.2](image/v1.0.1.3/pl/speed-comparison-pl.jpg)
+
+### Test prędkości Avocado
+![Avocado v 1.0.1.2](image/v1.0.1.3/pl/test-speed-avocado.jpg)
+### Test prędkości Avocado kod asemblera
+![Avocado v 1.0.1.2](image/v1.0.1.3/pl/test-speed-avocado-asm.jpg)
+
+### Test prędkości Avocado kod asemblera
+![Avocado v 1.0.1.2](image/v1.0.1.3/pl/procedure-avocado.jpg)
+
 
 ![Avocado v 1.0.1.2](image/v1.0.1.2/pl/IDE-Avocado-v-1.0.1.2-functions.jpg)
 ### Przykładowa aplikacja w Avocado

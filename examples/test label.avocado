@@ -1,5 +1,6 @@
 program testlabel
 etykieta skok
+
 liczba_całkowita a = 6
 jeżeli a = 5 wtedy
 początek
@@ -7,9 +8,9 @@ początek
 koniec
 inaczej
 początek
-  //jump skok
+  skocz skok
   pisz_linie('a nie równa się 5')
-koniec!
+koniec
 skok:
 pisz_linie('tu')
 

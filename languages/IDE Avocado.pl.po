@@ -319,11 +319,11 @@ msgstr "Polski"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
-msgstr ""
+msgstr "Kompilować"
 
 #: tformmain.menuitemconsoleprogram.caption
 msgid "Console program"
-msgstr ""
+msgstr "Program konsolowy"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
@@ -406,7 +406,7 @@ msgstr "Wklej"
 
 #: tformmain.menuitemrun.caption
 msgid "Run"
-msgstr ""
+msgstr "Uruchomić"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
@@ -778,7 +778,7 @@ msgstr "BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w "
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
-msgstr ""
+msgstr "Utworzyć nowy plik?"
 
 #: unit1.translatecustmodulesdirnotfound
 msgid "Info: IDE custom modules directory not found: "
@@ -1020,4 +1020,3 @@ msgstr "Plik nie istnieje: "
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "Nie wybrano żadnego elementu"
-

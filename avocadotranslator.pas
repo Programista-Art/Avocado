@@ -20,6 +20,7 @@ type
   Name, VarType: string;
   VarName: string;
   NoAssign: Boolean;
+  InitialValue: string;
   end;
 
 type
@@ -36,12 +37,13 @@ end;
   private
     FVariables: array of TAvocadoVariable;
     FInRepeatBlock: Boolean;
+    FInProcedureBody: Boolean;
     FInMultiLineComment: Boolean;
     FLabels: array of TAvocadoLabel;
     destructor Destroy; override;
     constructor Create;
-
-
+    // Tworzy procedury
+    function TranslateProcedureHeader(const Line: string): string;
     //dotyczy petli while
     procedure ProcessWhileLoop(const Line: string; PascalCode: TStringList);
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
@@ -49,8 +51,6 @@ end;
     // procedure AddVariable(const Name, VarType: string);
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
-
-    //procedure ProcessLine(const Line: string; PascalCode: TStringList);
     procedure ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 
     function PrzetworzBlok(const Blok: string): string;
@@ -74,7 +74,9 @@ end;
    // function IsKnownType(const S: string): Boolean;
     procedure SplitStringByChar(const AString: string; const ASeparator: Char; AResultList: TStrings);
     function SplitArguments(const ASource: string; AStrings: TStrings): Boolean;
-    procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
+    //Dodaje zmienne
+   // procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
+   procedure AddVariable(const VarName, VarType: string; NoAssign: Boolean = False; const AInitialValue: string = '');
     //Aliasy
     function ResolveAlias(const AName: string): string;
     procedure ProcessFileDeclaration(const Line: string);
@@ -285,13 +287,95 @@ resourcestring
   FunctionTrimLeft = 'Incorrect syntax of the function trim_from_left. Expected: trim_left(s)';
   TranslateUnknownFileType = 'Unknown file variable type: ';
   TranslateUnknownVariableType = 'Unknown variable type: ';
+
 implementation
 uses
   unit1;
 
 { TAvocadoTranslator }
 
-procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
+
+
+function TAvocadoTranslator.TranslateProcedureHeader(const Line: string): string;
+var
+    TrimmedLine, LowerLine, Header: string;
+    ProcName, ParamStr, FinalParams: string;
+    ParenStart, ParenEnd, KeywordLen: Integer;
+    Param, TypeName, VarName: string;
+    ParamsList: TStringList;
+    i: Integer;
+begin
+  TrimmedLine := Trim(Line);
+  LowerLine := AnsiLowerCase(TrimmedLine);
+
+  if LowerLine.StartsWith('procedura ') then
+    KeywordLen := Length('procedura')
+  else if LowerLine.StartsWith('procedure ') then
+    KeywordLen := Length('procedure')
+  else
+  begin
+   // Result := Line; // To nie jest procedura
+    Exit;
+  end;
+
+ // 2. Wytnij cały nagłówek (np. "przywitajsie(imie: tekst)")
+  Header := Trim(Copy(TrimmedLine, KeywordLen + 1, MaxInt));
+  if Header.EndsWith(';') then
+    Delete(Header, Length(Header), 1); // Usuń ewentualny średnik
+
+  ParenStart := Pos('(', Header);
+  ParenEnd := RPos(')', Header);
+
+  // 3. Sprawdź, czy ma parametry
+  if (ParenStart = 0) or (ParenEnd <= ParenStart) then
+  begin
+    // Brak parametrów, np. "procedura ZrobCos"
+    Result := 'procedure ' + Header + ';';
+    Exit;
+  end;
+
+  // 4. Mamy parametry. Podziel na nazwę i parametry.
+  ProcName := Trim(Copy(Header, 1, ParenStart - 1));
+  ParamStr := Trim(Copy(Header, ParenStart + 1, ParenEnd - ParenStart - 1));
+
+  FinalParams := '';
+  ParamsList := TStringList.Create;
+  try
+    // Dzielimy parametry po średniku, np. "imie: tekst; wiek: lc"
+    SplitStringByChar(ParamStr, ';', ParamsList);
+
+    for i := 0 to ParamsList.Count - 1 do
+    begin
+      Param := Trim(ParamsList[i]);
+      if Pos(':', Param) = 0 then Continue; // Błędny format, pomiń
+
+      // Podziel "imie: tekst" na "imie" i "tekst"
+      VarName := Trim(Copy(Param, 1, Pos(':', Param) - 1));
+      TypeName := Trim(Copy(Param, Pos(':', Param) + 1, MaxInt));
+
+      // --- TO JEST KLUCZOWA POPRAWKA ---
+      // Użyj istniejącej funkcji do tłumaczenia typu
+      // (np. 'tekst' -> 'String', 'lc' -> 'Integer')
+      TypeName := ResolveAlias(TypeName);
+      // --- KONIEC POPRAWKI ---
+
+      if FinalParams = '' then
+        FinalParams := VarName + ': ' + TypeName
+      else
+        FinalParams := FinalParams + '; ' + VarName + ': ' + TypeName;
+    end;
+
+  finally
+    ParamsList.Free;
+  end;
+
+  // 5. Złóż poprawny nagłówek procedury
+  Result := 'procedure ' + ProcName + '(' + FinalParams + ');';
+end;
+
+
+//procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
+procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssign: Boolean = False; const AInitialValue: string = '');
 var
   j: Integer;
 begin
@@ -307,6 +391,7 @@ begin
     // Add the NoAssign flag to the variable structure
     // Dodaj flagę NoAssign do struktury zmiennej
     FVariables[High(FVariables)].NoAssign := NoAssign;
+    FVariables[High(FVariables)].InitialValue := AInitialValue;
 end;
 
 //Trzeba to usunac
@@ -314,90 +399,118 @@ end;
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
-    // liczby całkowite
-    'liczba_całkowita', 'int', 'integer', 'ganzzahl', 'entier':
+   // --- Liczby całkowite ---
+    'liczba_całkowita', 'lc', 'int', 'integer':
       Exit('Integer');
 
-    'liczba_krótka', 'int8', 'shortint', 'kurz', 'court':
+    'liczba_krótka', 'int8', 'shortint':
       Exit('ShortInt');
 
-    'liczba_mała', 'int16', 'smallint', 'klein', 'petit':
+    'liczba_mała', 'int16', 'smallint':
       Exit('SmallInt');
 
-    'liczba_długa', 'int32', 'longint', 'lang', 'long':
+    'liczba_długa', 'int32', 'longint':
       Exit('LongInt');
 
-    'liczba64', 'int64', 'sehrlang', 'trèslong':
-      Exit('Int64');
+    'bajt', 'byte':
+      Exit('Byte');
 
-    // liczby zmiennoprzecinkowe
-    'liczba_pojedyncza', 'single', 'float', 'einfach', 'flottant':
+    'liczba16', 'word', 'uint16':
+      Exit('Word');
+
+    'liczba32', 'longword', 'uint32':
+      Exit('LongWord');
+
+    'qliczba', 'qword':
+      Exit('QWord');
+
+    // --- Liczby zmiennoprzecinkowe ---
+    'liczba_pojedyncza', 'single':
       Exit('Single');
 
-    'liczba_zm', 'real', 'reell', 'réel':
+    'liczba_zm', 'lzm', 'real':
       Exit('Real');
 
-    'liczba_podwójna', 'double', 'float64', 'doppelt':
+    'liczba_podwójna', 'double', 'float':
       Exit('Double');
 
-    'liczba_rozszerzona', 'extended', 'float80', 'erweitert', 'étendu':
+    'liczba_rozszerzona', 'extended', 'float80':
       Exit('Extended');
 
-    'liczba_waluta', 'currency', 'währung', 'monnaie':
+    'liczba_waluta', 'currency':
       Exit('Currency');
 
-    // logiczne
-    'logiczny', 'bool', 'boolean', 'boolesch', 'booléen':
+    'liczba_zgodna_delphi', 'comp':
+      Exit('Comp');
+
+    // --- Logiczne ---
+    'logiczny', 'bool', 'boolean':
       Exit('Boolean');
 
-    // teksty
-    'tekst', 'string', 'chaine', 'zeichenkette':
+    'logiczny_bajt', 'byte_bool':
+      Exit('ByteBool');
+
+    'logiczne_słowo', 'word_bool':
+      Exit('WordBool');
+
+    'logiczny_długi', 'long_bool':
+      Exit('LongBool');
+
+    // --- Teksty ---
+    'tekst', 'string':
       Exit('String');
 
-    'tekst_ansi', 'ansistring', 'chaine_ansi':
+    'tekst_ansi', 'ansi_string':
       Exit('AnsiString');
 
-    'tekst_unicode', 'unicodestring', 'chaine_unicode':
+    'tekst_unicode', 'unicode_string':
       Exit('UnicodeString');
 
-    'tekst_systemowy', 'widestring', 'chaine_large':
+    'tekst_systemowy', 'wide_string':
       Exit('WideString');
 
-    'tekst255', 'shortstring', 'chaîne_courte':
+    'tekst255', 'shortstring', 'string255':
       Exit('ShortString');
 
-    // znaki
-    'znak', 'char', 'caractère':
+    // --- Znaki ---
+    'znak', 'char':
       Exit('Char');
 
-    'znak_unicode', 'widechar', 'caractère_large':
+    'znak_unicode', 'widechar', 'char32':
       Exit('WideChar');
 
-    // pliki
-    'plik', 'file', 'datei', 'fichier':
+    // --- Pliki ---
+    'plik', 'file':
       Exit('File');
 
-    'plik_tekstowy', 'textfile', 'textdatei', 'fichiertexte':
+    'plik_tekstowy', 'textfile','text_file':
       Exit('TextFile');
 
-    'plik_binarny', 'binaryfile', 'binärdatei', 'fichierbinaire':
+    'plik_binarny', 'binaryfile','binary_file':
       Exit('BinaryFile');
 
-    'plik_struktur', 'typedfile', 'strukturdatei', 'fichiertypé':
+    'plik_struktur', 'typedfile', 'file_struct':
       Exit('TypedFile');
 
-    // wskaźniki
-    'wskaźnik', 'pointer', 'zeiger', 'pointeur':
+    // --- Wskaźniki ---
+    'wskaźnik', 'pointer':
       Exit('Pointer');
 
-    'wskaźnik_na', 'pointerto', '^type', 'zeigerauf':
-      Exit('^Type');
+    'wskaźnik_na', '^type', 'pointer_to':
+      Exit('^Type'); // Specjalny przypadek
 
-    // inne
-    'wariant', 'variant', 'variante':
+    // --- Struktury ---
+    'informacje_o_wyszukaniu', 'search_record':
+      Exit('TSearchRec');
+
+    'lista_tekstów', 'string_list':
+      Exit('TStringList');
+
+    // --- Inne ---
+    'wariant', 'variant':
       Exit('Variant');
 
-    'wariant_ole', 'olevariant':
+    'wariant_ole', 'olevariant', 'ole_variant':
       Exit('OleVariant');
   else
     raise Exception.Create('Nieznany alias typu: ' + AName);
@@ -576,6 +689,21 @@ var
 begin
   TrimmedLine := Trim(Line);
   if TrimmedLine = '' then Exit;
+  // 1. Sprawdź, czy jesteśmy w procedurze
+  if FInProcedureBody then
+  begin
+    // Jeśli znajdziemy 'koniec', wychodzimy ze stanu procedury
+    if LowerCase(TrimmedLine) = 'koniec' then
+      FInProcedureBody := False;
+    Exit; // Ignoruj wszystko wewnątrz procedury
+  end;
+
+  // 2. Sprawdź, czy procedura się ZACZYNA
+  if LowerCase(TrimmedLine).StartsWith('procedura ') then
+  begin
+    FInProcedureBody := True; // Wchodzimy w stan procedury
+    Exit; // Ignoruj samą linię deklaracji
+  end;
 
   //We skip lines beginning with control statements.
   // Pomijamy linie zaczynające się od instrukcji sterujących
@@ -748,7 +876,8 @@ begin
   then
   begin
     // declaration with attribution  / deklaracja z przypisaniem
-    AddVariable(VarName, VarType, False);
+    //AddVariable(VarName, VarType, False);
+    AddVariable(VarName, VarType, False, VarValue);
     Exit;
   end;
 
@@ -800,6 +929,8 @@ constructor TAvocadoTranslator.Create;
 begin
   inherited Create;
 end;
+
+
 
 destructor TAvocadoTranslator.Destroy;
 begin
@@ -878,8 +1009,6 @@ begin
       Statements := SplitString(Blok, '#10');
       for Statement in Statements do
         if Trim(Statement) <> '' then
-        // ProcessLine(Trim(Statement), TempList);
-
       Result := Trim(TempList.Text);
     finally
       TempList.Free;
@@ -1260,116 +1389,105 @@ end;
 
 
 
-
-//processing nested statements.
-//przetwarzanie zagnieżdżonych instrukcji.
-
-//procedure TAvocadoTranslator.ProcessLine(const Line: string;
-//procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
-//const Ln: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
-////PascalCode: TStringList);
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 var
-  Parts: TStringArray;
-   VarType, VarName, Value, TrimmedLine,LowerLine: string;
+Parts: TStringArray;
+VarType, VarName, Value, TrimmedLine,LowerLine: string;
+InstrukcjaWarunkowa: TStringArray;
+KodWtedy, KodInaczej,LowerTrimmedLine: string;
+TempList: TStringList;
+Statements: TStringArray;
+Statement: string;
+Start,EndPos: Integer;
+pisznfStart,pisznfEndPos:Integer;
+// Do przechowywania argumentów pisznf
+FullArgs: String;
+// Do przechowywania wyodrębnionego stringu formatującego
+FormatStringArg:String;
+//Do przechowywania wyodrębnionej listy zmiennych jako string
+VarListStringArg : String;
+//Do przechowywania pozycji ostatniego przecinka
+LastCommaPos:Integer;
+// Nowe zmienne dla zapytaj z 3 argumentami
+ApiKeyArg, ModelArg, QuestionArg: string;
+TranslatedApiKey, TranslatedModel: string;
+Args: TStringArray;
+TargetVar: string;
+ArgStr: string;
+ProcessedArgs: string;
+StartPos, EndPoss,VarParts: Integer;
+Param: string;
+Partss,ParamParts: TStringArray;
+SExpr, StartExpr, CountExpr: string;
+SubstringExpr,InsertSource: string;
+InsertTarget: string;
+InsertIndex: string;
+StartPosInsert, EndPosInsert: Integer;
+ParamInsert, TrimmedPart: string;
+ParamPartsInsert, TempParamParts: array of string;
+InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
+Part: string; // for-in loop variable
+//zmienne dla funkcji usun()
+StartPosDelete, EndPosDelete: Integer;
+ParamDelete, StringExprDelete, IndexExprDelete, CountExprDelete: string;
+ParamPartsDelete: TStringArray;
+//zmienne dla funkcji duże_litery()
+StartPosUpper, EndPosUpper: Integer;
+ParamUpper: string;
+TranslatedParamUpper: string;
+//zmienne dla funkcji małe_litery()
+StartPosLower, EndPosLower: Integer;
+ParamLower: string;
+TranslatedParamLower: string;
+//zmienne dla funkcji przytnij()
+Expression,Call: string;
+StartPosTrim, EndPosTrim: Integer;
+ParamTrim: string;
+TranslatedParam: string;
+// zmienne dla funkcji powtórz_znak()
 
-   InstrukcjaWarunkowa: TStringArray;
-   KodWtedy, KodInaczej,LowerTrimmedLine: string;
-   TempList: TStringList;
-   Statements: TStringArray;
-   Statement: string;
-   Start,EndPos: Integer;
-   pisznfStart,pisznfEndPos:Integer;
-   // Do przechowywania argumentów pisznf
-   FullArgs: String;
-   // Do przechowywania wyodrębnionego stringu formatującego
-   FormatStringArg:String;
-   //Do przechowywania wyodrębnionej listy zmiennych jako string
-   VarListStringArg : String;
-   //Do przechowywania pozycji ostatniego przecinka
-   LastCommaPos:Integer;
-     // Nowe zmienne dla zapytaj z 3 argumentami
-  ApiKeyArg, ModelArg, QuestionArg: string;
-  TranslatedApiKey, TranslatedModel: string;
-  Args: TStringArray;
-  TargetVar: string;
-  ArgStr: string;
-  ProcessedArgs: string;
-  StartPos, EndPoss,VarParts: Integer;
-  Param: string;
-  Partss,ParamParts: TStringArray;
-  SExpr, StartExpr, CountExpr: string;
-  SubstringExpr,InsertSource: string;
-  InsertTarget: string;
-  InsertIndex: string;
-
- StartPosInsert, EndPosInsert: Integer;
- ParamInsert, TrimmedPart: string;
- ParamPartsInsert, TempParamParts: array of string;
- InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
- Part: string; // for-in loop variable
-  //zmienne dla funkcji usun()
-  StartPosDelete, EndPosDelete: Integer;
-  ParamDelete, StringExprDelete, IndexExprDelete, CountExprDelete: string;
-  ParamPartsDelete: TStringArray;
-  //zmienne dla funkcji duże_litery()
-  StartPosUpper, EndPosUpper: Integer;
-  ParamUpper: string;
-  TranslatedParamUpper: string;
-  //zmienne dla funkcji małe_litery()
-  StartPosLower, EndPosLower: Integer;
-  ParamLower: string;
-  TranslatedParamLower: string;
-  //zmienne dla funkcji przytnij()
-  Expression,Call: string;
-  StartPosTrim, EndPosTrim: Integer;
-  ParamTrim: string;
-  TranslatedParam: string;
-  // zmienne dla funkcji powtórz_znak()
-
-  TranslatedCharArg, TranslatedCountArg: string;
-  //zmienne dla funkcji porównaj_tekst()
-  StartPosCompareStr, EndPosCompareStr: Integer;
-  ParamCompareStr: string;
-  ParamPartsCompareStr: TStringArray;
-  TranslatedS1Arg, TranslatedS2Arg: string;
-  //Zamień
-  ZamienTekst_ParamParts, ZamienTekst_AssignParts: TStringArray;
-  ZamienTekst_Param, ZamienTekst_TextArg, ZamienTekst_FromArg, ZamienTekst_ToArg, ZamienTekst_ResultVar: string;
-  ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
-  //Ansi
-  DLAnsi_Param, DLAnsi_VarName, DLAnsi_Value: string;
-  DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
-  DLAnsi_AssignParts:TStringArray;
-  //Pliki
-  AssignStartPos, AssignEndPos: Integer;
-  AssignParamStr: string;
-  AssignParams: TStringList;
-  AssignTranslatedParam1, AssignTranslatedParam2: string;
-  Result_plik: string;
-  // to separate lines (e.g. Split) / do rozdzielania linii (np. Split)
-  PartsPobierz: TStringArray;
-  //Ping
-  Site: String;
-  //While loop
-  OpenPos: Integer;
-  //Value: string;
-  //EqualPos: Integer;
-  CodePascal: String;
-  ParamStr: string;
-  TranslatedLine: string;
-  NeedsSemicolon: Boolean;
- // NextTrimmedLowerLine: String;
-    LabelName: string;
-  SpacePos: Integer;
- //dla repeat until
-  ConditionStr: String;
-  TranslatedCondition: String;
-  LowerLineRepeat: String;
-  CleanLowerLine: string;
-  //StartPos, EndPos: Integer;
-  LineBefore, LineAfter: string;
-
+TranslatedCharArg, TranslatedCountArg: string;
+//zmienne dla funkcji porównaj_tekst()
+StartPosCompareStr, EndPosCompareStr: Integer;
+ParamCompareStr: string;
+ParamPartsCompareStr: TStringArray;
+TranslatedS1Arg, TranslatedS2Arg: string;
+//Zamień
+ZamienTekst_ParamParts, ZamienTekst_AssignParts: TStringArray;
+ZamienTekst_Param, ZamienTekst_TextArg, ZamienTekst_FromArg, ZamienTekst_ToArg, ZamienTekst_ResultVar: string;
+ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
+//Ansi
+DLAnsi_Param, DLAnsi_VarName, DLAnsi_Value: string;
+DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
+DLAnsi_AssignParts:TStringArray;
+//Pliki
+AssignStartPos, AssignEndPos: Integer;
+AssignParamStr: string;
+AssignParams: TStringList;
+AssignTranslatedParam1, AssignTranslatedParam2: string;
+Result_plik: string;
+// to separate lines (e.g. Split) / do rozdzielania linii (np. Split)
+PartsPobierz: TStringArray;
+//Ping
+Site: String;
+//While loop
+OpenPos: Integer;
+//Value: string;
+//EqualPos: Integer;
+CodePascal: String;
+ParamStr: string;
+TranslatedLine: string;
+NeedsSemicolon: Boolean;
+// NextTrimmedLowerLine: String;
+LabelName: string;
+SpacePos: Integer;
+//dla repeat until
+ConditionStr: String;
+TranslatedCondition: String;
+LowerLineRepeat: String;
+CleanLowerLine: string;
+//StartPos, EndPos: Integer;
+LineBefore, LineAfter: string;
 begin
 
   TrimmedLine := Trim(Line);
@@ -1443,11 +1561,49 @@ begin
   // Używamy tylko JEDNEJ znormalizowanej wersji
  LowerTrimmedLine := LowerCase(TrimmedLine);
 
-
-
+   // --- BLOK OBSŁUGI PROCEDUR ---
+ { if (LowerTrimmedLine.StartsWith('procedura ')) or
+     (LowerTrimmedLine.StartsWith('procedure ')) then
+  begin
+    // Użyj nowej funkcji do przetłumaczenia nagłówka
+    PascalCode.Add( TranslateProcedureHeader(TrimmedLine) );
+    Exit; // Zakończ przetwarzanie tej linii
+  end;
+ }
 
   // 2. Grupujemy wszystkie słowa kluczowe w jeden 'case'
   case LowerTrimmedLine of
+    'początek',
+    'start',
+    'main':
+    begin
+      PascalCode.Add('begin');
+      Exit;
+    end;
+
+    'koniec',
+    'end':
+    begin
+      // Sprawdza następną linię dla 'inaczej' / 'else'
+      if (NextTrimmedLowerLine = 'inaczej') or (NextTrimmedLowerLine = 'else') then
+        PascalCode.Add('end') // Bez średnika
+      else
+        PascalCode.Add('end;'); // Ze średnikiem
+      Exit;
+    end;
+
+    'koniec.',
+    'end.':
+    begin
+      PascalCode.Add('Readln;'); // Dodajemy Readln PRZED końcem
+      PascalCode.Add('end.');   // Koniec programu
+      Exit;
+    end;
+
+  end; // koniec case
+
+
+  {case LowerTrimmedLine of
     'początek',
     'start':
     begin
@@ -1473,7 +1629,7 @@ begin
       Exit;
     end;
   end;
-
+ }
 
 
      //warunek If then else
@@ -2879,10 +3035,10 @@ end
       PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');');
       //Exit;
     end;
-    end
+    //end
 
     // 4. Obsługa zwykłych przypisań
-    else if Pos('=', TrimmedLine) > 0 then
+   { else if Pos('=', TrimmedLine) > 0 then
     begin
       Parts := TrimmedLine.Split(['='], 2);
       VarName := Trim(Parts[0]);
@@ -2895,7 +3051,7 @@ end
         VarName := Parts[1];
         AddVariable(VarName, VarType,False);
       end;
-
+   }
     // Dodaje średnik tylko warunkowo
     if NeedsSemicolon then
       PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
@@ -2904,28 +3060,32 @@ end
     end
     end;
 
+ // --- BLOK OBSŁUGI DEFINICJI ETYKIETY (np. test:) ---
+    if (TrimmedLine.EndsWith(':')) and (Pos(' ', TrimmedLine) = 0) then
+    begin
+      PascalCode.Add(TrimmedLine); // Dodaj etykietę (np. "test:") bez średnika
+      Exit;
+    end
 
-        // --- BLOK OBSŁUGI DEFINICJI ETYKIETY (np. test:) ---
-      // Musi być PRZED domyślną obsługą na końcu
-      if (TrimmedLine.EndsWith(':')) and (Pos(' ', TrimmedLine) = 0) then
-      begin
-        PascalCode.Add(TrimmedLine); // Dodaj etykietę (np. "test:") bez średnika
-        Exit;
-      end
+    // --- 4. Obsługa zwykłych PRZYPISAŃ (np. a = a + 1) ---
+    // (Usunęliśmy stąd błędną logikę AddVariable)
+    else if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2);
+      VarName := Trim(Parts[0]);
+      Value := Trim(Parts[1]);
 
-      // --- BLOK DOMYŚLNY (zwykłe przypisania lub inne linie) ---
-      else if Pos('=', TrimmedLine) > 0 then
-      begin
-        // ... (twoja logika dla a = a + 1)
-      end
+      // Tłumaczymy = na := i dodajemy średnik warunkowo
+      if NeedsSemicolon then
+        PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
+      else
+        PascalCode.Add(VarName + ' := ' + TranslateExpression(Value));
+      Exit; // Zakończ po obsłużeniu przypisania
+    end
 
-      // --- OSTATNI BLOK (jeśli nic innego nie pasowało) ---
-      else if TrimmedLine <> '' then
-      begin
-        // ... (twoja logika dla pozostałych linii)
-      end
-
-
+    // --- 5. OSTATNI BLOK (jeśli nic innego nie pasowało) ---
+    // To jest "catch-all" dla wywołań procedur (np. przywitajsie('Avocado'))
+    // i innych poleceń (np. inc(a), break, continue)
     else if TrimmedLine <> '' then
     begin
       TranslatedLine := TranslateExpression(TrimmedLine);
@@ -2933,10 +3093,10 @@ end
         PascalCode.Add(TranslatedLine + ';')
       else
         PascalCode.Add(TranslatedLine);
-     end;
-     end;
+        Exit; // WAŻNE: Zakońc
+    end;
  end;
-
+end;
 
 
 
@@ -2954,18 +3114,25 @@ var
   ExistingLabes: TStringList;  // Do sprawdzania duplikatów dla label
   LabelName: string; // Pomocnicza do sprawdzania duplikatów i w pętlach dla label
   NextTrimmedLowerLine: string;
+  LowerLine: string;
+  //licznik zagnierzdzeń
+  ProcedureDepth: Integer; // Używany TYLKO w Pętli 2 i 3
 begin
+
     SetLength(FVariables, 0); // Czyści listę zmiennych
     FInRepeatBlock := False;
+    FInMultiLineComment := False;
+    FInProcedureBody := False; // (Używane tylko przez Pętlę 1)
+
     PascalCode := TStringList.Create;
     UsesList := TStringList.Create; // Inicjalizacja listy uses
     LabelList := TStringList.Create;
     ExistingUnits := TStringList.Create; // Do śledzenia dodanych unitów
     ExistingLabes := TStringList.Create;  // Do śledzenia dodanych w label / etykietach
+
     // --- Skanowanie dla standardowego 'program' ---
     NameProgram := ''; // Resetuj zmienną globalną/pole
     DetectedProgramName := 'untitledprogram'; // Domyślna nazwa
-
     for i := 0 to AvocadoCode.Count - 1 do
     begin
       trimmedLine := Trim(AvocadoCode[i]);
@@ -2979,25 +3146,14 @@ begin
       end;
     end;
 
-
     try
       AddCompilerDirective(PascalCode);
-      (*
-      PascalCode.Add('{$codepage utf8}');
-      PascalCode.Add('{$mode objfpc}');
-      PascalCode.Add('{$H+}');
-      *)
-
       //Nazwa programu
       PascalCode.Add('program ' + DetectedProgramName + ';');
 
       // --- UPROSZCZONA SEKCJA 'uses' ---
       ModulesStr := GetImportedModules(AvocadoCode.Text);
-
-
-
       ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
-
       // Podstawowe moduły + Classes + Windows (dla konsoli). LCL użytkownik musi dodać sam przez Importuj.
       UsesList.Add('SysUtils');
       UsesList.Add('Classes');
@@ -3025,7 +3181,6 @@ begin
       ExistingUnits.Clear;
       ExistingUnits.CaseSensitive := False;
       ExistingUnits.Sorted := True;
-
       for i := 0 to UsesList.Count - 1 do
       begin
          UName := Trim(UsesList[i]);
@@ -3044,6 +3199,7 @@ begin
       else
          PascalCode.Delete(PascalCode.Count - 1); // Usuń pustą linię 'uses'
       PascalCode.Add('');
+
       // --- KONIEC SEKCJI 'uses' ---
 
 
@@ -3052,7 +3208,13 @@ begin
       for i := 0 to AvocadoCode.Count - 1 do
         ProcessDeclaration(Trim(AvocadoCode[i]));
 
-      // Generuj sekcję 'var'
+
+      // --- 5. RESET FLAG (KRYTYCZNY KROK) ---
+      // Resetujemy flagę PO Pętli 1, a PRZED Pętlą 2.
+      FInProcedureBody := False;
+      FInRepeatBlock := False;
+
+      // --- 6. Generowanie sekcji 'var' ---
       if Length(FVariables) > 0 then
       begin
         PascalCode.Add('var');
@@ -3237,14 +3399,11 @@ begin
               PascalCode.Add('  { ERROR: Nieznany typ: ' + FVariables[i].VarType + ' }');
               PascalCode.Add('  ' + FVariables[i].VarName + ': Variant; // Unknown type: ' + FVariables[i].VarType);
            end;
-             //PascalCode.Add('  ' + FVariables[i].VarName + ': String;');
-           //PascalCode.Add('  ' + FVariables[i].VarName + ';');
-
         end;
         PascalCode.Add('');
       end;
 
-      //label etykieta
+      //--- 6. Generowanie 'label' --- label etykieta
       LabelStr := GetLabels(AvocadoCode.Text);
 
       if LabelStr <> '' then
@@ -3277,7 +3436,54 @@ begin
       PascalCode.Add('');
       //koniec sekcji label
 
-      // główny blok programu
+      // --- 7. PĘTLA 2: Tłumaczenie Procedur ---
+    // Ta pętla znajdzie i przetłumaczy wszystkie procedury PRZED głównym 'begin'
+    ProcedureDepth := 0; // Używamy licznika zagnieżdżenia
+    FInRepeatBlock := False;
+    PascalCode.Add(''); // Pusta linia
+    for i := 0 to AvocadoCode.Count - 1 do
+    begin
+      trimmedLine := Trim(AvocadoCode[i]);
+      if trimmedLine = '' then Continue;
+      LowerLine := AnsiLowerCase(trimmedLine);
+
+      // Szukamy początku procedury
+      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
+      begin
+        PascalCode.Add(TranslateProcedureHeader(trimmedLine));
+        ProcedureDepth := 1; // Wchodzimy w procedurę
+        Continue;
+      end;
+      // Jeśli jesteśmy w procedurze, tłumacz jej ciało
+      if ProcedureDepth > 0 then
+      begin
+         if (LowerLine = 'start') or (LowerLine = 'początek') then
+           Inc(ProcedureDepth)
+         else if (LowerLine = 'koniec') or (LowerLine = 'end') then
+           Dec(ProcedureDepth);
+
+         // Jeśli licznik spadł do 0, to jest koniec procedury
+         if ProcedureDepth = 0 then
+         begin
+           PascalCode.Add('end;');
+           PascalCode.Add(''); // Pusta linia po procedurze
+           Continue;
+         end;
+
+        // Pobierz następną linię
+        if i + 1 < AvocadoCode.Count then
+          NextTrimmedLowerLine := LowerCase(Trim(AvocadoCode[i+1]))
+        else
+          NextTrimmedLowerLine := '';
+
+        // Tłumacz ciało procedury  (np. if, start, pisz_linie, koniec od if)
+        ProcessLine(trimmedLine, PascalCode, NextTrimmedLowerLine);
+      end;
+    end; // Koniec Pętli 2
+
+
+
+      // --- 8. Główny blok 'begin' programu ---
       PascalCode.Add('begin');
       //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
       //PascalCode.Add('  SetConsoleCP(CP_UTF8);');
@@ -3287,11 +3493,21 @@ begin
       PascalCode.Add('  {$ENDIF}');
 
     // --- inicjalizacje zmiennych (tylko gdy NoAssign = False) ---
+
+    // --- 9. Inicjalizacja zmiennych ---
     for i := 0 to High(FVariables) do
+    begin
+      if (FVariables[i].VarName <> '') and (FVariables[i].InitialValue <> '') then
+      begin
+        PascalCode.Add('  ' + FVariables[i].VarName + ' := ' + TranslateExpression(FVariables[i].InitialValue) + ';');
+      end;
+    end;
+
+  { for i := 0 to High(FVariables) do
     begin
       if FVariables[i].VarName = '' then Continue;
 
-      // dla plików z przypisaniem
+      // Specjalna obsługa plików
       if (LowerCase(FVariables[i].VarType) = 'plik') or
          (LowerCase(FVariables[i].VarType) = 'plik_tekstowy')
          then
@@ -3301,37 +3517,57 @@ begin
           PascalCode.Add('  AssignFile(' + FVariables[i].VarName + ', ''plik.txt'');');
           PascalCode.Add('  Rewrite(' + FVariables[i].VarName + ');');
         end;
+      end
+      else
+      begin
+        // --- NOWA POPRAWKA: Inicjalizacja ZWYKŁYCH zmiennych ---
+        // Sprawdź, czy jest wartość do przypisania
+        if FVariables[i].InitialValue <> '' then
+        begin
+          // Tłumaczymy = na := i dodajemy średnik
+          PascalCode.Add('  ' + FVariables[i].VarName + ' := ' + TranslateExpression(FVariables[i].InitialValue) + ';');
+        end;
+        // --- KONIEC POPRAWKI ---
       end;
     end;
+    }
 
-
+      // --- 10. PĘTLA 3: Tłumaczenie kodu głównego ---
       // Przetwarzaj linie kodu wykonywalnego
+      ProcedureDepth := 0; // Reset licznika
+      FInRepeatBlock := False;
+
       for i := 0 to AvocadoCode.Count - 1 do
       begin
         trimmedLine := Trim(AvocadoCode[i]);
         if trimmedLine = '' then Continue;
 
+        LowerLine := AnsiLowerCase(trimmedLine);
+
+      // Sprawdź, czy jesteśmy w procedurze (aby ją IGNOROWAĆ)
+      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
+      begin
+        //FInProcedureBody := True;
+        ProcedureDepth := 1;
+        Continue;
+      end;
+      if ProcedureDepth > 0 then
+      begin
+        if (LowerLine = 'start') or (LowerLine = 'początek') then
+          Inc(ProcedureDepth)
+        else if (LowerLine = 'koniec') or (LowerLine = 'end') then
+          Dec(ProcedureDepth);
+        Continue; // Ignoruj wszystko wewnątrz procedury
+      end;
+
         // --- NOWA LOGIKA: Pobierz następną linię ---
-        if i + 1 < AvocadoCode.Count then
+       { if i + 1 < AvocadoCode.Count then
           NextTrimmedLowerLine := LowerCase(Trim(AvocadoCode[i+1]))
         else
           NextTrimmedLowerLine := ''; // Jesteśmy na końcu pliku
-        // --- KONIEC NOWEJ LOGIKI ---
-
-        // ... (logika pomijania linii - zostaje bez zmian) ...
-        if AnsiStartsText('program ', trimmedLine) or
-           // ... (cała reszta warunków) ...
-           AnsiStartsText('ModułyPas', trimmedLine) then
-        begin
-          Continue;
-        end
-        else
-        begin
-          // Wywołanie nowej procedury z dodatkowym parametrem
-          ProcessLine(trimmedLine, PascalCode, NextTrimmedLowerLine);
-        end;
-
-
+          LowerLine := AnsiLowerCase(trimmedLine);
+        }
+        // ... (logika pomijania linii ...
         // Pomiń linie 'program', 'importuj', 'ModułyPas'
         if AnsiStartsText('program ', trimmedLine) or
            AnsiStartsText('importuj', trimmedLine) or
@@ -3340,23 +3576,55 @@ begin
            AnsiStartsText('etykieta', trimmedLine) or
            AnsiStartsText('plik ', LowerCase(trimmedLine)) or
            AnsiStartsText('file ', LowerCase(trimmedLine)) or
-            AnsiStartsText('text_file ', LowerCase(trimmedLine)) or
-
+           AnsiStartsText('text_file ', LowerCase(trimmedLine)) or
+          // AnsiStartsText('procedura ', LowerLine) or
+          // AnsiStartsText('procedure ', LowerLine) or
+           // IGNORUJEMY główny 'start' i 'koniec.'
+          (LowerLine = 'koniec.') or
+          (LowerLine = 'end.') or
            AnsiStartsText('plik_tekstowy ', LowerCase(trimmedLine)) or
            AnsiStartsText('informacje_o_wyszukaniu ', LowerCase(trimmedLine)) or
            AnsiStartsText('search_record ', LowerCase(trimmedLine)) or
-           AnsiStartsText('ModułyPas', trimmedLine) then
+           AnsiStartsText('ModułyPas', trimmedLine) or
+           AnsiStartsText('liczba_całkowita ', LowerLine) or
+             //ignoruje zmienne
+            AnsiStartsText('lc ', LowerLine) or
+            //AnsiStartsText('int ', LowerLine) or
+            AnsiStartsText('string ', LowerLine) or
+            AnsiStartsText('liczba_długa ', LowerLine) or
+            AnsiStartsText('liczba64 ', LowerLine) or
+            AnsiStartsText('int64 ', LowerLine) or
+            AnsiStartsText('qliczba ', LowerLine) or
+            AnsiStartsText('qword ', LowerLine) or
+            AnsiStartsText('liczba_zm ', LowerLine) or
+            AnsiStartsText('lzm ', LowerLine) or
+            AnsiStartsText('real ', LowerLine) or
+            AnsiStartsText('tekst ', LowerLine) or
+            AnsiStartsText('string ', LowerLine) or
+            AnsiStartsText('logiczny ', LowerLine) or
+            AnsiStartsText('bool ', LowerLine) or
+            AnsiStartsText('znak ', LowerLine) or
+            AnsiStartsText('real ', LowerLine) or // <--- DODAJ TĘ LINIĘ
+            AnsiStartsText('int ', LowerLine) or // <--- DODAJ TĘ LINIĘ
 
+            AnsiStartsText('char ', LowerLine) then
         begin
           Continue;
         end
         else
         begin
+          // Pobierz następną linię
+        if i + 1 < AvocadoCode.Count then
+          NextTrimmedLowerLine := LowerCase(Trim(AvocadoCode[i+1]))
+        else
+          NextTrimmedLowerLine := '';
 
+          // Wywołanie nowej procedury z dodatkowym parametrem
+          ProcessLine(trimmedLine, PascalCode, NextTrimmedLowerLine);
         end;
       end;
-      PascalCode.Add('  Readln;');
-      PascalCode.Add('end.');
+     PascalCode.Add('Readln;');
+     PascalCode.Add('end.');
       Result := PascalCode;
     finally
       UsesList.Free;

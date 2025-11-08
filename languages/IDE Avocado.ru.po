@@ -109,42 +109,42 @@ msgstr "Компилировать"
 #: tformmain.documentation.caption
 msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
-msgstr ""
+msgstr "Документация"
 
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
-msgstr ""
+msgstr "фильтровать комментарии"
 
 #: tformmain.editsearchdocumentation.texthint
 msgid "Enter the name of the function"
-msgstr ""
+msgstr "Введите название функции"
 
 #: tformmain.editsearchfunctions.texthint
 msgctxt "tformmain.editsearchfunctions.texthint"
 msgid "filter functions"
-msgstr ""
+msgstr "функции фильтра"
 
 #: tformmain.editsearchmistakes.texthint
 msgid "filter errors"
-msgstr ""
+msgstr "ошибки фильтра"
 
 #: tformmain.editsearchresults.texthint
 msgctxt "tformmain.editsearchresults.texthint"
 msgid "filter functions"
-msgstr ""
+msgstr "функции фильтра"
 
 #: tformmain.editsearchvariables.texthint
 msgid "filter variables"
-msgstr ""
+msgstr "переменные фильтра"
 
 #: tformmain.fpccode.caption
 msgctxt "tformmain.fpccode.caption"
 msgid "Free Pascal Code"
-msgstr ""
+msgstr "Free Pascal Code"
 
 #: tformmain.itemjaponski.caption
 msgid "日本語"
-msgstr ""
+msgstr "日本語"
 
 #: tformmain.itemtools.caption
 msgid "Tools"
@@ -164,14 +164,13 @@ msgid "Rozmiar"
 msgstr "Размер"
 
 #: tformmain.label5.caption
-#, fuzzy
 msgctxt "tformmain.label5.caption"
 msgid "Free Pascal Code"
 msgstr "Free Pascal Code"
 
 #: tformmain.label6.caption
 msgid "Definition"
-msgstr ""
+msgstr "Определение"
 
 #: tformmain.lrozmiarzccionkiedytora.caption
 msgid "0"
@@ -190,7 +189,7 @@ msgstr "Автор"
 #: tformmain.menuchinski.caption
 msgctxt "tformmain.menuchinski.caption"
 msgid "中國人"
-msgstr ""
+msgstr "中國人"
 
 #: tformmain.menuclose.caption
 msgid "Zamknij"
@@ -203,11 +202,11 @@ msgstr "Примеры"
 #: tformmain.menuhindi.caption
 msgctxt "tformmain.menuhindi.caption"
 msgid "हिंदी"
-msgstr ""
+msgstr "हिंदी"
 
 #: tformmain.menuiarabski.caption
 msgid "العربية"
-msgstr ""
+msgstr "العربية"
 
 #: tformmain.menuinformacjaide.caption
 msgid "Informacja o IDE"
@@ -216,7 +215,7 @@ msgstr "Информация об IDE"
 #: tformmain.menuirosyjski.caption
 msgctxt "tformmain.menuirosyjski.caption"
 msgid "Русский"
-msgstr ""
+msgstr "Русский"
 
 #: tformmain.menuitaiasystant.caption
 msgid "AI Assistant"
@@ -224,11 +223,11 @@ msgstr "Помощник ИИ"
 
 #: tformmain.menuitefinski.caption
 msgid "Suomi"
-msgstr ""
+msgstr "Suomi"
 
 #: tformmain.menuitegrecki.caption
 msgid "ελληνικά"
-msgstr ""
+msgstr "ελληνικά"
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
@@ -236,39 +235,39 @@ msgstr "Файл"
 
 #: tformmain.menuitem10.caption
 msgid "English"
-msgstr ""
+msgstr "English"
 
 #: tformmain.menuitem11.caption
 msgid "Español"
-msgstr ""
+msgstr "Español"
 
 #: tformmain.menuitem12.caption
 msgid "Français"
-msgstr ""
+msgstr "Français"
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: tformmain.menuitem14.caption
 msgid "Italiano"
-msgstr ""
+msgstr "Italiano"
 
 #: tformmain.menuitem15.caption
 msgid "Português"
-msgstr ""
+msgstr "Português"
 
 #: tformmain.menuitem16.caption
 msgid "Українська"
-msgstr ""
+msgstr "Українська"
 
 #: tformmain.menuitem17.caption
 msgid "Български"
-msgstr ""
+msgstr "Български"
 
 #: tformmain.menuitem18.caption
 msgid "Nederlands"
-msgstr ""
+msgstr "Nederlands"
 
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
@@ -282,7 +281,7 @@ msgstr "Настройки"
 
 #: tformmain.menuitem20.caption
 msgid "Program"
-msgstr ""
+msgstr "Программа"
 
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
@@ -316,15 +315,15 @@ msgstr "Language"
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
-msgstr ""
+msgstr "Polski"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
-msgstr ""
+msgstr "Компилировать"
 
 #: tformmain.menuitemconsoleprogram.caption
 msgid "Console program"
-msgstr ""
+msgstr "Консольная программа"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
@@ -348,11 +347,11 @@ msgstr "Вырезать"
 
 #: tformmain.menuitemczeski.caption
 msgid "čeština"
-msgstr ""
+msgstr "čeština"
 
 #: tformmain.menuitemdansk.caption
 msgid "Dansk"
-msgstr ""
+msgstr "Dansk"
 
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
@@ -369,27 +368,27 @@ msgstr "Онлайн-документация"
 
 #: tformmain.menuitemestonski.caption
 msgid "Eesti"
-msgstr ""
+msgstr "Eesti"
 
 #: tformmain.menuitemkoreanski.caption
 msgid "한국인"
-msgstr ""
+msgstr "한국인"
 
 #: tformmain.menuitemlanglatvian.caption
 msgid "latviešu"
-msgstr ""
+msgstr "latviešu"
 
 #: tformmain.menuitemlanglithuanian.caption
 msgid "Lietuvių"
-msgstr ""
+msgstr "Lietuvių"
 
 #: tformmain.menuitemlangromanian.caption
 msgid "Română"
-msgstr ""
+msgstr "Română"
 
 #: tformmain.menuitemlangslovak.caption
 msgid "Slovenský"
-msgstr ""
+msgstr "Slovenský"
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
@@ -407,7 +406,7 @@ msgstr "Вставить"
 
 #: tformmain.menuitemrun.caption
 msgid "Run"
-msgstr ""
+msgstr "Запустить"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
@@ -420,15 +419,15 @@ msgstr "Поиск"
 
 #: tformmain.menuitemslovenianlang.caption
 msgid "Slovenščina"
-msgstr ""
+msgstr "Slovenščina"
 
 #: tformmain.menuitemswedishlang.caption
 msgid "Svensk"
-msgstr ""
+msgstr "Svensk"
 
 #: tformmain.menuitemturkishlang.caption
 msgid "Türkçe"
-msgstr ""
+msgstr "Türkçe"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Wesprzyj"
@@ -436,11 +435,11 @@ msgstr "Поддержите"
 
 #: tformmain.menuitindonezyjski.caption
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: tformmain.menuitwegierski.caption
 msgid "Magyar"
-msgstr ""
+msgstr "Magyar"
 
 #: tformmain.menunewfile.caption
 msgid "Nowy"
@@ -517,7 +516,7 @@ msgstr "Перевод"
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
-msgstr ""
+msgstr "ToolButtonDebug"
 
 #: tformmain.toolbuttondebug.hint
 msgid "Check the code"
@@ -718,7 +717,6 @@ msgid "Attention!"
 msgstr "Внимание!"
 
 #: unit1.translateattentionmsg
-#, fuzzy
 msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr "Внимание!"
@@ -780,7 +778,7 @@ msgstr "ОШИБКА КОНФИГУРАЦИИ: целевая платформа
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
-msgstr ""
+msgstr "Создать новый файл?"
 
 #: unit1.translatecustmodulesdirnotfound
 msgid "Info: IDE custom modules directory not found: "
@@ -866,7 +864,7 @@ msgstr "Проект не сохранён. Сборка отменена."
 
 #: unit1.translatefound
 msgid "Found"
-msgstr ""
+msgstr "Найденный"
 
 #: unit1.translatefpccompilernotexist
 msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
@@ -914,7 +912,7 @@ msgstr "Комментарии не найдены."
 
 #: unit1.translatenodatacode
 msgid "No data in the code!"
-msgstr ""
+msgstr "В коде нет данных!"
 
 #: unit1.translatenoerrorscodereadytocompile
 msgid "No errors. Code ready to compile."
@@ -942,7 +940,7 @@ msgstr "Переменные не найдены."
 
 #: unit1.translateoccurrenceszerofound
 msgid "0 occurrences found"
-msgstr ""
+msgstr "Найдено 0 случаев"
 
 #: unit1.translateplatform
 msgid "Platform: "
@@ -954,7 +952,7 @@ msgstr "Проект не сохранён. Сохранить проект пе
 
 #: unit1.translatespeeches
 msgid "speeches"
-msgstr ""
+msgstr "речи"
 
 #: unit1.translatestandardfpcunits
 msgid " .Standard FPC units will not be found!"
@@ -986,7 +984,7 @@ msgstr "Неизвестное имя"
 
 #: unit1.translatevaluelookingfound
 msgid "The value you were looking for has been found!"
-msgstr ""
+msgstr "Значение, которое вы искали, найдено!"
 
 #: uprzyklady.translateanerroroccurred
 msgctxt "uprzyklady.translateanerroroccurred"
@@ -1022,4 +1020,3 @@ msgstr "Файл не существует:"
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "Элемент не выбран"
-
