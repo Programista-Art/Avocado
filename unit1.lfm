@@ -2217,6 +2217,8 @@ object FormMain: TFormMain
       'PLIK_TEKSTOWY'
       'POINTER'
       'POINTER_TO'
+      'QLICZBA'
+      'QWORD'
       'RANGE'
       'REAL'
       'SEARCH_RECORD'

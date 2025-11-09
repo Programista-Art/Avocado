@@ -342,3 +342,7 @@ powtarzaj
 aż
 qliczba
 qword
+koniec.
+end.
+procedurę
+procedura

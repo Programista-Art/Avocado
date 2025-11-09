@@ -96,12 +96,6 @@ pascal_linia
 import
 malejąco
 descending
-początek
-koniec
-koniec!
-start
-end
-end!
 jeżeli
 break
 przerwać
@@ -124,3 +118,5 @@ etykieta
 powtarzaj
 aż
 oblicz_formatuj
+procedurę
+procedura
