@@ -21,6 +21,23 @@ type
     Loaded: Boolean;
  end;
 
+ type
+
+  { TRunInstantThread }
+
+  TRunInstantThread = class(TThread)
+  private
+    FPascalCode: string;
+    FInstantFPCPath: string;
+    FTempFile: string;
+    FLogMsg: string;
+    procedure SyncLog; // Metoda synchronizująca
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(const APascalCode, AInstantFPCPath: string);
+  end;
+
   PFileNode = ^TFileNode;
   TFileNode = record
     Name: string;
@@ -73,6 +90,7 @@ type
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
     MenuItem20: TMenuItem;
+    MenuItemrunwithoutcompilation: TMenuItem;
     MenuItemConsoleProgram: TMenuItem;
     MenuItemCompile: TMenuItem;
     MenuItemRun: TMenuItem;
@@ -143,6 +161,7 @@ type
     TabSheetLog: TTabSheet;
     TabSheetSearch: TTabSheet;
     TimerScanFunctions: TTimer;
+    ToolButton2: TToolButton;
     ToolButtonDebug: TToolButton;
     Transpiluj: TAction;
     TreeFilterEdit1: TTreeFilterEdit;
@@ -250,6 +269,7 @@ type
     procedure MenuItemLangRomanianClick(Sender: TObject);
     procedure MenuItemLangSlovakClick(Sender: TObject);
     procedure MenuItemOpenFolderClick(Sender: TObject);
+    procedure MenuItemrunwithoutcompilationClick(Sender: TObject);
     procedure MenuItemSearchClick(Sender: TObject);
     procedure MenuItemSlovenianLangClick(Sender: TObject);
     procedure MenuItemSwedishLangClick(Sender: TObject);
@@ -275,6 +295,7 @@ type
     procedure SynEditCodeChange(Sender: TObject);
     procedure SynEditCodeClick(Sender: TObject);
     procedure TimerScanFunctionsTimer(Sender: TObject);
+    procedure ToolButton2Click(Sender: TObject);
     procedure ToolButtonDebugClick(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
     //procedure NowyPlikExecute(Sender: TObject);
@@ -338,7 +359,8 @@ type
     procedure AddSubNodes(ParentNode: TTreeNode; const Path: string);
     //Filtrowanie w Listboxach ListBoxSearchComments, ListBoxSearchVariables, ListBoxSearchFunctions, ListBoxSeacrh, ListBoxErrCode
     procedure FilterListBox(const FilterText: string; const SourceList: TStringList; ListBox: TListBox);
-
+    //Uruchaminaie kodu przez instantFPC
+    procedure RunPascalInstantly(const PascalCode: string);
   public
     procedure LoadAvocadoFileToEditor(const FileName: string);
     constructor Create(TheOwner: TComponent); override;
@@ -441,6 +463,7 @@ var
   //Ini
   IniEnd: TIniFile;
   FontSizeEditor: Integer;
+  InstantFpcPath: String;
   //Language
   lang: String;
   //Translated
@@ -540,12 +563,94 @@ resourcestring
    TranslateNoDataCode = 'No data in the code!';
    TranslateAttentionMsg = 'Attention!';
    TranslateCreateNewFile = 'Create a new file?';
+   ErrWritingTemporaryFile = 'Error writing temporary file: ';
+   RunInterpreterSeparateWindow = 'Running the interpreter in a separate window..';
+   InterpretationCompleted = 'Interpretation completed.';
+   ProcessStartupErr = 'Process startup error: ';
+   NoCodeOpenFileorWriteCodeEditor = 'No code. Open the file or write code in the editor.';
 
 implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
  uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper;
+
+{ TRunInstantThread }
+
+procedure TRunInstantThread.SyncLog;
+begin
+  if Assigned(FormMain) then
+  begin
+    FormMain.MemoLogs.Lines.Add(FLogMsg);
+    FormMain.PageInfo.ActivePage := FormMain.TabSheetLog;
+  end;
+end;
+
+procedure TRunInstantThread.Execute;
+var
+  AProcess: TProcess;
+  CommandLine: string;
+  CodeList: TStringList;
+begin
+    // Zapisz kod do pliku (w wątku)
+    CodeList := TStringList.Create;
+    try
+      try
+        CodeList.Text := FPascalCode;
+        CodeList.SaveToFile(FTempFile);
+      except
+        on E: Exception do
+        begin
+          FLogMsg := ErrWritingTemporaryFile + E.Message;
+          Synchronize(@SyncLog);
+          Exit;
+        end;
+      end;
+    finally
+      CodeList.Free;
+    end;
+    AProcess := TProcess.Create(nil);
+    try
+      AProcess.Executable := 'cmd.exe';
+
+      // Budowanie komendy: "instantfpc" "plik" & PAUSE
+      //CommandLine := Format('"%s" "%s" & PAUSE', [FInstantFPCPath, FTempFile]);
+      CommandLine := Format('"%s" "%s"', [FInstantFPCPath, FTempFile]);
+      AProcess.Parameters.Add('/C "' + CommandLine + '"');
+
+      AProcess.Options := [poWaitOnExit];
+      AProcess.ShowWindow := swoShowNormal; // Pokaż konsolę
+      FLogMsg := RunInterpreterSeparateWindow;
+      Synchronize(@SyncLog);
+      try
+        AProcess.Execute;
+        FLogMsg := InterpretationCompleted;
+        Synchronize(@SyncLog);
+      except
+        on E: Exception do
+        begin
+          FLogMsg := ProcessStartupErr + E.Message;
+          Synchronize(@SyncLog);
+        end;
+      end;
+
+    finally
+      if FileExists(FTempFile) then
+        DeleteFile(FTempFile);
+      AProcess.Free;
+    end;
+end;
+
+constructor TRunInstantThread.Create(const APascalCode, AInstantFPCPath: string);
+begin
+inherited Create(False); // Uruchom od razu
+FreeOnTerminate := True; // Zwolnij pamięć po zakończeniu
+FPascalCode := APascalCode;
+FInstantFPCPath := AInstantFPCPath;
+// Ustal ścieżkę pliku tymczasowego tutaj, aby była dostępna w wątku
+FTempFile := GetTempDir + 'avocado_temp_code.pas';
+end;
+
  //chatgptavocado
 {$R *.lfm}
 
@@ -553,7 +658,7 @@ uses
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-  AvocadoVersion := 'IDE Avocado v 1.0.1.3';
+  AvocadoVersion := 'IDE Avocado v 2.0.0.0';
   FormMain.Caption := AvocadoVersion;
   NeedsAsmIntel := False;
   SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
@@ -1263,6 +1368,8 @@ begin
     end;
 end;
 
+
+
 procedure TFormMain.MenuItem9Click(Sender: TObject);
 begin
   SetDefaultLang('pl');
@@ -1366,6 +1473,16 @@ begin
     OpenFileProject := OD.FileName;
     LoadProjectTree;
   end;
+end;
+
+procedure TFormMain.MenuItemrunwithoutcompilationClick(Sender: TObject);
+begin
+  if Trim(MemoOutPut.Text) = '' then
+  begin
+    MessageDlg(TranslateMistake, NoCodeOpenFileorWriteCodeEditor, mtError, [mbOk], 0);
+    Exit;
+  end;
+  RunPascalInstantly(MemoOutPut.Text);
 end;
 
 procedure TFormMain.MenuItemSearchClick(Sender: TObject);
@@ -1569,6 +1686,11 @@ begin
   ListCommentsFromSynEdit;
 end;
 
+procedure TFormMain.ToolButton2Click(Sender: TObject);
+begin
+  MenuItemrunwithoutcompilationClick(sender);
+end;
+
 procedure TFormMain.ToolButtonDebugClick(Sender: TObject);
 begin
   CheckAvocadoCode;
@@ -1758,7 +1880,7 @@ begin
   else
     sFileName := '';
   //If the file has not been saved, we force it to save before compiling
-  // Jeśli plik nie został zapisany, wymuszamy zapisanie przed kompilacją
+  // Jeśli plik nie został zapisany, wymuszam zapisanie przed kompilacją
   if sFileName = '' then
   begin
     DlgResult := MessageDlg(TranslateAttention, TranslateSaveProject,
@@ -1897,6 +2019,7 @@ begin
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
     FModulsPath := Ini.ReadString('main', 'Units', 'moduly');
+    InstantFpcPath := Ini.ReadString('main', 'instantfpc', '');
 
     //loads the programm language into the UI
     lang := Ini.ReadString('defaultlanguage','language','en');
@@ -3142,6 +3265,91 @@ begin
       ListBox.Items.EndUpdate;
     end;
 end;
+
+procedure TFormMain.RunPascalInstantly(const PascalCode: string);
+var
+    TempFile: string;
+    AProcess: TProcess;
+    CommandLine: string;
+begin
+  // Sprawdzenie zmiennej globalnej/pola
+  if (InstantFPCPath = '') or (not FileExists(InstantFPCPath)) then
+  begin
+    MemoLogs.Lines.Add('BŁĄD: Nie znaleziono instantfpc.exe.');
+    MemoLogs.Lines.Add('Sprawdź ustawienia ścieżki.');
+    PageInfo.ActivePage := TabSheetLog;
+    Exit;
+  end;
+
+  // Uruchomienie wątku - "Fire and Forget"
+  // Wątek sam zwolni pamięć dzięki FreeOnTerminate := True
+  TRunInstantThread.Create(PascalCode, InstantFPCPath);
+  {
+  // 1. Sprawdź, czy ścieżka do InstantFPC jest ustawiona (zakładając, że to pole klasy/zmienna globalna)
+    if (InstantFPCPath = '') or (not FileExists(InstantFPCPath)) then
+    begin
+      MemoLogs.Lines.Add('BŁĄD: Nie znaleziono instantfpc.exe.');
+      MemoLogs.Lines.Add('Sprawdź ścieżkę w setting.ini');
+      PageInfo.ActivePage := TabSheetLog;
+      Exit;
+    end;
+
+    TempFile := GetTempDir + 'avocado_temp_code.pas';
+    AProcess := TProcess.Create(nil);
+    try
+    	 // 2. Zapisz kod źródłowy do pliku tymczasowego
+    	 with TStringList.Create do
+    	 try
+    	   Text := PascalCode;
+    	   SaveToFile(TempFile);
+    	 finally
+    	   Free;
+    	 end;
+
+      // --- 3. POPRAWIONA LOGIKA URUCHOMIENIA ---
+
+      // Używamy 'cmd.exe' jako programu uruchamiającego
+    	 AProcess.Executable := 'cmd.exe';
+
+      // Tworzymy linię poleceń:
+      // Używamy /C (uruchom i zamknij) oraz łączymy dwa polecenia:
+      // 1. Uruchom InstantFPC (w cudzysłowach, na wypadek spacji w ścieżkach)
+      // 2. Uruchom PAUSE (aby konsola czekała na naciśnięcie klawisza)
+      CommandLine := Format('"%s" "%s" & PAUSE', [InstantFPCPath, TempFile]);
+
+      AProcess.Parameters.Clear;
+      //AProcess.Parameters.Add('/C ' + CommandLine);
+      AProcess.Parameters.Add('/C "' + CommandLine + '"');
+
+      // Nie chcemy przechwytywać wyjścia, chcemy je zobaczyć w konsoli
+    	 AProcess.Options := [poWaitOnExit]; // Usuwamy poUsePipes i poStderrToOutput
+
+         // Pokazujemy okno konsoli
+    	 AProcess.ShowWindow := swoShowNormal;
+
+    	 MemoLogs.Lines.Add('Uruchamianie InstantFPC w nowej konsoli...');
+    	 try
+    	   AProcess.Execute;
+         // Czekamy, aż użytkownik zamknie konsolę (dzięki poWaitOnExit)
+    	   MemoLogs.Lines.Add('InstantFPC zakończył działanie.');
+    	 except
+    	   on E: Exception do
+    	 	 MemoLogs.Lines.Add('Błąd podczas uruchamiania cmd.exe: ' + E.Message);
+    	 end;
+
+       PageInfo.ActivePage := TabSheetLog; // Pokaż logi
+
+    finally
+    	 // 4. Usuń plik tymczasowy
+    	 if FileExists(TempFile) then
+    	   DeleteFile(TempFile);
+
+    	 AProcess.Free;
+    end;
+    }
+end;
+
+
 
 procedure TFormMain.LoadAvocadoFileToEditor(const FileName: string);
 var

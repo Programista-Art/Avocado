@@ -435,6 +435,10 @@ msgstr "붙여넣기"
 msgid "Run"
 msgstr ""
 
+#: tformmain.menuitemrunwithoutcompilation.caption
+msgid "Run without compilation"
+msgstr ""
+
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
@@ -542,6 +546,14 @@ msgstr "ToolButton1"
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
 msgstr "트랜스필루"
+
+#: tformmain.toolbutton2.caption
+msgid "ToolButton2"
+msgstr ""
+
+#: tformmain.toolbutton2.hint
+msgid "Interpret"
+msgstr ""
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
@@ -723,6 +735,14 @@ msgstr "표지판"
 msgid " Lines of Code"
 msgstr "코드 라인"
 
+#: unit1.errwritingtemporaryfile
+msgid "Error writing temporary file: "
+msgstr ""
+
+#: unit1.interpretationcompleted
+msgid "Interpretation completed."
+msgstr ""
+
 #: unit1.newnamezprogram
 #, fuzzy
 #| msgid "Podaj nazwę programu:"
@@ -735,11 +755,23 @@ msgstr "프로그램 이름을 입력합니다:"
 msgid "New file"
 msgstr "새 파일"
 
+#: unit1.nocodeopenfileorwritecodeeditor
+msgid "No code. Open the file or write code in the editor."
+msgstr ""
+
 #: unit1.openprojecttranslate
 #, fuzzy
 #| msgid "Otwarty projekt: "
 msgid "Open project: "
 msgstr "프로젝트를 엽니다:"
+
+#: unit1.processstartuperr
+msgid "Process startup error: "
+msgstr ""
+
+#: unit1.runinterpreterseparatewindow
+msgid "Running the interpreter in a separate window.."
+msgstr ""
 
 #: unit1.translateaddcustommodulespath
 msgid " - Added custom IDE modules path: "

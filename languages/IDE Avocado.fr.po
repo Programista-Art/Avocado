@@ -438,6 +438,10 @@ msgstr "Coller"
 msgid "Run"
 msgstr ""
 
+#: tformmain.menuitemrunwithoutcompilation.caption
+msgid "Run without compilation"
+msgstr ""
+
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
@@ -545,6 +549,14 @@ msgstr "ToolButton1"
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
 msgstr "Transpiler"
+
+#: tformmain.toolbutton2.caption
+msgid "ToolButton2"
+msgstr ""
+
+#: tformmain.toolbutton2.hint
+msgid "Interpret"
+msgstr ""
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
@@ -728,6 +740,14 @@ msgctxt "unit1.countline"
 msgid " Lines of Code"
 msgstr " Lignes de code"
 
+#: unit1.errwritingtemporaryfile
+msgid "Error writing temporary file: "
+msgstr ""
+
+#: unit1.interpretationcompleted
+msgid "Interpretation completed."
+msgstr ""
+
 #: unit1.newnamezprogram
 #, fuzzy
 #| msgid "Podaj nazwę programu:"
@@ -740,11 +760,23 @@ msgstr "Entrez le nom du programme :"
 msgid "New file"
 msgstr "Nouveau fichier"
 
+#: unit1.nocodeopenfileorwritecodeeditor
+msgid "No code. Open the file or write code in the editor."
+msgstr ""
+
 #: unit1.openprojecttranslate
 #, fuzzy
 #| msgid "Otwarty projekt: "
 msgid "Open project: "
 msgstr "Projet ouvert : "
+
+#: unit1.processstartuperr
+msgid "Process startup error: "
+msgstr ""
+
+#: unit1.runinterpreterseparatewindow
+msgid "Running the interpreter in a separate window.."
+msgstr ""
 
 #: unit1.translateaddcustommodulespath
 msgid " - Added custom IDE modules path: "

@@ -398,6 +398,10 @@ msgstr ""
 msgid "Run"
 msgstr ""
 
+#: tformmain.menuitemrunwithoutcompilation.caption
+msgid "Run without compilation"
+msgstr ""
+
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Zapisz"
@@ -502,6 +506,14 @@ msgstr ""
 #: tformmain.toolbutton1.hint
 msgctxt "tformmain.toolbutton1.hint"
 msgid "Transpiluj"
+msgstr ""
+
+#: tformmain.toolbutton2.caption
+msgid "ToolButton2"
+msgstr ""
+
+#: tformmain.toolbutton2.hint
+msgid "Interpret"
 msgstr ""
 
 #: tformmain.toolbuttondebug.caption
@@ -669,6 +681,14 @@ msgctxt "unit1.countline"
 msgid " Lines of Code"
 msgstr ""
 
+#: unit1.errwritingtemporaryfile
+msgid "Error writing temporary file: "
+msgstr ""
+
+#: unit1.interpretationcompleted
+msgid "Interpretation completed."
+msgstr ""
+
 #: unit1.newnamezprogram
 msgid "Enter the name of the program:"
 msgstr ""
@@ -677,8 +697,20 @@ msgstr ""
 msgid "New file"
 msgstr ""
 
+#: unit1.nocodeopenfileorwritecodeeditor
+msgid "No code. Open the file or write code in the editor."
+msgstr ""
+
 #: unit1.openprojecttranslate
 msgid "Open project: "
+msgstr ""
+
+#: unit1.processstartuperr
+msgid "Process startup error: "
+msgstr ""
+
+#: unit1.runinterpreterseparatewindow
+msgid "Running the interpreter in a separate window.."
 msgstr ""
 
 #: unit1.translateaddcustommodulespath
