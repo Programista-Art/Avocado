@@ -11,7 +11,13 @@ uses
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
   AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
   DefaultTranslator, SynEditTypes, Math,
-  LCLTranslator, LCLType, StrUtils, Types;
+  LCLTranslator, LCLType, StrUtils, Types,
+  //nowe
+  SynFacilHighlighter,
+  SynFacilBasic,
+  SynFacilCompletion,
+  SynFacilUtils
+  ;
 
 type
   PNodeRec = ^TNodeRec;
@@ -208,8 +214,8 @@ type
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     butCompileCode: TToolButton;
-    //procedure FileTreeDblClick(Sender: TObject);
 
+    //procedure FileTreeDblClick(Sender: TObject);
     procedure EditSearchCommentsChange(Sender: TObject);
     procedure EditSearchFunctionsChange(Sender: TObject);
     procedure EditSearchMistakesChange(Sender: TObject);
@@ -361,6 +367,7 @@ type
     procedure FilterListBox(const FilterText: string; const SourceList: TStringList; ListBox: TListBox);
     //Uruchaminaie kodu przez instantFPC
     procedure RunPascalInstantly(const PascalCode: string);
+
   public
     procedure LoadAvocadoFileToEditor(const FileName: string);
     constructor Create(TheOwner: TComponent); override;
@@ -659,6 +666,8 @@ end;
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
   AvocadoVersion := 'IDE Avocado v 2.0.0.0';
+  //dotyczy kolorowania SynEditCode
+  //ColoredSynEdit;
   FormMain.Caption := AvocadoVersion;
   NeedsAsmIntel := False;
   SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
@@ -807,6 +816,8 @@ begin
   if not Assigned(FCmtAll) then Exit;
   FilterListBox(EditSearchComments.Text, FCmtAll, ListBoxSearchComments);
 end;
+
+
 
 procedure TFormMain.EditSearchFunctionsChange(Sender: TObject);
 begin
@@ -3349,6 +3360,42 @@ begin
     }
 end;
 
+{
+procedure TFormMain.ColoredSynEdit;
+//var
+//hlt : TSynFacilSyn;
+begin
+  {
+  FHighlighter := TSynFacilSyn.Create(self);
+  SynEditCode.Highlighter := FHighlighter;
+  FHighlighter.LoadFromFile('avocado.xml');
+  }
+
+  editorSynEditCode := TSynFacilEditor.Create(SynEditCode, 'SinNombre', 'avocado');
+    // 3. Zainicjuj edytor (utwórz "nowy plik")
+  editorSynEditCode.NewFile;
+  //editorSynEditCode.InitMenuRecents(mnRecientes, nil);
+  editorSynEditCode.InitMenuLanguages(nil, ''); // Wyłączamy menu języków
+  // 2. Podłącz zdarzenia do procedur w Twoim formularzu
+  editorSynEditCode.OnChangeEditorState := @ChangeEditorState;
+  editorSynEditCode.OnChangeFileInform := @editChangeFileInform;
+
+
+
+
+  // DODAJ TĘ LINIĘ:
+  // Wczytaj plik składni Avocado bezpośrednio.
+  // (Upewnij się, że plik 'avocado.xml' jest w tym samym folderze co .exe
+  // lub podaj pełną ścieżkę, np. 'syntax\avocado.xml')
+  //editorSynEditCode.InitMenuLanguages(nil, '');
+  editorSynEditCode.LoadSyntaxFromFile('avocado.xml');
+
+  // 5. Załaduj składnię
+  // Ta funkcja automatycznie znajdzie plik 'syntax\avocado.xml'
+  // na podstawie domyślnego rozszerzenia ('avocado') ustawionego w Create.
+  //editorSynEditCode.LoadSyntaxFromPath;
+end;
+}
 
 
 procedure TFormMain.LoadAvocadoFileToEditor(const FileName: string);

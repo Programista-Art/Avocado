@@ -2058,7 +2058,7 @@ object FormMain: TFormMain
     ObjectAttri.Foreground = clNone
     VariableAttri.Background = 7886547
     VariableAttri.Foreground = clNone
-    DotAttri.Foreground = clActiveCaption
+    DotAttri.Foreground = 14851674
     KeyWords.Strings = (
       'APPEND'
       'ASM'
@@ -2086,6 +2086,7 @@ object FormMain: TFormMain
       'ELSE'
       'END'
       'END!'
+      'END.'
       'EOF'
       'ETYKIETA'
       'FILE_EXISTS'
@@ -2108,6 +2109,7 @@ object FormMain: TFormMain
       'KOLOR_TEKSTU'
       'KONIEC'
       'KONIEC!'
+      'KONIEC.'
       'KONIEC_PLIKU'
       'KONTYNUOWAć'
       'KOPIUJ'
@@ -2143,6 +2145,8 @@ object FormMain: TFormMain
       'POZYCJA_KURSORA'
       'PRINT'
       'PRINT_LINE'
+      'PROCEDURA'
+      'PROCEDURE'
       'PROGRAM'
       'PRZERWAć'
       'PRZYPISZ_PLIK'

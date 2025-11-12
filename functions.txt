@@ -52,7 +52,7 @@ czy_istnieje_katalog
 parametr_programu
 pobierz_zmienną_środowiskową
 ustaw_zmienną_środowiskową
-jeśli
+jeżeli
 wtedy
 inaczej
 dopóki
@@ -118,5 +118,11 @@ etykieta
 powtarzaj
 aż
 oblicz_formatuj
-procedurę
+procedure
 procedura
+początek
+koniec
+koniec.
+start
+end
+end.
