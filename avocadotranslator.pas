@@ -36,6 +36,7 @@ end;
   TAvocadoTranslator = class
   private
     FVariables: array of TAvocadoVariable;
+    FLocalVariables: array of TAvocadoVariable;
     FInRepeatBlock: Boolean;
     FInProcedureBody: Boolean;
     FInMultiLineComment: Boolean;
@@ -49,6 +50,7 @@ end;
     procedure ProcessForLoop(const Line: string; PascalCode: TStringList);
     procedure ProcessForInLoop(const Line: string; PascalCode: TStringList);
     // procedure AddVariable(const Name, VarType: string);
+
     function TranslateExpression(const Expr: string): string;
     procedure ProcessDeclaration(const Line: string);
     procedure ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
@@ -63,6 +65,11 @@ end;
     //Centralizacja Logiki Parsowania 10.10.2025
     function ExtractFunctionCall(const Line: string; var VarName: string; var Params: TStringArray): string;
     function SafeResolveAlias(const AName: string): string;
+    //Lokalne zmienne w procedurach
+    procedure AnalyzeLocalVariables(StartIndex: Integer; Source: TStrings);
+    procedure AddLocalVariable(const VarName, VarType: string; NoAssign: Boolean = False; const AInitialValue: string = '');
+    function TryParseDeclaration(const Line: string; out VarName, VarType, InitValue: string): Boolean;
+
   public
     //Ustawienia dyrektyw kompilatora
     procedure AddCompilerDirective(PascalCode: TStringList);
@@ -314,7 +321,6 @@ begin
     KeywordLen := Length('procedure')
   else
   begin
-   // Result := Line; // To nie jest procedura
     Exit;
   end;
 
@@ -329,7 +335,7 @@ begin
   // 3. Sprawdź, czy ma parametry
   if (ParenStart = 0) or (ParenEnd <= ParenStart) then
   begin
-    // Brak parametrów, np. "procedura ZrobCos"
+    // Brak parametrów, np. "procedura nazwa"
     Result := 'procedure ' + Header + ';';
     Exit;
   end;
@@ -1275,6 +1281,182 @@ begin
   end;
 end;
 
+procedure TAvocadoTranslator.AnalyzeLocalVariables(StartIndex: Integer;
+  Source: TStrings);
+var
+  i, Depth: Integer;
+  Line, LLine: string;
+  VName, VType, VInit: string;
+  HasStartedBlock: Boolean;
+  // do obsługi komentarzy
+  IsInComment: Boolean;
+  pStart, pEnd: Integer;
+  LineBefore, LineAfter: string;
+begin
+    SetLength(FLocalVariables, 0);
+    Depth := 0;
+    HasStartedBlock := False;
+    IsInComment := False;
+
+    for i := StartIndex to Source.Count - 1 do
+  begin
+    Line := Trim(Source[i]);
+
+   // 1. Jeśli jesteśmy w trakcie komentarza wielowierszowego z poprzedniej linii
+    if IsInComment then
+    begin
+      pEnd := Pos('*)', Line);
+      if pEnd > 0 then
+      begin
+        // Znaleziono koniec komentarza, ucinamy początek linii
+        Line := Copy(Line, pEnd + 2, MaxInt);
+        IsInComment := False;
+      end
+      else
+      begin
+        // Cała linia jest komentarzem
+        Continue;
+      end;
+    end;
+
+    // 2. Obsługa komentarzy otwieranych i zamykanych w tej samej linii
+    // lub otwieranych w tej linii
+    while Pos('(*', Line) > 0 do
+    begin
+      pStart := Pos('(*', Line);
+      pEnd := Pos('*)', Line);
+
+      if (pEnd > pStart) then
+      begin
+        // Komentarz jest w całości w tej linii: kod (* kom *) kod
+        LineBefore := Copy(Line, 1, pStart - 1);
+        LineAfter := Copy(Line, pEnd + 2, MaxInt);
+        Line := LineBefore + ' ' + LineAfter;
+      end
+      else
+      begin
+        // Komentarz zaczyna się tutaj, ale nie kończy: kod (* ...
+        Line := Copy(Line, 1, pStart - 1);
+        IsInComment := True;
+        Break; // Przerywamy pętlę while, reszta linii to komentarz
+      end;
+    end;
+
+    // Obsługa komentarzy jednoliniowych //
+    if Pos('//', Line) > 0 then
+      Line := Copy(Line, 1, Pos('//', Line) - 1);
+
+    Line := Trim(Line);
+    if Line = '' then Continue;
+
+    LLine := AnsiLowerCase(Line);
+
+    // Wykrywamy początek bloku
+    if (LLine = 'start') or (LLine = 'początek') or (LLine = 'begin') or (LLine = 'main') then
+    begin
+      Inc(Depth);
+      HasStartedBlock := True;
+    end
+    // Wykrywamy koniec bloku
+    else if (LLine = 'koniec') or (LLine = 'end') or (LLine = 'koniec;') or (LLine = 'end;') then
+    begin
+      Dec(Depth);
+    end;
+
+    // Sprawdzamy, czy to deklaracja zmiennej
+    if TryParseDeclaration(Line, VName, VType, VInit) then
+    begin
+      AddLocalVariable(VName, VType, VInit = '', VInit);
+    end;
+
+    // Warunek wyjścia Jeśli weszliśmy do bloku i wyszliśmy z niego (głębokość <= 0)
+    if HasStartedBlock and (Depth <= 0) then
+      Break;
+  end;
+end;
+
+procedure TAvocadoTranslator.AddLocalVariable(const VarName, VarType: string;
+  NoAssign: Boolean; const AInitialValue: string);
+var
+  j: Integer;
+begin
+  for j := 0 to High(FLocalVariables) do
+      if FLocalVariables[j].VarName = VarName then Exit;
+  SetLength(FLocalVariables, Length(FLocalVariables) + 1);
+  FLocalVariables[High(FLocalVariables)].VarName := VarName;
+  FLocalVariables[High(FLocalVariables)].VarType := VarType;
+  FLocalVariables[High(FLocalVariables)].NoAssign := NoAssign;
+  FLocalVariables[High(FLocalVariables)].InitialValue := AInitialValue;
+end;
+
+function TAvocadoTranslator.TryParseDeclaration(const Line: string; out
+  VarName, VarType, InitValue: string): Boolean;
+var
+  TrimmedLine: string;
+  Parts, VarParts: TStringArray;
+begin
+ Result := False;
+  VarName := '';
+  VarType := '';
+  InitValue := '';
+  TrimmedLine := Trim(Line);
+
+  if TrimmedLine = '' then Exit;
+  // Ignoruj słowa kluczowe
+  if LowerCase(TrimmedLine).StartsWith('jeżeli') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('if') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('dopóki') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('while') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('dla') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('for') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('wyjść') then Exit;
+  if LowerCase(TrimmedLine).StartsWith('exit') then Exit;
+
+  // Sprawdź przypadek z przypisaniem: typ nazwa = wartość
+  if Pos('=', TrimmedLine) > 0 then
+  begin
+    Parts := TrimmedLine.Split(['='], 2);
+    if Length(Parts) >= 2 then
+    begin
+      VarParts := Trim(Parts[0]).Split([' '], 2);
+      if Length(VarParts) >= 2 then
+      begin
+        // Sprawdź czy pierwsze słowo to typ
+        try
+           if ResolveAlias(VarParts[0]) <> '' then
+           begin
+             VarType := LowerCase(Trim(VarParts[0]));
+             VarName := Trim(VarParts[1]);
+             InitValue := Trim(Parts[1]);
+             Result := True;
+             Exit;
+           end;
+        except
+          // Nieznany typ
+        end;
+      end;
+    end;
+  end
+  else
+  begin
+    // bez przypisania: typ nazwa
+    VarParts := TrimmedLine.Split([' '], 2);
+    if Length(VarParts) >= 2 then
+    begin
+      try
+         if ResolveAlias(VarParts[0]) <> '' then
+         begin
+           VarType := LowerCase(Trim(VarParts[0]));
+           VarName := Trim(VarParts[1]);
+           Result := True;
+           Exit;
+         end;
+      except
+      end;
+    end;
+  end;
+end;
+
 
 procedure TAvocadoTranslator.AddCompilerDirective(PascalCode: TStringList);
 var
@@ -1505,6 +1687,7 @@ LowerLineRepeat: String;
 CleanLowerLine: string;
 //StartPos, EndPos: Integer;
 LineBefore, LineAfter: string;
+VName, VType, VInit: string;
 begin
 
   TrimmedLine := Trim(Line);
@@ -1587,6 +1770,20 @@ begin
     Exit; // Zakończ przetwarzanie tej linii
   end;
  }
+
+ if TryParseDeclaration(TrimmedLine, VName, VType, VInit) then
+  begin
+    if VInit <> '' then
+    begin
+      // To jest: lc x = 10 -> Zamieniamy na: x := 10;
+      if (NextTrimmedLowerLine <> 'inaczej') and (NextTrimmedLowerLine <> 'else') then
+        PascalCode.Add(VName + ' := ' + TranslateExpression(VInit) + ';')
+      else
+        PascalCode.Add(VName + ' := ' + TranslateExpression(VInit));
+    end;
+    // Jeśli VInit pusty (np. "lc x"), nic nie robimy (zmienna jest w var, inicjalizacja niepotrzebna)
+    Exit;
+  end;
 
   // 2. Grupujemy wszystkie słowa kluczowe w jeden 'case'
   case LowerTrimmedLine of
@@ -3100,8 +3297,8 @@ end
       Exit; // Zakończ po obsłużeniu przypisania
     end
 
-    // --- 5. OSTATNI BLOK (jeśli nic innego nie pasowało) ---
-    // To jest "catch-all" dla wywołań procedur (np. przywitajsie('Avocado'))
+    // jeśli nic innego nie pasowało)
+    //  dla wywołań procedur (np. przywitajsie('Avocado'))
     // i innych poleceń (np. inc(a), break, continue)
     else if TrimmedLine <> '' then
     begin
@@ -3110,7 +3307,7 @@ end
         PascalCode.Add(TranslatedLine + ';')
       else
         PascalCode.Add(TranslatedLine);
-        Exit; // WAŻNE: Zakońc
+        Exit;
     end;
  end;
 end;
@@ -3133,6 +3330,7 @@ LabelName: string;
 NextTrimmedLowerLine: string;
 LowerLine: string;
 ProcedureDepth: Integer;
+j: integer;
 begin
     // --- 1. Inicjalizacja ---
   SetLength(FVariables, 0);
@@ -3257,6 +3455,15 @@ begin
       if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
       begin
         PascalCode.Add( TranslateProcedureHeader(trimmedLine) );
+        AnalyzeLocalVariables(i + 1, AvocadoCode);
+        if Length(FLocalVariables) > 0 then
+        begin
+          PascalCode.Add('var');
+          for j := 0 to High(FLocalVariables) do
+          begin
+             PascalCode.Add('  ' + FLocalVariables[j].VarName + ': ' + SafeResolveAlias(FLocalVariables[j].VarType) + ';');
+          end;
+        end;
         ProcedureDepth := 1;
         Continue;
       end;
@@ -3289,10 +3496,17 @@ begin
 
     // --- 8. Główny blok 'begin' (wstawki) ---
   	 PascalCode.Add('begin'); // <--- DODAJEMY GŁÓWNY 'BEGIN' RĘCZNIE
-  	 PascalCode.Add('  {$IFDEF WINDOWS}');
-  	 PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
-  	 PascalCode.Add('  SetConsoleCP(CP_UTF8);');
-  	 PascalCode.Add('  {$ENDIF}');
+  	 //PascalCode.Add('  {$IFDEF WINDOWS}');
+  	 //PascalCode.Add('  SetConsoleCP(CP_UTF8);');
+         //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
+
+        //PascalCode.Add('  fpsystem(''chcp 65001'');');
+  	 //PascalCode.Add('  {$ENDIF}');
+         PascalCode.Add('{$IFDEF WINDOWS}');
+             PascalCode.Add('  SetConsoleCP(CP_UTF8);');
+             PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
+         PascalCode.Add('{$ENDIF}');
+
 
   	 // --- 9. Inicjalizacja zmiennych ---
   	 for i := 0 to High(FVariables) do
@@ -3302,17 +3516,17 @@ begin
   	 	 PascalCode.Add('  ' + FVariables[i].VarName + ' := ' + TranslateExpression(FVariables[i].InitialValue) + ';');
   	   end;
   	 end;
-     PascalCode.Add(''); // Pusta linia po inicjalizacji
+
+         PascalCode.Add(''); // Pusta linia po inicjalizacji
 
   	 // --- 10. PĘTLA 3: Tłumaczenie kodu głównego ---
   	 ProcedureDepth := 0;
-    FInRepeatBlock := False;
+         FInRepeatBlock := False;
   	 for i := 0 to AvocadoCode.Count - 1 do
   	 begin
   	   trimmedLine := Trim(AvocadoCode[i]);
   	   if trimmedLine = '' then Continue;
-
-      LowerLine := AnsiLowerCase(trimmedLine);
+           LowerLine := AnsiLowerCase(trimmedLine);
 
       // IGNORUJEMY procedury
       if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
@@ -3361,7 +3575,7 @@ begin
 
   	 // --- 11. Zakończenie ---
   	 PascalCode.Add('  Readln;');
-  	 PascalCode.Add('end.'); // <--- DODAJEMY GŁÓWNY 'END.' RĘCZNIE
+  	 PascalCode.Add('end.');
   	 Result := PascalCode;
 
   finally

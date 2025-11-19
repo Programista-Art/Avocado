@@ -473,7 +473,6 @@ var
   InstantFpcPath: String;
   //Language
   lang: String;
-  //Translated
   OpenProjectTranslatet: string;
   CharsTranslatet: string;
   OpenProjectDir: String;
@@ -1860,7 +1859,6 @@ end;
 procedure TFormMain.ToolButton1Click(Sender: TObject);
 begin
  ExtractProgramFromSynEdit;
-  //CompileToPascal;
   try
     MemoOutPut.Clear;
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));

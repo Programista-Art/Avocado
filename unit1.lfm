@@ -2048,7 +2048,7 @@ object FormMain: TFormMain
     CommentAttri.StyleMask = [fsItalic, fsUnderline]
     Comments = [csAnsiStyle, csPasStyle, csAsmStyle, csBasStyle]
     DetectPreprocessor = True
-    IdentifierAttri.Foreground = clMedGray
+    IdentifierAttri.Foreground = 14851674
     IdentifierChars = '0123456789?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'
     KeyAttri.Foreground = 14851674
     KeyAttri.StyleMask = [fsBold]
