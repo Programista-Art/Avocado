@@ -305,29 +305,67 @@ uses
 
 function TAvocadoTranslator.TranslateProcedureHeader(const Line: string): string;
 var
-    TrimmedLine, LowerLine, Header: string;
-    ProcName, ParamStr, FinalParams: string;
-    ParenStart, ParenEnd, KeywordLen: Integer;
-    Param, TypeName, VarName: string;
-    ParamsList: TStringList;
-    i: Integer;
+TrimmedLine, LowerLine, Header: string;
+ProcName, ParamStr, FinalParams, ReturnTypeDecl: string;
+ParenStart, ParenEnd, KeywordLen, ColonPos: Integer;
+Param, TypeName, VarName: string;
+ParamsList: TStringList;
+i: Integer;
+IsFunc: Boolean;
 begin
   TrimmedLine := Trim(Line);
   LowerLine := AnsiLowerCase(TrimmedLine);
+  IsFunc := False;
 
   if LowerLine.StartsWith('procedura ') then
     KeywordLen := Length('procedura')
   else if LowerLine.StartsWith('procedure ') then
     KeywordLen := Length('procedure')
-  else
-  begin
-    Exit;
-  end;
+  else if LowerLine.StartsWith('funkcja ') then
+    begin
+      KeywordLen := Length('funkcja');
+      IsFunc := True;
+    end
+    else if LowerLine.StartsWith('function ') then
+    begin
+      KeywordLen := Length('function');
+      IsFunc := True;
+    end
+    else
+    begin
+      Exit;
+    end;
 
- // 2. Wytnij cały nagłówek (np. "przywitajsie(imie: tekst)")
+ // Wytnij cały nagłówek (np. "przywitajsie(imie: tekst)")
   Header := Trim(Copy(TrimmedLine, KeywordLen + 1, MaxInt));
   if Header.EndsWith(';') then
-    Delete(Header, Length(Header), 1); // Usuń ewentualny średnik
+    Delete(Header, Length(Header), 1);
+
+  // Obsługa typu zwracanego dla funkcji (po ostatnim dwukropku lub nawiasie)
+  ReturnTypeDecl := '';
+  ParenEnd := RPos(')', Header);
+
+  if IsFunc then
+  begin
+    // Sprawdź czy jest dwukropek po nawiasach zamykających
+    // np. funkcja Suma(a: lc): lc
+    if ParenEnd > 0 then
+    begin
+       // Szukamy dwukropka PO nawiasach
+       ColonPos := Pos(':', Copy(Header, ParenEnd + 1, MaxInt));
+       if ColonPos > 0 then
+       begin
+         // Skoryguj pozycję względem całego stringa
+         ColonPos := ParenEnd + ColonPos;
+         // Pobierz typ zwracany
+         ReturnTypeDecl := Trim(Copy(Header, ColonPos + 1, MaxInt));
+         ReturnTypeDecl := ResolveAlias(ReturnTypeDecl); // Tłumacz typ (np. lc -> Integer)
+
+         // Utnij Header tak, by zawierał tylko "Nazwa(args)"
+         Header := Trim(Copy(Header, 1, ColonPos - 1));
+       end;
+    end;
+  end;
 
   ParenStart := Pos('(', Header);
   ParenEnd := RPos(')', Header);
@@ -335,8 +373,11 @@ begin
   // 3. Sprawdź, czy ma parametry
   if (ParenStart = 0) or (ParenEnd <= ParenStart) then
   begin
-    // Brak parametrów, np. "procedura nazwa"
-    Result := 'procedure ' + Header + ';';
+    // Brak parametrów
+    if IsFunc then
+      Result := 'function ' + Header + ': ' + ReturnTypeDecl + ';'
+    else
+      Result := 'procedure ' + Header + ';';
     Exit;
   end;
 
@@ -358,25 +399,23 @@ begin
       // Podziel "imie: tekst" na "imie" i "tekst"
       VarName := Trim(Copy(Param, 1, Pos(':', Param) - 1));
       TypeName := Trim(Copy(Param, Pos(':', Param) + 1, MaxInt));
-
-      // --- TO JEST KLUCZOWA POPRAWKA ---
-      // Użyj istniejącej funkcji do tłumaczenia typu
-      // (np. 'tekst' -> 'String', 'lc' -> 'Integer')
       TypeName := ResolveAlias(TypeName);
-      // --- KONIEC POPRAWKI ---
+
 
       if FinalParams = '' then
         FinalParams := VarName + ': ' + TypeName
       else
         FinalParams := FinalParams + '; ' + VarName + ': ' + TypeName;
     end;
-
   finally
     ParamsList.Free;
   end;
 
   // 5. Złóż poprawny nagłówek procedury
-  Result := 'procedure ' + ProcName + '(' + FinalParams + ');';
+  if IsFunc then
+      Result := 'function ' + ProcName + '(' + FinalParams + '): ' + ReturnTypeDecl + ';'
+  else
+      Result := 'procedure ' + ProcName + '(' + FinalParams + ');';
 end;
 
 
@@ -707,8 +746,11 @@ begin
     Exit; // Ignoruj wszystko wewnątrz procedury
   end;
 
-  // 2. Sprawdź, czy procedura się ZACZYNA
-  if LowerCase(TrimmedLine).StartsWith('procedura ') then
+  // Sprawdź, czy procedura / funkcja się ZACZYNA
+  if (LowerCase(TrimmedLine).StartsWith('procedura ')) or
+       (LowerCase(TrimmedLine).StartsWith('procedure ')) or
+       (LowerCase(TrimmedLine).StartsWith('funkcja ')) or
+       (LowerCase(TrimmedLine).StartsWith('function ')) then
   begin
     FInProcedureBody := True; // Wchodzimy w stan procedury
     Exit; // Ignoruj samą linię deklaracji
@@ -1293,13 +1335,25 @@ var
   pStart, pEnd: Integer;
   LineBefore, LineAfter: string;
 begin
+    LLine := AnsiLowerCase(Line);
     SetLength(FLocalVariables, 0);
     Depth := 0;
     HasStartedBlock := False;
     IsInComment := False;
 
+    if (LLine = 'start') or (LLine = 'początek') or (LLine = 'begin') or (LLine = 'main') then
+    begin
+      Inc(Depth);
+      HasStartedBlock := True;
+    end
+    else if (LLine = 'koniec') or (LLine = 'end') or (LLine = 'koniec;') or (LLine = 'end;') then
+    begin
+      Dec(Depth);
+    end;
+
+
     for i := StartIndex to Source.Count - 1 do
-  begin
+    begin
     Line := Trim(Source[i]);
 
    // 1. Jeśli jesteśmy w trakcie komentarza wielowierszowego z poprzedniej linii
@@ -1844,6 +1898,28 @@ begin
     end;
   end;
  }
+
+ // Obsługa instrukcji zwróć / return
+  if (Pos('zwróć', LowerTrimmedLine) = 1) or (Pos('return', LowerTrimmedLine) = 1) then
+  begin
+    StartPosTrim := Pos(' ', TrimmedLine); // Szukamy spacji po słowie kluczowym
+    if StartPosTrim = 0 then
+    begin
+       // Samo 'return' (np. w procedurze, lub wyjście z funkcji bez wyniku - choć w FPC Exit działa)
+       PascalCode.Add('Exit;');
+    end
+    else
+    begin
+      // return wyrażenie
+      ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, MaxInt));
+      if ParamTrim.EndsWith(';') then
+        Delete(ParamTrim, Length(ParamTrim), 1);
+
+      TranslatedParam := TranslateExpression(ParamTrim);
+      PascalCode.Add('Exit(' + TranslatedParam + ');');
+    end;
+    Exit;
+  end;
 
 
      //warunek If then else
@@ -3452,7 +3528,9 @@ begin
       if trimmedLine = '' then Continue;
       LowerLine := AnsiLowerCase(trimmedLine);
 
-      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
+      //if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
+      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) or
+     (LowerLine.StartsWith('funkcja ')) or (LowerLine.StartsWith('function ')) then
       begin
         PascalCode.Add( TranslateProcedureHeader(trimmedLine) );
         AnalyzeLocalVariables(i + 1, AvocadoCode);
@@ -3528,8 +3606,10 @@ begin
   	   if trimmedLine = '' then Continue;
            LowerLine := AnsiLowerCase(trimmedLine);
 
-      // IGNORUJEMY procedury
-      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
+      // ignoruje procedury i funkcje
+      //if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
+      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) or
+         (LowerLine.StartsWith('funkcja ')) or (LowerLine.StartsWith('function ')) then
       begin
         ProcedureDepth := 1;
         Continue;
