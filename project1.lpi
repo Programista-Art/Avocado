@@ -11,6 +11,7 @@
       <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True/PM_V2"/>
+        <AnsiUTF8 Value="True"/>
         <TextName Value="ProgramistaArt.IDEAvocado.Avocado"/>
         <TextDesc Value="IDE Avocado Polish programming language"/>
       </XPManifest>

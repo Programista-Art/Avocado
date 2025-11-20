@@ -357,6 +357,7 @@ type
     //procedure LoadLang;
     procedure CloseProgram;
 
+
     //Otwiera pliki w TreeView
     procedure LoadProjectTree;
     //Auto zapisywanie pliku gdy jest otwarty w TreeView
@@ -2012,6 +2013,7 @@ begin
 end;
 
 
+
 procedure TFormMain.LoadFpc;
 begin
    //MemoLogs.Lines.Add(TranslateLoadingSettings);
@@ -2305,7 +2307,41 @@ end;
 
 
 procedure TFormMain.SaveCodeToFile;
+var
+  Stream: TFileStream;
+  OutputString: string;
+  // BOM dla UTF-8 to bajty: EF BB BF
+  BOM: array[0..2] of Byte = ($EF, $BB, $BF);
 begin
+  SD.DefaultExt := 'avocado';
+  SD.Filter := 'Avocado files (*.avocado)|*.avocado|All files (*.*)|*.*';
+
+  if SD.Execute then
+  begin
+    // Używamy strumienia plikowego dla pełnej kontroli nad bajtami
+    Stream := TFileStream.Create(SD.FileName, fmCreate);
+    try
+      // 1. Zapisz BOM (Znacznik UTF-8) na początku pliku
+      // Dzięki temu kompilator FPC oraz Notatnik Windows od razu rozpoznają kodowanie.
+      Stream.WriteBuffer(BOM, 3);
+
+      // 2. Pobierz tekst z SynEdit
+      // W Lazarusie SynEdit.Lines.Text jest zawsze w pamięci jako UTF-8.
+      OutputString := SynEditCode.Lines.Text;
+
+      // 3. Zapisz treść pliku
+      if OutputString <> '' then
+        Stream.WriteBuffer(Pointer(OutputString)^, Length(OutputString));
+
+    finally
+      Stream.Free;
+    end;
+
+    // Aktualizacja zmiennych w programie
+    ZapisanaNazwaPliku := ChangeFileExt(ExtractFileName(SD.FileName), '');
+    FileNamePr := SD.FileName;
+  end;
+  {
   SD.DefaultExt := 'avocado';
   SD.Filter := 'Avocado files (*.avocado)|*.avocado|All files (*.*)|*.*';
   if SD.Execute then
@@ -2316,6 +2352,7 @@ begin
     FileNamePr := SD.FileName;
     //ShowMessage(FileNamePr);
   end;
+  }
 end;
 
 procedure TFormMain.IsClickMainMenuLanguage(number: Integer);
@@ -2334,15 +2371,17 @@ end;
 
 procedure TFormMain.CompilePascalCode(const PascalCode, OutputFile: string);
 var
-  AProcess: TProcess;
-  TempFile: string;
-  OutputLines: TStringList;
-  FpcUnitPath, SourceDir: string;
-  IdeDirectory, IdeModulesPath: string;
-  UserModulesPath: string;
-  BuildMode: string;
+AProcess: TProcess;
+OutputLines: TStringList;
+FpcUnitPath, SourceDir: string;
+IdeDirectory, IdeModulesPath: string;
+UserModulesPath: string;
+BuildMode: string;
+Stream: TFileStream;
+BOM: array[0..2] of Byte = ($EF, $BB, $BF);
+TempFile, TempDir: string;
 begin
-  // --- Sprawdzenie krytycznych ustawień--
+ // Sprawdzenie krytycznych ustawień
   if (FFpcPath = '') or not FileExists(FFpcPath) then
   begin
     MemoLogs.Lines.Add(TranslateErrPathToFpc);
@@ -2356,16 +2395,10 @@ begin
   UserModulesPath := FModulsPath;
   if (UserModulesPath <> '') and not DirectoryExists(UserModulesPath) then
   begin
-     MemoLogs.Lines.Add(TranslateErrUserModulesPath + UserModulesPath + TranslateNotExist);
-     UserModulesPath := '';
+      MemoLogs.Lines.Add(TranslateErrUserModulesPath + UserModulesPath + TranslateNotExist);
+      UserModulesPath := '';
   end;
-  {
-  if FTargetPlatform = '' then
-  begin
-    MemoLogs.Lines.Add('BŁĄD KRYTYCZNY: Platforma docelowa (TargetPlatform) nie jest skonfigurowana!');
-    Exit;
-  end;
- }
+
   //Input code check / Sprawdzenie kodu wejściowego
   if Trim(PascalCode) = '' then
   begin
@@ -2373,25 +2406,41 @@ begin
       Exit;
   end;
 
-  //Setting the name of the temporary file
-  // Ustalanie nazwy pliku tymczasowego
-  if SaveFileProject <> '' then
-    TempFile := ChangeFileExt(SaveFileProject, '.pas')
-  else if OpenFileProject <> '' then
-     TempFile := ChangeFileExt(OpenFileProject, '.pas')
-  else
-     TempFile := ExtractFilePath(Application.ExeName) + 'temp_compile.pas';
+  // 1. Pobierz ścieżkę systemowego tempa i dodaj folder Avocado
+  TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
 
-  //tryb kompilacji na sztywno
+  // czy istnieje katalog jesli nie to tworzy go
+  if not ForceDirectories(TempDir) then
+  begin
+    MemoLogs.Lines.Add('Błąd: Nie można utworzyć katalogu tymczasowego: ' + TempDir);
+    Exit;
+  end;
+
+  // Dodaj końcowy ukośnik do ścieżki  C:\Temp\Avocado\
+  TempDir := IncludeTrailingPathDelimiter(TempDir);
+
+  //Setting the name of the temporary file
+  if SaveFileProject <> '' then
+      TempFile := TempDir + ChangeFileExt(ExtractFileName(SaveFileProject), '.pas')
+    else if OpenFileProject <> '' then
+      TempFile := TempDir + ChangeFileExt(ExtractFileName(OpenFileProject), '.pas')
+    else
+      TempFile := TempDir + 'avocado_temp.pas';
+
+  //tryb kompilacji
   BuildMode := 'Release';
   try
-    // Saving code to a temporary file / Zapis kodu do pliku tymczasowego
-    OutputLines := TStringList.Create;
     try
-      OutputLines.Text := PascalCode;
-      OutputLines.SaveToFile(TempFile);
+    // Jeśli plik istnieje (np. po crashu), usuń go najpierw
+    if FileExists(TempFile) then DeleteFile(TempFile);
+
+    Stream := TFileStream.Create(TempFile, fmCreate);
+    try
+      Stream.WriteBuffer(BOM, 3);
+      if PascalCode <> '' then
+        Stream.WriteBuffer(Pointer(PascalCode)^, Length(PascalCode));
     finally
-      OutputLines.Free;
+      Stream.Free;
     end;
 
     // Creating a build process / Utworzenie procesu kompilacji
@@ -2402,10 +2451,6 @@ begin
       AProcess.Parameters.Add(TempFile);
 
       // Adding Paths to Units (-Fu)
-      // Dodawanie ścieżek do jednostek (-Fu)
-
-      // Path to Standard FPC Units
-      // Ścieżka do standardowych jednostek FPC
       FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + FTargetPlatform;
       if DirectoryExists(FpcUnitPath) then
         AProcess.Parameters.Add('-Fu' + FpcUnitPath)
@@ -2413,38 +2458,33 @@ begin
         MemoLogs.Lines.Add(TranslateErrRequiredFPCstandardUnitDirfound + FpcUnitPath);
 
       // Dodajemy opcje dla trybu Release
-        if BuildMode = 'Release' then
-        begin
-          MemoLogs.Lines.Add(TranslateCompilingReleaseMode);
-          AProcess.Parameters.Add('-O3');
-          AProcess.Parameters.Add('-Os');
-          AProcess.Parameters.Add('-CX');
-          AProcess.Parameters.Add('-XX');
-          AProcess.Parameters.Add('-g-');
-        end
+      if BuildMode = 'Release' then
+      begin
+         MemoLogs.Lines.Add(TranslateCompilingReleaseMode);
+         AProcess.Parameters.Add('-O3');
+         AProcess.Parameters.Add('-Os');
+         AProcess.Parameters.Add('-CX');
+         AProcess.Parameters.Add('-XX');
+         AProcess.Parameters.Add('-g-');
+      end
       else
-        begin
-          MemoLogs.Lines.Add(TranslateCompilingDebugMode);
-          // (Domyślnie FPC kompiluje z informacjami debugowania)
-        end;
-
+      begin
+         MemoLogs.Lines.Add(TranslateCompilingDebugMode);
+      end;
 
       //Path to the directory with the source file (TempFile)
-      // 3. Ścieżka do katalogu z plikiem źródłowym (TempFile)
       SourceDir := ExtractFilePath(TempFile);
       if SourceDir <> '' then
         AProcess.Parameters.Add('-Fu' + SourceDir);
 
-      // Path to user's own modules (from FModulsPath)
-      // Ścieżka do własnych modułów użytkownika (z FModulsPath)
+      // Path to user's own modules
       if UserModulesPath <> '' then
       begin
         AProcess.Parameters.Add('-Fu' + UserModulesPath);
         MemoLogs.Lines.Add(TranslateAddUserModulesPath + UserModulesPath);
       end;
 
-      // Path to modules shipped with the IDE (relative)
-      // Ścieżka do modułów dostarczonych z IDE (względna)
+      // Path to modules shipped with the IDE
       IdeDirectory := ExtractFilePath(Application.ExeName);
       IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + TranslateModules;
       MemoLogs.Lines.Add(TranslateCheckModulesDir + IdeModulesPath);
@@ -2456,13 +2496,10 @@ begin
            MemoLogs.Lines.Add(TranslateAddCustomModulesPath + IdeModulesPath);
         end
         else
-            MemoLogs.Lines.Add(TranslateIDeModulesPathSkipDuplicate);
+           MemoLogs.Lines.Add(TranslateIDeModulesPathSkipDuplicate);
       end
       else
         MemoLogs.Lines.Add(TranslateCustModulesDirNotFound + IdeModulesPath + '.');
-
-      // Stop adding tracks
-      // Koniec dodawania ścieżek
 
       // Output file / Plik wyjściowy
       AProcess.Parameters.Add('-o' + Trim(OutputFile));
@@ -2473,38 +2510,36 @@ begin
 
       //Starting the compilation / Uruchomienie kompilacji
       MemoLogs.Lines.Add(TranslateStartComilationParam + AProcess.Parameters.Text);
-    //  MemoLogs.Lines.Add('### FFpcPath (z LoadFpc): ' + FFpcPath);
-     // MemoLogs.Lines.Add('### AProcess.Executable (zanim uruchomiono): ' + AProcess.Executable);
+
       AProcess.Execute;
       AProcess.WaitOnExit;
 
-      // Capture and display the result
-      // Przechwycenie i wyświetlenie wyniku
+      // Capture and display the result / Przechwycenie wyniku
       OutputLines.LoadFromStream(AProcess.Output);
       MemoLogs.Lines.AddStrings(OutputLines);
 
       // Checking the completion status
-      // Sprawdzenie statusu zakończenia
       if AProcess.ExitStatus = 0 then
       begin
         MemoLogs.Lines.Add(TranslateCompilationSuccses + OutputFile);
-        // if FileExists(TempFile) then DeleteFile(TempFile);
       end
       else
-      begin
-        MemoLogs.Lines.Add(TranslateErrCompilationCode + IntToStr(AProcess.ExitStatus));
-      end;
-
+        begin
+          MemoLogs.Lines.Add(TranslateErrCompilationCode + IntToStr(AProcess.ExitStatus));
+        end;
     finally
       AProcess.Free;
       OutputLines.Free;
     end;
-
   except
     on E: Exception do
       MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
   end;
-  if FileExists(TempFile) then DeleteFile(TempFile);
+  finally
+    if FileExists(TempFile) then
+       DeleteFile(TempFile);
+  end;
+
 end;
 
 
@@ -3156,6 +3191,8 @@ begin
 
 
 end;
+
+
 
 procedure TFormMain.LoadProjectTree;
 var

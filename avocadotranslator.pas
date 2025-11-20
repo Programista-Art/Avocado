@@ -5,7 +5,7 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,DefaultTranslator,LCLTranslator;
+  Classes, Math, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,DefaultTranslator,LCLTranslator;
 
 type
   TReplaceRule = record
@@ -70,12 +70,13 @@ end;
     procedure AddLocalVariable(const VarName, VarType: string; NoAssign: Boolean = False; const AInitialValue: string = '');
     function TryParseDeclaration(const Line: string; out VarName, VarType, InitValue: string): Boolean;
 
+    function GetWindowsCP(const DetectedName: string): string;
   public
     //Ustawienia dyrektyw kompilatora
     procedure AddCompilerDirective(PascalCode: TStringList);
     function Translate(const AvocadoCode: TStrings): TStringList;
-
-
+    function DetectCodePage(const Source: string): string;
+    procedure InsertCodePageDirective(PascalCode: TStringList);
     function duze_litery_ansi(const S: string): string;
     function male_litery_ansi(const S: string): string;
    // function IsKnownType(const S: string): Boolean;
@@ -301,6 +302,127 @@ uses
 
 { TAvocadoTranslator }
 
+function TAvocadoTranslator.DetectCodePage(const Source: string): string;
+var
+i: Integer;
+b: Byte;
+ScorePL, ScoreCZ, ScoreHU, ScoreDE, ScoreCYR, ScoreTR, ScoreAR, ScoreUTF8: Integer;
+Utf8Sequence: Integer;
+begin
+ ScorePL := 0;
+  ScoreCZ := 0;
+  ScoreHU := 0;
+  ScoreDE := 0;
+  ScoreCYR := 0;
+  ScoreTR := 0;
+  ScoreAR := 0;
+  ScoreUTF8 := 0;
+  Utf8Sequence := 0;
+
+  // 1. Najpierw analiza UTF-8 (sprawdzamy poprawność sekwencji bajtów)
+  for i := 1 to Length(Source) do
+  begin
+    b := Ord(Source[i]);
+    if Utf8Sequence > 0 then
+    begin
+      if (b and $C0) = $80 then // Bajt kontynuacji (10xxxxxx)
+      begin
+        Dec(Utf8Sequence);
+        if Utf8Sequence = 0 then Inc(ScoreUTF8); // Pełna sekwencja znaleziona
+      end
+      else Utf8Sequence := 0; // Błąd sekwencji
+    end
+    else
+    begin
+      if (b and $E0) = $C0 then Utf8Sequence := 1      // 2 bajty
+      else if (b and $F0) = $E0 then Utf8Sequence := 2 // 3 bajty
+      else if (b and $F8) = $F0 then Utf8Sequence := 3;// 4 bajty
+    end;
+  end;
+
+  // Jeśli znaleźliśmy dużo poprawnych sekwencji UTF-8 i nie było błędów, to UTF-8
+  if (ScoreUTF8 > 0) and (Utf8Sequence = 0) then Exit('utf8');
+
+
+  // 2. Analiza statystyczna dla stron kodowych 8-bitowych (Heurystyka)
+  for i := 1 to Length(Source) do
+  begin
+    b := Ord(Source[i]);
+
+    // Ignorujemy ASCII (< 128), interesują nas tylko "ogonki"
+    if b < 128 then Continue;
+
+    // CP1250 (Polska) - Szukamy znaków, które są literami w PL,
+    // a rzadkimi symbolami w CP1252 (np. Ą to ¥ w 1252)
+    // $A5(Ą), $B9(ą), $8C(Ś), $9C(ś), $8F(Ź), $9F(ź), $AF(Ż), $BF(ż)
+    if b in [$A5, $B9, $8C, $9C, $8F, $9F, $AF, $BF] then Inc(ScorePL, 5);
+    // $E6(ć), $EA(ę), $B3(ł) - te też punktujemy
+    if b in [$E6, $EA, $B3] then Inc(ScorePL, 1);
+
+    // CP1250 (Czechy/Słowacja) - charakterystyczne: Š, š, Ž, ž
+    if b in [$8A, $9A, $8E, $9E] then Inc(ScoreCZ, 5);
+
+    // CP1250 (Węgry) - Ő, ő, Ű, ű
+    if b in [$8A, $8B, $FB, $D5, $DB] then Inc(ScoreHU, 5);
+
+    // CP1252 (Niemiecki/Zachodni)
+    // Szukamy znaków, które w CP1250 są "śmieciami" lub rzadkie
+    // $C4(Ä), $D6(Ö), $DC(Ü), $DF(ß)
+    // Uwaga: $DF w CP1250 to też ß, ale $F6(ö) w CP1250 to znak dzielenia (÷)
+    if b in [$C4, $D6, $DC, $DF] then Inc(ScoreDE, 2);
+    if b = $F6 then Inc(ScoreDE, 5); // ö (bardzo częste w DE, w PL to znak dzielenia)
+
+    // CP1251 (Cyrylica)
+    // Rosyjski tekst jest gęsty w zakresie $C0-$FF.
+    if (b >= $C0) and (b <= $FF) then Inc(ScoreCYR, 1);
+    // Specyficzne znaki rzadko używane w łacińskich CP
+    if b in [$A8, $B8] then Inc(ScoreCYR, 10); // Ё, ё
+
+    // CP1254 (Turecki) - Ğ, Ş
+    if b in [$D0, $DD, $DE, $F0, $FD, $FE] then Inc(ScoreTR, 5);
+
+    // CP1256 (Arabski)
+    // Znaki arabskie są mapowane na wysokie bajty, ale trudno je odróżnić od cyrylicy
+    // bez analizy słownikowej. Dajemy punkty za specyficzne znaki łączące.
+    if b in [$81, $8D, $8E, $90, $98] then Inc(ScoreAR, 3);
+  end;
+
+  // 3. Wybieramy zwycięzcę
+  Result := 'cp1252'; // Domyślnie
+
+  // Prosta drabinka - kto ma najwięcej punktów
+  if (ScoreCYR > ScorePL) and (ScoreCYR > ScoreDE) and (ScoreCYR > ScoreTR) then Exit('cp1251');
+  if (ScorePL > ScoreDE) and (ScorePL > ScoreCZ) and (ScorePL > ScoreHU) then Exit('cp1250');
+  if (ScoreCZ > ScorePL) and (ScoreCZ > ScoreHU) then Exit('cp1250'); // CZ też używa 1250
+  if (ScoreHU > ScorePL) then Exit('cp1250'); // HU też używa 1250
+  if (ScoreTR > ScoreDE) and (ScoreTR > ScorePL) then Exit('cp1254');
+  if (ScoreAR > ScoreCYR) and (ScoreAR > ScorePL) then Exit('cp1256');
+
+  // Jeśli wygrywa DE lub wynik jest niejednoznaczny
+  if ScoreDE >= ScorePL then Result := 'cp1252';
+end;
+
+procedure TAvocadoTranslator.InsertCodePageDirective(PascalCode: TStringList);
+var
+  CP: string;
+  WholeText: string;
+  i: Integer;
+begin
+    // (żeby nie dublować, jeśli np. użytkownik wpisał ją ręcznie w asm{})
+    for i := 0 to Min(10, PascalCode.Count - 1) do
+    begin
+      if Pos('{$codepage', LowerCase(PascalCode[i])) > 0 then Exit;
+      if Pos('{$mode', LowerCase(PascalCode[i])) > 0 then
+      begin
+         Break;
+      end;
+    end;
+
+    WholeText := PascalCode.Text;
+    CP := DetectCodePage(WholeText);
+
+    PascalCode.Insert(0, '{$codepage ' + CP + '}');
+end;
 
 
 function TAvocadoTranslator.TranslateProcedureHeader(const Line: string): string;
@@ -1511,6 +1633,66 @@ begin
   end;
 end;
 
+function TAvocadoTranslator.GetWindowsCP(const DetectedName: string): string;
+var
+  LowerName: string;
+begin
+  LowerName := LowerCase(DetectedName);
+
+    // 1. UTF-8 (Najważniejszy standard)
+    if (LowerName = 'utf8') or (LowerName = 'utf-8') then
+      Exit('65001'); // 65001 to identyfikator UTF-8 w Windows Console
+
+    // 2. Rozpoznawanie konkretnych stron kodowych (Windows ANSI)
+    case LowerName of
+      // Europa Środkowa (Polska, Czechy, Słowacja, Węgry, Słowenia)
+      'cp1250', 'windows-1250', '1250': Exit('1250');
+
+      // Cyrylica (Rosja, Ukraina, Białoruś, Bułgaria)
+      'cp1251', 'windows-1251', '1251': Exit('1251');
+
+      // Europa Zachodnia (Anglia, Niemcy, Francja, Hiszpania, Włochy)
+      'cp1252', 'windows-1252', '1252': Exit('1252');
+
+      // Grecki
+      'cp1253', 'windows-1253', '1253': Exit('1253');
+
+      // Turecki
+      'cp1254', 'windows-1254', '1254': Exit('1254');
+
+      // Hebrajski
+      'cp1255', 'windows-1255', '1255': Exit('1255');
+
+      // Arabski
+      'cp1256', 'windows-1256', '1256': Exit('1256');
+
+      // Kraje Bałtyckie (Litwa, Łotwa, Estonia)
+      'cp1257', 'windows-1257', '1257': Exit('1257');
+
+      // Wietnamski
+      'cp1258', 'windows-1258', '1258': Exit('1258');
+
+      // Tajski
+      'cp874',  'windows-874',  '874':  Exit('874');
+    end;
+
+    // 3. Logika ogólna (Fallback)
+    // Jeśli funkcja wykrywająca zwróciła coś w stylu "cp932" (japoński),
+    // a nie ma tego w 'case', wycinamy "cp" i zwracamy numer.
+    if AnsiStartsText('cp', LowerName) then
+    begin
+      Result := Copy(LowerName, 3, MaxInt);
+      // Proste zabezpieczenie: kodowanie musi być liczbą
+      if StrToIntDef(Result, -1) = -1 then
+        Result := '1252'; // Jeśli to nie liczba, wracamy do domyślnego
+    end
+    else
+    begin
+      // 4. Ostateczna wartość domyślna (Europa Zachodnia / USA)
+      Result := '1252';
+    end;
+end;
+
 
 procedure TAvocadoTranslator.AddCompilerDirective(PascalCode: TStringList);
 var
@@ -1532,7 +1714,10 @@ begin
     begin
       PascalCode.Insert(DirectIndex, '{$H+}');
       PascalCode.Insert(DirectIndex, '{$mode objfpc}');
-      PascalCode.Insert(DirectIndex, '{$codepage utf8}');
+      //PascalCode.Insert(DirectIndex, '{$codepage cp1250}');
+      //automatycznie wykrywa
+
+      //PascalCode.Insert(DirectIndex, '{$codepage utf8}');
 
       // Opcjonalnie asm:
       if NeedsAsmIntel then
@@ -1543,7 +1728,10 @@ begin
       // Gdyby z jakiegoś powodu "program" nie było:
       PascalCode.Insert(0, '{$H+}');
       PascalCode.Insert(0, '{$mode objfpc}');
-      PascalCode.Insert(0, '{$codepage utf8}');
+      //PascalCode.Insert(0, '{$codepage utf8}');
+      //PascalCode.Insert(0, '{$codepage cp1250}');
+      //automatycznie wykrywa
+
       if NeedsAsmIntel then
         PascalCode.Insert(0, '{$ASMMODE intel}');
     end;
@@ -3407,12 +3595,18 @@ NextTrimmedLowerLine: string;
 LowerLine: string;
 ProcedureDepth: Integer;
 j: integer;
+DetectedCodePage: string;
+WinCP: string;
 begin
     // --- 1. Inicjalizacja ---
   SetLength(FVariables, 0);
   FInRepeatBlock := False;
   FInMultiLineComment := False;
   FInProcedureBody := False; // Używane tylko przez Pętlę 1
+
+  //Wykrywam kodowanie na podstawie calego kodu źródłowego
+  DetectedCodePage := DetectCodePage(AvocadoCode.Text);
+  WinCP := GetWindowsCP(DetectedCodePage);
 
   PascalCode := TStringList.Create;
   UsesList := TStringList.Create;
@@ -3581,9 +3775,21 @@ begin
         //PascalCode.Add('  fpsystem(''chcp 65001'');');
   	 //PascalCode.Add('  {$ENDIF}');
          PascalCode.Add('{$IFDEF WINDOWS}');
-             PascalCode.Add('  SetConsoleCP(CP_UTF8);');
-             PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
+             //dynamiczne kodowanie
+             PascalCode.Add('  SetConsoleCP(' + WinCP + ');');
+             PascalCode.Add('  SetConsoleOutputCP(' + WinCP + ');');
+             //PascalCode.Add('  SetConsoleCP(CP_UTF8);');
+             //PascalCode.Add('  SetConsoleOutputCP(CP_UTF8);');
+             (*
+             PascalCode.Add('   SetConsoleOutputCP(1250);');
+             PascalCode.Add('   SetConsoleCP(1250);');
+             PascalCode.Add('   SetTextCodePage(Output, 1250);');
+             *)
+
          PascalCode.Add('{$ENDIF}');
+         // Ustawienie strony kodowej dla standardowego wyjścia (ważne dla FPC RTL)
+          PascalCode.Add('  SetTextCodePage(Output, ' + WinCP + ');');
+          PascalCode.Add('  SetTextCodePage(Input, ' + WinCP + ');');
 
 
   	 // --- 9. Inicjalizacja zmiennych ---
@@ -3656,6 +3862,8 @@ begin
   	 // --- 11. Zakończenie ---
   	 PascalCode.Add('  Readln;');
   	 PascalCode.Add('end.');
+         //InsertCodePageDirective(PascalCode);
+         PascalCode.Insert(0, '{$codepage ' + DetectedCodePage + '}');
   	 Result := PascalCode;
 
   finally
@@ -3665,6 +3873,8 @@ begin
    ExistingLabes.Free
   end;
   end;
+
+
 
 
 
