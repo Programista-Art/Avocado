@@ -11,13 +11,7 @@ uses
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
   AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
   DefaultTranslator, SynEditTypes, Math,
-  LCLTranslator, LCLType, StrUtils, Types,
-  //nowe
-  SynFacilHighlighter,
-  SynFacilBasic,
-  SynFacilCompletion,
-  SynFacilUtils
-  ;
+  LCLTranslator, LCLType, StrUtils, Types;
 
 type
   PNodeRec = ^TNodeRec;
@@ -1839,6 +1833,7 @@ begin
   //Updating comment list. / Aktualizacja listy komentarzy.
   ListCommentsFromSynEdit;
   end;
+
 end;
 
 procedure TFormMain.MenuSaveAsClick(Sender: TObject);
@@ -1891,7 +1886,7 @@ begin
     sFileName := '';
   //If the file has not been saved, we force it to save before compiling
   // Jeśli plik nie został zapisany, wymuszam zapisanie przed kompilacją
-  if sFileName = '' then
+  if (sFileName = '') then
   begin
     DlgResult := MessageDlg(TranslateAttention, TranslateSaveProject,
                             mtConfirmation, [mbYes, mbNo], 0);
@@ -2030,7 +2025,7 @@ begin
     FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
     FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
     FModulsPath := Ini.ReadString('main', 'Units', 'moduly');
-    InstantFpcPath := Ini.ReadString('main', 'instantfpc', '');
+    InstantFpcPath := Ini.ReadString('main', 'instantfpc', '\fpc\3.2.2\bin\x86_64-win64\instantfpc.exe');
 
     //loads the programm language into the UI
     lang := Ini.ReadString('defaultlanguage','language','en');
@@ -2313,34 +2308,28 @@ var
   // BOM dla UTF-8 to bajty: EF BB BF
   BOM: array[0..2] of Byte = ($EF, $BB, $BF);
 begin
-  SD.DefaultExt := 'avocado';
-  SD.Filter := 'Avocado files (*.avocado)|*.avocado|All files (*.*)|*.*';
+      SD.DefaultExt := 'avocado';
+      SD.Filter := 'Avocado files (*.avocado)|*.avocado|All files (*.*)|*.*';
 
-  if SD.Execute then
-  begin
-    // Używamy strumienia plikowego dla pełnej kontroli nad bajtami
-    Stream := TFileStream.Create(SD.FileName, fmCreate);
-    try
-      // 1. Zapisz BOM (Znacznik UTF-8) na początku pliku
-      // Dzięki temu kompilator FPC oraz Notatnik Windows od razu rozpoznają kodowanie.
-      Stream.WriteBuffer(BOM, 3);
+      if SD.Execute then
+      begin
+        Stream := TFileStream.Create(SD.FileName, fmCreate);
+        try
+          Stream.WriteBuffer(BOM, 3);
+          OutputString := SynEditCode.Lines.Text;
 
-      // 2. Pobierz tekst z SynEdit
-      // W Lazarusie SynEdit.Lines.Text jest zawsze w pamięci jako UTF-8.
-      OutputString := SynEditCode.Lines.Text;
+          // Zapisz treść pliku
+          if OutputString <> '' then
+            Stream.WriteBuffer(Pointer(OutputString)^, Length(OutputString));
 
-      // 3. Zapisz treść pliku
-      if OutputString <> '' then
-        Stream.WriteBuffer(Pointer(OutputString)^, Length(OutputString));
+        finally
+          Stream.Free;
+        end;
 
-    finally
-      Stream.Free;
-    end;
-
-    // Aktualizacja zmiennych w programie
-    ZapisanaNazwaPliku := ChangeFileExt(ExtractFileName(SD.FileName), '');
-    FileNamePr := SD.FileName;
-  end;
+        // Aktualizacja zmiennych w programie
+        ZapisanaNazwaPliku := ChangeFileExt(ExtractFileName(SD.FileName), '');
+        FileNamePr := SD.FileName;
+      end;
   {
   SD.DefaultExt := 'avocado';
   SD.Filter := 'Avocado files (*.avocado)|*.avocado|All files (*.*)|*.*';

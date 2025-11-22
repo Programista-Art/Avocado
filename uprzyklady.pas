@@ -27,6 +27,7 @@ type
    procedure DoubleClickLoadToSynEdit;
   public
 
+
   end;
 
 var
@@ -105,8 +106,6 @@ end;
 
 procedure TFormPrzyklady.DoubleClickLoadToSynEdit;
 begin
-  // Sprawdź czy coś jest wybrane
- // if noExampleListBox.ItemIndex = -1 then
   if ExampleListBox.ItemIndex = -1 then
   begin
     ShowMessage(TranslateNoItemSelected);
@@ -116,8 +115,6 @@ begin
   // Buduj ścieżkę do folderu przykładów
    FolderPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'examples' + PathDelim;
 
-
-  // Debug - pokaż ścieżkę (można usunąć w wersji produkcyjnej)
  // ShowMessage('Ścieżka: ' + FolderPath);
 
   try

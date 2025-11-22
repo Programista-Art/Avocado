@@ -1,26 +1,25 @@
 object FormSettingIntepreter: TFormSettingIntepreter
   Left = 436
-  Height = 273
+  Height = 385
   Top = 389
   Width = 469
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Settings'
-  ClientHeight = 273
+  ClientHeight = 385
   ClientWidth = 469
-  Color = clWhite
   Position = poMainFormCenter
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 241
+    Top = 353
     Width = 469
     Align = alBottom
-    BevelColor = 5197647
+    BevelColor = clMenu
     ClientHeight = 32
     ClientWidth = 469
-    Color = clWindowFrame
+    Color = cl3DLight
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -74,7 +73,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
-      Color = clWindowFrame
+      Color = cl3DLight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWindowText
       Font.Pitch = fpVariable
@@ -113,7 +112,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Width = 455
       Align = alTop
       BorderSpacing.Around = 5
-      Color = clWindowFrame
+      Color = cl3DLight
       Font.Color = clWindowText
       ParentFont = False
       TabOrder = 0
@@ -130,18 +129,18 @@ object FormSettingIntepreter: TFormSettingIntepreter
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Height = 65
-    Top = 176
+    Height = 88
+    Top = 264
     Width = 469
-    Align = alClient
+    Align = alTop
     Caption = 'Platform'
-    ClientHeight = 45
+    ClientHeight = 68
     ClientWidth = 465
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
     object ComboBoboxPlatforms: TComboBox
-      Left = 5
+      Left = 8
       Height = 23
       Top = 8
       Width = 147
@@ -158,6 +157,39 @@ object FormSettingIntepreter: TFormSettingIntepreter
       Style = csDropDownList
       TabOrder = 0
       Text = 'x86_64-win64'
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Height = 88
+    Top = 176
+    Width = 469
+    Align = alTop
+    Caption = 'Link to Instant FPC'
+    ClientHeight = 68
+    ClientWidth = 465
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 4
+    object EditLinkToInstantFPC: TEdit
+      Left = 5
+      Height = 23
+      Top = 5
+      Width = 455
+      Align = alTop
+      BorderSpacing.Around = 5
+      Color = cl3DLight
+      TabOrder = 0
+    end
+    object SpbLoadFolderFPC1: TSpeedButton
+      Left = 5
+      Height = 22
+      Top = 35
+      Width = 23
+      Align = alCustom
+      Images = ImageList1
+      ImageIndex = 1
+      OnClick = SpbLoadFolderFPC1Click
     end
   end
   object ImageList1: TImageList

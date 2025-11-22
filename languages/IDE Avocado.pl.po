@@ -598,6 +598,10 @@ msgstr "Platforma"
 msgid "Link to fpc.exe"
 msgstr "LInk do fpc.exe"
 
+#: tformsettingintepreter.groupbox3.caption
+msgid "Link to Instant FPC"
+msgstr ""
+
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link to FPC folder"
 msgstr "Link do folderu FPC"
@@ -1052,4 +1056,12 @@ msgstr "Plik nie istnieje: "
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
 msgstr "Nie wybrano żadnego elementu"
+
+#: usettings.translatedatasaved
+msgid "Data saved"
+msgstr ""
+
+#: usettings.translateinformation
+msgid "Information"
+msgstr ""
 

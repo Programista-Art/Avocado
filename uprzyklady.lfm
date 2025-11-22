@@ -41,7 +41,8 @@ object FormPrzyklady: TFormPrzyklady
     Width = 395
     Align = alClient
     BorderSpacing.Around = 10
-    ItemHeight = 0
+    Directory = 'D:\Lazarus4.2'
+    ItemHeight = 15
     TabOrder = 1
     OnDblClick = ExampleListBoxDblClick
   end

@@ -638,6 +638,10 @@ msgstr "Platform"
 msgid "Link to fpc.exe"
 msgstr "fpc.exe link"
 
+#: tformsettingintepreter.groupbox3.caption
+msgid "Link to Instant FPC"
+msgstr ""
+
 #: tformsettingintepreter.spbsavefolderfpc.caption
 #, fuzzy
 #| msgid "Link do folderu FPC"
@@ -1102,5 +1106,13 @@ msgstr ""
 
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
+msgstr ""
+
+#: usettings.translatedatasaved
+msgid "Data saved"
+msgstr ""
+
+#: usettings.translateinformation
+msgid "Information"
 msgstr ""
 
