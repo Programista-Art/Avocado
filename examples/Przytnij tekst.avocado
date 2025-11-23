@@ -1,0 +1,18 @@
+program siema
+glowny
+test
+koniec.
+
+procedura test
+poczatek
+tekst a = '   sss'
+tekst b  = ''
+pisz_linie(a)
+b = przytnij(a)
+pisz_linie(b)
+b = przytnij_z_lewa(a)
+pisz_linie(b)
+
+koniec
+
+

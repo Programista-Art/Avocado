@@ -29,11 +29,11 @@ msgstr "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(
 
 #: avocadotranslator.functiontrimright
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
-msgstr "Nieprawidłowa składnia funkcji trim_right. Oczekiwano: przytnij_z_prawa(s) "
+msgstr "Nieprawidłowa składnia funkcji trim_right. Oczekiwano: przytnij_z_prawa(s)"
 
 #: avocadotranslator.incorrectorderbracketstrimleft
 msgid "Incorrect order of brackets in trim_left()."
-msgstr ""
+msgstr "Nieprawidłowa kolejność nawiasów w trim_left()."
 
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Incorrect variable declaration: "
@@ -41,35 +41,57 @@ msgstr "Nieprawidłowa deklaracja zmiennej:  "
 
 #: avocadotranslator.translateazoruntil
 msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
-msgstr ""
+msgstr "Błąd: Znaleziono \"aż / az \" lub \"until\" bez pasującego \"powtarzaj\""
+
+#: avocadotranslator.translatedeletefunctionrequires
+msgid "The delete function requires three arguments: s, index, count."
+msgstr "Funkcja usuń/usun/delete wymaga trzech argumentów: s, index, count"
 
 #: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
 msgid "Error: Found \"repeat\" inside another \"repeat\""
-msgstr ""
+msgstr "Błąd: Znaleziono \"dopóki\"/dopóki/while wewnątrz innego \"dopóki\""
 
 #: avocadotranslator.translateerrmissingconditionafteuntil
 msgid "Error: Missing condition after \"aż / az\" / \"until\""
-msgstr ""
+msgstr "Błąd: Znaleziono \"aż / az \" lub \"until\" bez pasującego \"dopóki/dopoki/while\""
 
 #: avocadotranslator.translateincorrectorderbracketstrim
 msgid "Incorrect order of brackets in trim()."
-msgstr ""
+msgstr "Nieprawidłowa kolejność nawiasów w przytnij / trim()."
 
 #: avocadotranslator.translateincorrectorderbracketstrimright
 msgid "Incorrect order of brackets in trim_right() / trim_right"
+msgstr "Nieprawidłowa kolejność nawiasów w przytnij_z_prawa() / trim_right"
+
+#: avocadotranslator.translateincorrectsyntaxlowercasefunction
+msgctxt "avocadotranslator.translateincorrectsyntaxlowercasefunction"
+msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
+msgstr ""
+
+#: avocadotranslator.translateincorrectsyntaxremovefunction
+msgid "Incorrect syntax of the remove/delete function. Expected: remove(s, index, count)"
+msgstr "Błędna składnia funkcji usuń / usun / delete. Oczekiwano: usuń(s, index, count)"
+
+#: avocadotranslator.translateincorrectsyntaxuppercasefunction
+msgid "Incorrect syntax of the uppercase function. Expected: duże_litery(s) or duze_litery(s) or upper_case(s)"
+msgstr "Błędna składnia funkcji duże_litery. Oczekiwano: duże_litery(s) lub duze_litery(s) lub upper_case(s)"
+
+#: avocadotranslator.translatelowercasefunctionsyntaxerror
+msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
+msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
 msgstr ""
 
 #: avocadotranslator.translatenobracketstrimfunction
 msgid "No brackets in the trim function."
-msgstr ""
+msgstr "Brak nawiasów w funkcji przytnij / trim."
 
 #: avocadotranslator.translatenobracketstrimleftfunction
 msgid "No brackets in the trim_left function."
-msgstr ""
+msgstr "Brak nawiasów w funkcji przytnij_z_lewa / trim_left."
 
 #: avocadotranslator.translatenobracketstrimrightfunction
 msgid "No brackets in the trim_right function."
-msgstr ""
+msgstr "Brak nawiasów w funkcji przytnij_z_prawa / trim_right."
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
@@ -737,7 +759,7 @@ msgstr "Błąd zapisu pliku tymczasowego: "
 
 #: unit1.interpretationcompleted
 msgid "Interpretation completed."
-msgstr "Zakończono interpretację"
+msgstr "Zakończono interpretację."
 
 #: unit1.newnamezprogram
 msgid "Enter the name of the program:"
@@ -804,7 +826,7 @@ msgstr "Sprawdź token API i połączenie internetowe"
 
 #: unit1.translatecheckmodulesdir
 msgid "Checking the IDE s own modules directory: "
-msgstr "Sprawdzanie katalogu własnych modułów IDE:"
+msgstr "Sprawdzanie katalogu własnych modułów IDE: "
 
 #: unit1.translatecodecorrect
 msgid "Code correct!"

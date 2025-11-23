@@ -133,3 +133,7 @@ dopoki
 az
 funkcja
 fuction
+male_litery 
+lower_case
+upper_case
+duze_litery

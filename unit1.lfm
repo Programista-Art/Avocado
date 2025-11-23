@@ -1934,6 +1934,10 @@ object FormMain: TFormMain
       'usuń'
       'usun'
       'delete'
+      'upper_case'
+      'duze_litery'
+      'male_litery '
+      'lower_case'
     )
     Position = 0
     LinesInWindow = 10
@@ -2080,6 +2084,7 @@ object FormMain: TFormMain
       'DłUGOść'
       'DOPOKI'
       'DOPóKI'
+      'DUZE_LITERY'
       'DUZE_LITERY_ANSI'
       'DUżE_LITERY_ANSI'
       'EOF'
@@ -2102,6 +2107,8 @@ object FormMain: TFormMain
       'LABEL'
       'LOSOWY'
       'LOSUJ'
+      'LOWER_CASE'
+      'MALE_LITERY '
       'MALE_LITERY_ANSI'
       'MALEJąCO'
       'MALEJąCO '
@@ -2147,6 +2154,7 @@ object FormMain: TFormMain
       'TRIM'
       'TRIM_LEFT'
       'TRIM_RIGHT'
+      'UPPER_CASE'
       'USTAW_DłUGOść '
       'USTAW_ZMIENNą_śRODOWISKOWą'
       'USUN'

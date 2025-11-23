@@ -55,6 +55,10 @@ msgstr "変数の宣言が正しくない： "
 msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
 msgstr ""
 
+#: avocadotranslator.translatedeletefunctionrequires
+msgid "The delete function requires three arguments: s, index, count."
+msgstr ""
+
 #: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
 msgid "Error: Found \"repeat\" inside another \"repeat\""
 msgstr ""
@@ -69,6 +73,24 @@ msgstr ""
 
 #: avocadotranslator.translateincorrectorderbracketstrimright
 msgid "Incorrect order of brackets in trim_right() / trim_right"
+msgstr ""
+
+#: avocadotranslator.translateincorrectsyntaxlowercasefunction
+msgctxt "avocadotranslator.translateincorrectsyntaxlowercasefunction"
+msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
+msgstr ""
+
+#: avocadotranslator.translateincorrectsyntaxremovefunction
+msgid "Incorrect syntax of the remove/delete function. Expected: remove(s, index, count)"
+msgstr ""
+
+#: avocadotranslator.translateincorrectsyntaxuppercasefunction
+msgid "Incorrect syntax of the uppercase function. Expected: duże_litery(s) or duze_litery(s) or upper_case(s)"
+msgstr ""
+
+#: avocadotranslator.translatelowercasefunctionsyntaxerror
+msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
+msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
 msgstr ""
 
 #: avocadotranslator.translatenobracketstrimfunction

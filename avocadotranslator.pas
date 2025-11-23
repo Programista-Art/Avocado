@@ -302,7 +302,11 @@ resourcestring
   IncorrectOrderBracketsTrimLeft = 'Incorrect order of brackets in trim_left().';
   TranslateNoBracketsTrimRightFunction = 'No brackets in the trim_right function.';
   TranslateIncorrectOrderBracketsTrimRight = 'Incorrect order of brackets in trim_right() / trim_right';
-
+  TranslateIncorrectSyntaxRemovefunction = 'Incorrect syntax of the remove/delete function. Expected: remove(s, index, count)';
+  TranslateDeleteFunctionRequires = 'The delete function requires three arguments: s, index, count.';
+  TranslateIncorrectSyntaxUppercaseFunction = 'Incorrect syntax of the uppercase function. Expected: duże_litery(s) or duze_litery(s) or upper_case(s)';
+  TranslateIncorrectSyntaxLowercaseFunction = 'Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)';
+  TranslateLowercaseFunctionSyntaxError = 'Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)';
 
 implementation
 uses
@@ -1788,116 +1792,58 @@ begin
     AStrings[I] := Trim(AStrings[I]);
 end;
 
-
-
 procedure TAvocadoTranslator.ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 var
-Parts: TStringArray;
-VarType, VarName, Value, TrimmedLine,LowerLine: string;
-InstrukcjaWarunkowa: TStringArray;
-KodWtedy, KodInaczej,LowerTrimmedLine: string;
-TempList: TStringList;
-Statements: TStringArray;
-Statement: string;
-Start,EndPos: Integer;
-pisznfStart,pisznfEndPos:Integer;
-// Do przechowywania argumentów pisznf
-FullArgs: String;
-// Do przechowywania wyodrębnionego stringu formatującego
-FormatStringArg:String;
-//Do przechowywania wyodrębnionej listy zmiennych jako string
-VarListStringArg : String;
-//Do przechowywania pozycji ostatniego przecinka
-LastCommaPos:Integer;
-// Nowe zmienne dla zapytaj z 3 argumentami
-ApiKeyArg, ModelArg, QuestionArg: string;
-TranslatedApiKey, TranslatedModel: string;
-Args: TStringArray;
-TargetVar: string;
-ArgStr: string;
-ProcessedArgs: string;
-StartPos, EndPoss,VarParts: Integer;
-Param: string;
-Partss,ParamParts: TStringArray;
-SExpr, StartExpr, CountExpr: string;
-SubstringExpr,InsertSource: string;
-InsertTarget: string;
-InsertIndex: string;
-StartPosInsert, EndPosInsert: Integer;
-ParamInsert, TrimmedPart: string;
-ParamPartsInsert, TempParamParts: array of string;
-InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
-Part: string; // for-in loop variable
-//zmienne dla funkcji usun()
-StartPosDelete, EndPosDelete: Integer;
-ParamDelete, StringExprDelete, IndexExprDelete, CountExprDelete: string;
-ParamPartsDelete: TStringArray;
-//zmienne dla funkcji duże_litery()
-StartPosUpper, EndPosUpper: Integer;
-ParamUpper: string;
-TranslatedParamUpper: string;
-//zmienne dla funkcji małe_litery()
-StartPosLower, EndPosLower: Integer;
-ParamLower: string;
-TranslatedParamLower: string;
-//zmienne dla funkcji przytnij()
-Expression,Call: string;
-StartPosTrim, EndPosTrim: Integer;
-ParamTrim: string;
-TranslatedParam: string;
-// zmienne dla funkcji powtórz_znak()
+  // Deklaracje zmiennych
+  Parts: TStringArray;
+  VarType, VarName, Value, TrimmedLine, LowerTrimmedLine, LowerLine: string;
+  TranslatedLine, CleanLowerLine: string;
+  StartPos, EndPos, OpenPos: Integer;
+  StartPosTrim, EndPosTrim: Integer;
+  ParamTrim, TranslatedParam: string;
+  NeedsSemicolon: Boolean;
+  ConditionStr, TranslatedCondition: string;
+  AssignPos: Integer;
+  LineBefore, LineAfter: string;
+  VName, VType, VInit: string;
+  ParamPartsList: TStringList;
+  ParamStr: string;
+  TranslatedCharArg, TranslatedCountArg: string;
+  StartPosInsert, EndPosInsert: Integer;
+  ParamInsert: string;
+  ParamPartsInsert: TStringArray;
+  InsertSourceIn, InsertTargetIn, InsertIndexIn: string;
+  StartPosDelete, EndPosDelete: Integer;
+  ParamDelete: string;
+  ParamPartsDelete: TStringArray;
+  StringExprDelete, IndexExprDelete, CountExprDelete: string;
+  StartPosUpper, EndPosUpper: Integer;
+  ParamUpper, TranslatedParamUpper: string;
+  StartPosLower, EndPosLower: Integer;
+  ParamLower, TranslatedParamLower: string;
+  StartPosCompareStr, EndPosCompareStr: Integer;
+  ParamCompareStr, TranslatedS1Arg, TranslatedS2Arg: string;
+  ParamPartsCompareStr: TStringArray;
+  ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
+  ZamienTekst_Param: string;
+  ZamienTekst_ParamParts, ZamienTekst_AssignParts: TStringArray;
+  ZamienTekst_TextArg, ZamienTekst_FromArg, ZamienTekst_ToArg, ZamienTekst_ResultVar: string;
+  DLAnsi_Param, DLAnsi_VarName: string;
+  DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
+  DLAnsi_AssignParts: TStringArray;
+  AssignStartPos, AssignEndPos: Integer;
+  AssignParamStr, AssignTranslatedParam1, AssignTranslatedParam2: string;
+  AssignParams: TStringList;
+  CodePascal: string;
+  Site: string;
+  Param, Expression, Call: string;
+  SExpr, StartExpr, CountExpr, SubstringExpr: string;
+  FullArgs: String;
 
-TranslatedCharArg, TranslatedCountArg: string;
-//zmienne dla funkcji porównaj_tekst()
-StartPosCompareStr, EndPosCompareStr: Integer;
-ParamCompareStr: string;
-ParamPartsCompareStr: TStringArray;
-TranslatedS1Arg, TranslatedS2Arg: string;
-//Zamień
-ZamienTekst_ParamParts, ZamienTekst_AssignParts: TStringArray;
-ZamienTekst_Param, ZamienTekst_TextArg, ZamienTekst_FromArg, ZamienTekst_ToArg, ZamienTekst_ResultVar: string;
-ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
-//Ansi
-DLAnsi_Param, DLAnsi_VarName, DLAnsi_Value: string;
-DLAnsi_FuncPos, DLAnsi_LParenPos, DLAnsi_RParenPos: Integer;
-DLAnsi_AssignParts:TStringArray;
-//Pliki
-AssignStartPos, AssignEndPos: Integer;
-AssignParamStr: string;
-AssignParams: TStringList;
-AssignTranslatedParam1, AssignTranslatedParam2: string;
-Result_plik: string;
-// to separate lines (e.g. Split) / do rozdzielania linii (np. Split)
-PartsPobierz: TStringArray;
-//Ping
-Site: String;
-//While loop
-OpenPos: Integer;
-//Value: string;
-//EqualPos: Integer;
-CodePascal: String;
-ParamStr: string;
-TranslatedLine: string;
-NeedsSemicolon: Boolean;
-// NextTrimmedLowerLine: String;
-//LabelName: string;
-//SpacePos: Integer;
-//dla repeat until
-ConditionStr: String;
-TranslatedCondition: String;
-//LowerLineRepeat: String;
-CleanLowerLine: string;
-//StartPos, EndPos: Integer;
-AssignPos: Integer;
-LineBefore, LineAfter: string;
-VName, VType, VInit: string;
 begin
-
   TrimmedLine := Trim(Line);
-  LowerTrimmedLine := LowerCase(TrimmedLine);
 
-  //OBSŁUGA KOMENTARZY
-  // 1. Sprawdź, czy jesteśmy W ŚRODKU komentarza z poprzedniej linii
+  // --- 1. OBSŁUGA KOMENTARZY ---
   if FInMultiLineComment then
   begin
     EndPos := Pos('*)', TrimmedLine);
@@ -1906,19 +1852,13 @@ begin
       FInMultiLineComment := False;
       TrimmedLine := Trim(Copy(TrimmedLine, EndPos + 2, MaxInt));
     end
-    else
-    begin
-      Exit;
-    end;
+    else Exit;
   end;
 
-  // 2. Pętla wycinająca komentarze (* ... *) z wnętrza linii
-  //    (np. kod (* komentarz *) kod )
   while Pos('(*', TrimmedLine) > 0 do
   begin
     StartPos := Pos('(*', TrimmedLine);
     EndPos := Pos('*)', TrimmedLine);
-
     if (EndPos > StartPos) then
     begin
       LineBefore := Copy(TrimmedLine, 1, StartPos - 1);
@@ -1933,76 +1873,45 @@ begin
     end;
   end;
 
-  // 3. Wytnij komentarze jednoliniowe //
   if Pos('//', TrimmedLine) > 0 then
-  begin
     TrimmedLine := Trim(Copy(TrimmedLine, 1, Pos('//', TrimmedLine) - 1));
-  end;
 
-  // 4. Jeśli po wycięciu wszystkich komentarzy nic nie zostało, zakończ
-  if TrimmedLine = '' then
-    Exit;
+  if TrimmedLine = '' then Exit;
 
   LowerTrimmedLine := LowerCase(TrimmedLine);
   LowerLine := AnsiLowerCase(TrimmedLine);
 
-
-
-  // Zignoruj puste linie i komentarze
-  if (TrimmedLine = '') or TrimmedLine.StartsWith('//') then
-  Exit;
-  LowerTrimmedLine := LowerCase(TrimmedLine);
-
-   // --- BLOK OBSŁUGI PROCEDUR ---
- { if (LowerTrimmedLine.StartsWith('procedura ')) or
-     (LowerTrimmedLine.StartsWith('procedure ')) then
-  begin
-    // Użyj nowej funkcji do przetłumaczenia nagłówka
-    PascalCode.Add( TranslateProcedureHeader(TrimmedLine) );
-    Exit; // Zakończ przetwarzanie tej linii
-  end;
- }
-
- if TryParseDeclaration(TrimmedLine, VName, VType, VInit) then
+  // --- 2. OBSŁUGA DEKLARACJI ZMIENNYCH (Wewnątrz procedur) ---
+  if TryParseDeclaration(TrimmedLine, VName, VType, VInit) then
   begin
     if VInit <> '' then
     begin
-      // To jest: lc x = 10 -> Zamieniamy na: x := 10;
       if (NextTrimmedLowerLine <> 'inaczej') and (NextTrimmedLowerLine <> 'else') then
         PascalCode.Add(VName + ' := ' + TranslateExpression(VInit) + ';')
       else
         PascalCode.Add(VName + ' := ' + TranslateExpression(VInit));
     end;
-    // Jeśli VInit pusty (np. "lc x"), nic nie robimy (zmienna jest w var, inicjalizacja niepotrzebna)
     Exit;
   end;
 
-  // 2. Grupujemy wszystkie słowa kluczowe w jeden 'case'
+  // --- 3. SŁOWA KLUCZOWE ---
   case LowerTrimmedLine of
-    'początek',
-    'poczatek',
-    'główny',
-    'glowny',
-    'start',
-    'main':
+    'początek', 'poczatek', 'główny', 'glowny', 'start', 'main':
     begin
       PascalCode.Add('begin');
       Exit;
     end;
 
-    'koniec',
-    'end':
+    'koniec', 'end':
     begin
-      // Sprawdza następną linię dla 'inaczej' / 'else'
       if (NextTrimmedLowerLine = 'inaczej') or (NextTrimmedLowerLine = 'else') then
-        PascalCode.Add('end') // Bez średnika
+        PascalCode.Add('end')
       else
-        PascalCode.Add('end;'); // Ze średnikiem
+        PascalCode.Add('end;');
       Exit;
     end;
 
-    'koniec.',
-    'end.':
+    'koniec.', 'end.':
     begin
       PascalCode.Add('Readln;');
       PascalCode.Add('end.');
@@ -2010,1488 +1919,718 @@ begin
     end;
   end;
 
- // Obsługa instrukcji zwróć / return
+  // Obsługa zwróć / return
   if (Pos('zwróć', LowerTrimmedLine) = 1) or (Pos('zwroc', LowerTrimmedLine) = 1) or (Pos('return', LowerTrimmedLine) = 1) then
   begin
-    StartPosTrim := Pos(' ', TrimmedLine); // Szukamy spacji po słowie kluczowym
+    StartPosTrim := Pos(' ', TrimmedLine);
     if StartPosTrim = 0 then
     begin
        PascalCode.Add('Exit;');
     end
     else
     begin
-      // return wyrażenie
       ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, MaxInt));
-      if ParamTrim.EndsWith(';') then
-        Delete(ParamTrim, Length(ParamTrim), 1);
-
+      if ParamTrim.EndsWith(';') then Delete(ParamTrim, Length(ParamTrim), 1);
       TranslatedParam := TranslateExpression(ParamTrim);
       PascalCode.Add('Result := ' + TranslatedParam + ';');
-      //PascalCode.Add('Exit(' + TranslatedParam + ');');
       PascalCode.Add('Exit;');
     end;
     Exit;
   end;
 
+  // Warunek IF / ELSE
+  NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
+  if (LowerTrimmedLine.StartsWith('jeżeli ')) or (LowerTrimmedLine.StartsWith('jezeli ')) or (LowerTrimmedLine.StartsWith('if ')) or
+     (LowerTrimmedLine.StartsWith('inaczej')) or (LowerTrimmedLine.StartsWith('else')) then
+  begin
+     TranslatedLine := TrimmedLine;
+     TranslatedLine := StringReplace(TranslatedLine, 'inaczej jeżeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'inaczej jezeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'jeżeli', 'if', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'jezeli', 'if', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'wtedy', 'then', [rfReplaceAll, rfIgnoreCase]);
+     TranslatedLine := StringReplace(TranslatedLine, 'inaczej', 'else', [rfReplaceAll, rfIgnoreCase]);
+     PascalCode.Add(TranslatedLine);
+     Exit;
+  end;
 
-     //warunek If then else
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'inaczej');
-    if (LowerTrimmedLine.StartsWith('jeżeli ')) or (LowerTrimmedLine.StartsWith('jezeli ')) or (LowerTrimmedLine.StartsWith('if ')) or
-      (LowerTrimmedLine.StartsWith('inaczej')) or (LowerTrimmedLine.StartsWith('else')) then
-    begin
-      TranslatedLine := TrimmedLine;
-      TranslatedLine := StringReplace(TranslatedLine, 'inaczej jeżeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
-      TranslatedLine := StringReplace(TranslatedLine, 'inaczej jezeli', 'else if', [rfReplaceAll, rfIgnoreCase]);
-      TranslatedLine := StringReplace(TranslatedLine, 'jeżeli', 'if', [rfReplaceAll, rfIgnoreCase]);
-      TranslatedLine := StringReplace(TranslatedLine, 'wtedy', 'then', [rfReplaceAll, rfIgnoreCase]);
-      TranslatedLine := StringReplace(TranslatedLine, 'inaczej', 'else', [rfReplaceAll, rfIgnoreCase]);
+  // Break / Continue
+  if (LowerTrimmedLine = 'przerwij') or (LowerTrimmedLine = 'break') or (LowerTrimmedLine = 'break;') then
+  begin PascalCode.Add('break;'); Exit; end;
+  if (LowerTrimmedLine = 'kontynuuj') or (LowerTrimmedLine = 'continue') or (LowerTrimmedLine = 'continue;') then
+  begin PascalCode.Add('continue;'); Exit; end;
 
-      PascalCode.Add(TranslatedLine);
-      Exit;
-    end;
+  // Pętle
+  if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
+  begin
+    if (Pos(' w ', LowerTrimmedLine) > 0) or (Pos(' in ', LowerTrimmedLine) > 0) then
+      ProcessForInLoop(TrimmedLine, PascalCode)
+    else
+      ProcessForLoop(TrimmedLine, PascalCode);
+    Exit;
+  end;
 
-    //break / continue w petlach
-    CleanLowerLine := LowerTrimmedLine;
-    if CleanLowerLine.EndsWith(';') then
-      CleanLowerLine := CleanLowerLine.Substring(0, CleanLowerLine.Length - 1);
-    if (CleanLowerLine = 'przerwij') or (CleanLowerLine = 'break') then
-    begin
-      PascalCode.Add('break;');
-      Exit;
-    end;
-    if (CleanLowerLine = 'kontynuuj') or (CleanLowerLine = 'continue') then
-    begin
-      PascalCode.Add('continue;');
-      Exit;
-    end;
+  if (LowerTrimmedLine.StartsWith('dopóki ')) or (LowerTrimmedLine.StartsWith('dopoki ')) or (LowerTrimmedLine.StartsWith('while ')) then
+  begin ProcessWhileLoop(TrimmedLine, PascalCode); Exit; end;
 
-    //Petle
-    //petal for ('dla ... do ... wykonać')
-     NeedsSemicolon := (NextTrimmedLowerLine <> 'dla');
-     NeedsSemicolon := (NextTrimmedLowerLine <> 'for');
-
-    if (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('for ')) then
-     begin
-      // Sprawdzam, CZY TO JEST PĘTLA FOR...IN
-      // Sprawdzamy obecność ' w ' lub ' in ' (ze spacjami)
-        if (Pos(' w ', LowerTrimmedLine) > 0) or (Pos(' in ', LowerTrimmedLine) > 0) then
-        begin
-          ProcessForInLoop(TrimmedLine, PascalCode);
-          Exit;
-        end
-        else
-        begin
-          ProcessForLoop(TrimmedLine, PascalCode);
-          Exit;
-        end;
-    end;
-
-
-    //Petla while do
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'while');
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'dopóki');
-    NeedsSemicolon := (NextTrimmedLowerLine <> 'dopoki');
-    if (LowerTrimmedLine.StartsWith('dopóki ')) or (LowerTrimmedLine.StartsWith('dopoki '))
-       or (LowerTrimmedLine.StartsWith('while ')) then
-    begin
-      ProcessWhileLoop(TrimmedLine, PascalCode);
-      Exit;
-    end;
-
-  // Obsługa petli repeat until
-  //Obsługa POCZĄTKU pętli (repeat / powtarzaj)
   if (LowerLine = 'powtarzaj') or (LowerLine = 'repeat') then
   begin
-    // Sprawdzenie, czy nie jesteśmy już w bloku
-    if FInRepeatBlock then
-      raise Exception.Create(TranslateErrFoundRepeatInsideAnotherRepeat);
-
-    PascalCode.Add('repeat');
-    FInRepeatBlock := True;
-    Exit;
+    if FInRepeatBlock then raise Exception.Create(TranslateErrFoundRepeatInsideAnotherRepeat);
+    PascalCode.Add('repeat'); FInRepeatBlock := True; Exit;
   end;
 
-  // Obsługa konca pętli until / aż
-  if LowerLine.StartsWith('aż ') or  LowerLine.StartsWith('az ') or LowerLine.StartsWith('until ') then
+  if LowerLine.StartsWith('aż ') or LowerLine.StartsWith('az ') or LowerLine.StartsWith('until ') then
   begin
-    if not FInRepeatBlock then
-      raise Exception.Create(TranslateAzorUntil);
-    if LowerLine.StartsWith('aż ') or LowerLine.StartsWith('az ') then
-      ConditionStr := Trim(Copy(TrimmedLine, 4, Length(TrimmedLine)))
-    else
-      ConditionStr := Trim(Copy(TrimmedLine, 7, Length(TrimmedLine)));
-    if ConditionStr = '' then
-      raise Exception.Create(TranslateErrMissingConditionAfteuntil);
+    if not FInRepeatBlock then raise Exception.Create(TranslateAzorUntil);
+    if LowerLine.StartsWith('aż ') or LowerLine.StartsWith('az ') then ConditionStr := Trim(Copy(TrimmedLine, 4, Length(TrimmedLine)))
+    else ConditionStr := Trim(Copy(TrimmedLine, 7, Length(TrimmedLine)));
+    if ConditionStr = '' then raise Exception.Create(TranslateErrMissingConditionAfteuntil);
     TranslatedCondition := TranslateExpression(ConditionStr);
     PascalCode.Add('until ' + TranslatedCondition + ';');
-    FInRepeatBlock := False;
+    FInRepeatBlock := False; Exit;
+  end;
+
+  // --- 4. FUNKCJE SPECJALNE (PRIORYTETOWE) ---
+
+  // powtórz_znak / repeat_char
+  if (Pos('powtórz_znak(', LowerTrimmedLine) > 0) or (Pos('powtorz_znak(', LowerTrimmedLine) > 0) or (Pos('repeat_char(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia funkcji powtórz_znak.');
+    if StartPos > EndPos then raise Exception.Create('Błędna składnia: nawias zamykający przed otwierającym.');
+
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 2 then raise Exception.Create('Funkcja powtórz_znak wymaga dwóch argumentów.');
+      TranslatedCharArg := TranslateExpression(Trim(ParamPartsList[0]));
+      TranslatedCountArg := TranslateExpression(Trim(ParamPartsList[1]));
+    finally ParamPartsList.Free; end;
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
+      if Pos(' ', VarName) > 0 then VarName := Trim(Copy(VarName, RPos(' ', VarName) + 1, MaxInt));
+      PascalCode.Add(VarName + ' := StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
+    end
+    else PascalCode.Add('StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
     Exit;
   end;
 
-
-  //Insert() function support
-  // Obsługa funkcji wstaw() → Insert()
-   if (AnsiLowerCase(TrimmedLine).StartsWith('wstaw(')) or
-          (AnsiLowerCase(TrimmedLine).StartsWith('insert(')) then
+  // Insert
+  if (AnsiLowerCase(TrimmedLine).StartsWith('wstaw(')) or (AnsiLowerCase(TrimmedLine).StartsWith('insert(')) then
   begin
-    StartPosInsert := Pos('(', TrimmedLine);
-    EndPosInsert   := RPos(')', TrimmedLine);
-
-    if (StartPosInsert <= 0) or (EndPosInsert <= StartPosInsert) then
-      raise Exception.Create(ErrorPrint);
-
+    StartPosInsert := Pos('(', TrimmedLine); EndPosInsert := RPos(')', TrimmedLine);
+    if (StartPosInsert <= 0) or (EndPosInsert <= StartPosInsert) then raise Exception.Create(ErrorPrint);
     ParamInsert := Trim(Copy(TrimmedLine, StartPosInsert + 1, EndPosInsert - StartPosInsert - 1));
     ParamPartsInsert := ParamInsert.Split([',']);
-
-    if Length(ParamPartsInsert) <> 3 then
-      raise Exception.Create(FunctionInsert);
-
+    if Length(ParamPartsInsert) <> 3 then raise Exception.Create(FunctionInsert);
     InsertSourceIn := TranslateExpression(Trim(ParamPartsInsert[0]));
     InsertTargetIn := TranslateExpression(Trim(ParamPartsInsert[1]));
     InsertIndexIn  := TranslateExpression(Trim(ParamPartsInsert[2]));
-
     PascalCode.Add('Insert(' + InsertSourceIn + ', ' + InsertTargetIn + ', ' + InsertIndexIn + ');');
     Exit;
-  end
+  end;
 
-
-   // obsługa funkcji przytnij() -> Trim()
-   // Funkcja przytnij('') / trim('')
-   else if Pos('=', TrimmedLine) > 0 then
-   begin
-     VarName := Trim(Copy(TrimmedLine, 1, Pos('=', TrimmedLine) - 1));
-     Expression := Trim(Copy(TrimmedLine, Pos('=', TrimmedLine) + 1, MaxInt));
-     //tekst a = ..
-     if Pos(' ', VarName) > 0 then
-       VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
-   end;
-   Call := Expression;
-
-   if StartsText('przytnij(', Call) or
-      StartsText('trim(', Call) then
-   begin
-     StartPos := Pos('(', Call);
-     EndPos := LastDelimiter(')', Call);
-      // Walidacja nawiasów
-     if (StartPos = 0) or (EndPos = 0) then
-       raise Exception.Create(TranslateNoBracketsTrimFunction);
-
-     if StartPos > EndPos then
-       raise Exception.Create(TranslateIncorrectOrderBracketsTrim);
-     ParamTrim := Trim(Copy(Call, StartPos + 1, EndPos - StartPos - 1));
-     TranslatedParam := TranslateExpression(ParamTrim );
-     if VarName <> '' then
-     begin
-       PascalCode.Add(VarName + ' := Trim(' + TranslatedParam + ');');
-     end
-     else
-     begin
-       PascalCode.Add('Trim(' + TranslatedParam + ');');
-     end;
-     Exit;
-   end;
-
-
-   // Funkcja przytnij_z_lewa('') / trim_left('')
-   if Pos('=', TrimmedLine) > 0 then
-   begin
-     VarName := Trim(Copy(TrimmedLine, 1, Pos('=', TrimmedLine) - 1));
-     Expression := Trim(Copy(TrimmedLine, Pos('=', TrimmedLine) + 1, MaxInt));
-     if Pos(' ', VarName) > 0 then
-       VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
-   end;
-   Call := Expression;
-
-   // Sprawdzamy, czy wyrażenie zawiera docelową funkcję
-   if StartsText('przytnij_z_lewa(', Call) or
-      StartsText('trim_left(', Call) then
-   begin
-     StartPos := Pos('(', Call);
-     // Używamy LastDelimiter dla znalezienia ostatniego nawiasu ')'
-     EndPos := LastDelimiter(')', Call);
-      // Walidacja nawiasów
-     if (StartPos = 0) or (EndPos = 0) then
-       raise Exception.Create(TranslateNobracketsTrimleftfunction);
-
-     if StartPos > EndPos then
-       raise Exception.Create(IncorrectOrderBracketsTrimLeft);
-     // Parsowanie parametru
-     ParamTrim := Trim(Copy(Call, StartPos + 1, EndPos - StartPos - 1));
-     TranslatedParam := TranslateExpression(ParamTrim );
-     if VarName <> '' then
-     begin
-       // Jeśli mamy nazwę zmiennej, generujemy przypisanie
-       PascalCode.Add(VarName + ' := TrimLeft(' + TranslatedParam + ');');
-     end
-     else
-     begin
-       // W przeciwnym razie, generujemy samo wywołanie
-       PascalCode.Add('TrimLeft(' + TranslatedParam + ');');
-     end;
-     Exit;
-   end;
-
-   //Obsługa funkcji przytnij_z_prawa() / TrimRight()
-   if Pos('=', TrimmedLine) > 0 then
-   begin
-     VarName := Trim(Copy(TrimmedLine, 1, Pos('=', TrimmedLine) - 1));
-     Expression := Trim(Copy(TrimmedLine, Pos('=', TrimmedLine) + 1, MaxInt));
-     if Pos(' ', VarName) > 0 then
-       VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
-   end;
-   Call := Expression;
-   if StartsText('przytnij_z_prawa(', Call) or
-      StartsText('trim_right(', Call) then
-   begin
-     StartPos := Pos('(', Call);
-     // Używamy LastDelimiter dla znalezienia ostatniego nawiasu ')'
-     EndPos := LastDelimiter(')', Call);
-      // Walidacja nawiasów
-     if (StartPos = 0) or (EndPos = 0) then
-       raise Exception.Create(TranslateNoBracketsTrimRightFunction);
-
-     if StartPos > EndPos then
-       raise Exception.Create(TranslateIncorrectOrderBracketsTrimRight);
-     ParamTrim := Trim(Copy(Call, StartPos + 1, EndPos - StartPos - 1));
-     TranslatedParam := TranslateExpression(ParamTrim);
-     if VarName <> '' then
-     begin
-       PascalCode.Add(VarName + ' := TrimRight(' + TranslatedParam + ');');
-     end
-     else
-     begin
-       PascalCode.Add('TrimRight(' + TranslatedParam + ');');
-     end;
-     Exit;
-   end;
-
-     if AnsiStartsText('pascal_line', TrimmedLine) or
-       AnsiStartsText('pascal_linia{', TrimmedLine) then
-    begin
-      if AnsiStartsText('pascal_line', TrimmedLine) then
-        CodePascal := Trim(Copy(TrimmedLine, Length('pascal_line') + 1, MaxInt))
-      else
-        CodePascal := Trim(Copy(TrimmedLine, Length('pascal_linia{') + 1, MaxInt));
-
-      if CodePascal.StartsWith('{') then
-        CodePascal := CodePascal.Substring(1).Trim;
-
-      if CodePascal.EndsWith('}') then
-        CodePascal := CodePascal.Substring(0, CodePascal.Length - 1).Trim;
-
-      PascalCode.Add(CodePascal);
-      Exit;
-    end;
-
-
-    //pascal code blok kodu
-    if not InPurePascalBlock then
-    begin
-      if AnsiStartsText('pascal {', TrimmedLine) or
-         AnsiStartsText('pascal{', TrimmedLine) then
-      begin
-        InPurePascalBlock := True;
-        Exit;
-      end;
-    end
-    else
-    begin
-      if Trim(TrimmedLine) = '}' then
-      begin
-        InPurePascalBlock := False;
-        Exit;
-      end;
-      PascalCode.Add(TrimmedLine);
-      Exit;
-    end;
-
-
-    //kod assemblera blok kodu
-    if not InPurePascalBlock then
-    begin
-      if AnsiStartsText('asm {', TrimmedLine) or
-         AnsiStartsText('asm{', TrimmedLine) then
-      begin
-        InPurePascalBlock := True;
-        //Dodaje do dyrektywy kompilatora {$ASMMODE intel}
-        NeedsAsmIntel := True;
-        Exit;
-      end;
-    end
-    else
-    begin
-      if Trim(TrimmedLine) = '}' then
-      begin
-        InPurePascalBlock := False;
-        Exit;
-      end;
-      PascalCode.Add(TrimmedLine);
-      Exit;
-    end;
-
-  //funkcja usun / delete
-  // Obsługa funkcji usuń() -> Delete()
-  // Obsługa funkcji usuń() oraz delete() -> Delete()
-  // ZMIANA: Dodano warunek "or (Pos('delete(', LowerTrimmedLine) > 0)"
-  if (Pos('usuń(', LowerTrimmedLine) > 0) or (Pos('delete(', LowerTrimmedLine) > 0) then
+  // Trim (z przypisaniem lub bez)
+  if (Pos('=', TrimmedLine) > 0) and ((Pos('przytnij(', LowerTrimmedLine) > 0) or (Pos('trim(', LowerTrimmedLine) > 0)) then
   begin
-      StartPosDelete := Pos('(', TrimmedLine);
-      EndPosDelete   := RPos(')', TrimmedLine);
+     VarName := Trim(Copy(TrimmedLine, 1, Pos('=', TrimmedLine) - 1));
+     Expression := Trim(Copy(TrimmedLine, Pos('=', TrimmedLine) + 1, MaxInt));
+     if Pos(' ', VarName) > 0 then VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
+     Call := Expression;
+     if StartsText('przytnij(', Call) or StartsText('trim(', Call) then
+     begin
+        StartPos := Pos('(', Call); EndPos := LastDelimiter(')', Call);
+        if (StartPos = 0) or (EndPos = 0) then raise Exception.Create(TranslateNoBracketsTrimFunction);
+        if StartPos > EndPos then raise Exception.Create(TranslateIncorrectOrderBracketsTrim);
+        ParamTrim := Trim(Copy(Call, StartPos + 1, EndPos - StartPos - 1));
+        TranslatedParam := TranslateExpression(ParamTrim);
+        if VarName <> '' then PascalCode.Add(VarName + ' := Trim(' + TranslatedParam + ');')
+        else PascalCode.Add('Trim(' + TranslatedParam + ');');
+        Exit;
+     end;
+  end;
 
-      if (StartPosDelete = 0) or (EndPosDelete = 0) then
-        raise Exception.Create('Błędna składnia funkcji usuń/delete. Oczekiwano: usuń(s, index, count)');
+  // TrimLeft
+  if (Pos('=', TrimmedLine) > 0) and ((Pos('przytnij_z_lewa(', LowerTrimmedLine) > 0) or (Pos('trim_left(', LowerTrimmedLine) > 0)) then
+  begin
+     VarName := Trim(Copy(TrimmedLine, 1, Pos('=', TrimmedLine) - 1));
+     Expression := Trim(Copy(TrimmedLine, Pos('=', TrimmedLine) + 1, MaxInt));
+     if Pos(' ', VarName) > 0 then VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
+     Call := Expression;
+     if StartsText('przytnij_z_lewa(', Call) or StartsText('trim_left(', Call) then
+     begin
+        StartPos := Pos('(', Call); EndPos := LastDelimiter(')', Call);
+        if (StartPos = 0) or (EndPos = 0) then raise Exception.Create(TranslateNobracketsTrimleftfunction);
+        if StartPos > EndPos then raise Exception.Create(IncorrectOrderBracketsTrimLeft);
+        ParamTrim := Trim(Copy(Call, StartPos + 1, EndPos - StartPos - 1));
+        TranslatedParam := TranslateExpression(ParamTrim);
+        if VarName <> '' then PascalCode.Add(VarName + ' := TrimLeft(' + TranslatedParam + ');')
+        else PascalCode.Add('TrimLeft(' + TranslatedParam + ');');
+        Exit;
+     end;
+  end;
 
-      ParamDelete := Trim(Copy(TrimmedLine,
-                               StartPosDelete + 1,
-                               EndPosDelete - StartPosDelete - 1));
+  // TrimRight
+  if (Pos('=', TrimmedLine) > 0) and ((Pos('przytnij_z_prawa(', LowerTrimmedLine) > 0) or (Pos('trim_right(', LowerTrimmedLine) > 0)) then
+  begin
+     VarName := Trim(Copy(TrimmedLine, 1, Pos('=', TrimmedLine) - 1));
+     Expression := Trim(Copy(TrimmedLine, Pos('=', TrimmedLine) + 1, MaxInt));
+     if Pos(' ', VarName) > 0 then VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
+     Call := Expression;
+     if StartsText('przytnij_z_prawa(', Call) or StartsText('trim_right(', Call) then
+     begin
+        StartPos := Pos('(', Call); EndPos := LastDelimiter(')', Call);
+        if (StartPos = 0) or (EndPos = 0) then raise Exception.Create(TranslateNoBracketsTrimRightFunction);
+        if StartPos > EndPos then raise Exception.Create(TranslateIncorrectOrderBracketsTrimRight);
+        ParamTrim := Trim(Copy(Call, StartPos + 1, EndPos - StartPos - 1));
+        TranslatedParam := TranslateExpression(ParamTrim);
+        if VarName <> '' then PascalCode.Add(VarName + ' := TrimRight(' + TranslatedParam + ');')
+        else PascalCode.Add('TrimRight(' + TranslatedParam + ');');
+        Exit;
+     end;
+  end;
 
-      // UWAGA: Zalecane użycie SplitArguments zamiast Split
+  // Pascal Line (wstawka)
+  if AnsiStartsText('pascal_line', TrimmedLine) or AnsiStartsText('pascal_linia{', TrimmedLine) then
+  begin
+    if AnsiStartsText('pascal_line', TrimmedLine) then CodePascal := Trim(Copy(TrimmedLine, Length('pascal_line') + 1, MaxInt))
+    else CodePascal := Trim(Copy(TrimmedLine, Length('pascal_linia{') + 1, MaxInt));
+    if CodePascal.StartsWith('{') then CodePascal := CodePascal.Substring(1).Trim;
+    if CodePascal.EndsWith('}') then CodePascal := CodePascal.Substring(0, CodePascal.Length - 1).Trim;
+    PascalCode.Add(CodePascal);
+    Exit;
+  end;
+
+  // Bloki kodu (Pascal / ASM)
+  if not InPurePascalBlock then
+  begin
+    if AnsiStartsText('pascal {', TrimmedLine) or AnsiStartsText('pascal{', TrimmedLine) then begin InPurePascalBlock := True; Exit; end;
+    if AnsiStartsText('asm {', TrimmedLine) or AnsiStartsText('asm{', TrimmedLine) then begin InPurePascalBlock := True; NeedsAsmIntel := True; Exit; end;
+  end
+  else
+  begin
+    if Trim(TrimmedLine) = '}' then begin InPurePascalBlock := False; Exit; end;
+    PascalCode.Add(TrimmedLine); Exit;
+  end;
+
+  // Delete
+  if (Pos('usuń(', LowerTrimmedLine) > 0) or (Pos('delete(', LowerTrimmedLine) > 0) or (Pos('usun(', LowerTrimmedLine) > 0) then
+  begin
+      StartPosDelete := Pos('(', TrimmedLine); EndPosDelete := RPos(')', TrimmedLine);
+      if (StartPosDelete = 0) or (EndPosDelete = 0) then raise Exception.Create(TranslateIncorrectSyntaxRemovefunction);
+      ParamDelete := Trim(Copy(TrimmedLine, StartPosDelete + 1, EndPosDelete - StartPosDelete - 1));
       ParamPartsDelete := ParamDelete.Split([',']);
-
-      if Length(ParamPartsDelete) <> 3 then
-        raise Exception.Create('Funkcja usuń/delete wymaga trzech argumentów: s, index, count');
-
-      // Tłumaczenie argumentów (ważne dla zagnieżdżonych funkcji)
+      if Length(ParamPartsDelete) <> 3 then raise Exception.Create(TranslateDeleteFunctionRequires);
       StringExprDelete := TranslateExpression(Trim(ParamPartsDelete[0]));
-      IndexExprDelete  := TranslateExpression(Trim(ParamPartsDelete[1]));
-      CountExprDelete  := TranslateExpression(Trim(ParamPartsDelete[2]));
+      IndexExprDelete := TranslateExpression(Trim(ParamPartsDelete[1]));
+      CountExprDelete := TranslateExpression(Trim(ParamPartsDelete[2]));
 
-      // Sprawdzamy przypisanie
       AssignPos := Pos('=', TrimmedLine);
-
-      // Warunek: Przypisanie musi wystąpić PRZED nawiasem otwierającym funkcję
       if (AssignPos > 0) and (AssignPos < StartPosDelete) then
       begin
           VarName := Trim(Copy(TrimmedLine, 1, AssignPos - 1));
-
-          // Usuwanie typu zmiennej (np. "tekst b" -> "b")
-          if Pos(' ', VarName) > 0 then
-             VarName := Trim(Copy(VarName, RPos(' ', VarName) + 1, MaxInt));
-
-          // Kopia -> Modyfikacja
+          if Pos(' ', VarName) > 0 then VarName := Trim(Copy(VarName, RPos(' ', VarName) + 1, MaxInt));
           PascalCode.Add(VarName + ' := ' + StringExprDelete + ';');
           PascalCode.Add('Delete(' + VarName + ', ' + IndexExprDelete + ', ' + CountExprDelete + ');');
       end
-      else
-      begin
-          // Bezpośrednie wywołanie na zmiennej
-          PascalCode.Add('Delete(' + StringExprDelete + ', ' + IndexExprDelete + ', ' + CountExprDelete + ');');
-      end;
-
+      else PascalCode.Add('Delete(' + StringExprDelete + ', ' + IndexExprDelete + ', ' + CountExprDelete + ');');
       Exit;
   end;
-    {
-  // Obsługa funkcji usun() -> Delete()
-  if Pos('usuń(', LowerTrimmedLine) > 0 then
+
+  // UpperCase
+  if (Pos('duże_litery(', LowerTrimmedLine) > 0) or (Pos('duze_litery(', LowerTrimmedLine) > 0) or (Pos('upper_case(', LowerTrimmedLine) > 0) then
   begin
-    StartPosDelete := Pos('(', TrimmedLine);
-    EndPosDelete   := RPos(')', TrimmedLine);
-
-    if (StartPosDelete = 0) or (EndPosDelete = 0) then
-      raise Exception.Create('Błędna składnia funkcji usuń. Oczekiwano: usuń(s, index, count)');
-
-    if StartPosDelete > EndPosDelete then
-      raise Exception.Create('Błędna składnia funkcji usuń. Oczekiwano: usuń(s, index, count)');
-
-    ParamDelete := Trim(Copy(TrimmedLine, StartPosDelete + 1, EndPosDelete - StartPosDelete - 1));
-    ParamPartsDelete := ParamDelete.Split([',']);
-
-    if Length(ParamPartsDelete) <> 3 then
-      raise Exception.Create('Funkcja usuń wymaga trzech argumentów: s, index, count');
-
-    StringExprDelete := TranslateExpression(Trim(ParamPartsDelete[0]));
-    IndexExprDelete  := TranslateExpression(Trim(ParamPartsDelete[1]));
-    CountExprDelete  := TranslateExpression(Trim(ParamPartsDelete[2]));
-
-    PascalCode.Add('Delete(' + StringExprDelete + ', ' + IndexExprDelete + ', ' + CountExprDelete + ');');
-    Exit;
-  end;
-  }
-
-  // Obsługa funkcji duże_litery() -> UpperCase()
-  if Pos('duże_litery(', LowerTrimmedLine) > 0 then
-  begin
-    StartPosUpper := Pos('(', TrimmedLine);
-    EndPosUpper := RPos(')', TrimmedLine);
-
-    if (StartPosUpper = 0) or (EndPosUpper = 0) then
-      raise Exception.Create('Błędna składnia funkcji duże_litery. Oczekiwano: duże_litery(s)');
-
-    if StartPosUpper > EndPosUpper then
-      raise Exception.Create('Błędna składnia funkcji duże_litery. Oczekiwano: duże_litery(s)');
-
+    StartPosUpper := Pos('(', TrimmedLine); EndPosUpper := RPos(')', TrimmedLine);
+    if (StartPosUpper = 0) or (EndPosUpper = 0) then raise Exception.Create(TranslateIncorrectSyntaxUppercaseFunction);
+    if StartPosUpper > EndPosUpper then raise Exception.Create(TranslateIncorrectSyntaxUppercaseFunction);
     ParamUpper := Trim(Copy(TrimmedLine, StartPosUpper + 1, EndPosUpper - StartPosUpper - 1));
     TranslatedParamUpper := TranslateExpression(ParamUpper);
-
-    // Sprawdzamy, czy to przypisanie do zmiennej, czy samodzielne wywołanie
     if Pos('=', TrimmedLine) > 0 then
     begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
       PascalCode.Add(VarName + ' := UpperCase(' + TranslatedParamUpper + ');');
     end
-    else
-    begin
-      // Samodzielne wywołanie - nie ma sensu, ale transpilator musi to obsłużyć
-      PascalCode.Add('UpperCase(' + TranslatedParamUpper + ');');
-    end;
+    else PascalCode.Add('UpperCase(' + TranslatedParamUpper + ');');
     Exit;
   end;
 
-  // Nowa obsługa funkcji małe_litery() -> LowerCase()
-  if Pos('małe_litery(', LowerTrimmedLine) > 0 then
+  // LowerCase
+  if (Pos('małe_litery(', LowerTrimmedLine) > 0) or (Pos('male_litery(', LowerTrimmedLine) > 0) or (Pos('lower_case(', LowerTrimmedLine) > 0) then
   begin
-    StartPosLower := Pos('(', TrimmedLine);
-    EndPosLower := RPos(')', TrimmedLine);
-
-    if (StartPosLower = 0) or (EndPosLower = 0) then
-      raise Exception.Create('Błędna składnia funkcji małe_litery. Oczekiwano: małe_litery(s)');
-
-    if StartPosLower > EndPosLower then
-      raise Exception.Create('Błędna składnia funkcji małe_litery. Oczekiwano: małe_litery(s)');
-
+    StartPosLower := Pos('(', TrimmedLine); EndPosLower := RPos(')', TrimmedLine);
+    if (StartPosLower = 0) or (EndPosLower = 0) then raise Exception.Create(TranslateIncorrectSyntaxLowercaseFunction);
+    if StartPosLower > EndPosLower then raise Exception.Create(TranslateLowercaseFunctionSyntaxError);
     ParamLower := Trim(Copy(TrimmedLine, StartPosLower + 1, EndPosLower - StartPosLower - 1));
     TranslatedParamLower := TranslateExpression(ParamLower);
-
     if Pos('=', TrimmedLine) > 0 then
     begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
       PascalCode.Add(VarName + ' := LowerCase(' + TranslatedParamLower + ');');
     end
-    else
-    begin
-      PascalCode.Add('LowerCase(' + TranslatedParamLower + ');');
-    end;
+    else PascalCode.Add('LowerCase(' + TranslatedParamLower + ');');
     Exit;
   end;
 
-
-   // Obsługa funkcji powtórz_znak() -> StringOfChar()    nowa
-  if (Pos('powtórz_znak(', LowerTrimmedLine) > 0) or (Pos('repeat_char(', LowerTrimmedLine) > 0) then
-  begin
-    StartPos := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine);
-
-    if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błędna składnia funkcji powtórz_znak/repeat_char. Oczekiwano: powtórz_znak(znak, liczba) lub repeat_char(znak, liczba)');
-
-    if StartPos > EndPos then
-      raise Exception.Create('Błędna składnia funkcji powtórz_znak/repeat_char. Oczekiwano: powtórz_znak(znak, liczba) lub repeat_char(znak, liczba)');
-
-    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-    ParamParts := ParamStr.Split([',']);
-
-    if Length(ParamParts) <> 2 then
-      raise Exception.Create('Funkcja powtórz_znak/repeat_char wymaga dwóch argumentów: znak i liczba');
-
-    TranslatedCharArg := TranslateExpression(Trim(ParamParts[0]));
-    TranslatedCountArg := TranslateExpression(Trim(ParamParts[1]));
-
-    if Pos('=', TrimmedLine) > 0 then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
-      PascalCode.Add(VarName + ' := StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
-    end
-    else
-    begin
-      PascalCode.Add('StringOfChar(' + TranslatedCharArg + ', ' + TranslatedCountArg + ');');
-    end;
-    Exit;
-  end;
-
-
-     // Nowa obsługa funkcji porównaj_tekst() -> CompareStr()
+  // CompareStr
   if Pos('porównaj_tekst(', LowerTrimmedLine) > 0 then
   begin
-    StartPosCompareStr := Pos('(', TrimmedLine);
-    EndPosCompareStr := RPos(')', TrimmedLine);
-
-    if (StartPosCompareStr = 0) or (EndPosCompareStr = 0) then
-      raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
-
-    if StartPosCompareStr > EndPosCompareStr then
-      raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
-
+    StartPosCompareStr := Pos('(', TrimmedLine); EndPosCompareStr := RPos(')', TrimmedLine);
+    if (StartPosCompareStr = 0) or (EndPosCompareStr = 0) then raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
+    if StartPosCompareStr > EndPosCompareStr then raise Exception.Create('Błędna składnia funkcji porównaj_tekst. Oczekiwano: porównaj_tekst(s1, s2)');
     ParamCompareStr := Trim(Copy(TrimmedLine, StartPosCompareStr + 1, EndPosCompareStr - StartPosCompareStr - 1));
     ParamPartsCompareStr := ParamCompareStr.Split([',']);
-
-    if Length(ParamPartsCompareStr) <> 2 then
-      raise Exception.Create('Funkcja porównaj_tekst wymaga dwóch argumentów: s1 i s2');
-
+    if Length(ParamPartsCompareStr) <> 2 then raise Exception.Create('Funkcja porównaj_tekst wymaga dwóch argumentów: s1 i s2');
     TranslatedS1Arg := TranslateExpression(Trim(ParamPartsCompareStr[0]));
     TranslatedS2Arg := TranslateExpression(Trim(ParamPartsCompareStr[1]));
-
     if Pos('=', TrimmedLine) > 0 then
     begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
       PascalCode.Add(VarName + ' := CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
     end
-    else
-    begin
-      PascalCode.Add('CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
-    end;
+    else PascalCode.Add('CompareStr(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
     Exit;
   end;
 
-  // Obsługa funkcji zamień_tekst
+  // ReplaceStr
   if Pos('zamień_tekst(', LowerTrimmedLine) > 0 then
   begin
-    ZamienTekst_StartPos := Pos('(', TrimmedLine);
-    ZamienTekst_EndPos   := RPos(')', TrimmedLine);
-
-    if (ZamienTekst_StartPos = 0) or (ZamienTekst_EndPos = 0) then
-      raise Exception.Create('Błędna składnia zamień_tekst. Oczekiwano: zamień_tekst(text, from, to)');
-
+    ZamienTekst_StartPos := Pos('(', TrimmedLine); ZamienTekst_EndPos := RPos(')', TrimmedLine);
+    if (ZamienTekst_StartPos = 0) or (ZamienTekst_EndPos = 0) then raise Exception.Create('Błędna składnia zamień_tekst. Oczekiwano: zamień_tekst(text, from, to)');
     ZamienTekst_Param := Trim(Copy(TrimmedLine, ZamienTekst_StartPos + 1, ZamienTekst_EndPos - ZamienTekst_StartPos - 1));
     ZamienTekst_ParamParts := ZamienTekst_Param.Split([',']);
-
-    if Length(ZamienTekst_ParamParts) <> 3 then
-      raise Exception.Create('Funkcja zamień_tekst wymaga trzech argumentów: text, from, to');
-
-    ZamienTekst_TextArg := TranslateExpression(Trim(ZamienTekst_ParamParts[0])); // AText
-    ZamienTekst_FromArg := TranslateExpression(Trim(ZamienTekst_ParamParts[1])); // AFromText
-    ZamienTekst_ToArg   := TranslateExpression(Trim(ZamienTekst_ParamParts[2])); // AToText
-
-    // Sprawdzenie czy jest przypisanie
+    if Length(ZamienTekst_ParamParts) <> 3 then raise Exception.Create('Funkcja zamień_tekst wymaga trzech argumentów: text, from, to');
+    ZamienTekst_TextArg := TranslateExpression(Trim(ZamienTekst_ParamParts[0]));
+    ZamienTekst_FromArg := TranslateExpression(Trim(ZamienTekst_ParamParts[1]));
+    ZamienTekst_ToArg := TranslateExpression(Trim(ZamienTekst_ParamParts[2]));
     if Pos('=', TrimmedLine) > 0 then
     begin
-      ZamienTekst_AssignParts := TrimmedLine.Split(['='], 2);
-      ZamienTekst_ResultVar := Trim(ZamienTekst_AssignParts[0]);
+      ZamienTekst_AssignParts := TrimmedLine.Split(['='], 2); ZamienTekst_ResultVar := Trim(ZamienTekst_AssignParts[0]);
       PascalCode.Add(ZamienTekst_ResultVar + ' := ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
     end
-    else
-    begin
-      PascalCode.Add('ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
-    end;
-
+    else PascalCode.Add('ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
     Exit;
-  end
-
-
-  //Ansi
-
-    // Obsługa funkcji duże_litery_ansi
-    else if Pos('duże_litery_ansi', LowerTrimmedLine) > 0 then
-    begin
-      DLAnsi_FuncPos := Pos('duże_litery_ansi', LowerTrimmedLine);
-      if (DLAnsi_FuncPos = 1) or ((Pos('=', LowerTrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine))) then
-      begin
-        DLAnsi_LParenPos := Pos('(', TrimmedLine);
-        DLAnsi_RParenPos := RPos(')', TrimmedLine);
-        if (DLAnsi_LParenPos = 0) or (DLAnsi_RParenPos = 0) then
-          raise Exception.Create('Błędna składnia duże_litery_ansi. Oczekiwano: duże_litery_ansi(tekst)');
-
-        DLAnsi_Param := Trim(Copy(TrimmedLine, DLAnsi_LParenPos + 1, DLAnsi_RParenPos - DLAnsi_LParenPos - 1));
-
-        // z przypisaniem (b = duże_litery_ansi(...))
-        if (Pos('=', TrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine)) then
-        begin
-          DLAnsi_AssignParts := TrimmedLine.Split(['='], 2);
-          DLAnsi_VarName := Trim(DLAnsi_AssignParts[0]);
-          //PascalCode.Add(DLAnsi_VarName + ' := AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
-          PascalCode.Add(DLAnsi_VarName + ' := UTF8UpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
-        end
-        else
-        begin
-          // bez przypisania – samodzielne wywołanie
-          PascalCode.Add('AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
-        end;
-
-        Exit; // kluczowe: nie leć dalej do zwykłego przypisania
-      end;
-      // jeśli warunki wyżej nie spełnione, nie przechwytujemy — pozwól obsłużyć innym gałęziom
-    end;
-
-
-     // Nowa obsługa funkcji przypisz_plik() -> AssignFile()
-if AnsiStartsText('przypisz_plik(', TrimmedLine) then
-begin
-  AssignStartPos := Pos('(', TrimmedLine);
-  AssignEndPos := RPos(')', TrimmedLine);
-
-  if (AssignStartPos = 0) or (AssignEndPos = 0) then
-    raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
-
-  if AssignStartPos > AssignEndPos then
-    raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
-
-  AssignParamStr := Copy(TrimmedLine, AssignStartPos + 1, AssignEndPos - AssignStartPos - 1);
-  AssignParams := TStringList.Create;
-  try
-    // Podziel parametry na podstawie przecinków
-    SplitStringByChar(AssignParamStr, ',', AssignParams);
-
-
-    if AssignParams.Count <> 2 then
-      raise Exception.Create('Błędna liczba argumentów dla funkcji przypisz_plik. Oczekiwano 2 argumenty.');
-
-    if (Trim(AssignParams[0]) = '') or (Trim(AssignParams[1]) = '') then
-      raise Exception.Create('Argumenty funkcji przypisz_plik nie mogą być puste.');
-
-    // Przetłumacz każdy z parametrów
-    AssignTranslatedParam1 := TranslateExpression(AssignParams[0]);
-    AssignTranslatedParam2 := TranslateExpression(AssignParams[1]);
-
-    // Generowanie kodu Pascala
-    PascalCode.Add('AssignFile(' + AssignTranslatedParam1 + ', ' + AssignTranslatedParam2 + ');');
-    Exit;
-  finally
-    AssignParams.Free;
   end;
-end;
 
-//halt kończy program
-if Pos('zakończ(', LowerTrimmedLine) > 0 then
-begin
-  StartPosTrim := Pos('(', TrimmedLine);
-  EndPosTrim := RPos(')', TrimmedLine);
+  // UTF8UpperCase (duże_litery_ansi)
+  if Pos('duże_litery_ansi', LowerTrimmedLine) > 0 then
+  begin
+    DLAnsi_FuncPos := Pos('duże_litery_ansi', LowerTrimmedLine);
+    if (DLAnsi_FuncPos = 1) or ((Pos('=', LowerTrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine))) then
+    begin
+      DLAnsi_LParenPos := Pos('(', TrimmedLine); DLAnsi_RParenPos := RPos(')', TrimmedLine);
+      if (DLAnsi_LParenPos = 0) or (DLAnsi_RParenPos = 0) then raise Exception.Create('Błędna składnia duże_litery_ansi. Oczekiwano: duże_litery_ansi(tekst)');
+      DLAnsi_Param := Trim(Copy(TrimmedLine, DLAnsi_LParenPos + 1, DLAnsi_RParenPos - DLAnsi_LParenPos - 1));
+      if (Pos('=', TrimmedLine) > 0) and (DLAnsi_FuncPos > Pos('=', LowerTrimmedLine)) then
+      begin
+        DLAnsi_AssignParts := TrimmedLine.Split(['='], 2); DLAnsi_VarName := Trim(DLAnsi_AssignParts[0]);
+        PascalCode.Add(DLAnsi_VarName + ' := UTF8UpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
+      end
+      else PascalCode.Add('AnsiUpperCase(' + TranslateExpression(DLAnsi_Param) + ');');
+      Exit;
+    end;
+  end;
 
-  if (StartPosTrim = 0) or (EndPosTrim = 0) then
-    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(2)');
+  // --- 5. OBSŁUGA PLIKÓW ---
+  if AnsiStartsText('przypisz_plik(', TrimmedLine) or AnsiStartsText('assign_file(', TrimmedLine) then
+  begin
+    AssignStartPos := Pos('(', TrimmedLine); AssignEndPos := RPos(')', TrimmedLine);
+    if (AssignStartPos = 0) or (AssignEndPos = 0) then raise Exception.Create('Błędna składnia przypisz_plik(zmienna_plikowa, nazwa_pliku)');
+    if AssignStartPos > AssignEndPos then raise Exception.Create('Błędna składnia funkcji przypisz_plik. Oczekiwano: przypisz_plik(zmienna_plikowa, nazwa_pliku)');
+    AssignParamStr := Copy(TrimmedLine, AssignStartPos + 1, AssignEndPos - AssignStartPos - 1);
+    AssignParams := TStringList.Create;
+    try
+      SplitStringByChar(AssignParamStr, ',', AssignParams);
+      if AssignParams.Count <> 2 then raise Exception.Create('Błędna liczba argumentów dla funkcji przypisz_plik. Oczekiwano 2 argumenty.');
+      if (Trim(AssignParams[0]) = '') or (Trim(AssignParams[1]) = '') then raise Exception.Create('Argumenty funkcji przypisz_plik nie mogą być puste.');
+      AssignTranslatedParam1 := TranslateExpression(Trim(AssignParams[0]));
+      AssignTranslatedParam2 := TranslateExpression(Trim(AssignParams[1]));
+      PascalCode.Add('AssignFile(' + AssignTranslatedParam1 + ', ' + AssignTranslatedParam2 + ');');
+      Exit;
+    finally AssignParams.Free; end;
+  end;
 
-  if StartPosTrim > EndPosTrim then
-    raise Exception.Create('Błędna składnia funkcji zakończ. Oczekiwano: zakończ(2)');
+  if AnsiStartsText('otwórz_do_odczytu(', TrimmedLine) or AnsiStartsText('open_read(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia wczytaj_plik(f)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('Reset(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
 
-  ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
-  TranslatedParam := TranslateExpression(ParamTrim);
+  if AnsiStartsText('otwórz_do_zapisu(', TrimmedLine) or AnsiStartsText('open_save(', TrimmedLine) or AnsiStartsText('открыть_сохранить(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia otwórz_do_zapisu(f)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('Rewrite(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
 
-  if Pos('=', TrimmedLine) > 0 then
+  if AnsiStartsText('otwórz_do_dopisywania(', TrimmedLine) or AnsiStartsText('dopisz(', TrimmedLine) or AnsiStartsText('append(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia dopisz(f)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('Append(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('zamknij_plik(', TrimmedLine) or AnsiStartsText('close_file(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia zamknij_plik(f)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('CloseFile(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('koniec_pliku(', TrimmedLine) or AnsiStartsText('Eof(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia koniec_pliku(f)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('Eof(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('czytaj_linie(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia czytaj_linie(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('ReadLn(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('czy_istnieje_plik(', TrimmedLine) or AnsiStartsText('file_exists(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia czy_istnieje_plik(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('FileExists(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  // --- 6. INNE FUNKCJE SYSTEMOWE ---
+  if AnsiStartsText('zmień_katalog(', TrimmedLine) or AnsiStartsText('change_dir(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia zmień_katalog(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('ChDir(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('utwórz_katalog(', TrimmedLine) or AnsiStartsText('create_dir(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia utwórz_katalog(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('MkDir(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('usuń_katalog(', TrimmedLine) or AnsiStartsText('remove_dir(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia usuń_katalog(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('RmDir(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('pobierz_katalog_bieżący(', TrimmedLine) or AnsiStartsText('get_current_dir(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia pobierz_katalog_bieżący(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('GetCurrentDir(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if AnsiStartsText('czy_istnieje_katalog(', TrimmedLine) or AnsiStartsText('directory_exists(', TrimmedLine) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia czy_istnieje_katalog(...)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('DirectoryExists(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if (Pos('długość(', LowerCase(TrimmedLine)) > 0) or (Pos('length(', LowerCase(TrimmedLine)) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := Pos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia długość. Oczekiwano: długość(tekst)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := Length(' + TranslateExpression(Param) + ');');
+    end
+    else PascalCode.Add('Length(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+
+  if (Pos('kopiuj(', LowerTrimmedLine) > 0) or (Pos('copy(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia kopiuj. Oczekiwano: kopiuj(tekst, start, ile)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(Param, ParamPartsList);
+      if ParamPartsList.Count <> 3 then raise Exception.Create('Funkcja kopiuj wymaga trzech argumentów: tekst, start, ile');
+      SExpr := TranslateExpression(Trim(ParamPartsList[0]));
+      StartExpr := TranslateExpression(Trim(ParamPartsList[1]));
+      CountExpr := TranslateExpression(Trim(ParamPartsList[2]));
+    finally ParamPartsList.Free; end;
+
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := Copy(' + SExpr + ', ' + StartExpr + ', ' + CountExpr + ');');
+    end
+    else PascalCode.Add('Copy(' + SExpr + ', ' + StartExpr + ', ' + CountExpr + ');');
+    Exit;
+  end;
+
+  if (Pos('szukaj(', LowerTrimmedLine) > 0) or (Pos('pos(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then raise Exception.Create('Błędna składnia szukaj. Oczekiwano: szukaj(substring, tekst)');
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(Param, ParamPartsList);
+      if ParamPartsList.Count <> 2 then raise Exception.Create('Funkcja szukaj wymaga dwóch argumentów: substring, tekst');
+      SubstringExpr := TranslateExpression(Trim(ParamPartsList[0]));
+      SExpr := TranslateExpression(Trim(ParamPartsList[1]));
+    finally ParamPartsList.Free; end;
+
+    if Pos('=', LowerTrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]);
+      PascalCode.Add(VarName + ' := Pos(' + SubstringExpr + ', ' + SExpr + ');');
+    end
+    else PascalCode.Add('Pos(' + SubstringExpr + ', ' + SExpr + ');');
+    Exit;
+  end;
+
+  if LowerCase(TrimmedLine).StartsWith('pozycja_kursora(') then
+  begin
+    Value := Copy(TrimmedLine, 17, Length(TrimmedLine) - 17);
+    PascalCode.Add('GotoXY(' + TranslateExpression(Value) + ');');
+    Exit;
+  end;
+
+  if LowerCase(TrimmedLine).StartsWith('kolor_tekstu(') then
+  begin
+    Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
+    PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
+    Exit;
+  end;
+
+  if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
+  begin
+    Value := Copy(TrimmedLine, 13, Length(TrimmedLine) - 13);
+    PascalCode.Add('TextBackground(' + TranslateExpression(Value) + ');');
+    Exit;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('czytaj_klawisz')) or (LowerCase(TrimmedLine).StartsWith('read_key')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos = 0 then PascalCode.Add('ReadKey;')
+    else begin EndPos := LastDelimiter(')', TrimmedLine); Value := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1)); if Value = '' then PascalCode.Add('ReadKey;') else PascalCode.Add('ReadKey(' + TranslateExpression(Value) + ');'); end;
+    Exit;
+  end;
+
+  if (Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0) or (Pos('read_key', LowerCase(TrimmedLine)) > 0) then
   begin
     Parts := TrimmedLine.Split(['='], 2);
-    VarName := Trim(Parts[0]);
-    PascalCode.Add(VarName + ' := Halt(' + TranslatedParam + ');');
-  end
-  else
-  begin
-    PascalCode.Add('Halt(' + TranslatedParam + ');');
+    VarName := Trim(Parts[0]); Value := Trim(Parts[1]);
+    if Pos(' ', VarName) > 0 then begin Parts := VarName.Split([' '], 2); VarType := Parts[0]; VarName := Parts[1]; AddVariable(VarName, VarType, False); end;
+    PascalCode.Add(VarName + ' := ReadKey;');
+    Exit;
   end;
-  Exit;
-end;
 
-  //Exit: Kończy bieżącą procedurę lub funkcję. Jeśli użyte w programie głównym, kończy program.
-// Obsługa "wyjść" (Exit)
-if Pos('wyjść', LowerTrimmedLine) = 1 then
-begin
-  StartPosTrim := Pos('(', TrimmedLine);
-  EndPosTrim   := RPos(')', TrimmedLine);
-
-  if (StartPosTrim = 0) or (EndPosTrim = 0) then
+  if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or (LowerCase(TrimmedLine).StartsWith('print_line(')) then
   begin
-    // brak nawiasów -> zwykłe "Exit;"
-    PascalCode.Add('Exit;');
-  end
-  else
-  begin
-    if StartPosTrim > EndPosTrim then
-      raise Exception.Create('Błędna składnia funkcji wyjść. Oczekiwano: wyjść(param)');
+    OpenPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (OpenPos > 0) and (EndPos > OpenPos) then
+    begin Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1); PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');'); Exit; end;
+  end;
 
-    ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
-    if ParamTrim = '' then
-      PascalCode.Add('Exit;')  // puste parametry -> Exit bez argumentu
+  if (LowerCase(TrimmedLine).StartsWith('losowy(')) or (LowerCase(TrimmedLine).StartsWith('random(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('Random(' + TranslateExpression(Value) + ');'); end;
+    Exit;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('losuj(')) or (LowerCase(TrimmedLine).StartsWith('randomize(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('Randomize' + TranslateExpression(Value) + ';'); end;
+    Exit;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('pisz(')) or (LowerCase(TrimmedLine).StartsWith('print(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (OpenPos > 0) and (EndPos > OpenPos) then begin Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1); PascalCode.Add('Write(' + TranslateExpression(Value) + ');'); Exit; end;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('parametr_programu(')) or (LowerCase(TrimmedLine).StartsWith('get_argument(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('ParamStr(' + TranslateExpression(Value) + ');'); end;
+    Exit;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('pobierz_zmienną_środowiskową(')) or (LowerCase(TrimmedLine).StartsWith('get_environment_variable(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('GetEnvironmentVariable(' + TranslateExpression(Value) + ');'); end;
+    Exit;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or (LowerCase(TrimmedLine).StartsWith('calc(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);'); end;
+    Exit;
+  end;
+
+  if (LowerCase(TrimmedLine).StartsWith('oblicz_formatuj(')) or (LowerCase(TrimmedLine).StartsWith('calc_format(')) then
+  begin
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('format(ObliczWyrazenie(' + Value + ');'); end;
+    Exit;
+  end;
+
+  if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
+  begin
+    if Pos('=', TrimmedLine) > 0 then
+    begin
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]); Value := Trim(Parts[1]);
+      if Pos(' ', VarName) > 0 then begin Parts := VarName.Split([' '], 2); VarType := ResolveAlias(Parts[0]); VarName := Parts[1]; AddVariable(VarName, VarType, False); end;
+      Value := Copy(Value, 7, Length(Value) - 6);
+      if (Length(Value) > 0) and (Value[1] = '(') then Value := Copy(Value, 2, Length(Value) - 1);
+      if (Length(Value) > 0) and (Value[Length(Value)] = ')') then Value := Copy(Value, 1, Length(Value) - 1);
+      if Value <> '' then PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+      PascalCode.Add('Read(' + VarName + ');');
+    end
     else
     begin
-      TranslatedParam := TranslateExpression(ParamTrim);
-      PascalCode.Add('Exit(' + TranslatedParam + ');');
+      Value := TrimmedLine; Value := Copy(Value, 7, Length(Value) - 6);
+      if (Length(Value) > 0) and (Value[1] = '(') then Value := Copy(Value, 2, Length(Value) - 1);
+      if (Length(Value) > 0) and (Value[Length(Value)] = ')') then Value := Copy(Value, 1, Length(Value) - 1);
+      PascalCode.Add('Read(' + Value + ');');
     end;
+    Exit;
   end;
 
-  Exit; // kończymy tłumaczenie tej linii
-end;
-
-// Zwraca liczbę parametrów przekazanych do programu z linii poleceń. (z SysUtils)
-if Pos('ilość_parametrów', LowerTrimmedLine) = 1 then
-begin
-  StartPosTrim := Pos('(', TrimmedLine);
-  EndPosTrim   := RPos(')', TrimmedLine);
+  if Pos('czytaj_linie(', LowerCase(TrimmedLine)) > 0 then
   begin
-    if StartPosTrim > EndPosTrim then
-      raise Exception.Create('Błędna składnia funkcji ilość_parametrów. Oczekiwano: ilość_parametrów()');
-
-    ParamTrim := Trim(Copy(TrimmedLine, StartPosTrim + 1, EndPosTrim - StartPosTrim - 1));
-    //if ParamTrim = '' then
-    //  PascalCode.Add('ParamCount;')
-    //else
+    if Pos('=', TrimmedLine) > 0 then
     begin
-      TranslatedParam := TranslateExpression(ParamTrim);
-      PascalCode.Add('ParamCount(' + TranslatedParam + ');');
+      Parts := TrimmedLine.Split(['='], 2); VarName := Trim(Parts[0]); Value := Trim(Parts[1]);
+      if Pos(' ', VarName) > 0 then begin Parts := VarName.Split([' '], 2); VarType := Parts[0]; VarName := Parts[1]; AddVariable(VarName, VarType, False); end;
+      Value := Copy(Value, 13, Length(Value) - 13);
+      if (Length(Value) > 0) and (Value[1] = '(') then Value := Copy(Value, 2, Length(Value) - 1);
+      if (Length(Value) > 0) and (Value[Length(Value)] = ')') then Value := Copy(Value, 1, Length(Value) - 1);
+      if Value <> '' then PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
+      PascalCode.Add('ReadLn(' + VarName + ');');
+    end
+    else
+    begin
+      Value := TrimmedLine; Value := Copy(Value, 13, Length(Value) - 13);
+      if (Length(Value) > 0) and (Value[1] = '(') then Value := Copy(Value, 2, Length(Value) - 1);
+      if (Length(Value) > 0) and (Value[Length(Value)] = ')') then Value := Copy(Value, 1, Length(Value) - 1);
+      PascalCode.Add('ReadLn(' + Value + ');');
     end;
+    Exit;
   end;
 
-  Exit; // kończymy tłumaczenie tej linii
-end;
-
-//Petla while
-// Obsługa pętli dopóki { (warunek) ... }
-if LowerCase(TrimmedLine).StartsWith('dopóki') then
-begin
-  ProcessWhileLoop(TrimmedLine, PascalCode);
-  Exit;
-end;
-
-
-
-{INTERNET BLOK KODU}
-if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
-begin
-  Parts := TrimmedLine.Split([' do '], 2);
-  if Length(Parts) = 2 then
-    PascalCode.Add('DownloadFTP(' + Parts[0].Substring(12) + ', ' + Parts[1] + ');');
-   PascalCode.Add('DownloadFileToDisk(URL, SavePath, ErrorMsg);');
-  Exit;
-end;
-
-
-//ping
-if LowerCase(TrimmedLine).StartsWith('ping ') then
-begin
-  Parts := TrimmedLine.Split([' '], 2); // rozdzielamy na "ping" i adres
-  if Length(Parts) = 2 then
+  if (LowerCase(TrimmedLine).StartsWith('ustaw_długość(')) or (LowerCase(TrimmedLine).StartsWith('set_length(')) then
   begin
-    Site := Parts[1]; // zapisujemy stronę do zmiennej
-
-    PascalCode.Add('if Ping(''' + Site + ''') then');
-    PascalCode.Add('begin');
-    PascalCode.Add('  WriteLn(''Strona ' + Site + ' odpowiada!'');');
-    PascalCode.Add('end');
-    PascalCode.Add('else');
-    PascalCode.Add('begin');
-    PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z ' + Site + ''');');
-    PascalCode.Add('end;');
+    OpenPos := Pos('(', TrimmedLine);
+    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');'); end;
+    Exit;
   end;
-  Exit;
-end;
 
+  if (TrimmedLine.EndsWith(':')) and (Pos(' ', TrimmedLine) = 0) then
+  begin
+    PascalCode.Add(TrimmedLine);
+    Exit;
+  end;
 
-// Obsługa pobierania pliku
+  if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
+  begin
+    Parts := TrimmedLine.Split([' do '], 2);
+    if Length(Parts) = 2 then PascalCode.Add('DownloadFTP(' + Parts[0].Substring(12) + ', ' + Parts[1] + ');');
+    PascalCode.Add('DownloadFileToDisk(URL, SavePath, ErrorMsg);');
+    Exit;
+  end;
+
+  if LowerCase(TrimmedLine).StartsWith('ping ') then
+  begin
+    Parts := TrimmedLine.Split([' '], 2);
+    if Length(Parts) = 2 then
+    begin
+      Site := Parts[1];
+      PascalCode.Add('if Ping(''' + Site + ''') then');
+      PascalCode.Add('begin');
+      PascalCode.Add('  WriteLn(''Strona ' + Site + ' odpowiada!'');');
+      PascalCode.Add('end'); PascalCode.Add('else');
+      PascalCode.Add('begin');
+      PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z ' + Site + ''');');
+      PascalCode.Add('end;');
+    end;
+    Exit;
+  end;
+
   if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
   begin
-    PascalCode.Add(TrimmedLine + ';');  // przepisz dokładnie jak jest
+    PascalCode.Add(TrimmedLine + ';');
     Exit;
-
   end;
-
-  // Obsługa pobierania strony
   if LowerCase(TrimmedLine).StartsWith('pobierz_strone(') then
   begin
-    PascalCode.Add(TrimmedLine + ';');  // przepisz dokładnie jak jest
+    PascalCode.Add(TrimmedLine + ';');
     Exit;
-
   end;
-     {OBSŁUGA PLIKI}
-    //Dotyczy plików
-    // przypisz_plik(f, 'plik.txt') -> AssignFile(f, 'plik.txt');
-    if AnsiStartsText('przypisz_plik(', TrimmedLine) or
-       AnsiStartsText('assign_file(', TrimmedLine)
-       then
-    begin
-      AssignStartPos := Pos('(', TrimmedLine);
-      AssignEndPos   := RPos(')', TrimmedLine);
-      if (AssignStartPos = 0) or (AssignEndPos = 0) then
-        raise Exception.Create('Błędna składnia przypisz_plik(zmienna_plikowa, nazwa_pliku)');
 
-      AssignParamStr := Copy(TrimmedLine, AssignStartPos + 1, AssignEndPos - AssignStartPos - 1);
 
-      AssignParams := TStringList.Create;
-      try
-        // rozdziel po przecinku (użyj Twojej funkcji pomocniczej)
-        SplitStringByChar(AssignParamStr, ',', AssignParams);
-        if AssignParams.Count <> 2 then
-          raise Exception.Create('przypisz_plik wymaga 2 argumentów: (f, nazwa_pliku)');
 
-        AssignTranslatedParam1 := TranslateExpression(Trim(AssignParams[0]));
-        AssignTranslatedParam2 := TranslateExpression(Trim(AssignParams[1]));
-
-        PascalCode.Add('AssignFile(' + AssignTranslatedParam1 + ', ' + AssignTranslatedParam2 + ');');
-        Exit;
-      finally
-        AssignParams.Free;
-      end;
-    end;
-
-    // otwórz_do_odczytu(f) -> Reset(f);
-    if AnsiStartsText('otwórz_do_odczytu(', TrimmedLine) or
-       AnsiStartsText('open_read(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia wczytaj_plik(f)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('Reset(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    //Otwórz_do_zapisu(f) -> Rewrite(f);
-    if AnsiStartsText('otwórz_do_zapisu(', TrimmedLine) or
-       AnsiStartsText('open_save(', TrimmedLine) or
-       AnsiStartsText('открыть_сохранить(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia otwórz_do_zapisu(f)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('Rewrite(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    // dopisz(f) -> Append(f);
-    if AnsiStartsText('otwórz_do_dopisywania(', TrimmedLine) or
-       AnsiStartsText('dopisz(', TrimmedLine)  or
-       AnsiStartsText('append(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia dopisz(f)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('Append(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    // zamknij_plik(f) -> CloseFile(f);
-    if AnsiStartsText('zamknij_plik(', TrimmedLine) or
-       AnsiStartsText('close_file(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia zamknij_plik(f)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('CloseFile(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-
-    //  koniec_pliku(f) -> Eof(f) także w wyrażeniach/warunkach   ;
-    if AnsiStartsText('koniec_pliku(', TrimmedLine) or
-       AnsiStartsText('Eof(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia koniec_pliku(f)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('Eof(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-
-    // czytaj_linie(f, x, y, ...) -> ReadLn(f, x, y, ...)
-    // (działa także dla konsoli: czytaj_linie(x, y, ...))
-    if AnsiStartsText('czytaj_linie(', TrimmedLine) then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia czytaj_linie(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('ReadLn(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    //czy isnieje plik
-    if AnsiStartsText('czy_istnieje_plik(', TrimmedLine) or
-       AnsiStartsText('file_exists(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia czy_istnieje_plik(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('FileExists(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    {Operacje na katalogach}
-
-     //zmiena katalog
-    if AnsiStartsText('zmień_katalog(', TrimmedLine) or
-       AnsiStartsText('change_dir(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia zmień_katalog(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('ChDir(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    //Tworzy katalog
-    if AnsiStartsText('utwórz_katalog(', TrimmedLine) or
-       AnsiStartsText('create_dir(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia utwórz_katalog(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('MkDir(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    //Usuwa katalog
-    if AnsiStartsText('usuń_katalog(', TrimmedLine) or
-       AnsiStartsText('remove_dir(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia usuń_katalog(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('RmDir(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    // Zwraca ścieżkę do bieżącego katalogu.
-    if AnsiStartsText('pobierz_katalog_bieżący(', TrimmedLine) or
-       AnsiStartsText('get_current_dir(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia pobierz_katalog_bieżący(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('GetCurrentDir(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-    // DirectoryExists(path): Sprawdza, czy katalog istnieje. (z SysUtils)
-    if AnsiStartsText('czy_istnieje_katalog(', TrimmedLine) or
-       AnsiStartsText('directory_exists(', TrimmedLine)
-       then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia czy_istnieje_katalog(...)');
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      PascalCode.Add('DirectoryExists(' + TranslateExpression(Param) + ');');
-      Exit;
-    end;
-
-
-    // Obsługa funkcji długość (Length)
-      if Pos('długość(', LowerCase(TrimmedLine)) > 0 then
-
-    begin
-      // Znajdź pozycje nawiasów
-      StartPos := Pos('(', TrimmedLine);
-      EndPos := Pos(')', TrimmedLine);
-
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia długość. Oczekiwano: długość(tekst)');
-
-      // Wyciągnij parametr wewnątrz nawiasów
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-
-      // Sprawdź czy to przypisanie do zmiennej
-      if Pos('=', TrimmedLine) > 0 then
-      begin
-        // Przypisanie typu: liczba_całkowita x = długość(tekst)
-        Parts := TrimmedLine.Split(['='], 2);
-        VarName := Trim(Parts[0]);
-        VarType := '';
-        PascalCode.Add(VarName + ' := Length(' + TranslateExpression(Param) + ');');
-      end
-      else
-      begin
-        // Samodzielne wywołanie funkcji: długość(tekst)
-        PascalCode.Add('Length(' + TranslateExpression(Param) + ');');
-      end;
-    end
-
-  //3. Funkcja kopiuj()
-
-    else if Pos('kopiuj(', LowerTrimmedLine) > 0 then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos   := RPos(')', TrimmedLine);
-
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia kopiuj. Oczekiwano: kopiuj(tekst, start, ile)');
-
-      { pobieramy argumenty }
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      ParamParts := Param.Split([',']);
-
-      if Length(ParamParts) <> 3 then
-        raise Exception.Create('Funkcja kopiuj wymaga trzech argumentów: tekst, start, ile');
-
-      SExpr     := TranslateExpression(Trim(ParamParts[0]));
-      StartExpr := TranslateExpression(Trim(ParamParts[1]));
-      CountExpr := TranslateExpression(Trim(ParamParts[2]));
-
-      { przypisanie czy wywołanie samodzielne? }
-      if Pos('=', TrimmedLine) > 0 then
-      begin
-        Parts   := TrimmedLine.Split(['='], 2);
-        VarName := Trim(Parts[0]);
-        PascalCode.Add(VarName + ' := Copy(' + SExpr + ', ' + StartExpr + ', ' + CountExpr + ');');
-      end
-      else
-        PascalCode.Add('Copy(' + SExpr + ', ' + StartExpr + ', ' + CountExpr + ');');
-
-      Exit;
-    end
-
-    {funkcja pos tzn szukaj}
-    {Pos(substring, s): Zwraca pozycję pierwszego wystąpienia substring w stringu s, lub 0 jeśli nie znaleziono.}
-        else if Pos('szukaj(', LowerTrimmedLine) > 0 then
-    begin
-      StartPos := Pos('(', TrimmedLine);
-      EndPos := RPos(')', TrimmedLine); // wymaga StrUtils
-
-      if (StartPos = 0) or (EndPos = 0) then
-        raise Exception.Create('Błędna składnia szukaj. Oczekiwano: szukaj(substring, tekst)');
-
-      Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-      ParamParts := Param.Split([',']);
-
-      if Length(ParamParts) <> 2 then
-        raise Exception.Create('Funkcja szukaj wymaga dwóch argumentów: substring, tekst');
-
-      SExpr := TranslateExpression(Trim(ParamParts[1]));
-      SubstringExpr := TranslateExpression(Trim(ParamParts[0]));
-
-      if Pos('=', LowerTrimmedLine) > 0 then
-      begin
-        Parts := TrimmedLine.Split(['='], 2);
-        VarName := Trim(Parts[0]);
-        PascalCode.Add(VarName + ' := Pos(' + SubstringExpr + ', ' + SExpr + ');');
-      end
-      else
-        PascalCode.Add('Pos(' + SubstringExpr + ', ' + SExpr + ');');
-
-      Exit;
-    end
-
-    //GotoXY - > PozycjaKursora
-    //Funkcja z modułu Crt do ustawiania kursora w określonej pozycji w oknie konsoli.
-    else if LowerCase(TrimmedLine).StartsWith('pozycja_kursora(') then
-    begin
-       // Pobieramy zawartość między "druk(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 17, Length(TrimmedLine) - 17);
-      PascalCode.Add('GotoXY(' + TranslateExpression(Value) + ');');
-    end
-
-    //KolorTekstu  TextColor
-    else if LowerCase(TrimmedLine).StartsWith('kolor_tekstu(') then
-    begin
-      Value := Copy(TrimmedLine, 14, Length(TrimmedLine) - 14);
-      PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
-    end
-
-
-    else if LowerCase(TrimmedLine).StartsWith('tło_tekstu(') then
-    begin
-       // Pobieramy zawartość między "pisz(" a ostatnim znakiem
-      Value := Copy(TrimmedLine, 13, Length(TrimmedLine) - 13);
-      PascalCode.Add('TextBackground(' + TranslateExpression(Value) + ');');
-    end
-
-    //czytaj klawisze czytaj_klawisz ReadKey
-    // czytaj_klawisz / read_key
-    else if (LowerCase(TrimmedLine).StartsWith('czytaj_klawisz')) or
-            (LowerCase(TrimmedLine).StartsWith('read_key')) then
-    begin
-      // Znajdź pozycję pierwszego '(' jeśli istnieje
-      OpenPos := Pos('(', TrimmedLine);
-      if OpenPos = 0 then
-      begin
-        // brak nawiasów — zwykłe wywołanie funkcji bez parametrów
-        PascalCode.Add('ReadKey;');
-      end
-      else
-      begin
-        // znajdź pozycję ostatniego ')'
-        EndPos := LastDelimiter(')', TrimmedLine);
-        if (EndPos > OpenPos) then
-        begin
-          // wyciągnij zawartość nawiasów bez zewnętrznych spacji
-          Value := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
-
-          // jeśli pusty argument => traktuj jak bez parametrów
-          if Value = '' then
-            PascalCode.Add('ReadKey;')
-          else
-            // jeśli są argumenty -> przepuść przez TranslateExpression
-            PascalCode.Add('ReadKey(' + TranslateExpression(Value) + ');');
-        end
-        else
-          raise Exception.Create('Błędna składnia: brak nawiasu zamykającego w wywołaniu czytaj_klawisz/read_key');
-      end;
-    end
-  //
-
-     else if (Pos('czytaj_klawisz', LowerCase(TrimmedLine)) > 0) or
-           (Pos('read_key', LowerCase(TrimmedLine)) > 0) then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      if Length(Parts) <> 2 then
-        raise Exception.Create('Błędna składnia czytaj_klawisz. Oczekiwano: zmienna = czytaj_klawisz');
-
-      VarName := Trim(Parts[0]);
-      Value := Trim(Parts[1]);
-
-    // Sprawdź czy wartość po = to czytaj_klawisz
-   if not ((LowerCase(Value) = 'czytaj_klawisz') or (LowerCase(Value) = 'read_key')) then
-    raise Exception.Create('Błędna prawa strona przypisania. Oczekiwano: czytaj_klawisz lub read_key');
-
-    // Przetwórz deklarację zmiennej (jeśli istnieje)
-    if Pos(' ', VarName) > 0 then
-    begin
-      Parts := VarName.Split([' '], 2);
-      if Length(Parts) < 2 then
-        raise Exception.Create('Błędna deklaracja zmiennej dla czytaj_klawisz');
-
-      VarType := Parts[0];
-      VarName := Parts[1];
-      AddVariable(VarName, VarType, False);
-    end;
-
-    // Sprawdź typ zmiennej
-     if not ((LowerCase(VarType) = 'znak') or (LowerCase(VarType) = 'char')) then
-     raise Exception.Create('czytaj_klawisz wymaga typu "znak" lub "char"');
-
-    // Wygeneruj kod Pascala
-    PascalCode.Add(VarName + ' := ReadKey;');
-  end
-
-
-    // Obsługa funkcji pisz_linie
-
-    else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
-            (LowerCase(TrimmedLine).StartsWith('print_line(')) then
-    begin
-      OpenPos := Pos('(', TrimmedLine);
-      EndPos := RPos(')', TrimmedLine);
-
-      if (OpenPos > 0) and (EndPos > OpenPos) then
-      begin
-        // Kopiuj tylko tekst POMIĘDZY nawiasami
-        Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
-        PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
-        Exit;
-      end;
-    end
-
-    {else if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
-            (LowerCase(TrimmedLine).StartsWith('print_line(')) then
-    begin
-      OpenPos := Pos('(', TrimmedLine);
-      if OpenPos > 0 then
-      begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-       // Pobieramy zawartość między "pisznl(" a ostatnim znakiem
-     // Value := Copy(TrimmedLine, 8, Length(TrimmedLine) - 8);
-      PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
-      //Exit;
-    end;
-    end
-    }
-
-    // Obsługa funkcji random
-    else if (LowerCase(TrimmedLine).StartsWith('losowy(')) or
-            (LowerCase(TrimmedLine).StartsWith('random(')) then
-    begin
-      OpenPos := Pos('(', TrimmedLine);
-      if OpenPos > 0 then
-      begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-      PascalCode.Add('Random(' + TranslateExpression(Value) + ');');
-      //Exit;
-    end;
-    end
-
-    // Obsługa funkcji randomize
-    else if (LowerCase(TrimmedLine).StartsWith('losuj(')) or
-            (LowerCase(TrimmedLine).StartsWith('randomize(')) then
-    begin
-      OpenPos := Pos('(', TrimmedLine);
-      if OpenPos > 0 then
-      begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-      PascalCode.Add('Randomize' + TranslateExpression(Value) + ';');
-      //Exit;
-    end;
-    end
-
-
-    {funkcja pisz}
-    else if (LowerCase(TrimmedLine).StartsWith('pisz(')) or
-            (LowerCase(TrimmedLine).StartsWith('print(')) then
-    begin
-      OpenPos := Pos('(', TrimmedLine);
-      EndPos := RPos(')', TrimmedLine); // Użyj RPos, aby znaleźć ostatni nawias
-
-      if (OpenPos > 0) and (EndPos > OpenPos) then
-      begin
-        // Kopiuj tylko tekst POMIĘDZY nawiasami
-        Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
-        PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-        Exit; // Dodaj Exit, aby zakończyć przetwarzanie
-      end;
-    end
-
-
-    //ParamStr(index): Zwraca parametr o numerze index przekazany do programu z linii poleceń.
-    else if (LowerCase(TrimmedLine).StartsWith('parametr_programu(')) or
-            (LowerCase(TrimmedLine).StartsWith('get_argument(')) then
-    begin
-     OpenPos := Pos('(', TrimmedLine);
-     if OpenPos > 0 then
-     begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-       PascalCode.Add('ParamStr(' + TranslateExpression(Value) + ');');
-    end;
-   end
-
-    //GetEnvironmentVariable(name): Zwraca wartość zmiennej środowiskowej o podanej nazwie. (z SysUtils)
-    else if (LowerCase(TrimmedLine).StartsWith('pobierz_zmienną_środowiskową(')) or
-            (LowerCase(TrimmedLine).StartsWith('get_environment_variable(')) then
-    begin
-     OpenPos := Pos('(', TrimmedLine);
-     if OpenPos > 0 then
-     begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-       PascalCode.Add('GetEnvironmentVariable(' + TranslateExpression(Value) + ');');
-    end;
-   end
-
-   // oblicza wyrażenie
-   else
-   begin
-     if (LowerCase(TrimmedLine).StartsWith('oblicz(')) or
-        (LowerCase(TrimmedLine).StartsWith('calc(')) then
-     begin
-       // znajdź pierwsze wystąpienie '('
-       OpenPos := Pos('(', TrimmedLine);
-       if OpenPos > 0 then
-       begin
-         // wytnij to, co jest w środku nawiasów
-         Value := Copy(TrimmedLine, OpenPos + 1,
-                       Length(TrimmedLine) - OpenPos - 1);
-         PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
-
-       end;
-     end
-
- // oblicza wyrażenie
- else
- begin
-   if (LowerCase(TrimmedLine).StartsWith('oblicz_formatuj(')) or
-      (LowerCase(TrimmedLine).StartsWith('calc_format(')) then
-   begin
-     // znajdź pierwsze wystąpienie '('
-     OpenPos := Pos('(', TrimmedLine);
-     if OpenPos > 0 then
-     begin
-       // wytnij to, co jest w środku nawiasów
-       Value := Copy(TrimmedLine, OpenPos + 1,
-                     Length(TrimmedLine) - OpenPos - 1);
-       //PascalCode.Add('Writeln(ObliczWyrazenie(' + Value + '):0:2);');
-       PascalCode.Add('format(ObliczWyrazenie(' + Value + ');');
-     end;
-   end
-
-// 3. Obsługa instrukcji czytaj()
-else if Pos('czytaj(', LowerCase(TrimmedLine)) > 0 then
-begin
-  // Sprawdź, czy linia zawiera znak '=' (czy jest to przypisanie z czytaj)
+  // --- 7. ZWYKŁE PRZYPISANIA ---
   if Pos('=', TrimmedLine) > 0 then
   begin
-    // Przypadek: zmienna = czytaj(prompt)
     Parts := TrimmedLine.Split(['='], 2);
     VarName := Trim(Parts[0]);
     Value := Trim(Parts[1]);
-
-    // Sprawdź, czy zmienna jest deklarowana w tej samej linii (z typem)
-    if Pos(' ', VarName) > 0 then
-    begin
-      Parts := VarName.Split([' '], 2);
-      //VarType := Parts[0];
-      VarType := ResolveAlias(Parts[0]);
-      VarName := Parts[1];
-      AddVariable(VarName, VarType, False);
-    end;
-
-    // Wyodrębnij argument z czytaj()
-    Value := Copy(Value, 7, Length(Value) - 6); // Usuń 'czytaj('
-    if (Length(Value) > 0) and (Value[1] = '(') then
-      Value := Copy(Value, 2, Length(Value) - 1);
-    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
-      Value := Copy(Value, 1, Length(Value) - 1);
-
-    // Jeśli argument nie jest pusty, potraktuj go jako prompt
-    if Value <> '' then
-      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-    PascalCode.Add('Read(' + VarName + ');');
-  end
-  else
-  begin
-    // Przypadek: czytaj(zmienna) bez przypisania
-    // Wyodrębnij nazwę zmiennej z nawiasów
-    Value := TrimmedLine;
-    Value := Copy(Value, 7, Length(Value) - 6); // Usuń 'czytaj('
-    if (Length(Value) > 0) and (Value[1] = '(') then
-      Value := Copy(Value, 2, Length(Value) - 1);
-    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
-      Value := Copy(Value, 1, Length(Value) - 1);
-
-    //// Sprawdź, czy zmienna jest już zadeklarowana
-    //if not VariableExists(Value) then
-    //  AddVariable(Value, 'znak', False); // Domyślnie zakładamy typ 'znak'
-
-    PascalCode.Add('Read(' + Value + ');');
+    if NeedsSemicolon then PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
+    else PascalCode.Add(VarName + ' := ' + TranslateExpression(Value));
+    Exit;
   end;
-end
 
-
-
-// 4. Obsługa instrukcji czytaj_linie ()
-else if Pos('czytaj_linie(', LowerCase(TrimmedLine)) > 0 then
-begin
-  // Sprawdź, czy linia zawiera znak '=' (czy jest to przypisanie z czytaj)
-  if Pos('=', TrimmedLine) > 0 then
+  // --- 8. POZOSTAŁE (Catch-all) ---
+  if TrimmedLine <> '' then
   begin
-    // Przypadek: zmienna = czytaj(prompt)
-    Parts := TrimmedLine.Split(['='], 2);
-    VarName := Trim(Parts[0]);
-    Value := Trim(Parts[1]);
+    TranslatedLine := TranslateExpression(TrimmedLine);
+    // --- FIX: Nie dodajemy pustej linii ---
+    if Trim(TranslatedLine) = '' then Exit;
 
-    // Sprawdź, czy zmienna jest deklarowana w tej samej linii (z typem)
-    if Pos(' ', VarName) > 0 then
-    begin
-      Parts := VarName.Split([' '], 2);
-      VarType := Parts[0];
-      VarName := Parts[1];
-      AddVariable(VarName, VarType, False);
-    end;
-
-    // Wyodrębnij argument z wczytaj_linie ()
-    Value := Copy(Value, 13, Length(Value) - 13); // Usuń 'czytaj('
-    if (Length(Value) > 0) and (Value[1] = '(') then
-      Value := Copy(Value, 2, Length(Value) - 1);
-    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
-      Value := Copy(Value, 1, Length(Value) - 1);
-
-    // Jeśli argument nie jest pusty, potraktuj go jako prompt
-    if Value <> '' then
-      PascalCode.Add('Write(' + TranslateExpression(Value) + ');');
-    PascalCode.Add('ReadLn(' + VarName + ');');
-  end
-  else
-  begin
-    // Przypadek: wczytaj_linie (zmienna) bez przypisania
-    // Wyodrębnij nazwę zmiennej z nawiasów
-    Value := TrimmedLine;
-    Value := Copy(Value, 13, Length(Value) - 13); // Usuń 'wczytaj_linie ('
-    if (Length(Value) > 0) and (Value[1] = '(') then
-      Value := Copy(Value, 2, Length(Value) - 1);
-    if (Length(Value) > 0) and (Value[Length(Value)] = ')') then
-      Value := Copy(Value, 1, Length(Value) - 1);
-
-    PascalCode.Add('ReadLn(' + Value + ');');
+    if NeedsSemicolon then PascalCode.Add(TranslatedLine + ';')
+    else PascalCode.Add(TranslatedLine);
+    Exit;
   end;
-end
-
-   //Ustawieni długośći w tablice
-    else if (LowerCase(TrimmedLine).StartsWith('ustaw_długość(')) or
-            (LowerCase(TrimmedLine).StartsWith('set_length(')) then
-    begin
-      OpenPos := Pos('(', TrimmedLine);
-      if OpenPos > 0 then
-      begin
-       Value := Copy(TrimmedLine, OpenPos + 1,
-       Length(TrimmedLine) - OpenPos - 1);
-
-      PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');');
-      //Exit;
-    end;
-    //end
-
-    // 4. Obsługa zwykłych przypisań
-   { else if Pos('=', TrimmedLine) > 0 then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
-      Value := Trim(Parts[1]);
-
-      if Pos(' ', VarName) > 0 then
-      begin
-        Parts := VarName.Split([' '], 2);
-        VarType := Parts[0];
-        VarName := Parts[1];
-        AddVariable(VarName, VarType,False);
-      end;
-   }
-    // Dodaje średnik tylko warunkowo
-    if NeedsSemicolon then
-      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
-    else
-      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value)); // Bez średnika
-    end
-    end;
-
- // --- BLOK OBSŁUGI DEFINICJI ETYKIETY (np. test:) ---
-    if (TrimmedLine.EndsWith(':')) and (Pos(' ', TrimmedLine) = 0) then
-    begin
-      PascalCode.Add(TrimmedLine); // Dodaj etykietę (np. "test:") bez średnika
-      Exit;
-    end
-
-    // --- 4. Obsługa zwykłych PRZYPISAŃ (np. a = a + 1) ---
-    // (Usunęliśmy stąd błędną logikę AddVariable)
-    else if Pos('=', TrimmedLine) > 0 then
-    begin
-      Parts := TrimmedLine.Split(['='], 2);
-      VarName := Trim(Parts[0]);
-      Value := Trim(Parts[1]);
-
-      // Tłumaczymy = na := i dodajemy średnik warunkowo
-      if NeedsSemicolon then
-        PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
-      else
-        PascalCode.Add(VarName + ' := ' + TranslateExpression(Value));
-      Exit; // Zakończ po obsłużeniu przypisania
-    end
-
-    // jeśli nic innego nie pasowało)
-    //  dla wywołań procedur (np. przywitajsie('Avocado'))
-    // i innych poleceń (np. inc(a), break, continue)
-    else if TrimmedLine <> '' then
-    begin
-      TranslatedLine := TranslateExpression(TrimmedLine);
-      if NeedsSemicolon then
-        PascalCode.Add(TranslatedLine + ';')
-      else
-        PascalCode.Add(TranslatedLine);
-        Exit;
-    end;
- end;
 end;
-
-
 
 function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
