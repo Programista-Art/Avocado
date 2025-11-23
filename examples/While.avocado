@@ -1,0 +1,20 @@
+program warunek
+
+początek
+  warunek_test
+koniec.
+
+procedura warunek_test
+początek
+  liczba_całkowita a = 12
+  liczba_całkowita c = 6
+  jeżeli a > 11 wtedy
+  start
+    pisz_linie('Wynik: a większe od c (a>11)')
+  koniec
+  inaczej
+    pisz_linie('Wynik: a mniejsze od c (a<11)')
+koniec
+
+
+

@@ -1,0 +1,15 @@
+program petla
+main
+test
+end.
+
+procedure test
+start
+int i = 0
+  dla i = 1 do 4 wykonać
+  start
+    jeżeli i = 3 wtedy
+     kontynuować
+     pisz_linie(i)
+  end
+end

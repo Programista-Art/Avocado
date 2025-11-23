@@ -1,0 +1,36 @@
+program procedury
+
+
+start
+  pisz_linie('Program porównuje liczby.')
+  // Wywołanie procedur
+  witam('Programista', 'Art')
+  obliczenie(20,6)
+  obliczenie(2,15)
+koniec.
+
+procedure witam(name: tekst; surname: tekst)
+start
+  pisz_linie('Twoje imię: ', name)
+  pisz_linie('Twoje nazwisko: ', surname)
+end
+
+
+
+procedura obliczenie(liczba1: liczba_całkowita; liczba2: liczba_całkowita)
+start
+  if liczba1 > liczba2 then
+  start
+  pisz_linie('Wynik: pierwsza liczba jest większa od drugiej')
+  koniec
+   inaczej
+   pisz_linie('Wynik: pierwsza liczba jest mniejsza od drugiej')
+koniec
+
+
+
+
+
+
+
+

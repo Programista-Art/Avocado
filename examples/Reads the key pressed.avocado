@@ -1,3 +1,0 @@
-program czytajklawisz
-znak a = czytaj_klawisz
-pisz('Wybrany klawisz: ', a)

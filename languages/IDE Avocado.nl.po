@@ -41,11 +41,47 @@ msgstr "Onjuiste syntaxis van functie trim_with_left. Verwacht: trim_van_links(s
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "Onjuiste syntaxis van functie trim_with_right. Verwacht: trim_from_right(s)"
 
+#: avocadotranslator.incorrectorderbracketstrimleft
+msgid "Incorrect order of brackets in trim_left()."
+msgstr ""
+
 #: avocadotranslator.invalidvariabledeclaration
 #, fuzzy
 #| msgid "Nieprawidłowa deklaracja zmiennej: "
 msgid "Incorrect variable declaration: "
 msgstr "Onjuiste declaratie van een variabele: "
+
+#: avocadotranslator.translateazoruntil
+msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
+msgstr ""
+
+#: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
+msgid "Error: Found \"repeat\" inside another \"repeat\""
+msgstr ""
+
+#: avocadotranslator.translateerrmissingconditionafteuntil
+msgid "Error: Missing condition after \"aż / az\" / \"until\""
+msgstr ""
+
+#: avocadotranslator.translateincorrectorderbracketstrim
+msgid "Incorrect order of brackets in trim()."
+msgstr ""
+
+#: avocadotranslator.translateincorrectorderbracketstrimright
+msgid "Incorrect order of brackets in trim_right() / trim_right"
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimfunction
+msgid "No brackets in the trim function."
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimleftfunction
+msgid "No brackets in the trim_left function."
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimrightfunction
+msgid "No brackets in the trim_right function."
+msgstr ""
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "

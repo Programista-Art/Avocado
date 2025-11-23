@@ -1,0 +1,36 @@
+program benchmark
+
+start
+pisz_linie('Program oblicza ile zajmie czasu wykonanie 1 miliard operacji dodawania')
+zmierz_predkosc
+koniec.
+
+procedura zmierz_predkosc
+start
+liczba_długa i = 0
+qliczba czas_start = 0
+qliczba czas_stop = 0
+liczba64 suma = 0
+
+czas_start = GetTickCount64
+
+//kod assemblera
+asm{
+asm
+    xor rax, rax         // wyzeruj licznik
+    mov rcx, 1           // początek od 1
+
+  @@petla_start:
+    inc rax              // inkrementuj wynik
+    inc rcx              // inkrementuj licznik
+    cmp rcx, 1000000000  // porównaj z 1 miliardem
+    jbe @@petla_start
+
+    mov qword ptr [suma], rax   // zapis RAX do zmiennej Pascalowej
+  end;
+
+}
+czas_stop = GetTickCount64
+pisz_linie('Czas wykonania 1 miliard iteracji: ', (czas_stop - czas_start), ' ms');
+pisz_linie('Wynik kontrolny: ', suma);
+koniec

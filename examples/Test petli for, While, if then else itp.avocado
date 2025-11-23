@@ -1,0 +1,36 @@
+program teswarunkipetli
+importuj Crt
+
+main
+ testowanie
+end.
+
+procedure testowanie
+start
+lc i = 0
+lc a = 10
+
+
+// Test pętli FOR
+pisz_linie('Test pętli FOR')
+for i = 1 to 3 do
+start
+  pisz_linie('i = ', i)
+end
+
+// Test pętli WHILE
+pisz_linie('Test pętli WHILE')
+while a > 8 wykonać
+start
+  pisz_linie('a = ', a)
+  a = a - 1  // Test przypisania =
+end
+
+// Test pętli REPEAT
+pisz_linie('Test pętli REPEAT')
+repeat
+  pisz_linie('a = ', a)
+  a = a + 1
+until a = 10
+end
+

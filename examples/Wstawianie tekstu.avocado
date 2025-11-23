@@ -1,0 +1,13 @@
+program wstawienitekstu
+
+glowny
+  test
+koniec.
+
+procedura test
+poczatek
+tekst a = 'Ala ma czarnego'
+pisz_linie('Tekst przed zmianą: ', a)
+wstaw(' kota',a, 17)
+pisz_linie('Tekst po zmianie: ', a)
+koniec

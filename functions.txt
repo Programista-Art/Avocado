@@ -126,3 +126,10 @@ koniec.
 start
 end
 end.
+przerwij
+kontynuuj
+dopóki
+dopoki
+az
+funkcja
+fuction

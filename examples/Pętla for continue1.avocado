@@ -1,0 +1,15 @@
+program petla
+start
+test
+koniec.
+
+procedura test
+start
+liczba_całkowita i = 1
+dla i = 1 do 4 wykonać
+start
+  jeżeli i = 3 wtedy
+   kontynuować
+  pisz_linie(i)
+koniec
+koniec

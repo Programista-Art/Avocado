@@ -31,9 +31,45 @@ msgstr "Неверная синтаксис функции trim_left. Ожида
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "Неверная синтаксис функции trim_right. Ожидалось: trim_right.(s)"
 
+#: avocadotranslator.incorrectorderbracketstrimleft
+msgid "Incorrect order of brackets in trim_left()."
+msgstr ""
+
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Incorrect variable declaration: "
 msgstr "Неправильное объявление переменной: "
+
+#: avocadotranslator.translateazoruntil
+msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
+msgstr ""
+
+#: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
+msgid "Error: Found \"repeat\" inside another \"repeat\""
+msgstr ""
+
+#: avocadotranslator.translateerrmissingconditionafteuntil
+msgid "Error: Missing condition after \"aż / az\" / \"until\""
+msgstr ""
+
+#: avocadotranslator.translateincorrectorderbracketstrim
+msgid "Incorrect order of brackets in trim()."
+msgstr ""
+
+#: avocadotranslator.translateincorrectorderbracketstrimright
+msgid "Incorrect order of brackets in trim_right() / trim_right"
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimfunction
+msgid "No brackets in the trim function."
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimleftfunction
+msgid "No brackets in the trim_left function."
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimrightfunction
+msgid "No brackets in the trim_right function."
+msgstr ""
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
@@ -410,7 +446,7 @@ msgstr "Запустить"
 
 #: tformmain.menuitemrunwithoutcompilation.caption
 msgid "Run without compilation"
-msgstr ""
+msgstr "Запустить без компиляции"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
@@ -520,11 +556,11 @@ msgstr "Перевод"
 
 #: tformmain.toolbutton2.caption
 msgid "ToolButton2"
-msgstr ""
+msgstr "ToolButton2"
 
 #: tformmain.toolbutton2.hint
 msgid "Interpret"
-msgstr ""
+msgstr "Интерпретировать"
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
@@ -600,7 +636,7 @@ msgstr "Путь к fpc.exe"
 
 #: tformsettingintepreter.groupbox3.caption
 msgid "Link to Instant FPC"
-msgstr ""
+msgstr "Путь к Instant FPC"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link to FPC folder"
@@ -697,11 +733,11 @@ msgstr " Линии кода"
 
 #: unit1.errwritingtemporaryfile
 msgid "Error writing temporary file: "
-msgstr ""
+msgstr "Ошибка записи временного файла: "
 
 #: unit1.interpretationcompleted
 msgid "Interpretation completed."
-msgstr ""
+msgstr "Интерпретация завершена."
 
 #: unit1.newnamezprogram
 msgid "Enter the name of the program:"
@@ -713,7 +749,7 @@ msgstr "Новый файл"
 
 #: unit1.nocodeopenfileorwritecodeeditor
 msgid "No code. Open the file or write code in the editor."
-msgstr ""
+msgstr "Кода нет. Откройте файл или напишите код в редакторе."
 
 #: unit1.openprojecttranslate
 msgid "Open project: "
@@ -721,11 +757,11 @@ msgstr "Открытый проект:  "
 
 #: unit1.processstartuperr
 msgid "Process startup error: "
-msgstr ""
+msgstr "Ошибка запуска процесса:"
 
 #: unit1.runinterpreterseparatewindow
 msgid "Running the interpreter in a separate window.."
-msgstr ""
+msgstr "Запуск интерпретатора в отдельном окне."
 
 #: unit1.translateaddcustommodulespath
 msgid " - Added custom IDE modules path: "
@@ -1059,9 +1095,9 @@ msgstr "Элемент не выбран"
 
 #: usettings.translatedatasaved
 msgid "Data saved"
-msgstr ""
+msgstr "Данные сохранены"
 
 #: usettings.translateinformation
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 

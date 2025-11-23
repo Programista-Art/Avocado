@@ -1,0 +1,16 @@
+program forto
+start
+  test
+end.
+
+procedure test
+start
+int i = 0
+  for i = 1 to 4 make
+  start
+    if i = 3 then
+    break
+    print_line(i)
+  end
+end
+

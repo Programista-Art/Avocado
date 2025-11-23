@@ -1,0 +1,10 @@
+program testowaniekodu
+początek
+pisz_linie('śćźżą')
+pisz_linie('Привет Мир')
+pisz_linie('Hello')
+pisz_linie('ÜÖ')
+pisz_linie('你好世界')
+pisz_linie('مرحبا بالعالم')
+pisz_linie('हैलो वर्ल्ड')
+koniec.

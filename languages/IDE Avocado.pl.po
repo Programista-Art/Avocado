@@ -31,9 +31,45 @@ msgstr "Błędna składnia funkcji przytnij_z_lewa. Oczekiwano: przytnij_z_lewa(
 msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
 msgstr "Nieprawidłowa składnia funkcji trim_right. Oczekiwano: przytnij_z_prawa(s) "
 
+#: avocadotranslator.incorrectorderbracketstrimleft
+msgid "Incorrect order of brackets in trim_left()."
+msgstr ""
+
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Incorrect variable declaration: "
 msgstr "Nieprawidłowa deklaracja zmiennej:  "
+
+#: avocadotranslator.translateazoruntil
+msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
+msgstr ""
+
+#: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
+msgid "Error: Found \"repeat\" inside another \"repeat\""
+msgstr ""
+
+#: avocadotranslator.translateerrmissingconditionafteuntil
+msgid "Error: Missing condition after \"aż / az\" / \"until\""
+msgstr ""
+
+#: avocadotranslator.translateincorrectorderbracketstrim
+msgid "Incorrect order of brackets in trim()."
+msgstr ""
+
+#: avocadotranslator.translateincorrectorderbracketstrimright
+msgid "Incorrect order of brackets in trim_right() / trim_right"
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimfunction
+msgid "No brackets in the trim function."
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimleftfunction
+msgid "No brackets in the trim_left function."
+msgstr ""
+
+#: avocadotranslator.translatenobracketstrimrightfunction
+msgid "No brackets in the trim_right function."
+msgstr ""
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
@@ -281,7 +317,7 @@ msgstr "Ustawienia"
 
 #: tformmain.menuitem20.caption
 msgid "Program"
-msgstr ""
+msgstr "Program"
 
 #: tformmain.menuitem3.caption
 msgid "Pomoc"
@@ -410,7 +446,7 @@ msgstr "Uruchomić"
 
 #: tformmain.menuitemrunwithoutcompilation.caption
 msgid "Run without compilation"
-msgstr ""
+msgstr "Uruchom bez kompilacji"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
@@ -520,11 +556,11 @@ msgstr "Transpiluj"
 
 #: tformmain.toolbutton2.caption
 msgid "ToolButton2"
-msgstr ""
+msgstr "ToolButton2"
 
 #: tformmain.toolbutton2.hint
 msgid "Interpret"
-msgstr ""
+msgstr "Interpretować"
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
@@ -600,7 +636,7 @@ msgstr "LInk do fpc.exe"
 
 #: tformsettingintepreter.groupbox3.caption
 msgid "Link to Instant FPC"
-msgstr ""
+msgstr "Link do Instant FPC"
 
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link to FPC folder"
@@ -688,7 +724,7 @@ msgstr "Wesprzyj projekt"
 #: unit1.countchars
 msgctxt "unit1.countchars"
 msgid " Signs"
-msgstr "Znaków"
+msgstr " Znaków"
 
 #: unit1.countline
 msgctxt "unit1.countline"
@@ -697,11 +733,11 @@ msgstr " Liczba linii kodu"
 
 #: unit1.errwritingtemporaryfile
 msgid "Error writing temporary file: "
-msgstr ""
+msgstr "Błąd zapisu pliku tymczasowego: "
 
 #: unit1.interpretationcompleted
 msgid "Interpretation completed."
-msgstr ""
+msgstr "Zakończono interpretację"
 
 #: unit1.newnamezprogram
 msgid "Enter the name of the program:"
@@ -713,7 +749,7 @@ msgstr "Nowy plik"
 
 #: unit1.nocodeopenfileorwritecodeeditor
 msgid "No code. Open the file or write code in the editor."
-msgstr ""
+msgstr "Brak kodu. Otwórz plik lub napisz kod w edytorze."
 
 #: unit1.openprojecttranslate
 msgid "Open project: "
@@ -721,11 +757,11 @@ msgstr "Otwarty projekt: "
 
 #: unit1.processstartuperr
 msgid "Process startup error: "
-msgstr ""
+msgstr "Błąd uruchomienia procesu: "
 
 #: unit1.runinterpreterseparatewindow
 msgid "Running the interpreter in a separate window.."
-msgstr ""
+msgstr "Uruchamianie interpretera w osobnym oknie.."
 
 #: unit1.translateaddcustommodulespath
 msgid " - Added custom IDE modules path: "
@@ -834,7 +870,7 @@ msgstr "Rozmiar czcionki edytora nie wczytany: "
 
 #: unit1.translateenterquestion
 msgid "Please enter your question!"
-msgstr " Proszę wpisać pytanie!"
+msgstr "Proszę wpisać pytanie!"
 
 #: unit1.translateerrcompilation
 msgid "Compilation error: "
@@ -863,7 +899,7 @@ msgstr "Błędy w kodzie!"
 
 #: unit1.translateerrpacalcodecompile
 msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
-msgstr "Błąd: Brak kodu Pascala do kompilacji (parametr PascalCode jest pusty)."
+msgstr "Błąd: Brak kodu Pascala do kompilacji (parametr PascalCode jest pusty). "
 
 #: unit1.translateerrpathtofpc
 msgid "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
@@ -1008,7 +1044,7 @@ msgstr "UWAGA: SynEditCode nie został utworzony!"
 
 #: unit1.translatetranslationerror
 msgid "Translation Error: "
-msgstr "Błąd tłumaczenia:"
+msgstr "Błąd tłumaczenia: "
 
 #: unit1.translateunableunitdirectory
 msgid " .Unable to determine unit directory!"
@@ -1046,7 +1082,7 @@ msgstr "Błąd: Folder \""
 
 #: uprzyklady.translateerrobjectnotavailable
 msgid "Error: The FuSettingsChatGPT object is not available."
-msgstr "Błąd: Obiekt FustawieniaChatGPT nie jest dostępny.'"
+msgstr "Błąd: Obiekt FustawieniaChatGPT nie jest dostępny."
 
 #: uprzyklady.translatefilenotexist
 msgctxt "uprzyklady.translatefilenotexist"
@@ -1059,9 +1095,9 @@ msgstr "Nie wybrano żadnego elementu"
 
 #: usettings.translatedatasaved
 msgid "Data saved"
-msgstr ""
+msgstr "Dane zapisane"
 
 #: usettings.translateinformation
 msgid "Information"
-msgstr ""
+msgstr "Informacja"
 

@@ -1,0 +1,27 @@
+program benchmarkavocado
+
+start
+ pisz_linie('Test predkości Avocado 1 miliad interakcji')
+ pisz_linie('Czekaj na wynik...')
+ speed_avocado
+end.
+
+
+procedura speed_avocado
+start
+liczba_długa i = 0
+qliczba czas_start = 0
+qliczba czas_stop = 0
+liczba64 suma = 0
+  czas_start = GetTickCount64
+  dla i = 1 do 1000000000 wykonać
+  start
+   suma = suma + 1
+   czas_stop = GetTickCount64
+  koniec
+    pisz_linie('Czas wykonania 1 miliard iteracji: ', (czas_stop - czas_start), ' ms');
+    pisz_linie('Wynik kontrolny: ', suma);
+koniec
+
+
+

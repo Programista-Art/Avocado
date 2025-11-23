@@ -1,0 +1,12 @@
+program forin
+
+początek
+  test
+koniec.
+
+procedura test
+początek
+lc i = 0
+dla i = 5 malejąco 1 wykonać
+  pisz_linie('Liczba:', i)
+koniec

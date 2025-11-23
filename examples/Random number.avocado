@@ -1,6 +1,13 @@
 program randomowa
-randomize()
-//Random maximum number 100
-int a = random(100)
-print_line(a)
+main
+  test
+end.
+
+procedure test
+start
+  randomize()
+  //Random maximum number 100
+  int a = random(100)
+  print_line(a)
+end
 

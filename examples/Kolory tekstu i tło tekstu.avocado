@@ -1,0 +1,15 @@
+program kolory
+start
+kolory
+koniec.
+
+procedure kolory
+start
+ kolor_tekstu(czerwony)
+ tło_tekstu(biały)
+ print_line('Polska')
+
+ kolor_tekstu(biały)
+ tło_tekstu(czerwony)
+ print_line('Poland')
+end

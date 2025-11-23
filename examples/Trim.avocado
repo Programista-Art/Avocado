@@ -1,7 +1,9 @@
 program trimtest
+main
 string a = ' siema '
-string b = przytnij(' ddd ')
+string b =''
+b = przytnij(' ddd ')
 pisz_linie(b)
 pisz_linie('siema')
 pisz_linie('2')
-
+end.
