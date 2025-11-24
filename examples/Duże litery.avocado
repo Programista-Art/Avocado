@@ -1,0 +1,15 @@
+program dzueliteryansi
+glowny
+duzelitery
+koniec.
+
+procedura duzelitery
+poczatek
+tekst a = 'W Szczebrzeszynie chrząszcz brzmi w trzcinie '
+tekst b = 'a'
+  b = duze_litery_ansi(a)
+  pisz_linie(b)
+  b = male_litery_ansi(a)
+  pisz_linie(b)
+koniec
+

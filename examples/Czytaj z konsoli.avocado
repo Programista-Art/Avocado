@@ -1,0 +1,12 @@
+program czytaniezkonsoli
+main
+testowa
+end.
+
+procedura testowa
+start
+pisz_linie('Wpisz znak, lub słowo')
+tekst a = 't'
+read_lines(a)
+pisz_linie('Wynik: ',a )
+koniec

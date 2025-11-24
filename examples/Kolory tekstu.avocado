@@ -1,0 +1,16 @@
+program testkolory
+glowny
+test
+koniec.
+
+procedura test
+poczatek
+pozycja_kursora(10,20)
+kolor_tekstu(czerwony)
+tło_tekstu(biały)
+pisz_linie('Siema')
+cursor_position(5,3)
+text_color(magenta)
+text_background(zielony)
+pisz_linie('Nowy')
+koniec

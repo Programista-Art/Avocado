@@ -1,0 +1,17 @@
+program kurs
+main
+test
+end.
+
+procedura test
+start
+tekst username = pobierz_zmienną_środowiskową('USERNAME')
+
+int a = 100
+losuj
+a = losowy(a)
+pisz_linie(a)
+pisz_linie('Użytkownik: ', username)
+
+end
+

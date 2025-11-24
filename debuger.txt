@@ -350,3 +350,16 @@ male_litery
 lower_case
 upper_case
 duze_litery
+porównaj_tekst
+porownaj_tekst
+compare_text
+_n_
+zamień_tekst
+zamien_tekst
+replace_text
+duże_litery_ansi
+duze_litery_ansi
+utf8_upper_case
+małe_litery_ansi
+male_litery_ansi
+utf8_lower_case

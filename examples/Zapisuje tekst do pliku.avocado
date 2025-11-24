@@ -1,0 +1,20 @@
+program plikiotwierania
+glowny
+otworzplik
+koniec.
+
+procedura otworzplik
+poczatek
+plik_tekstowy a
+przypisz_plik(a,'plik.txt')
+   otwórz_do_zapisu(a)
+   pisz_linie(a,'Idzie Grześ')
+   pisz_linie(a,'Przez Wieś')
+   pisz_linie(a,'Worek piasku niesie,')
+   pisz_linie(a,'A przez dziurkę')
+   pisz_linie(a,'Piasek ciurkiem')
+   pisz_linie(a,'Sypie się za Grzesiem.')
+   zamknij_plik(a)
+   pisz_linie('Plik "plik.txt" został utworzony.')
+   pisz_linie('Możesz teraz go otworzyć i sprawdzić zawartość.')
+koniec
