@@ -127,8 +127,28 @@ msgstr ""
 msgid "Error while processing the get_environment_variable function: "
 msgstr ""
 
+#: avocadotranslator.translateerrorprocessingpingcommand
+msgid "Error while processing the PING command: "
+msgstr ""
+
+#: avocadotranslator.translateerrorprocessingpingfunction
+msgid "Error while processing the PING function: "
+msgstr ""
+
 #: avocadotranslator.translateerrorprocessingreadfunction
 msgid "Error during processing of the read function: "
+msgstr ""
+
+#: avocadotranslator.translateerrorprocessingreadlinesfunction
+msgid "Error while processing the read_lines function: "
+msgstr ""
+
+#: avocadotranslator.translateerrorprocessingsetlengthfunction
+msgid "Error while processing the set_length function: "
+msgstr ""
+
+#: avocadotranslator.translatefirstargumentcannotbeempty
+msgid "Error: The first argument (variable name) cannot be empty."
 msgstr ""
 
 #: avocadotranslator.translategetargumentfunctionrequiresindex
@@ -313,12 +333,34 @@ msgstr ""
 msgid "Syntax error in parentheses in read_key."
 msgstr ""
 
+#: avocadotranslator.translatepingcommandrequiresurlorvariable
+msgid "Syntax error: The PING command requires a URL or variable, e.g. ping \"google.com\""
+msgstr ""
+
+#: avocadotranslator.translatepingfunctionrequiresbrackets
+msgid "Syntax error: The PING function requires brackets, e.g. ping('google.com', 'OK!')."
+msgstr ""
+
+#: avocadotranslator.translatepingfunctionrequirestwoarguments
+msgid "Error: The PING function requires EXACTLY TWO arguments (address, success message)."
+msgstr ""
+
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
 msgstr ""
 
 #: avocadotranslator.translatereadfunctionrequiresvariablename
 msgid "Error: The read function requires a variable name to be specified."
+msgstr ""
+
+#: avocadotranslator.translatereadlinesparenthesesrequired
+msgctxt "avocadotranslator.translatereadlinesparenthesesrequired"
+msgid "Syntax error: The read_lines function requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatereadlinesrequiresparentheses
+msgctxt "avocadotranslator.translatereadlinesrequiresparentheses"
+msgid "Syntax error: The read_lines function requires parentheses."
 msgstr ""
 
 #: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
@@ -333,8 +375,24 @@ msgstr ""
 msgid "The search function requires two arguments: substring, text"
 msgstr ""
 
+#: avocadotranslator.translatesetlengthrequiresparentheses
+msgid "Syntax error: The set_length function requires parentheses, e.g., set_length(Array, 10)."
+msgstr ""
+
+#: avocadotranslator.translatesetlengthrequirestwoarguments
+msgid "Error: The set_length function requires EXACTLY TWO arguments (variable, new length)."
+msgstr ""
+
+#: avocadotranslator.translatesyntaxerrorassignmentreadline
+msgid "Syntax error in assignment in read_line."
+msgstr ""
+
 #: avocadotranslator.translatesyntaxerrorreadfunctionassignment
 msgid "Syntax error in the assignment in the read function."
+msgstr ""
+
+#: avocadotranslator.translateunknownaliastype
+msgid "Unknown alias type: "
 msgstr ""
 
 #: avocadotranslator.translateunknownfiletype
@@ -864,11 +922,19 @@ msgstr "Transpile"
 msgid "ZapiszPlik"
 msgstr "ZapiszPlik"
 
+#: tformopcjeprojektu.button1.caption
+msgid "Open the folder"
+msgstr ""
+
 #: tformopcjeprojektu.caption
 #, fuzzy
 #| msgid "Opcje Projektu"
 msgid "Project Options"
 msgstr "Opsi proyek"
+
+#: tformopcjeprojektu.groupbox1.caption
+msgid "Temporary project files"
+msgstr ""
 
 #: tformopcjeprojektu.sbok.caption
 msgctxt "tformopcjeprojektu.sbok.caption"
@@ -1363,6 +1429,26 @@ msgstr ""
 
 #: unit1.translatevaluelookingfound
 msgid "The value you were looking for has been found!"
+msgstr ""
+
+#: unitautor.translatecannotopenlink
+msgctxt "unitautor.translatecannotopenlink"
+msgid "The link cannot be opened: "
+msgstr ""
+
+#: unitautor.translateerrccannotopenlink
+msgctxt "unitautor.translateerrccannotopenlink"
+msgid "Error code: "
+msgstr ""
+
+#: unitopcjeprojektu.translateerrorcode
+msgctxt "unitopcjeprojektu.translateerrorcode"
+msgid "Error code: "
+msgstr ""
+
+#: unitopcjeprojektu.translatelinkcannotbeopened
+msgctxt "unitopcjeprojektu.translatelinkcannotbeopened"
+msgid "The link cannot be opened: "
 msgstr ""
 
 #: uprzyklady.translateanerroroccurred

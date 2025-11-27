@@ -1,4 +1,6 @@
 {"version":1,"strings":[
 {"hash":7411123,"name":"tformopcjeprojektu.caption","sourcebytes":[80,114,111,106,101,99,116,32,79,112,116,105,111,110,115],"value":"Project Options"},
-{"hash":1371,"name":"tformopcjeprojektu.sbok.caption","sourcebytes":[79,107],"value":"Ok"}
+{"hash":1371,"name":"tformopcjeprojektu.sbok.caption","sourcebytes":[79,107],"value":"Ok"},
+{"hash":117749347,"name":"tformopcjeprojektu.groupbox1.caption","sourcebytes":[84,101,109,112,111,114,97,114,121,32,112,114,111,106,101,99,116,32,102,105,108,101,115],"value":"Temporary project files"},
+{"hash":181654226,"name":"tformopcjeprojektu.button1.caption","sourcebytes":[79,112,101,110,32,116,104,101,32,102,111,108,100,101,114],"value":"Open the folder"}
 ]}

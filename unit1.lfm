@@ -1307,8 +1307,8 @@ object FormMain: TFormMain
   end
   object MainMenu1: TMainMenu
     Images = ImageListListView
-    Left = 328
-    Top = 32
+    Left = 464
+    Top = 48
     object MenuItem1: TMenuItem
       Caption = 'Plik'
       object MenuNewFile: TMenuItem
@@ -2081,7 +2081,6 @@ object FormMain: TFormMain
     VariableAttri.Foreground = clNone
     DotAttri.Foreground = 14851674
     KeyWords.Strings = (
-      '_N_'
       'APPEND'
       'ASM'
       'ASSIGN_FILE'
@@ -2092,15 +2091,16 @@ object FormMain: TFormMain
       'COMPARE_TEXT'
       'CREATE_DIR'
       'CURSOR_POSITION '
-      'CZY_ISTNIEJE_KATALOG'
-      'CZY_ISTNIEJE_PLIK'
       'CZYTAJ'
       'CZYTAJ_KLAWISZ'
       'CZYTAJ_LINIE'
+      'CZY_ISTNIEJE_KATALOG'
+      'CZY_ISTNIEJE_PLIK'
       'DELETE'
       'DESCENDING'
       'DIRECTORY_EXISTS'
       'DłUGOść'
+      '_N_'
       'DOPOKI'
       'DOPóKI'
       'DUZE_LITERY'

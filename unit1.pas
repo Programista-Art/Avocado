@@ -351,6 +351,8 @@ type
     //procedure LoadLang;
     procedure CloseProgram;
 
+    procedure DeleteFilesInDir(const APath, AMask: string);
+
 
     //Otwiera pliki w TreeView
     procedure LoadProjectTree;
@@ -659,7 +661,7 @@ end;
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-  AvocadoVersion := 'IDE Avocado v 2.0.0.0';
+  AvocadoVersion := 'IDE Avocado v 2.1.0.0';
   //dotyczy kolorowania SynEditCode
   //ColoredSynEdit;
   FormMain.Caption := AvocadoVersion;
@@ -672,7 +674,7 @@ begin
   //Saves a temporary file where the project is saved
   //Zapisuje plik tymczasowy tam gdzie jest zapisany projekt
   FTempFile := SaveFileProject + 'temp.avocado';
-  //Dodanie zanków polksich
+  //Dodanie znaków polksich
   SynAnySyn1.IdentifierChars := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyząćęłńóśźżĄĆĘŁŃÓŚŹŻ';
   SynEditCode.Repaint;
   LoadTokenGPT;
@@ -2455,11 +2457,20 @@ begin
          AProcess.Parameters.Add('-CX');
          AProcess.Parameters.Add('-XX');
          AProcess.Parameters.Add('-g-');
+         //// Dodajemy opcję '-FE' wskazującą, gdzie FPC ma zapisywać pliki .o i .ppu (np. do podkatalogu 'temp_units' w TempDir)
+         //AProcess.Parameters.Add('-FE' + IncludeTrailingPathDelimiter(TempDir) + 'temp_units'); // np. C:\Temp\Avocado\temp_units\
+         //// Tworzymy ten katalog, aby kompilator nie zgłosił błędu, jeśli nie istnieje
+         //ForceDirectories(IncludeTrailingPathDelimiter(TempDir) + 'temp_units');
       end
       else
       begin
          MemoLogs.Lines.Add(TranslateCompilingDebugMode);
       end;
+
+      // 1. Ustawienie KATAOGU WYJŚCIOWEGO DLA JEDNOSTEK (-FU) na folder tymczasowy
+      AProcess.Parameters.Add('-FU' + TempDir);
+      // opcja 'Build' (-B), która usuwa wszystkie pliki .ppu/.o po kompilacji
+     // AProcess.Parameters.Add('-B');;
 
       //Path to the directory with the source file (TempFile)
       SourceDir := ExtractFilePath(TempFile);
@@ -2525,11 +2536,33 @@ begin
       MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
   end;
   finally
+    DeleteFilesInDir(TempDir, '*.o');
+    DeleteFilesInDir(TempDir, '*.ppu');
+
+    // 1. Usuń plik źródłowy .pas (to już miałeś)
     if FileExists(TempFile) then
-       DeleteFile(TempFile);
-  end;
+      DeleteFile(TempFile);
+
+    //try
+    //  RemoveDir(TempDir);
+    //except
+    //  // Ignorujemy błąd, jeśli katalog jest nadal używany lub nie jest pusty
+    //end;
+
+
+       try
+          DeleteFile(ChangeFileExt(OutputFile, '.o'));
+          DeleteFile(ChangeFileExt(OutputFile, '.ppu'));
+        except
+        end;
+    end;
 
 end;
+
+
+
+
+
 
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);
@@ -3179,6 +3212,33 @@ begin
   end;
 
 
+end;
+
+procedure TFormMain.DeleteFilesInDir(const APath, AMask: string);
+var
+  SR: TSearchRec; // Zmienna do przechowywania informacji o znalezionym pliku
+  Found: Integer;
+begin
+  // Używamy funkcji FindFirst, aby znaleźć pierwszy plik pasujący do maski (np. '*.o')
+  // Zapewniamy, że ścieżka kończy się separatorem, a następnie dodajemy maskę
+  Found := FindFirst(IncludeTrailingPathDelimiter(APath) + AMask, faAnyFile - faDirectory, SR);
+  try
+    // Pętla wykonuje się tak długo, jak długo znajdują się pliki
+    while Found = 0 do
+    begin
+      try
+        // Usuń znaleziony plik
+        DeleteFile(IncludeTrailingPathDelimiter(APath) + SR.Name);
+      except
+        // Ignoruj błędy usuwania (np. plik jest zablokowany)
+      end;
+      // Przejdź do następnego pliku
+      Found := FindNext(SR);
+    end;
+  finally
+    // ZAWSZE zamykaj wyszukiwanie
+    FindClose(SR);
+  end;
 end;
 
 

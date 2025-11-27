@@ -33,24 +33,27 @@ object FormOpcjeProjektu: TFormOpcjeProjektu
       OnClick = sbOkClick
     end
   end
-  object Memo1: TMemo
+  object GroupBox1: TGroupBox
     Left = 0
-    Height = 221
+    Height = 65
     Top = 0
     Width = 336
-    Align = alClient
-    Alignment = taCenter
-    Color = clBlack
-    Font.CharSet = EASTEUROPE_CHARSET
-    Font.Color = clWhite
-    Font.Height = -16
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Lines.Strings = (
-      'Console application compiling to .exe file'
-    )
-    ParentFont = False
-    ReadOnly = True
+    Align = alTop
+    Caption = 'Temporary project files'
+    ClientHeight = 45
+    ClientWidth = 332
+    ParentBackground = False
     TabOrder = 1
+    object Button1: TButton
+      Left = 5
+      Height = 25
+      Top = 5
+      Width = 322
+      Align = alTop
+      BorderSpacing.Around = 5
+      Caption = 'Open the folder'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
   end
 end

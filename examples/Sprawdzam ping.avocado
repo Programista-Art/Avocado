@@ -1,0 +1,22 @@
+program pinguje
+importuj internet
+main
+checklink
+end.
+
+procedure checklink
+start
+string witaj = 'Witaj w programie PING'
+string namelink = 'www.dimitalart.pl'
+  print_line(witaj)
+  if ping(namelink) then
+  start
+    print_line('Strona ', namelink, ' odpowiada!')
+  end
+  else
+  start
+    print_line('Nie można nawiązać połączenia z ', namelink)
+  end
+end
+
+

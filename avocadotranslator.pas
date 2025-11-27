@@ -380,7 +380,20 @@ resourcestring
   TranslateMissingBracketsReadFunction = 'Syntax error: The read function requires brackets.';
   TranslateReadFunctionRequiresVariableName = 'Error: The read function requires a variable name to be specified.';
   TranslateErrorProcessingReadFunction = 'Error during processing of the read function: ';
-
+  TranslateSetLengthRequiresParentheses = 'Syntax error: The set_length function requires parentheses, e.g., set_length(Array, 10).';
+  TranslateSetLengthRequiresTwoArguments ='Error: The set_length function requires EXACTLY TWO arguments (variable, new length).';
+  TranslateFirstArgumentCannotBeEmpty = 'Error: The first argument (variable name) cannot be empty.';
+  TranslateErrorProcessingSetLengthFunction = 'Error while processing the set_length function: ';
+  TranslateSyntaxErrorAssignmentReadLine = 'Syntax error in assignment in read_line.';
+  TranslateReadLinesRequiresParentheses = 'Syntax error: The read_lines function requires parentheses.';
+  TranslateReadLinesParenthesesRequired = 'Syntax error: The read_lines function requires parentheses.';
+  TranslateErrorProcessingReadLinesFunction = 'Error while processing the read_lines function: ';
+  TranslatePingCommandRequiresUrlOrVariable = 'Syntax error: The PING command requires a URL or variable, e.g. ping "google.com"';
+  TranslateErrorProcessingPingCommand = 'Error while processing the PING command: ';
+  TranslatePingFunctionRequiresBrackets = 'Syntax error: The PING function requires brackets, e.g. ping(''google.com'', ''OK!'').';
+  TranslatePingFunctionRequiresTwoArguments = 'Error: The PING function requires EXACTLY TWO arguments (address, success message).';
+  TranslateErrorProcessingPingFunction = 'Error while processing the PING function: ';
+  TranslateUnknownAliasType = 'Unknown alias type: ';
 
 implementation
 uses
@@ -651,13 +664,13 @@ function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
    // --- Liczby całkowite ---
-    'liczba_całkowita', 'lc', 'int', 'integer':
+    'liczba_całkowita','liczba_calkowita', 'lc', 'int', 'integer':
       Exit('Integer');
 
-    'liczba_krótka', 'int8', 'shortint':
+    'liczba_krótka','liczba_krotka','int8', 'shortint':
       Exit('ShortInt');
 
-    'liczba_mała', 'int16', 'smallint':
+    'liczba_mała','liczba_dluga', 'int16', 'smallint':
       Exit('SmallInt');
 
     'liczba_długa', 'int32', 'longint':
@@ -685,7 +698,7 @@ begin
     'liczba_zm', 'lzm', 'real':
       Exit('Real');
 
-    'liczba_podwójna', 'double', 'float':
+    'liczba_podwójna','liczba_podwojna', 'double', 'float':
       Exit('Double');
 
     'liczba_rozszerzona', 'extended', 'float80':
@@ -704,10 +717,10 @@ begin
     'logiczny_bajt', 'byte_bool':
       Exit('ByteBool');
 
-    'logiczne_słowo', 'word_bool':
+    'logiczne_słowo','logiczne_slowo', 'word_bool':
       Exit('WordBool');
 
-    'logiczny_długi', 'long_bool':
+    'logiczny_długi', 'logiczny_dlugi', 'long_bool':
       Exit('LongBool');
 
     // --- Teksty ---
@@ -747,18 +760,19 @@ begin
       Exit('TypedFile');
 
     // --- Wskaźniki ---
-    'wskaźnik', 'pointer':
+    'wskaźnik','wskaznik', 'pointer':
       Exit('Pointer');
 
-    'wskaźnik_na', '^type', 'pointer_to':
-      Exit('^Type'); // Specjalny przypadek
+    'wskaźnik_na','wskaznik_na','^type', 'pointer_to':
+      Exit('^Type');
 
     // --- Struktury ---
     'informacje_o_wyszukaniu', 'search_record':
       Exit('TSearchRec');
 
-    'lista_tekstów', 'string_list':
+    'lista_tekstów', 'lista_tekstow', 'string_list':
       Exit('TStringList');
+
 
     // --- Inne ---
     'wariant', 'variant':
@@ -767,7 +781,7 @@ begin
     'wariant_ole', 'olevariant', 'ole_variant':
       Exit('OleVariant');
   else
-    raise Exception.Create('Nieznany alias typu: ' + AName);
+    raise Exception.Create(TranslateUnknownAliasType + AName);
   end;
 end;
 
@@ -1207,18 +1221,21 @@ TranslatedLine: string;
 begin
   TrimmedLine := Trim(Line);
   LowerTrimmedLine := AnsiLowerCase(TrimmedLine);
-  if not (LowerTrimmedLine.StartsWith('podczas ') or LowerTrimmedLine.StartsWith('while ')) then
+  if not (LowerTrimmedLine.StartsWith('dopóki ') or
+  (LowerTrimmedLine.StartsWith('dopoki ') or (LowerTrimmedLine.StartsWith('while '))))
+  then
   begin
     Exit;
   end;
 
   // pętla while.
   TranslatedLine := TrimmedLine;
-  TranslatedLine := ReplaceText(TranslatedLine, 'podczas', 'while');
-  TranslatedLine := ReplaceText(TranslatedLine, 'Podczas', 'while');
+  TranslatedLine := ReplaceText(TranslatedLine, 'dopóki', 'while');
+  TranslatedLine := ReplaceText(TranslatedLine, 'dopoki', 'while');
 
   // 2.'wykonać' -> 'do'
   TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'wykonac', 'do', [rfReplaceAll, rfIgnoreCase]);
   TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
   PascalCode.Add(TranslatedLine);
 end;
@@ -1235,7 +1252,7 @@ begin
     TranslatedLine := StringReplace(TranslatedLine, ' == ', '=', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, '==', '=', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, ' = ', ' := ', [rfReplaceAll]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonać','do', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
 
 
@@ -1923,7 +1940,10 @@ var
   Site: string;
   Param, Expression, Call: string;
   SExpr, StartExpr, CountExpr, SubstringExpr: string;
-  FullArgs: String;
+  FullArgs,LengthExpr,SiteExpression,TranslatedSite: String;
+  SuccessMessage: string ;
+  URL_Expression: string;
+  SavePath_Expression: string;
 
 begin
   TrimmedLine := Trim(Line);
@@ -2946,26 +2966,7 @@ begin
     end;
     Exit;
   end;
-  {
-  if (LowerCase(TrimmedLine).StartsWith('pisz_linie(')) or
-     (LowerCase(TrimmedLine).StartsWith('print_line(')) then
-  begin
-    OpenPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
-    if (OpenPos > 0)
-    and (EndPos > OpenPos) then
-    begin Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
-      PascalCode.Add('Writeln(' + TranslateExpression(Value) + ');');
-      Exit;
-    end;
-  end;
-  }
-  {
-    if (LowerCase(TrimmedLine).StartsWith('pisz(')) or (LowerCase(TrimmedLine).StartsWith('print(')) then
-  begin
-    OpenPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
-    if (OpenPos > 0) and (EndPos > OpenPos) then begin Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1); PascalCode.Add('Write(' + TranslateExpression(Value) + ');'); Exit; end;
-  end;
-    }
+
 
     // Obsługa funkcji pisz / print -> Write
   if (LowerCase(TrimmedLine).StartsWith('pisz(')) or
@@ -2991,16 +2992,7 @@ begin
     Exit;
   end;
 
-  {
-  if (LowerCase(TrimmedLine).StartsWith('losowy(')) or (LowerCase(TrimmedLine).StartsWith('random(')) then
-  begin
-    OpenPos := Pos('(', TrimmedLine);
-    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('Random(' + TranslateExpression(Value) + ');'); end;
-    Exit;
-  end;
-  }
   // Obsługa funkcji losowy / random -> Random
-  // ZMIANA: Używamy Pos() zamiast StartsWith(), aby wykryć przypisanie "a = losowy(10)"
   if (Pos('losowy(', LowerTrimmedLine) > 0) or
      (Pos('random(', LowerTrimmedLine) > 0) then
   begin
@@ -3013,21 +3005,13 @@ begin
       raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
     Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
     TranslatedParam := TranslateExpression(Param);
-
-    // Sprawdzamy czy to przypisanie (np. a = losowy(100))
     AssignPos := Pos('=', TrimmedLine);
-
     if (AssignPos > 0) and (AssignPos < StartPos) then
     begin
-      // Rozbijamy linię po znaku "="
       Parts := TrimmedLine.Split(['='], 2);
       VarName := Trim(Parts[0]);
-
-      // Usuwanie typu zmiennej (np. z "lc a" robimy "a")
       if Pos(' ', VarName) > 0 then
          VarName := Trim(Copy(VarName, RPos(' ', VarName) + 1, MaxInt));
-
-      // Generujemy kod Pascala
       if TranslatedParam = '' then
          PascalCode.Add(VarName + ' := Random;') // Wersja bez argumentu (0.0 do 1.0)
       else
@@ -3106,24 +3090,18 @@ begin
     EndPos := RPos(')', TrimmedLine);
     if (OpenPos = 0) or (EndPos = 0) then
       raise Exception.Create(TranslateMissingParenthesesGetEnvironmentVariableFunction);
-
     if OpenPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
     try
       Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
-
       if Trim(Value) = '' then
         raise Exception.Create(TranslateGetEnvironmentVariableRequiresName);
       if Pos('=', TrimmedLine) > 0 then
       begin
         Parts := TrimmedLine.Split(['='], 2);
         VarName := Trim(Parts[0]);
-
-        // Usuwanie typu z nazwy zmiennej (np. "tekst username" -> "username")
         if Pos(' ', VarName) > 0 then
            VarName := Trim(Copy(VarName, RPos(' ', VarName) + 1, MaxInt));
-
-        // POPRAWKA TUTAJ: Dodano "SysUtils." przed nazwą funkcji
         PascalCode.Add(VarName + ' := SysUtils.GetEnvironmentVariable(' + TranslateExpression(Value) + ');');
       end
       else
@@ -3131,7 +3109,6 @@ begin
         // Wywołanie samodzielne
         PascalCode.Add('SysUtils.GetEnvironmentVariable(' + TranslateExpression(Value) + ');');
       end;
-
     except
       on E: Exception do
         raise Exception.Create(TranslateErrorProcessingGetEnvironmentVariableFunction + E.Message);
@@ -3241,7 +3218,6 @@ begin
         ParamStr := Trim(Copy(Value, OpenPos + 1, EndPos - OpenPos - 1));
         if ParamStr <> '' then
           PascalCode.Add('Write(' + TranslateExpression(ParamStr) + ');');
-
         PascalCode.Add('Read(' + VarName + ');');
       end
       else
@@ -3273,14 +3249,10 @@ begin
       if Pos('=', TrimmedLine) > 0 then
       begin
         Parts := TrimmedLine.Split(['='], 2);
-
         if Length(Parts) < 2 then
-          raise Exception.Create('Błąd składni przypisania w czytaj_linie.');
-
+          raise Exception.Create(TranslateSyntaxErrorAssignmentReadLine);
         VarName := Trim(Parts[0]);
         Value := Trim(Parts[1]);
-
-
         if Pos(' ', VarName) > 0 then
         begin
           Parts := VarName.Split([' '], 2);
@@ -3291,17 +3263,13 @@ begin
             AddVariable(VarName, VarType, False);
           end;
         end;
-
-        // Wyciąganie promptu (tekstu zachęty) z prawej strony
         OpenPos := Pos('(', Value);
         EndPos := RPos(')', Value);
-
-        // Walidacja nawiasów
         if (OpenPos = 0) or (EndPos = 0) then
-           raise Exception.Create('Błąd składni: Funkcja czytaj_linie wymaga nawiasów.');
+           raise Exception.Create(TranslateReadLinesRequiresParentheses);
 
         if OpenPos > EndPos then
-           raise Exception.Create('Błąd składni: Nieprawidłowa kolejność nawiasów.');
+           raise Exception.Create(TranslateIncorrectOrderOfBrackets);
         ParamStr := Trim(Copy(Value, OpenPos + 1, EndPos - OpenPos - 1));
         if ParamStr <> '' then
           PascalCode.Add('Write(' + TranslateExpression(ParamStr) + ');');
@@ -3315,7 +3283,7 @@ begin
         EndPos := RPos(')', TrimmedLine);
 
         if (OpenPos = 0) or (EndPos = 0) then
-           raise Exception.Create('Błąd składni: Funkcja czytaj_linie wymaga nawiasów.');
+           raise Exception.Create(TranslateReadLinesParenthesesRequired);
         Value := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
 
         if Value = '' then
@@ -3325,41 +3293,221 @@ begin
       end;
     except
       on E: Exception do
-        raise Exception.Create('Błąd podczas przetwarzania funkcji czytaj_linie: ' + E.Message);
+        raise Exception.Create(TranslateErrorProcessingReadLinesFunction + E.Message);
     end;
 
     Exit;
   end;
-// Poprawic pozostaly kod
 
-  if (LowerCase(TrimmedLine).StartsWith('ustaw_długość(')) or (LowerCase(TrimmedLine).StartsWith('set_length(')) then
+
+
+  //  Obsługa funkcji ustaw_długość / set_length -> SetLength
+  if (LowerCase(TrimmedLine).StartsWith('ustaw_długość(')) or
+     (LowerCase(TrimmedLine).StartsWith('ustaw_dlugosc(')) or
+     (LowerCase(TrimmedLine).StartsWith('set_length(')) then
   begin
     OpenPos := Pos('(', TrimmedLine);
-    if OpenPos > 0 then begin Value := Copy(TrimmedLine, OpenPos + 1, Length(TrimmedLine) - OpenPos - 1); PascalCode.Add('SetLength(' + TranslateExpression(Value) + ');'); end;
+    EndPos := RPos(')', TrimmedLine);
+    if (OpenPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateSetLengthRequiresParentheses);
+
+    if OpenPos > EndPos then
+      raise Exception.Create(TranslateIncorrectOrderOfBrackets);
+    ParamStr := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 2 then
+        raise Exception.Create(TranslateSetLengthRequiresTwoArguments);
+      VarName := Trim(ParamPartsList[0]);
+      LengthExpr := TranslateExpression(Trim(ParamPartsList[1]));
+      if VarName = '' then
+        raise Exception.Create(TranslateFirstArgumentCannotBeEmpty);
+      PascalCode.Add('SetLength(' + VarName + ', ' + LengthExpr + ');');
+    except
+      on E: Exception do
+      begin
+        ParamPartsList.Free;
+        raise Exception.Create(TranslateErrorProcessingSetLengthFunction + E.Message);
+      end;
+    end;
+    ParamPartsList.Free;
     Exit;
   end;
+
+
 
   if (TrimmedLine.EndsWith(':')) and (Pos(' ', TrimmedLine) = 0) then
   begin
     PascalCode.Add(TrimmedLine);
     Exit;
   end;
+ {
+ // Poprawic pozostaly kod
+ // 7. Obsługa instrukcji ftp_pobierz 'plik' do 'lokalizacja'
+   if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
+   begin
+     try
+       // Dzielenie linii na dwie części za pomocą ' do '
+       Parts := TrimmedLine.Split([' do '], 2);
 
-  if LowerCase(TrimmedLine).StartsWith('ftp_pobierz ') then
+       // Walidacja liczby argumentów
+       if Length(Parts) <> 2 then
+         raise Exception.Create('Błąd składni: ftp_pobierz wymaga formatu: ftp_pobierz [URL] do [ŚcieżkaZapisu].');
+
+       // Wyciąganie adresu URL (usuwamy "ftp_pobierz " - 12 znaków + spacja)
+       URL_Expression := Trim(Parts[0].Substring(12));
+
+       // Wyciąganie ścieżki zapisu
+       SavePath_Expression := Trim(Parts[1]);
+
+       // Walidacja czy URL i ścieżka nie są puste
+       if (URL_Expression = '') or (SavePath_Expression = '') then
+         raise Exception.Create('Błąd: Zarówno URL pliku, jak i ścieżka zapisu muszą być podane.');
+       PascalCode.Add('DownloadFTP(' + TranslateExpression(URL_Expression) + ', ' + TranslateExpression(SavePath_Expression) + ');');
+
+
+     except
+       on E: Exception do
+         raise Exception.Create('Błąd podczas przetwarzania instrukcji FTP_POBIERZ: ' + E.Message);
+     end;
+     Exit;
+   end;
+   }
+
+
+
+  // Obsługa instrukcji ping adres (np. ping "google.com")
+  if LowerCase(TrimmedLine).StartsWith('ping ') then
   begin
-    Parts := TrimmedLine.Split([' do '], 2);
-    if Length(Parts) = 2 then PascalCode.Add('DownloadFTP(' + Parts[0].Substring(12) + ', ' + Parts[1] + ');');
-    PascalCode.Add('DownloadFileToDisk(URL, SavePath, ErrorMsg);');
+    try
+      // Wyciągamy resztę linii po "ping " (długość 'ping ' to 5)
+      SiteExpression := Trim(Copy(TrimmedLine, 5, Length(TrimmedLine) - 4));
+
+      // Walidacja
+      if SiteExpression = '' then
+        raise Exception.Create(TranslatePingCommandRequiresUrlOrVariable);
+
+      // Tłumaczymy wyrażenie
+      TranslatedSite := TranslateExpression(SiteExpression);
+
+      // Generowanie kodu dla warunku IF i domyślnych komunikatów
+      // START: if ping('www.google.com') then
+      PascalCode.Add('if ping(' + TranslatedSite + ') then');
+      PascalCode.Add('begin');
+
+      // Obsługa sukcesu (domyślny komunikat)
+      PascalCode.Add('  WriteLn(''Strona '' + ' + TranslatedSite + ' + '' odpowiada!'');');
+      PascalCode.Add('end');
+
+      // Obsługa błędu (domyślny komunikat)
+      PascalCode.Add('else');
+      PascalCode.Add('begin');
+      PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z '' + ' + TranslatedSite + ');');
+      PascalCode.Add('end;');
+
+    except
+      on E: Exception do
+        raise Exception.Create(TranslateErrorProcessingPingCommand + E.Message);
+    end;
+
     Exit;
   end;
 
+  // Obsługa instrukcji ping(adres, komunikat).
+  if LowerCase(TrimmedLine).StartsWith('ping(') then
+  begin
+    // ... walidacja i parsowanie nawiasów ...
+    OpenPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    if (OpenPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslatePingFunctionRequiresBrackets);
+
+    if OpenPos > EndPos then
+      raise Exception.Create(TranslateIncorrectOrderOfBrackets);
+
+    ParamStr := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
+
+    ParamPartsList := TStringList.Create;
+    try
+      try
+        SplitArguments(ParamStr, ParamPartsList);
+
+        if ParamPartsList.Count <> 2 then
+           raise Exception.Create(TranslatePingFunctionRequiresTwoArguments);
+           SiteExpression := TranslateExpression(Trim(ParamPartsList[0]));
+           SuccessMessage := TranslateExpression(Trim(ParamPartsList[1]));
+
+          PascalCode.Add('if ping(' + SiteExpression + ') then');
+          PascalCode.Add('begin');
+          PascalCode.Add('  WriteLn(' + SuccessMessage + ');');
+          PascalCode.Add('end');
+          PascalCode.Add('else');
+          PascalCode.Add('begin');
+          PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z '' + ' + SiteExpression + ');');
+          PascalCode.Add('end;');
+
+        finally
+          ParamPartsList.Free;
+        end;
+
+        except
+          on E: Exception do
+          begin
+            // Czyścimy PRZED podniesieniem wyjątku
+            ParamPartsList.Free;
+            raise Exception.Create(TranslateErrorProcessingPingFunction + E.Message);
+          end;
+        end;
+    Exit;
+  end;
+  //Obsługa instrukcji ping -> if ping(...) then ...
+  //dziala
+   { if LowerCase(TrimmedLine).StartsWith('ping ') then
+    begin
+      try
+        // Wyciągamy resztę linii po "ping " (długość 'ping ' to 5)
+        SiteExpression := Trim(Copy(TrimmedLine, 5, Length(TrimmedLine) - 4));
+
+        // Walidacja: Sprawdzenie, czy podano adres
+        if SiteExpression = '' then
+          raise Exception.Create('Błąd składni: Instrukcja PING wymaga podania adresu URL lub zmiennej, np. ping "google.com"');
+
+        // Tłumaczymy wyrażenie
+        TranslatedSite := TranslateExpression(SiteExpression);
+
+        // START: if ping('www.google.com') then
+        PascalCode.Add('if ping(' + TranslatedSite + ') then');
+        PascalCode.Add('begin');
+
+        // Obsługa sukcesu: POPRAWIONE ŁĄCZENIE STRINGÓW (użycie +)
+        PascalCode.Add('  WriteLn(''Strona '' + ' + TranslatedSite + ' + '' odpowiada!'');');
+        PascalCode.Add('end');
+
+        // Obsługa błędu: POPRAWIONE ŁĄCZENIE STRINGÓW (użycie +)
+        PascalCode.Add('else');
+        PascalCode.Add('begin');
+        PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z '' + ' + TranslatedSite + ');');
+        PascalCode.Add('end;');
+
+      except
+        on E: Exception do
+          raise Exception.Create('Błąd podczas przetwarzania instrukcji PING: ' + E.Message);
+      end;
+
+      Exit;
+    end; }
+
+
+  {
   if LowerCase(TrimmedLine).StartsWith('ping ') then
   begin
     Parts := TrimmedLine.Split([' '], 2);
     if Length(Parts) = 2 then
     begin
       Site := Parts[1];
-      PascalCode.Add('if Ping(''' + Site + ''') then');
+      PascalCode.Add('if ping(''' + Site + ''') then');
       PascalCode.Add('begin');
       PascalCode.Add('  WriteLn(''Strona ' + Site + ' odpowiada!'');');
       PascalCode.Add('end'); PascalCode.Add('else');
@@ -3369,6 +3517,7 @@ begin
     end;
     Exit;
   end;
+  }
 
   if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
   begin

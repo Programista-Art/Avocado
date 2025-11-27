@@ -1,0 +1,13 @@
+program matematykatest
+importuj matematyka
+main
+test
+end.
+
+procedura test
+start
+  oblicz('maks(3,5)')
+  oblicz('max(3,5)')
+end
+
+

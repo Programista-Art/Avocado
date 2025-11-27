@@ -35,6 +35,10 @@ type
 var
   FormAutor: TFormAutor;
 
+resourcestring
+  TranslateCannotOpenLink = 'The link cannot be opened: ';
+  TranslateErrCCannotOpenLink = 'Error code: ';
+
 implementation
 
 {$R *.lfm}
@@ -74,7 +78,7 @@ begin
 
   if ResultCode <= 32 then
   begin
-    ShowMessage('Nie można otworzyć linku: ' + link + '. Kod błędu: ' + IntToStr(ResultCode));
+    ShowMessage(TranslateCannotOpenLink + link + TranslateErrCCannotOpenLink + IntToStr(ResultCode));
   end;
 end;
 
