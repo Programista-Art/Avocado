@@ -163,6 +163,10 @@ msgstr ""
 msgid "Syntax error: Incomplete assignment."
 msgstr ""
 
+#: avocadotranslator.translateincorrectbracketsinfunction
+msgid "Error: incorrect brackets in the function."
+msgstr ""
+
 #: avocadotranslator.translateincorrectorderbracketstrim
 msgid "Incorrect order of brackets in trim()."
 msgstr ""
@@ -1162,6 +1166,10 @@ msgstr ""
 #: unit1.translateattentionmsg
 msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
+msgstr ""
+
+#: unit1.translatecannotcreatetemporarydirectory
+msgid "Error: Cannot create temporary directory: "
 msgstr ""
 
 #: unit1.translatechackexamplesfolderexists

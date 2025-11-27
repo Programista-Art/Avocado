@@ -571,6 +571,7 @@ resourcestring
    InterpretationCompleted = 'Interpretation completed.';
    ProcessStartupErr = 'Process startup error: ';
    NoCodeOpenFileorWriteCodeEditor = 'No code. Open the file or write code in the editor.';
+   TranslateCannotCreateTemporaryDirectory = 'Error: Cannot create temporary directory: ';
 
 implementation
 
@@ -660,7 +661,19 @@ end;
 { TFormMain }
 
 procedure TFormMain.FormCreate(Sender: TObject);
+var
+  TempDir: string;
 begin
+    // Utworzenie folderu Avocado
+    TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
+
+    if not ForceDirectories(TempDir) then
+    begin
+      // Obsługa błędu, np. wyświetlenie komunikatu
+      ShowMessage(TranslateCannotCreateTemporaryDirectory + TempDir);
+    end;
+
+
   AvocadoVersion := 'IDE Avocado v 2.1.0.0';
   //dotyczy kolorowania SynEditCode
   //ColoredSynEdit;
@@ -688,8 +701,6 @@ begin
   //laduje pliki do ListBoxSearchDocumentaion
   PageInfo.ActivePage := TabSheetLog;
   PagePanelRight.ActivePage := FPCCode;
-
-
 end;
 
 procedure TFormMain.TranspilujExecute(Sender: TObject);
@@ -708,7 +719,6 @@ begin
   FontSizeEditor := RozmiarCzcionkiSynEditor.Value;
   LRozmiarZccionkiEdytora.Caption := IntToStr(FontSizeEditor);
 end;
-
 
 
 procedure TFormMain.FormCloseQuery(Sender: TObject;
@@ -753,12 +763,8 @@ begin
        SynEditCode.Lines[SynEditCode.CaretY - 1]  // Pobranie tekstu linii
      ]));
 
-     //FSearchAll.Add(Format('[%d]: %s', [SynEditCode.CaretY,SynEditCode.Lines[SynEditCode.CaretY - 1]]));
      FSearchAll.Add(ListBoxSeacrh.Items[ListBoxSeacrh.Items.Count - 1]);
-     // Przesunięcie kursora za znalezione wystąpienie, aby kontynuować wyszukiwanie
      SynEditCode.CaretX := SynEditCode.CaretX + 1;
-
-     // Jeśli jesteśmy na końcu linii, przejdź do następnej
      if SynEditCode.CaretX > Length(SynEditCode.LineText) + 1 then
      begin
        SynEditCode.CaretY := SynEditCode.CaretY + 1;
@@ -814,7 +820,6 @@ begin
 end;
 
 
-
 procedure TFormMain.EditSearchFunctionsChange(Sender: TObject);
 begin
   if not Assigned(FFuncAll) then Exit;
@@ -837,7 +842,6 @@ var
   Node: TTreeNode;
   P: PNodeRec;
 begin
-   // Przejście po wszystkich węzłach TreeView
    for i := 0 to TreeView.Items.Count - 1 do
    begin
      Node := TreeView.Items[i];
@@ -875,24 +879,6 @@ begin
    end;
 end;
 
-{
-procedure TFormMain.FileTreeDblClick(Sender: TObject);
-var
-  Node: PVirtualNode;
-  Data: PFileNode;
-begin
-  Node := FileTree.FocusedNode;
-    if not Assigned(Node) then Exit;
-
-    Data := FileTree.GetNodeData(Node);
-    if Assigned(Data) and (not Data^.IsFolder) then
-    begin
-      // Otwórz plik w edytorze
-      ShowMessage('Otwieram: ' + Data^.FullPath);
-      // Tutaj dajesz np: Editor.Lines.LoadFromFile(Data^.FullPath);
-    end;
-end;
-}
 
 procedure TFormMain.itemJaponskiClick(Sender: TObject);
 begin
@@ -909,8 +895,6 @@ begin
   if ListBoxErrCode.ItemIndex < 0 then Exit;
 
   S := ListBoxErrCode.Items[ListBoxErrCode.ItemIndex];
-
-  // Wyciągnięcie numeru linii między '[' a ']'
   StartPos := Pos('[', S);
   EndPos := Pos(']', S);
 
@@ -921,15 +905,9 @@ begin
 
     if (LineNum >= 1) and (LineNum <= SynEditCode.Lines.Count) then
     begin
-
-       HighlightErrorLine(LineNum);  // <<< podświetlenie
-      // Ustawienie kursora na początku linii
+      HighlightErrorLine(LineNum);
       SynEditCode.CaretXY := Point(1, LineNum);
-
-      // Zapewnienie, że linia będzie widoczna
       SynEditCode.TopLine := LineNum;
-
-      // Ustawienie fokusu
       SynEditCode.SetFocus;
     end;
   end;
@@ -2543,18 +2521,20 @@ begin
     if FileExists(TempFile) then
       DeleteFile(TempFile);
 
-    //try
-    //  RemoveDir(TempDir);
-    //except
-    //  // Ignorujemy błąd, jeśli katalog jest nadal używany lub nie jest pusty
-    //end;
+   { try
+      RemoveDir(TempDir);
+    except
+      // Ignorujemy błąd, jeśli katalog jest nadal używany lub nie jest pusty
+    end;
+    }
 
 
-       try
-          DeleteFile(ChangeFileExt(OutputFile, '.o'));
-          DeleteFile(ChangeFileExt(OutputFile, '.ppu'));
-        except
-        end;
+       //try
+       //   DeleteFile(ChangeFileExt(OutputFile, '.o'));
+       //   DeleteFile(ChangeFileExt(OutputFile, '.ppu'));
+       //
+       // except
+       // end;
     end;
 
 end;
