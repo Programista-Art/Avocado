@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  ComboEx, MaskEdit, Buttons, Menus, TAChartCombos, BCListBox, BCComboBox,Inifiles,LCLTranslator, DefaultTranslator;
+  ComboEx, MaskEdit, Buttons, Menus, TAChartCombos, BCListBox, BCComboBox,Inifiles,
+  LCLTranslator, DefaultTranslator;
 
 type
 
@@ -51,6 +52,11 @@ type
 var
   Settingai: TSettingai;
   ini: TIniFile;
+resourcestring
+ TranslateInformation = 'Information';
+ TranslateIDataSaved = 'TranslateIDataSaved';
+ TranslateFileExists = 'The file exists: ';
+ TranslateModelstxtFileWasnotfound = 'The models.txt file was not found.';
 
 implementation
 
@@ -113,7 +119,7 @@ begin
   finally
     FreeAndNil(Ini);
   end;
-  MessageDlg('Dane','Dane zapisane', mtInformation,[mbOk],0);
+  MessageDlg(TranslateInformation,TranslateIDataSaved, mtInformation,[mbOk],0);
   Close;
 end;
 
@@ -152,11 +158,11 @@ begin
 
   if FileExists(FilePath) then
     begin
-      WriteLn('Plik istnieje: ', FilePath);
+      WriteLn(TranslateFileExists, FilePath);
       ComboModelGPT.Items.LoadFromFile(FilePath);
     end
   else
-    ShowMessage('Nie znaleziono pliku models.txt');
+    ShowMessage(TranslateModelstxtFileWasnotfound);
 end;
 
 end.

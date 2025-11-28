@@ -62,7 +62,7 @@ object Wsparcie: TWsparcie
       Height = 40
       Top = 16
       Width = 320
-      Caption = 'Wesprzyj projekt'
+      Caption = 'Support the project'
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Height = -21
       Font.Pitch = fpVariable

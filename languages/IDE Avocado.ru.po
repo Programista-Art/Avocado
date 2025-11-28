@@ -13,11 +13,11 @@ msgstr ""
 
 #: avocadotranslator.errorprint
 msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
-msgstr "Неверная синтаксис функции insert. Ожидалось: insert(source, target, index)"
+msgstr "Неверный синтаксис функции insert. Ожидаемое значение: insert(источник, цель, индекс)"
 
 #: avocadotranslator.functioninsert
 msgid "The insert function requires three arguments: source, target, index."
-msgstr "Функция insert требует трех аргументов: source, target, index"
+msgstr "Функция insert требует трех аргументов: (текст, переменная, индекс)."
 
 #: avocadotranslator.functiontrim
 msgid "Incorrect syntax of the trim function. Expected: trim(s)"
@@ -33,7 +33,7 @@ msgstr "Неверная синтаксис функции trim_right. Ожид�
 
 #: avocadotranslator.incorrectorderbracketstrimleft
 msgid "Incorrect order of brackets in trim_left()."
-msgstr ""
+msgstr "Неправильный порядок скобок в trim_left()."
 
 #: avocadotranslator.invalidvariabledeclaration
 msgid "Incorrect variable declaration: "
@@ -41,351 +41,367 @@ msgstr "Неправильное объявление переменной: "
 
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
-msgstr ""
+msgstr "Аргументы функции assign_file не могут быть пустыми."
 
 #: avocadotranslator.translateassignfilefunctionincorrectnumberofarguments
 msgid "Incorrect number of arguments for the assign_file function. Two arguments were expected."
-msgstr ""
+msgstr "Неверное количество аргументов для функции assign_file. Ожидалось два аргумента."
 
 #: avocadotranslator.translateassignmentexpectedreadkey
 msgid "Syntax error: Assignment expected (variable = read_key)."
-msgstr ""
+msgstr "Синтаксическая ошибка: ожидается присваивание (переменная = read_key)."
 
 #: avocadotranslator.translateazoruntil
 msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
-msgstr ""
+msgstr "Ошибка: найдено \"aż / az\" или \"until\" без соответствующего \"repeat\""
 
 #: avocadotranslator.translatecalcformatfunctionrequiresoneortwoarguments
 msgid "Error: The calc_format function requires 1 or 2 arguments."
-msgstr ""
+msgstr "Ошибка: функция calc_format требует 1 или 2 аргумента."
 
 #: avocadotranslator.translatecalculatefunctionrequiresexpression
 msgid "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
-msgstr ""
+msgstr "Ошибка: функция oblicz/calc должна содержать математическое выражение, например calc(2 * 5) / oblicz"
 
 #: avocadotranslator.translateclosingbracketbeforeopening
 msgid "Incorrect syntax: closing bracket before opening bracket"
-msgstr ""
+msgstr "Неправильный синтаксис: закрывающая скобка перед открывающей скобкой"
 
 #: avocadotranslator.translateclosingbracketbeforeopeningbracket
 msgid "Syntax error: The closing bracket appears before the opening bracket."
-msgstr ""
+msgstr "Синтаксическая ошибка: закрывающая скобка стоит перед открывающей скобкой."
 
 #: avocadotranslator.translatecomparetextfunctionrequirestwoarguments
 msgid "The compare_text function requires two arguments: s1 and s2."
-msgstr ""
+msgstr "Функция compare_text требует двух аргументов: s1 и s2."
 
 #: avocadotranslator.translatecopyfunctionrequiresthreearguments
 msgid "The copy function requires three arguments: text, start, how many"
-msgstr ""
+msgstr "Функция копирования copy требует три аргумента: текст, начало, количество"
 
 #: avocadotranslator.translatecursorpositionfunctionrequirestwoarguments
 msgid "The cursor_position function requires exactly 2 arguments (X, Y). Found:"
-msgstr ""
+msgstr "Функция cursor_position требует ровно 2 аргумента (X, Y). Найдены: "
 
 #: avocadotranslator.translatedeletefunctionrequires
 msgid "The delete function requires three arguments: s, index, count."
-msgstr ""
+msgstr "Функция удаления delete требует три аргумента: переменная, индекс, кол."
+
+#: avocadotranslator.translatedownloadfilefunctionrequirestwoarguments
+msgid "Error: The download_file function requires EXACTLY TWO arguments (URL, Save Path)."
+msgstr "Ошибка: функция download_file требует ТОЧНО ДВА аргумента (URL, путь сохранения)."
 
 #: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
 msgid "Error: Found \"repeat\" inside another \"repeat\""
-msgstr ""
+msgstr "Ошибка: найдено «repeat» внутри другого «repeat»"
 
 #: avocadotranslator.translateerrmissingconditionafteuntil
 msgid "Error: Missing condition after \"aż / az\" / \"until\""
-msgstr ""
+msgstr "Ошибка: отсутствует условие после «aż / az» / «do»."
 
 #: avocadotranslator.translateerrorprocessingargumentswritefunction
 msgid "Error while processing function arguments write: "
-msgstr ""
+msgstr "Ошибка при обработке аргументов функции print:  "
 
 #: avocadotranslator.translateerrorprocessingargumentswritelines
 msgid "Error processing arguments for write_lines: "
-msgstr ""
+msgstr "Ошибка при обработке аргументов для print_line: "
 
 #: avocadotranslator.translateerrorprocessingcalculatefunction
 msgid "Error during processing of the calculate function: "
-msgstr ""
+msgstr "Ошибка при обработке функции вычисления: "
 
 #: avocadotranslator.translateerrorprocessinggetargumentfunction
 msgid "Error while processing the get_argument function: "
-msgstr ""
+msgstr "Ошибка при обработке функции get_argument:  "
 
 #: avocadotranslator.translateerrorprocessinggetenvironmentvariablefunction
 msgid "Error while processing the get_environment_variable function: "
-msgstr ""
+msgstr "Ошибка при обработке функции get_environment_variable: "
+
+#: avocadotranslator.translateerrorprocessinggetfilefunction
+msgid "Error while processing the GET_FILE function: "
+msgstr "Ошибка при обработке функции GET_FILE: "
 
 #: avocadotranslator.translateerrorprocessingpingcommand
 msgid "Error while processing the PING command: "
-msgstr ""
+msgstr "Ошибка при обработке команды PING:  "
 
 #: avocadotranslator.translateerrorprocessingpingfunction
 msgid "Error while processing the PING function: "
-msgstr ""
+msgstr "Ошибка при обработке функции PING:  "
 
 #: avocadotranslator.translateerrorprocessingreadfunction
 msgid "Error during processing of the read function: "
-msgstr ""
+msgstr "Ошибка при обработке функции чтения: "
 
 #: avocadotranslator.translateerrorprocessingreadlinesfunction
 msgid "Error while processing the read_lines function: "
-msgstr ""
+msgstr "Ошибка при обработке функции read_lines: "
 
 #: avocadotranslator.translateerrorprocessingsetlengthfunction
 msgid "Error while processing the set_length function: "
-msgstr ""
+msgstr "Ошибка при обработке функции set_length: "
 
 #: avocadotranslator.translatefirstargumentcannotbeempty
 msgid "Error: The first argument (variable name) cannot be empty."
-msgstr ""
+msgstr "Ошибка: первый аргумент (имя переменной) не может быть пустым."
 
 #: avocadotranslator.translategetargumentfunctionrequiresindex
 msgid "Error: The get_argument function requires an index (number) to be specified."
-msgstr ""
+msgstr "Ошибка: Функция get_argument требует указания индекса (номера)."
 
 #: avocadotranslator.translategetenvironmentvariablerequiresname
 msgid "Error: The function requires an environment variable name to be specified."
-msgstr ""
+msgstr "Ошибка: для работы функции необходимо указать имя переменной среды."
 
 #: avocadotranslator.translateincompleteassignment
 msgid "Syntax error: Incomplete assignment."
-msgstr ""
+msgstr "Синтаксическая ошибка: неполное присвоение."
 
 #: avocadotranslator.translateincorrectbracketsinfunction
 msgid "Error: incorrect brackets in the function."
-msgstr ""
+msgstr "Ошибка: неправильные скобки в функции."
 
 #: avocadotranslator.translateincorrectorderbracketstrim
 msgid "Incorrect order of brackets in trim()."
-msgstr ""
+msgstr "Неправильный порядок скобок в trim()."
 
 #: avocadotranslator.translateincorrectorderbracketstrimright
 msgid "Incorrect order of brackets in trim_right() / trim_right"
-msgstr ""
+msgstr "Неправильный порядок скобок в trim_right() "
 
 #: avocadotranslator.translateincorrectorderofbrackets
 msgid "Syntax error: Incorrect order of brackets."
-msgstr ""
+msgstr "Синтаксическая ошибка: неправильный порядок скобок."
 
 #: avocadotranslator.translateincorrectsyntaxappendfunction
 msgid "Incorrect syntax append(f)"
-msgstr ""
+msgstr "Неверный синтаксис append(f)"
 
 #: avocadotranslator.translateincorrectsyntaxassignfilefunction
 msgid "Incorrect syntax assign_file(file_variable, file_name)"
-msgstr ""
+msgstr "Неправильный синтаксис assign_file(file_variable, file_name)"
 
 #: avocadotranslator.translateincorrectsyntaxassignfilefunctionexpected
 msgid "Incorrect syntax of the assign_file function. Expected: assign_file(file_variable, file_name)"
-msgstr ""
+msgstr "Неправильный синтаксис функции assign_file. Ожидаемое значение: assign_file(file_variable, file_name)"
 
 #: avocadotranslator.translateincorrectsyntaxchangedirfunction
 msgid "Incorrect syntax change_dir(...)"
-msgstr ""
+msgstr "Неправильный синтаксис change_dir(...)"
 
 #: avocadotranslator.translateincorrectsyntaxclosefilefunction
 msgid "Incorrect syntax close_file(f)"
-msgstr ""
+msgstr "Неправильный синтаксис close_file(f)"
 
 #: avocadotranslator.translateincorrectsyntaxcomparetextfunction
 msgid "Incorrect syntax of the compare_text function. Expected: compare_text(s1, s2)"
-msgstr ""
+msgstr "Неверный синтаксис функции compare_text. Ожидаемое значение: compare_text(s1, s2)"
 
 #: avocadotranslator.translateincorrectsyntaxcopyfunction
 msgid "Incorrect syntax for copy. Expected: copy(text, start, how many)"
-msgstr ""
+msgstr "Неверный синтаксис для copy. Ожидаемое значение: copy(текст, начало, количество)"
 
 #: avocadotranslator.translateincorrectsyntaxcreatedirfunction
 msgid "Incorrect syntax create_dir(...)"
-msgstr ""
+msgstr "Неверный синтаксис create_dir(...)"
 
 #: avocadotranslator.translateincorrectsyntaxdirectoryexistsfunction
 msgid "Incorrect syntax directory_exists(...)"
-msgstr ""
+msgstr "Неверный синтаксис directory_exists(...)"
 
 #: avocadotranslator.translateincorrectsyntaxeoffunction
 msgid "Incorrect syntax eof(f)"
-msgstr ""
+msgstr "Неверный синтаксис eof(f)"
 
 #: avocadotranslator.translateincorrectsyntaxfileexistsfunction
 msgid "Incorrect syntax of file_exists(...)"
-msgstr ""
+msgstr "Неправильный синтаксис file_exists(...)"
 
 #: avocadotranslator.translateincorrectsyntaxgetcurrentdirfunction
 msgid "Incorrect syntax get_current_dir(...)"
-msgstr ""
+msgstr "Неверный синтаксис get_current_dir(...)"
 
 #: avocadotranslator.translateincorrectsyntaxlengthfunction
 msgid "Incorrect syntax length. Expected: length(text)"
-msgstr ""
+msgstr "Неверная длина синтаксиса. Ожидаемое значение: length(string)"
 
 #: avocadotranslator.translateincorrectsyntaxloadfilefunction
 msgid "Incorrect syntax load_file(f)"
-msgstr ""
+msgstr "Неправильный синтаксис load_file(f)"
 
 #: avocadotranslator.translateincorrectsyntaxlowercasefunction
 msgctxt "avocadotranslator.translateincorrectsyntaxlowercasefunction"
 msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
-msgstr ""
+msgstr "Неверный синтаксис функции lowercase. Ожидаемое значение: małe_litery(s) / male_litery(s) / lower_case(s)"
 
 #: avocadotranslator.translateincorrectsyntaxopensavefunction
 msgid "Incorrect syntax open_save(f)"
-msgstr ""
+msgstr "Неверный синтаксис open_save(f)"
 
 #: avocadotranslator.translateincorrectsyntaxremovedirfunction
 msgid "Incorrect syntax remove_dir(...)"
-msgstr ""
+msgstr "Неверный синтаксис remove_dir(...)"
 
 #: avocadotranslator.translateincorrectsyntaxremovefunction
 msgid "Incorrect syntax of the remove/delete function. Expected: remove(s, index, count)"
-msgstr ""
+msgstr "Неправильный синтаксис функции remove/delete. Ожидаемое значение: remove(s, index, count)"
 
 #: avocadotranslator.translateincorrectsyntaxrepeatcharacterfunction
 msgid "Incorrect syntax of the repeat_character function."
-msgstr ""
+msgstr "Неправильный синтаксис функции repeat_char."
 
 #: avocadotranslator.translateincorrectsyntaxreplacetextfunction
 msgid "Incorrect syntax for replace_text. Expected: replace_text(text, from, to"
-msgstr ""
+msgstr "Неверный синтаксис для replace_text. Ожидалось: replace_text(оригинальный_текст, искомый_текст, новый_текст)"
 
 #: avocadotranslator.translateincorrectsyntaxsearchfunction
 msgid "Incorrect syntax for search. Expected: search(substring, text)"
-msgstr ""
+msgstr "Неверный синтаксис поиска. Ожидаемый: search(подстрока, текст)"
 
 #: avocadotranslator.translateincorrectsyntaxuppercasefunction
 msgid "Incorrect syntax of the uppercase function. Expected: duże_litery(s) or duze_litery(s) or upper_case(s)"
-msgstr ""
+msgstr "Неправильный синтаксис функции uppercase. Ожидаемое значение: duże_litery(s) или duze_litery(s) или upper_case(s)"
 
 #: avocadotranslator.translateincorrectsyntaxutf8lowercasefunction
 msgid "Incorrect syntax of the utf8_lower_case function."
-msgstr ""
+msgstr "Неправильный синтаксис функции utf8_lower_case."
 
 #: avocadotranslator.translateincorrectsyntaxutf8uppercaseansifunction
 msgid "Incorrect syntax of the utf8_upper_case function."
-msgstr ""
+msgstr "Неправильный синтаксис функции utf8_upper_case."
 
 #: avocadotranslator.translatelowercasefunctionsyntaxerror
 msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
 msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
-msgstr ""
+msgstr "Неправильный синтаксис функции lowercase. Ожидаемое значение: małe_litery(s) / male_litery(s) / lower_case(s)"
 
 #: avocadotranslator.translatemissingbracketscursorpositionfunction
 msgid "Syntax error: Missing brackets in the cursor_position function."
-msgstr ""
+msgstr "Синтаксическая ошибка: отсутствуют скобки в функции cursor_position."
 
 #: avocadotranslator.translatemissingbracketsgetargumentfunction
 msgid "Syntax error: The get_argument function requires brackets, e.g. programme_parameter(1)"
-msgstr ""
+msgstr "Синтаксическая ошибка: функция get_argument требует скобок, например get_argument(индекс)"
 
 #: avocadotranslator.translatemissingbracketspiszliniefunction
 msgid "Syntax error: The pisz_linie function requires brackets, e.g. pisz_linie('text')"
-msgstr ""
+msgstr "Синтаксическая ошибка: функция print_line требует скобок, например print_line('text')"
 
 #: avocadotranslator.translatemissingbracketsreadfunction
 msgid "Syntax error: The read function requires brackets."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция чтения требует скобок."
 
 #: avocadotranslator.translatemissingbracketswriteprintfunction
 msgid "Syntax error: The write/print function requires brackets, e.g. write('text')"
-msgstr ""
+msgstr "Синтаксическая ошибка: функция print требует скобок, например print('text')"
 
 #: avocadotranslator.translatemissingclosingbracketreadkeyfunction
 msgid "Syntax error: Missing closing bracket in the read_key function."
-msgstr ""
+msgstr "Синтаксическая ошибка: отсутствует закрывающая скобка в функции read_key."
 
 #: avocadotranslator.translatemissingparenthesescalculateformatfunction
 msgid "Syntax error: The function requires parentheses, e.g. calculate_format(\"'2+2\"', 2)"
-msgstr ""
+msgstr "Синтаксическая ошибка: функция требует скобок, например calc_format('2+2', 2)"
 
 #: avocadotranslator.translatemissingparenthesescalculatefunction
 msgid "Syntax error: The calculate/calc function requires parentheses, e.g. calculate(2 + 2)"
-msgstr ""
+msgstr "Синтаксическая ошибка: функция oblicz/calc требует скобок, например calc(2 + 2)"
 
 #: avocadotranslator.translatemissingparenthesesgetenvironmentvariablefunction
 msgid "Syntax error: The function requires parentheses, e.g. get_environment_variable('PATH')"
-msgstr ""
+msgstr "Синтаксическая ошибка: функция требует скобок, например get_env(name)"
 
 #: avocadotranslator.translatemissingparenthesesrandomfunction
 msgid "Syntax error: The random function requires parentheses, e.g. random(100) or random()."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция random требует скобок, например random(100)"
 
 #: avocadotranslator.translatenobracketstrimfunction
 msgid "No brackets in the trim function."
-msgstr ""
+msgstr "В функции trim нет скобок."
 
 #: avocadotranslator.translatenobracketstrimleftfunction
 msgid "No brackets in the trim_left function."
-msgstr ""
+msgstr "No brackets in the trim_left function."
 
 #: avocadotranslator.translatenobracketstrimrightfunction
 msgid "No brackets in the trim_right function."
-msgstr ""
+msgstr "В функции trim_right нет скобок."
 
 #: avocadotranslator.translateparentheseserrorreadkeyfunction
 msgid "Syntax error in parentheses in read_key."
-msgstr ""
+msgstr "Синтаксическая ошибка в скобках в read_key."
 
 #: avocadotranslator.translatepingcommandrequiresurlorvariable
 msgid "Syntax error: The PING command requires a URL or variable, e.g. ping \"google.com\""
-msgstr ""
+msgstr "Синтаксическая ошибка: для команды PING требуется URL-адрес или переменная, например ping 'google.com'"
 
 #: avocadotranslator.translatepingfunctionrequiresbrackets
 msgid "Syntax error: The PING function requires brackets, e.g. ping('google.com', 'OK!')."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция PING требует скобок, например ping('google.com', 'OK!')."
 
 #: avocadotranslator.translatepingfunctionrequirestwoarguments
 msgid "Error: The PING function requires EXACTLY TWO arguments (address, success message)."
-msgstr ""
+msgstr "Ошибка: функция PING требует ТОЧНО ДВА аргумента (адрес, сообщение об успешном выполнении)."
+
+#: avocadotranslator.translatepobierzstronerequiresparentheses
+msgid "Syntax error: The pobierz_strone function requires parentheses, e.g., pobierz_strone('url', ResultVariable)."
+msgstr "Синтаксическая ошибка: функция pobierz_strone требует скобок, например, download_page('url', Переменная результата)."
+
+#: avocadotranslator.translatepobierzstronerequirestwoarguments
+msgid "Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable)."
+msgstr "Ошибка: функция  download_page требует ТОЧНО ДВА аргумента (URL, переменная результата)."
 
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция randomize не принимает скобки или аргументы. Используйте только слово randomize."
 
 #: avocadotranslator.translatereadfunctionrequiresvariablename
 msgid "Error: The read function requires a variable name to be specified."
-msgstr ""
+msgstr "Ошибка: для функции чтения необходимо указать имя переменной."
 
 #: avocadotranslator.translatereadlinesparenthesesrequired
 msgctxt "avocadotranslator.translatereadlinesparenthesesrequired"
 msgid "Syntax error: The read_lines function requires parentheses."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция read_lines требует скобок."
 
 #: avocadotranslator.translatereadlinesrequiresparentheses
 msgctxt "avocadotranslator.translatereadlinesrequiresparentheses"
 msgid "Syntax error: The read_lines function requires parentheses."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция read_lines требует скобок."
 
 #: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
 msgid "The repeat_char function requires two arguments."
-msgstr ""
+msgstr "Функция repeat_char требует двух аргументов."
 
 #: avocadotranslator.translatereplacetextfunctionrequiresthreearguments
 msgid "The replace_text function requires three arguments: text, from, to."
-msgstr ""
+msgstr "Функция replace_text требует три аргумента: (оригинальный текст, искомый текст, новый текст)"
 
 #: avocadotranslator.translatesearchfunctionrequirestwoarguments
 msgid "The search function requires two arguments: substring, text"
-msgstr ""
+msgstr "Функция поиска search требует два аргумента: подстрока, текст"
 
 #: avocadotranslator.translatesetlengthrequiresparentheses
 msgid "Syntax error: The set_length function requires parentheses, e.g., set_length(Array, 10)."
-msgstr ""
+msgstr "Синтаксическая ошибка: функция set_length требует скобок, например, set_length(Array, 10)."
 
 #: avocadotranslator.translatesetlengthrequirestwoarguments
 msgid "Error: The set_length function requires EXACTLY TWO arguments (variable, new length)."
-msgstr ""
+msgstr "Ошибка: функция set_length требует ТОЧНО ДВА аргумента (переменная, новая длина)."
 
 #: avocadotranslator.translatesyntaxerrorassignmentreadline
 msgid "Syntax error in assignment in read_line."
-msgstr ""
+msgstr "Синтаксическая ошибка в присваивании в read_line."
 
 #: avocadotranslator.translatesyntaxerrorreadfunctionassignment
 msgid "Syntax error in the assignment in the read function."
-msgstr ""
+msgstr "Синтаксическая ошибка в присваивании в функции чтения read."
 
 #: avocadotranslator.translateunknownaliastype
 msgid "Unknown alias type: "
-msgstr ""
+msgstr "Неизвестный тип псевдонима:  "
 
 #: avocadotranslator.translateunknownfiletype
 msgid "Unknown file variable type: "
@@ -494,10 +510,6 @@ msgctxt "tformmain.fpccode.caption"
 msgid "Free Pascal Code"
 msgstr "Free Pascal Code"
 
-#: tformmain.itemjaponski.caption
-msgid "日本語"
-msgstr "日本語"
-
 #: tformmain.itemtools.caption
 msgid "Tools"
 msgstr "Инструменты"
@@ -530,38 +542,24 @@ msgstr "0"
 
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
-msgid "O programie"
+msgid "About the program"
 msgstr "О программе"
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
-msgid "Autor"
+msgid "Author"
 msgstr "Автор"
 
-#: tformmain.menuchinski.caption
-msgctxt "tformmain.menuchinski.caption"
-msgid "中國人"
-msgstr "中國人"
-
 #: tformmain.menuclose.caption
-msgid "Zamknij"
+msgid "Close"
 msgstr "Закрыть"
 
 #: tformmain.menuexamples.caption
-msgid "Przykłady"
+msgid "Examples"
 msgstr "Примеры"
 
-#: tformmain.menuhindi.caption
-msgctxt "tformmain.menuhindi.caption"
-msgid "हिंदी"
-msgstr "हिंदी"
-
-#: tformmain.menuiarabski.caption
-msgid "العربية"
-msgstr "العربية"
-
 #: tformmain.menuinformacjaide.caption
-msgid "Informacja o IDE"
+msgid "Information about IDE"
 msgstr "Информация об IDE"
 
 #: tformmain.menuirosyjski.caption
@@ -572,14 +570,6 @@ msgstr "Русский"
 #: tformmain.menuitaiasystant.caption
 msgid "AI Assistant"
 msgstr "Помощник ИИ"
-
-#: tformmain.menuitefinski.caption
-msgid "Suomi"
-msgstr "Suomi"
-
-#: tformmain.menuitegrecki.caption
-msgid "ελληνικά"
-msgstr "ελληνικά"
 
 #: tformmain.menuitem1.caption
 msgid "Plik"
@@ -601,26 +591,6 @@ msgstr "Français"
 msgid "Deutsch"
 msgstr "Deutsch"
 
-#: tformmain.menuitem14.caption
-msgid "Italiano"
-msgstr "Italiano"
-
-#: tformmain.menuitem15.caption
-msgid "Português"
-msgstr "Português"
-
-#: tformmain.menuitem16.caption
-msgid "Українська"
-msgstr "Українська"
-
-#: tformmain.menuitem17.caption
-msgid "Български"
-msgstr "Български"
-
-#: tformmain.menuitem18.caption
-msgid "Nederlands"
-msgstr "Nederlands"
-
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
 msgid "Theme"
@@ -636,7 +606,7 @@ msgid "Program"
 msgstr "Программа"
 
 #: tformmain.menuitem3.caption
-msgid "Pomoc"
+msgid "Help"
 msgstr "Помощь"
 
 #: tformmain.menuitem3clearcode.caption
@@ -662,7 +632,7 @@ msgid "Sprawdź kod [AI]"
 msgstr "Проверить код [AI]"
 
 #: tformmain.menuitem8.caption
-msgid "Język"
+msgid "Language"
 msgstr "Language"
 
 #: tformmain.menuitem9.caption
@@ -697,14 +667,6 @@ msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
 msgstr "Вырезать"
 
-#: tformmain.menuitemczeski.caption
-msgid "čeština"
-msgstr "čeština"
-
-#: tformmain.menuitemdansk.caption
-msgid "Dansk"
-msgstr "Dansk"
-
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
 msgstr "Удалить код "
@@ -715,32 +677,8 @@ msgid "Usuń"
 msgstr "Удалить"
 
 #: tformmain.menuitemdokumentacja.caption
-msgid "Dokumentacja online"
+msgid "Online documentation"
 msgstr "Онлайн-документация"
-
-#: tformmain.menuitemestonski.caption
-msgid "Eesti"
-msgstr "Eesti"
-
-#: tformmain.menuitemkoreanski.caption
-msgid "한국인"
-msgstr "한국인"
-
-#: tformmain.menuitemlanglatvian.caption
-msgid "latviešu"
-msgstr "latviešu"
-
-#: tformmain.menuitemlanglithuanian.caption
-msgid "Lietuvių"
-msgstr "Lietuvių"
-
-#: tformmain.menuitemlangromanian.caption
-msgid "Română"
-msgstr "Română"
-
-#: tformmain.menuitemlangslovak.caption
-msgid "Slovenský"
-msgstr "Slovenský"
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
@@ -773,49 +711,29 @@ msgstr "Сохранить"
 msgid "Search"
 msgstr "Поиск"
 
-#: tformmain.menuitemslovenianlang.caption
-msgid "Slovenščina"
-msgstr "Slovenščina"
-
-#: tformmain.menuitemswedishlang.caption
-msgid "Svensk"
-msgstr "Svensk"
-
-#: tformmain.menuitemturkishlang.caption
-msgid "Türkçe"
-msgstr "Türkçe"
-
 #: tformmain.menuitemwsparcieprojektu.caption
-msgid "Wesprzyj"
+msgid "Support"
 msgstr "Поддержите"
 
-#: tformmain.menuitindonezyjski.caption
-msgid "Indonesia"
-msgstr "Indonesia"
-
-#: tformmain.menuitwegierski.caption
-msgid "Magyar"
-msgstr "Magyar"
-
 #: tformmain.menunewfile.caption
-msgid "Nowy"
+msgid "New"
 msgstr "Новый"
 
 #: tformmain.menuopcjeprojektu.caption
-msgid "Opcje projektu"
+msgid "Project options"
 msgstr "Варианты проекта"
 
 #: tformmain.menuopen.caption
-msgid "Otwórz"
+msgid "Open"
 msgstr "Открыть"
 
 #: tformmain.menuprojekt.caption
-msgid "Projekt"
+msgid "Project"
 msgstr "Проект"
 
 #: tformmain.menusaveas.caption
-msgid "Zapisz jak"
-msgstr "Запишите как"
+msgid "Save as"
+msgstr "Сохранить как"
 
 #: tformmain.menuustawinia.caption
 msgctxt "tformmain.menuustawinia.caption"
@@ -897,7 +815,7 @@ msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.button1.caption
 msgid "Open the folder"
-msgstr ""
+msgstr "Откройте папку"
 
 #: tformopcjeprojektu.caption
 msgid "Project Options"
@@ -905,7 +823,7 @@ msgstr "Варианты проекта"
 
 #: tformopcjeprojektu.groupbox1.caption
 msgid "Temporary project files"
-msgstr ""
+msgstr "Временные файлы проекта"
 
 #: tformopcjeprojektu.sbok.caption
 msgctxt "tformopcjeprojektu.sbok.caption"
@@ -975,11 +893,11 @@ msgid "EditTokenGPT"
 msgstr "EditTokenGPT"
 
 #: tsettingai.label1.caption
-msgid "Model językowy"
+msgid "Language model"
 msgstr "Языковая модель"
 
 #: tsettingai.label2.caption
-msgid "Klucz API"
+msgid "API key"
 msgstr "API-ключ"
 
 #: tsettingai.menuitemcopy.caption
@@ -1006,11 +924,11 @@ msgstr "Показать ключ"
 
 #: tsettingai.speedbutsave.caption
 msgctxt "tsettingai.speedbutsave.caption"
-msgid "Zapisz"
+msgid "Save"
 msgstr "Сохранить"
 
 #: tsettingai.speedbuttonok.caption
-msgid "Anuluj"
+msgid "Cancel"
 msgstr "Отменить"
 
 #: tsettingtheme.btnsave.caption
@@ -1042,7 +960,7 @@ msgid "OK"
 msgstr "Ок"
 
 #: twsparcie.speedbutton2.caption
-msgid "Wesprzyj projekt"
+msgid "Support the project"
 msgstr "Поддержите проект"
 
 #: unit1.countchars
@@ -1081,7 +999,7 @@ msgstr "Открытый проект:  "
 
 #: unit1.processstartuperr
 msgid "Process startup error: "
-msgstr "Ошибка запуска процесса:"
+msgstr "Ошибка запуска процесса: "
 
 #: unit1.runinterpreterseparatewindow
 msgid "Running the interpreter in a separate window.."
@@ -1089,11 +1007,11 @@ msgstr "Запуск интерпретатора в отдельном окне
 
 #: unit1.translateaddcustommodulespath
 msgid " - Added custom IDE modules path: "
-msgstr "- Добавлен путь к пользовательским модулям IDE: "
+msgstr "- Добавлен путь к пользовательским модулям IDE:  "
 
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
-msgstr "- Добавлен путь к пользовательским модулям: "
+msgstr "- Добавлен путь к пользовательским модулям:  "
 
 #: unit1.translateaihelperapikeyadded
 msgid "AI Helper API Key Added"
@@ -1119,7 +1037,7 @@ msgstr "Внимание!"
 
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
-msgstr ""
+msgstr "Ошибка: Невозможно создать временный каталог:  "
 
 #: unit1.translatechackexamplesfolderexists
 msgctxt "unit1.translatechackexamplesfolderexists"
@@ -1132,7 +1050,7 @@ msgstr "Проверьте API-токен и подключение к Инте�
 
 #: unit1.translatecheckmodulesdir
 msgid "Checking the IDE s own modules directory: "
-msgstr "Проверка каталога собственных модулей IDE:"
+msgstr "Проверка каталога собственных модулей IDE: "
 
 #: unit1.translatecodecorrect
 msgid "Code correct!"
@@ -1166,15 +1084,15 @@ msgstr "Компиляция в режиме Release."
 
 #: unit1.translateconferrfpcbasepath
 msgid "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
-msgstr "ОШИБКА КОНФИГУРАЦИИ: Настроенный базовый путь FPC (FpcBasePath) не существует:"
+msgstr "ОШИБКА КОНФИГУРАЦИИ: Настроенный базовый путь FPC (FpcBasePath) не существует: "
 
 #: unit1.translateconferrmodulepath
 msgid "CONFIGURATION ERROR: no module path set "
-msgstr "ОШИБКА КОНФИГУРАЦИИ: не задан путь к модулю"
+msgstr "ОШИБКА КОНФИГУРАЦИИ: не задан путь к модулю "
 
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
-msgstr "ОШИБКА КОНФИГУРАЦИИ: целевая платформа не установлена"
+msgstr "ОШИБКА КОНФИГУРАЦИИ: целевая платформа не установлена "
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
@@ -1182,7 +1100,7 @@ msgstr "Создать новый файл?"
 
 #: unit1.translatecustmodulesdirnotfound
 msgid "Info: IDE custom modules directory not found: "
-msgstr "Информация: каталог пользовательских модулей IDE не найден:"
+msgstr "Информация: каталог пользовательских модулей IDE не найден: "
 
 #: unit1.translatedebuggerfilenotfound
 msgid "Debugger.txt file not found"
@@ -1190,11 +1108,11 @@ msgstr "Файл Debugger.txt не найден"
 
 #: unit1.translateeditorfontsizeloaded
 msgid "Editor font size loaded: "
-msgstr "Размер шрифта редактора загружен:"
+msgstr "Размер шрифта редактора загружен: "
 
 #: unit1.translateeditorfontsizenoloaded
 msgid "Editor font size not loaded: "
-msgstr "Размер шрифта редактора не загружен:"
+msgstr "Размер шрифта редактора не загружен: "
 
 #: unit1.translateenterquestion
 msgid "Please enter your question!"
@@ -1227,7 +1145,7 @@ msgstr "Ошибки в коде!"
 
 #: unit1.translateerrpacalcodecompile
 msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
-msgstr "Ошибка: нет кода Pascal для компиляции (параметр PascalCode пуст)."
+msgstr "Ошибка: нет кода Pascal для компиляции (параметр PascalCode пуст). "
 
 #: unit1.translateerrpathtofpc
 msgid "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
@@ -1235,11 +1153,11 @@ msgstr "ФАТАЛЬНАЯ ОШИБКА: Путь к компилятору FPC 
 
 #: unit1.translateerrrequiredfpcstandardunitdirfound
 msgid "ERROR: Required FPC standard unit directory not found: "
-msgstr "ОШИБКА: требуемый каталог стандартных модулей FPC не найден:"
+msgstr "ОШИБКА: требуемый каталог стандартных модулей FPC не найден: "
 
 #: unit1.translateerrusermodulespath
 msgid "WARNING: Configured user modules path (FModulsPath: "
-msgstr "ВНИМАНИЕ: Настроенный путь к пользовательским модулям (FModulsPath:"
+msgstr "ВНИМАНИЕ: Настроенный путь к пользовательским модулям (FModulsPath: "
 
 #: unit1.translatefailstartprogram
 msgid "Failed to start program: "
@@ -1268,11 +1186,11 @@ msgstr "Найденный"
 
 #: unit1.translatefpccompilernotexist
 msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
-msgstr "ФАТАЛЬНАЯ ОШИБКА: Путь к компилятору FPC не существует или не указан в"
+msgstr "ФАТАЛЬНАЯ ОШИБКА: Путь к компилятору FPC не существует или не указан в "
 
 #: unit1.translatefpcconfigureerrpathtofpc
 msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
-msgstr "ОШИБКА КОНФИГУРАЦИИ: Базовый путь к папке компилятора FPC не задан в"
+msgstr "ОШИБКА КОНФИГУРАЦИИ: Базовый путь к папке компилятора FPC не задан в "
 
 #: unit1.translatefunctionnotfound
 msgid "Function not found."
@@ -1288,11 +1206,11 @@ msgstr "Выбран пустой элемент."
 
 #: unit1.translatelinktofpc
 msgid "Link to fpc.exe compiler: "
-msgstr "Ссылка на компилятор fpc.exe:"
+msgstr "Ссылка на компилятор fpc.exe: "
 
 #: unit1.translatelinktofpcfolder
 msgid "Link to compiler folder: "
-msgstr "Ссылка на папку компилятора:"
+msgstr "Ссылка на папку компилятора: "
 
 #: unit1.translateloadingsettings
 msgid "Loading settings "
@@ -1328,7 +1246,7 @@ msgstr "Нет префиксов для поиска!"
 
 #: unit1.translatenotexist
 msgid " ) does not exist! "
-msgstr " ) не существует!"
+msgstr " ) не существует! "
 
 #: unit1.translatenotokenaiassistant
 msgid "No token from AI Assistant"
@@ -1352,11 +1270,11 @@ msgstr "Проект не сохранён. Сохранить проект пе
 
 #: unit1.translatespeeches
 msgid "speeches"
-msgstr "речи"
+msgstr "линии"
 
 #: unit1.translatestandardfpcunits
 msgid " .Standard FPC units will not be found!"
-msgstr "Стандартные блоки FPC не будут найдены!"
+msgstr "Стандартные блоки FPC не будут найдены! "
 
 #: unit1.translatestartcomilation
 msgid "Starting compilation..."
@@ -1364,7 +1282,7 @@ msgstr "Начинаю компиляцию..."
 
 #: unit1.translatestartcomilationparam
 msgid "Starting compilation with parameters: "
-msgstr "Запуск компиляции с параметрами:"
+msgstr "Запуск компиляции с параметрами: "
 
 #: unit1.translatesyneditcodenotcreated
 msgid "NOTE: SynEditCode not created!"
@@ -1372,11 +1290,11 @@ msgstr "ПРИМЕЧАНИЕ: SynEditCode не создан!"
 
 #: unit1.translatetranslationerror
 msgid "Translation Error: "
-msgstr "Ошибка перевода:"
+msgstr "Ошибка перевода: "
 
 #: unit1.translateunableunitdirectory
 msgid " .Unable to determine unit directory!"
-msgstr "Невозможно определить каталог объекта!"
+msgstr "Невозможно определить каталог объекта! "
 
 #: unit1.translateunknownname
 msgid "Unknown name"
@@ -1389,22 +1307,22 @@ msgstr "Значение, которое вы искали, найдено!"
 #: unitautor.translatecannotopenlink
 msgctxt "unitautor.translatecannotopenlink"
 msgid "The link cannot be opened: "
-msgstr ""
+msgstr "Ссылка не открывается: "
 
 #: unitautor.translateerrccannotopenlink
 msgctxt "unitautor.translateerrccannotopenlink"
 msgid "Error code: "
-msgstr ""
+msgstr "Код ошибки: "
 
 #: unitopcjeprojektu.translateerrorcode
 msgctxt "unitopcjeprojektu.translateerrorcode"
 msgid "Error code: "
-msgstr ""
+msgstr "Код ошибки: "
 
 #: unitopcjeprojektu.translatelinkcannotbeopened
 msgctxt "unitopcjeprojektu.translatelinkcannotbeopened"
 msgid "The link cannot be opened: "
-msgstr ""
+msgstr "Ссылка не открывается: "
 
 #: uprzyklady.translateanerroroccurred
 msgctxt "uprzyklady.translateanerroroccurred"
@@ -1435,7 +1353,7 @@ msgstr "Ошибка: объект FuSettingsChatGPT недоступен."
 #: uprzyklady.translatefilenotexist
 msgctxt "uprzyklady.translatefilenotexist"
 msgid "File does not exist: "
-msgstr "Файл не существует:"
+msgstr "Файл не существует: "
 
 #: uprzyklady.translatenoitemselected
 msgid "No item selected"
@@ -1446,6 +1364,23 @@ msgid "Data saved"
 msgstr "Данные сохранены"
 
 #: usettings.translateinformation
+msgctxt "usettings.translateinformation"
 msgid "Information"
 msgstr "Информация"
 
+#: ustawieniaai.translatefileexists
+msgid "The file exists: "
+msgstr "Файл существует: "
+
+#: ustawieniaai.translateidatasaved
+msgid "TranslateIDataSaved"
+msgstr "TranslateIDataSaved"
+
+#: ustawieniaai.translateinformation
+msgctxt "ustawieniaai.translateinformation"
+msgid "Information"
+msgstr "Информация"
+
+#: ustawieniaai.translatemodelstxtfilewasnotfound
+msgid "The models.txt file was not found."
+msgstr "Файл models.txt не найден."

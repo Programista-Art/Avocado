@@ -1,18 +1,17 @@
 object FormOprogramie: TFormOprogramie
   Left = 350
-  Height = 173
+  Height = 191
   Top = 250
   Width = 320
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'O programie'
-  ClientHeight = 173
+  ClientHeight = 191
   ClientWidth = 320
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   object Memo1: TMemo
     Left = 0
-    Height = 141
+    Height = 159
     Top = 0
     Width = 320
     Align = alClient
@@ -28,6 +27,7 @@ object FormOprogramie: TFormOprogramie
       'Development environment for the Avocado programming language, including the Avocado language itself.'
       'Updated October 3, 2025'
       'www.avocado.dimitalart.pl'
+      'www.avocado.code.com'
     )
     ParentFont = False
     ReadOnly = True
@@ -36,7 +36,7 @@ object FormOprogramie: TFormOprogramie
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 141
+    Top = 159
     Width = 320
     Align = alBottom
     Caption = 'Panel1'

@@ -1312,7 +1312,7 @@ object FormMain: TFormMain
     object MenuItem1: TMenuItem
       Caption = 'Plik'
       object MenuNewFile: TMenuItem
-        Caption = 'Nowy'
+        Caption = 'New'
         object MenuItemConsoleProgram: TMenuItem
           Caption = 'Console program'
           OnClick = MenuItemConsoleProgramClick
@@ -1323,7 +1323,7 @@ object FormMain: TFormMain
         end
       end
       object MenuOpen: TMenuItem
-        Caption = 'Otwórz'
+        Caption = 'Open'
         ShortCut = 16463
         OnClick = MenuOpenClick
       end
@@ -1337,11 +1337,11 @@ object FormMain: TFormMain
         OnClick = MenuItemSaveFileClick
       end
       object MenuSaveAs: TMenuItem
-        Caption = 'Zapisz jak'
+        Caption = 'Save as'
         OnClick = MenuSaveAsClick
       end
       object MenuClose: TMenuItem
-        Caption = 'Zamknij'
+        Caption = 'Close'
         OnClick = MenuCloseClick
       end
     end
@@ -1360,9 +1360,9 @@ object FormMain: TFormMain
       end
     end
     object MenuProjekt: TMenuItem
-      Caption = 'Projekt'
+      Caption = 'Project'
       object MenuOpcjeProjektu: TMenuItem
-        Caption = 'Opcje projektu'
+        Caption = 'Project options'
         OnClick = MenuOpcjeProjektuClick
       end
       object MenuItemSearch: TMenuItem
@@ -1386,11 +1386,11 @@ object FormMain: TFormMain
       end
     end
     object MenuExamples: TMenuItem
-      Caption = 'Przykłady'
+      Caption = 'Examples'
       OnClick = MenuExamplesClick
     end
     object MenuItem8: TMenuItem
-      Caption = 'Język'
+      Caption = 'Language'
       object MenuItem10: TMenuItem
         Caption = 'English'
         OnClick = MenuItem10Click
@@ -1399,117 +1399,21 @@ object FormMain: TFormMain
         Caption = 'Español'
         OnClick = MenuItem11Click
       end
-      object MenuItem12: TMenuItem
-        Caption = 'Français'
-        OnClick = MenuItem12Click
-      end
       object MenuItem13: TMenuItem
         Caption = 'Deutsch'
         OnClick = MenuItem13Click
       end
-      object MenuItem14: TMenuItem
-        Caption = 'Italiano'
-        OnClick = MenuItem14Click
-      end
-      object MenuItem15: TMenuItem
-        Caption = 'Português'
-        OnClick = MenuItem15Click
-      end
-      object MenuItem9: TMenuItem
-        Caption = 'Polski'
-        OnClick = MenuItem9Click
+      object MenuItem12: TMenuItem
+        Caption = 'Français'
+        OnClick = MenuItem12Click
       end
       object MenuIRosyjski: TMenuItem
         Caption = 'Русский'
         OnClick = MenuIRosyjskiClick
       end
-      object MenuChinski: TMenuItem
-        Caption = '中國人'
-        OnClick = MenuChinskiClick
-      end
-      object MenuHindi: TMenuItem
-        Caption = 'हिंदी'
-        OnClick = MenuHindiClick
-      end
-      object MenuIArabski: TMenuItem
-        Caption = 'العربية'
-        OnClick = MenuIArabskiClick
-      end
-      object MenuItemCzeski: TMenuItem
-        Caption = 'čeština'
-        OnClick = MenuItemCzeskiClick
-      end
-      object MenuItem16: TMenuItem
-        Caption = 'Українська'
-        OnClick = MenuItem16Click
-      end
-      object MenuItemDansk: TMenuItem
-        Caption = 'Dansk'
-        OnClick = MenuItemDanskClick
-      end
-      object MenuItem17: TMenuItem
-        Caption = 'Български'
-        OnClick = MenuItem17Click
-      end
-      object MenuItem18: TMenuItem
-        Caption = 'Nederlands'
-        OnClick = MenuItem18Click
-      end
-      object MenuItemEstonski: TMenuItem
-        Caption = 'Eesti'
-        OnClick = MenuItemEstonskiClick
-      end
-      object MenuIteFinski: TMenuItem
-        Caption = 'Suomi'
-        OnClick = MenuIteFinskiClick
-      end
-      object MenuIteGrecki: TMenuItem
-        Caption = 'ελληνικά'
-        OnClick = MenuIteGreckiClick
-      end
-      object MenuItWegierski: TMenuItem
-        Caption = 'Magyar'
-        OnClick = MenuItWegierskiClick
-      end
-      object MenuItIndonezyjski: TMenuItem
-        Caption = 'Indonesia'
-        OnClick = MenuItIndonezyjskiClick
-      end
-      object itemJaponski: TMenuItem
-        Caption = '日本語'
-        OnClick = itemJaponskiClick
-      end
-      object MenuItemKoreanski: TMenuItem
-        Caption = '한국인'
-        OnClick = MenuItemKoreanskiClick
-      end
-      object MenuItemLangLatvian: TMenuItem
-        Caption = 'latviešu'
-        OnClick = MenuItemLangLatvianClick
-      end
-      object MenuItemLangLithuanian: TMenuItem
-        Caption = 'Lietuvių'
-        OnClick = MenuItemLangLithuanianClick
-      end
-      object MenuItemLangRomanian: TMenuItem
-        Caption = 'Română'
-        OnClick = MenuItemLangRomanianClick
-      end
-      object MenuItemLangSlovak: TMenuItem
-        Caption = 'Slovenský'
-        OnClick = MenuItemLangSlovakClick
-      end
-      object MenuItemSlovenianLang: TMenuItem
-        Caption = 'Slovenščina'
-        OnClick = MenuItemSlovenianLangClick
-      end
-      object MenuItemSwedishLang: TMenuItem
-        Caption = 'Svensk'
-        OnClick = MenuItemSwedishLangClick
-      end
-      object MenuItemTurkishLang: TMenuItem
-        Caption = 'Türkçe'
-        OnClick = MenuItemTurkishLangClick
+      object MenuItem9: TMenuItem
+        Caption = 'Polski'
+        OnClick = MenuItem9Click
       end
     end
     object ItemTools: TMenuItem
@@ -1520,25 +1424,25 @@ object FormMain: TFormMain
       end
     end
     object MenuItem3: TMenuItem
-      Caption = 'Pomoc'
+      Caption = 'Help'
       object MenuItemDokumentacja: TMenuItem
-        Caption = 'Dokumentacja online'
+        Caption = 'Online documentation'
         OnClick = MenuItemDokumentacjaClick
       end
       object MenuAboutProgram: TMenuItem
-        Caption = 'O programie'
+        Caption = 'About the program'
         OnClick = MenuAboutProgramClick
       end
       object MenuINformacjaIDE: TMenuItem
-        Caption = 'Informacja o IDE'
+        Caption = 'Information about IDE'
         OnClick = MenuINformacjaIDEClick
       end
       object MenuItemWsparcieprojektu: TMenuItem
-        Caption = 'Wesprzyj'
+        Caption = 'Support'
         OnClick = MenuItemWsparcieprojektuClick
       end
       object MenuAutor: TMenuItem
-        Caption = 'Autor'
+        Caption = 'Author'
         OnClick = MenuAutorClick
       end
     end
@@ -1561,7 +1465,7 @@ object FormMain: TFormMain
     end
   end
   object ActionList1: TActionList
-    Left = 609
+    Left = 608
     Top = 85
     object Kompiluj: TAction
       Caption = 'Kompiluj'
@@ -2081,6 +1985,7 @@ object FormMain: TFormMain
     VariableAttri.Foreground = clNone
     DotAttri.Foreground = 14851674
     KeyWords.Strings = (
+      '_N_'
       'APPEND'
       'ASM'
       'ASSIGN_FILE'
@@ -2100,7 +2005,6 @@ object FormMain: TFormMain
       'DESCENDING'
       'DIRECTORY_EXISTS'
       'DłUGOść'
-      '_N_'
       'DOPOKI'
       'DOPóKI'
       'DUZE_LITERY'

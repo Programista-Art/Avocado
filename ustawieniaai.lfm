@@ -30,7 +30,7 @@ object Settingai: TSettingai
       Top = 1
       Width = 54
       Align = alRight
-      Caption = 'Anuluj'
+      Caption = 'Cancel'
       Color = clBtnShadow
       OnClick = SpeedButtonOkClick
     end
@@ -40,7 +40,7 @@ object Settingai: TSettingai
       Top = 1
       Width = 54
       Align = alRight
-      Caption = 'Zapisz'
+      Caption = 'Save'
       Color = clBtnShadow
       OnClick = SpeedButSaveClick
     end
@@ -68,18 +68,18 @@ object Settingai: TSettingai
       Font.Quality = fqDraft
       Lines.Strings = (
         'GPT-4o mini'
-        'Niedrogi i inteligentny mały model do szybkich, lekkich zadań'
-        'Wejście tekstowe i graficzne, wyjście tekstowe'
-        'Długość kontekstu 128k'
+        'An affordable and intelligent small model for fast, lightweight tasks.'
+        'Text and image input, text output.'
+        'Context length 128k.'
         ''
         'GPT-4o'
-        'Flagowy model o wysokiej inteligencji do złożonych,'
-        'wieloetapowych zadań'
-        'Wejście tekstowe i graficzne, wyjście tekstowe'
-        'Długość kontekstu 128 tys.'
+        'Flagship model with high intelligence for complex,'
+        'multi-step tasks'
+        'Text and image input, text output'
+        'Context length 128k'
         ''
         'GPT-4'
-        'Szybki i niedrogi model do prostych zadań'
+        'Fast and affordable model for simple tasks'
       )
       ParentFont = False
       ReadOnly = True
@@ -217,7 +217,7 @@ object Settingai: TSettingai
       Width = 250
       Align = alTop
       BorderSpacing.Around = 5
-      Caption = 'Model językowy'
+      Caption = 'Language model'
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite
       Font.Pitch = fpVariable
@@ -233,7 +233,7 @@ object Settingai: TSettingai
       BorderSpacing.Left = 5
       BorderSpacing.Right = 5
       BorderSpacing.Bottom = 5
-      Caption = 'Klucz API'
+      Caption = 'API key'
       Color = clWindowFrame
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clWhite

@@ -77,6 +77,10 @@ msgstr ""
 msgid "The delete function requires three arguments: s, index, count."
 msgstr ""
 
+#: avocadotranslator.translatedownloadfilefunctionrequirestwoarguments
+msgid "Error: The download_file function requires EXACTLY TWO arguments (URL, Save Path)."
+msgstr ""
+
 #: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
 msgid "Error: Found \"repeat\" inside another \"repeat\""
 msgstr ""
@@ -103,6 +107,10 @@ msgstr ""
 
 #: avocadotranslator.translateerrorprocessinggetenvironmentvariablefunction
 msgid "Error while processing the get_environment_variable function: "
+msgstr ""
+
+#: avocadotranslator.translateerrorprocessinggetfilefunction
+msgid "Error while processing the GET_FILE function: "
 msgstr ""
 
 #: avocadotranslator.translateerrorprocessingpingcommand
@@ -327,6 +335,14 @@ msgstr ""
 msgid "Error: The PING function requires EXACTLY TWO arguments (address, success message)."
 msgstr ""
 
+#: avocadotranslator.translatepobierzstronerequiresparentheses
+msgid "Syntax error: The pobierz_strone function requires parentheses, e.g., pobierz_strone('url', ResultVariable)."
+msgstr ""
+
+#: avocadotranslator.translatepobierzstronerequirestwoarguments
+msgid "Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable)."
+msgstr ""
+
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
 msgstr ""
@@ -484,10 +500,6 @@ msgctxt "tformmain.fpccode.caption"
 msgid "Free Pascal Code"
 msgstr ""
 
-#: tformmain.itemjaponski.caption
-msgid "日本語"
-msgstr ""
-
 #: tformmain.itemtools.caption
 msgid "Tools"
 msgstr ""
@@ -520,38 +532,24 @@ msgstr ""
 
 #: tformmain.menuaboutprogram.caption
 msgctxt "tformmain.menuaboutprogram.caption"
-msgid "O programie"
+msgid "About the program"
 msgstr ""
 
 #: tformmain.menuautor.caption
 msgctxt "tformmain.menuautor.caption"
-msgid "Autor"
-msgstr ""
-
-#: tformmain.menuchinski.caption
-msgctxt "tformmain.menuchinski.caption"
-msgid "中國人"
+msgid "Author"
 msgstr ""
 
 #: tformmain.menuclose.caption
-msgid "Zamknij"
+msgid "Close"
 msgstr ""
 
 #: tformmain.menuexamples.caption
-msgid "Przykłady"
-msgstr ""
-
-#: tformmain.menuhindi.caption
-msgctxt "tformmain.menuhindi.caption"
-msgid "हिंदी"
-msgstr ""
-
-#: tformmain.menuiarabski.caption
-msgid "العربية"
+msgid "Examples"
 msgstr ""
 
 #: tformmain.menuinformacjaide.caption
-msgid "Informacja o IDE"
+msgid "Information about IDE"
 msgstr ""
 
 #: tformmain.menuirosyjski.caption
@@ -561,14 +559,6 @@ msgstr ""
 
 #: tformmain.menuitaiasystant.caption
 msgid "AI Assistant"
-msgstr ""
-
-#: tformmain.menuitefinski.caption
-msgid "Suomi"
-msgstr ""
-
-#: tformmain.menuitegrecki.caption
-msgid "ελληνικά"
 msgstr ""
 
 #: tformmain.menuitem1.caption
@@ -591,26 +581,6 @@ msgstr ""
 msgid "Deutsch"
 msgstr ""
 
-#: tformmain.menuitem14.caption
-msgid "Italiano"
-msgstr ""
-
-#: tformmain.menuitem15.caption
-msgid "Português"
-msgstr ""
-
-#: tformmain.menuitem16.caption
-msgid "Українська"
-msgstr ""
-
-#: tformmain.menuitem17.caption
-msgid "Български"
-msgstr ""
-
-#: tformmain.menuitem18.caption
-msgid "Nederlands"
-msgstr ""
-
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
 msgid "Theme"
@@ -626,7 +596,7 @@ msgid "Program"
 msgstr ""
 
 #: tformmain.menuitem3.caption
-msgid "Pomoc"
+msgid "Help"
 msgstr ""
 
 #: tformmain.menuitem3clearcode.caption
@@ -652,7 +622,7 @@ msgid "Sprawdź kod [AI]"
 msgstr ""
 
 #: tformmain.menuitem8.caption
-msgid "Język"
+msgid "Language"
 msgstr ""
 
 #: tformmain.menuitem9.caption
@@ -687,14 +657,6 @@ msgctxt "tformmain.menuitemcutcode.caption"
 msgid "Wytnij"
 msgstr ""
 
-#: tformmain.menuitemczeski.caption
-msgid "čeština"
-msgstr ""
-
-#: tformmain.menuitemdansk.caption
-msgid "Dansk"
-msgstr ""
-
 #: tformmain.menuitemdeleteallcode.caption
 msgid "Usuń kod "
 msgstr ""
@@ -705,31 +667,7 @@ msgid "Usuń"
 msgstr ""
 
 #: tformmain.menuitemdokumentacja.caption
-msgid "Dokumentacja online"
-msgstr ""
-
-#: tformmain.menuitemestonski.caption
-msgid "Eesti"
-msgstr ""
-
-#: tformmain.menuitemkoreanski.caption
-msgid "한국인"
-msgstr ""
-
-#: tformmain.menuitemlanglatvian.caption
-msgid "latviešu"
-msgstr ""
-
-#: tformmain.menuitemlanglithuanian.caption
-msgid "Lietuvių"
-msgstr ""
-
-#: tformmain.menuitemlangromanian.caption
-msgid "Română"
-msgstr ""
-
-#: tformmain.menuitemlangslovak.caption
-msgid "Slovenský"
+msgid "Online documentation"
 msgstr ""
 
 #: tformmain.menuitemopenfolder.caption
@@ -763,48 +701,28 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: tformmain.menuitemslovenianlang.caption
-msgid "Slovenščina"
-msgstr ""
-
-#: tformmain.menuitemswedishlang.caption
-msgid "Svensk"
-msgstr ""
-
-#: tformmain.menuitemturkishlang.caption
-msgid "Türkçe"
-msgstr ""
-
 #: tformmain.menuitemwsparcieprojektu.caption
-msgid "Wesprzyj"
-msgstr ""
-
-#: tformmain.menuitindonezyjski.caption
-msgid "Indonesia"
-msgstr ""
-
-#: tformmain.menuitwegierski.caption
-msgid "Magyar"
+msgid "Support"
 msgstr ""
 
 #: tformmain.menunewfile.caption
-msgid "Nowy"
+msgid "New"
 msgstr ""
 
 #: tformmain.menuopcjeprojektu.caption
-msgid "Opcje projektu"
+msgid "Project options"
 msgstr ""
 
 #: tformmain.menuopen.caption
-msgid "Otwórz"
+msgid "Open"
 msgstr ""
 
 #: tformmain.menuprojekt.caption
-msgid "Projekt"
+msgid "Project"
 msgstr ""
 
 #: tformmain.menusaveas.caption
-msgid "Zapisz jak"
+msgid "Save as"
 msgstr ""
 
 #: tformmain.menuustawinia.caption
@@ -965,11 +883,11 @@ msgid "EditTokenGPT"
 msgstr ""
 
 #: tsettingai.label1.caption
-msgid "Model językowy"
+msgid "Language model"
 msgstr ""
 
 #: tsettingai.label2.caption
-msgid "Klucz API"
+msgid "API key"
 msgstr ""
 
 #: tsettingai.menuitemcopy.caption
@@ -996,11 +914,11 @@ msgstr ""
 
 #: tsettingai.speedbutsave.caption
 msgctxt "tsettingai.speedbutsave.caption"
-msgid "Zapisz"
+msgid "Save"
 msgstr ""
 
 #: tsettingai.speedbuttonok.caption
-msgid "Anuluj"
+msgid "Cancel"
 msgstr ""
 
 #: tsettingtheme.btnsave.caption
@@ -1032,7 +950,7 @@ msgid "OK"
 msgstr ""
 
 #: twsparcie.speedbutton2.caption
-msgid "Wesprzyj projekt"
+msgid "Support the project"
 msgstr ""
 
 #: unit1.countchars
@@ -1436,6 +1354,24 @@ msgid "Data saved"
 msgstr ""
 
 #: usettings.translateinformation
+msgctxt "usettings.translateinformation"
 msgid "Information"
+msgstr ""
+
+#: ustawieniaai.translatefileexists
+msgid "The file exists: "
+msgstr ""
+
+#: ustawieniaai.translateidatasaved
+msgid "TranslateIDataSaved"
+msgstr ""
+
+#: ustawieniaai.translateinformation
+msgctxt "ustawieniaai.translateinformation"
+msgid "Information"
+msgstr ""
+
+#: ustawieniaai.translatemodelstxtfilewasnotfound
+msgid "The models.txt file was not found."
 msgstr ""
 

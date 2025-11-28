@@ -395,6 +395,10 @@ resourcestring
   TranslateErrorProcessingPingFunction = 'Error while processing the PING function: ';
   TranslateUnknownAliasType = 'Unknown alias type: ';
   TranslateIncorrectBracketsInFunction = 'Error: incorrect brackets in the function.';
+  TranslateDownloadFileFunctionRequiresTwoArguments = 'Error: The download_file function requires EXACTLY TWO arguments (URL, Save Path).';
+  TranslateErrorProcessingGetFileFunction = 'Error while processing the GET_FILE function: ';
+  TranslatePobierzStroneRequiresParentheses = 'Syntax error: The pobierz_strone function requires parentheses, e.g., pobierz_strone(''url'', ResultVariable).';
+  TranslatePobierzStroneRequiresTwoArguments = 'Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable).';
 
 
 implementation
@@ -632,7 +636,6 @@ begin
     ParamsList.Free;
   end;
 
-  // 5. Złóż poprawny nagłówek procedury
   if IsFunc then
       Result := 'function ' + ProcName + '(' + FinalParams + '): ' + ReturnTypeDecl + ';'
   else
@@ -1641,7 +1644,7 @@ var
   TrimmedLine: string;
   Parts, VarParts: TStringArray;
 begin
- Result := False;
+  Result := False;
   VarName := '';
   VarType := '';
   InitValue := '';
@@ -3511,7 +3514,8 @@ begin
 
   // Funkcja pobierz_plik
   // Obsługa funkcji pobierz_plik(URL, ścieżka_zapisu)
-if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
+if (LowerCase(TrimmedLine).StartsWith('pobierz_plik(')) or
+   (LowerCase(TrimmedLine).StartsWith('download_file(')) then
 begin
    CommaPos:= 0; // Pozycja separatora
    InQuotes:= False;
@@ -3522,7 +3526,7 @@ begin
     EndPos := RPos(')', TrimmedLine);
 
     if (OpenPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Blad jakis'); // Zakładamy, że masz TranslateFunctionRequiresBrackets
+      raise Exception.Create('Some kind of error');
 
     if OpenPos > EndPos then
       raise Exception.Create(TranslateIncorrectOrderOfBrackets);
@@ -3530,11 +3534,8 @@ begin
     ParamStr := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
     for  I := 1 to Length(ParamStr) do
     begin
-      // Sprawdzanie cudzysłowów (apostrofów)
       if ParamStr[I] = '''' then
         InQuotes := not InQuotes;
-
-      // Jeśli znajdujemy przecinek poza cudzysłowem, to jest nasz separator
       if (ParamStr[I] = ',') and (not InQuotes) then
       begin
         CommaPos := I;
@@ -3542,15 +3543,13 @@ begin
       end;
     end;
 
-    // --- 2. Walidacja i przypisanie ---
+    //  Walidacja i przypisanie
     if CommaPos = 0 then
-      raise Exception.Create('Błąd: Funkcja pobierz_plik wymaga DOKŁADNIE DWÓCH argumentów (URL, Ścieżka Zapisu).');
+      raise Exception.Create(TranslateDownloadFileFunctionRequiresTwoArguments);
 
-    // Parsowanie argumentów za pomocą znalezionej pozycji CommaPos
     URL := TranslateExpression(Trim(Copy(ParamStr, 1, CommaPos - 1)));
     Target := TranslateExpression(Trim(Copy(ParamStr, CommaPos + 1, Length(ParamStr) - CommaPos)));
 
-    // --- 3. Generowanie kodu Pascala z obsługą wyjątków (try...except) ---
     PascalCode.Add('try');
     PascalCode.Add('  pobierz_plik(' + URL + ', ' + Target + ');');
     PascalCode.Add('except');
@@ -3562,14 +3561,15 @@ begin
 
   except
     on E: Exception do
-      raise Exception.Create('Błąd podczas przetwarzania funkcji POBIERZ_PLIK: ' + E.Message);
+      raise Exception.Create(TranslateErrorProcessingGetFileFunction + E.Message);
   end;
   Exit;
 end;
-// -------------------------------------------------------------------------------------
+
 
 // Obsługa funkcji pobierz_strone(URL, zmienna_wynikowa)
-if LowerCase(TrimmedLine).StartsWith('pobierz_strone(') then
+if (LowerCase(TrimmedLine).StartsWith('pobierz_strone(')) or
+   (LowerCase(TrimmedLine).StartsWith('download_page(')) then
 begin
   try
     // --- 1. Parsowanie i walidacja ---
@@ -3577,7 +3577,7 @@ begin
     EndPos := RPos(')', TrimmedLine);
 
     if (OpenPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błąd składni: Funkcja pobierz_strone wymaga nawiasów, np. pobierz_strone("url", WynikowaZmienna).');
+      raise Exception.Create(TranslatePobierzStroneRequiresParentheses);
 
     ParamStr := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
 
@@ -3585,7 +3585,7 @@ begin
     SplitArguments(ParamStr, ParamPartsList);
 
     if ParamPartsList.Count <> 2 then
-      raise Exception.Create('Błąd: Funkcja pobierz_strone wymaga DOKŁADNIE DWÓCH argumentów (URL, Zmienna wynikowa).');
+      raise Exception.Create(TranslatePobierzStroneRequiresTwoArguments);
 
     URL := TranslateExpression(Trim(ParamPartsList[0]));
     Target := TranslateExpression(Trim(ParamPartsList[1])); // Zmienna wynikowa

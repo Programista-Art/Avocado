@@ -1,0 +1,18 @@
+program testpingnew
+import internet
+main
+string weblink = 'www.programista.art'
+print_line('Funkcja sprawdza, czy dana strona odpowiada. ')
+//użycie procedury
+ping_webs_site(weblink)
+end.
+
+procedure ping_webs_site(link:string)
+start
+if ping(link) then
+start
+print_line('Strona', link , ' odpowiada!')
+end
+else
+print_line('Nie można nawiązać połączenia ', link)
+end
