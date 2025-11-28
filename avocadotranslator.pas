@@ -675,10 +675,10 @@ begin
     'liczba_krótka','liczba_krotka','int8', 'shortint':
       Exit('ShortInt');
 
-    'liczba_mała','liczba_dluga', 'int16', 'smallint':
+    'liczba_mała','liczba_mala', 'int16', 'smallint':
       Exit('SmallInt');
 
-    'liczba_długa', 'int32', 'longint':
+    'liczba_długa', 'liczba_dluga', 'int32', 'longint':
       Exit('LongInt');
 
     'bajt', 'byte':
@@ -970,7 +970,7 @@ begin
   if FInProcedureBody then
   begin
     // Jeśli znajdziemy 'koniec', wychodzimy ze stanu procedury
-    if LowerCase(TrimmedLine) = 'koniec' then
+    if (LowerCase(TrimmedLine) = 'koniec') or (LowerCase(TrimmedLine) = 'end') then
       FInProcedureBody := False;
     Exit; // Ignoruj wszystko wewnątrz procedury
   end;
@@ -1077,45 +1077,58 @@ begin
   // Obsługa zwykłych typów
   if (VarType = 'tekst') or
      (VarType = 'liczba_całkowita') or
+     (VarType = 'liczba_calkowita') or
      (VarType = 'lc') or
      (VarType = 'liczba_zm') or
      (VarType = 'lzm') or
      (VarType = 'logiczny') or
      (VarType = 'znak') or
      (VarType = 'liczba_krótka') or
+     (VarType = 'liczba_krotka') or
      (VarType = 'liczba_mała') or
+     (VarType = 'liczba_mala') or
      (VarType = 'liczba_długa') or
+     (VarType = 'liczba_dluga') or
      (VarType = 'liczba64') or
      (VarType = 'bajt') or
      (VarType = 'liczba16') or
      (VarType = 'liczba32') or
-     (VarType = 'tablicaliczb') or
+     (VarType = 'tablica_liczb') or
      (VarType = 'liczba_pojedyncza') or
      (VarType = 'liczba_podwójna') or
+     (VarType = 'liczba_podwojna') or
      (VarType = 'liczba_rozszerzona') or
      (VarType = 'liczba_zgodna_delphi') or
      (VarType = 'liczba_waluta') or
      (VarType = 'logiczny_bajt') or
      (VarType = 'logiczne_słowo') or
+     (VarType = 'logiczne_slowo') or
      (VarType = 'logiczny_długi') or
+     (VarType = 'logiczny_dlugi') or
      (VarType = 'znak_unicode') or
      (VarType = 'tekst255') or
      (VarType = 'tekst_ansi') or
      (VarType = 'tekst_unicode') or
      (VarType = 'tekst_systemowy') or
      (VarType = 'tablica_stała') or
+     (VarType = 'tablica_stala') or
      (VarType = 'tablica_dynamiczna') or
      (VarType = 'rekord') or
      (VarType = 'kolekcja') or
      (VarType = 'plik_binarny') or
      (VarType = 'plik_struktur') or
      (VarType = 'wskaźnik') or
+     (VarType = 'wskaznik') or
      (VarType = 'wskaźnik_na') or
+     (VarType = 'wskaznik_na') or
      (VarType = 'wariant') or
      (VarType = 'wariant_ole') or
-     (VarType = 'tablicatekstów') or
+     (VarType = 'tablica_tekstów') or
+     (VarType = 'tablica_tekstow') or
      (VarType = 'lista_tekstów') or
+     (VarType = 'lista_tekstow') or
      (VarType = 'stała') or
+     (VarType = 'stala') or
      (VarType = 'tekstld') or
      (VarType = 'qliczba') or
 
@@ -1157,8 +1170,6 @@ begin
      (VarType = 'search_record')
   then
   begin
-    // declaration with attribution  / deklaracja z przypisaniem
-    //AddVariable(VarName, VarType, False);
     AddVariable(VarName, VarType, False, VarValue);
     Exit;
   end;

@@ -24,10 +24,10 @@ object FormOprogramie: TFormOprogramie
     Font.Quality = fqDraft
     Lines.Strings = (
       'Avocado IDE'
-      'Development environment for the Avocado programming language, including the Avocado language itself.'
-      'Updated October 3, 2025'
+      'A development environment for the Avocado programming language, including the Avocado language itself.'
+      'Updated: November 29, 2025.'
       'www.avocado.dimitalart.pl'
-      'www.avocado.code.com'
+      'New website www.avocado.code.com'
     )
     ParentFont = False
     ReadOnly = True
