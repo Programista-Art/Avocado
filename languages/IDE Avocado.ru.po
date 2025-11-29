@@ -684,11 +684,6 @@ msgstr "Онлайн-документация"
 msgid "Open folder"
 msgstr "Открыть папку"
 
-#: tformmain.menuitemoutputcodeclear.caption
-msgctxt "tformmain.menuitemoutputcodeclear.caption"
-msgid "Usuń"
-msgstr "Удалить"
-
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"
@@ -1384,3 +1379,4 @@ msgstr "Информация"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Файл models.txt не найден."
+

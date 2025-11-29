@@ -674,11 +674,6 @@ msgstr ""
 msgid "Open folder"
 msgstr ""
 
-#: tformmain.menuitemoutputcodeclear.caption
-msgctxt "tformmain.menuitemoutputcodeclear.caption"
-msgid "Usuń"
-msgstr ""
-
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"

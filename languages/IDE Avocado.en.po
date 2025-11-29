@@ -684,11 +684,6 @@ msgstr "Online documentation"
 msgid "Open folder"
 msgstr "Open folder"
 
-#: tformmain.menuitemoutputcodeclear.caption
-msgctxt "tformmain.menuitemoutputcodeclear.caption"
-msgid "Usuń"
-msgstr "Delete"
-
 #: tformmain.menuitempastecode.caption
 msgctxt "tformmain.menuitempastecode.caption"
 msgid "Wklej"

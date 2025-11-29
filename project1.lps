@@ -57,9 +57,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="1782"/>
-        <CursorPos X="40" Y="1819"/>
+        <TopLine Value="251"/>
+        <CursorPos X="58" Y="264"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -82,7 +83,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="820"/>
+        <TopLine Value="858"/>
         <CursorPos X="27" Y="751"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
@@ -108,9 +109,7 @@
         <ComponentName Value="FormOprogramie"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="4"/>
         <CursorPos Y="32"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -362,18 +361,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1227" Column="3" TopLine="1225"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="1234" Column="3" TopLine="1225"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="856" Column="31" TopLine="843"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
         <Caret Line="1903" Column="43" TopLine="1888"/>
       </Position>
       <Position>
@@ -479,6 +466,18 @@
       <Position>
         <Filename Value="avocadotranslator.pas"/>
         <Caret Line="87" Column="20" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1819" Column="40" TopLine="1875"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1553" TopLine="1547"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1552" TopLine="1546"/>
       </Position>
     </JumpHistory>
     <RunParams>

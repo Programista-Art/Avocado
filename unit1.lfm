@@ -1490,8 +1490,8 @@ object FormMain: TFormMain
     end
   end
   object PopupMenuCode: TPopupMenu
-    Left = 432
-    Top = 336
+    Left = 520
+    Top = 248
     object MenuItemCopyCode: TMenuItem
       Caption = 'Kopiuj'
       OnClick = MenuItemCopyCodeClick
@@ -1877,12 +1877,8 @@ object FormMain: TFormMain
     Top = 240
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
-    Left = 536
-    Top = 232
-    object MenuItemOutputCodeClear: TMenuItem
-      Caption = 'Usuń'
-      OnClick = MenuItemOutputCodeClearClick
-    end
+    Left = 936
+    Top = 216
     object MenuItemcopyPascalCode: TMenuItem
       Caption = 'Kopiuj'
       OnClick = MenuItemcopyPascalCodeClick
@@ -2025,8 +2021,6 @@ object FormMain: TFormMain
       'FILE_EXISTS'
       'FOR '
       'FTP_POBIERZ'
-      'FUNCTION'
-      'FUNKCJA'
       'GET_ARGUMENT'
       'GET_CURRENT_DIR'
       'GET_ENV'
@@ -2037,8 +2031,6 @@ object FormMain: TFormMain
       'IN'
       'INACZEJ'
       'INSERT'
-      'JEZELI'
-      'JEżELI'
       'KLAWISZ_WCISNIETY'
       'KLAWISZ_WCIśNIęTY'
       'KOLOR_TEKSTU'
@@ -2049,7 +2041,6 @@ object FormMain: TFormMain
       'LOSOWY'
       'LOSUJ'
       'LOWER_CASE'
-      'MAIN'
       'MALE_LITERY'
       'MALE_LITERY '
       'MALE_LITERY_ANSI'
@@ -2068,9 +2059,6 @@ object FormMain: TFormMain
       'OTWóRZ_DO_ODCZYTU'
       'OTWóRZ_DO_ZAPISU'
       'PARAMETR_PROGRAMU'
-      'PASCAL'
-      'PASCAL_LINE'
-      'PASCAL_LINIA'
       'PING'
       'PISZ'
       'PISZ_LINIE'
@@ -2087,8 +2075,6 @@ object FormMain: TFormMain
       'POZYCJA_KURSORA'
       'PRINT'
       'PRINT_LINE'
-      'PROCEDURA'
-      'PROCEDURE'
       'PRZERWIJ'
       'PRZYPISZ_PLIK'
       'PRZYTNIJ'
@@ -2129,10 +2115,6 @@ object FormMain: TFormMain
       'W'
       'WSTAW'
       'WTEDY'
-      'WYJSC'
-      'WYJść'
-      'ZAKONCZ'
-      'ZAKOńCZ'
       'ZAMIEN_TEKST'
       'ZAMIEń_TEKST'
       'ZAMKNIJ_PLIK'
@@ -2153,17 +2135,30 @@ object FormMain: TFormMain
       'COMP'
       'DECIMAL'
       'DYNAMIC_ARRAY'
+      'ELSE'
+      'END'
+      'END.'
       'FILE'
       'FILE_STRUCT'
       'FLOAT'
       'FLOAT80'
+      'FUNCTION'
+      'FUNKCJA'
+      'GLOWNY'
+      'GłóWNY'
+      'IF'
+      'INACZEJ'
       'INFORMACJE_O_WYSZUKANIU'
       'INT'
       'INT16'
       'INT32'
       'INT64'
       'INT8'
+      'JEZELI'
+      'JEżELI'
       'KOLEKCJA'
+      'KONIEC'
+      'KONIEC.'
       'LC'
       'LICZBA_CALKOWITA  '
       'LICZBA_CAłKOWITA'
@@ -2191,20 +2186,26 @@ object FormMain: TFormMain
       'LOGICZNY_DłUGI'
       'LONG_BOOL'
       'LZM'
+      'MAIN'
       'OLE_VARIANT'
       'OLEVARIANT'
       'PLIK'
       'PLIK_BINARNY'
       'PLIK_STRUKTUR'
       'PLIK_TEKSTOWY'
+      'POCZATEK'
+      'POCZąTEK'
       'POINTER'
       'POINTER_TO'
+      'PROCEDURA'
+      'PROCEDURE'
       'QLICZBA'
       'QWORD'
       'RANGE'
       'REAL'
       'SEARCH_RECORD'
       'SET'
+      'START'
       'STATIC_ARRAY'
       'STRING'
       'STRING_LIST'
@@ -2220,6 +2221,7 @@ object FormMain: TFormMain
       'TEKST_UNICODE'
       'TEKST255'
       'TEXT_FILE'
+      'THEN'
       'UBYTE'
       'UINT16'
       'UINT32'
@@ -2230,6 +2232,7 @@ object FormMain: TFormMain
       'WSKAZNIK_NA'
       'WSKAźNIK'
       'WSKAźNIK_NA'
+      'WTEDY'
       'ZNAK'
       'ZNAK_UNICODE'
     )

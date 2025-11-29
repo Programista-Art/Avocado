@@ -151,7 +151,6 @@ type
     MenuNewFile: TMenuItem;
     MenuItemSaveFile: TMenuItem;
     MenuItemDeleteMemoLogs: TMenuItem;
-    MenuItemOutputCodeClear: TMenuItem;
     MenuProjekt: TMenuItem;
     MenuItem3ClearCode: TMenuItem;
     MenuOpcjeProjektu: TMenuItem;
@@ -263,7 +262,6 @@ type
     procedure MenuItemCutCodeClick(Sender: TObject);
     procedure MenuItemDeleteCodeClick(Sender: TObject);
     procedure MenuItemDokumentacjaClick(Sender: TObject);
-    procedure MenuItemOutputCodeClearClick(Sender: TObject);
     procedure MenuItemPasteClick(Sender: TObject);
     procedure MenuItemPasteCodeClick(Sender: TObject);
     procedure MenuItemSaveFileClick(Sender: TObject);
@@ -1550,10 +1548,7 @@ begin
   FormAutor.OpenLink('https://avocado.doc.dimitalart.pl/');
 end;
 
-procedure TFormMain.MenuItemOutputCodeClearClick(Sender: TObject);
-begin
-  MemoOutPut.Clear;
-end;
+
 
 procedure TFormMain.MenuItemPasteClick(Sender: TObject);
 begin

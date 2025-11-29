@@ -1,17 +1,18 @@
 program calculation
 
 main
-  print_line('I am in the main program.')
+  print_line('I''am in the main program.')
   calculation(4,4)
 end.
 
 procedure calculation(numb1: int; numb2: int)
 start
   int a = numb1
-  int b =  numb2
-  int c =  numb1 + numb2
+  int b = numb2
+  int c = numb1 + numb2
   print_line('Calculation result: ', c)
 end
+
 
 
 
