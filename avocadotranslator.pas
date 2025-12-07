@@ -40,6 +40,7 @@ end;
     FInRepeatBlock: Boolean;
     FInProcedureBody: Boolean;
     FInMultiLineComment: Boolean;
+    FreeCodeBuffer: TStringList;
     FLabels: array of TAvocadoLabel;
     destructor Destroy; override;
     constructor Create;
@@ -281,6 +282,7 @@ const
     (FromText: 'pobierz_zmienna_srodowiskowa'; ToText: 'SysUtils.GetEnvironmentVariable'; Flags: []; IsPrefix: True),
 
     (FromText: 'ustaw_zmienną_środowiskową'; ToText: 'SysUtils.SetEnvironmentVariable'; Flags: []; IsPrefix: True),
+    (FromText: 'ustaw_zmienna_srodowiskowa'; ToText: 'SysUtils.SetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'pobierz_katalog_bieżący'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // English aliases
     (FromText: 'file_exists'; ToText: 'FileExists'; Flags: []; IsPrefix: True),
@@ -663,7 +665,7 @@ begin
     FVariables[High(FVariables)].InitialValue := AInitialValue;
 end;
 
-//Trzeba to usunac
+
 
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
@@ -696,7 +698,7 @@ begin
     'qliczba', 'qword':
       Exit('QWord');
 
-    // --- Liczby zmiennoprzecinkowe ---
+    // Liczby zmiennoprzecinkowe
     'liczba_pojedyncza', 'single':
       Exit('Single');
 
@@ -715,7 +717,7 @@ begin
     'liczba_zgodna_delphi', 'comp':
       Exit('Comp');
 
-    // --- Logiczne ---
+    // Logiczne
     'logiczny', 'bool', 'boolean':
       Exit('Boolean');
 
@@ -728,7 +730,7 @@ begin
     'logiczny_długi', 'logiczny_dlugi', 'long_bool':
       Exit('LongBool');
 
-    // --- Teksty ---
+    // Teksty
     'tekst', 'string':
       Exit('String');
 
@@ -744,14 +746,14 @@ begin
     'tekst255', 'shortstring', 'string255':
       Exit('ShortString');
 
-    // --- Znaki ---
+    // Znaki
     'znak', 'char':
       Exit('Char');
 
     'znak_unicode', 'widechar', 'char32':
       Exit('WideChar');
 
-    // --- Pliki ---
+    // Pliki
     'plik', 'file':
       Exit('File');
 
@@ -764,14 +766,14 @@ begin
     'plik_struktur', 'typedfile', 'file_struct':
       Exit('TypedFile');
 
-    // --- Wskaźniki ---
+    // Wskaźniki
     'wskaźnik','wskaznik', 'pointer':
       Exit('Pointer');
 
     'wskaźnik_na','wskaznik_na','^type', 'pointer_to':
       Exit('^Type');
 
-    // --- Struktury ---
+    // Struktury
     'informacje_o_wyszukaniu', 'search_record':
       Exit('TSearchRec');
 
@@ -779,7 +781,7 @@ begin
       Exit('TStringList');
 
 
-    // --- Inne ---
+    // Inne
     'wariant', 'variant':
       Exit('Variant');
 
@@ -828,8 +830,13 @@ begin
       VarType := LowerCase(Trim(VarParts[0]));
       VarName := Trim(VarParts[1]);
 
-      if (VarType = 'plik') or (VarType = 'plik_tekstowy') or
-         (VarType = 'file') or (VarType = 'text_file') then
+      if (VarType = 'plik') or
+         (VarType = 'plik_tekstowy') or
+         (VarType = 'file') or
+         (VarType = 'lista_tekstów') or
+         (VarType = 'lista_tekstow') or
+         (VarType = 'string_list') or
+         (VarType = 'text_file') then
       begin
         // the declaration itself
         AddVariable(VarName, VarType, True);
@@ -854,8 +861,13 @@ begin
     VarType := LowerCase(Trim(VarParts[0]));
     VarName := Trim(VarParts[1]);
 
-    if (VarType = 'plik') or (VarType = 'plik_tekstowy') or
-       (VarType = 'file') or (VarType = 'text_file') then
+    if (VarType = 'plik') or
+       (VarType = 'plik_tekstowy') or
+       (VarType = 'file') or
+       (VarType = 'lista_tekstów') or
+       (VarType = 'lista_tekstow') or
+       (VarType = 'string_list') or
+       (VarType = 'text_file') then
     begin
       if (LowerCase(VarValue) = 'nil') or (LowerCase(VarValue) = 'nic') then
         AddVariable(VarName, VarType, True)  // declaration without initialisation / deklaracja bez inicjalizacji
@@ -934,8 +946,73 @@ var
 i: Integer;
 R: TReplaceRule;
 P: Integer;
+CleanExpr: string;
+Args: TStringArray;
+OpenPos, EndPos: Integer;
+ParamStr: string;
+ParamPartsList: TStringList; // Lista do przechowywania argumentów
+TranslatedS1Arg: string; // Tłumaczenie argumentu
 begin
+  // teksty
   Result := Expr;
+  CleanExpr := Trim(Result);
+
+  if (AnsiStartsText('teksty(', CleanExpr)) or
+     (AnsiStartsText('strings(', CleanExpr)) then
+  begin
+    OpenPos := Pos('(', CleanExpr);
+    EndPos := RPos(')', CleanExpr);
+
+    if (OpenPos > 0) and (EndPos > OpenPos) then
+    begin
+
+      CleanExpr := Copy(CleanExpr, OpenPos + 1, EndPos - OpenPos - 1);
+      Args := CleanExpr.Split([','], 2);
+
+      if Length(Args) = 2 then
+      begin
+        Result := Format('%s.Strings[%s]', [Trim(Args[0]), Trim(Args[1])]);
+        Exit;
+      end;
+    end;
+  end;
+
+  //  ilość(Lista) -> Lista.Count
+  if AnsiStartsText('ilość(', CleanExpr) or
+     AnsiStartsText('ilosc(', CleanExpr) or
+     AnsiStartsText('count(', CleanExpr) then
+  begin
+    // 1. Znajdź i wydziel argumenty
+    OpenPos := Pos('(', CleanExpr);
+    EndPos := RPos(')', CleanExpr);
+
+    // Walidacja nawiasów
+    if (OpenPos = 0) or (EndPos = 0) then
+      raise Exception.Create('Brak nawiasów w funkcji ilość/count.');
+
+    ParamStr := Trim(Copy(CleanExpr, OpenPos + 1, EndPos - OpenPos - 1));
+
+    // 2. Walidacja liczby argumentów
+    ParamPartsList := TStringList.Create;
+    try
+      // SplitArguments to musi być Twoja funkcja dzieląca parametry (np. 'h' z 'ilość(h)')
+      SplitArguments(ParamStr, ParamPartsList);
+
+      if ParamPartsList.Count <> 1 then
+        raise Exception.Create(Format('Funkcja ilość/count wymaga dokładnie 1 argumentu, podano: %d', [ParamPartsList.Count]));
+
+      // 3. Tłumaczenie: Tłumaczymy argument (nazwę listy)
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0]));
+
+      // 4. ZWROT WYNIKU: Zamiast dodawać do PascalCode, zwracamy przetłumaczony string.
+      Result := TranslatedS1Arg + '.Count';
+      Exit; // Kończymy funkcję
+    finally
+      ParamPartsList.Free;
+    end;
+  end;
+
+
   for i := Low(REPLACE_RULES) to High(REPLACE_RULES) do
   begin
     R := REPLACE_RULES[i];
@@ -1048,6 +1125,9 @@ begin
   // Przekazanie do obsługi plików
   if LowerCase(TrimmedLine).StartsWith('plik') or
      LowerCase(TrimmedLine).StartsWith('plik_tekstowy') or
+     LowerCase(TrimmedLine).StartsWith('lista_tekstów') or
+     LowerCase(TrimmedLine).StartsWith('lista_tekstow') or
+     LowerCase(TrimmedLine).StartsWith('string_list') or
      LowerCase(TrimmedLine).StartsWith('file') or
      LowerCase(TrimmedLine).StartsWith('text_file') then
   begin
@@ -1125,8 +1205,8 @@ begin
      (VarType = 'wariant_ole') or
      (VarType = 'tablica_tekstów') or
      (VarType = 'tablica_tekstow') or
-     (VarType = 'lista_tekstów') or
-     (VarType = 'lista_tekstow') or
+     //(VarType = 'lista_tekstów') or
+     //(VarType = 'lista_tekstow') or
      (VarType = 'stała') or
      (VarType = 'stala') or
      (VarType = 'tekstld') or
@@ -1156,6 +1236,7 @@ begin
      (VarType = 'string255') or
      (VarType = 'string') or
      (VarType = 'ansi_string') or
+      (VarType = 'ansi_string') or
      (VarType = 'unicode_string') or
      (VarType = 'dynamic_array') or
      (VarType = 'set') or
@@ -1166,7 +1247,8 @@ begin
      (VarType = 'any') or
      (VarType = 'ole_variant') or
      (VarType = 'informacje_o_wyszukaniu') or
-     (VarType = 'qWord') or
+     (VarType = 'qword') or
+      (VarType = 'string_list') or
      (VarType = 'search_record')
   then
   begin
@@ -1258,10 +1340,13 @@ begin
   PascalCode.Add(TranslatedLine);
 end;
 
-procedure TAvocadoTranslator.ProcessForLoop(const Line: string;
-  PascalCode: TStringList);
+procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
 var
-  TranslatedLine: string;
+//PascalCode: TStringList;
+TranslatedLine: string;
+ForKeyword, VarName, StartValue, ToKeyword, EndExpr: string;
+Parts: TStringArray;
+TranslatedEndExpr: string;
 begin
   TranslatedLine := Trim(Line);
     TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
@@ -1274,9 +1359,44 @@ begin
     TranslatedLine := StringReplace(TranslatedLine, 'wykonać','do', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'wykonac','do', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
-
-
     TranslatedLine := StringReplace(TranslatedLine, ' do ', ' to ', [rfReplaceAll, rfIgnoreCase]);
+
+    // ' to ' lub ' downto ' do rozdzielenia początku i końca pętli
+  Parts := TranslatedLine.Split([' to ', ' downto '], 3);
+
+  if Length(Parts) >= 2 then
+  begin
+    EndExpr := Trim(StringReplace(Parts[1], ' do', '', [rfIgnoreCase]));
+
+    TranslatedEndExpr := TranslateExpression(EndExpr); // Przetłumaczy 'ilość(h)' na 'h.Count'
+    ToKeyword := ' to ';
+    if Pos('downto', LowerCase(TranslatedLine)) > 0 then
+      ToKeyword := ' downto ';
+    TranslatedLine := Format('%s%s%s do', [
+      Parts[0], // Np. "for i := 0"
+      ToKeyword,
+      TranslatedEndExpr // Np. "h.Count"
+    ]);
+
+    // 5. Dodanie do kodu Pascala
+    PascalCode.Add(TranslatedLine);
+  end
+  else
+  begin
+    // Jeśli nie udało się sparsować pętli, dodaj błąd lub oryginalną linię
+    PascalCode.Add('// BŁĄD PARSOWANIA PĘTLI: ' + Line);
+  end;
+
+  // Zakładając, że pętla zaczyna się od zera (0)
+  if Pos(':= 0', LowerCase(Parts[0])) > 0 then // Jeśli pętla zaczyna się od 0
+  begin
+    // Dodaj "- 1" do końca, aby uniknąć błędu "Index out of bounds"
+    TranslatedEndExpr := TranslatedEndExpr + ' - 1';
+  end;
+
+  // Następnie, przy generowaniu linii Pascala:
+  PascalCode.Add(Format('for i := 0 to %s do', [TranslatedEndExpr]));
+
     PascalCode.Add(TranslatedLine);
 end;
 
@@ -1371,7 +1491,8 @@ begin
      (Pos(' cursor_position ', LowerCase(Code)) > 0) or
 
      (Pos('przypisz_plik', LowerCase(Code)) > 0) or
-     (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) then
+     (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) or
+     (Pos('key pressed', LowerCase(Code)) > 0) then
 
     begin
       if ModulesList <> '' then
@@ -2049,7 +2170,9 @@ begin
   end;
 
   // Obsługa zwróć / return
-  if (Pos('zwróć', LowerTrimmedLine) = 1) or (Pos('zwroc', LowerTrimmedLine) = 1) or (Pos('return', LowerTrimmedLine) = 1) then
+  if (Pos('zwróć', LowerTrimmedLine) = 1) or
+     (Pos('zwroc', LowerTrimmedLine) = 1) or
+     (Pos('return', LowerTrimmedLine) = 1) then
   begin
     StartPosTrim := Pos(' ', TrimmedLine);
     if StartPosTrim = 0 then
@@ -2094,8 +2217,7 @@ begin
     Exit;
   end;
   if (LowerTrimmedLine = 'kontynuuj') or
-     (LowerTrimmedLine = 'continue') or (
-     LowerTrimmedLine = 'continue;') then
+     (LowerTrimmedLine = 'continue') then
   begin PascalCode.Add('continue;');
     Exit;
   end;
@@ -3016,6 +3138,31 @@ begin
     Exit;
   end;
 
+      // Obsługa funkcji piszf / print -> Write
+  if (LowerCase(TrimmedLine).StartsWith('piszf(')) or
+     (LowerCase(TrimmedLine).StartsWith('printf(')) then
+  begin
+    // 1. Szukamy nawiasów
+    OpenPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 2. Walidacja błędów składni
+    if (OpenPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateMissingBracketsWritePrintFunction);
+
+    if OpenPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
+    try
+      Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
+      PascalCode.Add('WriteLnF(' + TranslateExpression(Value) + ');');
+    except
+      on E: Exception do
+        raise Exception.Create(TranslateErrorProcessingArgumentsWriteFunction + E.Message);
+    end;
+    Exit;
+  end;
+
+
   // Obsługa funkcji losowy / random -> Random
   if (Pos('losowy(', LowerTrimmedLine) > 0) or
      (Pos('random(', LowerTrimmedLine) > 0) then
@@ -3080,6 +3227,123 @@ begin
         Exit;
       end;
     end;
+
+    //STRINGLIST
+
+      if (LowerCase(TrimmedLine).StartsWith('twórz_lista_tekstów(')) or
+      (LowerCase(TrimmedLine).StartsWith('tworz_lista_tekstow(')) or
+      (LowerCase(TrimmedLine).StartsWith('create_string_list(')) then
+  begin
+    // 1. Szukamy nawiasów
+    OpenPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 2. Walidacja błędów składni
+    if (OpenPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateMissingBracketsWritePrintFunction);
+
+    if OpenPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
+    try
+      Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
+      PascalCode.Add(TranslateExpression(Value) + ' := TStringList.Create;');
+    except
+      on E: Exception do
+        raise Exception.Create(TranslateErrorProcessingArgumentsWriteFunction + E.Message);
+    end;
+    Exit;
+  end;
+
+  // DODAWANIE DO STRINGLIST
+  if (Pos('dodaj_lista(', LowerTrimmedLine) > 0) or
+     (Pos('add_list(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 1. Walidacja nawiasów
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateMissingBracketsCursorPositionFunction);
+
+    if StartPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpening);
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+    //  Walidacja argumentów musi być x i y
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 2 then
+        raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0])); // X
+      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1])); // Y
+      PascalCode.Add(TranslatedS1Arg + '.Add(''' + TranslatedS2Arg + ''');');
+    finally
+      ParamPartsList.Free;
+    end;
+    Exit;
+  end;
+
+    // Ilosc elementów w STRINGLIST
+  if (Pos('count(', LowerTrimmedLine) > 0) or
+     (Pos('ilość(', LowerTrimmedLine) > 0) or
+     (Pos('ilosc(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 1. Walidacja nawiasów
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateMissingBracketsCursorPositionFunction);
+
+    if StartPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpening);
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+    //  Walidacja argumentów musi być x i y
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 1 then
+        raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0])); // X
+      PascalCode.Add(TranslatedS1Arg + '.Count');
+    finally
+      ParamPartsList.Free;
+    end;
+    Exit;
+  end;
+
+  // Wypisanie pojedynczo elementow z listy STRINGLIST
+  if (Pos('teksty(', LowerTrimmedLine) > 0) or
+     (Pos('strings(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 1. Walidacja nawiasów
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateMissingBracketsCursorPositionFunction);
+
+    if StartPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpening);
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+    //  Walidacja argumentów musi być x i y
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 2 then
+        raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0])); // X
+      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1])); // Y
+      PascalCode.Add(TranslatedS1Arg + '.Strings[' + TranslatedS2Arg + '];');
+    finally
+      ParamPartsList.Free;
+    end;
+    Exit;
+  end;
+
 
   // Obsługa funkcji parametr_programu / get_argument -> ParamStr
   if (LowerCase(TrimmedLine).StartsWith('parametr_programu(')) or
@@ -3618,7 +3882,6 @@ begin
 end;
 
 
-
   // --- 7. ZWYKŁE PRZYPISANIA ---
   if Pos('=', TrimmedLine) > 0 then
   begin
@@ -3634,7 +3897,7 @@ end;
   if TrimmedLine <> '' then
   begin
     TranslatedLine := TranslateExpression(TrimmedLine);
-    // --- FIX: Nie dodajemy pustej linii ---
+
     if Trim(TranslatedLine) = '' then Exit;
 
     if NeedsSemicolon then PascalCode.Add(TranslatedLine + ';')

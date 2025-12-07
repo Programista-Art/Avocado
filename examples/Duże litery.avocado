@@ -1,15 +1,8 @@
-program dzueliteryansi
-glowny
-duzelitery
+program powtorzenie
+główny
+znak a = 'b'
+liczba_całkowita ile  = 10
+tekst c = powtórz_znak(a,ile)
+pisz_linie(c)
 koniec.
-
-procedura duzelitery
-poczatek
-tekst a = 'W Szczebrzeszynie chrząszcz brzmi w trzcinie '
-tekst b = 'a'
-  b = duze_litery_ansi(a)
-  pisz_linie(b)
-  b = male_litery_ansi(a)
-  pisz_linie(b)
-koniec
 

@@ -1,24 +1,14 @@
-program testowytest
-glowny
-siema
+program testowecos
+główny
+  test
 koniec.
 
-procedura siema
-poczatek
-tekst a = 'Siema'
-tekst b = 'Hello'
-  liczba_całkowita c = porównaj_tekst(a, b)
-  pisz_linie(c)
-  jezeli c = 0 wtedy
-  poczatek
-    pisz_linie('Słowa są równe sobie')
-  koniec
-  jezeli c > 0 wtedy
-  poczatek
-    pisz_linie(a, ' jest większe od ', b)
-  koniec
-  jezeli c < 0 wtedy
-  poczatek
-    pisz_linie(a, ' jest mniejsze od ', b)
-  koniec
+procedura test
+początek
+    tekst oryginalny_tekst = 'Ala ma kota.'
+    tekst zmieniony_tekst = ''
+    tekst szukany_tekst = 'kota'
+    tekst nowy_tekst = 'psa'
+    zmieniony_tekst = zamień_tekst(oryginalny_tekst, szukany_tekst, nowy_tekst)
+    pisz_linie(zmieniony_tekst)
 koniec

@@ -1654,9 +1654,12 @@ object FormMain: TFormMain
       'string_list'
       'lc'
       'liczba_całkowita'
+      'liczba_calkowita'
       'liczba_krótka'
+      'liczba_krotka'
       'liczba_mała'
-      'liczba_długa'
+      'liczba_mala'
+      'liczba_dluga'
       'liczba64'
       'liczba_pojedyncza'
       'liczba_zm'
@@ -1665,6 +1668,7 @@ object FormMain: TFormMain
       'liczba16'
       'liczba32'
       'liczba_podwójna'
+      'liczba_podwojna'
       'liczba_rozszerzona'
       'liczba_zgodna_delphi'
       'liczba_waluta'
@@ -1686,7 +1690,9 @@ object FormMain: TFormMain
       'plik_binarny'
       'plik_struktur'
       'wskaźnik'
+      'wskaznik'
       'wskaźnik_na'
+      'wskaznik_na'
       'wariant'
       'oleVariant'
       'informacje_o_wyszukaniu'
@@ -1734,6 +1740,7 @@ object FormMain: TFormMain
       'adres_zmiennej'
       'adres_zmiennej_z_wskażnika'
       'zaokrąglij'
+      'zaokraglij'
       'na_całkowitą_16'
       'liczebnik'
       'Liczba_pojedyncza_na_zm'
@@ -1777,6 +1784,7 @@ object FormMain: TFormMain
       'Int'
       'ord'
       'lista_tekstów'
+      'lista_tekstow'
       'get_enum_name'
       'get_enum_value'
       'date_str'
@@ -1821,7 +1829,8 @@ object FormMain: TFormMain
       'make'
       'malejąco '
       'descending'
-      'podcza'
+      'dopóki'
+      'dopoki'
       'while'
       'repeat'
       'until'
@@ -1858,6 +1867,8 @@ object FormMain: TFormMain
       'text_background'
       'text_color'
       'cursor_position '
+      'piszf'
+      'printf'
     )
     Position = 0
     LinesInWindow = 10
@@ -1958,8 +1969,8 @@ object FormMain: TFormMain
     ShortCut = 32800
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
-    Left = 40
-    Top = 64
+    Left = 48
+    Top = 88
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
@@ -2062,6 +2073,7 @@ object FormMain: TFormMain
       'PING'
       'PISZ'
       'PISZ_LINIE'
+      'PISZF'
       'POBIERZ_KATALOG_BIEZACY'
       'POBIERZ_KATALOG_BIEżąCY'
       'POBIERZ_PLIK'
@@ -2075,6 +2087,7 @@ object FormMain: TFormMain
       'POZYCJA_KURSORA'
       'PRINT'
       'PRINT_LINE'
+      'PRINTF'
       'PRZERWIJ'
       'PRZYPISZ_PLIK'
       'PRZYTNIJ'
