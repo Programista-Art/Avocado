@@ -1310,7 +1310,7 @@ object FormMain: TFormMain
     Left = 464
     Top = 48
     object MenuItem1: TMenuItem
-      Caption = 'Plik'
+      Caption = 'File'
       object MenuNewFile: TMenuItem
         Caption = 'New'
         object MenuItemConsoleProgram: TMenuItem
@@ -1357,6 +1357,17 @@ object FormMain: TFormMain
       object MenuItemrunwithoutcompilation: TMenuItem
         Caption = 'Run without compilation'
         OnClick = MenuItemrunwithoutcompilationClick
+      end
+    end
+    object MenuItem14: TMenuItem
+      Caption = 'View'
+      object MenuItemAlwaysontopmode: TMenuItem
+        Caption = 'Always on top mode'
+        OnClick = MenuItemAlwaysontopmodeClick
+      end
+      object MenuItemStandardMode: TMenuItem
+        Caption = 'Standard mode'
+        OnClick = MenuItemStandardModeClick
       end
     end
     object MenuProjekt: TMenuItem
@@ -1487,6 +1498,11 @@ object FormMain: TFormMain
       Caption = 'ZapiszPlik'
       ShortCut = 16467
       OnExecute = ZapiszPlikExecute
+    end
+    object Dokumentacja: TAction
+      Caption = 'Dokumentacja'
+      ShortCut = 112
+      OnExecute = DokumentacjaExecute
     end
   end
   object PopupMenuCode: TPopupMenu
@@ -1869,6 +1885,19 @@ object FormMain: TFormMain
       'cursor_position '
       'piszf'
       'printf'
+      'lista_tekstów'
+      'lista_tekstow'
+      'string_list'
+      'dodaj_lista'
+      'add_list'
+      'ilość'
+      'ilosc'
+      'count'
+      'teksty'
+      'strings'
+      'twórz_lista_tekstów'
+      'tworz_lista_tekstow'
+      'create_string_list'
     )
     Position = 0
     LinesInWindow = 10
@@ -1993,6 +2022,7 @@ object FormMain: TFormMain
     DotAttri.Foreground = 14851674
     KeyWords.Strings = (
       '_N_'
+      'ADD_LIST'
       'APPEND'
       'ASM'
       'ASSIGN_FILE'
@@ -2005,7 +2035,9 @@ object FormMain: TFormMain
       'COMPARE_TEXT'
       'CONTINUE'
       'COPY'
+      'COUNT'
       'CREATE_DIR'
+      'CREATE_STRING_LIST'
       'CURSOR_POSITION'
       'CURSOR_POSITION '
       'CZY_ISTNIEJE_KATALOG'
@@ -2020,6 +2052,7 @@ object FormMain: TFormMain
       'DLUGOSC'
       'DłUGOść'
       'DO'
+      'DODAJ_LISTA'
       'DOPOKI'
       'DOPóKI'
       'DOWNLOAD_FILE'
@@ -2031,11 +2064,14 @@ object FormMain: TFormMain
       'EOF'
       'FILE_EXISTS'
       'FOR '
+      'FREE'
       'FTP_POBIERZ'
       'GET_ARGUMENT'
       'GET_CURRENT_DIR'
       'GET_ENV'
       'IF'
+      'ILOSC'
+      'ILOść'
       'ILOść_PARAMETRóW'
       'IMPORT'
       'IMPORTUJ'
@@ -2049,6 +2085,8 @@ object FormMain: TFormMain
       'KONTYNUUJ'
       'KOPIUJ'
       'LENGTH'
+      'LISTA_TEKSTOW'
+      'LISTA_TEKSTóW'
       'LOSOWY'
       'LOSUJ'
       'LOWER_CASE'
@@ -2088,6 +2126,7 @@ object FormMain: TFormMain
       'PRINT'
       'PRINT_LINE'
       'PRINTF'
+      'PROGRAM'
       'PRZERWIJ'
       'PRZYPISZ_PLIK'
       'PRZYTNIJ'
@@ -2105,13 +2144,18 @@ object FormMain: TFormMain
       'SEARCH'
       'SET_ENV'
       'SET_LENGTH'
+      'STRING_LIST'
+      'STRINGS'
       'SZUKAJ'
+      'TEKSTY'
       'TEXT_BACKGROUND'
       'TEXT_COLOR'
       'THEN'
       'TLO_TEKSTU'
       'TłO_TEKSTU'
       'TRIM'
+      'TWORZ_LISTA_TEKSTOW'
+      'TWóRZ_LISTA_TEKSTóW'
       'UPPER_CASE'
       'USTAW_DLUGOSC '
       'USTAW_DłUGOść '
@@ -2133,6 +2177,7 @@ object FormMain: TFormMain
       'ZAMKNIJ_PLIK'
       'ZMIEN_KATALOG'
       'ZMIEń_KATALOG'
+      'ZWOLNIJ '
     )
     Constants.Strings = (
       'ANSI_STRING'

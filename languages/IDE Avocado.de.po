@@ -479,13 +479,17 @@ msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
 msgstr "Dokumentation"
 
+#: tformmain.dokumentacja.caption
+msgid "Dokumentacja"
+msgstr "Dokumentation"
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr "Kommentare filtern"
 
 #: tformmain.editsearchdocumentation.texthint
 msgid "Enter the name of the function"
-msgstr "Geben Sie den Namen der Funktion ein."
+msgstr "Geben Sie den Namen der Funktion ein"
 
 #: tformmain.editsearchfunctions.texthint
 msgctxt "tformmain.editsearchfunctions.texthint"
@@ -572,7 +576,7 @@ msgid "AI Assistant"
 msgstr "KI-Assistent"
 
 #: tformmain.menuitem1.caption
-msgid "Plik"
+msgid "File"
 msgstr "Datei"
 
 #: tformmain.menuitem10.caption
@@ -590,6 +594,10 @@ msgstr "Français"
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
 msgstr "Deutsch"
+
+#: tformmain.menuitem14.caption
+msgid "View"
+msgstr "Sicht"
 
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
@@ -638,6 +646,10 @@ msgstr "Language"
 #: tformmain.menuitem9.caption
 msgid "Polski"
 msgstr "Polski"
+
+#: tformmain.menuitemalwaysontopmode.caption
+msgid "Always on top mode"
+msgstr "Immer im Vordergrundmodus"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -705,6 +717,10 @@ msgstr "Speichern"
 #: tformmain.menuitemsearch.caption
 msgid "Search"
 msgstr "Suche"
+
+#: tformmain.menuitemstandardmode.caption
+msgid "Standard mode"
+msgstr "Standardmodus"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Support"
@@ -797,7 +813,7 @@ msgstr "ToolButtonDebug"
 
 #: tformmain.toolbuttondebug.hint
 msgid "Check the code"
-msgstr "Überprüfen Sie den Code."
+msgstr "Überprüfen Sie den Code"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -810,7 +826,7 @@ msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.button1.caption
 msgid "Open the folder"
-msgstr "Öffnen Sie den Ordner."
+msgstr "Öffnen Sie den Ordner"
 
 #: tformopcjeprojektu.caption
 msgid "Project Options"
@@ -978,7 +994,7 @@ msgstr "Dolmetschen abgeschlossen."
 
 #: unit1.newnamezprogram
 msgid "Enter the name of the program:"
-msgstr "Geben Sie den Namen des Programms ein: "
+msgstr "Geben Sie den Namen des Programms ein:"
 
 #: unit1.newprogramfile
 msgid "New file"
@@ -1379,4 +1395,3 @@ msgstr "Informationen"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Die Datei „models.txt“ wurde nicht gefunden."
-

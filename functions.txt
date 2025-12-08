@@ -177,3 +177,16 @@ duże_litery_ansi
 duze_litery_ansi
 małe_litery_ansi
 male_litery_ansi
+lista_tekstów
+lista_tekstow
+string_list
+dodaj_lista
+add_list
+ilość
+ilosc
+count
+teksty
+strings
+twórz_lista_tekstów
+tworz_lista_tekstow
+create_string_list

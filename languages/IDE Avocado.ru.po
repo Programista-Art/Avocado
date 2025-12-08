@@ -479,6 +479,10 @@ msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
 msgstr "Документация"
 
+#: tformmain.dokumentacja.caption
+msgid "Dokumentacja"
+msgstr "Документация"
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr "фильтровать комментарии"
@@ -503,7 +507,7 @@ msgstr "функции фильтра"
 
 #: tformmain.editsearchvariables.texthint
 msgid "filter variables"
-msgstr "переменные фильтра"
+msgstr "фильтр переменных"
 
 #: tformmain.fpccode.caption
 msgctxt "tformmain.fpccode.caption"
@@ -572,7 +576,7 @@ msgid "AI Assistant"
 msgstr "Помощник ИИ"
 
 #: tformmain.menuitem1.caption
-msgid "Plik"
+msgid "File"
 msgstr "Файл"
 
 #: tformmain.menuitem10.caption
@@ -590,6 +594,10 @@ msgstr "Français"
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
 msgstr "Deutsch"
+
+#: tformmain.menuitem14.caption
+msgid "View"
+msgstr "Вид"
 
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
@@ -638,6 +646,10 @@ msgstr "Language"
 #: tformmain.menuitem9.caption
 msgid "Polski"
 msgstr "Polski"
+
+#: tformmain.menuitemalwaysontopmode.caption
+msgid "Always on top mode"
+msgstr "Режим всегда наверху"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -705,6 +717,10 @@ msgstr "Сохранить"
 #: tformmain.menuitemsearch.caption
 msgid "Search"
 msgstr "Поиск"
+
+#: tformmain.menuitemstandardmode.caption
+msgid "Standard mode"
+msgstr "Стандартный режим"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Support"
@@ -1379,4 +1395,3 @@ msgstr "Информация"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Файл models.txt не найден."
-

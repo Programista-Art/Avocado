@@ -34,7 +34,7 @@ Thank you for all your support and motivation ❤️
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/programistaart)
 
 
-### [Documentation](https://avocado.doc.dimitalart.pl/)
+### [Documentation](https://doc.avocado-code.com/)
 ### [Official website](https://avocado-code.com/) 
 ### [Download Avocado IDE](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
 
@@ -116,7 +116,7 @@ Dzięki za każde wsparcie i motywację do dalszej pracy ❤️
 
 
 
-### [Dokumentacja po polsku](https://avocado.doc.dimitalart.pl/)
+### [Dokumentacja po polsku](https://doc.avocado-code.com/)
 ### [Oficjalna strona](https://avocado-code.com/) 
 ### [Pobrać IDE Avocado](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
 

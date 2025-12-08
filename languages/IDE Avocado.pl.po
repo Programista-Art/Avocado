@@ -85,7 +85,7 @@ msgstr "Funkcja cursor_position / pozycja_kursora  wymaga dokładnie 2 argument�
 
 #: avocadotranslator.translatedeletefunctionrequires
 msgid "The delete function requires three arguments: s, index, count."
-msgstr "Funkcja usuń/usun/delete wymaga trzech argumentów: s, index, count  "
+msgstr " Funkcja usuń/usun/delete wymaga trzech argumentów: s, index, count  "
 
 #: avocadotranslator.translatedownloadfilefunctionrequirestwoarguments
 msgid "Error: The download_file function requires EXACTLY TWO arguments (URL, Save Path)."
@@ -161,7 +161,7 @@ msgstr "Błąd składni: Niekompletne przypisanie."
 
 #: avocadotranslator.translateincorrectbracketsinfunction
 msgid "Error: incorrect brackets in the function."
-msgstr "Błąd: nieprawidłowe nawiasy w funkcji  "
+msgstr " Błąd: nieprawidłowe nawiasy w funkcji  "
 
 #: avocadotranslator.translateincorrectorderbracketstrim
 msgid "Incorrect order of brackets in trim()."
@@ -193,7 +193,7 @@ msgstr "Błędna składnia zmień_katalog('ścieżka' / change_dir('ścieżka')"
 
 #: avocadotranslator.translateincorrectsyntaxclosefilefunction
 msgid "Incorrect syntax close_file(f)"
-msgstr "Błędna składnia zamknij_plik(f) / close_file(f)  "
+msgstr " Błędna składnia zamknij_plik(f) / close_file(f)  "
 
 #: avocadotranslator.translateincorrectsyntaxcomparetextfunction
 msgid "Incorrect syntax of the compare_text function. Expected: compare_text(s1, s2)"
@@ -205,7 +205,7 @@ msgstr "Błędna składnia kopiuj. Oczekiwano: kopiuj(tekst, start, ile) lub cop
 
 #: avocadotranslator.translateincorrectsyntaxcreatedirfunction
 msgid "Incorrect syntax create_dir(...)"
-msgstr "Błędna składnia utwórz_katalog('ścieżka') / create_dir('path')  "
+msgstr "Błędna składnia utwórz_katalog('ścieżka') / create_dir('path') "
 
 #: avocadotranslator.translateincorrectsyntaxdirectoryexistsfunction
 msgid "Incorrect syntax directory_exists(...)"
@@ -479,6 +479,10 @@ msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
 msgstr "Dokumentacja"
 
+#: tformmain.dokumentacja.caption
+msgid "Dokumentacja"
+msgstr "Dokumentacja"
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr "filtruj komentarze"
@@ -572,7 +576,7 @@ msgid "AI Assistant"
 msgstr "Asystent AI"
 
 #: tformmain.menuitem1.caption
-msgid "Plik"
+msgid "File"
 msgstr "Plik"
 
 #: tformmain.menuitem10.caption
@@ -590,6 +594,10 @@ msgstr "Français"
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
 msgstr "Deutsch"
+
+#: tformmain.menuitem14.caption
+msgid "View"
+msgstr "Widok"
 
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
@@ -638,6 +646,10 @@ msgstr "Language"
 #: tformmain.menuitem9.caption
 msgid "Polski"
 msgstr "Polski"
+
+#: tformmain.menuitemalwaysontopmode.caption
+msgid "Always on top mode"
+msgstr "Tryb zawsze na górze"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -705,6 +717,10 @@ msgstr "Zapisz"
 #: tformmain.menuitemsearch.caption
 msgid "Search"
 msgstr "Wyszukiwanie"
+
+#: tformmain.menuitemstandardmode.caption
+msgid "Standard mode"
+msgstr "Tryb standardowy"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Support"
@@ -1379,4 +1395,3 @@ msgstr "Informacja"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Nie znaleziono pliku models.txt."
-

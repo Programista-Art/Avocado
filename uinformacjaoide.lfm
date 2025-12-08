@@ -51,8 +51,9 @@ object Finformacjaide: TFinformacjaide
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
-      'F8 → Transpile Code to Free Pascal'
-      'F9 → Compile Program to .exe'
+      'F8 - Transpile Code to Free Pascal'
+      'F9 - Compile Program to .exe'
+      'F1 - Opens documentation online'
       ''
       'Ctrl+N → New File'
       'Ctrl+O → Open File'

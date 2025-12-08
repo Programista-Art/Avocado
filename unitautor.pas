@@ -62,7 +62,7 @@ end;
 
 procedure TFormAutor.SpeedButton4Click(Sender: TObject);
 begin
-  OpenLink('https://avocado.dimitalart.pl/');
+  OpenLink('https://avocado-code.com/');
 end;
 
 procedure TFormAutor.SpeedButton5Click(Sender: TObject);

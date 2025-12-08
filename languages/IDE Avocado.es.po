@@ -65,7 +65,7 @@ msgstr "Error: La función calculate/calc debe contener una expresión matemáti
 
 #: avocadotranslator.translateclosingbracketbeforeopening
 msgid "Incorrect syntax: closing bracket before opening bracket"
-msgstr "Sintaxis incorrecta: corchete de cierre antes del corchete de apertura."
+msgstr "Sintaxis incorrecta: corchete de cierre antes del corchete de apertura"
 
 #: avocadotranslator.translateclosingbracketbeforeopeningbracket
 msgid "Syntax error: The closing bracket appears before the opening bracket."
@@ -77,7 +77,7 @@ msgstr "La función compare_text requiere dos argumentos: s1 y s2."
 
 #: avocadotranslator.translatecopyfunctionrequiresthreearguments
 msgid "The copy function requires three arguments: text, start, how many"
-msgstr "La función de copiar requiere tres argumentos: texto, inicio, cuántos."
+msgstr "La función de copiar requiere tres argumentos: texto, inicio, cuántos"
 
 #: avocadotranslator.translatecursorpositionfunctionrequirestwoarguments
 msgid "The cursor_position function requires exactly 2 arguments (X, Y). Found:"
@@ -381,7 +381,7 @@ msgstr "La función replace_text requiere tres argumentos: texto, desde, hasta."
 
 #: avocadotranslator.translatesearchfunctionrequirestwoarguments
 msgid "The search function requires two arguments: substring, text"
-msgstr "La función de búsqueda requiere dos argumentos: subcadena, texto."
+msgstr "La función de búsqueda requiere dos argumentos: subcadena, texto"
 
 #: avocadotranslator.translatesetlengthrequiresparentheses
 msgid "Syntax error: The set_length function requires parentheses, e.g., set_length(Array, 10)."
@@ -479,13 +479,17 @@ msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
 msgstr "Documentación"
 
+#: tformmain.dokumentacja.caption
+msgid "Dokumentacja"
+msgstr "Documentación"
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr "filtrar comentarios"
 
 #: tformmain.editsearchdocumentation.texthint
 msgid "Enter the name of the function"
-msgstr "Introduzca el nombre de la función."
+msgstr "Introduzca el nombre de la función"
 
 #: tformmain.editsearchfunctions.texthint
 msgctxt "tformmain.editsearchfunctions.texthint"
@@ -572,8 +576,8 @@ msgid "AI Assistant"
 msgstr "AI Assistant"
 
 #: tformmain.menuitem1.caption
-msgid "Plik"
-msgstr "Archivo"
+msgid "File"
+msgstr "Archivar"
 
 #: tformmain.menuitem10.caption
 msgid "English"
@@ -590,6 +594,10 @@ msgstr "Français"
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
 msgstr "Deutsch"
+
+#: tformmain.menuitem14.caption
+msgid "View"
+msgstr "Vista"
 
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
@@ -638,6 +646,10 @@ msgstr "Language"
 #: tformmain.menuitem9.caption
 msgid "Polski"
 msgstr "Polski"
+
+#: tformmain.menuitemalwaysontopmode.caption
+msgid "Always on top mode"
+msgstr "Modo siempre visible"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -705,6 +717,10 @@ msgstr "Guardar"
 #: tformmain.menuitemsearch.caption
 msgid "Search"
 msgstr "Buscar"
+
+#: tformmain.menuitemstandardmode.caption
+msgid "Standard mode"
+msgstr "Modo estándar"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Support"
@@ -810,7 +826,7 @@ msgstr "ZapiszPlik"
 
 #: tformopcjeprojektu.button1.caption
 msgid "Open the folder"
-msgstr "Abre la carpeta."
+msgstr "Abre la carpeta"
 
 #: tformopcjeprojektu.caption
 msgid "Project Options"
@@ -978,7 +994,7 @@ msgstr "Interpretación completada."
 
 #: unit1.newnamezprogram
 msgid "Enter the name of the program:"
-msgstr "Introduzca el nombre del programa:  "
+msgstr "Introduzca el nombre del programa: "
 
 #: unit1.newprogramfile
 msgid "New file"
@@ -1193,7 +1209,7 @@ msgstr "Función no encontrada."
 
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
-msgstr "- Información: la ruta de los módulos IDE es la misma que la de los módulos de usuario, omitiendo los duplicados. "
+msgstr "- Información: la ruta de los módulos IDE es la misma que la de los módulos de usuario, omitiendo los duplicados"
 
 #: unit1.translateitemselected
 msgid "Empty item selected."
@@ -1379,4 +1395,3 @@ msgstr "Información"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "No se encontró el archivo models.txt."
-

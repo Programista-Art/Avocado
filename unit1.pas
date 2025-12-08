@@ -48,6 +48,7 @@ type
 type
   { TFormMain }
   TFormMain = class(TForm)
+    Dokumentacja: TAction;
     EditSearchDocumentation: TEdit;
     EditSearchResults: TEdit;
     EditSearchMistakes: TEdit;
@@ -75,6 +76,9 @@ type
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
     MenuIRosyjski: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItemStandardMode: TMenuItem;
+    MenuItemAlwaysontopmode: TMenuItem;
     MenuItem19: TMenuItem;
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
@@ -185,6 +189,7 @@ type
     butCompileCode: TToolButton;
 
     //procedure FileTreeDblClick(Sender: TObject);
+    procedure DokumentacjaExecute(Sender: TObject);
     procedure EditSearchCommentsChange(Sender: TObject);
     procedure EditSearchFunctionsChange(Sender: TObject);
     procedure EditSearchMistakesChange(Sender: TObject);
@@ -222,11 +227,13 @@ type
     procedure MenuItem19Click(Sender: TObject);
     procedure MenuItem20Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure MenuItemAlwaysontopmodeClick(Sender: TObject);
     procedure MenuItemCompileClick(Sender: TObject);
     procedure MenuItemConsoleProgramClick(Sender: TObject);
     procedure MenuItemOpenFolderClick(Sender: TObject);
     procedure MenuItemrunwithoutcompilationClick(Sender: TObject);
     procedure MenuItemSearchClick(Sender: TObject);
+    procedure MenuItemStandardModeClick(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure ReplaceDialogFind(Sender: TObject);
     procedure RozmiarCzcionkiSynEditorChangeValue(Sender: TObject);
@@ -769,6 +776,11 @@ begin
   FilterListBox(EditSearchComments.Text, FCmtAll, ListBoxSearchComments);
 end;
 
+procedure TFormMain.DokumentacjaExecute(Sender: TObject);
+begin
+  FormAutor.OpenLink('https://doc.avocado-code.com/');
+end;
+
 
 procedure TFormMain.EditSearchFunctionsChange(Sender: TObject);
 begin
@@ -1242,6 +1254,12 @@ begin
   IsClickMainMenuLanguage(5);
 end;
 
+procedure TFormMain.MenuItemAlwaysontopmodeClick(Sender: TObject);
+begin
+  //FormStyle := fsStayOnTop;
+   FormStyle := fsSystemStayOnTop
+end;
+
 procedure TFormMain.MenuItemCompileClick(Sender: TObject);
 begin
   butCompileCodeClick(Sender);
@@ -1303,6 +1321,11 @@ begin
   FindDialog.Execute;
 end;
 
+procedure TFormMain.MenuItemStandardModeClick(Sender: TObject);
+begin
+  FormStyle := fsNormal;
+end;
+
 
 
 procedure TFormMain.NowyPlikExecute(Sender: TObject);
@@ -1312,58 +1335,8 @@ end;
 
 
 procedure TFormMain.ReplaceDialogFind(Sender: TObject);
-var
-SearchOptions: TSynSearchOptions;
-FoundCount: Integer;
 begin
   ListFunctionsFromSynEdit;
-  {
-   ListBoxSearchFunctions.Clear;
-   FoundCount := 0;
-
-   // Inicjalizacja opcji wyszukiwania
-   SearchOptions := [ssoFindContinue];
-
-   // Mapowanie opcji z FindDialog na SynEdit
-   if frWholeWord in ReplaceDialog.Options then
-     Include(SearchOptions, ssoWholeWord);
-   if frMatchCase in ReplaceDialog.Options then
-     Include(SearchOptions, ssoMatchCase);
-
-   // Ustawienie kursora na początek dokumentu przed rozpoczęciem wyszukiwania
-   SynEditCode.CaretXY := Point(1, 1);
-
-   // Wyszukiwanie w pętli
-   while SynEditCode.SearchReplace(ReplaceDialog.FindText, '', SearchOptions) > 0 do
-   begin
-     Inc(FoundCount);
-     // Dodanie znalezionego wyniku do ListBox
-     ListBoxSearchFunctions.Items.Add(Format('[%d]: %s', [
-       SynEditCode.CaretY,  // Numer linii (od 1)
-       SynEditCode.Lines[SynEditCode.CaretY - 1]  // Pobranie tekstu linii
-     ]));
-
-     // Przesunięcie kursora za znalezione wystąpienie, aby kontynuować wyszukiwanie
-     SynEditCode.CaretX := SynEditCode.CaretX + 1;
-
-     // Jeśli jesteśmy na końcu linii, przejdź do następnej
-     if SynEditCode.CaretX > Length(SynEditCode.LineText) + 1 then
-     begin
-       SynEditCode.CaretY := SynEditCode.CaretY + 1;
-       SynEditCode.CaretX := 1;
-     end;
-
-     // Zabezpieczenie przed wyszukiwaniem poza dokumentem
-     if SynEditCode.CaretY > SynEditCode.Lines.Count then
-       Break;
-   end;
-
-   // Komunikat podsumowujący
-   if FoundCount = 0 then
-     ListBoxSearchFunctions.Items.Add('Znaleziono 0 wystąpień')
-   else
-     ListBoxSearchFunctions.Items.Insert(0, Format('Znaleziono %d wystąpień', [FoundCount]));
-}
 end;
 
 procedure TFormMain.MenuItem4Click(Sender: TObject);
@@ -1545,7 +1518,7 @@ end;
 
 procedure TFormMain.MenuItemDokumentacjaClick(Sender: TObject);
 begin
-  FormAutor.OpenLink('https://avocado.doc.dimitalart.pl/');
+  FormAutor.OpenLink('https://doc.avocado-code.com/');
 end;
 
 
@@ -1946,13 +1919,13 @@ procedure TFormMain.IsClickMainMenuLanguage(number: Integer);
 var
   i: Integer;
 begin
-  for i := 0 to MainMenu1.Items[5].Count - 1 do
+  for i := 0 to MainMenu1.Items[6].Count - 1 do
     begin
       if i <> number then
-        MainMenu1.Items[5].Items[i].Checked := False;
+        MainMenu1.Items[6].Items[i].Checked := False;
     end;
     // Select the selected item
-    MainMenu1.Items[5].Items[number].Checked := True;
+    MainMenu1.Items[6].Items[number].Checked := True;
 end;
 
 

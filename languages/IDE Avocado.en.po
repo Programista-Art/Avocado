@@ -479,6 +479,10 @@ msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
 msgstr "Documentation"
 
+#: tformmain.dokumentacja.caption
+msgid "Dokumentacja"
+msgstr "Documentation"
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr "filter comments"
@@ -572,7 +576,7 @@ msgid "AI Assistant"
 msgstr "AI Assistant"
 
 #: tformmain.menuitem1.caption
-msgid "Plik"
+msgid "File"
 msgstr "File"
 
 #: tformmain.menuitem10.caption
@@ -590,6 +594,10 @@ msgstr "Français"
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
 msgstr "Deutsch"
+
+#: tformmain.menuitem14.caption
+msgid "View"
+msgstr "View"
 
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
@@ -638,6 +646,10 @@ msgstr "Language"
 #: tformmain.menuitem9.caption
 msgid "Polski"
 msgstr "Polski"
+
+#: tformmain.menuitemalwaysontopmode.caption
+msgid "Always on top mode"
+msgstr "Always on top mode"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -705,6 +717,10 @@ msgstr "Save"
 #: tformmain.menuitemsearch.caption
 msgid "Search"
 msgstr "Search"
+
+#: tformmain.menuitemstandardmode.caption
+msgid "Standard mode"
+msgstr "Standard mode"
 
 #: tformmain.menuitemwsparcieprojektu.caption
 msgid "Support"
@@ -1379,4 +1395,3 @@ msgstr "Information"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "The models.txt file was not found."
-

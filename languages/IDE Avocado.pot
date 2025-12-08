@@ -469,6 +469,10 @@ msgctxt "tformmain.documentation.caption"
 msgid "Documentation"
 msgstr ""
 
+#: tformmain.dokumentacja.caption
+msgid "Dokumentacja"
+msgstr ""
+
 #: tformmain.editsearchcomments.texthint
 msgid "filter comments"
 msgstr ""
@@ -562,7 +566,7 @@ msgid "AI Assistant"
 msgstr ""
 
 #: tformmain.menuitem1.caption
-msgid "Plik"
+msgid "File"
 msgstr ""
 
 #: tformmain.menuitem10.caption
@@ -579,6 +583,10 @@ msgstr ""
 
 #: tformmain.menuitem13.caption
 msgid "Deutsch"
+msgstr ""
+
+#: tformmain.menuitem14.caption
+msgid "View"
 msgstr ""
 
 #: tformmain.menuitem19.caption
@@ -627,6 +635,10 @@ msgstr ""
 
 #: tformmain.menuitem9.caption
 msgid "Polski"
+msgstr ""
+
+#: tformmain.menuitemalwaysontopmode.caption
+msgid "Always on top mode"
 msgstr ""
 
 #: tformmain.menuitemcompile.caption
@@ -694,6 +706,10 @@ msgstr ""
 
 #: tformmain.menuitemsearch.caption
 msgid "Search"
+msgstr ""
+
+#: tformmain.menuitemstandardmode.caption
+msgid "Standard mode"
 msgstr ""
 
 #: tformmain.menuitemwsparcieprojektu.caption
