@@ -1,0 +1,26 @@
+program listatekstow
+glowny
+  //inicjalizacja zmiennej
+  lista_tekstow h
+  //Tworzenie listy
+  tworz_lista_tekstow(h)
+  //Dodanie lelementów do listy
+  dodaj_lista(h,1)
+  dodaj_lista(h,2)
+  dodaj_lista(h,3)
+  dodaj_lista(h,4)
+  dodaj_lista(h,Programista Art)
+  dodaj_lista(h,2+2/1)
+
+  //wypisywanie wszystkich elementów z listy h
+  pisz_linie(h.tekst)
+
+  //wypisywanie jednego elementa z listy h
+  pisz_linie(teksty(h,1))
+
+  pisz('Ilość elmentów w liście h: ')
+  pisz_linie(ilosc(h))
+
+  //Trzeba ręcznie zwolnić objekt listy h
+  h.zwolnij
+koniec.
