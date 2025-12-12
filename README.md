@@ -36,7 +36,9 @@ Thank you for all your support and motivation ❤️
 ### [Polish documentation for the new version Avocado v2.2.0.0](https://avocado.doc.polish.dimitalart.pl/) 
 ### [Documentation in Polish](https://avocado.doc.dimitalart.pl/)
 
-### [Official website](https://avocado.dimitalart.pl/) 
+### [Official website](https://avocado-code.com/) 
+### [Replacement page](https://avocado.dimitalart.pl/) 
+
 ### [Download Avocado IDE](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
 
 ### Avocado Speed ​​Test Compared to Other Languages
@@ -119,7 +121,9 @@ Dzięki za każde wsparcie i motywację do dalszej pracy ❤️
 ### [Dokumentacja po polsku dla nowej wersji Avocado v2.2.0.0 ](https://avocado.doc.polish.dimitalart.pl/) 
 ### [Dokumentacja po polsku](https://avocado.doc.dimitalart.pl/)
 
-### [Oficjalna strona](https://avocado.dimitalart.pl/) 
+### [Oficjalna strona](https://avocado-code.com/) 
+### [Zastępcza strona](https://avocado.dimitalart.pl/)
+
 ### [Pobrać IDE Avocado](https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/) 
 
 ### Test prędkości Avocado na tle innych jezyków
