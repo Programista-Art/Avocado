@@ -3752,43 +3752,77 @@ begin
   end;
 
 
-  {
-  if LowerCase(TrimmedLine).StartsWith('ping ') then
+  // Funkcja pobierz_plik  nowa
+  // Funkcja pobierz_plik / download_file
+  // Funkcja pobierz_plik / download_file
+  if (LowerCase(TrimmedLine).StartsWith('pobierz_plik(')) or
+     (LowerCase(TrimmedLine).StartsWith('download_file(')) then
   begin
-    Parts := TrimmedLine.Split([' '], 2);
-    if Length(Parts) = 2 then
-    begin
-      Site := Parts[1];
-      PascalCode.Add('if ping(''' + Site + ''') then');
-      PascalCode.Add('begin');
-      PascalCode.Add('  WriteLn(''Strona ' + Site + ' odpowiada!'');');
-      PascalCode.Add('end'); PascalCode.Add('else');
-      PascalCode.Add('begin');
-      PascalCode.Add('  WriteLn(''Nie można nawiązać połączenia z ' + Site + ''');');
-      PascalCode.Add('end;');
-    end;
-    Exit;
-  end;
-  }
+    CommaPos := 0;
+    InQuotes := False;
 
-   // Poprawic pozostaly kod
-  {
-  if LowerCase(TrimmedLine).StartsWith('pobierz_plik(') then
-  begin
-    PascalCode.Add(TrimmedLine + ';');
+    try
+      OpenPos := Pos('(', TrimmedLine);
+      EndPos := RPos(')', TrimmedLine);
+
+      if (OpenPos = 0) or (EndPos = 0) then
+        raise Exception.Create('Błędna składnia funkcji pobierz_plik().');
+
+      if OpenPos > EndPos then
+        raise Exception.Create(TranslateIncorrectOrderOfBrackets);
+
+      // Wyciągnięcie parametrów
+      ParamStr := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
+
+      // Znalezienie przecinka poza cudzysłowami
+      for I := 1 to Length(ParamStr) do
+      begin
+        if ParamStr[I] = '''' then
+          InQuotes := not InQuotes;
+
+        if (ParamStr[I] = ',') and (not InQuotes) then
+        begin
+          CommaPos := I;
+          Break;
+        end;
+      end;
+
+      if CommaPos = 0 then
+        raise Exception.Create(TranslateDownloadFileFunctionRequiresTwoArguments);
+
+      // Parametr 1 = URL
+      URL := TranslateExpression(Trim(Copy(ParamStr, 1, CommaPos - 1)));
+
+      // Parametr 2 = ścieżka zapisu
+      Target := TranslateExpression(Trim(Copy(ParamStr, CommaPos + 1, Length(ParamStr) - CommaPos)));
+
+      PascalCode.Add('try');
+      PascalCode.Add('  if DownloadFileToDisk(' + URL + ', ' + Target + ') then');
+      PascalCode.Add('    Writeln(''Plik zapisany w: '' + ' + Target + ')');
+      PascalCode.Add('  else');
+      PascalCode.Add('    Writeln(''Błąd pobierania pliku z URL: '' + ' + URL + ');');
+      PascalCode.Add('except');
+      PascalCode.Add('  on E: Exception do');
+      PascalCode.Add('    Writeln(''Wyjątek podczas pobierania: '' + E.Message);');
+      PascalCode.Add('end;');
+
+    except
+      on E: Exception do
+        raise Exception.Create(TranslateErrorProcessingGetFileFunction + ' ' + E.Message);
+    end;
+
     Exit;
   end;
-  if LowerCase(TrimmedLine).StartsWith('pobierz_strone(') then
-  begin
-    PascalCode.Add(TrimmedLine + ';');
-    Exit;
-  end;
-  }
-  // Obsługa funkcji pobierz_plik(URL, ścieżka_zapisu)
+
+
+
+
+
 
 
   // Funkcja pobierz_plik
   // Obsługa funkcji pobierz_plik(URL, ścieżka_zapisu)
+  {
 if (LowerCase(TrimmedLine).StartsWith('pobierz_plik(')) or
    (LowerCase(TrimmedLine).StartsWith('download_file(')) then
 begin
@@ -3840,7 +3874,7 @@ begin
   end;
   Exit;
 end;
-
+ }
 
 // Obsługa funkcji pobierz_strone(URL, zmienna_wynikowa)
 if (LowerCase(TrimmedLine).StartsWith('pobierz_strone(')) or

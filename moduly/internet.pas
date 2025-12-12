@@ -73,7 +73,7 @@ begin
  }
 
  {DZIALA pobiera zdjecia w róznych formatach i pliki}
- function DownloadFileToDisk(const URL, SavePath: string; out ErrorMsg: string): Boolean;
+function DownloadFileToDisk(const URL, SavePath: string; out ErrorMsg: string): Boolean;
 var
 MemStream: TMemoryStream;
 Dir: string;
@@ -95,8 +95,6 @@ begin
         ErrorMsg := 'HTTP request failed';
         Exit;
       end;
-
-      // Pomiń sprawdzanie MIME – pobieramy wszystko
       SynHttp.Document.SaveToStream(MemStream);
       MemStream.Position := 0;
       MemStream.SaveToFile(SavePath);
