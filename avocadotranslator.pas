@@ -2698,7 +2698,7 @@ begin
 
 
 
-  // --- 5. OBSŁUGA PLIKÓW ---
+  // 5. OBSŁUGA PLIKÓW
   if AnsiStartsText('przypisz_plik(', TrimmedLine) or
      AnsiStartsText('assign_file(', TrimmedLine) then
   begin
@@ -2796,7 +2796,56 @@ begin
     Exit;
   end;
 
-  // --- 6. INNE FUNKCJE SYSTEMOWE ---
+  //szukaj(var f: TextFile; pos: integer);
+  {if (AnsiStartsText('czytaj_od_pozycji_wskaźnika(', TrimmedLine)) or
+     (AnsiStartsText('read_from_pointer_position(', TrimmedLine)) or
+     (AnsiStartsText('czytaj_pw(', TrimmedLine)) then
+  begin
+    StartPos := Pos('(', TrimmedLine); EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create(TranslateIncorrectSyntaxFileExistsFunction);
+    Param := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    PascalCode.Add('Seek(' + TranslateExpression(Param) + ');');
+    Exit;
+  end;
+  }
+
+    //ustawia wskaźnik pliku.
+    if (Pos('czytaj_od_pozycji_wskaźnika(', LowerTrimmedLine) > 0) or
+     (Pos('czytaj_od_pozycji_wskaznika(', LowerTrimmedLine) > 0) or
+     (Pos('read_from_pointer_position(', LowerTrimmedLine) > 0) or
+     (Pos('czytaj_pw(', LowerTrimmedLine) > 0) or
+     (Pos('seek(', LowerTrimmedLine) > 0)then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create('Błąd składni: Brak nawiasów w funkcji czytaj_od_pozycji_wskaźnika / czytaj_pw / read_from_pointer_position, seek');
+
+    if StartPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpening);
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 2 then
+        raise Exception.Create('Błąd tłumaczenia: Funkcja czytaj_od_pozycji_wskaźnika / czytaj_pw / seek / read_from_pointer_position / wymaga dokładnie 2 argumentów (zmienna plikowa, pozycja). Znaleziono: ' + IntToStr(ParamPartsList.Count));
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0]));
+      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1]));
+      PascalCode.Add('Seek(' + TranslatedS1Arg + ', ' + TranslatedS2Arg + ');');
+    finally
+      ParamPartsList.Free;
+    end;
+    Exit;
+  end;
+
+
+
+  //6. INNE FUNKCJE SYSTEMOWE
   if AnsiStartsText('zmień_katalog(', TrimmedLine) or
      AnsiStartsText('zmien_katalog(', TrimmedLine) or
      AnsiStartsText('change_dir(', TrimmedLine) then
@@ -3753,7 +3802,6 @@ begin
 
 
   // Funkcja pobierz_plik  nowa
-  // Funkcja pobierz_plik / download_file
   // Funkcja pobierz_plik / download_file
   if (LowerCase(TrimmedLine).StartsWith('pobierz_plik(')) or
      (LowerCase(TrimmedLine).StartsWith('download_file(')) then

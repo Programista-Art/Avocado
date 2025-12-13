@@ -8,8 +8,6 @@ interface
 uses
   SysUtils, Classes;
 
-{--- API ---}
-
 // Przypisanie pliku do zmiennej
 procedure przypisz_plik(var f: TextFile; const nazwa: string);
 
@@ -37,6 +35,9 @@ function czy_plik_istnieje(const nazwa: string): Boolean;
 
 // Kod błędu I/O (po operacji przy wyłączonej kontroli I/O)
 function wynik_io: Integer;
+
+
+
 
 implementation
 
@@ -105,6 +106,7 @@ function wynik_io: Integer;
 begin
   Result := IOResult;
 end;
+
 
 end.
 
