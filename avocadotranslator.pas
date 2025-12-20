@@ -56,6 +56,9 @@ end;
     {Najwazneisza funkcja transpilacji}
     procedure ProcessLine(const Line: string; PascalCode: TStringList; const NextTrimmedLowerLine: string);
 
+    {Skrocona funkcja aby zmniejszyc ilosc kodu w processline}
+    function TryTranslateGeneric(const Line: string; PascalCode: TStringList; Aliases: array of string; RequiredArgs: Integer; PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg: String): Boolean;
+
     function PrzetworzBlok(const Blok: string): string;
     //Otrzumuje nazwy modulów i wstawia do sekcji Interface
     function GetImportedModules(const Code: string): string;
@@ -401,8 +404,8 @@ resourcestring
   TranslateErrorProcessingGetFileFunction = 'Error while processing the GET_FILE function: ';
   TranslatePobierzStroneRequiresParentheses = 'Syntax error: The pobierz_strone function requires parentheses, e.g., pobierz_strone(''url'', ResultVariable).';
   TranslatePobierzStroneRequiresTwoArguments = 'Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable).';
-
-
+  TranslateAliasTypeIsUnknown = 'Unknown alias type: " ';
+  TranslateReplacedVariant = '". Replaced "Variant".';
 implementation
 uses
   unit1;
@@ -780,6 +783,17 @@ begin
     'lista_tekstów', 'lista_tekstow', 'string_list':
       Exit('TStringList');
 
+     //UI windows
+
+     //uchwyt
+    'uchwyt_okna', 'hwnd':
+      Exit('HWND');
+    //rekord
+    'parametry_ui', 'ui_parameters':
+      Exit('TAvocadoWindowParams');
+    //Wiadomosc Msg
+    'dialog_komunikatu', 'msg':
+      Exit('TMsg');
 
     // Inne
     'wariant', 'variant':
@@ -1236,7 +1250,7 @@ begin
      (VarType = 'string255') or
      (VarType = 'string') or
      (VarType = 'ansi_string') or
-      (VarType = 'ansi_string') or
+     (VarType = 'ansi_string') or
      (VarType = 'unicode_string') or
      (VarType = 'dynamic_array') or
      (VarType = 'set') or
@@ -1488,7 +1502,7 @@ begin
      (Pos('text_color', LowerCase(Code)) > 0) or
 
      (Pos('pozycja_kursora', LowerCase(Code)) > 0) or
-     (Pos(' cursor_position ', LowerCase(Code)) > 0) or
+     (Pos('cursor_position', LowerCase(Code)) > 0) or
 
      (Pos('przypisz_plik', LowerCase(Code)) > 0) or
      (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) or
@@ -1632,7 +1646,7 @@ begin
     on E: Exception do
     begin
       // Fallback – jeśli nieznany typ, zwróć Variant i pokaż ostrzeżenie w konsoli
-      Writeln('Nieznany alias typu: "', AName, '". Zastąpiono "Variant".');
+      Writeln(TranslateAliasTypeIsUnknown, AName, TranslateReplacedVariant);
       Result := 'Variant';
     end;
   end;
@@ -2066,7 +2080,7 @@ var
   StartPosLower, EndPosLower: Integer;
   ParamLower, TranslatedParamLower: string;
   StartPosCompareStr, EndPosCompareStr: Integer;
-  ParamCompareStr, TranslatedS1Arg, TranslatedS2Arg: string;
+  ParamCompareStr, TranslatedS1Arg, TranslatedS3Arg, TranslatedS2Arg: string;
   ParamPartsCompareStr: TStringArray;
   ZamienTekst_StartPos, ZamienTekst_EndPos: Integer;
   ZamienTekst_Param: string;
@@ -2972,14 +2986,7 @@ begin
     else PascalCode.Add('Pos(' + SubstringExpr + ', ' + SExpr + ');');
     Exit;
   end;
-  {
-  if LowerCase(TrimmedLine).StartsWith('pozycja_kursora(') then
-  begin
-    Value := Copy(TrimmedLine, 17, Length(TrimmedLine) - 17);
-    PascalCode.Add('GotoXY(' + TranslateExpression(Value) + ');');
-    Exit;
-  end;
-  }
+
   // Obsługa PozycjaKursora / GotoXY (cursor_position)
   if (Pos('pozycja_kursora(', LowerTrimmedLine) > 0) or
      (Pos('cursor_position(', LowerTrimmedLine) > 0) then
@@ -3277,11 +3284,11 @@ begin
       end;
     end;
 
-    //STRINGLIST
+      //STRINGLIST OBJECT
 
-      if (LowerCase(TrimmedLine).StartsWith('twórz_lista_tekstów(')) or
-      (LowerCase(TrimmedLine).StartsWith('tworz_lista_tekstow(')) or
-      (LowerCase(TrimmedLine).StartsWith('create_string_list(')) then
+  if (LowerCase(TrimmedLine).StartsWith('twórz_lista_tekstów(')) or
+  (LowerCase(TrimmedLine).StartsWith('tworz_lista_tekstow(')) or
+  (LowerCase(TrimmedLine).StartsWith('create_string_list(')) then
   begin
     // 1. Szukamy nawiasów
     OpenPos := Pos('(', TrimmedLine);
@@ -3289,7 +3296,7 @@ begin
 
     // 2. Walidacja błędów składni
     if (OpenPos = 0) or (EndPos = 0) then
-      raise Exception.Create(TranslateMissingBracketsWritePrintFunction);
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji twórz_lista_tekstów / tworz_lista_tekstow / create_string_list ');
 
     if OpenPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
@@ -3312,7 +3319,7 @@ begin
 
     // 1. Walidacja nawiasów
     if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create(TranslateMissingBracketsCursorPositionFunction);
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji dodaj_lista / add_list');
 
     if StartPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpening);
@@ -3343,13 +3350,12 @@ begin
 
     // 1. Walidacja nawiasów
     if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create(TranslateMissingBracketsCursorPositionFunction);
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji ilość / ilosc / count');
 
     if StartPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpening);
     ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
 
-    //  Walidacja argumentów musi być x i y
     ParamPartsList := TStringList.Create;
     try
       SplitArguments(ParamStr, ParamPartsList);
@@ -3363,7 +3369,7 @@ begin
     Exit;
   end;
 
-  // Wypisanie pojedynczo elementow z listy STRINGLIST
+  {// Wypisanie pojedynczo elementow z listy STRINGLIST
   if (Pos('teksty(', LowerTrimmedLine) > 0) or
      (Pos('strings(', LowerTrimmedLine) > 0) then
   begin
@@ -3372,26 +3378,87 @@ begin
 
     // 1. Walidacja nawiasów
     if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create(TranslateMissingBracketsCursorPositionFunction);
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji teksty / strings');
 
     if StartPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpening);
     ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
 
-    //  Walidacja argumentów musi być x i y
     ParamPartsList := TStringList.Create;
     try
       SplitArguments(ParamStr, ParamPartsList);
       if ParamPartsList.Count <> 2 then
         raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
-      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0])); // X
-      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1])); // Y
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0]));
+      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1]));
       PascalCode.Add(TranslatedS1Arg + '.Strings[' + TranslatedS2Arg + '];');
     finally
       ParamPartsList.Free;
     end;
     Exit;
   end;
+  }
+
+  // Wypisanie pojedynczo elementow z listy STRINGLIST
+  //Writeln(h.Strings[1]);
+  if TryTranslateGeneric(Line, PascalCode,
+    ['teksty', 'strings'],
+    2,
+    '%0:s.Strings[%1:s]',
+    'BŁĄD SKŁADNI: Funkcja teksty / strings wymaga nawiasów.',
+    'BŁĄD ARGUMENTÓW: Funkcja teksty / strings wymaga 2 argumentów. Podano: ') then
+  Exit;
+
+  // Wstawianie na konkretną pozycję: List.Insert(2, 'nowy tekst');
+  if TryTranslateGeneric(Line, PascalCode,
+    ['wstaw_do_listy', 'insert_to_list'],
+    3,
+    '%0:s.Insert(%1:s, %2:s)',
+    'BŁĄD SKŁADNI: Funkcja wstaw_do_listy / insert_to_list wymaga nawiasów.',
+    'BŁĄD ARGUMENTÓW: Funkcja wstaw_lista wymaga 3 argumentów (lista, indeks, wartość). Podano: ') then
+  Exit;
+
+
+  //Usuwanie elementu po indeksie: List.Delete(3);
+  if TryTranslateGeneric(Line, PascalCode,
+    ['usuń_z_listy', 'usun_z_listy', 'delete_to_list'], // Aliasy
+    2,                                                 // 2 argumenty: lista i indeks
+    '%s.Delete(%s)',                                   // SZABLON (lista.Delete(indeks))
+    'BŁĄD SKŁADNI: Funkcja usuń_z_listy wymaga nawiasów.',
+    'BŁĄD ARGUMENTÓW: Funkcja usuń_z_listy / delete_to_list wymaga nazwy listy i indeksu.') then
+  Exit;
+
+  //Usuwanie elementu po wartości: List.Delete(List.IndexOf('tekst'));
+  if TryTranslateGeneric(Line, PascalCode,
+    ['usuń_z_listy_id', 'usun_z_listy_id', 'delete_to_list_id'],
+    2,
+    '%0:s.Delete(%0:s.IndexOf(%1:s))',
+    'BŁĄD SKŁADNI: Funkcja usuń_z_listy_id wymaga nawiasów.',
+    'BŁĄD ARGUMENTÓW: Podaj nazwę listy oraz wartość do usunięcia.') then
+  Exit;
+
+  //Czyszczenie całej listy: List.Clear;
+  if TryTranslateGeneric(Line, PascalCode,
+    ['wyczyść_listę', 'wyczysc_liste', 'clear_list'],
+    1,
+    '%s.Clear',
+    'BŁĄD SKŁADNI: Funkcja wyczyść_listę / clear_list musi mieć nawiasy, np. wyczyść_listę(h)',
+    'BŁĄD ARGUMENTÓW: Funkcja wyczyść_listę / clear_list przyjmuje dokładnie 1 nazwę listy')then
+  Exit;
+
+  //List[0] := 'nowa wartość';
+  //ustawienie elementu listy:
+  //lista[indeks] := wartość
+  if TryTranslateGeneric(Line, PascalCode,
+    ['ustaw_tekst', 'set_text'],
+    3,
+    '%0:s[%1:s] := %2:s',
+    'BŁĄD SKŁADNI: Funkcja ustaw_tekst wymaga nawiasów.',
+    'BŁĄD ARGUMENTÓW: Funkcja ustaw_tekst wymaga 3 argumentów (lista, indeks, "nowa wartość").') then
+  Exit;
+
+
+
 
 
   // Obsługa funkcji parametr_programu / get_argument -> ParamStr
@@ -3800,8 +3867,6 @@ begin
     Exit;
   end;
 
-
-  // Funkcja pobierz_plik  nowa
   // Funkcja pobierz_plik / download_file
   if (LowerCase(TrimmedLine).StartsWith('pobierz_plik(')) or
      (LowerCase(TrimmedLine).StartsWith('download_file(')) then
@@ -3863,67 +3928,6 @@ begin
   end;
 
 
-
-
-
-
-
-  // Funkcja pobierz_plik
-  // Obsługa funkcji pobierz_plik(URL, ścieżka_zapisu)
-  {
-if (LowerCase(TrimmedLine).StartsWith('pobierz_plik(')) or
-   (LowerCase(TrimmedLine).StartsWith('download_file(')) then
-begin
-   CommaPos:= 0; // Pozycja separatora
-   InQuotes:= False;
-
-  try
-    // --- 1. Parsowanie i walidacja nawiasów ---
-    OpenPos := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine);
-
-    if (OpenPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Some kind of error');
-
-    if OpenPos > EndPos then
-      raise Exception.Create(TranslateIncorrectOrderOfBrackets);
-
-    ParamStr := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
-    for  I := 1 to Length(ParamStr) do
-    begin
-      if ParamStr[I] = '''' then
-        InQuotes := not InQuotes;
-      if (ParamStr[I] = ',') and (not InQuotes) then
-      begin
-        CommaPos := I;
-        Break;
-      end;
-    end;
-
-    //  Walidacja i przypisanie
-    if CommaPos = 0 then
-      raise Exception.Create(TranslateDownloadFileFunctionRequiresTwoArguments);
-
-    URL := TranslateExpression(Trim(Copy(ParamStr, 1, CommaPos - 1)));
-    Target := TranslateExpression(Trim(Copy(ParamStr, CommaPos + 1, Length(ParamStr) - CommaPos)));
-
-    PascalCode.Add('try');
-    PascalCode.Add('  pobierz_plik(' + URL + ', ' + Target + ');');
-    PascalCode.Add('except');
-    PascalCode.Add('  on E: Exception do');
-    PascalCode.Add('  begin');
-    PascalCode.Add('    Writeln(''Błąd pobierania pliku z '' + ' + URL + ' + '': '' + E.Message);');
-    PascalCode.Add('  end;');
-    PascalCode.Add('end;');
-
-  except
-    on E: Exception do
-      raise Exception.Create(TranslateErrorProcessingGetFileFunction + E.Message);
-  end;
-  Exit;
-end;
- }
-
 // Obsługa funkcji pobierz_strone(URL, zmienna_wynikowa)
 if (LowerCase(TrimmedLine).StartsWith('pobierz_strone(')) or
    (LowerCase(TrimmedLine).StartsWith('download_page(')) then
@@ -3963,6 +3967,32 @@ begin
   Exit;
 end;
 
+      //UI
+
+     // Obsługa funkcji pokaz okno
+     if (LowerCase(TrimmedLine).StartsWith('pokaz_okno(')) or
+        (LowerCase(TrimmedLine).StartsWith('pokaż_okno(')) or
+        (LowerCase(TrimmedLine).StartsWith('show_window(')) then
+     begin
+       OpenPos := Pos('(', TrimmedLine);
+       EndPos := RPos(')', TrimmedLine);
+       if (OpenPos = 0) or (EndPos = 0) then
+         raise Exception.Create(TranslateMissingBracketsGetArgumentFunction);
+       if OpenPos > EndPos then
+         raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
+       try
+         Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
+         // ParamStr wymaga argumentu (indeksu), więc puste nawiasy to błąd
+         if Trim(Value) = '' then
+           raise Exception.Create(TranslateGetArgumentFunctionRequiresIndex);
+         PascalCode.Add('ShowWindowAvocado(' + TranslateExpression(Value) + ');');
+       except
+         on E: Exception do
+           raise Exception.Create(TranslateErrorProcessingGetArgumentFunction + E.Message);
+       end;
+       Exit;
+     end;
+
 
   // --- 7. ZWYKŁE PRZYPISANIA ---
   if Pos('=', TrimmedLine) > 0 then
@@ -3988,6 +4018,66 @@ end;
   end;
 end;
 
+function TAvocadoTranslator.TryTranslateGeneric(const Line: string;
+  PascalCode: TStringList; Aliases: array of string; RequiredArgs: Integer;
+  PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg:string): Boolean;
+var
+  ParamPartsList: TStringList;
+  Args: array of string;
+  StartPos, EndPos, i: Integer;
+  ParamStr, TrimmedLine, LowerLine: string;
+  IsFound: Boolean;
+  //SyntaxErrorMsg: string;
+  //ArgCountErrorMsg: string;
+begin
+  Result := False;
+    TrimmedLine := Trim(Line);
+    LowerLine := LowerCase(TrimmedLine);
+
+    // Sprawdź czy jakikolwiek alias pasuje
+    IsFound := False;
+    for i := Low(Aliases) to High(Aliases) do
+      if LowerLine.StartsWith(Aliases[i] + '(') then IsFound := True;
+
+    if not IsFound then Exit;
+
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) or (StartPos > EndPos) then
+      raise Exception.Create(SyntaxErrorMsg + Aliases[0]);
+
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+
+      //if ParamPartsList.Count <> RequiredArgs then
+      //  raise Exception.Create(ErrorMsg + ' (Oczekiwano ' + IntToStr(RequiredArgs) + ')');
+      if ParamPartsList.Count <> RequiredArgs then
+      raise Exception.Create(ArgCountErrorMsg + ' (Oczekiwano: ' +
+          IntToStr(RequiredArgs) + ', otrzymano: ' +
+          IntToStr(ParamPartsList.Count) + ')'); // <-- Drugi komunikat
+
+      // Tłumaczenie argumentów
+      SetLength(Args, RequiredArgs);
+      for i := 0 to RequiredArgs - 1 do
+        Args[i] := TranslateExpression(Trim(ParamPartsList[i]));
+
+      // Składanie kodu Pascala przy użyciu szablonu
+      case RequiredArgs of
+        1: PascalCode.Add(Format(PascalTemplate + ';', [Args[0]]));
+        2: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1]]));
+        3: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1], Args[2]]));
+      end;
+
+      Result := True;
+    finally
+      ParamPartsList.Free;
+    end;
+end;
+
+
+
 function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
 var
 PascalCode: TStringList;
@@ -4005,7 +4095,7 @@ j: integer;
 DetectedCodePage: string;
 WinCP: string;
 begin
-    // --- 1. Inicjalizacja ---
+    // 1. Inicjalizacja ---
   SetLength(FVariables, 0);
   FInRepeatBlock := False;
   FInMultiLineComment := False;
@@ -4019,7 +4109,7 @@ begin
   UsesList := TStringList.Create;
   ExistingUnits := TStringList.Create;
 
-  // --- 2. Skanowanie nazwy programu ---
+  // 2. Skanowanie nazwy programu
   NameProgram := '';
   DetectedProgramName := 'untitledprogram';
   for i := 0 to AvocadoCode.Count - 1 do
@@ -4038,7 +4128,7 @@ begin
     AddCompilerDirective(PascalCode);
     PascalCode.Add('program ' + DetectedProgramName + ';');
 
-    // --- 3. Sekcja 'uses' ---
+    //3. Sekcja 'uses'
     ModulesStr := GetImportedModules(AvocadoCode.Text);
     ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
     UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
@@ -4089,7 +4179,7 @@ begin
   	 end;
 
 
-    // --- 7. PĘTLA 2: Tłumaczenie Procedur ---
+    // 7. PĘTLA 2: Tłumaczenie Procedur
     ProcedureDepth := 0;
     FInRepeatBlock := False;
     PascalCode.Add('');
@@ -4120,8 +4210,13 @@ begin
       // Jeśli jesteśmy w procedurze, tłumacz jej ciało
       if ProcedureDepth > 0 then
       begin
-        if (LowerLine = 'start') or (LowerLine = 'początek') or (LowerLine = 'poczatek') or (LowerLine = 'main')
-           or (LowerLine = 'główny') or (LowerLine = 'glowny') then
+        if (LowerLine = 'start') or
+           (LowerLine = 'początek') or
+           (LowerLine = 'poczatek')
+           //(LowerLine = 'main')or
+           //(LowerLine = 'główny') or
+           //(LowerLine = 'glowny')
+           then
           Inc(ProcedureDepth)
         else if (LowerLine = 'koniec') or (LowerLine = 'end') then
           Dec(ProcedureDepth);

@@ -1,18 +1,18 @@
 object Wsparcie: TWsparcie
   Left = 350
-  Height = 242
+  Height = 297
   Top = 250
   Width = 418
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Wsparcie'
-  ClientHeight = 242
+  ClientHeight = 297
   ClientWidth = 418
   Position = poMainFormCenter
   object Panel2: TPanel
     Left = 0
     Height = 32
-    Top = 210
+    Top = 265
     Width = 418
     Align = alBottom
     BevelColor = clWindowFrame
@@ -49,20 +49,20 @@ object Wsparcie: TWsparcie
   end
   object PanelDolny: TPanel
     Left = 0
-    Height = 78
-    Top = 132
+    Height = 129
+    Top = 136
     Width = 418
     Align = alBottom
-    ClientHeight = 78
+    ClientHeight = 129
     ClientWidth = 418
     ParentBackground = False
     TabOrder = 1
     object SpeedButton2: TSpeedButton
-      Left = 48
+      Left = 32
       Height = 40
-      Top = 16
-      Width = 320
-      Caption = 'Support the project'
+      Top = 24
+      Width = 344
+      Caption = 'Support Avocado on Patronite'
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Height = -21
       Font.Pitch = fpVariable
@@ -70,13 +70,28 @@ object Wsparcie: TWsparcie
       ParentFont = False
       OnClick = SpeedButton2Click
     end
+    object Button1: TButton
+      Left = 32
+      Height = 40
+      Top = 72
+      Width = 344
+      Caption = 'Buy me a coffee'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Height = -21
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabOrder = 0
+      OnClick = Button1Click
+    end
   end
   object Memo1: TMemo
-    Left = 0
-    Height = 132
-    Top = 0
-    Width = 418
+    Left = 5
+    Height = 126
+    Top = 5
+    Width = 408
     Align = alClient
+    BorderSpacing.Around = 5
     Color = clBlack
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite

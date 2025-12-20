@@ -77,6 +77,7 @@ type
     MenuItem13: TMenuItem;
     MenuIRosyjski: TMenuItem;
     MenuItem14: TMenuItem;
+    MenuItemAvocadoPatrons: TMenuItem;
     MenuItemStandardMode: TMenuItem;
     MenuItemAlwaysontopmode: TMenuItem;
     MenuItem19: TMenuItem;
@@ -125,6 +126,7 @@ type
     SBClearSearchVariables: TSpeedButton;
     SBClearSearchComments: TSpeedButton;
     SBClearSearchMistakes: TSpeedButton;
+    Separator1: TMenuItem;
     Splitter2: TSplitter;
     SplitterLeft: TSplitter;
     StatusBar: TStatusBar;
@@ -228,6 +230,7 @@ type
     procedure MenuItem20Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
     procedure MenuItemAlwaysontopmodeClick(Sender: TObject);
+    procedure MenuItemAvocadoPatronsClick(Sender: TObject);
     procedure MenuItemCompileClick(Sender: TObject);
     procedure MenuItemConsoleProgramClick(Sender: TObject);
     procedure MenuItemOpenFolderClick(Sender: TObject);
@@ -534,7 +537,7 @@ implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper;
+ uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper, patrons;
 
 { TRunInstantThread }
 
@@ -631,7 +634,7 @@ begin
     end;
 
 
-  AvocadoVersion := 'IDE Avocado v 2.2.0.0';
+  AvocadoVersion := 'IDE Avocado v 2.2.1.0';
   //dotyczy kolorowania SynEditCode
   //ColoredSynEdit;
   FormMain.Caption := AvocadoVersion;
@@ -1260,6 +1263,11 @@ begin
    FormStyle := fsSystemStayOnTop
 end;
 
+procedure TFormMain.MenuItemAvocadoPatronsClick(Sender: TObject);
+begin
+  PatronsAvocado.ShowModal;
+end;
+
 procedure TFormMain.MenuItemCompileClick(Sender: TObject);
 begin
   butCompileCodeClick(Sender);
@@ -1269,7 +1277,7 @@ procedure TFormMain.MenuItemConsoleProgramClick(Sender: TObject);
 var
   i: TModalResult;
 begin
-    i := MessageDlg(TranslateAttentionMsg,TranslateCreateNewFile, mtInformation,[mbOk,mbCancel],0);
+  i := MessageDlg(TranslateAttentionMsg,TranslateCreateNewFile, mtInformation,[mbOk,mbCancel],0);
   if i = mrOk then
   begin
     SynEditCode.ClearAll;
@@ -1283,6 +1291,9 @@ begin
     // We add the initial program declaration based on the entered name
     // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
     SynEditCode.Lines.Add('program ' + NameProgram);
+    SynEditCode.Lines.Add('glowny ');
+    SynEditCode.Lines.Add(' ');
+    SynEditCode.Lines.Add('koniec.');
   end;
   end;
 

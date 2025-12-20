@@ -1448,13 +1448,20 @@ object FormMain: TFormMain
         Caption = 'Information about IDE'
         OnClick = MenuINformacjaIDEClick
       end
-      object MenuItemWsparcieprojektu: TMenuItem
-        Caption = 'Support'
-        OnClick = MenuItemWsparcieprojektuClick
-      end
       object MenuAutor: TMenuItem
         Caption = 'Author'
         OnClick = MenuAutorClick
+      end
+      object Separator1: TMenuItem
+        Caption = '-'
+      end
+      object MenuItemAvocadoPatrons: TMenuItem
+        Caption = 'Avocado Patrons'
+        OnClick = MenuItemAvocadoPatronsClick
+      end
+      object MenuItemWsparcieprojektu: TMenuItem
+        Caption = 'Support Avocado'
+        OnClick = MenuItemWsparcieprojektuClick
       end
     end
   end
@@ -1898,6 +1905,22 @@ object FormMain: TFormMain
       'twórz_lista_tekstów'
       'tworz_lista_tekstow'
       'create_string_list'
+      'wstaw_do_listy'
+      'insert_to_list '
+      'pokaz_okno'
+      'pokaż_okno'
+      'show_window'
+      'delete_to_list'
+      'usuń_z_listy'
+      'usun_z_listy'
+      'usuń_z_listy_id'
+      'usun_z_listy_id'
+      'delete_to_list_id'
+      'wyczyść_listę'
+      'wyczysc_liste'
+      'clear_list'
+      'ustaw_tekst'
+      'set_text'
     )
     Position = 0
     LinesInWindow = 10
@@ -1998,8 +2021,8 @@ object FormMain: TFormMain
     ShortCut = 32800
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
-    Left = 48
-    Top = 88
+    Left = 296
+    Top = 48
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
@@ -2021,6 +2044,8 @@ object FormMain: TFormMain
     VariableAttri.Foreground = clNone
     DotAttri.Foreground = 14851674
     KeyWords.Strings = (
+      '.FREE'
+      '.ZWOLNIJ '
       '_N_'
       'ADD_LIST'
       'APPEND'
@@ -2046,6 +2071,7 @@ object FormMain: TFormMain
       'CZYTAJ_KLAWISZ'
       'CZYTAJ_LINIE'
       'DELETE'
+      'DELETE_TO_LIST'
       'DESCENDING'
       'DIRECTORY_EXISTS'
       'DLA'
@@ -2078,6 +2104,7 @@ object FormMain: TFormMain
       'IN'
       'INACZEJ'
       'INSERT'
+      'INSERT_TO_LIST '
       'KLAWISZ_WCISNIETY'
       'KLAWISZ_WCIśNIęTY'
       'KOLOR_TEKSTU'
@@ -2118,6 +2145,8 @@ object FormMain: TFormMain
       'POBIERZ_STRONE'
       'POBIERZ_ZMIENNA_SRODOWISKOWA'
       'POBIERZ_ZMIENNą_śRODOWISKOWą'
+      'POKAZ_OKNO'
+      'POKAż_OKNO'
       'POROWNAJ_TEKST'
       'PORóWNAJ_TEKST'
       'POWTORZ_ZNAK'
@@ -2144,6 +2173,8 @@ object FormMain: TFormMain
       'SEARCH'
       'SET_ENV'
       'SET_LENGTH'
+      'SET_TEXT'
+      'SHOW_WINDOW'
       'STRING_LIST'
       'STRINGS'
       'SZUKAJ'
@@ -2159,25 +2190,28 @@ object FormMain: TFormMain
       'UPPER_CASE'
       'USTAW_DLUGOSC '
       'USTAW_DłUGOść '
+      'USTAW_TEKST'
       'USTAW_ZMIENNą_SRODOWISKOWA'
       'USTAW_ZMIENNą_śRODOWISKOWą'
       'USUN'
       'USUN_KATALOG'
+      'USUN_Z_LISTY'
       'USUń'
       'USUń_KATALOG'
+      'USUń_Z_LISTY'
       'UTF8_LOWER_CASE'
       'UTF8_UPPER_CASE'
       'UTWORZ_KATALOG'
       'UTWóRZ_KATALOG'
       'W'
       'WSTAW'
+      'WSTAW_DO_LISTY'
       'WTEDY'
       'ZAMIEN_TEKST'
       'ZAMIEń_TEKST'
       'ZAMKNIJ_PLIK'
       'ZMIEN_KATALOG'
       'ZMIEń_KATALOG'
-      'ZWOLNIJ '
     )
     Constants.Strings = (
       'ANSI_STRING'
@@ -2190,8 +2224,10 @@ object FormMain: TFormMain
       'CHAR'
       'CHAR32'
       'CLASS'
+      'CLEAR_LIST'
       'COMP'
       'DECIMAL'
+      'DELETE_TO_LIST_ID'
       'DYNAMIC_ARRAY'
       'ELSE'
       'END'
@@ -2284,6 +2320,8 @@ object FormMain: TFormMain
       'UINT16'
       'UINT32'
       'UNICODE_STRING'
+      'USUN_Z_LISTY_ID'
+      'USUń_Z_LISTY_ID'
       'WARIANT'
       'WIDE_STRING'
       'WSKAZNIK'
@@ -2291,6 +2329,8 @@ object FormMain: TFormMain
       'WSKAźNIK'
       'WSKAźNIK_NA'
       'WTEDY'
+      'WYCZYSC_LISTE'
+      'WYCZYść_LISTę'
       'ZNAK'
       'ZNAK_UNICODE'
     )

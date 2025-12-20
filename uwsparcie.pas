@@ -13,12 +13,14 @@ type
   { TWsparcie }
 
   TWsparcie = class(TForm)
+    Button1: TButton;
     LabelStatus: TLabel;
     Memo1: TMemo;
     PanelDolny: TPanel;
     Panel2: TPanel;
     SpeedButton1: TSpeedButton;
     SpeedButton2: TSpeedButton;
+    procedure Button1Click(Sender: TObject);
     procedure sbOkClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
@@ -44,6 +46,11 @@ begin
   Close;
 end;
 
+procedure TWsparcie.Button1Click(Sender: TObject);
+begin
+   FormAutor.OpenLink('https://ko-fi.com/programistaart');
+end;
+
 procedure TWsparcie.SpeedButton1Click(Sender: TObject);
 begin
   Close;
@@ -51,7 +58,7 @@ end;
 
 procedure TWsparcie.SpeedButton2Click(Sender: TObject);
 begin
-  FormAutor.OpenLink('https://ko-fi.com/programistaart');
+  FormAutor.OpenLink('https://patronite.pl/programista-art');
 end;
 
 

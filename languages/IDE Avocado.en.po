@@ -39,6 +39,10 @@ msgstr "Incorrect order of brackets in trim_left()."
 msgid "Incorrect variable declaration: "
 msgstr "Invalid variable declaration: "
 
+#: avocadotranslator.translatealiastypeisunknown
+msgid "Unknown alias type: \" "
+msgstr ""
+
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
 msgstr "The arguments of the assign_file function cannot be empty."
@@ -375,6 +379,10 @@ msgstr "Syntax error: The read_lines function requires parentheses."
 msgid "The repeat_char function requires two arguments."
 msgstr "The repeat_char function requires two arguments."
 
+#: avocadotranslator.translatereplacedvariant
+msgid "\". Replaced \"Variant\"."
+msgstr ""
+
 #: avocadotranslator.translatereplacetextfunctionrequiresthreearguments
 msgid "The replace_text function requires three arguments: text, from, to."
 msgstr "The replace_text function requires three arguments: text, from, to."
@@ -651,6 +659,10 @@ msgstr "Polski"
 msgid "Always on top mode"
 msgstr "Always on top mode"
 
+#: tformmain.menuitemavocadopatrons.caption
+msgid "Avocado Patrons"
+msgstr ""
+
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
 msgstr "Compile"
@@ -723,7 +735,9 @@ msgid "Standard mode"
 msgstr "Standard mode"
 
 #: tformmain.menuitemwsparcieprojektu.caption
-msgid "Support"
+#, fuzzy
+#| msgid "Support"
+msgid "Support Avocado"
 msgstr "Support"
 
 #: tformmain.menunewfile.caption
@@ -895,6 +909,16 @@ msgstr "Link to Instant FPC"
 msgid "Link to FPC folder"
 msgstr "Link to FPC folder"
 
+#: tpatronsavocado.button1.caption
+#, fuzzy
+msgctxt "tpatronsavocado.button1.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tpatronsavocado.caption
+msgid "Patrons"
+msgstr ""
+
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
 msgstr "AI Assistant Settings"
@@ -961,6 +985,10 @@ msgctxt "tsettingtheme.speedbutton1.caption"
 msgid "Ok"
 msgstr "Ok"
 
+#: twsparcie.button1.caption
+msgid "Buy me a coffee"
+msgstr ""
+
 #: twsparcie.caption
 msgid "Wsparcie"
 msgstr "Support"
@@ -971,7 +999,9 @@ msgid "OK"
 msgstr "OK"
 
 #: twsparcie.speedbutton2.caption
-msgid "Support the project"
+#, fuzzy
+#| msgid "Support the project"
+msgid "Support Avocado on Patronite"
 msgstr "Support the project"
 
 #: unit1.countchars
@@ -1395,3 +1425,4 @@ msgstr "Information"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "The models.txt file was not found."
+

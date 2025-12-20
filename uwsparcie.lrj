@@ -1,5 +1,6 @@
 {"version":1,"strings":[
 {"hash":174623765,"name":"twsparcie.caption","sourcebytes":[87,115,112,97,114,99,105,101],"value":"Wsparcie"},
 {"hash":1339,"name":"twsparcie.speedbutton1.caption","sourcebytes":[79,75],"value":"OK"},
-{"hash":189372948,"name":"twsparcie.speedbutton2.caption","sourcebytes":[83,117,112,112,111,114,116,32,116,104,101,32,112,114,111,106,101,99,116],"value":"Support the project"}
+{"hash":16889285,"name":"twsparcie.speedbutton2.caption","sourcebytes":[83,117,112,112,111,114,116,32,65,118,111,99,97,100,111,32,111,110,32,80,97,116,114,111,110,105,116,101],"value":"Support Avocado on Patronite"},
+{"hash":234287941,"name":"twsparcie.button1.caption","sourcebytes":[66,117,121,32,109,101,32,97,32,99,111,102,102,101,101],"value":"Buy me a coffee"}
 ]}

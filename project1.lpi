@@ -243,6 +243,12 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoLCLComponents"/>
       </Unit>
+      <Unit>
+        <Filename Value="patrons.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PatronsAvocado"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

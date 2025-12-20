@@ -1,0 +1,44 @@
+object PatronsAvocado: TPatronsAvocado
+  Left = 351
+  Height = 335
+  Top = 250
+  Width = 320
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Patrons'
+  ClientHeight = 335
+  ClientWidth = 320
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  object Panel1: TPanel
+    Left = 0
+    Height = 30
+    Top = 305
+    Width = 320
+    Align = alBottom
+    ClientHeight = 30
+    ClientWidth = 320
+    TabOrder = 0
+    object Button1: TButton
+      Left = 289
+      Height = 28
+      Top = 1
+      Width = 30
+      Align = alRight
+      Caption = 'OK'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+  end
+  object MemoPatrons: TMemo
+    Left = 5
+    Height = 295
+    Top = 5
+    Width = 310
+    Align = alClient
+    BorderSpacing.Around = 5
+    ReadOnly = True
+    ScrollBars = ssHorizontal
+    TabOrder = 1
+  end
+end

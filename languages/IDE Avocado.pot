@@ -29,6 +29,10 @@ msgstr ""
 msgid "Incorrect variable declaration: "
 msgstr ""
 
+#: avocadotranslator.translatealiastypeisunknown
+msgid "Unknown alias type: \" "
+msgstr ""
+
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
 msgstr ""
@@ -365,6 +369,10 @@ msgstr ""
 msgid "The repeat_char function requires two arguments."
 msgstr ""
 
+#: avocadotranslator.translatereplacedvariant
+msgid "\". Replaced \"Variant\"."
+msgstr ""
+
 #: avocadotranslator.translatereplacetextfunctionrequiresthreearguments
 msgid "The replace_text function requires three arguments: text, from, to."
 msgstr ""
@@ -641,6 +649,10 @@ msgstr ""
 msgid "Always on top mode"
 msgstr ""
 
+#: tformmain.menuitemavocadopatrons.caption
+msgid "Avocado Patrons"
+msgstr ""
+
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
 msgstr ""
@@ -713,7 +725,7 @@ msgid "Standard mode"
 msgstr ""
 
 #: tformmain.menuitemwsparcieprojektu.caption
-msgid "Support"
+msgid "Support Avocado"
 msgstr ""
 
 #: tformmain.menunewfile.caption
@@ -885,6 +897,15 @@ msgstr ""
 msgid "Link to FPC folder"
 msgstr ""
 
+#: tpatronsavocado.button1.caption
+msgctxt "tpatronsavocado.button1.caption"
+msgid "OK"
+msgstr ""
+
+#: tpatronsavocado.caption
+msgid "Patrons"
+msgstr ""
+
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
 msgstr ""
@@ -951,6 +972,10 @@ msgctxt "tsettingtheme.speedbutton1.caption"
 msgid "Ok"
 msgstr ""
 
+#: twsparcie.button1.caption
+msgid "Buy me a coffee"
+msgstr ""
+
 #: twsparcie.caption
 msgid "Wsparcie"
 msgstr ""
@@ -961,7 +986,7 @@ msgid "OK"
 msgstr ""
 
 #: twsparcie.speedbutton2.caption
-msgid "Support the project"
+msgid "Support Avocado on Patronite"
 msgstr ""
 
 #: unit1.countchars
