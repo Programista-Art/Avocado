@@ -406,6 +406,19 @@ resourcestring
   TranslatePobierzStroneRequiresTwoArguments = 'Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable).';
   TranslateAliasTypeIsUnknown = 'Unknown alias type: " ';
   TranslateReplacedVariant = '". Replaced "Variant".';
+  TranslateTextsStringsRequiresParentheses = 'SYNTAX ERROR: The function texts / strings requires parentheses.';
+  TranslateTextsStringsRequiresTwoArguments = 'ARGUMENT ERROR: The function texts / strings requires 2 arguments. The following was given: ';
+  TranslateInsertToListRequiresParentheses = 'SYNTAX ERROR: The insert_to_list function requires parentheses.';
+  TranslateInsertToListRequiresThreeArguments = 'ARGUMENT ERROR: The insert_to_list function requires 3 arguments (list, index, value). The following was given: ';
+  TranslateRemoveFromListRequiresParentheses = 'SYNTAX ERROR: The remove_from_list function requires parentheses.';
+  TranslateDeleteFromToListRequiresListAndIndex = 'ARGUMENT ERROR: The delete_from_list / delete_to_list function requires a list name and an index.';
+  TranslateDeleteFromToListIdRequiresParentheses = 'SYNTAX ERROR: The function delete_from_list_id / delete_to_list_id requires parentheses.';
+  TranslateProvideListNameAndValueToRemove = 'ARGUMENT ERROR: Provide a list name and a value to remove.';
+  TranslateClearListRequiresParentheses = 'SYNTAX ERROR: The clear list function must have parentheses, e.g. clear list(s)';
+  TranslateClearListRequiresOneArgument = 'ARGUMENT ERROR: The clearlist function accepts exactly 1 list name.';
+  TranslateSetTextRequiresParentheses = 'SYNTAX ERROR: The set_text / set_text function requires parentheses.';
+  TranslateSetTextRequiresThreeArguments = 'ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, "newvalue").';
+
 implementation
 uses
   unit1;
@@ -3405,8 +3418,8 @@ begin
     ['teksty', 'strings'],
     2,
     '%0:s.Strings[%1:s]',
-    'BŁĄD SKŁADNI: Funkcja teksty / strings wymaga nawiasów.',
-    'BŁĄD ARGUMENTÓW: Funkcja teksty / strings wymaga 2 argumentów. Podano: ') then
+    TranslateTextsStringsRequiresParentheses,
+    TranslateTextsStringsRequiresTwoArguments) then
   Exit;
 
   // Wstawianie na konkretną pozycję: List.Insert(2, 'nowy tekst');
@@ -3414,8 +3427,8 @@ begin
     ['wstaw_do_listy', 'insert_to_list'],
     3,
     '%0:s.Insert(%1:s, %2:s)',
-    'BŁĄD SKŁADNI: Funkcja wstaw_do_listy / insert_to_list wymaga nawiasów.',
-    'BŁĄD ARGUMENTÓW: Funkcja wstaw_lista wymaga 3 argumentów (lista, indeks, wartość). Podano: ') then
+    TranslateInsertToListRequiresParentheses,
+    TranslateInsertToListRequiresThreeArguments) then
   Exit;
 
 
@@ -3424,8 +3437,8 @@ begin
     ['usuń_z_listy', 'usun_z_listy', 'delete_to_list'], // Aliasy
     2,                                                 // 2 argumenty: lista i indeks
     '%s.Delete(%s)',                                   // SZABLON (lista.Delete(indeks))
-    'BŁĄD SKŁADNI: Funkcja usuń_z_listy wymaga nawiasów.',
-    'BŁĄD ARGUMENTÓW: Funkcja usuń_z_listy / delete_to_list wymaga nazwy listy i indeksu.') then
+    TranslateRemoveFromListRequiresParentheses,
+    TranslateDeleteFromToListRequiresListAndIndex) then
   Exit;
 
   //Usuwanie elementu po wartości: List.Delete(List.IndexOf('tekst'));
@@ -3433,8 +3446,8 @@ begin
     ['usuń_z_listy_id', 'usun_z_listy_id', 'delete_to_list_id'],
     2,
     '%0:s.Delete(%0:s.IndexOf(%1:s))',
-    'BŁĄD SKŁADNI: Funkcja usuń_z_listy_id wymaga nawiasów.',
-    'BŁĄD ARGUMENTÓW: Podaj nazwę listy oraz wartość do usunięcia.') then
+    TranslateDeleteFromToListIdRequiresParentheses,
+    TranslateProvideListNameAndValueToRemove) then
   Exit;
 
   //Czyszczenie całej listy: List.Clear;
@@ -3442,22 +3455,63 @@ begin
     ['wyczyść_listę', 'wyczysc_liste', 'clear_list'],
     1,
     '%s.Clear',
-    'BŁĄD SKŁADNI: Funkcja wyczyść_listę / clear_list musi mieć nawiasy, np. wyczyść_listę(h)',
-    'BŁĄD ARGUMENTÓW: Funkcja wyczyść_listę / clear_list przyjmuje dokładnie 1 nazwę listy')then
+     TranslateClearListRequiresParentheses,
+     TranslateClearListRequiresOneArgument)then
   Exit;
 
-  //List[0] := 'nowa wartość';
   //ustawienie elementu listy:
-  //lista[indeks] := wartość
   if TryTranslateGeneric(Line, PascalCode,
     ['ustaw_tekst', 'set_text'],
     3,
     '%0:s[%1:s] := %2:s',
-    'BŁĄD SKŁADNI: Funkcja ustaw_tekst wymaga nawiasów.',
-    'BŁĄD ARGUMENTÓW: Funkcja ustaw_tekst wymaga 3 argumentów (lista, indeks, "nowa wartość").') then
+     TranslateSetTextRequiresParentheses,
+     TranslateSetTextRequiresThreeArguments) then
+  Exit;
+  //21.12.2025
+  //List.Sorted := True;
+    if TryTranslateGeneric(Line, PascalCode,
+    ['sortuj_liste', 'sortuj_listę', 'sort_list'],
+    2,
+    '%0:s.Sorted := %1:s',
+     'BŁĄD SKŁADNI: Funkcja sortuj_liste / sort_list wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja sortuj_liste / sort_list wymaga 2 argumentów (lista, prawda lub falsz).') then
   Exit;
 
+   //Ręczne sortowanie: List.Sort;
+   if TryTranslateGeneric(Line, PascalCode,
+    ['ręcznie_sortuj_listę', 'recznie_sortuj_liste', 'manually_sort_list'],
+    1,
+    '%0:s.Sort',
+     'BŁĄD SKŁADNI: Funkcja ręcznie_sortuj_listę / manually_sort_list wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja ręcznie_sortuj_listę / manually_sort_list wymaga 1 argumentu (lista).') then
+  Exit;
 
+   //Znajdowanie indeksu tekstu: i := List.IndexOf('szukany');
+   if TryTranslateGeneric(Line, PascalCode,
+    ['znajdź_indeks_lista', 'znajdz_indeks_lista', 'find_index_list'],
+    3,
+    '%0:s := %1:s.IndexOf(%2:s)',
+     'BŁĄD SKŁADNI: Funkcja znajdź_indeks_lista / find_index_list wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja znajdź_indeks_lista / find_index_list wymaga 3 argumentów (zmienna, lista, "wartosc").') then
+  Exit;
+
+   //List.Find('tekst', i)
+   if TryTranslateGeneric(Line, PascalCode,
+    ['szukaj_wartość_w_liście', 'szukaj_wartosc_w_liscie', 'search_value_in_list'],
+    3,
+    '%0:s.Find(%1:s,%2:s)',
+     'BŁĄD SKŁADNI: Funkcja szukaj_wartość_w_liście / search_value_in_list wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja szukaj_wartość_w_liście / search_value_in_list wymaga 3 argumentów (lista, ''wartosc szukana'', zmienna integer).') then
+  Exit;
+
+   //Wczytanie z pliku: List.LoadFromFile('plik.txt');
+   if TryTranslateGeneric(Line, PascalCode,
+    ['załaduj_z_pliku', 'zaladuj_z_pliku', 'load_from_file'],
+    2,
+    '%0:s.LoadFromFile(%1:s)',
+     'BŁĄD SKŁADNI: Funkcja załaduj_z_pliku / load_from_file wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja załaduj_z_pliku / load_from_file wymaga 2 argumentów (lista, ''nazwa pliku z rozszerzeniem'').') then
+  Exit;
 
 
 

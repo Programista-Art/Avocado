@@ -57,6 +57,14 @@ msgstr ""
 msgid "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
 msgstr ""
 
+#: avocadotranslator.translateclearlistrequiresoneargument
+msgid "ARGUMENT ERROR: The clearlist function accepts exactly 1 list name."
+msgstr ""
+
+#: avocadotranslator.translateclearlistrequiresparentheses
+msgid "SYNTAX ERROR: The clear list function must have parentheses, e.g. clear list(s)"
+msgstr ""
+
 #: avocadotranslator.translateclosingbracketbeforeopening
 msgid "Incorrect syntax: closing bracket before opening bracket"
 msgstr ""
@@ -75,6 +83,14 @@ msgstr ""
 
 #: avocadotranslator.translatecursorpositionfunctionrequirestwoarguments
 msgid "The cursor_position function requires exactly 2 arguments (X, Y). Found:"
+msgstr ""
+
+#: avocadotranslator.translatedeletefromtolistidrequiresparentheses
+msgid "SYNTAX ERROR: The function delete_from_list_id / delete_to_list_id requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatedeletefromtolistrequireslistandindex
+msgid "ARGUMENT ERROR: The delete_from_list / delete_to_list function requires a list name and an index."
 msgstr ""
 
 #: avocadotranslator.translatedeletefunctionrequires
@@ -266,6 +282,14 @@ msgstr ""
 msgid "Incorrect syntax of the utf8_upper_case function."
 msgstr ""
 
+#: avocadotranslator.translateinserttolistrequiresparentheses
+msgid "SYNTAX ERROR: The insert_to_list function requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translateinserttolistrequiresthreearguments
+msgid "ARGUMENT ERROR: The insert_to_list function requires 3 arguments (list, index, value). The following was given: "
+msgstr ""
+
 #: avocadotranslator.translatelowercasefunctionsyntaxerror
 msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
 msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
@@ -347,6 +371,10 @@ msgstr ""
 msgid "Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable)."
 msgstr ""
 
+#: avocadotranslator.translateprovidelistnameandvaluetoremove
+msgid "ARGUMENT ERROR: Provide a list name and a value to remove."
+msgstr ""
+
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
 msgstr ""
@@ -363,6 +391,10 @@ msgstr ""
 #: avocadotranslator.translatereadlinesrequiresparentheses
 msgctxt "avocadotranslator.translatereadlinesrequiresparentheses"
 msgid "Syntax error: The read_lines function requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translateremovefromlistrequiresparentheses
+msgid "SYNTAX ERROR: The remove_from_list function requires parentheses."
 msgstr ""
 
 #: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
@@ -389,12 +421,28 @@ msgstr ""
 msgid "Error: The set_length function requires EXACTLY TWO arguments (variable, new length)."
 msgstr ""
 
+#: avocadotranslator.translatesettextrequiresparentheses
+msgid "SYNTAX ERROR: The set_text / set_text function requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatesettextrequiresthreearguments
+msgid "ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, \"newvalue\")."
+msgstr ""
+
 #: avocadotranslator.translatesyntaxerrorassignmentreadline
 msgid "Syntax error in assignment in read_line."
 msgstr ""
 
 #: avocadotranslator.translatesyntaxerrorreadfunctionassignment
 msgid "Syntax error in the assignment in the read function."
+msgstr ""
+
+#: avocadotranslator.translatetextsstringsrequiresparentheses
+msgid "SYNTAX ERROR: The function texts / strings requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatetextsstringsrequirestwoarguments
+msgid "ARGUMENT ERROR: The function texts / strings requires 2 arguments. The following was given: "
 msgstr ""
 
 #: avocadotranslator.translateunknownaliastype
@@ -1194,6 +1242,10 @@ msgctxt "unit1.translatefiledoesnotexist"
 msgid "File does not exist: "
 msgstr ""
 
+#: unit1.translatefilemodifiedsavechanges
+msgid "The current file has been modified. Do you want to save the changes?"
+msgstr ""
+
 #: unit1.translatefilenotfound
 msgid "File not found: "
 msgstr ""
@@ -1224,6 +1276,11 @@ msgstr ""
 
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
+msgstr ""
+
+#: unit1.translateinformation
+msgctxt "unit1.translateinformation"
+msgid "Information"
 msgstr ""
 
 #: unit1.translateitemselected

@@ -67,6 +67,14 @@ msgstr "Błąd: Funkcja calc_format/ oblicz_format wymaga 1 lub 2 argumentów."
 msgid "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
 msgstr "Błąd: Funkcja oblicz /calc musi zawierać wyrażenie matematyczne, np. oblicz(2 * 5)."
 
+#: avocadotranslator.translateclearlistrequiresoneargument
+msgid "ARGUMENT ERROR: The clearlist function accepts exactly 1 list name."
+msgstr ""
+
+#: avocadotranslator.translateclearlistrequiresparentheses
+msgid "SYNTAX ERROR: The clear list function must have parentheses, e.g. clear list(s)"
+msgstr ""
+
 #: avocadotranslator.translateclosingbracketbeforeopening
 msgid "Incorrect syntax: closing bracket before opening bracket"
 msgstr "Nieprawidłowa składnia: nawias zamykający przed nawiasem otwierającym"
@@ -86,6 +94,14 @@ msgstr "Funkcja kopiuj /copy wymaga trzech argumentów: tekst, początek, liczba
 #: avocadotranslator.translatecursorpositionfunctionrequirestwoarguments
 msgid "The cursor_position function requires exactly 2 arguments (X, Y). Found:"
 msgstr "Funkcja cursor_position / pozycja_kursora  wymaga dokładnie 2 argumentów (X, Y). Znaleziono:"
+
+#: avocadotranslator.translatedeletefromtolistidrequiresparentheses
+msgid "SYNTAX ERROR: The function delete_from_list_id / delete_to_list_id requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatedeletefromtolistrequireslistandindex
+msgid "ARGUMENT ERROR: The delete_from_list / delete_to_list function requires a list name and an index."
+msgstr ""
 
 #: avocadotranslator.translatedeletefunctionrequires
 msgid "The delete function requires three arguments: s, index, count."
@@ -276,6 +292,14 @@ msgstr "Błędna składnia funkcji małe_litery_ansi / utf8_lower_case."
 msgid "Incorrect syntax of the utf8_upper_case function."
 msgstr "Błędna składnia funkcji duże_litery_ansi /  utf8_upper_case "
 
+#: avocadotranslator.translateinserttolistrequiresparentheses
+msgid "SYNTAX ERROR: The insert_to_list function requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translateinserttolistrequiresthreearguments
+msgid "ARGUMENT ERROR: The insert_to_list function requires 3 arguments (list, index, value). The following was given: "
+msgstr ""
+
 #: avocadotranslator.translatelowercasefunctionsyntaxerror
 msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
 msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
@@ -357,6 +381,10 @@ msgstr "Błąd składni: Funkcja pobierz_strone / download_page wymaga nawiasów
 msgid "Error: The pobierz_strone function requires EXACTLY TWO arguments (URL, Result variable)."
 msgstr "Błąd: Funkcja pobierz_strone / download_page wymaga DOKŁADNIE DWÓCH argumentów (URL, Zmienna wynikowa)."
 
+#: avocadotranslator.translateprovidelistnameandvaluetoremove
+msgid "ARGUMENT ERROR: Provide a list name and a value to remove."
+msgstr ""
+
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
 msgstr "Błąd składni: Funkcja losuj / randomize nie przyjmuje nawiasów ani argumentów. Użyj samego słowa losuj lub randomize."
@@ -374,6 +402,10 @@ msgstr "Błąd składni: Funkcja czytaj_linie / read_lines wymaga nawiasów."
 msgctxt "avocadotranslator.translatereadlinesrequiresparentheses"
 msgid "Syntax error: The read_lines function requires parentheses."
 msgstr "Błąd składni: Funkcja czytaj_linie / read_lines wymaga nawiasów."
+
+#: avocadotranslator.translateremovefromlistrequiresparentheses
+msgid "SYNTAX ERROR: The remove_from_list function requires parentheses."
+msgstr ""
 
 #: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
 msgid "The repeat_char function requires two arguments."
@@ -399,6 +431,14 @@ msgstr "Błąd składni: Funkcja ustaw_długość wymaga nawiasów, np. ustaw_d�
 msgid "Error: The set_length function requires EXACTLY TWO arguments (variable, new length)."
 msgstr "Błąd: Funkcja ustaw_długość wymaga DOKŁADNIE DWÓCH argumentów (zmienna, nowa długość)."
 
+#: avocadotranslator.translatesettextrequiresparentheses
+msgid "SYNTAX ERROR: The set_text / set_text function requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatesettextrequiresthreearguments
+msgid "ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, \"newvalue\")."
+msgstr ""
+
 #: avocadotranslator.translatesyntaxerrorassignmentreadline
 msgid "Syntax error in assignment in read_line."
 msgstr "Błąd składni przypisania w czytaj_linie / read_line."
@@ -406,6 +446,14 @@ msgstr "Błąd składni przypisania w czytaj_linie / read_line."
 #: avocadotranslator.translatesyntaxerrorreadfunctionassignment
 msgid "Syntax error in the assignment in the read function."
 msgstr "Błąd składni przypisania w funkcji czytaj."
+
+#: avocadotranslator.translatetextsstringsrequiresparentheses
+msgid "SYNTAX ERROR: The function texts / strings requires parentheses."
+msgstr ""
+
+#: avocadotranslator.translatetextsstringsrequirestwoarguments
+msgid "ARGUMENT ERROR: The function texts / strings requires 2 arguments. The following was given: "
+msgstr ""
 
 #: avocadotranslator.translateunknownaliastype
 msgid "Unknown alias type: "
@@ -1209,6 +1257,10 @@ msgctxt "unit1.translatefiledoesnotexist"
 msgid "File does not exist: "
 msgstr "Plik nie istnieje: "
 
+#: unit1.translatefilemodifiedsavechanges
+msgid "The current file has been modified. Do you want to save the changes?"
+msgstr ""
+
 #: unit1.translatefilenotfound
 msgid "File not found: "
 msgstr "Nie znaleziono pliku: "
@@ -1240,6 +1292,12 @@ msgstr "Nie znaleziono funkcji."
 #: unit1.translateidemodulespathskipduplicate
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
 msgstr " - Informacja: Ścieżka modułów IDE jest taka sama jak modułów użytkownika, pomijanie duplikatu."
+
+#: unit1.translateinformation
+#, fuzzy
+msgctxt "unit1.translateinformation"
+msgid "Information"
+msgstr "Informacja"
 
 #: unit1.translateitemselected
 msgid "Empty item selected."

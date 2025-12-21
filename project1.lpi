@@ -247,6 +247,7 @@
         <Filename Value="patrons.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="PatronsAvocado"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>

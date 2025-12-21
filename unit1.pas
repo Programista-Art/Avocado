@@ -339,7 +339,7 @@ type
     function FirstDelimiterPos(const S: string; const Delims: TSysCharSet): Integer;
     //load function to stringList
     procedure LoadPrefixesFromFile(const FileName: string);
-    //Wyszukiwanie zmiennych z projketu i wstawienie w ListBox - ListBoxSearchVariables
+    //Wyszukiwanie zmiennych z projektu i wstawienie w ListBox - ListBoxSearchVariables
     procedure ListVariablesFromSynEdit;
     // Loading variables from the variables.txt file / Ładowanie zmiennych z pliku variables.txt
     procedure LoadVariablesPrefixesFromFile(const FileName: string);
@@ -532,6 +532,8 @@ resourcestring
    ProcessStartupErr = 'Process startup error: ';
    NoCodeOpenFileorWriteCodeEditor = 'No code. Open the file or write code in the editor.';
    TranslateCannotCreateTemporaryDirectory = 'Error: Cannot create temporary directory: ';
+   TranslateInformation = 'Information';
+   TranslateFileModifiedSaveChanges = 'The current file has been modified. Do you want to save the changes?';
 
 implementation
 
@@ -683,8 +685,29 @@ end;
 
 procedure TFormMain.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
+var
+rez :TModalResult;
 begin
   CloseProgram;
+  CanClose := True;
+  if  SynEditCode.Text <> '' then
+  begin
+    rez := MessageDlg(TranslateInformation,TranslateFileModifiedSaveChanges,mtInformation,[mbYes,mbNo,mbCancel],0);
+    case rez of
+      mrYes:
+        begin
+          MenuItemSaveFileClick(Sender);
+        end;
+      mrNo:
+        begin
+          CanClose := True;
+        end;
+      mrCancel:
+        begin
+          CanClose := False;
+        end;
+    end;
+end;
 end;
 
 procedure TFormMain.FindDialogFind(Sender: TObject);
@@ -1231,13 +1254,9 @@ begin
       SynEditCode.ClearAll;
       if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
     begin
-      // We clean the code editor and the log and output windows
-      // Czyścimy edytor kodu oraz okna logów i outputu
       SynEditCode.Clear;
       MemoOutPut.Clear;
       MemoLogs.Clear;
-      // We add the initial program declaration based on the entered name
-      // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
       SynEditCode.Lines.Add('program ' + NameProgram);
     end;
     end;
@@ -1247,8 +1266,6 @@ begin
      ModalResult := mrCancel;
     end;
 end;
-
-
 
 procedure TFormMain.MenuItem9Click(Sender: TObject);
 begin
@@ -1283,17 +1300,24 @@ begin
     SynEditCode.ClearAll;
     if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
   begin
-    // We clean the code editor and the log and output windows
-    // Czyścimy edytor kodu oraz okna logów i outputu
     SynEditCode.Clear;
     MemoOutPut.Clear;
     MemoLogs.Clear;
-    // We add the initial program declaration based on the entered name
-    // Dodajemy początkową deklarację programu na podstawie wprowadzonej nazwy
-    SynEditCode.Lines.Add('program ' + NameProgram);
-    SynEditCode.Lines.Add('glowny ');
-    SynEditCode.Lines.Add(' ');
-    SynEditCode.Lines.Add('koniec.');
+
+    if lang = 'pl' then
+    begin
+      SynEditCode.Lines.Add('program ' + NameProgram);
+      SynEditCode.Lines.Add('glowny ');
+      SynEditCode.Lines.Add(' ');
+      SynEditCode.Lines.Add('koniec.');
+    end
+    else
+    begin
+      SynEditCode.Lines.Add('program ' + NameProgram);
+      SynEditCode.Lines.Add('main ');
+      SynEditCode.Lines.Add(' ');
+      SynEditCode.Lines.Add('end.');
+    end;
   end;
   end;
 
@@ -1304,13 +1328,10 @@ begin
 end;
 
 
-
-
 procedure TFormMain.MenuItemOpenFolderClick(Sender: TObject);
 begin
   if OD.Execute then
   begin
-  //TreeView1.LoadFromFile(OD.FileName);
     OpenFileProject := OD.FileName;
     LoadProjectTree;
   end;

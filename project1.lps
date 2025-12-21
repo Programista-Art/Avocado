@@ -44,8 +44,9 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="21"/>
+        <TopLine Value="16"/>
         <CursorPos Y="48"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -57,10 +58,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="1276"/>
-        <CursorPos X="32" Y="1295"/>
+        <TopLine Value="523"/>
+        <CursorPos Y="534"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -83,11 +83,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="3436"/>
-        <CursorPos X="36" Y="3453"/>
+        <TopLine Value="3489"/>
+        <CursorPos X="18" Y="3466"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
-          <Item0 Y="4080" Left="1" Top="4080"/>
+          <Item0 Y="4134" Left="1" Top="4134"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -243,57 +243,70 @@
         <UsageCount Value="203"/>
       </Unit>
       <Unit>
+        <Filename Value="patrons.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PatronsAvocado"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="20"/>
+        <CursorPos X="48" Y="39"/>
+        <UsageCount Value="40"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="matematyka.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="770"/>
         <CursorPos Y="467"/>
-        <UsageCount Value="175"/>
+        <UsageCount Value="174"/>
       </Unit>
       <Unit>
         <Filename Value="internet.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="201"/>
         <CursorPos X="8" Y="206"/>
-        <UsageCount Value="101"/>
+        <UsageCount Value="100"/>
       </Unit>
       <Unit>
         <Filename Value="formatowanie.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18"/>
-        <UsageCount Value="148"/>
+        <UsageCount Value="147"/>
       </Unit>
       <Unit>
         <Filename Value="unit2.pas"/>
         <ComponentName Value="Form1"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="45"/>
       </Unit>
       <Unit>
         <Filename Value="uchatgpt.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="10"/>
         <CursorPos X="5" Y="31"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="existingassistant.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="706"/>
         <CursorPos X="15" Y="717"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="94"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\rtl\inc\objpash.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="194"/>
         <CursorPos X="23" Y="206"/>
-        <UsageCount Value="72"/>
+        <UsageCount Value="71"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\components\synedit\syncompletion.pas"/>
@@ -301,7 +314,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1453"/>
         <CursorPos Y="1478"/>
-        <UsageCount Value="92"/>
+        <UsageCount Value="91"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\packages\rtl-objpas\src\inc\strutils.pp"/>
@@ -309,40 +322,40 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="948"/>
         <CursorPos Y="954"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\lcl\include\menuitem.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="607"/>
         <CursorPos X="38" Y="625"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="44"/>
       </Unit>
       <Unit>
         <Filename Value="synfacil_adapter_atsynedit.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18" Y="9"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="SynFacilUtils.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1071"/>
         <CursorPos X="3" Y="1047"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="FormSelFuente.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="7" Y="68"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\fpc\3.2.2\source\packages\fcl-base\src\fpexprpars.pp"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="43" Y="4489"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\Lazarus4.2\lcl\lcltranslator.pas"/>
@@ -350,102 +363,10 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="547"/>
         <CursorPos X="3" Y="576"/>
-        <UsageCount Value="10"/>
-      </Unit>
-      <Unit>
-        <Filename Value="patrons.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="PatronsAvocado"/>
-        <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="20"/>
-        <CursorPos X="48" Y="39"/>
-        <UsageCount Value="33"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="9"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="57" Column="22" TopLine="41"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="2108" Column="14" TopLine="2090"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="60" Column="19" TopLine="40"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="4115" Column="18" TopLine="4105"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="4119" Column="30" TopLine="4102"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3512" Column="36" TopLine="3492"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3514" Column="15" TopLine="3495"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3513" Column="40" TopLine="3496"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3514" Column="179" TopLine="3496"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3506" Column="28" TopLine="3496"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3513" Column="210" TopLine="3496"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3508" Column="144" TopLine="3496"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3513" Column="21" TopLine="3487"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="60" Column="27" TopLine="36"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3516" Column="65" TopLine="3500"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3512" Column="3" TopLine="3502"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3527" Column="5" TopLine="3510"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3520" Column="22" TopLine="3508"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3528" Column="28" TopLine="3509"/>
-      </Position>
-      <Position>
-        <Filename Value="avocadotranslator.pas"/>
-        <Caret Line="3530" Column="6" TopLine="3514"/>
-      </Position>
       <Position>
         <Filename Value="avocadotranslator.pas"/>
         <Caret Line="4101" Column="28" TopLine="4086"/>
@@ -485,6 +406,86 @@
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="1773" Column="53" TopLine="1758"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="310" Column="17" TopLine="303"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="2819" Column="14" TopLine="2811"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1767" Column="28" TopLine="1767"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1288" Column="21" TopLine="1276"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1786" Column="9" TopLine="1775"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1299" Column="38" TopLine="1285"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1236" Column="22" TopLine="1412"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="687" Column="13" TopLine="678"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="312" Column="23" TopLine="302"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="2790" Column="31" TopLine="2779"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="686" Column="7" TopLine="681"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="688" Column="9" TopLine="668"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="699" Column="7" TopLine="677"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1609" Column="3" TopLine="1607"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1560" Column="42" TopLine="1560"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="703" Column="13" TopLine="684"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="696" Column="10" TopLine="681"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="703" Column="21" TopLine="691"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="707" TopLine="688"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="3466" Column="18" TopLine="3489"/>
       </Position>
     </JumpHistory>
     <RunParams>
