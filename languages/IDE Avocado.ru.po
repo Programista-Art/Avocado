@@ -41,7 +41,7 @@ msgstr "Неправильное объявление переменной: "
 
 #: avocadotranslator.translatealiastypeisunknown
 msgid "Unknown alias type: \" "
-msgstr ""
+msgstr "Неизвестный тип псевдонима: \""
 
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
@@ -69,11 +69,11 @@ msgstr "Ошибка: функция oblicz/calc должна содержать
 
 #: avocadotranslator.translateclearlistrequiresoneargument
 msgid "ARGUMENT ERROR: The clearlist function accepts exactly 1 list name."
-msgstr ""
+msgstr "ОШИБКА АРГУМЕНТА: Функция clearlist принимает ровно 1 имя списка."
 
 #: avocadotranslator.translateclearlistrequiresparentheses
 msgid "SYNTAX ERROR: The clear list function must have parentheses, e.g. clear list(s)"
-msgstr ""
+msgstr "СИНТАКСИСНАЯ ОШИБКА: Функция очистки списка должна содержать скобки, например, clear_list(s)"
 
 #: avocadotranslator.translateclosingbracketbeforeopening
 msgid "Incorrect syntax: closing bracket before opening bracket"
@@ -97,11 +97,11 @@ msgstr "Функция cursor_position требует ровно 2 аргуме�
 
 #: avocadotranslator.translatedeletefromtolistidrequiresparentheses
 msgid "SYNTAX ERROR: The function delete_from_list_id / delete_to_list_id requires parentheses."
-msgstr ""
+msgstr "СИНТАКСИСНАЯ ОШИБКА: Функция delete_from_list_id требует использования скобок."
 
 #: avocadotranslator.translatedeletefromtolistrequireslistandindex
 msgid "ARGUMENT ERROR: The delete_from_list / delete_to_list function requires a list name and an index."
-msgstr ""
+msgstr "Ошибка аргумента: Функция delete_from_list требует указания имени списка и его индекса."
 
 #: avocadotranslator.translatedeletefunctionrequires
 msgid "The delete function requires three arguments: s, index, count."
@@ -294,11 +294,11 @@ msgstr "Неправильный синтаксис функции utf8_upper_ca
 
 #: avocadotranslator.translateinserttolistrequiresparentheses
 msgid "SYNTAX ERROR: The insert_to_list function requires parentheses."
-msgstr ""
+msgstr "СИНТАКСИСНАЯ ОШИБКА: Функция insert_to_list требует использования скобок."
 
 #: avocadotranslator.translateinserttolistrequiresthreearguments
 msgid "ARGUMENT ERROR: The insert_to_list function requires 3 arguments (list, index, value). The following was given: "
-msgstr ""
+msgstr "Ошибка аргументации: Функция insert_to_list требует 3 аргумента (список, индекс, значение). Были предоставлены следующие аргументы:"
 
 #: avocadotranslator.translatelowercasefunctionsyntaxerror
 msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
@@ -383,7 +383,7 @@ msgstr "Ошибка: функция  download_page требует ТОЧНО Д
 
 #: avocadotranslator.translateprovidelistnameandvaluetoremove
 msgid "ARGUMENT ERROR: Provide a list name and a value to remove."
-msgstr ""
+msgstr "ОШИБКА АРГУМЕНТА: Укажите имя списка и значение для удаления."
 
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
@@ -405,7 +405,7 @@ msgstr "Синтаксическая ошибка: функция read_lines т�
 
 #: avocadotranslator.translateremovefromlistrequiresparentheses
 msgid "SYNTAX ERROR: The remove_from_list function requires parentheses."
-msgstr ""
+msgstr "СИНТАКСИСНАЯ ОШИБКА: Функция remove_from_list требует использования скобок."
 
 #: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
 msgid "The repeat_char function requires two arguments."
@@ -413,7 +413,7 @@ msgstr "Функция repeat_char требует двух аргументов.
 
 #: avocadotranslator.translatereplacedvariant
 msgid "\". Replaced \"Variant\"."
-msgstr ""
+msgstr "Заменил \"Вариант\"."
 
 #: avocadotranslator.translatereplacetextfunctionrequiresthreearguments
 msgid "The replace_text function requires three arguments: text, from, to."
@@ -433,11 +433,11 @@ msgstr "Ошибка: функция set_length требует ТОЧНО ДВА
 
 #: avocadotranslator.translatesettextrequiresparentheses
 msgid "SYNTAX ERROR: The set_text / set_text function requires parentheses."
-msgstr ""
+msgstr "СИНТАКСИСНАЯ ОШИБКА: Функция set_text требует использования скобок."
 
 #: avocadotranslator.translatesettextrequiresthreearguments
 msgid "ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, \"newvalue\")."
-msgstr ""
+msgstr "ОШИБКА АРГУМЕНТА: Функция set_text требует 3 аргумента (список, индекс, \"новое значение\")."
 
 #: avocadotranslator.translatesyntaxerrorassignmentreadline
 msgid "Syntax error in assignment in read_line."
@@ -449,11 +449,11 @@ msgstr "Синтаксическая ошибка в присваивании в
 
 #: avocadotranslator.translatetextsstringsrequiresparentheses
 msgid "SYNTAX ERROR: The function texts / strings requires parentheses."
-msgstr ""
+msgstr "СИНТАКСИСНАЯ ОШИБКА: Функция strings требует использования скобок."
 
 #: avocadotranslator.translatetextsstringsrequirestwoarguments
 msgid "ARGUMENT ERROR: The function texts / strings requires 2 arguments. The following was given: "
-msgstr ""
+msgstr "Ошибка аргумента: Функция strings требует 2 аргумента. Были предоставлены следующие аргументы:"
 
 #: avocadotranslator.translateunknownaliastype
 msgid "Unknown alias type: "
@@ -709,7 +709,7 @@ msgstr "Режим всегда наверху"
 
 #: tformmain.menuitemavocadopatrons.caption
 msgid "Avocado Patrons"
-msgstr ""
+msgstr "Патроны Avocado "
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -783,10 +783,8 @@ msgid "Standard mode"
 msgstr "Стандартный режим"
 
 #: tformmain.menuitemwsparcieprojektu.caption
-#, fuzzy
-#| msgid "Support"
 msgid "Support Avocado"
-msgstr "Поддержите"
+msgstr "Поддержите Avocado"
 
 #: tformmain.menunewfile.caption
 msgid "New"
@@ -868,6 +866,10 @@ msgstr "ToolButton2"
 #: tformmain.toolbutton2.hint
 msgid "Interpret"
 msgstr "Интерпретировать"
+
+#: tformmain.toolbutton3.caption
+msgid "Kompiluje Aplikacje"
+msgstr ""
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
@@ -958,14 +960,13 @@ msgid "Link to FPC folder"
 msgstr "Путь к папке FPC"
 
 #: tpatronsavocado.button1.caption
-#, fuzzy
 msgctxt "tpatronsavocado.button1.caption"
 msgid "OK"
 msgstr "ОК"
 
 #: tpatronsavocado.caption
 msgid "Patrons"
-msgstr ""
+msgstr "Патроны"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
@@ -1035,7 +1036,7 @@ msgstr "ОК"
 
 #: twsparcie.button1.caption
 msgid "Buy me a coffee"
-msgstr ""
+msgstr "Купи мне кофе"
 
 #: twsparcie.caption
 msgid "Wsparcie"
@@ -1047,10 +1048,8 @@ msgid "OK"
 msgstr "Ок"
 
 #: twsparcie.speedbutton2.caption
-#, fuzzy
-#| msgid "Support the project"
 msgid "Support Avocado on Patronite"
-msgstr "Поддержите проект"
+msgstr "Поддержите Avocado на Patreonite"
 
 #: unit1.countchars
 msgctxt "unit1.countchars"
@@ -1259,7 +1258,7 @@ msgstr "Файл не существует: "
 
 #: unit1.translatefilemodifiedsavechanges
 msgid "The current file has been modified. Do you want to save the changes?"
-msgstr ""
+msgstr "Данный файл был изменен. Вы хотите сохранить изменения?"
 
 #: unit1.translatefilenotfound
 msgid "File not found: "
@@ -1294,7 +1293,6 @@ msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
 msgstr "- Информация: путь к модулям IDE такой же, как и к пользовательским модулям, дубликаты пропускаются."
 
 #: unit1.translateinformation
-#, fuzzy
 msgctxt "unit1.translateinformation"
 msgid "Information"
 msgstr "Информация"

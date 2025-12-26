@@ -24,6 +24,15 @@ type
   end;
 
 type
+  TAvocadoModuleKind = (
+    amkNone,
+    amkProgramConsole,
+    amkProgramGUI,
+    amkUnit
+);
+
+
+type
   TStringArrayLabels = array of string;
   TAvocadoLabel = record
   Name, LabelType: string;
@@ -76,7 +85,8 @@ end;
 
   public
     //Ustawienia dyrektyw kompilatora
-    procedure AddCompilerDirective(PascalCode: TStringList);
+    procedure AddCompilerDirective(PascalCode: TStringList; IsGUI: Boolean);
+
     function Translate(const AvocadoCode: TStrings): TStringList;
     function DetectCodePage(const Source: string): string;
     procedure InsertCodePageDirective(PascalCode: TStringList);
@@ -420,6 +430,7 @@ resourcestring
   TranslateSetTextRequiresThreeArguments = 'ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, "newvalue").';
 
 implementation
+
 uses
   unit1;
 
@@ -1929,48 +1940,89 @@ begin
 end;
 
 
-procedure TAvocadoTranslator.AddCompilerDirective(PascalCode: TStringList);
+procedure TAvocadoTranslator.AddCompilerDirective(PascalCode: TStringList; IsGUI: Boolean);
 var
-  DirectIndex, i: Integer;
-
+DirectIndex, i: Integer;
 begin
   DirectIndex := -1;
-    for i := 0 to PascalCode.Count - 1 do
+  // Szukamy linii "program ...", którą dodała funkcja Translate
+  for i := 0 to PascalCode.Count - 1 do
+  begin
+    if Trim(LowerCase(PascalCode[i])).StartsWith('program ') then
     begin
-      if Trim(LowerCase(PascalCode[i])).StartsWith('program ') then
-      begin
-        DirectIndex := i;
-        Break;
-      end;
+      DirectIndex := i;
+      Break;
     end;
+  end;
 
-    // Jeśli znaleziono "program"
+  if DirectIndex <> -1 then
+  begin
+    // Wstawiamy dyrektywy POD linią "program" (lub nad - zależy jak wolisz, tutaj insert wstawia W to miejsce, przesuwając resztę w dół)
+
+    // Najpierw tryb (ważne dla Lazarusa/FPC)
+    PascalCode.Insert(DirectIndex, '{$mode objfpc}');
+    PascalCode.Insert(DirectIndex + 1, '{$H+}');
+
+    // Jeśli to aplikacja UI, dodajemy APPTYPE GUI
+    if IsGUI then
+      PascalCode.Insert(DirectIndex + 2, '{$APPTYPE GUI}');
+
+    // Obsługa ASM (opcjonalnie)
+    if NeedsAsmIntel then
+      PascalCode.Insert(DirectIndex + 3, '{$ASMMODE intel}');
+  end
+  else
+  begin
+    // Fallback, gdyby nie znaleziono "program" (np. sam unit)
+    PascalCode.Insert(0, '{$mode objfpc}');
+    PascalCode.Insert(1, '{$H+}');
+
+    if IsGUI then
+      PascalCode.Insert(2, '{$APPTYPE GUI}');
+
+    if NeedsAsmIntel then
+      PascalCode.Insert(0, '{$ASMMODE intel}'); // To powinno być raczej na końcu wstawiania, ale zostawiam jak masz
+  end;
+  {
+  DirectIndex := -1;
+  for i := 0 to PascalCode.Count - 1 do
+  begin
+    if Trim(LowerCase(PascalCode[i])).StartsWith('program ') then
+  begin DirectIndex := i;
+    Break;
+  end;
+  end; // Jeśli znaleziono "program"
+
     if DirectIndex <> -1 then
     begin
       PascalCode.Insert(DirectIndex, '{$H+}');
       PascalCode.Insert(DirectIndex, '{$mode objfpc}');
       //PascalCode.Insert(DirectIndex, '{$codepage cp1250}');
       //automatycznie wykrywa
-
       //PascalCode.Insert(DirectIndex, '{$codepage utf8}');
-
       // Opcjonalnie asm:
       if NeedsAsmIntel then
         PascalCode.Insert(DirectIndex, '{$ASMMODE intel}');
-    end
-    else
-    begin
+      end else
+      begin
+
       // Gdyby z jakiegoś powodu "program" nie było:
-      PascalCode.Insert(0, '{$H+}');
       PascalCode.Insert(0, '{$mode objfpc}');
-      //PascalCode.Insert(0, '{$codepage utf8}');
+      PascalCode.Insert(1, '{$H+}'); //PascalCode.Insert(0, '{$codepage utf8}');
       //PascalCode.Insert(0, '{$codepage cp1250}');
       //automatycznie wykrywa
-
       if NeedsAsmIntel then
-        PascalCode.Insert(0, '{$ASMMODE intel}');
-    end;
+      PascalCode.Insert(0, '{$ASMMODE intel}');
+      end;
+
+
+      //Sprawdzam jaki typ aplikacji konslowy czy z GUI
+      //if IsConsoleProgram = False then
+     // PascalCode.Insert(2,'{$APPTYPE GUI}');
+      //Aplikacja konsolowa: True
+   }
 end;
+
 
 function TAvocadoTranslator.duze_litery_ansi(const S: string): string;
 begin
@@ -4074,7 +4126,8 @@ end;
 
 function TAvocadoTranslator.TryTranslateGeneric(const Line: string;
   PascalCode: TStringList; Aliases: array of string; RequiredArgs: Integer;
-  PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg:string): Boolean;
+  PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg: String
+  ): Boolean;
 var
   ParamPartsList: TStringList;
   Args: array of string;
@@ -4148,12 +4201,14 @@ ProcedureDepth: Integer;
 j: integer;
 DetectedCodePage: string;
 WinCP: string;
+IsGUI: Boolean;
 begin
     // 1. Inicjalizacja ---
   SetLength(FVariables, 0);
   FInRepeatBlock := False;
   FInMultiLineComment := False;
   FInProcedureBody := False; // Używane tylko przez Pętlę 1
+  IsGUI := False; // Domyślnie konsola
 
   //Wykrywam kodowanie na podstawie calego kodu źródłowego
   DetectedCodePage := DetectCodePage(AvocadoCode.Text);
@@ -4166,37 +4221,66 @@ begin
   // 2. Skanowanie nazwy programu
   NameProgram := '';
   DetectedProgramName := 'untitledprogram';
+
   for i := 0 to AvocadoCode.Count - 1 do
   begin
     trimmedLine := Trim(AvocadoCode[i]);
-    if LowerCase(trimmedLine).StartsWith('program ') then
+    LowerLine := LowerCase(trimmedLine);
+  //  if LowerCase(trimmedLine).StartsWith('program ') then
+  //  begin
+  //    NameProgram := Trim(Copy(trimmedLine, Length('program ') + 1, MaxInt));
+  //    if NameProgram = '' then NameProgram := 'untitledprogram';
+  //    DetectedProgramName := NameProgram;
+  //    Break;
+  //    end;
+  //end;
+
+  // Sprawdzamy czy to program okienkowy
+   // Sprawdzamy czy to program okienkowy
+    if LowerLine.StartsWith('program_ui ') then
     begin
+      IsGUI := True; // Ustawiamy flagę!
+      NameProgram := Trim(Copy(trimmedLine, Length('program_ui ') + 1, MaxInt));
+      if NameProgram = '' then NameProgram := 'AvocadoApp';
+      DetectedProgramName := NameProgram;
+      Break;
+    end
+    // Sprawdzamy czy to zwykły program
+    else if LowerLine.StartsWith('program ') then
+    begin
+      IsGUI := False;
       NameProgram := Trim(Copy(trimmedLine, Length('program ') + 1, MaxInt));
       if NameProgram = '' then NameProgram := 'untitledprogram';
       DetectedProgramName := NameProgram;
       Break;
-      end;
+    end;
   end;
 
   try
-    AddCompilerDirective(PascalCode);
+    //AddCompilerDirective(PascalCode);
     PascalCode.Add('program ' + DetectedProgramName + ';');
+    // Wywołujemy funkcję z nowym parametrem IsGUI
+    AddCompilerDirective(PascalCode, IsGUI);
 
     //3. Sekcja 'uses'
     ModulesStr := GetImportedModules(AvocadoCode.Text);
     ModulPascalowy := GetImplementationModules(AvocadoCode.Text);
+
     UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
     {$IFDEF WINDOWS}
     UsesList.Add('Windows');
     {$ENDIF}
+
     if ModulesStr <> '' then
       for UName in ModulesStr.Split([',']) do UsesList.Add(Trim(UName));
     if ModulPascalowy <> '' then
       for UName in ModulPascalowy.Split([',']) do UsesList.Add(Trim(UName));
     PascalCode.Add('uses');
+
     ExistingUnits.Clear;
     ExistingUnits.CaseSensitive := False;
     ExistingUnits.Sorted := True;
+
     for i := 0 to UsesList.Count - 1 do
   	 begin
   	 UName := Trim(UsesList[i]);
@@ -4209,6 +4293,7 @@ begin
   	       ExistingUnits.Add(UName);
   	     end;
   	 end;
+
   	 if ExistingUnits.Count > 0 then
   	    PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ';'
   	 else
@@ -4294,7 +4379,18 @@ begin
 
          // --- 8. Główny blok 'begin' (wstawki) ---
   	 PascalCode.Add('begin');
-         PascalCode.Add('{$IFDEF WINDOWS}');
+
+          if not IsGUI then
+          begin
+            PascalCode.Add('{$IFDEF WINDOWS}');
+            PascalCode.Add('  SetConsoleCP(' + WinCP + ');');
+            PascalCode.Add('  SetConsoleOutputCP(' + WinCP + ');');
+            PascalCode.Add('{$ENDIF}');
+            PascalCode.Add('  SetTextCodePage(Output, ' + WinCP + ');');
+            PascalCode.Add('  SetTextCodePage(Input, ' + WinCP + ');');
+          end;
+
+         {PascalCode.Add('{$IFDEF WINDOWS}');
            //dynamiczne kodowanie
            PascalCode.Add('  SetConsoleCP(' + WinCP + ');');
            PascalCode.Add('  SetConsoleOutputCP(' + WinCP + ');');
@@ -4302,7 +4398,7 @@ begin
          // Ustawienie strony kodowej dla standardowego wyjścia (ważne dla FPC RTL)
           PascalCode.Add('  SetTextCodePage(Output, ' + WinCP + ');');
           PascalCode.Add('  SetTextCodePage(Input, ' + WinCP + ');');
-
+          }
 
   	 // 9. Inicjalizacja zmiennych
   	 for i := 0 to High(FVariables) do
@@ -4317,30 +4413,33 @@ begin
   	 // 10. PĘTLA 3: Tłumaczenie kodu głównego
   	 ProcedureDepth := 0;
          FInRepeatBlock := False;
+
+
   	 for i := 0 to AvocadoCode.Count - 1 do
   	 begin
   	   trimmedLine := Trim(AvocadoCode[i]);
   	   if trimmedLine = '' then Continue;
            LowerLine := AnsiLowerCase(trimmedLine);
 
-      // ignoruje procedury i funkcje
-      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) or
-         (LowerLine.StartsWith('funkcja ')) or (LowerLine.StartsWith('function ')) then
-      begin
-        ProcedureDepth := 1;
-        Continue;
-      end;
-      if ProcedureDepth > 0 then
-      begin
-        if (LowerLine = 'start') or (LowerLine = 'początek') or (LowerLine = 'poczatek')
-           or (LowerLine = 'main') or (LowerLine = 'główny') or (LowerLine = 'glowny') then
-           Inc(ProcedureDepth)
-        else if (LowerLine = 'koniec') or (LowerLine = 'end') then Dec(ProcedureDepth);
-        Continue;
-      end;
+          // ignoruje procedury i funkcje
+          if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) or
+             (LowerLine.StartsWith('funkcja ')) or (LowerLine.StartsWith('function ')) then
+          begin
+            ProcedureDepth := 1;
+            Continue;
+          end;
+          if ProcedureDepth > 0 then
+          begin
+            if (LowerLine = 'start') or (LowerLine = 'początek') or (LowerLine = 'poczatek')
+               or (LowerLine = 'main') or (LowerLine = 'główny') or (LowerLine = 'glowny') then
+               Inc(ProcedureDepth)
+            else if (LowerLine = 'koniec') or (LowerLine = 'end') then Dec(ProcedureDepth);
+            Continue;
+          end;
 
      // Ignoruj linie globalne ORAZ deklaracje zmiennych
      if AnsiStartsText('program ', LowerLine) or
+        AnsiStartsText('program_ui ', LowerLine) or
   	AnsiStartsText('importuj', LowerLine) or
   	AnsiStartsText('import', LowerLine) or
   	AnsiStartsText('ModułyPas', LowerLine) or
@@ -4372,7 +4471,20 @@ begin
          // Koniec Pętli 3
 
   	 // 11. Zakończenie
-  	 PascalCode.Add('  Readln;');
+          {
+          if IsConsoleProgram then
+          //Aplikacja konsolowa: True
+          PascalCode.Add('  Readln;')
+          else
+          begin
+            //'Aplikacja GUI
+          end;
+          }
+          if not IsGUI then
+          begin
+             PascalCode.Add('  Readln;');
+          end;
+  	 //PascalCode.Add('  Readln;');
   	 PascalCode.Add('end.');
 
          PascalCode.Insert(0, '{$codepage ' + DetectedCodePage + '}');
@@ -4381,5 +4493,7 @@ begin
    UsesList.Free;
    ExistingUnits.Free;
   end;
-  end;
+
+end;
+
 end.

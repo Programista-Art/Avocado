@@ -144,6 +144,7 @@ type
     TabSheetSearch: TTabSheet;
     TimerScanFunctions: TTimer;
     ToolButton2: TToolButton;
+    ToolButton3: TToolButton;
     ToolButtonDebug: TToolButton;
     Transpiluj: TAction;
     TreeFilterEdit1: TTreeFilterEdit;
@@ -440,13 +441,14 @@ var
   AvocadoVersion: string;
   //It deals with errors in the project and error filtering in EditSearchMistakes / Dotyczy błędów w projekcie i filtrowanie błedów w EditSearchMistakes
   //FAllErrors: TStringList;
-
+  IsConsoleProgram: boolean;
   FErrAll: TStringList;
   FCmtAll: TStringList;
   FVarAll: TStringList;
   FFuncAll: TStringList;
   FSearchAll: TStringList;
   FSearcDoc: TStringList;
+
 
 resourcestring
    NewProgramFile = 'New file';
@@ -626,6 +628,7 @@ procedure TFormMain.FormCreate(Sender: TObject);
 var
   TempDir: string;
 begin
+  IsConsoleProgram := True;
     // Utworzenie folderu Avocado
     TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
 
@@ -663,6 +666,16 @@ begin
   //laduje pliki do ListBoxSearchDocumentaion
   PageInfo.ActivePage := TabSheetLog;
   PagePanelRight.ActivePage := FPCCode;
+  //Ustawiam tryb aplikacji konsolowy
+
+  //ShowMessage('Aplikacja konsolowa: '+ boolToStr(IsConsoleProgram));
+  //Sprawdzanie czy aplikacja konsolowa
+  {
+  if IsConsoleProgram then
+  ShowMessage('Aplikacja konsolowa: True')
+  else
+  ShowMessage('Aplikacja konsolowa: False');
+  }
 end;
 
 procedure TFormMain.TranspilujExecute(Sender: TObject);
@@ -1247,24 +1260,37 @@ end;
 procedure TFormMain.MenuItem20Click(Sender: TObject);
 var
 i: TModalResult;
+ShouldProceed: Boolean;
 begin
-    i := MessageDlg(TranslateAttentionMsg,TranslateCreateNewFile, mtInformation,[mbOk,mbCancel],0);
-    if i = mrOk then
-    begin
-      SynEditCode.ClearAll;
-      if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
-    begin
-      SynEditCode.Clear;
-      MemoOutPut.Clear;
-      MemoLogs.Clear;
-      SynEditCode.Lines.Add('program ' + NameProgram);
-    end;
-    end;
+  if SynEditCode.Text <> '' then
+  begin
+    if MessageDlg(TranslateAttentionMsg, TranslateCreateNewFile, mtInformation, [mbOk, mbCancel], 0) <> mrOk then
+      Exit;
+  end;
+  NameProgram := '';
+  if not InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
+    Exit;
 
-    if i = mrCancel then
-    begin
-     ModalResult := mrCancel;
-    end;
+  SynEditCode.ClearAll;
+  SynEditCode.Lines.Clear;
+  MemoOutPut.Clear;
+  MemoLogs.Clear;
+  IsConsoleProgram := False;
+
+  SynEditCode.Lines.Add('program_ui ' + NameProgram);
+
+  if lang = 'pl' then
+  begin
+    SynEditCode.Lines.Add('glowny ');
+    SynEditCode.Lines.Add(' ');
+    SynEditCode.Lines.Add('koniec.');
+  end
+  else
+  begin
+    SynEditCode.Lines.Add('main ');
+    SynEditCode.Lines.Add(' ');
+    SynEditCode.Lines.Add('end.');
+  end;
 end;
 
 procedure TFormMain.MenuItem9Click(Sender: TObject);
@@ -1303,6 +1329,7 @@ begin
     SynEditCode.Clear;
     MemoOutPut.Clear;
     MemoLogs.Clear;
+    IsConsoleProgram := True;
 
     if lang = 'pl' then
     begin
@@ -2049,6 +2076,7 @@ begin
       else
         MemoLogs.Lines.Add(TranslateErrRequiredFPCstandardUnitDirfound + FpcUnitPath);
 
+
       // Dodajemy opcje dla trybu Release
       if BuildMode = 'Release' then
       begin
@@ -2058,6 +2086,14 @@ begin
          AProcess.Parameters.Add('-CX');
          AProcess.Parameters.Add('-XX');
          AProcess.Parameters.Add('-g-');
+         //Sprawdzam jaki typ aplikacji konslowy czy z GUI
+          if IsConsoleProgram then
+          //Aplikacja konsolowa: True
+          else
+          begin
+            //'Aplikacja GUI');
+            AProcess.Parameters.Add('-WG'); // windows Gui
+          end;
          //// Dodajemy opcję '-FE' wskazującą, gdzie FPC ma zapisywać pliki .o i .ppu (np. do podkatalogu 'temp_units' w TempDir)
          //AProcess.Parameters.Add('-FE' + IncludeTrailingPathDelimiter(TempDir) + 'temp_units'); // np. C:\Temp\Avocado\temp_units\
          //// Tworzymy ten katalog, aby kompilator nie zgłosił błędu, jeśli nie istnieje
@@ -2143,29 +2179,8 @@ begin
     // 1. Usuń plik źródłowy .pas (to już miałeś)
     if FileExists(TempFile) then
       DeleteFile(TempFile);
-
-   { try
-      RemoveDir(TempDir);
-    except
-      // Ignorujemy błąd, jeśli katalog jest nadal używany lub nie jest pusty
     end;
-    }
-
-
-       //try
-       //   DeleteFile(ChangeFileExt(OutputFile, '.o'));
-       //   DeleteFile(ChangeFileExt(OutputFile, '.ppu'));
-       //
-       // except
-       // end;
-    end;
-
 end;
-
-
-
-
-
 
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);

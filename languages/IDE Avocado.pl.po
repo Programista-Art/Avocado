@@ -41,7 +41,7 @@ msgstr "Nieprawidłowa deklaracja zmiennej:  "
 
 #: avocadotranslator.translatealiastypeisunknown
 msgid "Unknown alias type: \" "
-msgstr ""
+msgstr "Nieznany typ aliasu: „"
 
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
@@ -69,11 +69,11 @@ msgstr "Błąd: Funkcja oblicz /calc musi zawierać wyrażenie matematyczne, np.
 
 #: avocadotranslator.translateclearlistrequiresoneargument
 msgid "ARGUMENT ERROR: The clearlist function accepts exactly 1 list name."
-msgstr ""
+msgstr "BŁĄD ARGUMENTU: Funkcja clearlist akceptuje dokładnie jedną nazwę listy."
 
 #: avocadotranslator.translateclearlistrequiresparentheses
 msgid "SYNTAX ERROR: The clear list function must have parentheses, e.g. clear list(s)"
-msgstr ""
+msgstr "BŁĄD SKŁADNIOWY: Funkcja czyszczenia listy musi zawierać nawiasy, np. wyczyść listę(y)"
 
 #: avocadotranslator.translateclosingbracketbeforeopening
 msgid "Incorrect syntax: closing bracket before opening bracket"
@@ -97,11 +97,11 @@ msgstr "Funkcja cursor_position / pozycja_kursora  wymaga dokładnie 2 argument�
 
 #: avocadotranslator.translatedeletefromtolistidrequiresparentheses
 msgid "SYNTAX ERROR: The function delete_from_list_id / delete_to_list_id requires parentheses."
-msgstr ""
+msgstr "BŁĄD SKŁADNIOWY: Funkcja delete_from_list_id / delete_to_list_id wymaga nawiasów."
 
 #: avocadotranslator.translatedeletefromtolistrequireslistandindex
 msgid "ARGUMENT ERROR: The delete_from_list / delete_to_list function requires a list name and an index."
-msgstr ""
+msgstr "BŁĄD ARGUMENTU: Funkcja delete_from_list / delete_to_list wymaga nazwy listy i indeksu."
 
 #: avocadotranslator.translatedeletefunctionrequires
 msgid "The delete function requires three arguments: s, index, count."
@@ -294,11 +294,11 @@ msgstr "Błędna składnia funkcji duże_litery_ansi /  utf8_upper_case "
 
 #: avocadotranslator.translateinserttolistrequiresparentheses
 msgid "SYNTAX ERROR: The insert_to_list function requires parentheses."
-msgstr ""
+msgstr "BŁĄD SKŁADNI: Funkcja wstaw_do_listy / insert_to_list wymaga nawiasów."
 
 #: avocadotranslator.translateinserttolistrequiresthreearguments
 msgid "ARGUMENT ERROR: The insert_to_list function requires 3 arguments (list, index, value). The following was given: "
-msgstr ""
+msgstr "BŁĄD ARGUMENTÓW: Funkcja ustaw_tekst / set_text wymaga 3 argumentów (lista, indeks, \"nowa wartość\")."
 
 #: avocadotranslator.translatelowercasefunctionsyntaxerror
 msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
@@ -383,7 +383,7 @@ msgstr "Błąd: Funkcja pobierz_strone / download_page wymaga DOKŁADNIE DWÓCH 
 
 #: avocadotranslator.translateprovidelistnameandvaluetoremove
 msgid "ARGUMENT ERROR: Provide a list name and a value to remove."
-msgstr ""
+msgstr "BŁĄD ARGUMENTÓW: Podaj nazwę listy oraz wartość do usunięcia."
 
 #: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
 msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
@@ -405,7 +405,7 @@ msgstr "Błąd składni: Funkcja czytaj_linie / read_lines wymaga nawiasów."
 
 #: avocadotranslator.translateremovefromlistrequiresparentheses
 msgid "SYNTAX ERROR: The remove_from_list function requires parentheses."
-msgstr ""
+msgstr "BŁĄD SKŁADNI: Funkcja usuń_z_listy wymaga nawiasów."
 
 #: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
 msgid "The repeat_char function requires two arguments."
@@ -413,7 +413,7 @@ msgstr "Funkcja powtórz_znak / repeat_char wymaga dwóch argumentów."
 
 #: avocadotranslator.translatereplacedvariant
 msgid "\". Replaced \"Variant\"."
-msgstr ""
+msgstr "\". Zastąpiono \"Variant\"."
 
 #: avocadotranslator.translatereplacetextfunctionrequiresthreearguments
 msgid "The replace_text function requires three arguments: text, from, to."
@@ -433,11 +433,11 @@ msgstr "Błąd: Funkcja ustaw_długość wymaga DOKŁADNIE DWÓCH argumentów (z
 
 #: avocadotranslator.translatesettextrequiresparentheses
 msgid "SYNTAX ERROR: The set_text / set_text function requires parentheses."
-msgstr ""
+msgstr "BŁĄD SKŁADNI: Funkcja ustaw_tekst / set_text wymaga nawiasów."
 
 #: avocadotranslator.translatesettextrequiresthreearguments
 msgid "ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, \"newvalue\")."
-msgstr ""
+msgstr "BŁĄD ARGUMENTÓW: Funkcja ustaw_tekst / set_text wymaga 3 argumentów (lista, indeks, \"nowa wartość\")."
 
 #: avocadotranslator.translatesyntaxerrorassignmentreadline
 msgid "Syntax error in assignment in read_line."
@@ -449,11 +449,11 @@ msgstr "Błąd składni przypisania w funkcji czytaj."
 
 #: avocadotranslator.translatetextsstringsrequiresparentheses
 msgid "SYNTAX ERROR: The function texts / strings requires parentheses."
-msgstr ""
+msgstr "BŁĄD SKŁADNI: Funkcja teksty / strings wymaga nawiasów."
 
 #: avocadotranslator.translatetextsstringsrequirestwoarguments
 msgid "ARGUMENT ERROR: The function texts / strings requires 2 arguments. The following was given: "
-msgstr ""
+msgstr "BŁĄD ARGUMENTÓW: Funkcja teksty / strings wymaga 2 argumentów. Podano:"
 
 #: avocadotranslator.translateunknownaliastype
 msgid "Unknown alias type: "
@@ -709,7 +709,7 @@ msgstr "Tryb zawsze na górze"
 
 #: tformmain.menuitemavocadopatrons.caption
 msgid "Avocado Patrons"
-msgstr ""
+msgstr "Patroni Avocado"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
@@ -783,10 +783,8 @@ msgid "Standard mode"
 msgstr "Tryb standardowy"
 
 #: tformmain.menuitemwsparcieprojektu.caption
-#, fuzzy
-#| msgid "Support"
 msgid "Support Avocado"
-msgstr "Wesprzyj"
+msgstr "Wspieraj Avocado"
 
 #: tformmain.menunewfile.caption
 msgid "New"
@@ -868,6 +866,10 @@ msgstr "ToolButton2"
 #: tformmain.toolbutton2.hint
 msgid "Interpret"
 msgstr "Interpretować"
+
+#: tformmain.toolbutton3.caption
+msgid "Kompiluje Aplikacje"
+msgstr ""
 
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
@@ -958,14 +960,13 @@ msgid "Link to FPC folder"
 msgstr "Link do folderu FPC"
 
 #: tpatronsavocado.button1.caption
-#, fuzzy
 msgctxt "tpatronsavocado.button1.caption"
 msgid "OK"
 msgstr "OK"
 
 #: tpatronsavocado.caption
 msgid "Patrons"
-msgstr ""
+msgstr "Patroni"
 
 #: tsettingai.caption
 msgid "Ustawienia Pomocnika AI"
@@ -1035,7 +1036,7 @@ msgstr "Ok"
 
 #: twsparcie.button1.caption
 msgid "Buy me a coffee"
-msgstr ""
+msgstr "Kup mi kawę"
 
 #: twsparcie.caption
 msgid "Wsparcie"
@@ -1047,10 +1048,8 @@ msgid "OK"
 msgstr "OK"
 
 #: twsparcie.speedbutton2.caption
-#, fuzzy
-#| msgid "Support the project"
 msgid "Support Avocado on Patronite"
-msgstr "Wesprzyj projekt"
+msgstr "Wesprzyj Avocado na Patronite"
 
 #: unit1.countchars
 msgctxt "unit1.countchars"
@@ -1259,7 +1258,7 @@ msgstr "Plik nie istnieje: "
 
 #: unit1.translatefilemodifiedsavechanges
 msgid "The current file has been modified. Do you want to save the changes?"
-msgstr ""
+msgstr "Bieżący plik został zmodyfikowany. Czy chcesz zapisać zmiany?"
 
 #: unit1.translatefilenotfound
 msgid "File not found: "
@@ -1294,7 +1293,6 @@ msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
 msgstr " - Informacja: Ścieżka modułów IDE jest taka sama jak modułów użytkownika, pomijanie duplikatu."
 
 #: unit1.translateinformation
-#, fuzzy
 msgctxt "unit1.translateinformation"
 msgid "Information"
 msgstr "Informacja"

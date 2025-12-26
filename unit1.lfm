@@ -63,6 +63,12 @@ object FormMain: TFormMain
       ShowHint = True
       OnClick = ToolButton2Click
     end
+    object ToolButton3: TToolButton
+      Left = 93
+      Top = 2
+      Caption = 'Kompiluje Aplikacje'
+      ImageIndex = 7
+    end
   end
   object Panel1: TPanel
     Left = 877
@@ -2061,13 +2067,13 @@ object FormMain: TFormMain
     KeyWords.Strings = (
       '.FREE'
       '.ZWOLNIJ '
-      '_N_'
       'ADD_LIST'
       'APPEND'
       'ASM'
       'ASSIGN_FILE'
       'AZ'
       'Aż'
+      '_N_'
       'BREAK'
       'CALC'
       'CHANGE_DIR'
