@@ -303,7 +303,6 @@ const
     (FromText: 'get_env'; ToText: 'SysUtils.GetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'set_env('; ToText: 'SetEnvironmentVariable('; Flags: []; IsPrefix: True),
     (FromText: 'get_current_dir'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False)
-
     );
 var
 Moduly: String;
@@ -312,6 +311,7 @@ InPurePascalBlock: Boolean = False;
 NeedsAsmIntel: Boolean;
 FPascalMode: Boolean;
 FAsmMode: Boolean;
+NameProgram: String;
 
 resourcestring
   //Przetlumaczone wyjatki na rózne jezyki
@@ -874,6 +874,12 @@ begin
          (VarType = 'lista_tekstów') or
          (VarType = 'lista_tekstow') or
          (VarType = 'string_list') or
+         (VarType = 'uchwyt_okna') or
+         (VarType = 'hwnd') or
+         (VarType = 'parametry_ui') or
+         (VarType = 'ui_parameters') or
+         (VarType = 'msg') or
+         (VarType = 'dialog_komunikatu') or
          (VarType = 'text_file') then
       begin
         // the declaration itself
@@ -1167,6 +1173,14 @@ begin
      LowerCase(TrimmedLine).StartsWith('lista_tekstow') or
      LowerCase(TrimmedLine).StartsWith('string_list') or
      LowerCase(TrimmedLine).StartsWith('file') or
+     //ui
+     LowerCase(TrimmedLine).StartsWith('uchwyt_okna') or
+     LowerCase(TrimmedLine).StartsWith('hwnd') or
+     LowerCase(TrimmedLine).StartsWith('parametry_ui') or
+     LowerCase(TrimmedLine).StartsWith('ui_parameters') or
+     LowerCase(TrimmedLine).StartsWith('msg') or
+     LowerCase(TrimmedLine).StartsWith('dialog_komunikatu') or
+
      LowerCase(TrimmedLine).StartsWith('text_file') then
   begin
     ProcessFileDeclaration(Line);
@@ -1286,7 +1300,7 @@ begin
      (VarType = 'ole_variant') or
      (VarType = 'informacje_o_wyszukaniu') or
      (VarType = 'qword') or
-      (VarType = 'string_list') or
+     (VarType = 'string_list') or
      (VarType = 'search_record')
   then
   begin
@@ -3434,42 +3448,15 @@ begin
     Exit;
   end;
 
-  {// Wypisanie pojedynczo elementow z listy STRINGLIST
-  if (Pos('teksty(', LowerTrimmedLine) > 0) or
-     (Pos('strings(', LowerTrimmedLine) > 0) then
-  begin
-    StartPos := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine);
 
-    // 1. Walidacja nawiasów
-    if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błąd: Brak nawiasów w funkcji teksty / strings');
-
-    if StartPos > EndPos then
-      raise Exception.Create(TranslateClosingBracketBeforeOpening);
-    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-
-    ParamPartsList := TStringList.Create;
-    try
-      SplitArguments(ParamStr, ParamPartsList);
-      if ParamPartsList.Count <> 2 then
-        raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
-      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0]));
-      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1]));
-      PascalCode.Add(TranslatedS1Arg + '.Strings[' + TranslatedS2Arg + '];');
-    finally
-      ParamPartsList.Free;
-    end;
-    Exit;
-  end;
-  }
 
   // Wypisanie pojedynczo elementow z listy STRINGLIST
   //Writeln(h.Strings[1]);
   if TryTranslateGeneric(Line, PascalCode,
     ['teksty', 'strings'],
     2,
-    '%0:s.Strings[%1:s]',
+    //'%0:s.Strings[%1:s]',
+    '%0.Strings[%1]',
     TranslateTextsStringsRequiresParentheses,
     TranslateTextsStringsRequiresTwoArguments) then
   Exit;
@@ -3478,7 +3465,8 @@ begin
   if TryTranslateGeneric(Line, PascalCode,
     ['wstaw_do_listy', 'insert_to_list'],
     3,
-    '%0:s.Insert(%1:s, %2:s)',
+    //'%0:s.Insert(%1:s, %2:s)',
+    '%0.Insert(%1, %2)',
     TranslateInsertToListRequiresParentheses,
     TranslateInsertToListRequiresThreeArguments) then
   Exit;
@@ -3488,7 +3476,8 @@ begin
   if TryTranslateGeneric(Line, PascalCode,
     ['usuń_z_listy', 'usun_z_listy', 'delete_to_list'], // Aliasy
     2,                                                 // 2 argumenty: lista i indeks
-    '%s.Delete(%s)',                                   // SZABLON (lista.Delete(indeks))
+    //'%s.Delete(%s)',                                   // SZABLON (lista.Delete(indeks))
+    '%0.Delete(%1)',
     TranslateRemoveFromListRequiresParentheses,
     TranslateDeleteFromToListRequiresListAndIndex) then
   Exit;
@@ -3497,7 +3486,8 @@ begin
   if TryTranslateGeneric(Line, PascalCode,
     ['usuń_z_listy_id', 'usun_z_listy_id', 'delete_to_list_id'],
     2,
-    '%0:s.Delete(%0:s.IndexOf(%1:s))',
+    //'%0:s.Delete(%0:s.IndexOf(%1:s))',
+    '%0.Delete(%0.IndexOf(%1))',
     TranslateDeleteFromToListIdRequiresParentheses,
     TranslateProvideListNameAndValueToRemove) then
   Exit;
@@ -3506,7 +3496,8 @@ begin
   if TryTranslateGeneric(Line, PascalCode,
     ['wyczyść_listę', 'wyczysc_liste', 'clear_list'],
     1,
-    '%s.Clear',
+    //'%s.Clear',
+    '%0.Clear',
      TranslateClearListRequiresParentheses,
      TranslateClearListRequiresOneArgument)then
   Exit;
@@ -3515,7 +3506,8 @@ begin
   if TryTranslateGeneric(Line, PascalCode,
     ['ustaw_tekst', 'set_text'],
     3,
-    '%0:s[%1:s] := %2:s',
+    //'%0:s[%1:s] := %2:s',
+    '%0[%1] := %2',
      TranslateSetTextRequiresParentheses,
      TranslateSetTextRequiresThreeArguments) then
   Exit;
@@ -3524,7 +3516,8 @@ begin
     if TryTranslateGeneric(Line, PascalCode,
     ['sortuj_liste', 'sortuj_listę', 'sort_list'],
     2,
-    '%0:s.Sorted := %1:s',
+    //'%0:s.Sorted := %1:s',
+     '%0.Sorted := %1',
      'BŁĄD SKŁADNI: Funkcja sortuj_liste / sort_list wymaga nawiasów.',
      'BŁĄD ARGUMENTÓW: Funkcja sortuj_liste / sort_list wymaga 2 argumentów (lista, prawda lub falsz).') then
   Exit;
@@ -3533,7 +3526,8 @@ begin
    if TryTranslateGeneric(Line, PascalCode,
     ['ręcznie_sortuj_listę', 'recznie_sortuj_liste', 'manually_sort_list'],
     1,
-    '%0:s.Sort',
+    //'%0:s.Sort',
+    '%0.Sort',
      'BŁĄD SKŁADNI: Funkcja ręcznie_sortuj_listę / manually_sort_list wymaga nawiasów.',
      'BŁĄD ARGUMENTÓW: Funkcja ręcznie_sortuj_listę / manually_sort_list wymaga 1 argumentu (lista).') then
   Exit;
@@ -3542,7 +3536,8 @@ begin
    if TryTranslateGeneric(Line, PascalCode,
     ['znajdź_indeks_lista', 'znajdz_indeks_lista', 'find_index_list'],
     3,
-    '%0:s := %1:s.IndexOf(%2:s)',
+   // '%0:s := %1:s.IndexOf(%2:s)',
+    '%0 := %1.IndexOf(%2)',
      'BŁĄD SKŁADNI: Funkcja znajdź_indeks_lista / find_index_list wymaga nawiasów.',
      'BŁĄD ARGUMENTÓW: Funkcja znajdź_indeks_lista / find_index_list wymaga 3 argumentów (zmienna, lista, "wartosc").') then
   Exit;
@@ -3551,7 +3546,8 @@ begin
    if TryTranslateGeneric(Line, PascalCode,
     ['szukaj_wartość_w_liście', 'szukaj_wartosc_w_liscie', 'search_value_in_list'],
     3,
-    '%0:s.Find(%1:s,%2:s)',
+    //'%0:s.Find(%1:s,%2:s)',
+    '%0.Find(%1,%2)',
      'BŁĄD SKŁADNI: Funkcja szukaj_wartość_w_liście / search_value_in_list wymaga nawiasów.',
      'BŁĄD ARGUMENTÓW: Funkcja szukaj_wartość_w_liście / search_value_in_list wymaga 3 argumentów (lista, ''wartosc szukana'', zmienna integer).') then
   Exit;
@@ -3560,7 +3556,8 @@ begin
    if TryTranslateGeneric(Line, PascalCode,
     ['załaduj_z_pliku', 'zaladuj_z_pliku', 'load_from_file'],
     2,
-    '%0:s.LoadFromFile(%1:s)',
+    //'%0:s.LoadFromFile(%1:s)',
+     '%0.LoadFromFile(%1)',
      'BŁĄD SKŁADNI: Funkcja załaduj_z_pliku / load_from_file wymaga nawiasów.',
      'BŁĄD ARGUMENTÓW: Funkcja załaduj_z_pliku / load_from_file wymaga 2 argumentów (lista, ''nazwa pliku z rozszerzeniem'').') then
   Exit;
@@ -4072,32 +4069,100 @@ begin
   end;
   Exit;
 end;
+  {UI }
 
-      //UI
 
-     // Obsługa funkcji pokaz okno
-     if (LowerCase(TrimmedLine).StartsWith('pokaz_okno(')) or
-        (LowerCase(TrimmedLine).StartsWith('pokaż_okno(')) or
-        (LowerCase(TrimmedLine).StartsWith('show_window(')) then
-     begin
-       OpenPos := Pos('(', TrimmedLine);
-       EndPos := RPos(')', TrimmedLine);
-       if (OpenPos = 0) or (EndPos = 0) then
-         raise Exception.Create(TranslateMissingBracketsGetArgumentFunction);
-       if OpenPos > EndPos then
-         raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
-       try
-         Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
-         // ParamStr wymaga argumentu (indeksu), więc puste nawiasy to błąd
-         if Trim(Value) = '' then
-           raise Exception.Create(TranslateGetArgumentFunctionRequiresIndex);
-         PascalCode.Add('ShowWindowAvocado(' + TranslateExpression(Value) + ');');
-       except
-         on E: Exception do
-           raise Exception.Create(TranslateErrorProcessingGetArgumentFunction + E.Message);
-       end;
-       Exit;
-     end;
+
+ { if TryTranslateGeneric(Line, PascalCode,
+    ['utworz_okno', 'utwórz_okno', 'create_window'],
+    1, // <--- Tutaj musi być 1, bo w nawiasie jest tylko "params"
+    'CreateAvocadoWindow(%0)', // <--- Zwracamy tylko funkcję Pascalową
+    'BŁĄD SKŁADNI: Funkcja create_window wymaga nawiasów.',
+    'BŁĄD ARGUMENTÓW: Funkcja create_window wymaga 1 argumentu (params).') then
+    Exit;
+  }
+  //  //Tworzenie okna aplikacji CreateAvocadoWindow
+  if (Pos('utworz_okno(', LowerTrimmedLine) > 0) or
+     (Pos('utwórz_okno(', LowerTrimmedLine) > 0) or
+     (Pos('create_window(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 1. Walidacja nawiasów
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji utwórz_okno / create_window');
+
+    if StartPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpening);
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 2 then
+        raise Exception.Create('Błąd tłumaczenia: Funkcja utwórz_okno / create_window  wymaga dokładnie 2 argumentów (uchwyt_okna, parametry_ui).' + IntToStr(ParamPartsList.Count));
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0]));
+      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1]));
+      PascalCode.Add(TranslatedS1Arg + ' := ' + 'CreateAvocadoWindow(' + TranslatedS2Arg + ');');
+    finally
+      ParamPartsList.Free;
+    end;
+    Exit;
+  end;
+
+   //Wczytanie z pliku: List.LoadFromFile('plik.txt');
+  {if TryTranslateGeneric(Line, PascalCode,
+  ['kolor_tła_ui', 'kolor_tla_ui', 'background_color_ui'],
+  1,
+  '$0.BackgroundColor = (%1)',
+  'BŁĄD SKŁADNI: Funkcja pokaz_okno / show_window wymaga nawiasów.',
+  'BŁĄD ARGUMENTÓW: Funkcja pokaz_okno / show_window wymaga 1 argument (''nazwa wiadomości'').') then
+  Exit;
+  }
+
+
+  //pokaz okno
+ { if TryTranslateGeneric(Line, PascalCode,
+  ['pokaz_okno', 'pokaż_okno', 'show_window'],
+  1,
+  'ShowWindowAvocado(%0)',
+  'BŁĄD SKŁADNI: Funkcja pokaz_okno / show_window wymaga nawiasów.',
+  'BŁĄD ARGUMENTÓW: Funkcja pokaz_okno / show_window wymaga 1 argument (''nazwa wiadomości'').') then
+  Exit;
+  }
+
+
+     //pokaz okno
+  if (Pos('pokaz_okno(', LowerTrimmedLine) > 0) or
+     (Pos('pokaż_okno(', LowerTrimmedLine) > 0) or
+     (Pos('show_window(', LowerTrimmedLine) > 0) then
+  begin
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+
+    // 1. Walidacja nawiasów
+    if (StartPos = 0) or (EndPos = 0) then
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji pokaz_okno / pokaż_okno / show_window');
+
+    if StartPos > EndPos then
+      raise Exception.Create(TranslateClosingBracketBeforeOpening);
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+      if ParamPartsList.Count <> 1 then
+        raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
+      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0])); // X
+      PascalCode.Add('ShowWindowAvocado' + '(' + TranslatedS1Arg + ')');
+    finally
+      ParamPartsList.Free;
+    end;
+    Exit;
+  end;
+
+
 
 
   // --- 7. ZWYKŁE PRZYPISANIA ---
@@ -4134,17 +4199,20 @@ var
   StartPos, EndPos, i: Integer;
   ParamStr, TrimmedLine, LowerLine: string;
   IsFound: Boolean;
-  //SyntaxErrorMsg: string;
-  //ArgCountErrorMsg: string;
+  FinalCode: string;
 begin
-  Result := False;
+    Result := False;
     TrimmedLine := Trim(Line);
     LowerLine := LowerCase(TrimmedLine);
 
     // Sprawdź czy jakikolwiek alias pasuje
     IsFound := False;
     for i := Low(Aliases) to High(Aliases) do
-      if LowerLine.StartsWith(Aliases[i] + '(') then IsFound := True;
+    begin
+      if LowerLine.StartsWith(Aliases[i] + '(') then
+      IsFound := True;
+      Break; // Znaleziono - nie szukamy dalej
+    end;
 
     if not IsFound then Exit;
 
@@ -4163,20 +4231,27 @@ begin
       if ParamPartsList.Count <> RequiredArgs then
       raise Exception.Create(ArgCountErrorMsg + ' (Oczekiwano: ' +
           IntToStr(RequiredArgs) + ', otrzymano: ' +
-          IntToStr(ParamPartsList.Count) + ')'); // <-- Drugi komunikat
+          IntToStr(ParamPartsList.Count) + ')');
 
       // Tłumaczenie argumentów
       SetLength(Args, RequiredArgs);
       for i := 0 to RequiredArgs - 1 do
         Args[i] := TranslateExpression(Trim(ParamPartsList[i]));
 
-      // Składanie kodu Pascala przy użyciu szablonu
+      FinalCode := PascalTemplate;
+      {// Składanie kodu Pascala przy użyciu szablonu
       case RequiredArgs of
         1: PascalCode.Add(Format(PascalTemplate + ';', [Args[0]]));
         2: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1]]));
         3: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1], Args[2]]));
       end;
-
+      }
+    for i := 0 to RequiredArgs - 1 do
+    begin
+      FinalCode := StringReplace(FinalCode, '%' + IntToStr(i), Args[i], [rfReplaceAll]);
+    end;
+    if not FinalCode.EndsWith(';') then FinalCode := FinalCode + ';';
+        PascalCode.Add(FinalCode);
       Result := True;
     finally
       ParamPartsList.Free;

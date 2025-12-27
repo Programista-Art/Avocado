@@ -63,12 +63,6 @@ object FormMain: TFormMain
       ShowHint = True
       OnClick = ToolButton2Click
     end
-    object ToolButton3: TToolButton
-      Left = 93
-      Top = 2
-      Caption = 'Kompiluje Aplikacje'
-      ImageIndex = 7
-    end
   end
   object Panel1: TPanel
     Left = 877
@@ -1942,6 +1936,15 @@ object FormMain: TFormMain
       'załaduj_z_pliku'
       'zaladuj_z_pliku'
       'load_from_file'
+      'uchwyt_okna'
+      'hwnd'
+      'parametry_ui'
+      'ui_parameters'
+      'msg'
+      'dialog_komunikatu'
+      'pokaz_okno'
+      'pokaż_okno'
+      'show_window'
     )
     Position = 0
     LinesInWindow = 10
@@ -2261,6 +2264,7 @@ object FormMain: TFormMain
       'COMP'
       'DECIMAL'
       'DELETE_TO_LIST_ID'
+      'DIALOG_KOMUNIKATU'
       'DYNAMIC_ARRAY'
       'ELSE'
       'END'
@@ -2274,6 +2278,7 @@ object FormMain: TFormMain
       'FUNKCJA'
       'GLOWNY'
       'GłóWNY'
+      'HWND'
       'IF'
       'INACZEJ'
       'INFORMACJE_O_WYSZUKANIU'
@@ -2317,8 +2322,10 @@ object FormMain: TFormMain
       'LZM'
       'MAIN'
       'MANUALLY_SORT_LIST'
+      'MSG'
       'OLE_VARIANT'
       'OLEVARIANT'
+      'PARAMETRY_UI'
       'PLIK'
       'PLIK_BINARNY'
       'PLIK_STRUKTUR'
@@ -2358,6 +2365,8 @@ object FormMain: TFormMain
       'TEXT_FILE'
       'THEN'
       'UBYTE'
+      'UCHWYT_OKNA'
+      'UI_PARAMETERS'
       'UINT16'
       'UINT32'
       'UNICODE_STRING'

@@ -91,3 +91,9 @@ qliczba
 qword
 tablica_liczb
 tablica_liczb
+uchwyt_okna
+hwnd
+parametry_ui
+ui_parameters
+msg
+dialog_komunikatu

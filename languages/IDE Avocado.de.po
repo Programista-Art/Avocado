@@ -867,10 +867,6 @@ msgstr "ToolButton2"
 msgid "Interpret"
 msgstr "Interpretieren"
 
-#: tformmain.toolbutton3.caption
-msgid "Kompiluje Aplikacje"
-msgstr ""
-
 #: tformmain.toolbuttondebug.caption
 msgid "ToolButtonDebug"
 msgstr "ToolButtonDebug"

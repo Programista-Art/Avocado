@@ -8,7 +8,6 @@
 {"hash":69413223,"name":"tformmain.toolbuttondebug.caption","sourcebytes":[84,111,111,108,66,117,116,116,111,110,68,101,98,117,103],"value":"ToolButtonDebug"},
 {"hash":180955284,"name":"tformmain.toolbutton2.hint","sourcebytes":[73,110,116,101,114,112,114,101,116],"value":"Interpret"},
 {"hash":160486418,"name":"tformmain.toolbutton2.caption","sourcebytes":[84,111,111,108,66,117,116,116,111,110,50],"value":"ToolButton2"},
-{"hash":144851477,"name":"tformmain.toolbutton3.caption","sourcebytes":[75,111,109,112,105,108,117,106,101,32,65,112,108,105,107,97,99,106,101],"value":"Kompiluje Aplikacje"},
 {"hash":11981957,"name":"tformmain.fpccode.caption","sourcebytes":[70,114,101,101,32,80,97,115,99,97,108,32,67,111,100,101],"value":"Free Pascal Code"},
 {"hash":11981957,"name":"tformmain.label5.caption","sourcebytes":[70,114,101,101,32,80,97,115,99,97,108,32,67,111,100,101],"value":"Free Pascal Code"},
 {"hash":250768478,"name":"tformmain.documentation.caption","sourcebytes":[68,111,99,117,109,101,110,116,97,116,105,111,110],"value":"Documentation"},
