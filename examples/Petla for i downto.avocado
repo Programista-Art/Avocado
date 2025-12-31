@@ -1,12 +1,12 @@
 program wdol
-start
+główny
 test
 koniec.
 
 procedura test
-start
+początek
 lc a = 5
-  dla a = 5 malejąco 1 wykonać
+  dla a = 5 malejąco 1 wykonaj
   pisz_linie('1')
 koniec
 

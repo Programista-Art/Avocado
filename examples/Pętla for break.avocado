@@ -1,15 +1,15 @@
 program fortobreak
-start
+główny
  test
 koniec.
 
 procedura test
-start
+początek
 liczba_całkowita i = 0
-dla i = 1 do 4 wykonać
+dla i = 1 do 4 wykonaj
 początek
   jeżeli i = 3 wtedy
-   przerwać
+   przerwij
    pisz_linie(i)
 koniec
 koniec

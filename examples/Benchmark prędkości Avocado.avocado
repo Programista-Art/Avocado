@@ -14,7 +14,7 @@ qliczba czas_start = 0
 qliczba czas_stop = 0
 liczba64 suma = 0
   czas_start = GetTickCount64
-  dla i = 1 do 1000000000 wykonać
+  dla i = 1 do 1000000000 wykonaj
   start
    suma = suma + 1
    czas_stop = GetTickCount64

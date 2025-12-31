@@ -146,12 +146,10 @@ pascal
 import
 malejąco
 malejaco
-descending
 break
 przerwij
 kontynuuj
 continue
-przerwij
 for 
 in
 dla
@@ -224,3 +222,5 @@ load_from_file
 pokaz_okno
 pokaż_okno
 show_window
+wykonaj
+downto

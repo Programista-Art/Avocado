@@ -148,12 +148,10 @@ pascal
 import
 malejąco
 malejaco
-descending
 break
 przerwij
 kontynuuj
 continue
-przerwij
 for 
 in
 dla
@@ -294,8 +292,8 @@ tablica_liczb
 //
 (*
 *)
-wykonać
-wykonac
+wykonaj
+downto
 do
 pascal
 pascal_line

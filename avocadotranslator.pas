@@ -697,7 +697,7 @@ end;
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
-   // --- Liczby całkowite ---
+   // Liczby całkowite
     'liczba_całkowita','liczba_calkowita', 'lc', 'int', 'integer':
       Exit('Integer');
 
@@ -1087,33 +1087,30 @@ var
 begin
   TrimmedLine := Trim(Line);
   if TrimmedLine = '' then Exit;
-  // 1. Sprawdź, czy jesteśmy w procedurze
   if FInProcedureBody then
   begin
-    // Jeśli znajdziemy 'koniec', wychodzimy ze stanu procedury
+
     if (LowerCase(TrimmedLine) = 'koniec') or (LowerCase(TrimmedLine) = 'end') then
       FInProcedureBody := False;
-    Exit; // Ignoruj wszystko wewnątrz procedury
+    Exit;
   end;
 
-  // Sprawdź, czy procedura / funkcja się ZACZYNA
   if (LowerCase(TrimmedLine).StartsWith('procedura ')) or
        (LowerCase(TrimmedLine).StartsWith('procedure ')) or
        (LowerCase(TrimmedLine).StartsWith('funkcja ')) or
        (LowerCase(TrimmedLine).StartsWith('function ')) then
   begin
-    FInProcedureBody := True; // Wchodzimy w stan procedury
-    Exit; // Ignoruj samą linię deklaracji
+    FInProcedureBody := True;
+    Exit;
   end;
 
   //We skip lines beginning with control statements.
   // Pomijamy linie zaczynające się od instrukcji sterujących
   if FPascalMode then
   begin
-    // sprawdź czy to koniec bloku
     if TrimmedLine = '}' then
       FPascalMode := False;
-    Exit; // ignorujemy całą resztę
+    Exit;
   end;
 
   // blok Pascala
@@ -1385,23 +1382,104 @@ begin
   TranslatedLine := ReplaceText(TranslatedLine, 'dopóki', 'while');
   TranslatedLine := ReplaceText(TranslatedLine, 'dopoki', 'while');
 
-  // 2.'wykonać' -> 'do'
-  TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
-  TranslatedLine := StringReplace(TranslatedLine, 'wykonac', 'do', [rfReplaceAll, rfIgnoreCase]);
+  // 2.'wykonaj' -> 'do'
+  TranslatedLine := StringReplace(TranslatedLine, 'wykonaj', 'do', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'wykonaj ', 'do ', [rfReplaceAll, rfIgnoreCase]);
   TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
   PascalCode.Add(TranslatedLine);
 end;
 
 procedure TAvocadoTranslator.ProcessForLoop(const Line: string; PascalCode: TStringList);
 var
-//PascalCode: TStringList;
-TranslatedLine: string;
-ForKeyword, VarName, StartValue, ToKeyword, EndExpr: string;
-Parts: TStringArray;
-TranslatedEndExpr: string;
+  TranslatedLine: string;
+  Parts: TStringArray;
+  EndExpr, TranslatedEndExpr, StartPart: string;
+  ToKeyword: string;
+  EqPos, LastDoPos: Integer;
+  DeclarationPart: string;
 begin
   TranslatedLine := Trim(Line);
+
+  TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'malejaco', 'downto', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'wykonaj', 'do', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'wykonaj ', 'do ', [rfReplaceAll, rfIgnoreCase]);
+  TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
+
+  TranslatedLine := StringReplace(TranslatedLine, '==', '=', [rfReplaceAll]);
+
+  if Pos(':=', TranslatedLine) = 0 then
+  begin
+    EqPos := Pos('=', TranslatedLine);
+    if EqPos > 0 then
+    begin
+      Delete(TranslatedLine, EqPos, 1);
+      Insert(':=', TranslatedLine, EqPos);
+    end;
+  end;
+
+  if not EndsText(' do', TranslatedLine) then
+     TranslatedLine := TranslatedLine + ' do';
+
+  LastDoPos := RPos(' do', LowerCase(TranslatedLine));
+
+  if LastDoPos > 0 then
+  begin
+
+    DeclarationPart := Copy(TranslatedLine, 1, LastDoPos - 1);
+
+    if Pos(' downto ', LowerCase(DeclarationPart)) = 0 then
+    begin
+       DeclarationPart := StringReplace(DeclarationPart, ' do ', ' to ', [rfReplaceAll, rfIgnoreCase]);
+    end;
+
+    TranslatedLine := DeclarationPart + Copy(TranslatedLine, LastDoPos, MaxInt);
+  end;
+
+  if Pos(' downto ', LowerCase(TranslatedLine)) > 0 then
+  begin
+     ToKeyword := ' downto ';
+     Parts := TranslatedLine.Split([' downto '], 2);
+  end
+  else
+  begin
+     ToKeyword := ' to ';
+     Parts := TranslatedLine.Split([' to '], 2);
+  end;
+
+  if Length(Parts) >= 2 then
+  begin
+    StartPart := Trim(Parts[0]);
+    EndExpr := Trim(Parts[1]);
+
+    if EndsText(' do', EndExpr) then
+      EndExpr := Copy(EndExpr, 1, Length(EndExpr) - 3);
+
+    EndExpr := Trim(EndExpr);
+    TranslatedEndExpr := TranslateExpression(EndExpr);
+
+    if (ToKeyword = ' to ') and (Pos(':= 0', StartPart) > 0) then
+    begin
+       if (Pos('.Count', TranslatedEndExpr) > 0) or (Pos('Length(', TranslatedEndExpr) > 0) then
+       begin
+         if Pos('-1', TranslatedEndExpr) = 0 then
+            TranslatedEndExpr := TranslatedEndExpr + ' - 1';
+       end;
+    end;
+
+    TranslatedLine := Format('%s%s%s do', [StartPart, ToKeyword, TranslatedEndExpr]);
+    PascalCode.Add(TranslatedLine);
+  end
+  else
+  begin
+    PascalCode.Add(TranslatedLine);
+  end;
+  {
+  TranslatedLine := Trim(Line);
     TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'dla ', 'for ', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, ' dla ', ' for ', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'malejaco', 'downto', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
@@ -1450,7 +1528,77 @@ begin
   PascalCode.Add(Format('for i := 0 to %s do', [TranslatedEndExpr]));
 
     PascalCode.Add(TranslatedLine);
+    }
 end;
+
+function TAvocadoTranslator.TryTranslateGeneric(const Line: string;
+  PascalCode: TStringList; Aliases: array of string; RequiredArgs: Integer;
+  PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg: String
+  ): Boolean;
+var
+  ParamPartsList: TStringList;
+  Args: array of string;
+  StartPos, EndPos, i: Integer;
+  ParamStr, TrimmedLine, LowerLine: string;
+  IsFound: Boolean;
+  FinalCode: string;
+begin
+    Result := False;
+    TrimmedLine := Trim(Line);
+    LowerLine := LowerCase(TrimmedLine);
+
+    IsFound := False;
+    for i := Low(Aliases) to High(Aliases) do
+    begin
+      if LowerLine.StartsWith(Aliases[i] + '(') then
+      IsFound := True;
+      Break;
+    end;
+
+    if not IsFound then Exit;
+
+    StartPos := Pos('(', TrimmedLine);
+    EndPos := RPos(')', TrimmedLine);
+    if (StartPos = 0) or (EndPos = 0) or (StartPos > EndPos) then
+      raise Exception.Create(SyntaxErrorMsg + Aliases[0]);
+
+    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
+    ParamPartsList := TStringList.Create;
+    try
+      SplitArguments(ParamStr, ParamPartsList);
+
+      //if ParamPartsList.Count <> RequiredArgs then
+      //  raise Exception.Create(ErrorMsg + ' (Oczekiwano ' + IntToStr(RequiredArgs) + ')');
+      if ParamPartsList.Count <> RequiredArgs then
+      raise Exception.Create(ArgCountErrorMsg + ' (Oczekiwano: ' +
+          IntToStr(RequiredArgs) + ', otrzymano: ' +
+          IntToStr(ParamPartsList.Count) + ')');
+
+      // Tłumaczenie argumentów
+      SetLength(Args, RequiredArgs);
+      for i := 0 to RequiredArgs - 1 do
+        Args[i] := TranslateExpression(Trim(ParamPartsList[i]));
+
+      FinalCode := PascalTemplate;
+      {// Składanie kodu Pascala przy użyciu szablonu
+      case RequiredArgs of
+        1: PascalCode.Add(Format(PascalTemplate + ';', [Args[0]]));
+        2: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1]]));
+        3: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1], Args[2]]));
+      end;
+      }
+    for i := 0 to RequiredArgs - 1 do
+    begin
+      FinalCode := StringReplace(FinalCode, '%' + IntToStr(i), Args[i], [rfReplaceAll]);
+    end;
+    if not FinalCode.EndsWith(';') then FinalCode := FinalCode + ';';
+        PascalCode.Add(FinalCode);
+      Result := True;
+    finally
+      ParamPartsList.Free;
+    end;
+end;
+
 
 procedure TAvocadoTranslator.ProcessForInLoop(const Line: string;
   PascalCode: TStringList);
@@ -1459,9 +1607,11 @@ var
 begin
     TranslatedLine := Trim(Line);
     TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, ' dla ', ' for ', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'dla ', 'for ', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, ' w ', ' in ', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonać', 'do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonac', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonaj', 'do', [rfReplaceAll, rfIgnoreCase]);
+    TranslatedLine := StringReplace(TranslatedLine, 'wykonaj ', 'do ', [rfReplaceAll, rfIgnoreCase]);
     TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
 
     PascalCode.Add(TranslatedLine);
@@ -1491,7 +1641,6 @@ var
   Lines: TStringList;
   i: Integer;
   Line, ModulesList: string;
-
 begin
   ModulesList := '';
   Lines := TStringList.Create;
@@ -1553,32 +1702,6 @@ begin
         ModulesList := 'Crt';
     end;
 
-   { //modul LazUTF8
-    if (Pos('duże_litery_ansi', LowerCase(Code)) > 0)then
-
-    begin
-      if ModulesList <> '' then
-        ModulesList := ModulesList + ', LazUTF8'
-      else
-        ModulesList := 'LazUTF8';
-    end;
-    }
-    //usuwam LazUTF8 jesli jest duże_litery
-    // Sprawdzenie, czy linia zaczyna się od "Importuj"
-     {  if Pos('duże_litery', Line) = 1 then
-       begin
-         //Delete(Line, 1, Length('LazUTF8')); // Usuń słowo "LazUTF8"
-         Line := Trim(Line); // Usuń spacje przed nazwami modułów
-
-         // Dodanie do listy modułów
-         if ModulesList = '' then
-           ModulesList := Line
-         else
-           ModulesList := ModulesList + ', ' + Line;
-       end;
-       }
-
-
        //Jesli potzrebny modul internet
         if (Pos('pobierz_plik(', LowerCase(Code)) > 0)then
         begin
@@ -1606,7 +1729,7 @@ var
   i: Integer;
   Line, ModulesList: string;
 begin
-  ModulesList := ''; // Pusta lista modułów na start
+  ModulesList := '';
   Lines := TStringList.Create;
   try
     Lines.Text := Code;
@@ -2316,6 +2439,23 @@ begin
   end;
 
   // Pętle
+  // POPRAWKA: Dodano sprawdzanie 'dla(' i 'for(' oraz zabezpieczenie przed nazwą zmiennej "w"
+  if (LowerTrimmedLine = 'dla') or (LowerTrimmedLine = 'for') or
+     (LowerTrimmedLine.StartsWith('dla ')) or (LowerTrimmedLine.StartsWith('dla(')) or
+     (LowerTrimmedLine.StartsWith('for ')) or (LowerTrimmedLine.StartsWith('for(')) then
+  begin
+     // Sprawdzenie czy to pętla 'foreach' (dla zmienna w kolekcja)
+     // Zabezpieczenie: upewnij się, że " w " to nie jest część "w dół" (downto)
+     // oraz że " w " nie jest po prostu nazwą zmiennej w pętli liczbowej (np. dla w = 1 do 10)
+    if ( (Pos(' w ', LowerTrimmedLine) > 0) and (Pos(' w dół', LowerTrimmedLine) = 0) and (Pos(' w dol', LowerTrimmedLine) = 0) and (Pos(' do ', LowerTrimmedLine) = 0) ) or
+       (Pos(' in ', LowerTrimmedLine) > 0) then
+      ProcessForInLoop(TrimmedLine, PascalCode)
+    else
+      ProcessForLoop(TrimmedLine, PascalCode);
+    Exit;
+  end;
+
+  {
   if (LowerTrimmedLine.StartsWith('dla ')) or
      (LowerTrimmedLine.StartsWith('for ')) then
   begin
@@ -2326,6 +2466,7 @@ begin
       ProcessForLoop(TrimmedLine, PascalCode);
     Exit;
   end;
+  }
 
   if (LowerTrimmedLine.StartsWith('dopóki ')) or
      (LowerTrimmedLine.StartsWith('dopoki ')) or
@@ -2693,33 +2834,7 @@ begin
     end;
     Exit;
   end;
-  {if (Pos('zamień_tekst(', LowerTrimmedLine) > 0) or
-     (Pos('zamien_tekst(', LowerTrimmedLine) > 0) or
-     (Pos('replace_text(', LowerTrimmedLine) > 0) then
-  begin
-    ZamienTekst_StartPos := Pos('(', TrimmedLine);
-    ZamienTekst_EndPos := RPos(')', TrimmedLine);
-    if (ZamienTekst_StartPos = 0) or
-       (ZamienTekst_EndPos = 0) then
-         raise Exception.Create(TranslateIncorrectSyntaxReplaceTextFunction);
-    ZamienTekst_Param := Trim(Copy(TrimmedLine, ZamienTekst_StartPos + 1, ZamienTekst_EndPos - ZamienTekst_StartPos - 1));
-    ZamienTekst_ParamParts := ZamienTekst_Param.Split([',']);
-    if Length(ZamienTekst_ParamParts) <> 3 then
-      raise
-      Exception.Create(TranslateReplaceTextFunctionRequiresThreeArguments);
-    ZamienTekst_TextArg := TranslateExpression(Trim(ZamienTekst_ParamParts[0]));
-    ZamienTekst_FromArg := TranslateExpression(Trim(ZamienTekst_ParamParts[1]));
-    ZamienTekst_ToArg := TranslateExpression(Trim(ZamienTekst_ParamParts[2]));
-    if Pos('=', TrimmedLine) > 0 then
-    begin
-      ZamienTekst_AssignParts := TrimmedLine.Split(['='], 2);
-      ZamienTekst_ResultVar := Trim(ZamienTekst_AssignParts[0]);
-      PascalCode.Add(ZamienTekst_ResultVar + ' := ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
-    end
-    else PascalCode.Add('ReplaceStr(' + ZamienTekst_TextArg + ', ' + ZamienTekst_FromArg + ', ' + ZamienTekst_ToArg + ');');
-    Exit;
-  end;
-  }
+
 
   // UTF8UpperCase (duże_litery_ansi)
   // Obsługa duże_litery_ansi / utf8_upper_case -> WideUpperCase (SysUtils)
@@ -3474,7 +3589,7 @@ begin
 
   //Usuwanie elementu po indeksie: List.Delete(3);
   if TryTranslateGeneric(Line, PascalCode,
-    ['usuń_z_listy', 'usun_z_listy', 'delete_to_list'], // Aliasy
+    ['usuń_z_listy', 'usun_z_listy', 'delete_from_list'], // Aliasy
     2,                                                 // 2 argumenty: lista i indeks
     //'%s.Delete(%s)',                                   // SZABLON (lista.Delete(indeks))
     '%0.Delete(%1)',
@@ -3484,7 +3599,7 @@ begin
 
   //Usuwanie elementu po wartości: List.Delete(List.IndexOf('tekst'));
   if TryTranslateGeneric(Line, PascalCode,
-    ['usuń_z_listy_id', 'usun_z_listy_id', 'delete_to_list_id'],
+    ['usuń_z_listy_id', 'usun_z_listy_id', 'delete_from_list_id'],
     2,
     //'%0:s.Delete(%0:s.IndexOf(%1:s))',
     '%0.Delete(%0.IndexOf(%1))',
@@ -4189,74 +4304,6 @@ end;
   end;
 end;
 
-function TAvocadoTranslator.TryTranslateGeneric(const Line: string;
-  PascalCode: TStringList; Aliases: array of string; RequiredArgs: Integer;
-  PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg: String
-  ): Boolean;
-var
-  ParamPartsList: TStringList;
-  Args: array of string;
-  StartPos, EndPos, i: Integer;
-  ParamStr, TrimmedLine, LowerLine: string;
-  IsFound: Boolean;
-  FinalCode: string;
-begin
-    Result := False;
-    TrimmedLine := Trim(Line);
-    LowerLine := LowerCase(TrimmedLine);
-
-    // Sprawdź czy jakikolwiek alias pasuje
-    IsFound := False;
-    for i := Low(Aliases) to High(Aliases) do
-    begin
-      if LowerLine.StartsWith(Aliases[i] + '(') then
-      IsFound := True;
-      Break; // Znaleziono - nie szukamy dalej
-    end;
-
-    if not IsFound then Exit;
-
-    StartPos := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine);
-    if (StartPos = 0) or (EndPos = 0) or (StartPos > EndPos) then
-      raise Exception.Create(SyntaxErrorMsg + Aliases[0]);
-
-    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-    ParamPartsList := TStringList.Create;
-    try
-      SplitArguments(ParamStr, ParamPartsList);
-
-      //if ParamPartsList.Count <> RequiredArgs then
-      //  raise Exception.Create(ErrorMsg + ' (Oczekiwano ' + IntToStr(RequiredArgs) + ')');
-      if ParamPartsList.Count <> RequiredArgs then
-      raise Exception.Create(ArgCountErrorMsg + ' (Oczekiwano: ' +
-          IntToStr(RequiredArgs) + ', otrzymano: ' +
-          IntToStr(ParamPartsList.Count) + ')');
-
-      // Tłumaczenie argumentów
-      SetLength(Args, RequiredArgs);
-      for i := 0 to RequiredArgs - 1 do
-        Args[i] := TranslateExpression(Trim(ParamPartsList[i]));
-
-      FinalCode := PascalTemplate;
-      {// Składanie kodu Pascala przy użyciu szablonu
-      case RequiredArgs of
-        1: PascalCode.Add(Format(PascalTemplate + ';', [Args[0]]));
-        2: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1]]));
-        3: PascalCode.Add(Format(PascalTemplate + ';', [Args[0], Args[1], Args[2]]));
-      end;
-      }
-    for i := 0 to RequiredArgs - 1 do
-    begin
-      FinalCode := StringReplace(FinalCode, '%' + IntToStr(i), Args[i], [rfReplaceAll]);
-    end;
-    if not FinalCode.EndsWith(';') then FinalCode := FinalCode + ';';
-        PascalCode.Add(FinalCode);
-      Result := True;
-    finally
-      ParamPartsList.Free;
-    end;
-end;
 
 
 
@@ -4278,6 +4325,18 @@ DetectedCodePage: string;
 WinCP: string;
 IsGUI: Boolean;
 begin
+  //usuwa smieci BOM
+  if (AvocadoCode.Count > 0) and (Length(AvocadoCode[0]) >= 3) then
+  begin
+    if (AvocadoCode[0][1] = #$EF) and
+       (AvocadoCode[0][2] = #$BB) and
+       (AvocadoCode[0][3] = #$BF) then
+    begin
+      AvocadoCode[0] := Copy(AvocadoCode[0], 4, MaxInt);
+    end;
+  end;
+
+
     // 1. Inicjalizacja ---
   SetLength(FVariables, 0);
   FInRepeatBlock := False;

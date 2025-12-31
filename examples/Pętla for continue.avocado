@@ -6,10 +6,10 @@ end.
 procedure test
 start
 int i = 0
-  dla i = 1 do 4 wykonać
+  dla i = 1 do 4 wykonaj
   start
     jeżeli i = 3 wtedy
-     kontynuować
+     kontynuuj
      pisz_linie(i)
   end
 end
