@@ -406,3 +406,13 @@ block_write
 wyłączny
 wylaczny
 exclusive
+dslowo
+dsłowo
+dword
+czytaj_bajt
+read_byte
+czytaj_słowo 
+read_word
+czytaj_slowo
+read_dword
+czytaj_dsłowo

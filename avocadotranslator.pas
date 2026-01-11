@@ -833,6 +833,9 @@ begin
     'strumień_pliku', 'strumien_pliku', 'file_stream':
       Exit('TFileStream');
 
+    'dslowo', 'dsłowo', 'dword':
+      Exit('DWord');
+
      //UI windows
 
      //uchwyt
@@ -1295,7 +1298,8 @@ begin
      (VarType = 'stala') or
      (VarType = 'tekstld') or
      (VarType = 'qliczba') or
-
+     (VarType = 'dslowo') or
+     (VarType = 'dsłowo') or
 
      // angielskie odpowiedniki
      (VarType = 'int') or
@@ -1333,6 +1337,7 @@ begin
      (VarType = 'informacje_o_wyszukaniu') or
      (VarType = 'qword') or
      (VarType = 'string_list') or
+     (VarType = 'dword') or
      (VarType = 'search_record')
   then
   begin
@@ -2103,44 +2108,7 @@ begin
     if NeedsAsmIntel then
       PascalCode.Insert(0, '{$ASMMODE intel}'); // To powinno być raczej na końcu wstawiania, ale zostawiam jak masz
   end;
-  {
-  DirectIndex := -1;
-  for i := 0 to PascalCode.Count - 1 do
-  begin
-    if Trim(LowerCase(PascalCode[i])).StartsWith('program ') then
-  begin DirectIndex := i;
-    Break;
-  end;
-  end; // Jeśli znaleziono "program"
 
-    if DirectIndex <> -1 then
-    begin
-      PascalCode.Insert(DirectIndex, '{$H+}');
-      PascalCode.Insert(DirectIndex, '{$mode objfpc}');
-      //PascalCode.Insert(DirectIndex, '{$codepage cp1250}');
-      //automatycznie wykrywa
-      //PascalCode.Insert(DirectIndex, '{$codepage utf8}');
-      // Opcjonalnie asm:
-      if NeedsAsmIntel then
-        PascalCode.Insert(DirectIndex, '{$ASMMODE intel}');
-      end else
-      begin
-
-      // Gdyby z jakiegoś powodu "program" nie było:
-      PascalCode.Insert(0, '{$mode objfpc}');
-      PascalCode.Insert(1, '{$H+}'); //PascalCode.Insert(0, '{$codepage utf8}');
-      //PascalCode.Insert(0, '{$codepage cp1250}');
-      //automatycznie wykrywa
-      if NeedsAsmIntel then
-      PascalCode.Insert(0, '{$ASMMODE intel}');
-      end;
-
-
-      //Sprawdzam jaki typ aplikacji konslowy czy z GUI
-      //if IsConsoleProgram = False then
-     // PascalCode.Insert(2,'{$APPTYPE GUI}');
-      //Aplikacja konsolowa: True
-   }
 end;
 
 
@@ -3721,6 +3689,33 @@ begin
      '%0 := TFileStream.Create(%1,%2)',
      'BŁĄD SKŁADNI: Funkcja twórz_strumień_pliku / tworz_strumien_pliku / create_file_stream  wymaga nawiasów.',
      'BŁĄD ARGUMENTÓW: Funkcja twórz_strumień_pliku / tworz_strumien_pliku / create_file_stream wymaga 3 argumentów (Nazwa listy,''Nazwa pliku z rozszerzeniem '',Tryb odczytu).') then
+  Exit;
+
+   //ReadByte: Byte;  odczyt 1 bajtu
+  if TryTranslateGeneric(Line, PascalCode,
+    ['czytaj_bajt','read_byte'],
+    2,
+     '%0 := %1.ReadByte',
+     'BŁĄD SKŁADNI: Funkcja czytaj_bajt  / read_byte  wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja czytaj_bajt / read_byte  wymaga 2 argumentów (zmienna dword / dslowo,''strumień_pliku.'').') then
+  Exit;
+
+  //ReadWord: Word; - odczyt 2 bajtów (UInt16)
+  if TryTranslateGeneric(Line, PascalCode,
+    ['czytaj_słowo','czytaj_slowo','read_word'],
+    2,
+     '%0 := %1.ReadWord',
+     'BŁĄD SKŁADNI: Funkcja czytaj_słowo  / read_word  wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja czytaj_słowo / read_word  wymaga 2 argumentów (zmienna dword / dslowo,''strumień_pliku.'').') then
+  Exit;
+
+  //ReadDWord: DWord; - odczyt 4 bajtów (UInt32)
+  if TryTranslateGeneric(Line, PascalCode,
+    ['czytaj_dsłowo','read_dword'],
+    2,
+     '%0 := %1.ReadDWord',
+     'BŁĄD SKŁADNI: Funkcja czytaj_dsłowo / czytaj_dslowo /  read_dword  wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja czytaj_dsłowo / czytaj_dslowo / read_dword  wymaga 2 argumentów (zmienna dword / dslowo,''strumień_pliku.'').') then
   Exit;
 
 

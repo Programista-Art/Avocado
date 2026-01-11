@@ -59,7 +59,7 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="246"/>
+        <TopLine Value="247"/>
         <CursorPos X="3" Y="260"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -81,11 +81,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="106"/>
-        <CursorPos X="27" Y="120"/>
+        <TopLine Value="3696"/>
+        <CursorPos X="20" Y="3714"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
-          <Item0 Y="4354" Left="1" Top="4354"/>
+          <Item0 Y="4349" Left="1" Top="4349"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -247,7 +247,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="17"/>
         <CursorPos X="48" Y="39"/>
-        <UsageCount Value="81"/>
+        <UsageCount Value="84"/>
       </Unit>
       <Unit>
         <Filename Value="matematyka.pas"/>
@@ -354,14 +354,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="3200" Column="24" TopLine="3178"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="335" Column="27" TopLine="331"/>
-      </Position>
       <Position>
         <Filename Value="avocadotranslator.pas"/>
         <Caret Line="1258" Column="43" TopLine="1247"/>
@@ -473,6 +465,14 @@
       <Position>
         <Filename Value="avocadotranslator.pas"/>
         <Caret Line="99" Column="20" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="82" Column="26" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="avocadotranslator.pas"/>
+        <Caret Line="3705" Column="29" TopLine="3691"/>
       </Position>
     </JumpHistory>
     <RunParams>

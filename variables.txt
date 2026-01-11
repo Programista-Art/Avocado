@@ -100,3 +100,6 @@ dialog_komunikatu
 strumień_pliku
 strumien_pliku
 file_stream
+dslowo
+dsłowo
+dword
