@@ -97,3 +97,6 @@ parametry_ui
 ui_parameters
 msg
 dialog_komunikatu
+strumień_pliku
+strumien_pliku
+file_stream

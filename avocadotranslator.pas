@@ -108,6 +108,29 @@ const
     //Polish aliases
    // (FromText: ' i '; ToText: ' and '; Flags: [rfReplaceAll]; IsPrefix: False),
    // (FromText: ' lub '; ToText: ' or '; Flags: [rfReplaceAll]; IsPrefix: False),
+    //Dotyczy TFileStream
+   (FromText: '[tylko_odczyt]'; ToText: 'fmOpenRead'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[tylko_zapis]'; ToText: 'fmOpenWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[odczyt_i_zapis]'; ToText: 'fmOpenReadWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[stwórz_nowy]'; ToText: 'fmCreate'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[stworz_nowy]'; ToText: 'fmCreate'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[wspolny]'; ToText: 'fmShareDenyNone'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[wspólny]'; ToText: 'fmShareDenyNone'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[blokuj_odczyt]'; ToText: 'fmShareDenyRead'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[blokuj_zapis]'; ToText: 'fmShareDenyWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[wyłączny]'; ToText: 'fmShareExclusive'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[wylaczny]'; ToText: 'fmShareExclusive'; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+   (FromText: '[open_read]'; ToText: 'fmOpenRead'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[open_write]'; ToText: 'fmOpenWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[open_read_write]'; ToText: 'fmOpenReadWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[create_new]'; ToText: 'fmCreate'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[common]'; ToText: 'fmShareDenyNone'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[block_read]'; ToText: 'fmShareDenyRead'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[block_write]'; ToText: 'fmShareDenyWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
+   (FromText: '[exclusive]'; ToText: 'fmShareExclusive'; Flags: [rfReplaceAll]; IsPrefix: False),
+
+     //
     (FromText: 'prawda'; ToText: 'True'; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'falsz'; ToText: 'False'; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'tekst_w_liczbe_cal('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
@@ -807,6 +830,9 @@ begin
     'lista_tekstów', 'lista_tekstow', 'string_list':
       Exit('TStringList');
 
+    'strumień_pliku', 'strumien_pliku', 'file_stream':
+      Exit('TFileStream');
+
      //UI windows
 
      //uchwyt
@@ -874,6 +900,9 @@ begin
          (VarType = 'lista_tekstów') or
          (VarType = 'lista_tekstow') or
          (VarType = 'string_list') or
+         (VarType = 'strumień_pliku') or
+         (VarType = 'strumien_pliku') or
+         (VarType = 'file_stream') or
          (VarType = 'uchwyt_okna') or
          (VarType = 'hwnd') or
          (VarType = 'parametry_ui') or
@@ -911,6 +940,9 @@ begin
        (VarType = 'lista_tekstów') or
        (VarType = 'lista_tekstow') or
        (VarType = 'string_list') or
+        (VarType = 'strumień_pliku') or
+        (VarType = 'strumien_pliku') or
+        (VarType = 'file_stream') or
        (VarType = 'text_file') then
     begin
       if (LowerCase(VarValue) = 'nil') or (LowerCase(VarValue) = 'nic') then
@@ -1170,6 +1202,9 @@ begin
      LowerCase(TrimmedLine).StartsWith('lista_tekstow') or
      LowerCase(TrimmedLine).StartsWith('string_list') or
      LowerCase(TrimmedLine).StartsWith('file') or
+     LowerCase(TrimmedLine).StartsWith('strumień_pliku') or
+     LowerCase(TrimmedLine).StartsWith('strumien_pliku') or
+     LowerCase(TrimmedLine).StartsWith('file_stream') or
      //ui
      LowerCase(TrimmedLine).StartsWith('uchwyt_okna') or
      LowerCase(TrimmedLine).StartsWith('hwnd') or
@@ -1475,60 +1510,6 @@ begin
   begin
     PascalCode.Add(TranslatedLine);
   end;
-  {
-  TranslatedLine := Trim(Line);
-    TranslatedLine := StringReplace(TranslatedLine, 'dla', 'for', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'dla ', 'for ', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, ' dla ', ' for ', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'malejąco', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'malejaco', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'descending', 'downto', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, ' == ', '=', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, '==', '=', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, ' = ', ' := ', [rfReplaceAll]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonać','do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'wykonac','do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, 'make', 'do', [rfReplaceAll, rfIgnoreCase]);
-    TranslatedLine := StringReplace(TranslatedLine, ' do ', ' to ', [rfReplaceAll, rfIgnoreCase]);
-
-    // ' to ' lub ' downto ' do rozdzielenia początku i końca pętli
-  Parts := TranslatedLine.Split([' to ', ' downto '], 3);
-
-  if Length(Parts) >= 2 then
-  begin
-    EndExpr := Trim(StringReplace(Parts[1], ' do', '', [rfIgnoreCase]));
-
-    TranslatedEndExpr := TranslateExpression(EndExpr); // Przetłumaczy 'ilość(h)' na 'h.Count'
-    ToKeyword := ' to ';
-    if Pos('downto', LowerCase(TranslatedLine)) > 0 then
-      ToKeyword := ' downto ';
-    TranslatedLine := Format('%s%s%s do', [
-      Parts[0], // Np. "for i := 0"
-      ToKeyword,
-      TranslatedEndExpr // Np. "h.Count"
-    ]);
-
-    // 5. Dodanie do kodu Pascala
-    PascalCode.Add(TranslatedLine);
-  end
-  else
-  begin
-    // Jeśli nie udało się sparsować pętli, dodaj błąd lub oryginalną linię
-    PascalCode.Add('// BŁĄD PARSOWANIA PĘTLI: ' + Line);
-  end;
-
-  // Zakładając, że pętla zaczyna się od zera (0)
-  if Pos(':= 0', LowerCase(Parts[0])) > 0 then // Jeśli pętla zaczyna się od 0
-  begin
-    // Dodaj "- 1" do końca, aby uniknąć błędu "Index out of bounds"
-    TranslatedEndExpr := TranslatedEndExpr + ' - 1';
-  end;
-
-  // Następnie, przy generowaniu linii Pascala:
-  PascalCode.Add(Format('for i := 0 to %s do', [TranslatedEndExpr]));
-
-    PascalCode.Add(TranslatedLine);
-    }
 end;
 
 function TAvocadoTranslator.TryTranslateGeneric(const Line: string;
@@ -1550,9 +1531,11 @@ begin
     IsFound := False;
     for i := Low(Aliases) to High(Aliases) do
     begin
-      if LowerLine.StartsWith(Aliases[i] + '(') then
-      IsFound := True;
-      Break;
+      if LowerLine.StartsWith(LowerCase(Aliases[i]) + '(') then
+        begin
+          IsFound := True;
+          Break;
+        end;
     end;
 
     if not IsFound then Exit;
@@ -3480,8 +3463,8 @@ begin
 
       //STRINGLIST OBJECT
 
-  if (LowerCase(TrimmedLine).StartsWith('twórz_lista_tekstów(')) or
-  (LowerCase(TrimmedLine).StartsWith('tworz_lista_tekstow(')) or
+  if (LowerCase(TrimmedLine).StartsWith('twórz_listę_tekstów(')) or
+  (LowerCase(TrimmedLine).StartsWith('tworz_liste_tekstow(')) or
   (LowerCase(TrimmedLine).StartsWith('create_string_list(')) then
   begin
     // 1. Szukamy nawiasów
@@ -3490,7 +3473,7 @@ begin
 
     // 2. Walidacja błędów składni
     if (OpenPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błąd: Brak nawiasów w funkcji twórz_lista_tekstów / tworz_lista_tekstow / create_string_list ');
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji twórz_listę_tekstów / tworz_liste_tekstow / create_string_list ');
 
     if OpenPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpeningBracket);
@@ -3505,15 +3488,15 @@ begin
   end;
 
   // DODAWANIE DO STRINGLIST
-  if (Pos('dodaj_lista(', LowerTrimmedLine) > 0) or
-     (Pos('add_list(', LowerTrimmedLine) > 0) then
+  if (Pos('dodaj_do_listy(', LowerTrimmedLine) > 0) or
+     (Pos('add_to_list(', LowerTrimmedLine) > 0) then
   begin
     StartPos := Pos('(', TrimmedLine);
     EndPos := RPos(')', TrimmedLine);
 
     // 1. Walidacja nawiasów
     if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błąd: Brak nawiasów w funkcji dodaj_lista / add_list');
+      raise Exception.Create('Błąd: Brak nawiasów w funkcji dodaj_do_listy / add_to_list');
 
     if StartPos > EndPos then
       raise Exception.Create(TranslateClosingBracketBeforeOpening);
@@ -3677,6 +3660,68 @@ begin
      'BŁĄD ARGUMENTÓW: Funkcja załaduj_z_pliku / load_from_file wymaga 2 argumentów (lista, ''nazwa pliku z rozszerzeniem'').') then
   Exit;
 
+  //Zapisywanie z listy do pliku: List.SaveToFile('plik.txt');
+   if TryTranslateGeneric(Line, PascalCode,
+    ['zapisz_do_pliku', 'save_to_file'],
+    2,
+     '%0.SaveToFile(%1)',
+     'BŁĄD SKŁADNI: Funkcja zapisz_do_pliku / save_to_file wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja zapisz_do_pliku / save_to_file wymaga 2 argumentów (lista, ''nazwa pliku z rozszerzeniem'').') then
+  Exit;
+
+
+  //oznacza, że porównywanie tekstów w TStringList będzie rozróżniać wielkość liter.
+  //List.CaseSensitive := True;
+   if TryTranslateGeneric(Line, PascalCode,
+    ['uwzględnia_wielkość_liter','uwzglednia_wielkosc_liter', 'case_sensitive'],
+    2,
+     '%0.CaseSensitive := %1',
+     'BŁĄD SKŁADNI: Funkcja uwzględnia_wielkość_liter / uwzglednia_wielkosc_liter / case_sensitive wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja uwzględnia_wielkość_liter / uwzglednia_wielkosc_liter / case_sensitive wymaga 2 argumentów (lista, ''Prawda / Falsz'').') then
+  Exit;
+
+  //co zrobić z duplikatami w StringList
+  {
+    List.Duplicates := dupIgnore;   // ignoruj
+    List.Duplicates := dupAccept;   // akceptuj
+    List.Duplicates := dupError;    // błąd
+  }
+  //List.Duplicates := dupIgnore;   // ignoruj
+   if TryTranslateGeneric(Line, PascalCode,
+    ['ignoruj_duplikaty','ignore_duplicates'],
+    1,
+     '%0.Duplicates := dupIgnore',
+     'BŁĄD SKŁADNI: Funkcja igrnoruj_duplikaty / ignore_duplicates wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja igrnoruj_duplikaty / ignore_duplicates wymaga 1 argumentu (Nazwa listy).') then
+  Exit;
+
+  // List.Duplicates := dupAccept;   // akceptuj
+   if TryTranslateGeneric(Line, PascalCode,
+    ['akceptuj_duplikaty','accept_duplicates'],
+    1,
+     '%0.Duplicates := dupAccept',
+     'BŁĄD SKŁADNI: Funkcja akceptuj_duplikaty / accept_duplicates  wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja akceptuj_duplikaty / accept_duplicates wymaga 1 argumentu (Nazwa listy).') then
+  Exit;
+
+   //List.Duplicates := dupError;    // błąd
+   if TryTranslateGeneric(Line, PascalCode,
+    ['błąd_duplikaty','blad_duplikaty','error_duplicates'],
+    1,
+     '%0.Duplicates := dupError',
+     'BŁĄD SKŁADNI: Funkcja błąd_duplikaty / blad_duplikaty / error_duplicates  wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja błąd_duplikaty / blad_duplikaty / error_duplicates wymaga 1 argumentu (Nazwa listy).') then
+  Exit;
+
+
+  //FS := TFileStream.Create('test.txt', fmOpenRead);
+  if TryTranslateGeneric(Line, PascalCode,
+    ['twórz_strumień_pliku','tworz_strumien_pliku','create_file_stream'],
+    3,
+     '%0 := TFileStream.Create(%1,%2)',
+     'BŁĄD SKŁADNI: Funkcja twórz_strumień_pliku / tworz_strumien_pliku / create_file_stream  wymaga nawiasów.',
+     'BŁĄD ARGUMENTÓW: Funkcja twórz_strumień_pliku / tworz_strumien_pliku / create_file_stream wymaga 3 argumentów (Nazwa listy,''Nazwa pliku z rozszerzeniem '',Tryb odczytu).') then
+  Exit;
 
 
   // Obsługa funkcji parametr_programu / get_argument -> ParamStr
