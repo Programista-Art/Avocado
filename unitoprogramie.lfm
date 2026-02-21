@@ -1,19 +1,19 @@
 object FormOprogramie: TFormOprogramie
   Left = 350
-  Height = 191
+  Height = 218
   Top = 250
-  Width = 320
+  Width = 340
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'O programie'
-  ClientHeight = 191
-  ClientWidth = 320
+  ClientHeight = 218
+  ClientWidth = 340
   Position = poMainFormCenter
   object Memo1: TMemo
     Left = 0
-    Height = 159
+    Height = 186
     Top = 0
-    Width = 320
+    Width = 340
     Align = alClient
     Alignment = taCenter
     Color = clBlack
@@ -24,10 +24,12 @@ object FormOprogramie: TFormOprogramie
     Font.Quality = fqDraft
     Lines.Strings = (
       'Avocado IDE'
-      'A development environment for the Avocado programming language, including the Avocado language itself.'
-      'Updated: November 29, 2025.'
+      'Środowisko programistyczne dla polskiego języka programowania Avocado, '
+      'w tym sam język Avocado.'
+      'Zaktualizowano: 21.02.2026 r.'
       'www.avocado.dimitalart.pl'
-      'New website www.avocado.code.com'
+      'Oficjalna strona internetowa '
+      'www.avocado.code.com'
     )
     ParentFont = False
     ReadOnly = True
@@ -36,29 +38,29 @@ object FormOprogramie: TFormOprogramie
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 159
-    Width = 320
+    Top = 186
+    Width = 340
     Align = alBottom
     Caption = 'Panel1'
     ClientHeight = 32
-    ClientWidth = 320
+    ClientWidth = 340
     ParentBackground = False
     TabOrder = 1
     object Panel2: TPanel
       Left = 1
       Height = 32
       Top = -1
-      Width = 318
+      Width = 338
       Align = alBottom
       BevelColor = clWindow
       ClientHeight = 32
-      ClientWidth = 318
+      ClientWidth = 338
       Color = clWindow
       ParentBackground = False
       ParentColor = False
       TabOrder = 0
       object SpeedButton1: TSpeedButton
-        Left = 287
+        Left = 307
         Height = 30
         Top = 1
         Width = 30

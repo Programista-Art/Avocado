@@ -2,29 +2,29 @@ object FormAutor: TFormAutor
   Left = 350
   Height = 152
   Top = 250
-  Width = 320
+  Width = 342
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Author'
   ClientHeight = 152
-  ClientWidth = 320
+  ClientWidth = 342
   Color = 2697513
   Position = poMainFormCenter
   object Panel1: TPanel
     Left = 0
     Height = 32
     Top = 120
-    Width = 320
+    Width = 342
     Align = alBottom
     BevelColor = clBlack
     ClientHeight = 32
-    ClientWidth = 320
+    ClientWidth = 342
     Color = clBlack
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object SpeedButton1: TSpeedButton
-      Left = 289
+      Left = 311
       Height = 30
       Top = 1
       Width = 30
@@ -38,7 +38,7 @@ object FormAutor: TFormAutor
     Left = 0
     Height = 94
     Top = 0
-    Width = 320
+    Width = 342
     Align = alClient
     Alignment = taCenter
     Color = clBlack
@@ -48,8 +48,8 @@ object FormAutor: TFormAutor
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
-      'The author of the Avocado programming '
-      'language is Programista Art'
+      'Autorem języka programowania Avocado jest '
+      'Programista Art'
     )
     ParentFont = False
     ReadOnly = True
@@ -59,11 +59,11 @@ object FormAutor: TFormAutor
     Left = 0
     Height = 26
     Top = 94
-    Width = 320
+    Width = 342
     Align = alBottom
     BevelColor = clWindow
     ClientHeight = 26
-    ClientWidth = 320
+    ClientWidth = 342
     Color = clWindow
     ParentBackground = False
     ParentColor = False

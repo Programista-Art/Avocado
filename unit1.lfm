@@ -1990,6 +1990,7 @@ object FormMain: TFormMain
       'czytaj_slowo'
       'read_dword'
       'czytaj_dsłowo'
+      'run(var msg: TMsg);  '
     )
     Position = 0
     LinesInWindow = 10
@@ -2268,9 +2269,12 @@ object FormMain: TFormMain
       'REPLACE_TEXT'
       'RETURN'
       'RęCZNIE_SORTUJ_LISTę'
+      'RUN'
+      'RUN(VAR MSG: TMSG);  '
       'SAVE_TO_FILE'
       'SEARCH'
       'SEARCH_VALUE_IN_LIST'
+      'SET_DARK_MODE'
       'SET_ENV'
       'SET_LENGTH'
       'SET_TEXT'

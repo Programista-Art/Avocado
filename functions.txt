@@ -266,3 +266,5 @@ read_word
 czytaj_slowo
 read_dword
 czytaj_dsłowo
+set_dark_mode
+run

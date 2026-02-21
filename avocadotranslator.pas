@@ -100,6 +100,11 @@ end;
     //Aliasy
     function ResolveAlias(const AName: string): string;
     procedure ProcessFileDeclaration(const Line: string);
+
+    // Sprawdza, czy kod zawiera którąkolwiek z przekazanych nazw funkcji
+    function ContainsFunction(const CodeLine: string; const Functions: array of string): Boolean;
+    // Bezpiecznie dodaje moduł do sekcji uses, zapobiegając duplikatom
+    procedure AddModule(var ModulesList: string; const ModuleName: string);
   end;
 
 const
@@ -958,6 +963,31 @@ begin
     raise Exception.Create(TranslateUnknownFileType + VarType);
 end;
 
+function TAvocadoTranslator.ContainsFunction(const CodeLine: string;
+  const Functions: array of string): Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+    for i := Low(Functions) to High(Functions) do
+    begin
+      if Pos(Functions[i], CodeLine) > 0 then
+        Exit(True);
+    end;
+end;
+
+procedure TAvocadoTranslator.AddModule(var ModulesList: string;
+  const ModuleName: string);
+begin
+  if Pos(ModuleName, ModulesList) = 0 then
+  begin
+    if ModulesList <> '' then
+      ModulesList := ModulesList + ', ' + ModuleName
+    else
+      ModulesList := ModuleName;
+  end;
+end;
+
 function IsInsideAnotherFunction(const Line, FuncName: string): Boolean;
 var
   FuncPos, OpenParenBefore, CloseParenAfter: Integer;
@@ -1629,6 +1659,7 @@ var
   Lines: TStringList;
   i: Integer;
   Line, ModulesList: string;
+  LowerCode: string;
 begin
   ModulesList := '';
   Lines := TStringList.Create;
@@ -1650,62 +1681,80 @@ begin
         Continue;
 
       Line := Trim(Line);
-
-      // Dodaj do listy modułów
+      // Dodaj bezpośrednio zaimportowany moduł do listy
       if Line <> '' then
-      begin
-        if ModulesList = '' then
-          ModulesList := Line
-        else
-          ModulesList := ModulesList + ', ' + Line;
-      end;
+        AddModule(ModulesList, Line);
     end;
 
+    LowerCode := LowerCase(Code);
+
+    // Crt
+    if ContainsFunction(LowerCode, [
+      'czytaj_klawisz', 'read_key', 'tło_tekstu', 'tlo_tekstu', 'text_background',
+      'kolor_tekstu', 'text_color', 'pozycja_kursora', 'cursor_position',
+      'przypisz_plik', 'klawisz_wciśnięty', 'key pressed'
+    ]) then
+      AddModule(ModulesList, 'Crt');
+
+    // Internet
+    if ContainsFunction(LowerCode, ['pobierz_plik(']) then
+      AddModule(ModulesList, 'internet');
+
+    // AVORAISER Kontrolki (Pojedyncze)
+    if ContainsFunction(LowerCode, ['create_window(']) then AddModule(ModulesList, 'avoraiser.window');
+    if ContainsFunction(LowerCode, ['create_edit(']) then AddModule(ModulesList, 'avoraiser.edit');
+    if ContainsFunction(LowerCode, ['create_trackbar(']) then AddModule(ModulesList, 'avoraiser.trackbar');
+    if ContainsFunction(LowerCode, ['create_button(']) then AddModule(ModulesList, 'avoraiser.button');
+    if ContainsFunction(LowerCode, ['create_memo(']) then AddModule(ModulesList, 'avoraiser.memo');
+    if ContainsFunction(LowerCode, ['create_rich_edit(']) then AddModule(ModulesList, 'avoraiser.richedit');
+    if ContainsFunction(LowerCode, ['create_label(']) then AddModule(ModulesList, 'avoraiser.labels');
+    if ContainsFunction(LowerCode, ['getpropint(']) then AddModule(ModulesList, 'avoraiser.shape');
+    if ContainsFunction(LowerCode, ['create_combo_box(']) then AddModule(ModulesList, 'avoraiser.combobox');
+    if ContainsFunction(LowerCode, ['create_listbox(']) then AddModule(ModulesList, 'avoraiser.listbox');
+    if ContainsFunction(LowerCode, ['create_checkbox(']) then AddModule(ModulesList, 'avoraiser.chekbox');
+    if ContainsFunction(LowerCode, ['create_radio_button(']) then AddModule(ModulesList, 'avoraiser.radiobutton');
+    if ContainsFunction(LowerCode, ['create_group_box(']) then AddModule(ModulesList, 'avoraiser.groupbutton');
+    if ContainsFunction(LowerCode, ['create_progressbar(']) then AddModule(ModulesList, 'avoraiser.progressbar');
+    if ContainsFunction(LowerCode, ['create_spin_edit(']) then AddModule(ModulesList, 'avoraiser.spinedit');
+
+    // AVORAISER Moduły zbiorcze
+    if ContainsFunction(LowerCode, [
+      'set_on_time_change(', 'set_on_init_popup(', 'clear_timepicker_props('
+    ]) then
+      AddModule(ModulesList, 'avoraiser.timepicker');
+
+    if ContainsFunction(LowerCode, [
+      'set_on_context_menu(', 'set_on_init_menu_popup(', 'set_on_menu_select(', 'set_on_menu_command('
+    ]) then
+      AddModule(ModulesList, 'avoraiser.menu');
+
+    if ContainsFunction(LowerCode, [
+      'center_window(', 'set_position(', 'set_size(', 'get_x(', 'get_y(',
+      'get_width(', 'get_height(', 'get_client_area(', 'create_frame('
+    ]) then
+      AddModule(ModulesList, 'avoraiser.layout');
+
+    if ContainsFunction(LowerCode, [
+      'show_message(', 'ask_question(', 'show_warning(', 'show_custom_dialog(', 'set_dialog_language(',
+      'input_box(', 'password_box(', 'show_toast(', 'show_action_sheet(' ,'show_progress_dialog(',
+      'update_progress(','get_file_name_from_user('
+    ]) then
+      AddModule(ModulesList, 'avoraiser.dialogs');
+
+
+    if ContainsFunction(LowerCode, [
+      'copy_to_clipboard(', 'cut_to_clipboard(', 'paste_from_clipboard(', 'undo_last_action(', 'can_undo(',
+      'show_context_menu('
+    ]) then
+      AddModule(ModulesList, 'avoraiser.clipboard');
+
+
+
+    // Zwrócenie wynikowej listy modułów
     Result := ModulesList;
-
-
-    // Add “Crt” if keywords are detected in the code
-    // Dodaj 'Crt' jeśli wykryto slowa kluczowe w kodzie
-    if (Pos('czytaj_klawisz', LowerCase(Code)) > 0) or
-     (Pos('read_key', LowerCase(Code)) > 0) or
-
-     (Pos('tło_tekstu', LowerCase(Code)) > 0) or
-     (Pos('tlo_tekstu', LowerCase(Code)) > 0) or
-     (Pos('text_background', LowerCase(Code)) > 0) or
-
-     (Pos('kolor_tekstu', LowerCase(Code)) > 0) or
-     (Pos('text_color', LowerCase(Code)) > 0) or
-
-     (Pos('pozycja_kursora', LowerCase(Code)) > 0) or
-     (Pos('cursor_position', LowerCase(Code)) > 0) or
-
-     (Pos('przypisz_plik', LowerCase(Code)) > 0) or
-     (Pos('klawisz_wciśnięty', LowerCase(Code)) > 0) or
-     (Pos('key pressed', LowerCase(Code)) > 0) then
-
-    begin
-      if ModulesList <> '' then
-        ModulesList := ModulesList + ', Crt'
-      else
-        ModulesList := 'Crt';
-    end;
-
-       //Jesli potzrebny modul internet
-        if (Pos('pobierz_plik(', LowerCase(Code)) > 0)then
-        begin
-          if ModulesList <> '' then
-            ModulesList := ModulesList + ', internet'
-          else
-            ModulesList := 'internet';
-        end;
-      //other / inne
-      // Returning the resulting list of modules
-      // Zwrócenie wynikowej listy modułów
-      Result := ModulesList;
-    finally
-      Lines.Free;
-    end;
-
+  finally
+    Lines.Free;
+  end;
 end;
 
 function TAvocadoTranslator.GetImplementationModules(const Code: string
@@ -2082,9 +2131,6 @@ begin
 
   if DirectIndex <> -1 then
   begin
-    // Wstawiamy dyrektywy POD linią "program" (lub nad - zależy jak wolisz, tutaj insert wstawia W to miejsce, przesuwając resztę w dół)
-
-    // Najpierw tryb (ważne dla Lazarusa/FPC)
     PascalCode.Insert(DirectIndex, '{$mode objfpc}');
     PascalCode.Insert(DirectIndex + 1, '{$H+}');
 
@@ -2098,7 +2144,7 @@ begin
   end
   else
   begin
-    // Fallback, gdyby nie znaleziono "program" (np. sam unit)
+    // gdyby nie znaleziono "program"
     PascalCode.Insert(0, '{$mode objfpc}');
     PascalCode.Insert(1, '{$H+}');
 
@@ -2106,7 +2152,7 @@ begin
       PascalCode.Insert(2, '{$APPTYPE GUI}');
 
     if NeedsAsmIntel then
-      PascalCode.Insert(0, '{$ASMMODE intel}'); // To powinno być raczej na końcu wstawiania, ale zostawiam jak masz
+      PascalCode.Insert(0, '{$ASMMODE intel}');
   end;
 
 end;
