@@ -327,6 +327,8 @@ type
     procedure RunPascalInstantly(const PascalCode: string);
 
   public
+    //laduje nazwy funkcji Avoraisera polskie i angielskie do SynAnySyn1 > ObjectAtri podswietlenie skladni
+    procedure LoadFunctionsToHighlighter(const FileName: string);
 
     procedure LoadAvocadoFileToEditor(const FileName: string);
     constructor Create(TheOwner: TComponent); override;
@@ -646,6 +648,9 @@ begin
 
 
   AvocadoVersion := 'IDE Avocado v 2.2.1.0';
+  //Ladowanie funkcji Avoraisera
+  LoadFunctionsToHighlighter('avoraiser_translate.ini');
+
   //dotyczy kolorowania SynEditCode
   //ColoredSynEdit;
   FormMain.Caption := AvocadoVersion;
@@ -1665,19 +1670,34 @@ end;
 
 procedure TFormMain.ToolButton1Click(Sender: TObject);
 begin
- ExtractProgramFromSynEdit;
+  ExtractProgramFromSynEdit;
   try
     MemoOutPut.Clear;
+
+    // 1. Wykonujemy transpilację (używa TranslateCode i słownika .ini wewnątrz)
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
 
-    //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+    // Synchronizujemy flagę GUI z translatora do IDE
+    IsConsoleProgram := not FTranslator.IsGUIProject;
 
-    MemoOutPut.Lines.Add(FTranslatedCode.Text);
-    //BtnCompile.Enabled := True;
+    MemoOutPut.Lines.Text := FTranslatedCode.Text;
+
   except
     on E: Exception do
       MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
   end;
+
+  //  MemoOutPut.Clear;
+  //  FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+  //
+  //  //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+  //
+  //  MemoOutPut.Lines.Add(FTranslatedCode.Text);
+  //  //BtnCompile.Enabled := True;
+  //except
+  //  on E: Exception do
+  //    MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
+  //end;
 end;
 
 procedure TFormMain.butCompileCodeClick(Sender: TObject);
@@ -2713,76 +2733,6 @@ end;
 
 
 
-{
-procedure TFormMain.KompilacjaKoduwPascal(const Code, OutputFile: string);
-var
-  AProcess: TProcess;
-  TempFile: string;
-  OutputLines: TStringList;
-  BuildMode: string;
-begin
-  if SaveFileProject = '' then
-    begin
-    end;
-
-    TempFile := ChangeFileExt(SaveFileProject, '.pas');
-    // Set build mode to Release
-    // Ustaw tryb kompilacji na Release
-    BuildMode := 'Release';
-
-    try
-      MemoOutPut.Lines.SaveToFile(TempFile);
-      AProcess := TProcess.Create(nil);
-      OutputLines := TStringList.Create;
-      try
-        AProcess.Executable := FFpcPath; //link to fpc
-        AProcess.Parameters.Add(TempFile);
-        AProcess.Parameters.Add('-o' + Trim(OutputFile));
-
-        // Dodajemy opcje dla trybu Release
-        if BuildMode = 'Release' then
-        begin
-          MemoLogs.Lines.Add(TranslateCompilingReleaseMode);
-          // Optimization level 2 / Poziom optymalizacji 2
-          AProcess.Parameters.Add('-O3');
-          // Smaller than faster / Mniejsze niz szybsze
-          AProcess.Parameters.Add('-Os');
-          // Clever connection /Sprytne laczenie
-          AProcess.Parameters.Add('-CX');
-          // Smart Connection / Laczenie Sprytne
-          AProcess.Parameters.Add('-XX');
-          // Disabling debug information / Wyłączenie informacji debugowych
-          AProcess.Parameters.Add('-g-');
-        end else
-        begin
-          // Default Debug mode (without optimization and with debug info)
-          // Domyślny tryb Debug (bez optymalizacji i z debug info)
-          MemoLogs.Lines.Add(TranslateCompilingDebugMode);
-        end;
-        AProcess.Options := [poUsePipes, poStderrToOutput];
-        AProcess.ShowWindow := swoHIDE;
-        MemoLogs.Lines.Add(TranslateStartComilation);
-        AProcess.Execute;
-        // Wait for compilation to finish / Czekaj na zakończenie kompilacji
-        AProcess.WaitOnExit;
-        OutputLines.LoadFromStream(AProcess.Output);
-        MemoLogs.Lines.AddStrings(OutputLines);
-        if AProcess.ExitStatus = 0 then
-          MemoLogs.Lines.Add(TranslateComilationSuccessOutputFile + OutputFile)
-        else
-          MemoLogs.Lines.Add(TranslateErrCompilationCode + IntToStr(AProcess.ExitStatus));
-
-      finally
-        AProcess.Free;
-        OutputLines.Free;
-      end;
-    except
-      on E: Exception do
-        MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
-    end;
-end;
-}
-
 procedure TFormMain.ExtractProgramFromSynEdit;
 var
 i: Integer;
@@ -3100,42 +3050,64 @@ begin
     }
 end;
 
-{
-procedure TFormMain.ColoredSynEdit;
-//var
-//hlt : TSynFacilSyn;
+procedure TFormMain.LoadFunctionsToHighlighter(const FileName: string);
+var
+  FilePath: string;
+  Lines: TStringList;
+  i, EqPos: Integer;
+  LineStr, PolishFunc, EnglishFunc: string;
 begin
-  {
-  FHighlighter := TSynFacilSyn.Create(self);
-  SynEditCode.Highlighter := FHighlighter;
-  FHighlighter.LoadFromFile('avocado.xml');
-  }
+    FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + FileName;
 
-  editorSynEditCode := TSynFacilEditor.Create(SynEditCode, 'SinNombre', 'avocado');
-    // 3. Zainicjuj edytor (utwórz "nowy plik")
-  editorSynEditCode.NewFile;
-  //editorSynEditCode.InitMenuRecents(mnRecientes, nil);
-  editorSynEditCode.InitMenuLanguages(nil, ''); // Wyłączamy menu języków
-  // 2. Podłącz zdarzenia do procedur w Twoim formularzu
-  editorSynEditCode.OnChangeEditorState := @ChangeEditorState;
-  editorSynEditCode.OnChangeFileInform := @editChangeFileInform;
+    if not FileExists(FilePath) then
+    begin
+      MemoLogs.Lines.Add('Brak pliku do podświetlania: ' + FileName);
+      Exit;
+    end;
 
+    Lines := TStringList.Create;
+    try
+      Lines.LoadFromFile(FilePath);
 
+      // Zatrzymujemy odświeżanie komponentu na czas ładowania (przyspiesza proces)
+      SynAnySyn1.Objects.BeginUpdate;
+      try
+        // wyczyść starą listę przed załadowaniem nowej
+        SynAnySyn1.Objects.Clear;
 
+        for i := 0 to Lines.Count - 1 do
+        begin
+          LineStr := Trim(Lines[i]);
 
-  // DODAJ TĘ LINIĘ:
-  // Wczytaj plik składni Avocado bezpośrednio.
-  // (Upewnij się, że plik 'avocado.xml' jest w tym samym folderze co .exe
-  // lub podaj pełną ścieżkę, np. 'syntax\avocado.xml')
-  //editorSynEditCode.InitMenuLanguages(nil, '');
-  editorSynEditCode.LoadSyntaxFromFile('avocado.xml');
+          // Ignoruj puste linie oraz komentarze komentarze to ; lub //)
+          if (LineStr = '') or (LineStr[1] = ';') or (Copy(LineStr, 1, 2) = '//') then
+            Continue;
 
-  // 5. Załaduj składnię
-  // Ta funkcja automatycznie znajdzie plik 'syntax\avocado.xml'
-  // na podstawie domyślnego rozszerzenia ('avocado') ustawionego w Create.
-  //editorSynEditCode.LoadSyntaxFromPath;
+          // Jeśli linia zawiera znak '=', rozdzielamy ją ( dla avoraise_tlumaczenia.ini
+          EqPos := Pos('=', LineStr);
+          if EqPos > 0 then
+          begin
+            PolishFunc := Trim(Copy(LineStr, 1, EqPos - 1));
+            EnglishFunc := Trim(Copy(LineStr, EqPos + 1, MaxInt));
+
+            if PolishFunc <> '' then SynAnySyn1.Objects.Add(PolishFunc);
+            if EnglishFunc <> '' then SynAnySyn1.Objects.Add(EnglishFunc);
+          end
+          else
+          begin
+            // Zwykły plik (np. functions.txt), po prostu dodajemy linię
+            SynAnySyn1.Objects.Add(LineStr);
+          end;
+        end;
+      finally
+        // Wznawiamy odświeżanie - słowa zostaną pokolorowane
+        SynAnySyn1.Objects.EndUpdate;
+      end;
+
+    finally
+      Lines.Free;
+    end;
 end;
-}
 
 
 procedure TFormMain.LoadAvocadoFileToEditor(const FileName: string);
