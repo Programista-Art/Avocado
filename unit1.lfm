@@ -1533,6 +1533,7 @@ object FormMain: TFormMain
     end
   end
   object SynCompletion1: TSynCompletion
+    OnBeforeExecute = SynCompletion1BeforeExecute
     ItemList.Strings = (
       'calc'
       'print'
@@ -1996,13 +1997,12 @@ object FormMain: TFormMain
     LinesInWindow = 10
     SelectedColor = 2458919
     CaseSensitive = False
-    Width = 150
+    Width = 600
     LongLineHintTime = 2
-    DoubleClickSelects = False
-    ShowSizeDrag = True
     AutoUseSingleIdent = True
     ShortCut = 16416
-    EndOfTokenChr = '()[].'
+    EndOfTokenChr = '()[]'
+    OnCodeCompletion = SynCompletion1CodeCompletion
     ExecCommandID = ecSynCompletionExecute
     Editor = SynEditCode
     ToggleReplaceWhole = True
@@ -2095,6 +2095,7 @@ object FormMain: TFormMain
     Top = 48
   end
   object SynAnySyn1: TSynAnySyn
+    Enabled = False
     CommentAttri.Foreground = 11524290
     CommentAttri.FrameColor = clWindow
     CommentAttri.Style = [fsBold, fsItalic]
@@ -2117,6 +2118,7 @@ object FormMain: TFormMain
     KeyWords.Strings = (
       '.FREE'
       '.ZWOLNIJ '
+      '_N_'
       'ACCEPT_DUPLICATES'
       'ADD_TO_LIST'
       'AKCEPTUJ_DUPLIKATY'
@@ -2125,7 +2127,6 @@ object FormMain: TFormMain
       'ASSIGN_FILE'
       'AZ'
       'Aż'
-      '_N_'
       'BLAD_DUPLIKATY'
       'BLOCK_READ'
       'BLOCK_WRITE'
@@ -2486,17 +2487,17 @@ object FormMain: TFormMain
       'ZNAK_UNICODE'
     )
     Objects.Strings = (
-      '-'
       '('
       ')'
       '*'
-      '/'
-      '{}'
       '+'
+      '-'
+      '/'
       'AKTYWUJ_OKNO'
       'URUCHOM_APLIKACJE'
       'UTWORZ_OKNO'
       'ZAMKNIJ_OKNO'
+      '{}'
     )
     NumberAttri.Foreground = 16295376
     NumberAttri.FrameStyle = slsWaved
@@ -2509,8 +2510,8 @@ object FormMain: TFormMain
     Entity = True
     DollarVariables = False
     ActiveDot = False
-    Left = 72
-    Top = 176
+    Left = 120
+    Top = 120
   end
   object IdleTimer1: TIdleTimer
     AutoEndEvent = itaOnIdle

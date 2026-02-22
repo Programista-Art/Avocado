@@ -163,6 +163,10 @@ msgstr "Fehler bei der Verarbeitung der Funktion read_lines: "
 msgid "Error while processing the set_length function: "
 msgstr "Fehler bei der Verarbeitung der Funktion „set_length“: "
 
+#: avocadotranslator.translateffunctionmapnotinitialized
+msgid "The FFunctionMap dictionary has not been initialized!"
+msgstr ""
+
 #: avocadotranslator.translatefirstargumentcannotbeempty
 msgid "Error: The first argument (variable name) cannot be empty."
 msgstr "Fehler: Das erste Argument (Variablenname) darf nicht leer sein."

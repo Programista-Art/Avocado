@@ -462,7 +462,7 @@ resourcestring
   TranslateClearListRequiresOneArgument = 'ARGUMENT ERROR: The clearlist function accepts exactly 1 list name.';
   TranslateSetTextRequiresParentheses = 'SYNTAX ERROR: The set_text / set_text function requires parentheses.';
   TranslateSetTextRequiresThreeArguments = 'ARGUMENT ERROR: The set_text / set_text function requires 3 arguments (list, index, "newvalue").';
-
+  TranslateFFunctionMapNotInitialized = 'The FFunctionMap dictionary has not been initialized!';
 implementation
 
 uses
@@ -4480,7 +4480,7 @@ begin
 
     // SPRAWDZENIE: Czy słownik został utworzony w Create?
     if FFunctionMap = nil then
-       raise Exception.Create('Słownik FFunctionMap nie został zainicjalizowany!');
+       raise Exception.Create(TranslateFFunctionMapNotInitialized);
 
     // FAZA PREPROCESORA - Tłumaczenie
     if AvocadoCode <> nil then
@@ -4509,7 +4509,7 @@ begin
   UsesList := TStringList.Create;
   ExistingUnits := TStringList.Create;
 
-  // 2. Skanowanie nazwy programu
+  // Skanowanie nazwy programu
   NameProgram := '';
   DetectedProgramName := 'untitledprogram';
 
@@ -4526,6 +4526,11 @@ begin
       self.IsGUIProject := True;
       //if NameProgram = '' then NameProgram := 'AvocadoApp';
       DetectedProgramName := Trim(Copy(trimmedLine, 12, MaxInt));
+       //UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
+      {$IFDEF WINDOWS}
+      UsesList.Add('Windows');
+      {$ENDIF}
+
       Break;
     end
     // Sprawdzamy czy to zwykły program
@@ -4534,6 +4539,10 @@ begin
       IsGUI := False;
       self.IsGUIProject := False;
       DetectedProgramName := Trim(Copy(trimmedLine, 9, MaxInt));
+      UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
+      {$IFDEF WINDOWS}
+      UsesList.Add('Windows');
+      {$ENDIF}
       Break;
     end;
   end;
@@ -4548,10 +4557,10 @@ begin
     ModulesStr := GetImportedModules(TranslateCode.Text);
     ModulPascalowy := GetImplementationModules(TranslateCode.Text);
 
-    UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
-    {$IFDEF WINDOWS}
-    UsesList.Add('Windows');
-    {$ENDIF}
+    //UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
+    //{$IFDEF WINDOWS}
+    //UsesList.Add('Windows');
+    //{$ENDIF}
 
     if ModulesStr <> '' then
       for UName in ModulesStr.Split([',']) do UsesList.Add(Trim(UName));

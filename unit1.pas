@@ -21,6 +21,9 @@ type
     Loaded: Boolean;
  end;
 
+  type
+  TControlHack = class(TControl);
+
  type
 
   { TRunInstantThread }
@@ -253,6 +256,14 @@ type
     procedure SBClearSearchMistakesClick(Sender: TObject);
     procedure SBClearSearchVariablesClick(Sender: TObject);
     procedure SBClearSearcResultsClick(Sender: TObject);
+    procedure SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
+      var ACurrentString: String; var APosition: Integer; var AnX,
+      AnY: Integer; var AnResult: TOnBeforeExeucteFlags);
+    procedure SynCompletion1CodeCompletion(var Value: string;
+      SourceValue: string; var SourceStart, SourceEnd: TPoint;
+      KeyChar: TUTF8Char; Shift: TShiftState);
+
+
     procedure SynEditCodeChange(Sender: TObject);
     procedure SynEditCodeClick(Sender: TObject);
     procedure TimerScanFunctionsTimer(Sender: TObject);
@@ -327,6 +338,10 @@ type
     procedure RunPascalInstantly(const PascalCode: string);
 
   public
+    function DetectIfConsole: Boolean;
+    procedure RefreshCompletionList(IsConsole: Boolean);
+    //laduje nazwy funkcji Avoraisera do SynCompletion1 - podpowiedzi jak sie wcisni ctrl + spacja
+    procedure LoadCodeCompletion(const FullPath: string);
     //laduje nazwy funkcji Avoraisera polskie i angielskie do SynAnySyn1 > ObjectAtri podswietlenie skladni
     procedure LoadFunctionsToHighlighter(const FileName: string);
 
@@ -636,7 +651,10 @@ procedure TFormMain.FormCreate(Sender: TObject);
 var
   TempDir: string;
 begin
-  IsConsoleProgram := True;
+
+
+
+    //IsConsoleProgram := True;
     // Utworzenie folderu Avocado
     TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
 
@@ -647,9 +665,10 @@ begin
     end;
 
 
-  AvocadoVersion := 'IDE Avocado v 2.2.1.0';
+  AvocadoVersion := 'IDE Avocado v 2.3.0.0';
   //Ladowanie funkcji Avoraisera
   LoadFunctionsToHighlighter('avoraiser_translate.ini');
+  //ladowanie funkcji do
 
   //dotyczy kolorowania SynEditCode
   //ColoredSynEdit;
@@ -670,6 +689,7 @@ begin
   //ladowanie funkcji z pliku functions.txt
   LoadPrefixesFromFile('functions.txt');
   LoadVariablesPrefixesFromFile('variables.txt');
+  //LoadCodeCompletion('podpowiedzi.txt');
 
   //Odswiezenie listboxow
   ListFunctionsFromSynEdit;
@@ -677,16 +697,11 @@ begin
   //laduje pliki do ListBoxSearchDocumentaion
   PageInfo.ActivePage := TabSheetLog;
   PagePanelRight.ActivePage := FPCCode;
-  //Ustawiam tryb aplikacji konsolowy
 
-  //ShowMessage('Aplikacja konsolowa: '+ boolToStr(IsConsoleProgram));
-  //Sprawdzanie czy aplikacja konsolowa
-  {
-  if IsConsoleProgram then
-  ShowMessage('Aplikacja konsolowa: True')
-  else
-  ShowMessage('Aplikacja konsolowa: False');
-  }
+
+  // domyślny typ programu GUI
+  IsConsoleProgram := False;
+  RefreshCompletionList(IsConsoleProgram);
 end;
 
 procedure TFormMain.TranspilujExecute(Sender: TObject);
@@ -1230,6 +1245,10 @@ begin
   SetDefaultLang('en');
   lang := 'en';
   IsClickMainMenuLanguage(0);
+  RefreshCompletionList(IsConsoleProgram);
+  //IsConsoleProgram := True;
+  //RefreshCompletionList(DetectIfConsole);
+  //LoadCodeCompletion('podpowiedzi_' + lang + '.txt');
 end;
 
 procedure TFormMain.MenuItem11Click(Sender: TObject);
@@ -1237,6 +1256,9 @@ begin
   SetDefaultLang('es');
   lang := 'es';
   IsClickMainMenuLanguage(1);
+  RefreshCompletionList(IsConsoleProgram);
+  //RefreshCompletionList(DetectIfConsole);
+  //LoadCodeCompletion('podpowiedzi_' + lang + '.txt');
 end;
 
 procedure TFormMain.MenuItem12Click(Sender: TObject);
@@ -1244,6 +1266,9 @@ begin
   SetDefaultLang('fr');
   lang := 'fr';
   IsClickMainMenuLanguage(3);
+  RefreshCompletionList(IsConsoleProgram);
+  //RefreshCompletionList(DetectIfConsole);
+  //LoadCodeCompletion('podpowiedzi_' + lang + '.txt');
 end;
 
 procedure TFormMain.MenuItem13Click(Sender: TObject);
@@ -1251,6 +1276,9 @@ begin
   SetDefaultLang('de');
   lang := 'de';
   IsClickMainMenuLanguage(2);
+  RefreshCompletionList(IsConsoleProgram);
+  //RefreshCompletionList(DetectIfConsole);
+  //LoadCodeCompletion('podpowiedzi_' + lang + '.txt');
 end;
 
 
@@ -1259,6 +1287,9 @@ begin
   SetDefaultLang('ru');
   lang := 'ru';
   IsClickMainMenuLanguage(4);
+   RefreshCompletionList(IsConsoleProgram);
+  //RefreshCompletionList(DetectIfConsole);
+  //LoadCodeCompletion('podpowiedzi_' + lang + '.txt');
 end;
 
 
@@ -1287,6 +1318,8 @@ begin
   MemoOutPut.Clear;
   MemoLogs.Clear;
   IsConsoleProgram := False;
+  RefreshCompletionList(IsConsoleProgram);
+
 
   SynEditCode.Lines.Add('program_ui ' + NameProgram);
 
@@ -1309,6 +1342,7 @@ begin
   SetDefaultLang('pl');
   lang := 'pl';
   IsClickMainMenuLanguage(5);
+  RefreshCompletionList(IsConsoleProgram);
 end;
 
 procedure TFormMain.MenuItemAlwaysontopmodeClick(Sender: TObject);
@@ -1335,12 +1369,13 @@ begin
   if i = mrOk then
   begin
     SynEditCode.ClearAll;
-    if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
+  if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
   begin
     SynEditCode.Clear;
     MemoOutPut.Clear;
     MemoLogs.Clear;
     IsConsoleProgram := True;
+    RefreshCompletionList(IsConsoleProgram);
 
     if lang = 'pl' then
     begin
@@ -1348,6 +1383,7 @@ begin
       SynEditCode.Lines.Add('glowny ');
       SynEditCode.Lines.Add(' ');
       SynEditCode.Lines.Add('koniec.');
+      //RefreshCompletionList(DetectIfConsole);
     end
     else
     begin
@@ -1355,6 +1391,7 @@ begin
       SynEditCode.Lines.Add('main ');
       SynEditCode.Lines.Add(' ');
       SynEditCode.Lines.Add('end.');
+     // RefreshCompletionList(DetectIfConsole);
     end;
   end;
   end;
@@ -1473,6 +1510,29 @@ begin
   EditSearchResults.Clear;
 end;
 
+procedure TFormMain.SynCompletion1BeforeExecute(ASender: TSynBaseCompletion;
+  var ACurrentString: String; var APosition: Integer; var AnX, AnY: Integer;
+  var AnResult: TOnBeforeExeucteFlags);
+begin
+
+end;
+
+procedure TFormMain.SynCompletion1CodeCompletion(var Value: string;
+  SourceValue: string; var SourceStart, SourceEnd: TPoint; KeyChar: TUTF8Char;
+  Shift: TShiftState);
+var
+  EqPos: Integer;
+begin
+  EqPos := Pos('=', Value);
+
+  if EqPos > 0 then
+  begin
+    // Wycinamy tylko komendę przed znakiem "="
+    Value := Copy(Value, 1, EqPos - 1);
+  end;
+end;
+
+
 
 procedure TFormMain.SynEditCodeChange(Sender: TObject);
 begin
@@ -1495,6 +1555,9 @@ begin
    SynEditCode.SelectedColor.Background := $002F5330;
    SynEditCode.SelectedColor.BackAlpha := 200;
 end;
+
+
+
 
 procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
@@ -3048,6 +3111,100 @@ begin
     	 AProcess.Free;
     end;
     }
+end;
+
+function TFormMain.DetectIfConsole: Boolean;
+begin
+  Result := Pos('program', SynEditCode.Text) > 0;
+end;
+
+procedure TFormMain.RefreshCompletionList(IsConsole: Boolean);
+var
+  BaseDir, FullFileName: string;
+begin
+  // Katalog główny Twoich plików
+  BaseDir := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +
+             'avoraiser' + PathDelim + 'podpowiedzi' + PathDelim;
+  //Path := ExtractFilePath(ParamStr(0)) + 'podpowiedzi\';
+
+  // Składamy nazwę pliku na podstawie typu i języka
+  if IsConsole then
+    FullFileName := BaseDir + 'console_' + lang + '.txt'
+  else
+    FullFileName := BaseDir + 'gui_' + lang + '.txt';
+
+  // Wywołujemy ładowanie z pełną ścieżką
+  LoadCodeCompletion(FullFileName);
+end;
+
+procedure TFormMain.LoadCodeCompletion(const FullPath: string);
+var
+  Lines: TStringList;
+  i, EqPos: Integer;
+  LineStr, Command, DisplayHint: string;
+//FilePath: string;
+//Lines: TStringList;
+//i, EqPos: Integer;
+//LineStr, WhatToShow: string;
+begin
+  SynCompletion1.ItemList.Clear;
+
+    if not FileExists(FullPath) then
+    begin
+      ShowMessage('Nie znaleziono pliku: ' + FullPath);
+      Exit;
+    end;
+
+    Lines := TStringList.Create;
+    try
+      Lines.LoadFromFile(FullPath);
+      for i := 0 to Lines.Count - 1 do
+      begin
+        LineStr := Trim(Lines[i]);
+        if (LineStr = '') or (LineStr[1] = ';') then Continue;
+        SynCompletion1.ItemList.Add(LineStr);
+      end;
+    finally
+      Lines.Free;
+    end;
+  {
+  SynCompletion1.ItemList.Clear;
+   if not FileExists(FilePath) then Exit;
+  //FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + FileName;
+  //FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +
+  //'avoraiser' + PathDelim + 'podpowiedzi' + PathDelim + FileName;
+
+  FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +
+  'avoraiser' + PathDelim + 'gui' + PathDelim + FileName;
+
+
+
+  Lines := TStringList.Create;
+  try
+    Lines.LoadFromFile(FilePath);
+
+    for i := 0 to Lines.Count - 1 do
+    begin
+      LineStr := Trim(Lines[i]);
+
+      // Ignorowanie pustych linii i komentarzy
+      if (LineStr = '') or (LineStr[1] = ';') or (Copy(LineStr, 1, 2) = '//') then
+        Continue;
+
+      EqPos := Pos('=', LineStr);
+      if EqPos > 0 then
+      begin
+        // Po "=" (to będzie wyświetlone na liście w dymku)
+        WhatToShow := Trim(Copy(LineStr, EqPos + 1, MaxInt));
+        SynCompletion1.ItemList.Add(WhatToShow);
+      end
+      else
+        SynCompletion1.ItemList.Add(LineStr);
+    end;
+  finally
+    Lines.Free;
+  end;
+  }
 end;
 
 procedure TFormMain.LoadFunctionsToHighlighter(const FileName: string);
