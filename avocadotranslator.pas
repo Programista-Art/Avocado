@@ -70,9 +70,9 @@ end;
     function TryTranslateGeneric(const Line: string; PascalCode: TStringList; Aliases: array of string; RequiredArgs: Integer; PascalTemplate: string; SyntaxErrorMsg: string; ArgCountErrorMsg: String): Boolean;
 
     function PrzetworzBlok(const Blok: string): string;
-    //Otrzumuje nazwy modulów i wstawia do sekcji Interface
+    //Otrzymuje nazwy modulów i wstawia do sekcji Interface
     function GetImportedModules(const Code: string): string;
-    //Otrzumuje nazwy modulów i wstawia do sekcji Implementation
+    //Otrzymuje nazwy modulów i wstawia do sekcji Implementation
     function GetImplementationModules(const Code: string): string;
     //Centralizacja Logiki Parsowania 10.10.2025
     function ExtractFunctionCall(const Line: string; var VarName: string; var Params: TStringArray): string;
@@ -574,7 +574,6 @@ var
   WholeText: string;
   i: Integer;
 begin
-    // (żeby nie dublować, jeśli np. użytkownik wpisał ją ręcznie w asm{})
     for i := 0 to Min(10, PascalCode.Count - 1) do
     begin
       if Pos('{$codepage', LowerCase(PascalCode[i])) > 0 then Exit;
@@ -658,7 +657,7 @@ begin
   ParenStart := Pos('(', Header);
   ParenEnd := RPos(')', Header);
 
-  // 3. Sprawdź, czy ma parametry
+  // Sprawdź, czy ma parametry
   if (ParenStart = 0) or (ParenEnd <= ParenStart) then
   begin
     // Brak parametrów
@@ -669,7 +668,7 @@ begin
     Exit;
   end;
 
-  // 4. Mamy parametry. Podziel na nazwę i parametry.
+  // Podziel na nazwę i parametry.
   ProcName := Trim(Copy(Header, 1, ParenStart - 1));
   ParamStr := Trim(Copy(Header, ParenStart + 1, ParenEnd - ParenStart - 1));
 
@@ -706,7 +705,6 @@ begin
 end;
 
 
-//procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssign: Boolean = False);
 procedure TAvocadoTranslator.AddVariable(const VarName, VarType: string; NoAssign: Boolean = False; const AInitialValue: string = '');
 var
   j: Integer;
@@ -1832,31 +1830,26 @@ begin
     VarName := '';
     Params := nil;
 
-    // 1. Sprawdzenie i rozbicie przypisania
     Call := Line;
     if Pos('=', Line) > 0 then
     begin
       VarName := Trim(Copy(Line, 1, Pos('=', Line) - 1));
       Call := Trim(Copy(Line, Pos('=', Line) + 1, MaxInt));
 
-      // Uproszczenie VarName (usuń typ, np. 'string b' -> 'b')
       if Pos(' ', VarName) > 0 then
         VarName := Trim(Copy(VarName, Pos(' ', VarName) + 1, MaxInt));
     end;
 
-    // 2. Znalezienie nazwy funkcji i argumentów
+
     StartPos := Pos('(', Call);
     if StartPos = 0 then
     begin
-      // Nie jest to wywołanie funkcji, ale może być instrukcją (np. 'wyjść')
       Result := LowerCase(Call);
       Exit;
     end;
 
-    // Pobierz nazwę funkcji (np. 'trim_left')
     Result := LowerCase(Trim(Copy(Call, 1, StartPos - 1)));
 
-    // 3. Parsowanie argumentów
     EndPos := LastDelimiter(')', Call);
     if (EndPos = 0) or (EndPos < StartPos) then
       raise Exception.Create(TranslateIncorrectBracketsInFunction + Result + '.');
@@ -1872,7 +1865,6 @@ begin
   except
     on E: Exception do
     begin
-      // Fallback – jeśli nieznany typ, zwróć Variant i pokaż ostrzeżenie w konsoli
       Writeln(TranslateAliasTypeIsUnknown, AName, TranslateReplacedVariant);
       Result := 'Variant';
     end;
@@ -1935,7 +1927,7 @@ begin
       end;
     end;
 
-    // 2. Obsługa komentarzy otwieranych i zamykanych w tej samej linii
+    // Obsługa komentarzy otwieranych i zamykanych w tej samej linii
     // lub otwieranych w tej linii
     while Pos('(*', Line) > 0 do
     begin
@@ -4553,7 +4545,7 @@ begin
     // Wywołujemy funkcję z nowym parametrem IsGUI
     AddCompilerDirective(PascalCode, IsGUI);
 
-    //3. Sekcja 'uses'
+    //Sekcja 'uses'
     ModulesStr := GetImportedModules(TranslateCode.Text);
     ModulPascalowy := GetImplementationModules(TranslateCode.Text);
 

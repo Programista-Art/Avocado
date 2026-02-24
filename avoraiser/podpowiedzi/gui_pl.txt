@@ -7,7 +7,7 @@
 ustaw_ciemny_motyw=ustaw_ciemny_motyw() - Włącza ciemny motyw interfejsu aplikacji.
 uruchom=uruchom() - Rozpoczyna działanie głównej pętli programu.
 uruchom_aplikacje=uruchom_aplikacje() - Inicjuje i uruchamia aplikację GUI.
-utworz_okno=utworz_okno(uchwyt, parametry_ui)) - Tworzy główne okno programu.
+utworz_okno=utworz_okno(uchwyt, parametry_ui) - Tworzy główne okno programu.
 zamknij_okno=zamknij_okno(uchwyt) - Zamyka określone okno aplikacji.
 aktywuj_okno=aktywuj_okno(uchwyt) - Przenosi okno na wierzch i ustawia na nim fokus.
 ustaw_ikony_okna=ustaw_ikony_okna(uchwyt, sciezka_ikony) - Ustawia ikonę dla okna.

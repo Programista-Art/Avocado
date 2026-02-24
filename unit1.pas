@@ -349,7 +349,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     //Code compilation / Kompilacja kodu
-    procedure CompilePascalCode(const PascalCode, OutputFile: string);
+    procedure CompilePascalCode(const PascalCode: string; var OutputFile: string);
 
 
     procedure InternalLoadAvocadoFile(const FileName: string);
@@ -2079,7 +2079,7 @@ begin
 end;
 
 
-procedure TFormMain.CompilePascalCode(const PascalCode, OutputFile: string);
+procedure TFormMain.CompilePascalCode(const PascalCode: string; var OutputFile: string);
 var
 AProcess: TProcess;
 OutputLines: TStringList;
@@ -2094,8 +2094,11 @@ RawFileName: string;
 i: Integer;
 FinalExePath: string;
 ExeNameFromCode: string;
+AvoraiserPath: string;
+ParserLines: TStringList;
+LineStr: string;
 begin
-  // --- WALIDACJA ŚCIEŻEK ---
+  // walidacja ścieżek
   if (FFpcPath = '') or not FileExists(FFpcPath) then
   begin
     MemoLogs.Lines.Add(TranslateErrPathToFpc);
@@ -2119,7 +2122,7 @@ begin
       Exit;
   end;
 
-  // --- PRZYGOTOWANIE PLIKU TYMCZASOWEGO .PAS ---
+  // przygotowanie pliku tymczasowego .pas
   TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
   if not ForceDirectories(TempDir) then
   begin
@@ -2139,7 +2142,7 @@ begin
   RawFileName := StringReplace(RawFileName, ' ', '_', [rfReplaceAll]);
   TempFile := TempDir + ChangeFileExt(RawFileName, '.pas');
 
-  // --- ZAPIS KODU DO PLIKU ---
+  //zapis kodu do pliku
   BuildMode := 'Release';
   try
     try
@@ -2162,25 +2165,55 @@ begin
         Stream.Free;
       end;
 
-      // --- USTALANIE NAZWY PLIKU .EXE (TWOJA ZMIANA) ---
+        // ustalanie nazwy pliku  exe
+        // ExeNameFromCode := Trim(NameProgram);
+        // wykrywanie nazwy programu z kodu
+        ExeNameFromCode := '';
+        ParserLines := TStringList.Create;
+        try
+          ParserLines.Text := PascalCode;
+          for i := 0 to ParserLines.Count - 1 do
+          begin
+            LineStr := Trim(ParserLines[i]);
+            if (Length(LineStr) > 8) and (LowerCase(Copy(LineStr, 1, 8)) = 'program ') then
+            begin
+              ExeNameFromCode := Trim(Copy(LineStr, 9, MaxInt));
+              if Pos(';', ExeNameFromCode) > 0 then
+                ExeNameFromCode := Copy(ExeNameFromCode, 1, Pos(';', ExeNameFromCode) - 1);
+              Break;
+            end;
+          end;
+        finally
+          ParserLines.Free;
+        end;
 
-      // 1. Pobieramy nazwę z translatora (zakładam, że masz dostęp do instancji FTranslator lub jest to zmienna globalna)
-      // Jeśli NameProgram jest w instancji klasy, użyj FTranslator.NameProgram
-      // Jeśli jest globalna w module avocado_translator, użyj po prostu NameProgram
-      ExeNameFromCode := Trim(NameProgram); // <--- Zmienna z AvocadoTranslator
 
-      // 2. Jeśli nazwa jest pusta lub domyślna, używamy nazwy z parametru OutputFile
+      if ExeNameFromCode = '' then
+        ExeNameFromCode := Trim(NameProgram);
+
+      //  Jeśli nazwa jest pusta lub domyślna, używamy nazwy z parametru OutputFile
       if (ExeNameFromCode = '') or (ExeNameFromCode = 'untitledprogram') then
       begin
-        FinalExePath := OutputFile;
+        //FinalExePath := OutputFile;
+        // Sprawdzamy, czy przekazany OutputFile ma w sobie jakąś poprawną nazwę
+        if (ExtractFileName(OutputFile) <> '') and (ExtractFileName(OutputFile) <> '.exe') then
+          FinalExePath := OutputFile
+        else
+          // Zabezpieczenie Jeśli OutputFile to też samo ".exe", dajemy nazwę domyślną
+          FinalExePath := ExtractFilePath(OutputFile) + 'AplikacjaAvocado.exe';
       end
       else
       begin
-        // 3. Budujemy nową ścieżkę: Katalog z OutputFile + Nazwa z kodu + .exe
+        // nową ścieżka: Katalog z OutputFile + Nazwa z kodu + .exe
         FinalExePath := ExtractFilePath(OutputFile) + ExeNameFromCode + '.exe';
       end;
 
-      // 4. Usuwamy stary plik .exe (jeśli istnieje), żeby uniknąć błędów linkera
+      OutputFile := FinalExePath;
+
+      if ExtractFileName(FinalExePath) = '.exe' then
+        FinalExePath := ExtractFilePath(FinalExePath) + 'ProgramKonsolowy.exe';
+
+      // Usuwamy stary plik .exe (jeśli istnieje), żeby uniknąć błędów linkera
       if FileExists(FinalExePath) then
       begin
         if not DeleteFile(FinalExePath) then
@@ -2188,7 +2221,7 @@ begin
       end;
 
 
-      // --- KONFIGURACJA PROCESU KOMPILACJI ---
+      // konfiguracja procesu kompilacji
       AProcess := TProcess.Create(nil);
       OutputLines := TStringList.Create;
       try
@@ -2208,13 +2241,15 @@ begin
            MemoLogs.Lines.Add(TranslateCompilingReleaseMode);
            AProcess.Parameters.Add('-O3');
            AProcess.Parameters.Add('-Os');
+           AProcess.Parameters.Add('-Xs');
            AProcess.Parameters.Add('-CX');
            AProcess.Parameters.Add('-XX');
            AProcess.Parameters.Add('-g-');
-
-           // GUI vs Konsola
            if not IsConsoleProgram then
-             AProcess.Parameters.Add('-WG'); // Windows GUI
+           begin
+             // Wyłącza czarne okienko w tle (Windows GUI)
+             AProcess.Parameters.Add('-WG');
+           end;
         end
         else
         begin
@@ -2249,7 +2284,18 @@ begin
         else
           MemoLogs.Lines.Add(TranslateCustModulesDirNotFound + IdeModulesPath + '.');
 
-        // --- PLIK WYJŚCIOWY (-o) ---
+           //Ladownaie modulow frameworka Avoraiser
+           AvoraiserPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avoraiser';
+          if DirectoryExists(AvoraiserPath) then
+          begin
+            AProcess.Parameters.Add('-Fu' + AvoraiserPath);
+            MemoLogs.Lines.Add('Dodano ścieżkę frameworka Avocado: ' + AvoraiserPath);
+          end
+          else
+          begin
+            MemoLogs.Lines.Add('OSTRZEŻENIE: Nie znaleziono folderu frameworka: ' + AvoraiserPath);
+          end;
+        //plik wyjściowy (-o)
         // Używamy naszej obliczonej ścieżki
         AProcess.Parameters.Add('-o' + FinalExePath);
 
@@ -2259,7 +2305,7 @@ begin
 
         MemoLogs.Lines.Add(TranslateStartComilationParam + AProcess.Parameters.Text);
 
-        // --- URUCHOMIENIE (ZAPOBIEGANIE ZAWIESZANIU) ---
+        // uruchomienie (zapobieganie zawieszaniu)
         AProcess.Execute;
 
         // Pętla odczytująca dane w locie
@@ -3122,18 +3168,24 @@ procedure TFormMain.RefreshCompletionList(IsConsole: Boolean);
 var
   BaseDir, FullFileName: string;
 begin
-  // Katalog główny Twoich plików
+
   BaseDir := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +
              'avoraiser' + PathDelim + 'podpowiedzi' + PathDelim;
   //Path := ExtractFilePath(ParamStr(0)) + 'podpowiedzi\';
 
-  // Składamy nazwę pliku na podstawie typu i języka
+
+  //Czyszcenie listy
+  SynCompletion1.ItemList.Clear;
+
+  // Zawsze laduje funkcje wspólne matematyka, konwersje itp
+    LoadCodeCompletion(BaseDir + 'common_' + lang + '.txt');
+
   if IsConsole then
     FullFileName := BaseDir + 'console_' + lang + '.txt'
   else
     FullFileName := BaseDir + 'gui_' + lang + '.txt';
 
-  // Wywołujemy ładowanie z pełną ścieżką
+  //ładowanie
   LoadCodeCompletion(FullFileName);
 end;
 
@@ -3147,7 +3199,7 @@ var
 //i, EqPos: Integer;
 //LineStr, WhatToShow: string;
 begin
-  SynCompletion1.ItemList.Clear;
+    //SynCompletion1.ItemList.Clear;
 
     if not FileExists(FullPath) then
     begin
@@ -3340,11 +3392,24 @@ begin
 end;
 
 procedure TCompileThread.AfterCompile;
+var
+  WorkDir: string;
 begin
+  if FSuccess then
+  begin
+    WorkDir := ExtractFilePath(FExeName);
+    ShellExecute(0, 'open', PChar(FExeName), nil, PChar(WorkDir), 1);
+  end
+  else
+  begin
+    MessageDlg(TranslateMistake, TranslateFailStartProgram + ' ' + FExeName, mtError, [mbOk], 0);
+  end;
+  {
   if FSuccess then
       ShellExecute(0, 'open', PChar(FExeName), nil, nil, 1)
   else
       MessageDlg(TranslateMistake, TranslateFailStartProgram + FExeName, mtError, [mbOk], 0);
+      }
 end;
 
 procedure TCompileThread.ShowSuccess;
