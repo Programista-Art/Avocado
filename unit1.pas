@@ -80,6 +80,7 @@ type
     MenuItem13: TMenuItem;
     MenuIRosyjski: TMenuItem;
     MenuItem14: TMenuItem;
+    MenuItemExit: TMenuItem;
     MenuItemAvocadoPatrons: TMenuItem;
     MenuItemStandardMode: TMenuItem;
     MenuItemAlwaysontopmode: TMenuItem;
@@ -236,6 +237,7 @@ type
     procedure MenuItemAvocadoPatronsClick(Sender: TObject);
     procedure MenuItemCompileClick(Sender: TObject);
     procedure MenuItemConsoleProgramClick(Sender: TObject);
+    procedure MenuItemExitClick(Sender: TObject);
     procedure MenuItemOpenFolderClick(Sender: TObject);
     procedure MenuItemrunwithoutcompilationClick(Sender: TObject);
     procedure MenuItemSearchClick(Sender: TObject);
@@ -559,6 +561,9 @@ resourcestring
    TranslateCannotCreateTemporaryDirectory = 'Error: Cannot create temporary directory: ';
    TranslateInformation = 'Information';
    TranslateFileModifiedSaveChanges = 'The current file has been modified. Do you want to save the changes?';
+   TranslateCloseProjectQuestion = 'Are you sure you want to close the project?';
+   TranslateConfirmCloseApplication = 'Are you sure you want to close the application?';
+
 
 implementation
 
@@ -1402,6 +1407,17 @@ begin
   end;
 end;
 
+procedure TFormMain.MenuItemExitClick(Sender: TObject);
+var
+i: TModalResult;
+begin
+  i := MessageDlg(OpenProjectName,TranslateConfirmCloseApplication, mtConfirmation,[mbYes,mbNo],0);
+  if i = mrYes then
+  begin
+    Close;
+  end;
+end;
+
 
 procedure TFormMain.MenuItemOpenFolderClick(Sender: TObject);
 begin
@@ -1432,7 +1448,6 @@ procedure TFormMain.MenuItemStandardModeClick(Sender: TObject);
 begin
   FormStyle := fsNormal;
 end;
-
 
 
 procedure TFormMain.NowyPlikExecute(Sender: TObject);
@@ -1614,8 +1629,14 @@ begin
 end;
 
 procedure TFormMain.MenuCloseClick(Sender: TObject);
+var
+i: TModalResult;
 begin
-  Close;
+  i := MessageDlg(OpenProjectName,TranslateCloseProjectQuestion, mtConfirmation,[mbYes,mbNo],0);
+  if i = mrYes then
+  begin
+    SynEditCode.ClearAll;
+  end;
 end;
 
 procedure TFormMain.MenuItem3ClearCodeClick(Sender: TObject);

@@ -165,7 +165,7 @@ msgstr "Erreur lors du traitement de la fonction set_length : "
 
 #: avocadotranslator.translateffunctionmapnotinitialized
 msgid "The FFunctionMap dictionary has not been initialized!"
-msgstr ""
+msgstr "Le dictionnaire FFunctionMap n'a pas été initialisé !"
 
 #: avocadotranslator.translatefirstargumentcannotbeempty
 msgid "Error: The first argument (variable name) cannot be empty."
@@ -756,6 +756,10 @@ msgstr "Supprimer"
 msgid "Online documentation"
 msgstr "Documentation en ligne"
 
+#: tformmain.menuitemexit.caption
+msgid "Exit"
+msgstr "Sortie"
+
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
 msgstr "Ouvrir le dossier"
@@ -775,8 +779,8 @@ msgstr "Exécuter sans compilation"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
-msgid "Zapisz"
-msgstr "Enregistrer"
+msgid "Save"
+msgstr "Sauvegarder"
 
 #: tformmain.menuitemsearch.caption
 msgid "Search"
@@ -1140,6 +1144,10 @@ msgstr "Vérifiez le jeton API et la connexion Internet"
 msgid "Checking the IDE s own modules directory: "
 msgstr "Vérification du répertoire des modules propres à l'IDE : "
 
+#: unit1.translatecloseprojectquestion
+msgid "Are you sure you want to close the project?"
+msgstr "Êtes-vous sûr de vouloir clôturer le projet ?"
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Code correct !"
@@ -1181,6 +1189,10 @@ msgstr "ERREUR DE CONFIGURATION : aucun chemin d'accès au module défini "
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "ERREUR DE CONFIGURATION : Plateforme cible non définie dans "
+
+#: unit1.translateconfirmcloseapplication
+msgid "Are you sure you want to close the application?"
+msgstr "Êtes-vous sûr de vouloir fermer l'application ?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
@@ -1481,4 +1493,3 @@ msgstr "Informations"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Le fichier models.txt est introuvable."
-

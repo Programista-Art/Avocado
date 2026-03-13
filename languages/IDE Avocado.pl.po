@@ -41,7 +41,7 @@ msgstr "Nieprawidłowa deklaracja zmiennej:  "
 
 #: avocadotranslator.translatealiastypeisunknown
 msgid "Unknown alias type: \" "
-msgstr "Nieznany typ aliasu: „"
+msgstr "Nieznany typ aliasu: „ "
 
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
@@ -105,7 +105,7 @@ msgstr "BŁĄD ARGUMENTU: Funkcja delete_from_list / delete_to_list wymaga nazwy
 
 #: avocadotranslator.translatedeletefunctionrequires
 msgid "The delete function requires three arguments: s, index, count."
-msgstr " Funkcja usuń/usun/delete wymaga trzech argumentów: s, index, count  "
+msgstr "Funkcja usuń/usun/delete wymaga trzech argumentów: s, index, count  "
 
 #: avocadotranslator.translatedownloadfilefunctionrequirestwoarguments
 msgid "Error: The download_file function requires EXACTLY TWO arguments (URL, Save Path)."
@@ -165,7 +165,7 @@ msgstr "Błąd podczas przetwarzania funkcji ustaw_długość / set_length: "
 
 #: avocadotranslator.translateffunctionmapnotinitialized
 msgid "The FFunctionMap dictionary has not been initialized!"
-msgstr ""
+msgstr "Słownik FFunctionMap nie został zainicjowany!"
 
 #: avocadotranslator.translatefirstargumentcannotbeempty
 msgid "Error: The first argument (variable name) cannot be empty."
@@ -185,7 +185,7 @@ msgstr "Błąd składni: Niekompletne przypisanie."
 
 #: avocadotranslator.translateincorrectbracketsinfunction
 msgid "Error: incorrect brackets in the function."
-msgstr " Błąd: nieprawidłowe nawiasy w funkcji  "
+msgstr "Błąd: nieprawidłowe nawiasy w funkcji  "
 
 #: avocadotranslator.translateincorrectorderbracketstrim
 msgid "Incorrect order of brackets in trim()."
@@ -217,7 +217,7 @@ msgstr "Błędna składnia zmień_katalog('ścieżka' / change_dir('ścieżka')"
 
 #: avocadotranslator.translateincorrectsyntaxclosefilefunction
 msgid "Incorrect syntax close_file(f)"
-msgstr " Błędna składnia zamknij_plik(f) / close_file(f)  "
+msgstr "Błędna składnia zamknij_plik(f) / close_file(f)  "
 
 #: avocadotranslator.translateincorrectsyntaxcomparetextfunction
 msgid "Incorrect syntax of the compare_text function. Expected: compare_text(s1, s2)"
@@ -262,7 +262,7 @@ msgstr "Błędna składnia funkcji małe_litery. Oczekiwano: małe_litery(s) / m
 
 #: avocadotranslator.translateincorrectsyntaxopensavefunction
 msgid "Incorrect syntax open_save(f)"
-msgstr "Nieprawidłowa składnia otwórz_do_zapisu(f) / open_save(f) "
+msgstr "Nieprawidłowa składnia otwórz_do_zapisu(f) / open_save(f)"
 
 #: avocadotranslator.translateincorrectsyntaxremovedirfunction
 msgid "Incorrect syntax remove_dir(...)"
@@ -278,7 +278,7 @@ msgstr "Błędna składnia funkcji powtórz_znak / repeat_char."
 
 #: avocadotranslator.translateincorrectsyntaxreplacetextfunction
 msgid "Incorrect syntax for replace_text. Expected: replace_text(text, from, to"
-msgstr "Błędna składnia zamień_tekst / replace_text. Oczekiwano: zamień_tekst(oryginalny_tekst, szukany_tekst, nowy_tekst) lub replace_text(oryginalny_tekst, szukany_tekst, nowy_tekst)  "
+msgstr "Błędna składnia zamień_tekst / replace_text. Oczekiwano: zamień_tekst(oryginalny_tekst, szukany_tekst, nowy_tekst) lub replace_text(oryginalny_tekst, szukany_tekst, nowy_tekst)"
 
 #: avocadotranslator.translateincorrectsyntaxsearchfunction
 msgid "Incorrect syntax for search. Expected: search(substring, text)"
@@ -294,7 +294,7 @@ msgstr "Błędna składnia funkcji małe_litery_ansi / utf8_lower_case."
 
 #: avocadotranslator.translateincorrectsyntaxutf8uppercaseansifunction
 msgid "Incorrect syntax of the utf8_upper_case function."
-msgstr "Błędna składnia funkcji duże_litery_ansi /  utf8_upper_case "
+msgstr "Błędna składnia funkcji duże_litery_ansi /  utf8_upper_case"
 
 #: avocadotranslator.translateinserttolistrequiresparentheses
 msgid "SYNTAX ERROR: The insert_to_list function requires parentheses."
@@ -302,7 +302,7 @@ msgstr "BŁĄD SKŁADNI: Funkcja wstaw_do_listy / insert_to_list wymaga nawiasó
 
 #: avocadotranslator.translateinserttolistrequiresthreearguments
 msgid "ARGUMENT ERROR: The insert_to_list function requires 3 arguments (list, index, value). The following was given: "
-msgstr "BŁĄD ARGUMENTÓW: Funkcja ustaw_tekst / set_text wymaga 3 argumentów (lista, indeks, \"nowa wartość\")."
+msgstr "BŁĄD ARGUMENTÓW: Funkcja ustaw_tekst / set_text wymaga 3 argumentów (lista, indeks, \"nowa wartość\"). "
 
 #: avocadotranslator.translatelowercasefunctionsyntaxerror
 msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
@@ -335,7 +335,7 @@ msgstr "Błąd składni: Brak nawiasu zamykającego w funkcji czytaj_klawisz/rea
 
 #: avocadotranslator.translatemissingparenthesescalculateformatfunction
 msgid "Syntax error: The function requires parentheses, e.g. calculate_format(\"'2+2\"', 2)"
-msgstr "Błąd składni: Funkcja wymaga nawiasów, np. oblicz_formatuj('2+2', 2) lub calc_format('2+2', 2) "
+msgstr "Błąd składni: Funkcja wymaga nawiasów, np. oblicz_formatuj('2+2', 2) lub calc_format('2+2', 2)"
 
 #: avocadotranslator.translatemissingparenthesescalculatefunction
 msgid "Syntax error: The calculate/calc function requires parentheses, e.g. calculate(2 + 2)"
@@ -457,7 +457,7 @@ msgstr "BŁĄD SKŁADNI: Funkcja teksty / strings wymaga nawiasów."
 
 #: avocadotranslator.translatetextsstringsrequirestwoarguments
 msgid "ARGUMENT ERROR: The function texts / strings requires 2 arguments. The following was given: "
-msgstr "BŁĄD ARGUMENTÓW: Funkcja teksty / strings wymaga 2 argumentów. Podano:"
+msgstr "BŁĄD ARGUMENTÓW: Funkcja teksty / strings wymaga 2 argumentów. Podano: "
 
 #: avocadotranslator.translateunknownaliastype
 msgid "Unknown alias type: "
@@ -756,6 +756,10 @@ msgstr "Usuń"
 msgid "Online documentation"
 msgstr "Dokumentacja online"
 
+#: tformmain.menuitemexit.caption
+msgid "Exit"
+msgstr "Wyjść"
+
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
 msgstr "Otwórz folder"
@@ -775,7 +779,7 @@ msgstr "Uruchom bez kompilacji"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
-msgid "Zapisz"
+msgid "Save"
 msgstr "Zapisz"
 
 #: tformmain.menuitemsearch.caption
@@ -1140,6 +1144,10 @@ msgstr "Sprawdź token API i połączenie internetowe"
 msgid "Checking the IDE s own modules directory: "
 msgstr "Sprawdzanie katalogu własnych modułów IDE: "
 
+#: unit1.translatecloseprojectquestion
+msgid "Are you sure you want to close the project?"
+msgstr "Czy na pewno chcesz zamknąć projekt?"
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Kod poprawny!"
@@ -1181,6 +1189,10 @@ msgstr "BŁĄD KONFIGURACJI: brak ustawionej ścieżki do modułów "
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w "
+
+#: unit1.translateconfirmcloseapplication
+msgid "Are you sure you want to close the application?"
+msgstr "Czy na pewno chcesz zamknąć aplikację?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
@@ -1481,4 +1493,3 @@ msgstr "Informacja"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Nie znaleziono pliku models.txt."
-

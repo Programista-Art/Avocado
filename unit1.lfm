@@ -1332,7 +1332,7 @@ object FormMain: TFormMain
         OnClick = MenuItemOpenFolderClick
       end
       object MenuItemSaveFile: TMenuItem
-        Caption = 'Zapisz'
+        Caption = 'Save'
         ShortCut = 16467
         OnClick = MenuItemSaveFileClick
       end
@@ -1343,6 +1343,10 @@ object FormMain: TFormMain
       object MenuClose: TMenuItem
         Caption = 'Close'
         OnClick = MenuCloseClick
+      end
+      object MenuItemExit: TMenuItem
+        Caption = 'Exit'
+        OnClick = MenuItemExitClick
       end
     end
     object MenuItemRun: TMenuItem
@@ -1534,7 +1538,7 @@ object FormMain: TFormMain
   end
   object SynCompletion1: TSynCompletion
     OnBeforeExecute = SynCompletion1BeforeExecute
-    Position = -1
+    Position = 0
     LinesInWindow = 10
     SelectedColor = 2458919
     CaseSensitive = False
@@ -1659,6 +1663,7 @@ object FormMain: TFormMain
     KeyWords.Strings = (
       '.FREE'
       '.ZWOLNIJ '
+      '_N_'
       'ACCEPT_DUPLICATES'
       'ADD_TO_LIST'
       'AKCEPTUJ_DUPLIKATY'
@@ -1667,7 +1672,6 @@ object FormMain: TFormMain
       'ASSIGN_FILE'
       'AZ'
       'Aż'
-      '_N_'
       'BLAD_DUPLIKATY'
       'BLOCK_READ'
       'BLOCK_WRITE'

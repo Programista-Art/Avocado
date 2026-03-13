@@ -41,7 +41,7 @@ msgstr "Неправильное объявление переменной: "
 
 #: avocadotranslator.translatealiastypeisunknown
 msgid "Unknown alias type: \" "
-msgstr "Неизвестный тип псевдонима: \""
+msgstr "Неизвестный тип псевдонима: \" "
 
 #: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
 msgid "The arguments of the assign_file function cannot be empty."
@@ -65,7 +65,7 @@ msgstr "Ошибка: функция calc_format требует 1 или 2 ар�
 
 #: avocadotranslator.translatecalculatefunctionrequiresexpression
 msgid "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
-msgstr "Ошибка: функция oblicz/calc должна содержать математическое выражение, например calc(2 * 5) / oblicz"
+msgstr "Ошибка: функция oblicz/calc должна содержать математическое выражение, например calc(2 * 5) / oblicz "
 
 #: avocadotranslator.translateclearlistrequiresoneargument
 msgid "ARGUMENT ERROR: The clearlist function accepts exactly 1 list name."
@@ -165,7 +165,7 @@ msgstr "Ошибка при обработке функции set_length: "
 
 #: avocadotranslator.translateffunctionmapnotinitialized
 msgid "The FFunctionMap dictionary has not been initialized!"
-msgstr ""
+msgstr "Словарь FFunctionMap не инициализирован!"
 
 #: avocadotranslator.translatefirstargumentcannotbeempty
 msgid "Error: The first argument (variable name) cannot be empty."
@@ -193,7 +193,7 @@ msgstr "Неправильный порядок скобок в trim()."
 
 #: avocadotranslator.translateincorrectorderbracketstrimright
 msgid "Incorrect order of brackets in trim_right() / trim_right"
-msgstr "Неправильный порядок скобок в trim_right() "
+msgstr "Неправильный порядок скобок в trim_right()"
 
 #: avocadotranslator.translateincorrectorderofbrackets
 msgid "Syntax error: Incorrect order of brackets."
@@ -756,6 +756,10 @@ msgstr "Удалить"
 msgid "Online documentation"
 msgstr "Онлайн-документация"
 
+#: tformmain.menuitemexit.caption
+msgid "Exit"
+msgstr "Выход"
+
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
 msgstr "Открыть папку"
@@ -775,7 +779,7 @@ msgstr "Запустить без компиляции"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
-msgid "Zapisz"
+msgid "Save"
 msgstr "Сохранить"
 
 #: tformmain.menuitemsearch.caption
@@ -1140,6 +1144,10 @@ msgstr "Проверьте API-токен и подключение к Инте�
 msgid "Checking the IDE s own modules directory: "
 msgstr "Проверка каталога собственных модулей IDE: "
 
+#: unit1.translatecloseprojectquestion
+msgid "Are you sure you want to close the project?"
+msgstr "Вы уверены, что хотите закрыть проект?"
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Код корректный!"
@@ -1181,6 +1189,10 @@ msgstr "ОШИБКА КОНФИГУРАЦИИ: не задан путь к мо�
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "ОШИБКА КОНФИГУРАЦИИ: целевая платформа не установлена "
+
+#: unit1.translateconfirmcloseapplication
+msgid "Are you sure you want to close the application?"
+msgstr "Вы уверены, что хотите закрыть приложение?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
@@ -1481,4 +1493,3 @@ msgstr "Информация"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Файл models.txt не найден."
-

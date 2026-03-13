@@ -746,6 +746,10 @@ msgstr ""
 msgid "Online documentation"
 msgstr ""
 
+#: tformmain.menuitemexit.caption
+msgid "Exit"
+msgstr ""
+
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
 msgstr ""
@@ -765,7 +769,7 @@ msgstr ""
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
-msgid "Zapisz"
+msgid "Save"
 msgstr ""
 
 #: tformmain.menuitemsearch.caption
@@ -1130,6 +1134,10 @@ msgstr ""
 msgid "Checking the IDE s own modules directory: "
 msgstr ""
 
+#: unit1.translatecloseprojectquestion
+msgid "Are you sure you want to close the project?"
+msgstr ""
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr ""
@@ -1170,6 +1178,10 @@ msgstr ""
 
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
+msgstr ""
+
+#: unit1.translateconfirmcloseapplication
+msgid "Are you sure you want to close the application?"
 msgstr ""
 
 #: unit1.translatecreatenewfile

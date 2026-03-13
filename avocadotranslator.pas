@@ -1262,7 +1262,6 @@ begin
     Exit;
   end;
 
-
   if TryParseDeclaration(TrimmedLine, VName, VType, VInit) then
   begin
     AddVariable(VName, VType, VInit = '', VInit);

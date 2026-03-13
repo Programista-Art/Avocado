@@ -165,7 +165,7 @@ msgstr "Error while processing the set_length function: "
 
 #: avocadotranslator.translateffunctionmapnotinitialized
 msgid "The FFunctionMap dictionary has not been initialized!"
-msgstr ""
+msgstr "The FFunctionMap dictionary has not been initialized!"
 
 #: avocadotranslator.translatefirstargumentcannotbeempty
 msgid "Error: The first argument (variable name) cannot be empty."
@@ -756,6 +756,10 @@ msgstr "Delete"
 msgid "Online documentation"
 msgstr "Online documentation"
 
+#: tformmain.menuitemexit.caption
+msgid "Exit"
+msgstr "Exit"
+
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
 msgstr "Open folder"
@@ -774,8 +778,9 @@ msgid "Run without compilation"
 msgstr "Run without compilation"
 
 #: tformmain.menuitemsavefile.caption
+#| msgid "Zapisz"
 msgctxt "tformmain.menuitemsavefile.caption"
-msgid "Zapisz"
+msgid "Save"
 msgstr "Save"
 
 #: tformmain.menuitemsearch.caption
@@ -1140,6 +1145,10 @@ msgstr "Check API token and internet connection"
 msgid "Checking the IDE s own modules directory: "
 msgstr "Checking the IDE s own modules directory: "
 
+#: unit1.translatecloseprojectquestion
+msgid "Are you sure you want to close the project?"
+msgstr "Are you sure you want to close the project?"
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Code correct!"
@@ -1181,6 +1190,10 @@ msgstr "CONFIGURATION ERROR: no module path set "
 #: unit1.translateconferrtargetplatform
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "CONFIGURATION ERROR: Target platform not set in "
+
+#: unit1.translateconfirmcloseapplication
+msgid "Are you sure you want to close the application?"
+msgstr "Are you sure you want to close the application?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
@@ -1481,4 +1494,3 @@ msgstr "Information"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "The models.txt file was not found."
-

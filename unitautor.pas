@@ -50,6 +50,7 @@ begin
   Close;
 end;
 
+
 procedure TFormAutor.SpeedButton2Click(Sender: TObject);
 begin
   OpenLink('https://www.youtube.com/@programistaart');
