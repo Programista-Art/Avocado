@@ -1,5 +1,4 @@
 czytaj_słowo 
-asm
 importuj=importuj  nazwa_modułu - Importuje moduł pascala
 oblicz=oblicz('Wyrażenie matematyczne') - funkcja do obliczeń matematycznych
 pisz=pisz('Tekst') - Wypisuje tekst do konsoli

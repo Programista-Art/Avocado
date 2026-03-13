@@ -387,3 +387,6 @@ paste_from_clipboard=paste_from_clipboard(Handle) - Вставить из буф
 undo_last_action=undo_last_action(Handle) - Отменить действие (Undo).
 can_undo=can_undo(Handle) - Можно ли отменить.
 show_context_menu=show_context_menu(HTarget) - Показать контекстное меню.
+
+;ZMIENNE
+hdc=hdc - переменная типа HDC

@@ -725,7 +725,7 @@ begin
 end;
 
 
-
+//Dozlwolone zmienne
 function TAvocadoTranslator.ResolveAlias(const AName: string): string;
 begin
   case LowerCase(AName) of
@@ -850,6 +850,8 @@ begin
      //uchwyt
     'uchwyt_okna', 'hwnd':
       Exit('HWND');
+    'uchwyt_plotna', 'hdc':
+      Exit('HDC');
     //rekord
     'parametry_ui', 'ui_parameters':
       Exit('TAvocadoWindowParams');
@@ -860,6 +862,9 @@ begin
     // Inne
     'wariant', 'variant':
       Exit('Variant');
+
+    'avoraiser_event','avoraiser_zdarzenie' :
+      Exit('TAvocadoEvent');
 
     'wariant_ole', 'olevariant', 'ole_variant':
       Exit('OleVariant');
@@ -1153,6 +1158,7 @@ var
   VarDecl, VarValue: string;
   VarParts: TStringArray;
   VarType, VarName: string;
+  VName, VType, VInit: string;
 begin
   TrimmedLine := Trim(Line);
   if TrimmedLine = '' then Exit;
@@ -1256,7 +1262,13 @@ begin
     Exit;
   end;
 
-  //Declaration handling With value (=)
+
+  if TryParseDeclaration(TrimmedLine, VName, VType, VInit) then
+  begin
+    AddVariable(VName, VType, VInit = '', VInit);
+  end;
+
+  {//Declaration handling With value (=)
   // Obsługa deklaracji Z wartością (=)
   if Pos('=', Line) = 0 then Exit;
 
@@ -1372,14 +1384,15 @@ begin
      (VarType = 'qword') or
      (VarType = 'string_list') or
      (VarType = 'dword') or
+     (VarType = 'avoraiser_event') or
      (VarType = 'search_record')
   then
   begin
     AddVariable(VarName, VarType, False, VarValue);
     Exit;
   end;
-
-  raise Exception.Create(TranslateUnknownVariableType + VarType);
+  }
+  //raise Exception.Create(TranslateUnknownVariableType + VarType);
 end;
 
 // Advanced argument parsing feature that takes quotation marks into account
@@ -1731,7 +1744,7 @@ begin
     if ContainsFunction(LowerCode, ['create_window(']) then AddModule(ModulesList, 'avoraiser.window');
     if ContainsFunction(LowerCode, ['create_edit(']) then AddModule(ModulesList, 'avoraiser.edit');
     if ContainsFunction(LowerCode, ['create_trackbar(']) then AddModule(ModulesList, 'avoraiser.trackbar');
-    if ContainsFunction(LowerCode, ['create_button(']) then AddModule(ModulesList, 'avoraiser.button');
+
     if ContainsFunction(LowerCode, ['create_memo(']) then AddModule(ModulesList, 'avoraiser.memo');
     if ContainsFunction(LowerCode, ['create_rich_edit(']) then AddModule(ModulesList, 'avoraiser.richedit');
     if ContainsFunction(LowerCode, ['create_label(']) then AddModule(ModulesList, 'avoraiser.labels');
@@ -1775,6 +1788,12 @@ begin
     ]) then
       AddModule(ModulesList, 'avoraiser.clipboard');
 
+    //Przyciski
+    if ContainsFunction(LowerCode, [
+    'create_button(','create_image_button(','set_button_colors(','set_button_radius(','set_button_id('
+
+    ])then
+    AddModule(ModulesList, 'avoraiser.button');
 
 
     // Zwrócenie wynikowej listy modułów
@@ -4327,7 +4346,8 @@ end;
     Exit;
   }
   //  //Tworzenie okna aplikacji CreateAvocadoWindow
-  if (Pos('utworz_okno(', LowerTrimmedLine) > 0) or
+  //Mozna wywalic
+  {if (Pos('utworz_okno(', LowerTrimmedLine) > 0) or
      (Pos('utwórz_okno(', LowerTrimmedLine) > 0) or
      (Pos('create_window(', LowerTrimmedLine) > 0) then
   begin
@@ -4355,7 +4375,7 @@ end;
     end;
     Exit;
   end;
-
+  }
    //Wczytanie z pliku: List.LoadFromFile('plik.txt');
   {if TryTranslateGeneric(Line, PascalCode,
   ['kolor_tła_ui', 'kolor_tla_ui', 'background_color_ui'],
@@ -4379,7 +4399,7 @@ end;
 
 
      //pokaz okno
-  if (Pos('pokaz_okno(', LowerTrimmedLine) > 0) or
+  {if (Pos('pokaz_okno(', LowerTrimmedLine) > 0) or
      (Pos('pokaż_okno(', LowerTrimmedLine) > 0) or
      (Pos('show_window(', LowerTrimmedLine) > 0) then
   begin
@@ -4406,11 +4426,11 @@ end;
     end;
     Exit;
   end;
+  }
 
 
 
-
-  // --- 7. ZWYKŁE PRZYPISANIA ---
+  // ZWYKŁE PRZYPISANIA ---
   if Pos('=', TrimmedLine) > 0 then
   begin
     Parts := TrimmedLine.Split(['='], 2);
@@ -4422,7 +4442,7 @@ end;
   end;
 
 
-  // --- 8. POZOSTAŁE (Catch-all) ---
+  //POZOSTAŁE (Catch-all) ---
   if TrimmedLine <> '' then
   begin
     TranslatedLine := TranslateExpression(TrimmedLine);

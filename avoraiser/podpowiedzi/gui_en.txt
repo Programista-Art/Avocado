@@ -390,3 +390,6 @@ cut_to_clipboard=cut_to_clipboard(Handle) - Cuts selection
 paste_from_clipboard=paste_from_clipboard(Handle) - Pastes content 
 undo_last_action=undo_last_action(Handle) - Undoes last action 
 can_undo=can_undo(Handle) - Checks if undo is possible 
+
+;ZMIENNE
+hdc=hdc - HDC type variable

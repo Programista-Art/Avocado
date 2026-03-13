@@ -96,7 +96,7 @@ reaguj_na_poziome_kolko=reaguj_na_poziome_kolko(uchwyt, funkcja) - Scrollowanie 
 reaguj_na_mysz_w_dol=reaguj_na_mysz_w_dol(uchwyt, funkcja) - Złapanie dowolnego przycisku myszy.
 reaguj_na_klikniecie=reaguj_na_klikniecie(uchwyt, funkcja) - Klasyczne kliknięcie w przycisk lub element.
 przekaz_zdarzenie_myszy=przekaz_zdarzenie_myszy(uchwyt, kursor_x, kursor_y) - Wymusza zdarzenie myszy w kodzie.
-sleduj_opuszczenie_myszy_avo=sleduj_opuszczenie_myszy_avo(uchwyt) - Włącza nasłuch, by wykryć zjechanie kursora z elementu.
+reaguj_opuszczenie_myszy=reaguj_opuszczenie_myszy(uchwyt) - Włącza nasłuch, by wykryć zjechanie kursora z elementu.
 reaguj_na_nc_ruch_myszy=reaguj_na_nc_ruch_myszy(uchwyt, funkcja) - Ruch myszą nad paskiem tytułowym (obszar non-client).
 reaguj_na_nc_lewy_w_dol=reaguj_na_nc_lewy_w_dol(uchwyt, funkcja) - Kliknięcie LPM na pasku okna.
 reaguj_na_nc_lewy_w_gore=reaguj_na_nc_lewy_w_gore(uchwyt, funkcja) - Puszczenie LPM na pasku okna.
@@ -395,3 +395,36 @@ zakoncz_aktualizacje=zakoncz_aktualizacje(uchwyt) - Odświeża komponent jednora
 ; --- BAJTY I SŁOWA ---
 mlodsze_slowo=mlodsze_slowo(liczba_32_bitowa) - (LOWORD) Ucina i zwraca młodsze, dolne 16-bitów (część prawą) z ogromnego zapisu pamięciowego.
 starsze_slowo=starsze_slowo(liczba_32_bitowa) - (HIWORD) Separuje dla logiki systemowej górną barierę pamięci wydzielając wczesne wartości np. Parametru Komunikatu Myszy z Windows.
+
+;ZMIENNE
+uchwyt_plotna=uchwyt_plotna - Zmienna typu HDC
+
+;MODUŁY
+avoraiser.window=avoraiser.window - Główny moduł okna aplikacji
+avoraiser.trackbar
+avoraiser.events
+avoraiser.core
+avoraiser.button
+avoraiser.edit
+avoraiser.utils
+avoraiser.window
+avoraiser.memo
+avoraiser.richedit
+avoraiser.labels
+avoraiser.layout
+avoraiser.shape
+avoraiser.menu
+avoraiser.spinedit
+avoraiser.timepicker
+avoraiser.combobox
+avoraiser.utils
+avoraiser.listbox
+avoraiser.chekbox
+avoraiser.avoraiser
+avoraiser.radiobutton
+avoraiser.groupbutton
+avoraiser.progressbar
+avoraiser.gdi
+avoraiser.dialogs
+avoraiser.system
+avoraiser.clipboard
