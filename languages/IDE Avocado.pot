@@ -605,7 +605,7 @@ msgid "Author"
 msgstr ""
 
 #: tformmain.menuclose.caption
-msgid "Close"
+msgid "Close project"
 msgstr ""
 
 #: tformmain.menuexamples.caption
@@ -747,7 +747,7 @@ msgid "Online documentation"
 msgstr ""
 
 #: tformmain.menuitemexit.caption
-msgid "Exit"
+msgid "Close IDE"
 msgstr ""
 
 #: tformmain.menuitemopenfolder.caption
@@ -1138,6 +1138,10 @@ msgstr ""
 msgid "Are you sure you want to close the project?"
 msgstr ""
 
+#: unit1.translateclosingavocadoide
+msgid "Closing Avocado IDE."
+msgstr ""
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr ""
@@ -1180,8 +1184,8 @@ msgstr ""
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr ""
 
-#: unit1.translateconfirmcloseapplication
-msgid "Are you sure you want to close the application?"
+#: unit1.translateconfirmcloseavocadoide
+msgid "Are you sure you want to close the entire Avocado IDE?"
 msgstr ""
 
 #: unit1.translatecreatenewfile

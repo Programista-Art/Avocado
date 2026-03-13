@@ -615,8 +615,8 @@ msgid "Author"
 msgstr "Autor"
 
 #: tformmain.menuclose.caption
-msgid "Close"
-msgstr "Schließen"
+msgid "Close project"
+msgstr "Projekt abschließen"
 
 #: tformmain.menuexamples.caption
 msgid "Examples"
@@ -757,8 +757,8 @@ msgid "Online documentation"
 msgstr "Online-Dokumentation"
 
 #: tformmain.menuitemexit.caption
-msgid "Exit"
-msgstr "Ausfahrt"
+msgid "Close IDE"
+msgstr "IDE schließen"
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
@@ -1148,6 +1148,10 @@ msgstr "Überprüfen des IDE-eigenen Modulverzeichnisses: "
 msgid "Are you sure you want to close the project?"
 msgstr "Sind Sie sicher, dass Sie das Projekt abschließen möchten?"
 
+#: unit1.translateclosingavocadoide
+msgid "Closing Avocado IDE."
+msgstr "Avocado IDE wird geschlossen."
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Code korrekt!"
@@ -1190,9 +1194,9 @@ msgstr "KONFIGURATIONSFEHLER: Kein Modulpfad festgelegt "
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "KONFIGURATIONSFEHLER: Zielplattform nicht festgelegt in "
 
-#: unit1.translateconfirmcloseapplication
-msgid "Are you sure you want to close the application?"
-msgstr "Möchten Sie die Anwendung wirklich schließen?"
+#: unit1.translateconfirmcloseavocadoide
+msgid "Are you sure you want to close the entire Avocado IDE?"
+msgstr "Möchten Sie die gesamte Avocado IDE wirklich schließen?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"

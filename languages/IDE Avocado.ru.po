@@ -65,7 +65,7 @@ msgstr "Ошибка: функция calc_format требует 1 или 2 ар�
 
 #: avocadotranslator.translatecalculatefunctionrequiresexpression
 msgid "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
-msgstr "Ошибка: функция oblicz/calc должна содержать математическое выражение, например calc(2 * 5) / oblicz "
+msgstr "Ошибка: функция oblicz/calc должна содержать математическое выражение, например calc(2 * 5) "
 
 #: avocadotranslator.translateclearlistrequiresoneargument
 msgid "ARGUMENT ERROR: The clearlist function accepts exactly 1 list name."
@@ -615,8 +615,8 @@ msgid "Author"
 msgstr "Автор"
 
 #: tformmain.menuclose.caption
-msgid "Close"
-msgstr "Закрыть"
+msgid "Close project"
+msgstr "Закрыть проект"
 
 #: tformmain.menuexamples.caption
 msgid "Examples"
@@ -757,8 +757,8 @@ msgid "Online documentation"
 msgstr "Онлайн-документация"
 
 #: tformmain.menuitemexit.caption
-msgid "Exit"
-msgstr "Выход"
+msgid "Close IDE"
+msgstr "Закрыть IDE"
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
@@ -1148,6 +1148,10 @@ msgstr "Проверка каталога собственных модулей 
 msgid "Are you sure you want to close the project?"
 msgstr "Вы уверены, что хотите закрыть проект?"
 
+#: unit1.translateclosingavocadoide
+msgid "Closing Avocado IDE."
+msgstr "Закрытие Avocado IDE."
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Код корректный!"
@@ -1190,9 +1194,9 @@ msgstr "ОШИБКА КОНФИГУРАЦИИ: не задан путь к мо�
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "ОШИБКА КОНФИГУРАЦИИ: целевая платформа не установлена "
 
-#: unit1.translateconfirmcloseapplication
-msgid "Are you sure you want to close the application?"
-msgstr "Вы уверены, что хотите закрыть приложение?"
+#: unit1.translateconfirmcloseavocadoide
+msgid "Are you sure you want to close the entire Avocado IDE?"
+msgstr "Вы уверены, что хотите закрыть всю среду разработки Avocado IDE?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"

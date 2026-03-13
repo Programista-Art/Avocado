@@ -1341,11 +1341,14 @@ object FormMain: TFormMain
         OnClick = MenuSaveAsClick
       end
       object MenuClose: TMenuItem
-        Caption = 'Close'
+        Caption = 'Close project'
         OnClick = MenuCloseClick
       end
+      object Separator2: TMenuItem
+        Caption = '-'
+      end
       object MenuItemExit: TMenuItem
-        Caption = 'Exit'
+        Caption = 'Close IDE'
         OnClick = MenuItemExitClick
       end
     end

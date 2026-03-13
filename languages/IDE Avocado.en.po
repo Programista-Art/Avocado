@@ -615,8 +615,9 @@ msgid "Author"
 msgstr "Author"
 
 #: tformmain.menuclose.caption
-msgid "Close"
-msgstr "Close"
+#| msgid "Close"
+msgid "Close project"
+msgstr "Close project"
 
 #: tformmain.menuexamples.caption
 msgid "Examples"
@@ -757,8 +758,9 @@ msgid "Online documentation"
 msgstr "Online documentation"
 
 #: tformmain.menuitemexit.caption
-msgid "Exit"
-msgstr "Exit"
+#| msgid "Exit"
+msgid "Close IDE"
+msgstr "Close IDE"
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
@@ -778,7 +780,6 @@ msgid "Run without compilation"
 msgstr "Run without compilation"
 
 #: tformmain.menuitemsavefile.caption
-#| msgid "Zapisz"
 msgctxt "tformmain.menuitemsavefile.caption"
 msgid "Save"
 msgstr "Save"
@@ -1149,6 +1150,10 @@ msgstr "Checking the IDE s own modules directory: "
 msgid "Are you sure you want to close the project?"
 msgstr "Are you sure you want to close the project?"
 
+#: unit1.translateclosingavocadoide
+msgid "Closing Avocado IDE."
+msgstr "Closing Avocado IDE."
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Code correct!"
@@ -1191,9 +1196,9 @@ msgstr "CONFIGURATION ERROR: no module path set "
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "CONFIGURATION ERROR: Target platform not set in "
 
-#: unit1.translateconfirmcloseapplication
-msgid "Are you sure you want to close the application?"
-msgstr "Are you sure you want to close the application?"
+#: unit1.translateconfirmcloseavocadoide
+msgid "Are you sure you want to close the entire Avocado IDE?"
+msgstr "Are you sure you want to close the entire Avocado IDE?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"

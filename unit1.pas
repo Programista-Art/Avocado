@@ -131,6 +131,7 @@ type
     SBClearSearchComments: TSpeedButton;
     SBClearSearchMistakes: TSpeedButton;
     Separator1: TMenuItem;
+    Separator2: TMenuItem;
     Splitter2: TSplitter;
     SplitterLeft: TSplitter;
     StatusBar: TStatusBar;
@@ -562,8 +563,8 @@ resourcestring
    TranslateInformation = 'Information';
    TranslateFileModifiedSaveChanges = 'The current file has been modified. Do you want to save the changes?';
    TranslateCloseProjectQuestion = 'Are you sure you want to close the project?';
-   TranslateConfirmCloseApplication = 'Are you sure you want to close the application?';
-
+   TranslateConfirmCloseAvocadoIDE = 'Are you sure you want to close the entire Avocado IDE?';
+   TranslateClosingAvocadoIDE = 'Closing Avocado IDE.';
 
 implementation
 
@@ -1411,7 +1412,7 @@ procedure TFormMain.MenuItemExitClick(Sender: TObject);
 var
 i: TModalResult;
 begin
-  i := MessageDlg(OpenProjectName,TranslateConfirmCloseApplication, mtConfirmation,[mbYes,mbNo],0);
+  i := MessageDlg(TranslateClosingAvocadoIDE,TranslateConfirmCloseAvocadoIDE, mtConfirmation,[mbYes,mbNo],0);
   if i = mrYes then
   begin
     Close;

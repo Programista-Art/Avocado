@@ -615,8 +615,8 @@ msgid "Author"
 msgstr "Autor"
 
 #: tformmain.menuclose.caption
-msgid "Close"
-msgstr "Zamknij"
+msgid "Close project"
+msgstr "Zamknij projekt"
 
 #: tformmain.menuexamples.caption
 msgid "Examples"
@@ -757,8 +757,8 @@ msgid "Online documentation"
 msgstr "Dokumentacja online"
 
 #: tformmain.menuitemexit.caption
-msgid "Exit"
-msgstr "Wyjść"
+msgid "Close IDE"
+msgstr "Zamknij IDE"
 
 #: tformmain.menuitemopenfolder.caption
 msgid "Open folder"
@@ -1148,6 +1148,10 @@ msgstr "Sprawdzanie katalogu własnych modułów IDE: "
 msgid "Are you sure you want to close the project?"
 msgstr "Czy na pewno chcesz zamknąć projekt?"
 
+#: unit1.translateclosingavocadoide
+msgid "Closing Avocado IDE."
+msgstr "Zamykanie Avocado IDE"
+
 #: unit1.translatecodecorrect
 msgid "Code correct!"
 msgstr "Kod poprawny!"
@@ -1190,9 +1194,9 @@ msgstr "BŁĄD KONFIGURACJI: brak ustawionej ścieżki do modułów "
 msgid "CONFIGURATION ERROR: Target platform not set in "
 msgstr "BŁĄD KONFIGURACJI: Platforma docelowa nie jest ustawiona w "
 
-#: unit1.translateconfirmcloseapplication
-msgid "Are you sure you want to close the application?"
-msgstr "Czy na pewno chcesz zamknąć aplikację?"
+#: unit1.translateconfirmcloseavocadoide
+msgid "Are you sure you want to close the entire Avocado IDE?"
+msgstr "Czy na pewno chcesz zamknąć całe środowisko Avocado IDE?"
 
 #: unit1.translatecreatenewfile
 msgid "Create a new file?"
