@@ -1,4 +1,6 @@
-calc
+asm=asm - Assembly instruction block
+import=import module_name - Imports a Pascal module
+calc=calc('expression') - Calculates the mathematical expression given in the text
 print
 print_line
 read_key
