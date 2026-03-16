@@ -397,7 +397,7 @@ mlodsze_slowo=mlodsze_slowo(liczba_32_bitowa) - (LOWORD) Ucina i zwraca młodsze
 starsze_slowo=starsze_slowo(liczba_32_bitowa) - (HIWORD) Separuje dla logiki systemowej górną barierę pamięci wydzielając wczesne wartości np. Parametru Komunikatu Myszy z Windows.
 
 ;ZMIENNE
-uchwyt_plotna=uchwyt_plotna - Zmienna typu HDC
+uchwyt_plotna=uchwyt_plotna - Zmienna typu HDC 
 
 ;MODUŁY
 avoraiser.window=avoraiser.window - Główny moduł okna aplikacji

@@ -393,3 +393,44 @@ can_undo=can_undo(Handle) - Checks if undo is possible
 
 ;ZMIENNE
 hdc=hdc - HDC type variable
+avoraiser.window=avoraiser.window - The main module of the application window
+avoraiser.trackbar
+avoraiser.events
+avoraiser.core
+avoraiser.button
+avoraiser.edit
+avoraiser.utils
+avoraiser.window
+avoraiser.memo
+avoraiser.richedit
+avoraiser.labels
+avoraiser.layout
+avoraiser.shape
+avoraiser.menu
+avoraiser.spinedit
+avoraiser.timepicker
+avoraiser.combobox
+avoraiser.utils
+avoraiser.listbox
+avoraiser.chekbox
+avoraiser.avoraiser
+avoraiser.radiobutton
+avoraiser.groupbutton
+avoraiser.progressbar
+avoraiser.gdi
+avoraiser.dialogs
+avoraiser.system
+avoraiser.clipboard
+;NOWE
+set_edit_numbers_only=set_edit_numbers_only - Allows you to enter only numbers into Edit
+set_edit_math_only=set_edit_math_only(Handle) - Activate only numbers and characters in Edit
+add_to_edit=add_to_edit(Handle, text) Adding value to Edit
+set_window_resizable=set_window_resizable(Handle ,boolean) - I'm blocking window resizing
+printer_show_dialog=printer_show_dialog(Handle, HDC) - Invokes the system printer selection dialog and returns its context (HDC)
+printer_begin_doc=printer_begin_doc(HDC, document)  - Starts a new print job (appears in the Windows spooler)
+printer_end_doc= printer_end_doc(HDC) - Finishes the job, ejects the paper from the printer, and frees up memory
+printer_export_to_pdf=printer_export_to_pdf(file_path, HDC)  - Creates a PDF file in the background and returns a ready handle for drawing on it
+printer_set_font=printer_set_font(HDC,font_name, height_pixels) - Sets the font before printing.
+draw_image=draw_image(HDC,x,y,wifth, height, image_path) - Draws a file, a photo
+get_image_size=get_image_size( file_path,width, height)Boolean - Gets the image size
+calculate_aspect_ratio = calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH, NewW, NewH) - Calculates new dimensions (NewW, NewH) so that an image with dimensions (OrigW, OrigH) fits into the maximum allowable field (MaxW, MaxH) without distortion.
