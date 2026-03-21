@@ -44,7 +44,6 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="16"/>
         <CursorPos Y="48"/>
@@ -80,8 +79,9 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="1380"/>
+        <TopLine Value="1381"/>
         <CursorPos X="24" Y="1388"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
@@ -343,11 +343,7 @@
         <UsageCount Value="9"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="unitautor.pas"/>
-        <Caret Line="53" TopLine="56"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="3400" Column="20" TopLine="3381"/>

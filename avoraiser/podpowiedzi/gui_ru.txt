@@ -390,3 +390,49 @@ show_context_menu=show_context_menu(HTarget) - Показать контекст
 
 ;ZMIENNE
 hdc=hdc - переменная типа HDC
+avoraiser.window=avoraiser.window - Основной модуль окна приложения
+avoraiser.trackbar
+avoraiser.events
+avoraiser.core
+avoraiser.button
+avoraiser.edit
+avoraiser.utils
+avoraiser.window
+avoraiser.memo
+avoraiser.richedit
+avoraiser.labels
+avoraiser.layout
+avoraiser.shape
+avoraiser.menu
+avoraiser.spinedit
+avoraiser.timepicker
+avoraiser.combobox
+avoraiser.utils
+avoraiser.listbox
+avoraiser.chekbox
+avoraiser.avoraiser
+avoraiser.radiobutton
+avoraiser.groupbutton
+avoraiser.progressbar
+avoraiser.gdi
+avoraiser.dialogs
+avoraiser.system
+avoraiser.clipboard
+;NOWE
+set_edit_numbers_only=set_edit_numbers_only - Позволяет вводить в поле Edit только цифры
+set_edit_math_only=set_edit_math_only(Handle) - Включить только цифры и символы в режиме Edit
+add_to_edit=add_to_edit(Handle, text) Добавление значения в Edit
+set_window_resizable=set_window_resizable(Handle ,boolean) - Блокирует изменение размера окна
+printer_show_dialog=printer_show_dialog(Handle, HDC) - Вызывает диалоговое окно выбора системного принтера и возвращает его контекст (HDC)
+printer_begin_doc=printer_begin_doc(HDC, document)  - Запускает новое задание на печать (отображается в очереди печати Windows)
+printer_end_doc= printer_end_doc(HDC) - Завершает задание, извлекает бумагу из принтера и освобождает память
+printer_export_to_pdf=printer_export_to_pdf(file_path, HDC)  - Создает файл PDF в фоновом режиме и возвращает готовый дескриптор для рисования на нем
+printer_set_font=printer_set_font(HDC,font_name, height_pixels) - Задаёт шрифт перед печатью.
+draw_image=draw_image(HDC,x,y,wifth, height, image_path) - Рисует файл, изображение
+get_image_size=get_image_size( file_path,width, height)Boolean - Получает размер изображения
+calculate_aspect_ratio=calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH, NewW, NewH) - Вычисляет новые размеры (NewW, NewH) таким образом, чтобы изображение с размерами (OrigW, OrigH) поместилось в поле максимально допустимых размеров (MaxW, MaxH) без искажений.
+get_device_width=get_device_width(HDC)-Получает физический размер холста (в пикселях)
+get_device_height=get_device_height(HDC)-Получает физический размер холста (в пикселях)
+set_text_align_center=set_text_align_center(HDC)-Выравнивает текст по заданной координате X. 
+set_text_align_left=set_text_align_left(HDC)-Восстанавливает стандартное рисование текста слева (по умолчанию)
+refresh_ui=refresh_ui-Обновляет интерфейс во время сложных вычислений, предотвращая зависание окна.

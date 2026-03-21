@@ -393,3 +393,49 @@ can_undo=can_undo(Handle) - Prüft, ob Rückgängigmachen möglich ist.
 
 ;ZMIENNE
 hdc=hdc - Variable vom Typ HDC
+avoraiser.window=avoraiser.window - Das Hauptmodul des Anwendungsfensters
+avoraiser.trackbar
+avoraiser.events
+avoraiser.core
+avoraiser.button
+avoraiser.edit
+avoraiser.utils
+avoraiser.window
+avoraiser.memo
+avoraiser.richedit
+avoraiser.labels
+avoraiser.layout
+avoraiser.shape
+avoraiser.menu
+avoraiser.spinedit
+avoraiser.timepicker
+avoraiser.combobox
+avoraiser.utils
+avoraiser.listbox
+avoraiser.chekbox
+avoraiser.avoraiser
+avoraiser.radiobutton
+avoraiser.groupbutton
+avoraiser.progressbar
+avoraiser.gdi
+avoraiser.dialogs
+avoraiser.system
+avoraiser.clipboard
+;NOWE
+set_edit_numbers_only=set_edit_numbers_only - Ermöglicht die Eingabe von Zahlen in das Bearbeitungsfeld
+set_edit_math_only=set_edit_math_only(Handle) - Im Bearbeitungsmodus nur Zahlen und Buchstaben aktivieren
+add_to_edit=add_to_edit(Handle, text)-Mehrwert schaffen – Bearbeiten
+set_window_resizable=set_window_resizable(Handle ,boolean) - Änderung der Fenstergröße verhindern 
+printer_show_dialog=printer_show_dialog(Handle, HDC) - Ruft den Dialog zur Druckerauswahl auf und gibt dessen Kontext (HDC) zurück
+printer_begin_doc=printer_begin_doc(HDC, document)  - Startet einen neuen Druckauftrag (wird im Windows-Druckspool angezeigt)
+printer_end_doc= printer_end_doc(HDC) - Beendet den Druckauftrag, wirft das Papier aus dem Drucker aus und gibt Speicherplatz frei
+printer_export_to_pdf=printer_export_to_pdf(file_path, HDC) - Erstellt im Hintergrund eine PDF-Datei und gibt einen Handle zurück, mit dem darauf gezeichnet werden kann
+printer_set_font=printer_set_font(HDC,font_name, height_pixels) - Legt die Schriftart vor dem Drucken fest.
+draw_image=draw_image(HDC,x,y,wifth, height, image_path) - Zeichnet eine Datei, ein Foto
+get_image_size=get_image_size( file_path,width, height)Boolean - Ruft die Bildgröße ab
+calculate_aspect_ratio=calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH, NewW, NewH) - Berechnet neue Abmessungen (NewW, NewH), sodass ein Bild mit den Abmessungen (OrigW, OrigH) ohne Verzerrung in das maximal zulässige Feld (MaxW, MaxH) passt. 
+get_device_width=get_device_width(HDC)-Ruft die physische Höhe der Leinwand ab (in Pixeln)
+get_device_height=get_device_height(HDC)-Ruft die physische Höhe der Leinwand ab (in Pixeln)
+set_text_align_center=set_text_align_center(HDC)-Zentriert den Text relativ zu den angegebenen X-Koordinaten. 
+set_text_align_left=set_text_align_left(HDC)-Stellt die Standardausrichtung für Text auf linksbündig (Standard) zurück
+refresh_ui=refresh_ui-Aktualisiert die Benutzeroberfläche bei rechenintensiven Vorgängen und verhindert so, dass das Fenster einfriert.

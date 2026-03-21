@@ -393,3 +393,49 @@ can_undo=can_undo(Handle) - Vérifie si l'annulation est possible.
 
 ;ZMIENNE
 hdc=hdc - variable de type HDC
+avoraiser.window=avoraiser.window - Le module principal de la fenêtre de l'application
+avoraiser.trackbar
+avoraiser.events
+avoraiser.core
+avoraiser.button
+avoraiser.edit
+avoraiser.utils
+avoraiser.window
+avoraiser.memo
+avoraiser.richedit
+avoraiser.labels
+avoraiser.layout
+avoraiser.shape
+avoraiser.menu
+avoraiser.spinedit
+avoraiser.timepicker
+avoraiser.combobox
+avoraiser.utils
+avoraiser.listbox
+avoraiser.chekbox
+avoraiser.avoraiser
+avoraiser.radiobutton
+avoraiser.groupbutton
+avoraiser.progressbar
+avoraiser.gdi
+avoraiser.dialogs
+avoraiser.system
+avoraiser.clipboard
+;NOWE
+set_edit_numbers_only=set_edit_numbers_only - Permet de saisir uniquement des chiffres dans le champ « Modifier »
+set_edit_math_only=set_edit_math_only(Handle) - N'autoriser que les chiffres et les caractères dans l'édition
+add_to_edit=add_to_edit(Handle, text) - Apporter une valeur ajoutée à Modifier
+set_window_resizable=set_window_resizable(Handle ,boolean) - Empêcher le redimensionnement de la fenêtre
+printer_show_dialog=printer_show_dialog(Handle, HDC) - Affiche la boîte de dialogue de sélection de l'imprimante système et renvoie son contexte (HDC)
+printer_begin_doc=printer_begin_doc(HDC, document)  - Lance une nouvelle tâche d'impression (qui apparaît dans la file d'attente d'impression Windows)
+printer_end_doc= printer_end_doc(HDC) - Termine la tâche, éjecte le papier de l'imprimante et libère de la mémoire
+printer_export_to_pdf=printer_export_to_pdf(file_path, HDC)  - Crée un fichier PDF en arrière-plan et renvoie un descripteur prêt à l'emploi pour y dessiner
+printer_set_font=printer_set_font(HDC,font_name, height_pixels) - Définit la police avant l'impression.
+draw_image=draw_image(HDC,x,y,wifth, height, image_path) - Ouvre un fichier, une photo
+get_image_size=get_image_size( file_path,width, height)Boolean - Récupère la taille de l'image
+calculate_aspect_ratio=calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH, NewW, NewH) - Calcule les nouvelles dimensions (NewW, NewH) de manière à ce qu'une image de dimensions (OrigW, OrigH) s'insère dans le champ maximal autorisé (MaxW, MaxH) sans distorsion.
+get_device_width=get_device_width(HDC)-Récupère la hauteur physique du canevas (en pixels)
+get_device_height=get_device_height(HDC)-Récupère la hauteur physique du canevas (en pixels)
+set_text_align_center=set_text_align_center(HDC)-Centre le texte par rapport aux coordonnées X indiquées. 
+set_text_align_left=set_text_align_left(HDC)-Rétablit l'alignement par défaut du texte à gauche
+refresh_ui=refresh_ui-Actualise l'interface lors de calculs intensifs, ce qui empêche la fenêtre de se figer.

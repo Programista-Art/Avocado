@@ -428,3 +428,21 @@ avoraiser.gdi
 avoraiser.dialogs
 avoraiser.system
 avoraiser.clipboard
+;NOWE
+set_edit_numbers_only=set_edit_numbers_only - Umożliwia wprowadzanie wyłącznie liczb do Edit
+set_edit_math_only=set_edit_math_only(Handle) - Aktywuj tylko cyfry i znaki w Edit
+add_to_edit=add_to_edit(Handle, text) - Dodawanie wartości do Edit
+set_window_resizable=set_window_resizable(Handle ,boolean) - Blokuję zmianę rozmiaru okna
+printer_show_dialog=printer_show_dialog(Handle, HDC) - Wywołuje okno dialogowe wyboru drukarki systemowej i zwraca jego kontekst (HDC)
+printer_begin_doc=printer_begin_doc(HDC, document) - Rozpoczyna nowe zadanie drukowania (pojawia się w buforze Windowsa)
+printer_end_doc= printer_end_doc(HDC) - Kończy zadanie, wypuszcza kartkę z drukarki i zwalnia pamięć
+printer_export_to_pdf=printer_export_to_pdf(file_path, HDC) - Tworzy plik PDF w tle i zwraca gotowy uchwyt do rysowania na nim
+printer_set_font=printer_set_font(HDC,font_name, height_pixels) - Ustawia czcionkę przed drukowaniem. 
+draw_image=draw_image(HDC,x,y,wifth, height, image_path)- Rysuje plik
+get_image_size=get_image_size( file_path,width, height)Boolean-Pobiera rozmiar obrazka.   
+calculate_aspect_ratio=calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH, NewW, NewH)-Oblicza nowe wymiary (NewW, NewH) tak, by obraz o wymiarach (OrigW, OrigH) zmieścił się w maksymalnym dopuszczalnym polu (MaxW, MaxH) bez zniekształceń.
+get_device_width=get_device_width(HDC)-Pobiera fizyczną szerokość płótna (w pikselach) 
+get_device_height=get_device_height(HDC)-Pobiera fizyczną wysokość płótna (w pikselach) 
+set_text_align_center=set_text_align_center(HDC)-Ustawia wyśrodkowanie tekstu względem współrzędnej X  
+set_text_align_left=set_text_align_left(HDC)-Przywraca standardowe rysowanie tekstu od lewej strony (domyślne) 
+refresh_ui=refresh_ui-Odświeża interfejs w trakcie ciężkich obliczeń, zapobiegając zawieszeniu okna

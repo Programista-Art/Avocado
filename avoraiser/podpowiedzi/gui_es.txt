@@ -393,3 +393,49 @@ can_undo=can_undo(Handle) - Comprueba si es posible deshacer.
 
 ;ZMIENNE
 hdc=hdc - Variable de tipo HDC
+avoraiser.window=avoraiser.window - El módulo principal de la ventana de la aplicación
+avoraiser.trackbar
+avoraiser.events
+avoraiser.core
+avoraiser.button
+avoraiser.edit
+avoraiser.utils
+avoraiser.window
+avoraiser.memo
+avoraiser.richedit
+avoraiser.labels
+avoraiser.layout
+avoraiser.shape
+avoraiser.menu
+avoraiser.spinedit
+avoraiser.timepicker
+avoraiser.combobox
+avoraiser.utils
+avoraiser.listbox
+avoraiser.chekbox
+avoraiser.avoraiser
+avoraiser.radiobutton
+avoraiser.groupbutton
+avoraiser.progressbar
+avoraiser.gdi
+avoraiser.dialogs
+avoraiser.system
+avoraiser.clipboard
+;NOWE
+set_edit_numbers_only=set_edit_numbers_only - Permite introducir solo números en «Editar»
+set_edit_math_only=set_edit_math_only(Handle) - Activar solo números y caracteres en Edición
+add_to_edit=add_to_edit(Handle, text) - Añadir valor a Editar 
+set_window_resizable=set_window_resizable(Handle ,boolean) - Impedir que se cambie el tamaño de la ventana 
+printer_show_dialog=printer_show_dialog(Handle, HDC) - Abre el cuadro de diálogo de selección de impresora del sistema y devuelve su contexto (HDC)
+printer_begin_doc=printer_begin_doc(HDC, document)  - Inicia un nuevo trabajo de impresión (aparece en la cola de impresión de Windows)
+printer_end_doc= printer_end_doc(HDC) - Finaliza el trabajo, expulsa el papel de la impresora y libera memoria
+printer_export_to_pdf=printer_export_to_pdf(file_path, HDC)  - Crea un archivo PDF en segundo plano y devuelve un identificador listo para dibujar en él
+printer_set_font=printer_set_font(HDC,font_name, height_pixels) - Establece el tipo de letra antes de imprimir.
+draw_image=draw_image(HDC,x,y,wifth, height, image_path) - Abre un archivo o una foto
+get_image_size=get_image_size( file_path,width, height)Boolean - Obtiene el tamaño de la imagen
+calculate_aspect_ratio=calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH, NewW, NewH) - Calcula las nuevas dimensiones (NewW, NewH) de modo que una imagen con las dimensiones (OrigW, OrigH) quepa en el campo máximo permitido (MaxW, MaxH) sin distorsión. 
+get_device_width=get_device_width(HDC)-Obtiene la altura física del lienzo (en píxeles)
+get_device_height=get_device_height(HDC)-Obtiene la altura física del lienzo (en píxeles)
+set_text_align_center=set_text_align_center(HDC)-Centra el texto con respecto a las coordenadas X indicadas. 
+set_text_align_left=set_text_align_left(HDC)-Restablece el dibujo de texto estándar desde la izquierda (predeterminado)
+refresh_ui=refresh_ui-Actualiza la interfaz durante los cálculos intensivos, evitando que la ventana se cuelgue.
