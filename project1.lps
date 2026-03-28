@@ -45,7 +45,7 @@
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="16"/>
+        <TopLine Value="8"/>
         <CursorPos Y="48"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -79,9 +79,8 @@
         <Filename Value="avocadotranslator.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AvocadoTranslator"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="1381"/>
+        <TopLine Value="1382"/>
         <CursorPos X="24" Y="1388"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
@@ -158,7 +157,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Uwsparcie"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="30"/>
+        <TopLine Value="25"/>
         <CursorPos X="61" Y="51"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -228,6 +227,7 @@
         <ComponentName Value="aiassistant"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="48"/>
         <CursorPos X="49" Y="98"/>
         <UsageCount Value="200"/>
