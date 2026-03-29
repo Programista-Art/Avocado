@@ -1101,6 +1101,10 @@ msgstr "Den Interpreter in einem separaten Fenster ausführen..."
 msgid " - Added custom IDE modules path: "
 msgstr " - Benutzerdefinierten IDE-Modulpfad hinzugefügt: "
 
+#: unit1.translateaddedavocadoframeworkpath
+msgid "Added Avocado framework path:"
+msgstr ""
+
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
 msgstr " - Benutzer-Module-Pfad hinzugefügt: "
@@ -1242,6 +1246,10 @@ msgstr "FATALER FEHLER: Der FPC-Basispfad (FpcBasePath) ist nicht richtig konfig
 msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
 msgstr "Ein Fehler ist aufgetreten: "
+
+#: unit1.translateerrorcreatetempdir
+msgid "Error: Could not create temporary directory: "
+msgstr ""
 
 #: unit1.translateerrorsinthecode
 msgid "Errors in the code!"
@@ -1417,6 +1425,14 @@ msgstr "Unbekannter Name"
 msgid "The value you were looking for has been found!"
 msgstr "Der gesuchte Wert wurde gefunden!"
 
+#: unit1.translatewarningcannotdeleteoldexe
+msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
+msgstr ""
+
+#: unit1.translatewarningframeworkfoldernotfound
+msgid "WARNING: Framework folder not found:"
+msgstr ""
+
 #: unitautor.translatecannotopenlink
 msgctxt "unitautor.translatecannotopenlink"
 msgid "The link cannot be opened: "
@@ -1497,3 +1513,4 @@ msgstr "Informationen"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Die Datei „models.txt“ wurde nicht gefunden."
+

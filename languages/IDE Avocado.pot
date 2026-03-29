@@ -1091,6 +1091,10 @@ msgstr ""
 msgid " - Added custom IDE modules path: "
 msgstr ""
 
+#: unit1.translateaddedavocadoframeworkpath
+msgid "Added Avocado framework path:"
+msgstr ""
+
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
 msgstr ""
@@ -1231,6 +1235,10 @@ msgstr ""
 #: unit1.translateerroccurred
 msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
+msgstr ""
+
+#: unit1.translateerrorcreatetempdir
+msgid "Error: Could not create temporary directory: "
 msgstr ""
 
 #: unit1.translateerrorsinthecode
@@ -1405,6 +1413,14 @@ msgstr ""
 
 #: unit1.translatevaluelookingfound
 msgid "The value you were looking for has been found!"
+msgstr ""
+
+#: unit1.translatewarningcannotdeleteoldexe
+msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
+msgstr ""
+
+#: unit1.translatewarningframeworkfoldernotfound
+msgid "WARNING: Framework folder not found:"
 msgstr ""
 
 #: unitautor.translatecannotopenlink

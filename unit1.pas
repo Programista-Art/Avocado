@@ -565,6 +565,10 @@ resourcestring
    TranslateCloseProjectQuestion = 'Are you sure you want to close the project?';
    TranslateConfirmCloseAvocadoIDE = 'Are you sure you want to close the entire Avocado IDE?';
    TranslateClosingAvocadoIDE = 'Closing Avocado IDE.';
+   TranslateErrorCreateTempDir = 'Error: Could not create temporary directory: ';
+   TranslateWarningCannotDeleteOldExe = 'WARNING: Cannot delete old EXE file (maybe it is running?)';
+   TranslateAddedAvocadoFrameworkPath = 'Added Avocado framework path:';
+   TranslateWarningFrameworkFolderNotFound = 'WARNING: Framework folder not found:';
 
 implementation
 
@@ -1331,15 +1335,81 @@ begin
 
   if lang = 'pl' then
   begin
-    SynEditCode.Lines.Add('glowny ');
+    SynEditCode.Lines.Add('import avoraiser.window');
+    SynEditCode.Lines.Add('hwnd my_window');
+    SynEditCode.Lines.Add('main');
+    SynEditCode.Lines.Add('  my_win');
+    SynEditCode.Lines.Add('  run_app');
+    SynEditCode.Lines.Add('end.');
     SynEditCode.Lines.Add(' ');
-    SynEditCode.Lines.Add('koniec.');
+    SynEditCode.Lines.Add('procedure my_win');
+    SynEditCode.Lines.Add('start');
+    SynEditCode.Lines.Add('  ui_parameters ui');
+    SynEditCode.Lines.Add('  ui = Default(TAvocadoWindowParams)');
+    SynEditCode.Lines.Add('  ui.title = ''Okno w Avoraiser - Avocado''');
+    SynEditCode.Lines.Add('  ui.width = 400');
+    SynEditCode.Lines.Add('  ui.height = 600');
+    SynEditCode.Lines.Add('  ui.x = 200');
+    SynEditCode.Lines.Add('  ui.y = 200');
+    SynEditCode.Lines.Add('  ui.visible = True');
+    SynEditCode.Lines.Add('  ui.allowmaximize = TRue');
+    SynEditCode.Lines.Add('  ');
+    SynEditCode.Lines.Add('  ');
+    SynEditCode.Lines.Add('  //Tworzenie Okna Main');
+    SynEditCode.Lines.Add('  my_window = create_window(ui)');
+    SynEditCode.Lines.Add('  ');
+    SynEditCode.Lines.Add('  if my_window <> 0 then');
+    SynEditCode.Lines.Add('  begin');
+    SynEditCode.Lines.Add('    center_window(my_window)');
+    SynEditCode.Lines.Add('    //Kod aplikacji');
+    SynEditCode.Lines.Add('   ');
+    SynEditCode.Lines.Add('  end');
+    SynEditCode.Lines.Add('end');
+
+    ToolButton1Click(Sender);
+//    SynEditCode.Lines.Add('glowny ');
+//    SynEditCode.Lines.Add(' ');
+//    SynEditCode.Lines.Add('koniec.');
   end
   else
   begin
+        SynEditCode.Lines.Add('import avoraiser.window');
+    SynEditCode.Lines.Add('hwnd my_window');
+    SynEditCode.Lines.Add('main');
+    SynEditCode.Lines.Add('  my_win');
+    SynEditCode.Lines.Add('  run_app');
+    SynEditCode.Lines.Add('end.');
+    SynEditCode.Lines.Add(' ');
+    SynEditCode.Lines.Add('procedure my_win');
+    SynEditCode.Lines.Add('start');
+    SynEditCode.Lines.Add('  ui_parameters ui');
+    SynEditCode.Lines.Add('  ui = Default(TAvocadoWindowParams)');
+    SynEditCode.Lines.Add('  ui.title = ''Okno w Avoraiser - Avocado''');
+    SynEditCode.Lines.Add('  ui.width = 400');
+    SynEditCode.Lines.Add('  ui.height = 600');
+    SynEditCode.Lines.Add('  ui.x = 200');
+    SynEditCode.Lines.Add('  ui.y = 200');
+    SynEditCode.Lines.Add('  ui.visible = True');
+    SynEditCode.Lines.Add('  ui.allowmaximize = TRue');
+    SynEditCode.Lines.Add('  ');
+    SynEditCode.Lines.Add('  ');
+    SynEditCode.Lines.Add('  //Creating a Window Main');
+    SynEditCode.Lines.Add('  my_window = create_window(ui)');
+    SynEditCode.Lines.Add('  ');
+    SynEditCode.Lines.Add('  if my_window <> 0 then');
+    SynEditCode.Lines.Add('  begin');
+    SynEditCode.Lines.Add('    center_window(my_window)');
+    SynEditCode.Lines.Add('    //Application code');
+    SynEditCode.Lines.Add('   ');
+    SynEditCode.Lines.Add('  end');
+    SynEditCode.Lines.Add('end');
+
+    ToolButton1Click(Sender);
+    {
     SynEditCode.Lines.Add('main ');
     SynEditCode.Lines.Add(' ');
     SynEditCode.Lines.Add('end.');
+    }
   end;
 end;
 
@@ -1759,30 +1829,16 @@ begin
   try
     MemoOutPut.Clear;
 
-    // 1. Wykonujemy transpilację (używa TranslateCode i słownika .ini wewnątrz)
+    // Wykonujemy transpilację (używa TranslateCode i słownika .ini wewnątrz)
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-
     // Synchronizujemy flagę GUI z translatora do IDE
     IsConsoleProgram := not FTranslator.IsGUIProject;
 
     MemoOutPut.Lines.Text := FTranslatedCode.Text;
-
   except
     on E: Exception do
       MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
   end;
-
-  //  MemoOutPut.Clear;
-  //  FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-  //
-  //  //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
-  //
-  //  MemoOutPut.Lines.Add(FTranslatedCode.Text);
-  //  //BtnCompile.Enabled := True;
-  //except
-  //  on E: Exception do
-  //    MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
-  //end;
 end;
 
 procedure TFormMain.butCompileCodeClick(Sender: TObject);
@@ -2119,6 +2175,8 @@ ExeNameFromCode: string;
 AvoraiserPath: string;
 ParserLines: TStringList;
 LineStr: string;
+WebViewPath: string;
+MemStream: TMemoryStream;
 begin
   // walidacja ścieżek
   if (FFpcPath = '') or not FileExists(FFpcPath) then
@@ -2148,7 +2206,7 @@ begin
   TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
   if not ForceDirectories(TempDir) then
   begin
-    MemoLogs.Lines.Add('Błąd: Nie można utworzyć katalogu tymczasowego: ' + TempDir);
+    MemoLogs.Lines.Add(TranslateErrorCreateTempDir + TempDir);
     Exit;
   end;
   TempDir := IncludeTrailingPathDelimiter(TempDir);
@@ -2160,10 +2218,12 @@ begin
   else
       RawFileName := 'avocado_temp.pas';
 
+  //We remove spaces from the .pas file name
   // Usuwamy spacje z nazwy pliku .pas
   RawFileName := StringReplace(RawFileName, ' ', '_', [rfReplaceAll]);
   TempFile := TempDir + ChangeFileExt(RawFileName, '.pas');
 
+  //saving code to file
   //zapis kodu do pliku
   BuildMode := 'Release';
   try
@@ -2187,6 +2247,7 @@ begin
         Stream.Free;
       end;
 
+         //setting the name of the exe file
         // ustalanie nazwy pliku  exe
         // ExeNameFromCode := Trim(NameProgram);
         // wykrywanie nazwy programu z kodu
@@ -2222,7 +2283,7 @@ begin
           FinalExePath := OutputFile
         else
           // Zabezpieczenie Jeśli OutputFile to też samo ".exe", dajemy nazwę domyślną
-          FinalExePath := ExtractFilePath(OutputFile) + 'AplikacjaAvocado.exe';
+          FinalExePath := ExtractFilePath(OutputFile) + 'aplikacjagui.exe';
       end
       else
       begin
@@ -2233,24 +2294,24 @@ begin
       OutputFile := FinalExePath;
 
       if ExtractFileName(FinalExePath) = '.exe' then
-        FinalExePath := ExtractFilePath(FinalExePath) + 'ProgramKonsolowy.exe';
+        FinalExePath := ExtractFilePath(FinalExePath) + 'programkonsolowy.exe';
 
       // Usuwamy stary plik .exe (jeśli istnieje), żeby uniknąć błędów linkera
       if FileExists(FinalExePath) then
       begin
         if not DeleteFile(FinalExePath) then
-          MemoLogs.Lines.Add('OSTRZEŻENIE: Nie można usunąć starego pliku EXE (może jest uruchomiony?).');
+          MemoLogs.Lines.Add(TranslateWarningCannotDeleteOldExe);
       end;
 
-
+      // compilation process configuration
       // konfiguracja procesu kompilacji
       AProcess := TProcess.Create(nil);
       OutputLines := TStringList.Create;
       try
         AProcess.Executable := FFpcPath;
-        AProcess.Parameters.Add(TempFile); // Plik źródłowy
+        AProcess.Parameters.Add(TempFile); // Plik źródłowy  // Source file
 
-        // Ścieżki do unitów (-Fu)
+        // // Paths to units (-Fu) / Ścieżki do unitów (-Fu)
         FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + FTargetPlatform;
         if DirectoryExists(FpcUnitPath) then
           AProcess.Parameters.Add('-Fu' + FpcUnitPath)
@@ -2289,7 +2350,7 @@ begin
           MemoLogs.Lines.Add(TranslateAddUserModulesPath + UserModulesPath);
         end;
 
-        // Moduły wbudowane
+        // Built-in modules / Moduły wbudowane
         IdeDirectory := ExtractFilePath(Application.ExeName);
         IdeModulesPath := IncludeTrailingPathDelimiter(IdeDirectory) + TranslateModules;
         MemoLogs.Lines.Add(TranslateCheckModulesDir + IdeModulesPath);
@@ -2306,19 +2367,29 @@ begin
         else
           MemoLogs.Lines.Add(TranslateCustModulesDirNotFound + IdeModulesPath + '.');
 
-           //Ladownaie modulow frameworka Avoraiser
+           //Loading Avoraiser framework modules / Ladownaie modulow frameworka Avoraiser
            AvoraiserPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avoraiser';
           if DirectoryExists(AvoraiserPath) then
           begin
             AProcess.Parameters.Add('-Fu' + AvoraiserPath);
-            MemoLogs.Lines.Add('Dodano ścieżkę frameworka Avocado: ' + AvoraiserPath);
-          end
-          else
-          begin
-            MemoLogs.Lines.Add('OSTRZEŻENIE: Nie znaleziono folderu frameworka: ' + AvoraiserPath);
-          end;
+            MemoLogs.Lines.Add(TranslateAddedAvocadoFrameworkPath + AvoraiserPath);
+            //Ładowanie biblioteki silnika Chromium (WebView)
+            WebViewPath := IncludeTrailingPathDelimiter(AvoraiserPath) + 'webview';
+               if DirectoryExists(WebViewPath) then
+                begin
+                  AProcess.Parameters.Add('-Fu' + WebViewPath);
+                  MemoLogs.Lines.Add('Podłączono silnik Chromium WebView2: ' + WebViewPath);
+                end
+                else
+                begin
+                  MemoLogs.Lines.Add('UWAGA: Nie znaleziono folderu silnika WebView2: ' + WebViewPath);
+                end;
+            end
+            else
+            begin
+              MemoLogs.Lines.Add(TranslateWarningFrameworkFolderNotFound  + AvoraiserPath);
+            end;
         //plik wyjściowy (-o)
-        // Używamy naszej obliczonej ścieżki
         AProcess.Parameters.Add('-o' + FinalExePath);
 
         // Opcje procesu
@@ -2327,26 +2398,36 @@ begin
 
         MemoLogs.Lines.Add(TranslateStartComilationParam + AProcess.Parameters.Text);
 
-        // uruchomienie (zapobieganie zawieszaniu)
-        AProcess.Execute;
-
-        // Pętla odczytująca dane w locie
+        MemStream := TMemoryStream.Create;
+        try
+          // startup (anti-hang) / uruchomienie (zapobieganie zawieszaniu)
+          AProcess.Execute;
         while AProcess.Running do
         begin
           if AProcess.Output.NumBytesAvailable > 0 then
-             OutputLines.LoadFromStream(AProcess.Output);
-
+             //OutputLines.LoadFromStream(AProcess.Output);
+              MemStream.CopyFrom(AProcess.Output, AProcess.Output.NumBytesAvailable);
           Sleep(10);
-          //Application.ProcessMessages; // Ważne: pozwala oknu reagować
         end;
 
-        // Doczytanie reszty po zakończeniu
+        // Read the rest after you finish / Doczytanie reszty po zakończeniu
         if AProcess.Output.NumBytesAvailable > 0 then
-           OutputLines.LoadFromStream(AProcess.Output);
+           //OutputLines.LoadFromStream(AProcess.Output);
+           MemStream.CopyFrom(AProcess.Output, AProcess.Output.NumBytesAvailable);
 
+        // Teraz wczytujemy calosc do OutputLines
+        MemStream.Position := 0;
+        if MemStream.Size > 0 then
+         begin
+            OutputLines.LoadFromStream(MemStream);
+
+         end;
+        finally
+          MemStream.Free;
+        end;
         MemoLogs.Lines.AddStrings(OutputLines);
 
-        // Wynik
+        // Result
         if AProcess.ExitStatus = 0 then
           MemoLogs.Lines.Add(TranslateCompilationSuccses + FinalExePath)
         else
@@ -2356,10 +2437,13 @@ begin
         AProcess.Free;
         OutputLines.Free;
       end;
+      //finally
+      //end;
     except
       on E: Exception do
         MemoLogs.Lines.Add(TranslateErrCompilation + E.Message);
     end;
+
   finally
     // Sprzątanie
     try

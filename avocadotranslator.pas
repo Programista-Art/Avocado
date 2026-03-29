@@ -1266,132 +1266,6 @@ begin
   begin
     AddVariable(VName, VType, VInit = '', VInit);
   end;
-
-  {//Declaration handling With value (=)
-  // Obsługa deklaracji Z wartością (=)
-  if Pos('=', Line) = 0 then Exit;
-
-  Parts := Line.Split(['='], 2);
-  if Length(Parts) < 2 then Exit;
-
-  VarDecl := Trim(Parts[0]);
-  VarValue := Trim(Parts[1]);
-
-  VarParts := VarDecl.Split([' '], 2);
-  if Length(VarParts) < 2 then
-  exit;
-    //raise Exception.Create(InvalidVariableDeclaration + Line);
-
-  VarType := LowerCase(Trim(VarParts[0]));
-  VarName := Trim(VarParts[1]);
-
-  // Support for common types
-  // Obsługa zwykłych typów
-  if (VarType = 'tekst') or
-     (VarType = 'liczba_całkowita') or
-     (VarType = 'liczba_calkowita') or
-     (VarType = 'lc') or
-     (VarType = 'liczba_zm') or
-     (VarType = 'lzm') or
-     (VarType = 'logiczny') or
-     (VarType = 'znak') or
-     (VarType = 'liczba_krótka') or
-     (VarType = 'liczba_krotka') or
-     (VarType = 'liczba_mała') or
-     (VarType = 'liczba_mala') or
-     (VarType = 'liczba_długa') or
-     (VarType = 'liczba_dluga') or
-     (VarType = 'liczba64') or
-     (VarType = 'bajt') or
-     (VarType = 'liczba16') or
-     (VarType = 'liczba32') or
-     (VarType = 'tablica_liczb') or
-     (VarType = 'liczba_pojedyncza') or
-     (VarType = 'liczba_podwójna') or
-     (VarType = 'liczba_podwojna') or
-     (VarType = 'liczba_rozszerzona') or
-     (VarType = 'liczba_zgodna_delphi') or
-     (VarType = 'liczba_waluta') or
-     (VarType = 'logiczny_bajt') or
-     (VarType = 'logiczne_słowo') or
-     (VarType = 'logiczne_slowo') or
-     (VarType = 'logiczny_długi') or
-     (VarType = 'logiczny_dlugi') or
-     (VarType = 'znak_unicode') or
-     (VarType = 'tekst255') or
-     (VarType = 'tekst_ansi') or
-     (VarType = 'tekst_unicode') or
-     (VarType = 'tekst_systemowy') or
-     (VarType = 'tablica_stała') or
-     (VarType = 'tablica_stala') or
-     (VarType = 'tablica_dynamiczna') or
-     (VarType = 'rekord') or
-     (VarType = 'kolekcja') or
-     (VarType = 'plik_binarny') or
-     (VarType = 'plik_struktur') or
-     (VarType = 'wskaźnik') or
-     (VarType = 'wskaznik') or
-     (VarType = 'wskaźnik_na') or
-     (VarType = 'wskaznik_na') or
-     (VarType = 'wariant') or
-     (VarType = 'wariant_ole') or
-     (VarType = 'tablica_tekstów') or
-     (VarType = 'tablica_tekstow') or
-     //(VarType = 'lista_tekstów') or
-     //(VarType = 'lista_tekstow') or
-     (VarType = 'stała') or
-     (VarType = 'stala') or
-     (VarType = 'tekstld') or
-     (VarType = 'qliczba') or
-     (VarType = 'dslowo') or
-     (VarType = 'dsłowo') or
-
-     // angielskie odpowiedniki
-     (VarType = 'int') or
-     (VarType = 'int8') or
-     (VarType = 'int16') or
-     (VarType = 'int32') or
-     (VarType = 'int64') or
-     (VarType = 'real') or
-     (VarType = 'byte') or
-     (VarType = 'uint16') or
-     (VarType = 'uint32') or
-     (VarType = 'float') or
-     (VarType = 'float80') or
-     (VarType = 'decimal') or
-     (VarType = 'bool') or
-     (VarType = 'byte_bool') or
-     (VarType = 'long_bool') or
-     (VarType = 'wide_string') or
-     (VarType = 'comp') or
-     (VarType = 'char') or
-     (VarType = 'char32') or
-     (VarType = 'string255') or
-     (VarType = 'string') or
-     (VarType = 'ansi_string') or
-     (VarType = 'ansi_string') or
-     (VarType = 'unicode_string') or
-     (VarType = 'dynamic_array') or
-     (VarType = 'set') or
-     (VarType = 'binary_file') or
-     (VarType = 'file_struct') or
-     (VarType = 'pointer') or
-     (VarType = 'pointer_to') or
-     (VarType = 'any') or
-     (VarType = 'ole_variant') or
-     (VarType = 'informacje_o_wyszukaniu') or
-     (VarType = 'qword') or
-     (VarType = 'string_list') or
-     (VarType = 'dword') or
-     (VarType = 'avoraiser_event') or
-     (VarType = 'search_record')
-  then
-  begin
-    AddVariable(VarName, VarType, False, VarValue);
-    Exit;
-  end;
-  }
-  //raise Exception.Create(TranslateUnknownVariableType + VarType);
 end;
 
 // Advanced argument parsing feature that takes quotation marks into account
@@ -2364,45 +2238,111 @@ var
   URL, Target: string;
   CommaPos,I: Integer;
   InQuotes: Boolean;
-
+  ResultLine: string;
+  CommentDepth: Integer;
 begin
   TrimmedLine := Trim(Line);
 
-  // --- 1. OBSŁUGA KOMENTARZY ---
-  if FInMultiLineComment then
-  begin
-    EndPos := Pos('*)', TrimmedLine);
-    if EndPos > 0 then
-    begin
-      FInMultiLineComment := False;
-      TrimmedLine := Trim(Copy(TrimmedLine, EndPos + 2, MaxInt));
-    end
-    else Exit;
-  end;
+ TrimmedLine := Trim(Line);
 
-  while Pos('(*', TrimmedLine) > 0 do
+  //zaawansowana obsługa komentarzy (lexer z zagnieżdżaniem)
+  ResultLine := '';
+  InQuotes := False;
+  I := 1;
+
+  // Przenosimy stan z klasy do lokalnego licznika zagnieżdżeń
+  CommentDepth := 0;
+  if FInMultiLineComment then CommentDepth := 1;
+
+  while I <= Length(TrimmedLine) do
   begin
-    StartPos := Pos('(*', TrimmedLine);
-    EndPos := Pos('*)', TrimmedLine);
-    if (EndPos > StartPos) then
+    // Jesteśmy wewnątrz komentarza (* ... *)
+    if CommentDepth > 0 then
     begin
-      LineBefore := Copy(TrimmedLine, 1, StartPos - 1);
-      LineAfter := Copy(TrimmedLine, EndPos + 2, MaxInt);
-      TrimmedLine := Trim(LineBefore + ' ' + LineAfter);
+      // 1. Wykrywamy KOLEJNE otwarcie komentarza (zagnieżdżenie)
+      if (I < Length(TrimmedLine)) and (TrimmedLine[I] = '(') and (TrimmedLine[I+1] = '*') then
+      begin
+        Inc(CommentDepth); // Wchodzimy głębiej
+        Inc(I, 2);
+      end
+      // 2. Wykrywamy zamknięcie komentarza
+      else if (I < Length(TrimmedLine)) and (TrimmedLine[I] = '*') and (TrimmedLine[I+1] = ')') then
+      begin
+        Dec(CommentDepth); // Wychodzimy płycej
+        Inc(I, 2);
+
+        // Jeśli zeszliśmy do zera, ostatecznie wychodzimy z komentarza
+        if CommentDepth = 0 then
+        begin
+          FInMultiLineComment := False;
+          ResultLine := ResultLine + ' '; // Dodajemy spację, by nie skleić kodu
+        end;
+      end
+      else
+      begin
+        Inc(I); // Ignorujemy zawartość komentarza
+      end;
     end
     else
     begin
-      FInMultiLineComment := True;
-      TrimmedLine := Trim(Copy(TrimmedLine, 1, StartPos - 1));
-      Break;
+      //Jesteśmy w "normalnym" kodzie:
+
+      //Sprawdzamy, czy wchodzimy/wychodzimy ze stringa
+      if TrimmedLine[I] = '''' then
+      begin
+        InQuotes := not InQuotes;
+        ResultLine := ResultLine + TrimmedLine[I];
+        Inc(I);
+        Continue;
+      end;
+
+      //Jeśli NIE jesteśmy w stringu, łapiemy początki komentarzy
+      if not InQuotes then
+      begin
+        // Początek komentarza jednolinijkowego //
+        if (I < Length(TrimmedLine)) and (TrimmedLine[I] = '/') and (TrimmedLine[I+1] = '/') then
+        begin
+          Break; // Ucinamy wszystko do końca linii i przerywamy pętlę
+        end;
+
+        // Początek komentarza wielolinijkowego (*
+        if (I < Length(TrimmedLine)) and (TrimmedLine[I] = '(') and (TrimmedLine[I+1] = '*') then
+        begin
+          Inc(CommentDepth);
+          FInMultiLineComment := True;
+          Inc(I, 2);
+          Continue;
+        end;
+      end;
+
+      // Zwykły znak - przepisujemy do wyniku
+      ResultLine := ResultLine + TrimmedLine[I];
+      Inc(I);
     end;
   end;
 
-  if Pos('//', TrimmedLine) > 0 then
-    TrimmedLine := Trim(Copy(TrimmedLine, 1, Pos('//', TrimmedLine) - 1));
-
+  // Zabezpieczenie: jeśli po przejściu linii wciąż jesteśmy głęboko w komentarzach,
+  // informujemy o tym klasę, by pamiętała to przy czytaniu następnej linijki!
+  if CommentDepth > 0 then FInMultiLineComment := True;
+  TrimmedLine := Trim(ResultLine);
   if TrimmedLine = '' then Exit;
 
+
+  // Bezpieczne usuwanie komentarzy '//' z ignorowaniem tekstów wewnątrz stringów
+  InQuotes := False;
+  for I := 1 to Length(TrimmedLine) do
+  begin
+    // Sprawdzamy, czy wchodzimy/wychodzimy ze stringa (apostrofy)
+    if TrimmedLine[I] = '''' then
+      InQuotes := not InQuotes;
+
+    // Jeśli NIE jesteśmy wewnątrz stringa i widzimy '//', ucinamy linię
+    if (not InQuotes) and (I < Length(TrimmedLine)) and (TrimmedLine[I] = '/') and (TrimmedLine[I+1] = '/') then
+    begin
+      TrimmedLine := Trim(Copy(TrimmedLine, 1, I - 1));
+      Break; // Koniec szukania w tej linii
+    end;
+  end;
   LowerTrimmedLine := LowerCase(TrimmedLine);
   LowerLine := AnsiLowerCase(TrimmedLine);
 

@@ -615,7 +615,6 @@ msgid "Author"
 msgstr "Author"
 
 #: tformmain.menuclose.caption
-#| msgid "Close"
 msgid "Close project"
 msgstr "Close project"
 
@@ -758,7 +757,6 @@ msgid "Online documentation"
 msgstr "Online documentation"
 
 #: tformmain.menuitemexit.caption
-#| msgid "Exit"
 msgid "Close IDE"
 msgstr "Close IDE"
 
@@ -1103,6 +1101,10 @@ msgstr "Running the interpreter in a separate window.."
 msgid " - Added custom IDE modules path: "
 msgstr " - Added custom IDE modules path: "
 
+#: unit1.translateaddedavocadoframeworkpath
+msgid "Added Avocado framework path:"
+msgstr ""
+
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
 msgstr " - Added user modules path: "
@@ -1244,6 +1246,10 @@ msgstr "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly
 msgctxt "unit1.translateerroccurred"
 msgid "An error occurred: "
 msgstr "An error occurred: "
+
+#: unit1.translateerrorcreatetempdir
+msgid "Error: Could not create temporary directory: "
+msgstr ""
 
 #: unit1.translateerrorsinthecode
 msgid "Errors in the code!"
@@ -1419,6 +1425,14 @@ msgstr "Unknown name"
 msgid "The value you were looking for has been found!"
 msgstr "The value you were looking for has been found!"
 
+#: unit1.translatewarningcannotdeleteoldexe
+msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
+msgstr ""
+
+#: unit1.translatewarningframeworkfoldernotfound
+msgid "WARNING: Framework folder not found:"
+msgstr ""
+
 #: unitautor.translatecannotopenlink
 msgctxt "unitautor.translatecannotopenlink"
 msgid "The link cannot be opened: "
@@ -1499,3 +1513,4 @@ msgstr "Information"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "The models.txt file was not found."
+
