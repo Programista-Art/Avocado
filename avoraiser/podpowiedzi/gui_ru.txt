@@ -3,7 +3,19 @@
 ; Формат: команда=команда(параметры) - Описание
 ; ==============================================================================
 
+
+; --- СВОЙСТВА ОКНА (TAvocadoWindowParams) ---
+.title=.title = 'Текст' - Устанавливает заголовок окна
+.width=.width = Число - Устанавливает ширину окна (в пикселях)
+.height=.height = Число - Устанавливает высоту окна (в пикселях)
+.visible=.visible = True/False - Определяет, будет ли окно сразу видно на экране
+.allowmaximize=.allowmaximize = True/False - Разрешает развертывание окна на весь экран
+.backgroundcolor=.backgroundcolor = Цвет - Устанавливает цвет фона окна (значение DWORD)
+.allowdrag=.allowdrag = True/False - Позволяет перетаскивать окно мышью, захватив его за фон
+.frameless=.frameless = True/False - Создает современное окно без стандартных системных рамок
+
 ; --- ОКНА И ПРИЛОЖЕНИЕ ---
+center_window=center_window(Handle) - Размещает окно по центру главного экрана.
 set_dark_mode=set_dark_mode(Handle, Enable) - Установить темную тему для окна.
 run=run(msg) - Запустить цикл обработки сообщений.
 run_app=run_app() - Инициализирует и запускает графическое приложение.
@@ -390,6 +402,7 @@ show_context_menu=show_context_menu(HTarget) - Показать контекст
 
 ;ZMIENNE
 hdc=hdc - переменная типа HDC
+hwnd=hwnd - переменная типа hwnd
 avoraiser.window=avoraiser.window - Основной модуль окна приложения
 avoraiser.trackbar
 avoraiser.events

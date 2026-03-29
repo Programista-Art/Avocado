@@ -3,7 +3,19 @@
 ; Format: command=command(parameters) - Description
 ; ==============================================================================
 
+
+; --- PROPIEDADES DE LA VENTANA (TAvocadoWindowParams) ---
+.title=.title = 'Texto' - Establece el título (encabezado) de la ventana
+.width=.width = Número - Establece el ancho de la ventana (en píxeles)
+.height=.height = Número - Establece la altura de la ventana (en píxeles)
+.visible=.visible = True/False - Determina si la ventana es visible inmediatamente en la pantalla
+.allowmaximize=.allowmaximize = True/False - Permite que la ventana se maximice a pantalla completa
+.backgroundcolor=.backgroundcolor = Color - Establece el color de fondo de la ventana (valor DWORD)
+.allowdrag=.allowdrag = True/False - Permite arrastrar la ventana haciendo clic y manteniendo el fondo
+.frameless=.frameless = True/False - Crea una ventana moderna sin bordes ni marcos del sistema
+
 ; --- APPLICATION & WINDOW MANAGEMENT ---
+center_window=center_window(Handle) - Centra la ventana en la pantalla principal.
 set_dark_mode=set_dark_mode(Handle, Enable) - Activa o desactiva el modo oscuro para la ventana especificada.
 run=run(Msg) - Inicia el bucle principal de mensajes de la aplicación.
 run_app=run_app() - Inicializa y ejecuta la aplicación GUI.
@@ -393,6 +405,8 @@ can_undo=can_undo(Handle) - Comprueba si es posible deshacer.
 
 ;ZMIENNE
 hdc=hdc - Variable de tipo HDC
+hwnd=hwnd - variable de tipo hwnd
+
 avoraiser.window=avoraiser.window - El módulo principal de la ventana de la aplicación
 avoraiser.trackbar
 avoraiser.events

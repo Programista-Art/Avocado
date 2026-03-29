@@ -661,27 +661,18 @@ procedure TFormMain.FormCreate(Sender: TObject);
 var
   TempDir: string;
 begin
+  //IsConsoleProgram := True;
+  // Utworzenie folderu Avocado
+  TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
 
-
-
-    //IsConsoleProgram := True;
-    // Utworzenie folderu Avocado
-    TempDir := IncludeTrailingPathDelimiter(GetTempDir) + 'Avocado';
-
-    if not ForceDirectories(TempDir) then
-    begin
-      // Obsługa błędu, np. wyświetlenie komunikatu
-      ShowMessage(TranslateCannotCreateTemporaryDirectory + TempDir);
-    end;
-
-
+  if not ForceDirectories(TempDir) then
+  begin
+    // Obsługa błędu, np. wyświetlenie komunikatu
+    ShowMessage(TranslateCannotCreateTemporaryDirectory + TempDir);
+  end;
   AvocadoVersion := 'IDE Avocado v 2.3.0.0';
   //Ladowanie funkcji Avoraisera
   LoadFunctionsToHighlighter('avoraiser_translate.ini');
-  //ladowanie funkcji do
-
-  //dotyczy kolorowania SynEditCode
-  //ColoredSynEdit;
   FormMain.Caption := AvocadoVersion;
   NeedsAsmIntel := False;
   SynEditCode.Options := SynEditCode.Options - [eoAutoIndent];
@@ -1336,35 +1327,35 @@ begin
   if lang = 'pl' then
   begin
     SynEditCode.Lines.Add('import avoraiser.window');
-    SynEditCode.Lines.Add('hwnd my_window');
-    SynEditCode.Lines.Add('main');
-    SynEditCode.Lines.Add('  my_win');
-    SynEditCode.Lines.Add('  run_app');
-    SynEditCode.Lines.Add('end.');
+    SynEditCode.Lines.Add('uchwyt_okna moje_okno');
+    SynEditCode.Lines.Add('glowny');
+    SynEditCode.Lines.Add('  glowna_funkcja');
+    SynEditCode.Lines.Add('  uruchom_aplikacje()');
+    SynEditCode.Lines.Add('koniec.');
     SynEditCode.Lines.Add(' ');
-    SynEditCode.Lines.Add('procedure my_win');
-    SynEditCode.Lines.Add('start');
-    SynEditCode.Lines.Add('  ui_parameters ui');
-    SynEditCode.Lines.Add('  ui = Default(TAvocadoWindowParams)');
-    SynEditCode.Lines.Add('  ui.title = ''Okno w Avoraiser - Avocado''');
-    SynEditCode.Lines.Add('  ui.width = 400');
-    SynEditCode.Lines.Add('  ui.height = 600');
+    SynEditCode.Lines.Add('procedura glowna_funkcja');
+    SynEditCode.Lines.Add('poczatek');
+    SynEditCode.Lines.Add('  parametry_ui ui');
+    SynEditCode.Lines.Add('  ui = default(TAvocadoWindowParams)');
+    SynEditCode.Lines.Add('  ui.tytul = ''Okno w Avocado''');
+    SynEditCode.Lines.Add('  ui.szerokosc = 400');
+    SynEditCode.Lines.Add('  ui.wysokosc = 600');
     SynEditCode.Lines.Add('  ui.x = 200');
     SynEditCode.Lines.Add('  ui.y = 200');
-    SynEditCode.Lines.Add('  ui.visible = True');
-    SynEditCode.Lines.Add('  ui.allowmaximize = TRue');
+    SynEditCode.Lines.Add('  ui.widoczne = prawda');
+    SynEditCode.Lines.Add('  ui.maksymalizacja = prawda');
     SynEditCode.Lines.Add('  ');
     SynEditCode.Lines.Add('  ');
     SynEditCode.Lines.Add('  //Tworzenie Okna Main');
-    SynEditCode.Lines.Add('  my_window = create_window(ui)');
+    SynEditCode.Lines.Add('  moje_okno = utworz_okno(ui)');
     SynEditCode.Lines.Add('  ');
-    SynEditCode.Lines.Add('  if my_window <> 0 then');
-    SynEditCode.Lines.Add('  begin');
-    SynEditCode.Lines.Add('    center_window(my_window)');
+    SynEditCode.Lines.Add('  jezeli moje_okno <> 0 wtedy');
+    SynEditCode.Lines.Add('  poczatek');
+    SynEditCode.Lines.Add('    wysrodkuj_okno(moje_okno)');
     SynEditCode.Lines.Add('    //Kod aplikacji');
     SynEditCode.Lines.Add('   ');
-    SynEditCode.Lines.Add('  end');
-    SynEditCode.Lines.Add('end');
+    SynEditCode.Lines.Add('  koniec');
+    SynEditCode.Lines.Add('koniec');
 
     ToolButton1Click(Sender);
 //    SynEditCode.Lines.Add('glowny ');
@@ -1383,14 +1374,14 @@ begin
     SynEditCode.Lines.Add('procedure my_win');
     SynEditCode.Lines.Add('start');
     SynEditCode.Lines.Add('  ui_parameters ui');
-    SynEditCode.Lines.Add('  ui = Default(TAvocadoWindowParams)');
+    SynEditCode.Lines.Add('  ui = default(TAvocadoWindowParams)');
     SynEditCode.Lines.Add('  ui.title = ''Okno w Avoraiser - Avocado''');
     SynEditCode.Lines.Add('  ui.width = 400');
     SynEditCode.Lines.Add('  ui.height = 600');
     SynEditCode.Lines.Add('  ui.x = 200');
     SynEditCode.Lines.Add('  ui.y = 200');
-    SynEditCode.Lines.Add('  ui.visible = True');
-    SynEditCode.Lines.Add('  ui.allowmaximize = TRue');
+    SynEditCode.Lines.Add('  ui.visible = true');
+    SynEditCode.Lines.Add('  ui.allowmaximize = true');
     SynEditCode.Lines.Add('  ');
     SynEditCode.Lines.Add('  ');
     SynEditCode.Lines.Add('  //Creating a Window Main');

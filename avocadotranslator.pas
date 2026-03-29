@@ -328,6 +328,7 @@ const
     (FromText: 'pobierz_zmienną_środowiskową'; ToText: 'SysUtils.GetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'pobierz_zmienna_srodowiskowa'; ToText: 'SysUtils.GetEnvironmentVariable'; Flags: []; IsPrefix: True),
 
+
     (FromText: 'ustaw_zmienną_środowiskową'; ToText: 'SysUtils.SetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'ustaw_zmienna_srodowiskowa'; ToText: 'SysUtils.SetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'pobierz_katalog_bieżący'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
@@ -2240,6 +2241,8 @@ var
   InQuotes: Boolean;
   ResultLine: string;
   CommentDepth: Integer;
+  DotPos: Integer;
+  ObjectName, PropName: string;
 begin
   TrimmedLine := Trim(Line);
 
@@ -2902,7 +2905,6 @@ begin
     end;
     Exit;
   end;
-
 
 
   // 5. OBSŁUGA PLIKÓW
@@ -4272,104 +4274,80 @@ begin
   end;
   Exit;
 end;
-  {UI }
 
-
-
- { if TryTranslateGeneric(Line, PascalCode,
-    ['utworz_okno', 'utwórz_okno', 'create_window'],
-    1, // <--- Tutaj musi być 1, bo w nawiasie jest tylko "params"
-    'CreateAvocadoWindow(%0)', // <--- Zwracamy tylko funkcję Pascalową
-    'BŁĄD SKŁADNI: Funkcja create_window wymaga nawiasów.',
-    'BŁĄD ARGUMENTÓW: Funkcja create_window wymaga 1 argumentu (params).') then
-    Exit;
-  }
-  //  //Tworzenie okna aplikacji CreateAvocadoWindow
-  //Mozna wywalic
-  {if (Pos('utworz_okno(', LowerTrimmedLine) > 0) or
-     (Pos('utwórz_okno(', LowerTrimmedLine) > 0) or
-     (Pos('create_window(', LowerTrimmedLine) > 0) then
+  //Nowy poprawiony kod 29.03.2026
+  AssignPos := 0;
+  InQuotes := False;
+  // Szukamy znaku '=' ignorując wnętrza stringów
+  for I := 1 to Length(TrimmedLine) do
   begin
-    StartPos := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine);
+    if TrimmedLine[I] = '''' then
+      InQuotes := not InQuotes;
 
-    // 1. Walidacja nawiasów
-    if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błąd: Brak nawiasów w funkcji utwórz_okno / create_window');
+    if (not InQuotes) and (TrimmedLine[I] = '=') then
+    begin
+      // Omijamy operator porównania (jeśli używasz ==, <=, >=, !=)
+      if (I < Length(TrimmedLine)) and (TrimmedLine[I+1] = '=') then Continue;
+      if (I > 1) and (TrimmedLine[I-1] in ['!', '>', '<', '=']) then Continue;
 
-    if StartPos > EndPos then
-      raise Exception.Create(TranslateClosingBracketBeforeOpening);
-    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-
-    ParamPartsList := TStringList.Create;
-    try
-      SplitArguments(ParamStr, ParamPartsList);
-      if ParamPartsList.Count <> 2 then
-        raise Exception.Create('Błąd tłumaczenia: Funkcja utwórz_okno / create_window  wymaga dokładnie 2 argumentów (uchwyt_okna, parametry_ui).' + IntToStr(ParamPartsList.Count));
-      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0]));
-      TranslatedS2Arg := TranslateExpression(Trim(ParamPartsList[1]));
-      PascalCode.Add(TranslatedS1Arg + ' := ' + 'CreateAvocadoWindow(' + TranslatedS2Arg + ');');
-    finally
-      ParamPartsList.Free;
+      AssignPos := I;
+      Break;
     end;
+  end;
+
+  // Jeśli to jest operacja przypisania (np. ui.tytul = 'okno')
+  if AssignPos > 0 then
+  begin
+    VarName := Trim(Copy(TrimmedLine, 1, AssignPos - 1));
+    Value := Trim(Copy(TrimmedLine, AssignPos + 1, MaxInt));
+
+    // tłumaczenie właściwości obiektów
+    DotPos := Pos('.', VarName);
+    if DotPos > 0 then
+    begin
+      ObjectName := Trim(Copy(VarName, 1, DotPos - 1));
+      PropName := LowerCase(Trim(Copy(VarName, DotPos + 1, MaxInt)));
+
+
+      if PropName = 'tytul' then PropName := 'title'
+      else if PropName = 'szerokosc' then PropName := 'width'
+      else if PropName = 'wysokosc' then PropName := 'height'
+      else if PropName = 'widoczne' then PropName := 'visible'
+      else if PropName = 'maksymalizacja' then PropName := 'allowmaximize'
+      else if PropName = 'kolor_tla' then PropName := 'BackgroundColor'
+      else if PropName = 'przeciaganie' then PropName := 'AllowDrag'
+      else if PropName = 'bezramkowe' then PropName := 'Frameless';
+      // Polskie znaki
+      if PropName = 'tytuł' then PropName := 'title'
+      else if PropName = 'szerokość' then PropName := 'width'
+      else if PropName = 'wysokość' then PropName := 'height'
+      else if PropName = 'tytuł' then PropName := 'title'
+      else if PropName = 'kolor_tła' then PropName := 'BackgroundColor'
+      else if PropName = 'przeciąganie' then PropName := 'AllowDrag';
+
+      VarName := ObjectName + '.' + PropName;
+    end;
+
+    // Generowanie czystego kodu
+    if NeedsSemicolon then
+      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value) + ';')
+    else
+      PascalCode.Add(VarName + ' := ' + TranslateExpression(Value));
+
     Exit;
   end;
-  }
-   //Wczytanie z pliku: List.LoadFromFile('plik.txt');
-  {if TryTranslateGeneric(Line, PascalCode,
-  ['kolor_tła_ui', 'kolor_tla_ui', 'background_color_ui'],
-  1,
-  '$0.BackgroundColor = (%1)',
-  'BŁĄD SKŁADNI: Funkcja pokaz_okno / show_window wymaga nawiasów.',
-  'BŁĄD ARGUMENTÓW: Funkcja pokaz_okno / show_window wymaga 1 argument (''nazwa wiadomości'').') then
-  Exit;
-  }
 
-
-  //pokaz okno
- { if TryTranslateGeneric(Line, PascalCode,
-  ['pokaz_okno', 'pokaż_okno', 'show_window'],
-  1,
-  'ShowWindowAvocado(%0)',
-  'BŁĄD SKŁADNI: Funkcja pokaz_okno / show_window wymaga nawiasów.',
-  'BŁĄD ARGUMENTÓW: Funkcja pokaz_okno / show_window wymaga 1 argument (''nazwa wiadomości'').') then
-  Exit;
-  }
-
-
-     //pokaz okno
-  {if (Pos('pokaz_okno(', LowerTrimmedLine) > 0) or
-     (Pos('pokaż_okno(', LowerTrimmedLine) > 0) or
-     (Pos('show_window(', LowerTrimmedLine) > 0) then
+  //POZOSTAŁE (Catch-all wywołań funkcji)
+  if TrimmedLine <> '' then
   begin
-    StartPos := Pos('(', TrimmedLine);
-    EndPos := RPos(')', TrimmedLine);
+    TranslatedLine := TranslateExpression(TrimmedLine);
+    if Trim(TranslatedLine) = '' then Exit;
 
-    // 1. Walidacja nawiasów
-    if (StartPos = 0) or (EndPos = 0) then
-      raise Exception.Create('Błąd: Brak nawiasów w funkcji pokaz_okno / pokaż_okno / show_window');
-
-    if StartPos > EndPos then
-      raise Exception.Create(TranslateClosingBracketBeforeOpening);
-    ParamStr := Trim(Copy(TrimmedLine, StartPos + 1, EndPos - StartPos - 1));
-
-    ParamPartsList := TStringList.Create;
-    try
-      SplitArguments(ParamStr, ParamPartsList);
-      if ParamPartsList.Count <> 1 then
-        raise Exception.Create(TranslateCursorPositionFunctionRequiresTwoArguments + IntToStr(ParamPartsList.Count));
-      TranslatedS1Arg := TranslateExpression(Trim(ParamPartsList[0])); // X
-      PascalCode.Add('ShowWindowAvocado' + '(' + TranslatedS1Arg + ')');
-    finally
-      ParamPartsList.Free;
-    end;
+    if NeedsSemicolon then PascalCode.Add(TranslatedLine + ';')
+    else PascalCode.Add(TranslatedLine);
     Exit;
   end;
-  }
-
-
-
-  // ZWYKŁE PRZYPISANIA ---
+ { // ZWYKŁE PRZYPISANIA ---
   if Pos('=', TrimmedLine) > 0 then
   begin
     Parts := TrimmedLine.Split(['='], 2);
@@ -4392,6 +4370,7 @@ end;
     else PascalCode.Add(TranslatedLine);
     Exit;
   end;
+  }
 end;
 
 

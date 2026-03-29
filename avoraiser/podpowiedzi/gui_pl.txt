@@ -3,7 +3,18 @@
 ; Format: komenda=komenda(parametry) - Opis
 ; ==============================================================================
 
+; --- WŁAŚCIWOŚCI OKNA (TAvocadoWindowParams) ---
+.tytul=.tytul = 'Tekst' - Ustawia tytuł (nagłówek) okna
+.szerokosc=.szerokosc = Liczba - Ustawia szerokość okna (w pikselach)
+.wysokosc=.wysokosc = Liczba - Ustawia wysokość okna (w pikselach)
+.widoczne=.widoczne = Prawda/Falsz - Określa, czy okno jest od razu widoczne na ekranie
+.maksymalizacja=.maksymalizacja = Prawda/Falsz - Zezwala na maksymalizację okna na cały ekran
+.kolor_tla=.kolor_tla = Kolor - Ustawia kolor tła okna (wartość DWORD, np. $FFFFFF)
+.przeciaganie=.przeciaganie = Prawda/Falsz - Pozwala na przeciąganie okna myszką poprzez chwytanie za tło
+.bezramkowe=.bezramkowe = Prawda/Falsz - Tworzy nowoczesne okno bez systemowych ramek i paska tytułu
+
 ; --- ZARZĄDZANIE APLIKACJĄ I OKNEM ---
+wysrodkuj_okno=wysrodkuj_okno(uchwut) - Wyśrodkowuje okno na głównym ekranie.
 ustaw_ciemny_motyw=ustaw_ciemny_motyw() - Włącza ciemny motyw interfejsu aplikacji.
 uruchom=uruchom() - Rozpoczyna działanie głównej pętli programu.
 uruchom_aplikacje=uruchom_aplikacje() - Inicjuje i uruchamia aplikację GUI.
@@ -398,6 +409,7 @@ starsze_slowo=starsze_slowo(liczba_32_bitowa) - (HIWORD) Separuje dla logiki sys
 
 ;ZMIENNE
 uchwyt_plotna=uchwyt_plotna - Zmienna typu HDC 
+uchwyt_okna=uchwyt_okna - Zmienna typu hwnd
 
 ;MODUŁY
 avoraiser.window=avoraiser.window - Główny moduł okna aplikacji

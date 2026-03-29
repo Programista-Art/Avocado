@@ -3,7 +3,19 @@
 ; Format: commande=commande(paramètres) - Description
 ; ==============================================================================
 
+; --- PROPRIÉTÉS DE LA FENÊTRE (TAvocadoWindowParams) ---
+.title=.title = 'Texte' - Définit le titre (en-tête) de la fenêtre
+.width=.width = Nombre - Définit la largeur de la fenêtre (en pixels)
+.height=.height = Nombre - Définit la hauteur de la fenêtre (en pixels)
+.visible=.visible = True/False - Détermine si la fenêtre est immédiatement visible à l'écran
+.allowmaximize=.allowmaximize = True/False - Permet de maximiser la fenêtre en plein écran
+.backgroundcolor=.backgroundcolor = Couleur - Définit la couleur de fond de la fenêtre (valeur DWORD)
+.allowdrag=.allowdrag = True/False - Permet de faire glisser la fenêtre en cliquant sur son fond
+.frameless=.frameless = True/False - Crée une fenêtre moderne sans bordures système standard
+
+
 ; --- APPLICATION & GESTION DE FENÊTRES ---
+center_window=center_window(Handle) - Centre la fenêtre sur l'écran principal.
 set_dark_mode=set_dark_mode(Handle, Enable) - Bascule le mode sombre pour la fenêtre spécifiée.
 run=run(Msg) - Démarre la boucle principale des messages de l'application.
 run_app=run_app() - Initialise et exécute l'application GUI.
@@ -393,6 +405,8 @@ can_undo=can_undo(Handle) - Vérifie si l'annulation est possible.
 
 ;ZMIENNE
 hdc=hdc - variable de type HDC
+hwnd=hwnd - variable de type hwnd
+
 avoraiser.window=avoraiser.window - Le module principal de la fenêtre de l'application
 avoraiser.trackbar
 avoraiser.events

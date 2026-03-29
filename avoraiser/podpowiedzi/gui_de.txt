@@ -3,7 +3,19 @@
 ; Format: command=command(parameters) - Beschreibung
 ; ==============================================================================
 
+; --- FENSTEREIGENSCHAFTEN (TAvocadoWindowParams) ---
+.title=.title = 'Text' - Legt den Titel (Überschrift) des Fensters fest
+.width=.width = Zahl - Legt die Breite des Fensters fest (in Pixeln)
+.height=.height = Zahl - Legt die Höhe des Fensters fest (in Pixeln)
+.visible=.visible = True/False - Bestimmt, ob das Fenster sofort auf dem Bildschirm sichtbar ist
+.allowmaximize=.allowmaximize = True/False - Erlaubt die Maximierung des Fensters auf den Vollbildmodus
+.backgroundcolor=.backgroundcolor = Farbe - Legt die Hintergrundfarbe des Fensters fest (DWORD-Wert)
+.allowdrag=.allowdrag = True/False - Erlaubt das Verschieben des Fensters durch Klicken auf den Hintergrund
+.frameless=.frameless = True/False - Erstellt ein modernes, rahmenloses Fenster ohne Standard-Systemränder
+
+
 ; --- APPLICATION & WINDOW MANAGEMENT ---
+center_window=center_window(Handle) - Zentriert das Fenster auf dem Hauptbildschirm.
 set_dark_mode=set_dark_mode(Handle, Enable) - Schaltet den Dunkelmodus für das angegebene Fenster um.
 run=run(Msg) - Startet die Hauptnachrichtenschleife der Anwendung.
 run_app=run_app() - Initialisiert und startet die GUI-Anwendung.
@@ -393,6 +405,8 @@ can_undo=can_undo(Handle) - Prüft, ob Rückgängigmachen möglich ist.
 
 ;ZMIENNE
 hdc=hdc - Variable vom Typ HDC
+hwnd=hwnd - Variable vom Typ hwnd
+
 avoraiser.window=avoraiser.window - Das Hauptmodul des Anwendungsfensters
 avoraiser.trackbar
 avoraiser.events
