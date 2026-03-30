@@ -370,7 +370,8 @@ type
     //Wyszukiwanie komentarzy z projektu i wstawienie w ListBox - ListBoxSearchComments
     procedure ListCommentsFromSynEdit;
     //debuger
-    procedure LoadDebugKeywords(const FileName: string; var Keywords: TStringList);
+    //procedure LoadDebugKeywords(const FileName: string; var Keywords: TStringList);
+    procedure LoadDebugKeywords(const FileName: string; Keywords: TStringList);
     //Sprawdza kod
     procedure CheckAvocadoCode;
     //Usuwa sudzyslowie z tekstu
@@ -2681,7 +2682,7 @@ begin
     ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
 end;
 
-procedure TFormMain.LoadDebugKeywords(const FileName: string;
+{procedure TFormMain.LoadDebugKeywords(const FileName: string;
   var Keywords: TStringList);
 begin
   Keywords := TStringList.Create;
@@ -2690,6 +2691,16 @@ begin
   else
     raise Exception.Create(TranslateDebuggerFileNotFound);
 end;
+}
+
+procedure TFormMain.LoadDebugKeywords(const FileName: string; Keywords: TStringList);
+begin
+  if FileExists(FileName) then
+    Keywords.LoadFromFile(FileName)
+  else
+    raise Exception.Create(TranslateDebuggerFileNotFound);
+end;
+
 
 procedure TFormMain.CheckAvocadoCode;
 var
@@ -2699,82 +2710,94 @@ var
   FoundError: Boolean;
   Value: Double;
   L: string;
-  rezultat :TModalResult;
+  rezultat: TModalResult;
 begin
-    //Dotyczy błędów w projekcie i filtrowanie błedów w EditSearchMistakes
-    if not Assigned(FErrAll) then
+  if not Assigned(FErrAll) then
     FErrAll := TStringList.Create
-    else
-    FErrAll.Clear; // wyczyść starą zawartość przed nowym sprawdzaniem
-
+  else
+    FErrAll.Clear;
 
   ListBoxErrCode.Clear;
   FoundError := False;
 
   Keywords := TStringList.Create;
-  LoadDebugKeywords('debuger.txt', Keywords);
-
   Tokens := TStringList.Create;
   LineErrors := TStringList.Create;
   LineTokens := TStringList.Create;
 
   try
+    // Szybkie wyszukiwanie
+    Keywords.Sorted := True;
+    Keywords.Duplicates := dupIgnore;
+
+    // Ładowanie wbudowanych słów (debuger.txt)
+    LoadDebugKeywords('debuger.txt', Keywords);
+
+    // ====================================================================
+    // PRZEBIEG 1: Zbieranie deklaracji (uczenie się nazw użytkownika)
+    // ====================================================================
     for i := 0 to SynEditCode.Lines.Count - 1 do
     begin
       LineText := SynEditCode.Lines[i];
-
-      // Usuń komentarze i cudzysłowy
       CleanLine := RemoveComments(LineText);
       CleanLine := RemoveQuotes(CleanLine);
       CleanLine := Trim(CleanLine);
       if CleanLine = '' then Continue;
 
       L := LowerCase(CleanLine);
+      Tokens.Clear;
+      ExtractStrings([' ', #9, '(', ')', ';', ',', '=', '+', '-', '*', '/', '<', '>', '[', ']', '.', ':'], [], PChar(L), Tokens);
 
-      // Ignoruj linie "program ..."
-      if Pos('program ', L) = 1 then Continue;
+      if Tokens.Count < 2 then Continue; // Szukamy tylko par, np. "procedura nazwa"
 
-      // Ignoruj linie debugowe rozpoczynające się od ':'
-      //if Copy(L,1,1) = ':' then Continue;
+      Token := Tokens[0];
 
+      // 1. Nazwa programu
+      if (Token = 'program') or (Token = 'program_ui') or (Token = ' program_ui') or (Token = ' program') then
+        Keywords.Add(Tokens[1]);
 
-      // IGNORUJ linie z importowaniem modułów
+      // 2. Importy modułów
+      if (Token = 'importuj') or (Token = 'import') then
+        Keywords.Add(Tokens[1]);
 
-      //if (Copy(L,1,8) = 'importuj') or (Copy(L,1,6) = 'import') then
-       if (StartsStr('importuj', L)) or (StartsStr('import', L)) then
+      // 3. Procedury i Funkcje użytkownika ORAZ ich parametry!
+      if (Token = 'procedura') or (Token = 'funkcja') or (Token = 'procedure') or (Token = 'function') then
       begin
-        // Pobierz nazwę modułu
-        Tokens.Clear;
-        ExtractStrings([' ', #9], [], PChar(CleanLine), Tokens);
-
-        // Jeśli np. "importuj matematyka", to Tokens[1] = "matematyka"
-        if Tokens.Count > 1 then
+        for j := 1 to Tokens.Count - 1 do
         begin
-          if Keywords.IndexOf(Tokens[1]) = -1 then
-            Keywords.Add(Tokens[1]);  // traktujemy moduł jako dozwoloną nazwę
+          if Keywords.IndexOf(Tokens[j]) = -1 then
+            Keywords.Add(Tokens[j]);
+          // UWAGA: Usunięto zepsuty Break; stąd! Teraz uczy się wszystkich parametrów!
         end;
-
-        Continue; // nie sprawdzaj dalej tej linii
       end;
 
-
-      Tokens.Clear;
-      ExtractStrings([' ', #9, '(', ')', ';', ',', '='], [], PChar(CleanLine), Tokens);
-
-      // Sprawdź deklarację zmiennej
+      // 4. Zmienne użytkownika (ODKOMENTOWANE I NAPRAWIONE)
       for j := Low(PrefixesVariables) to High(PrefixesVariables) do
       begin
-     // if LowerCase(Tokens[0]) = LowerCase(PrefixesVariables[j]) then
-        if (Tokens.Count > 1) and (LowerCase(Tokens[0]) = LowerCase(PrefixesVariables[j])) then
-      begin
-        // to jest deklaracja zmiennej
-        //if Tokens.Count > 1 then
-        //begin
+        if Token = LowerCase(PrefixesVariables[j]) then
+        begin
           if Keywords.IndexOf(Tokens[1]) = -1 then
-            Keywords.Add(Tokens[1]); // dodaj nazwę zmiennej jako znaną
-            Break;
-         end;
+            Keywords.Add(Tokens[1]);
+          Break; // Ten Break jest poprawny (przerywa tylko sprawdzanie listy prefiksów)
+        end;
       end;
+    end;
+
+
+    // ====================================================================
+    // PRZEBIEG 2: Właściwe sprawdzanie błędów
+    // ====================================================================
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := SynEditCode.Lines[i];
+      CleanLine := RemoveComments(LineText);
+      CleanLine := RemoveQuotes(CleanLine);
+      CleanLine := Trim(CleanLine);
+      if CleanLine = '' then Continue;
+
+      L := LowerCase(CleanLine);
+      Tokens.Clear;
+      ExtractStrings([' ', #9, '(', ')', ';', ',', '=', '+', '-', '*', '/', '<', '>', '[', ']', '.', ':'], [], PChar(L), Tokens);
 
       LineErrors.Clear;
       LineTokens.Clear;
@@ -2784,28 +2807,31 @@ begin
         Token := Tokens[j];
         if Token = '' then Continue;
 
-        // Usuń końcowe znaki typu ; , ) jeśli są
-        while (Token <> '') and (Token[Length(Token)] in [';', ',', ')']) do
-        SetLength(Token, Length(Token) - 1);
+        // Ignoruj operator wskaźnika '@' (callbacki)
+        if (Length(Token) > 0) and (Token[1] = '@') then
+          Token := Copy(Token, 2, MaxInt);
+
+        if Token = '' then Continue;
+
+        // Ignoruj wbudowane stałe logiczne i wskaźniki
+        if (Token = 'true') or (Token = 'false') or
+           (Token = 'prawda') or (Token = 'falsz') or
+           (Token = 'nil') then Continue;
 
         // Ignoruj liczby
-      // Ignoruj liczby
-     // if IsNumberToken(Token) then Continue;
-
-        // Ignoruj tokeny typu suma:0:2
-        if Pos(':', Token) > 0 then Continue;
-
-        // Ignoruj liczby w formacie 2.2, 3,14
         if TryStrToFloat(Token, Value) then Continue;
 
-        // Unikaj duplikatów tokenów w tej linii
+        // Ignoruj liczby heksadecymalne (np. $FFFFFF)
+        if (Length(Token) > 0) and (Token[1] = '$') then Continue;
+
+        // Unikaj duplikatów błędu w tej samej linii
         if LineTokens.IndexOf(Token) <> -1 then Continue;
         LineTokens.Add(Token);
 
-        // Jeśli token nie jest znany to błąd
+        // OSTATECZNE SPRAWDZENIE BŁĘDU
         if Keywords.IndexOf(Token) = -1 then
         begin
-          ErrorMsg := Format('[%d]: ' + TranslateUnknownName + '"%s"', [i + 1, Token]);
+          ErrorMsg := Format('[%d]: ' + TranslateUnknownName + ' "%s"', [i + 1, Token]);
           if LineErrors.IndexOf(ErrorMsg) = -1 then
             LineErrors.Add(ErrorMsg);
         end;
@@ -2829,17 +2855,148 @@ begin
 
   if FoundError then
   begin
-    rezultat := MessageDlg(TranslateErrorsInTheCode ,TranslateCodeErrorsCompilationStopped, mtError,[mbOk],0);
+    rezultat := MessageDlg(TranslateErrorsInTheCode, TranslateCodeErrorsCompilationStopped, mtError, [mbOk], 0);
     if rezultat = mrOk then
     begin
       PageInfo.ActivePage := TabErrors;
       ListBoxErrCode.SetFocus;
     end;
-    end
+  end
   else
-    MessageDlg(TranslateCodeCorrect,TranslateNoErrorsCodeReadyToCompile, mtInformation,[mbOk],0);
-
+    MessageDlg(TranslateCodeCorrect, TranslateNoErrorsCodeReadyToCompile, mtInformation, [mbOk], 0);
 end;
+{procedure TFormMain.CheckAvocadoCode;
+var
+  i, j: Integer;
+  LineText, Token, CleanLine, ErrorMsg: string;
+  Tokens, Keywords, LineErrors, LineTokens: TStringList;
+  FoundError: Boolean;
+  Value: Double;
+  L: string;
+  rezultat: TModalResult;
+begin
+  if not Assigned(FErrAll) then
+    FErrAll := TStringList.Create
+  else
+    FErrAll.Clear;
+
+  ListBoxErrCode.Clear;
+  FoundError := False;
+
+  // Bezpieczne tworzenie obiektów
+  Keywords := TStringList.Create;
+  Tokens := TStringList.Create;
+  LineErrors := TStringList.Create;
+  LineTokens := TStringList.Create;
+
+  try
+    // opytamalizacja wydajności: szybkie wyszukiwanie binarne w keywords!
+    Keywords.Sorted := True;
+    Keywords.Duplicates := dupIgnore;
+
+    // Ładowanie słownika
+    LoadDebugKeywords('debuger.txt', Keywords);
+
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := SynEditCode.Lines[i];
+
+      // Usuń komentarze i cudzysłowy
+      CleanLine := RemoveComments(LineText);
+      CleanLine := RemoveQuotes(CleanLine);
+      CleanLine := Trim(CleanLine);
+      if CleanLine = '' then Continue;
+
+      L := LowerCase(CleanLine);
+
+      // Ignoruj deklarację programu
+      if Pos('program ', L) = 1 then Continue;
+
+      // IGNORUJ linie z importowaniem modułów
+      if (StartsStr('importuj ', L)) or (StartsStr('import ', L)) then
+      begin
+        Tokens.Clear;
+        // Dzielimy na podstawie spacji
+        ExtractStrings([' ', #9], [], PChar(L), Tokens);
+        if Tokens.Count > 1 then
+        begin
+          if Keywords.IndexOf(Tokens[1]) = -1 then
+            Keywords.Add(Tokens[1]); // Rejestrujemy moduł w locie
+        end;
+        Continue;
+      end;
+
+      Tokens.Clear;
+      // zaawansowany lexer
+      ExtractStrings([' ', #9, '(', ')', ';', ',', '=', '+', '-', '*', '/', '<', '>', '[', ']', '.', ':'], [], PChar(L), Tokens);
+
+      // Sprawdź deklarację zmiennej
+      for j := Low(PrefixesVariables) to High(PrefixesVariables) do
+      begin
+        if (Tokens.Count > 1) and (Tokens[0] = LowerCase(PrefixesVariables[j])) then
+        begin
+          if Keywords.IndexOf(Tokens[1]) = -1 then
+            Keywords.Add(Tokens[1]); // Rejestrujemy zmienną zadeklarowaną przez użytkownika
+          Break;
+        end;
+      end;
+
+      LineErrors.Clear;
+      LineTokens.Clear;
+
+      for j := 0 to Tokens.Count - 1 do
+      begin
+        Token := Tokens[j];
+        if Token = '' then Continue;
+
+        // Ignoruj liczby
+        if TryStrToFloat(Token, Value) then Continue;
+
+        // Zabezpieczenie np. przed tokenami z prefiksami $ (hexy)
+        if (Length(Token) > 0) and (Token[1] = '$') then Continue;
+
+        // Unikaj duplikatów tokenów w TEJ SAMEJ linii
+        if LineTokens.IndexOf(Token) <> -1 then Continue;
+        LineTokens.Add(Token);
+
+        // ostateczne sprawdzenie błędu
+        if Keywords.IndexOf(Token) = -1 then
+        begin
+          ErrorMsg := Format('[%d]: ' + TranslateUnknownName + ' "%s"', [i + 1, Token]);
+          if LineErrors.IndexOf(ErrorMsg) = -1 then
+            LineErrors.Add(ErrorMsg);
+        end;
+      end;
+
+      // Dodaj błędy z tej linii
+      for j := 0 to LineErrors.Count - 1 do
+      begin
+        ListBoxErrCode.Items.Add(LineErrors[j]);
+        FErrAll.Add(LineErrors[j]);
+        FoundError := True;
+      end;
+    end;
+
+  finally
+    Tokens.Free;
+    LineErrors.Free;
+    LineTokens.Free;
+    Keywords.Free;
+  end;
+
+  if FoundError then
+  begin
+    rezultat := MessageDlg(TranslateErrorsInTheCode, TranslateCodeErrorsCompilationStopped, mtError, [mbOk], 0);
+    if rezultat = mrOk then
+    begin
+      PageInfo.ActivePage := TabErrors;
+      ListBoxErrCode.SetFocus;
+    end;
+  end
+  else
+    MessageDlg(TranslateCodeCorrect, TranslateNoErrorsCodeReadyToCompile, mtInformation, [mbOk], 0);
+end;
+}
 
 function TFormMain.RemoveQuotes(const Line: string): string;
 var

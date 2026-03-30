@@ -431,6 +431,8 @@ avoraiser.gdi
 avoraiser.dialogs
 avoraiser.system
 avoraiser.clipboard
+avoraiser.webview
+
 ;NOWE
 set_edit_numbers_only=set_edit_numbers_only - Позволяет вводить в поле Edit только цифры
 set_edit_math_only=set_edit_math_only(Handle) - Включить только цифры и символы в режиме Edit

@@ -440,6 +440,8 @@ avoraiser.gdi
 avoraiser.dialogs
 avoraiser.system
 avoraiser.clipboard
+avoraiser.webview
+
 ;NOWE
 ustaw_w_polu_edycji_tylko_liczby=ustaw_w_polu_edycji_tylko_liczby - Umożliwia wprowadzanie wyłącznie liczb do Edit
 ustaw_w_polu_edycji_tylko_matematyka=ustaw_w_polu_edycji_tylko_matematyka(uchwyt) - Aktywuj tylko cyfry i znaki w Edit
