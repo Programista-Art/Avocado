@@ -372,8 +372,8 @@ type
     //debuger
     //procedure LoadDebugKeywords(const FileName: string; var Keywords: TStringList);
     procedure LoadDebugKeywords(const FileName: string; Keywords: TStringList);
-    //Sprawdza kod
-    procedure CheckAvocadoCode;
+    //Sprawdza kod - analizator Semantyczny
+    procedure CheckAvocadoCode(Silent: Boolean = False);
     //Usuwa sudzyslowie z tekstu
     function RemoveQuotes(const Line: string): string;
     // usuwa komentarze // ... i { ... }
@@ -385,6 +385,8 @@ type
     //Load documentation
     procedure LoadTextDocumenation(FileName: string);
     procedure LoadDocToListBox(const FileName: string; var Keywords: TStringList);
+    //zamiast funkcji w timer
+    procedure DoAnalyzeAndTranslate(Silent: Boolean);
 end;
 
   { TCompileThread }
@@ -1639,14 +1641,34 @@ end;
 
 procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
-  TimerScanFunctions.Enabled := False; // zatrzymujemy timer do następnej zmiany
-  // update feature list / aktualizacja listy funkcji
-  ToolButton1Click(Sender);
+  TimerScanFunctions.Enabled := False; // zatrzymujemy timer
+
+  // Automatyczne sprawdzenie w tle - True oznacza TRYB CICHY (żadnych okienek!)
+  ExtractProgramFromSynEdit;
+  try
+    MemoOutPut.Clear;
+
+    // 2. WYWOŁUJEMY ANALIZATOR W TRYBIE CICHYM (True)! Żadnych okienek!
+    CheckAvocadoCode(True);
+
+    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+    IsConsoleProgram := not FTranslator.IsGUIProject;
+    MemoOutPut.Lines.Text := FTranslatedCode.Text;
+  except
+    on E: Exception do
+      MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
+  end;
+
+  // 3. Reszta Twoich aktualizacji UI
   ListFunctionsFromSynEdit;
-  // updating the list of variables. / aktualizacja listy zmiennych.
   ListVariablesFromSynEdit;
-  //Updating comment list. / Aktualizacja listy komentarzy.
   ListCommentsFromSynEdit;
+  {DoAnalyzeAndTranslate(True);
+
+  ListFunctionsFromSynEdit;
+  ListVariablesFromSynEdit;
+  ListCommentsFromSynEdit;
+  }
 end;
 
 procedure TFormMain.ToolButton2Click(Sender: TObject);
@@ -1658,7 +1680,8 @@ end;
 
 procedure TFormMain.ToolButtonDebugClick(Sender: TObject);
 begin
-  CheckAvocadoCode;
+  //CheckAvocadoCode;
+  DoAnalyzeAndTranslate(False);
 end;
 
 //procedure TFormMain.NowyPlikExecute(Sender: TObject);
@@ -1821,16 +1844,19 @@ begin
   try
     MemoOutPut.Clear;
 
-    // Wykonujemy transpilację (używa TranslateCode i słownika .ini wewnątrz)
-    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    // Synchronizujemy flagę GUI z translatora do IDE
-    IsConsoleProgram := not FTranslator.IsGUIProject;
+    // Wywołanie BEZ parametru (lub z False) - okienka się pojawią!
+    CheckAvocadoCode(False);
 
+    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+    IsConsoleProgram := not FTranslator.IsGUIProject;
     MemoOutPut.Lines.Text := FTranslatedCode.Text;
   except
     on E: Exception do
       MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
   end;
+
+  //DoAnalyzeAndTranslate(False);
+
 end;
 
 procedure TFormMain.butCompileCodeClick(Sender: TObject);
@@ -1839,6 +1865,75 @@ var
    DlgResult: Integer;
    OutputFolder: string;
 begin
+  // ANALIZA I AKTUALIZACJA KODU PRZED KOMPILACJĄ
+  // Wymuszamy najświeższą analizę (w trybie cichym, żeby nie wyskakiwało "Brak błędów")
+  CheckAvocadoCode(True);
+
+  // Wymuszamy najświeższą transpilację, na wypadek gdyby użytkownik
+  // wcisnął kompiluj zanim odliczył się timer!
+  FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+  IsConsoleProgram := not FTranslator.IsGUIProject;
+
+  // OSTRZEŻENIE O BŁĘDACH Z MOŻLIWOŚCIĄ WYMUSZENIA KOMPILACJI
+  if FErrAll.Count > 0 then
+  begin
+    // Przenosimy użytkownika do zakładki z błędami, żeby widział co "nie gra"
+    PageInfo.ActivePage := TabErrors;
+    ListBoxErrCode.SetFocus;
+
+    // Pytamy użytkownika, czy jest pewien, że chce kontynuować
+    DlgResult := MessageDlg('Analizator Avocado znalazł potencjalne błędy lub nieznane słowa.' + #13#10 +
+                            'Czy mimo to chcesz spróbować skompilować program?',
+                            mtWarning, [mbYes, mbNo], 0);
+
+    // Jeśli kliknął cokolwiek innego niż "Tak" (czyli "Nie" lub zamknął okno) -> przerywamy
+    if DlgResult <> mrYes then
+      Exit;
+  end;
+
+
+  // WŁAŚCIWA KOMPILACJA (jeśli kod Avocado jest czysty)
+  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
+  if OD.FileName <> '' then
+    sFileName := OD.FileName
+  else if SD.FileName <> '' then
+    sFileName := SD.FileName
+  else
+    sFileName := '';
+
+  // Jeśli plik nie został zapisany, wymuszam zapisanie przed kompilacją
+  if (sFileName = '') then
+  begin
+    DlgResult := MessageDlg(TranslateAttention, TranslateSaveProject,
+                            mtConfirmation, [mbYes, mbNo], 0);
+    if DlgResult = mrYes then
+    begin
+      // Call "Save As"
+      MenuSaveAsClick(Sender);
+      if SD.FileName <> '' then
+        sFileName := SD.FileName // Update filename after saving
+      else
+      begin
+        MessageDlg(TranslateMistake, TranslateFilenotSaved, mtError, [mbOk], 0);
+        Exit; // Jeśli użytkownik anulował zapis, kończymy procedurę
+      end;
+    end
+    else
+    begin
+      MessageDlg(TranslateMistake, TranslateFilenotSavedBuildCancel, mtError, [mbOk], 0);
+      Exit; // Jeśli użytkownik odmówił zapisu, kończymy procedurę
+    end;
+  end;
+
+  // Wyodrębniamy folder, w którym zapisany został plik
+  OutputFolder := ExtractFilePath(sFileName);
+
+  // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
+  ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
+
+  // Start kompilacji w osobnym wątku
+  TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
+  {
  // Check if a file is open (OD) or saved (SD)
  // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
 
@@ -1885,6 +1980,7 @@ begin
   // Start kompilacji w osobnym wątku
   //TCompileThread.Create(FTranslatedCode.Text, ExeName, Handle);
   TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
+  }
 end;
 
 procedure TFormMain.TreeViewCollapsing(Sender: TObject; Node: TTreeNode;
@@ -2702,7 +2798,292 @@ begin
 end;
 
 
-procedure TFormMain.CheckAvocadoCode;
+
+procedure TFormMain.CheckAvocadoCode(Silent: Boolean = False);
+var
+  i, j: Integer;
+  LineText, Token, Token0, CleanLine, ErrorMsg: string;
+  Tokens, GlobalKeywords, LocalKeywords, LineErrors, LineTokens: TStringList;
+  FoundError, IsVarDecl: Boolean;
+  Value: Double;
+  L: string;
+  rezultat: TModalResult;
+  BlockDepth: Integer;
+  InRawBlock: Boolean;
+begin
+  if not Assigned(FErrAll) then
+    FErrAll := TStringList.Create
+  else
+    FErrAll.Clear;
+
+  ListBoxErrCode.Clear;
+  FoundError := False;
+
+  // Rozdzielenie na dwa słowniki!
+  GlobalKeywords := TStringList.Create;
+  LocalKeywords := TStringList.Create;
+  Tokens := TStringList.Create;
+  LineErrors := TStringList.Create;
+  LineTokens := TStringList.Create;
+
+  try
+    // Szybkie wyszukiwanie dla obu słowników
+    GlobalKeywords.Sorted := True;
+    GlobalKeywords.Duplicates := dupIgnore;
+    LocalKeywords.Sorted := True;
+    LocalKeywords.Duplicates := dupIgnore;
+
+    // Ładowanie wbudowanych słów globalnych (np. wbudowane funkcje)
+    LoadDebugKeywords('debuger.txt', GlobalKeywords);
+
+    // Przebieg 1: zbieranie deklaracji globalnych (uczenie się)
+    BlockDepth := 0;
+    InRawBlock := False;
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := SynEditCode.Lines[i];
+      //CleanLine := RemoveComments(LineText);
+      //CleanLine := RemoveQuotes(CleanLine);
+      //CleanLine := Trim(CleanLine);
+      // 1. NAJPIERW SPRAWDZAMY SUROWĄ LINIĘ (z klamerkami, przed ich usunięciem!)
+      L := LowerCase(Trim(LineText));
+
+      // omijanie asm i pascal (przebieg 1)
+      if InRawBlock then
+      begin
+        //if L = '}' then InRawBlock := False;
+        if Pos('}', L) > 0 then InRawBlock := False;
+        Continue;
+      end;
+
+      if (Pos('asm{', L) > 0) or
+         (Pos('asm {', L) > 0) or
+         (Pos('pascal{', L) > 0) or
+         (Pos('pascal {', L) > 0) or
+         (Pos('pascal_linia{', L) > 0) or
+         (Pos('pascal_linia {', L) > 0) or
+         (Pos('pascal_line{', L) > 0)
+         then
+      begin
+        InRawBlock := True;
+        // Zabezpieczenie: jeśli ktoś napisał całość w jednej linii np. pascal{ WriteLn; }
+        if Pos('}', L) > Pos('{', L) then InRawBlock := False;
+        Continue;
+      end;
+
+      // TERAZ możemy bezpiecznie usunąć komentarze i cudzysłowy dla reszty kodu Avocado
+      CleanLine := RemoveComments(LineText);
+      CleanLine := RemoveQuotes(CleanLine);
+      CleanLine := Trim(CleanLine);
+      if CleanLine = '' then Continue;
+      L := LowerCase(CleanLine);
+
+      Tokens.Clear;
+      ExtractStrings([' ', #9, '(', ')', ';', ',', '=', '+', '-', '*', '/', '<', '>', '[', ']', '.', ':'], [], PChar(L), Tokens);
+      if Tokens.Count = 0 then Continue;
+
+      Token0 := Tokens[0];
+
+      // Śledzenie głębokości bloków
+      if (Token0 = 'poczatek') or (Token0 = 'begin') or (Token0 = 'glowny') or (Token0 = 'main') then Inc(BlockDepth);
+      if (Token0 = 'koniec') or (Token0 = 'end') or (Token0 = 'koniec.') or (Token0 = 'end.') then
+      begin
+        Dec(BlockDepth);
+        if BlockDepth < 0 then BlockDepth := 0;
+      end;
+
+      if Tokens.Count < 2 then Continue;
+
+      // Nazwa programu
+      if (Token0 = 'program') or (Token0 = 'program_ui') or (Token0 = 'program_konsola') then
+        GlobalKeywords.Add(Tokens[1]);
+
+      // Importy
+      if (Token0 = 'importuj') or (Token0 = 'import') then
+        GlobalKeywords.Add(Tokens[1]);
+
+      // Nazwy Procedur i Funkcji są zawsze GLOBALNE
+      if (Token0 = 'procedura') or (Token0 = 'funkcja') or (Token0 = 'procedure') or (Token0 = 'function') then
+        GlobalKeywords.Add(Tokens[1]);
+
+      // Zmienne (Zapisujemy tylko jeśli są GLOBALNE, czyli poza jakimkolwiek blokiem)
+      if BlockDepth = 0 then
+      begin
+        for j := Low(PrefixesVariables) to High(PrefixesVariables) do
+        begin
+          if Token0 = LowerCase(PrefixesVariables[j]) then
+          begin
+            if GlobalKeywords.IndexOf(Tokens[1]) = -1 then
+              GlobalKeywords.Add(Tokens[1]);
+            Break;
+          end;
+        end;
+      end;
+    end;
+
+    // Przebieg 2: właściwe sprawdzanie błędów + zasięg lokalny
+    BlockDepth := 0;
+    InRawBlock := False;
+    LocalKeywords.Clear;
+
+    for i := 0 to SynEditCode.Lines.Count - 1 do
+    begin
+      LineText := SynEditCode.Lines[i];
+      {
+      CleanLine := RemoveComments(LineText);
+      CleanLine := RemoveQuotes(CleanLine);
+      CleanLine := Trim(CleanLine);
+      if CleanLine = '' then Continue; }
+
+      //L := LowerCase(CleanLine);
+      // 1. NAJPIERW SPRAWDZAMY SUROWĄ LINIĘ (z klamerkami, przed ich usunięciem!)
+      L := LowerCase(Trim(LineText));
+      //omijanie asm i pascal (przebieg 2)
+        // omijanie asm i pascal (przebieg 1)
+      if InRawBlock then
+      begin
+        if Pos('}', L) > 0 then InRawBlock := False;
+        Continue;
+      end;
+
+      if (Pos('asm{', L) > 0) or
+         (Pos('asm {', L) > 0) or
+         (Pos('pascal{', L) > 0) or
+         (Pos('pascal {', L) > 0) or
+         (Pos('pascal_linia{', L) > 0) or
+         (Pos('pascal_linia {', L) > 0) or
+         (Pos('pascal_line{', L) > 0)
+         then
+      begin
+        InRawBlock := True;
+        // Zabezpieczenie: jeśli ktoś napisał całość w jednej linii np. pascal{ WriteLn; }
+        if Pos('}', L) > Pos('{', L) then InRawBlock := False;
+        Continue;
+      end;
+
+      // TERAZ możemy bezpiecznie usunąć komentarze i cudzysłowy dla reszty kodu Avocado
+      CleanLine := RemoveComments(LineText);
+      CleanLine := RemoveQuotes(CleanLine);
+      CleanLine := Trim(CleanLine);
+      if CleanLine = '' then Continue;
+      //koniec omojania asm i pascala
+      L := LowerCase(CleanLine);
+
+      Tokens.Clear;
+      ExtractStrings([' ', #9, '(', ')', ';', ',', '=', '+', '-', '*', '/', '<', '>', '[', ']', '.', ':'], [], PChar(L), Tokens);
+      if Tokens.Count = 0 then Continue;
+
+      Token0 := Tokens[0];
+
+      // Śledzenie bloków
+      if (Token0 = 'poczatek') or (Token0 = 'begin') or (Token0 = 'glowny') or (Token0 = 'main') then Inc(BlockDepth);
+
+      if (Token0 = 'koniec') or (Token0 = 'end') or (Token0 = 'koniec.') or (Token0 = 'end.') then
+      begin
+        Dec(BlockDepth);
+        if BlockDepth <= 0 then
+        begin
+          BlockDepth := 0;
+          LocalKeywords.Clear; //Wychodzimy z bloku = niszczymy zmienne lokalne!
+        end;
+      end;
+
+      // Jeśli definiujemy procedurę, ładujemy parametry do LocalKeywords i pomijamy błędy w tej linii
+      if (Token0 = 'procedura') or (Token0 = 'funkcja') or (Token0 = 'procedure') or (Token0 = 'function') then
+      begin
+        LocalKeywords.Clear; // Czyścimy przed wejściem
+        for j := 2 to Tokens.Count - 1 do
+          LocalKeywords.Add(Tokens[j]);
+        Continue; // Linia deklaracji nie jest błędem
+      end;
+
+      IsVarDecl := False;
+
+      // Wykrywanie deklaracji zmiennej wewnątrz bloku
+      if Tokens.Count > 1 then
+      begin
+        for j := Low(PrefixesVariables) to High(PrefixesVariables) do
+        begin
+          if Token0 = LowerCase(PrefixesVariables[j]) then
+          begin
+            IsVarDecl := True;
+            if BlockDepth > 0 then // Jeśli jesteśmy wewnątrz funkcji, zmienna jest lokalna
+              if LocalKeywords.IndexOf(Tokens[1]) = -1 then
+                LocalKeywords.Add(Tokens[1]);
+            Break;
+          end;
+        end;
+      end;
+
+      LineErrors.Clear;
+      LineTokens.Clear;
+
+      for j := 0 to Tokens.Count - 1 do
+      begin
+        Token := Tokens[j];
+        if Token = '' then Continue;
+
+        // Pomijamy sprawdzanie nazwy zmiennej, którą właśnie deklarujemy (Tokens[1])
+        if IsVarDecl and (j = 1) then Continue;
+
+        // Ignoruj operator wskaźnika '@'
+        if (Length(Token) > 0) and (Token[1] = '@') then
+          Token := Copy(Token, 2, MaxInt);
+        if Token = '' then Continue;
+
+        // Stałe systemowe
+        if (Token = 'true') or (Token = 'false') or
+           (Token = 'prawda') or (Token = 'falsz') or
+           (Token = 'nil') then Continue;
+
+        if TryStrToFloat(Token, Value) then Continue;
+        if (Length(Token) > 0) and (Token[1] = '$') then Continue;
+
+        if LineTokens.IndexOf(Token) <> -1 then Continue;
+        LineTokens.Add(Token);
+
+        //ostateczne sprawdzenie: czy słowo istnieje w lokalnych lub globalnych
+        if (LocalKeywords.IndexOf(Token) = -1) and (GlobalKeywords.IndexOf(Token) = -1) then
+        begin
+          ErrorMsg := Format('[%d]: ' + TranslateUnknownName + ' "%s"', [i + 1, Token]);
+          if LineErrors.IndexOf(ErrorMsg) = -1 then
+            LineErrors.Add(ErrorMsg);
+        end;
+      end;
+
+      for j := 0 to LineErrors.Count - 1 do
+      begin
+        ListBoxErrCode.Items.Add(LineErrors[j]);
+        FErrAll.Add(LineErrors[j]);
+        FoundError := True;
+      end;
+    end;
+
+  finally
+    Tokens.Free;
+    LineErrors.Free;
+    LineTokens.Free;
+    GlobalKeywords.Free;
+    LocalKeywords.Free;
+  end;
+
+  //Tryb cichy
+  if not Silent then
+  begin
+    if FoundError then
+    begin
+      rezultat := MessageDlg(TranslateErrorsInTheCode, TranslateCodeErrorsCompilationStopped, mtError, [mbOk], 0);
+      if rezultat = mrOk then
+      begin
+        PageInfo.ActivePage := TabErrors;
+        ListBoxErrCode.SetFocus;
+      end;
+    end
+    else
+      MessageDlg(TranslateCodeCorrect, TranslateNoErrorsCodeReadyToCompile, mtInformation, [mbOk], 0);
+  end;
+end;
+{procedure TFormMain.CheckAvocadoCode;
 var
   i, j: Integer;
   LineText, Token, CleanLine, ErrorMsg: string;
@@ -2733,9 +3114,7 @@ begin
     // Ładowanie wbudowanych słów (debuger.txt)
     LoadDebugKeywords('debuger.txt', Keywords);
 
-    // ====================================================================
     // PRZEBIEG 1: Zbieranie deklaracji (uczenie się nazw użytkownika)
-    // ====================================================================
     for i := 0 to SynEditCode.Lines.Count - 1 do
     begin
       LineText := SynEditCode.Lines[i];
@@ -2752,41 +3131,37 @@ begin
 
       Token := Tokens[0];
 
-      // 1. Nazwa programu
+      // Nazwa programu
       if (Token = 'program') or (Token = 'program_ui') or (Token = ' program_ui') or (Token = ' program') then
         Keywords.Add(Tokens[1]);
 
-      // 2. Importy modułów
+      // Importy modułów
       if (Token = 'importuj') or (Token = 'import') then
         Keywords.Add(Tokens[1]);
 
-      // 3. Procedury i Funkcje użytkownika ORAZ ich parametry!
+      // Procedury i Funkcje użytkownika ORAZ ich parametry!
       if (Token = 'procedura') or (Token = 'funkcja') or (Token = 'procedure') or (Token = 'function') then
       begin
         for j := 1 to Tokens.Count - 1 do
         begin
           if Keywords.IndexOf(Tokens[j]) = -1 then
             Keywords.Add(Tokens[j]);
-          // UWAGA: Usunięto zepsuty Break; stąd! Teraz uczy się wszystkich parametrów!
         end;
       end;
 
-      // 4. Zmienne użytkownika (ODKOMENTOWANE I NAPRAWIONE)
+      // Zmienne użytkownika (ODKOMENTOWANE I NAPRAWIONE)
       for j := Low(PrefixesVariables) to High(PrefixesVariables) do
       begin
         if Token = LowerCase(PrefixesVariables[j]) then
         begin
           if Keywords.IndexOf(Tokens[1]) = -1 then
             Keywords.Add(Tokens[1]);
-          Break; // Ten Break jest poprawny (przerywa tylko sprawdzanie listy prefiksów)
+          Break;
         end;
       end;
     end;
 
-
-    // ====================================================================
     // PRZEBIEG 2: Właściwe sprawdzanie błędów
-    // ====================================================================
     for i := 0 to SynEditCode.Lines.Count - 1 do
     begin
       LineText := SynEditCode.Lines[i];
@@ -2825,137 +3200,6 @@ begin
         if (Length(Token) > 0) and (Token[1] = '$') then Continue;
 
         // Unikaj duplikatów błędu w tej samej linii
-        if LineTokens.IndexOf(Token) <> -1 then Continue;
-        LineTokens.Add(Token);
-
-        // OSTATECZNE SPRAWDZENIE BŁĘDU
-        if Keywords.IndexOf(Token) = -1 then
-        begin
-          ErrorMsg := Format('[%d]: ' + TranslateUnknownName + ' "%s"', [i + 1, Token]);
-          if LineErrors.IndexOf(ErrorMsg) = -1 then
-            LineErrors.Add(ErrorMsg);
-        end;
-      end;
-
-      // Dodaj błędy z tej linii
-      for j := 0 to LineErrors.Count - 1 do
-      begin
-        ListBoxErrCode.Items.Add(LineErrors[j]);
-        FErrAll.Add(LineErrors[j]);
-        FoundError := True;
-      end;
-    end;
-
-  finally
-    Tokens.Free;
-    LineErrors.Free;
-    LineTokens.Free;
-    Keywords.Free;
-  end;
-
-  if FoundError then
-  begin
-    rezultat := MessageDlg(TranslateErrorsInTheCode, TranslateCodeErrorsCompilationStopped, mtError, [mbOk], 0);
-    if rezultat = mrOk then
-    begin
-      PageInfo.ActivePage := TabErrors;
-      ListBoxErrCode.SetFocus;
-    end;
-  end
-  else
-    MessageDlg(TranslateCodeCorrect, TranslateNoErrorsCodeReadyToCompile, mtInformation, [mbOk], 0);
-end;
-{procedure TFormMain.CheckAvocadoCode;
-var
-  i, j: Integer;
-  LineText, Token, CleanLine, ErrorMsg: string;
-  Tokens, Keywords, LineErrors, LineTokens: TStringList;
-  FoundError: Boolean;
-  Value: Double;
-  L: string;
-  rezultat: TModalResult;
-begin
-  if not Assigned(FErrAll) then
-    FErrAll := TStringList.Create
-  else
-    FErrAll.Clear;
-
-  ListBoxErrCode.Clear;
-  FoundError := False;
-
-  // Bezpieczne tworzenie obiektów
-  Keywords := TStringList.Create;
-  Tokens := TStringList.Create;
-  LineErrors := TStringList.Create;
-  LineTokens := TStringList.Create;
-
-  try
-    // opytamalizacja wydajności: szybkie wyszukiwanie binarne w keywords!
-    Keywords.Sorted := True;
-    Keywords.Duplicates := dupIgnore;
-
-    // Ładowanie słownika
-    LoadDebugKeywords('debuger.txt', Keywords);
-
-    for i := 0 to SynEditCode.Lines.Count - 1 do
-    begin
-      LineText := SynEditCode.Lines[i];
-
-      // Usuń komentarze i cudzysłowy
-      CleanLine := RemoveComments(LineText);
-      CleanLine := RemoveQuotes(CleanLine);
-      CleanLine := Trim(CleanLine);
-      if CleanLine = '' then Continue;
-
-      L := LowerCase(CleanLine);
-
-      // Ignoruj deklarację programu
-      if Pos('program ', L) = 1 then Continue;
-
-      // IGNORUJ linie z importowaniem modułów
-      if (StartsStr('importuj ', L)) or (StartsStr('import ', L)) then
-      begin
-        Tokens.Clear;
-        // Dzielimy na podstawie spacji
-        ExtractStrings([' ', #9], [], PChar(L), Tokens);
-        if Tokens.Count > 1 then
-        begin
-          if Keywords.IndexOf(Tokens[1]) = -1 then
-            Keywords.Add(Tokens[1]); // Rejestrujemy moduł w locie
-        end;
-        Continue;
-      end;
-
-      Tokens.Clear;
-      // zaawansowany lexer
-      ExtractStrings([' ', #9, '(', ')', ';', ',', '=', '+', '-', '*', '/', '<', '>', '[', ']', '.', ':'], [], PChar(L), Tokens);
-
-      // Sprawdź deklarację zmiennej
-      for j := Low(PrefixesVariables) to High(PrefixesVariables) do
-      begin
-        if (Tokens.Count > 1) and (Tokens[0] = LowerCase(PrefixesVariables[j])) then
-        begin
-          if Keywords.IndexOf(Tokens[1]) = -1 then
-            Keywords.Add(Tokens[1]); // Rejestrujemy zmienną zadeklarowaną przez użytkownika
-          Break;
-        end;
-      end;
-
-      LineErrors.Clear;
-      LineTokens.Clear;
-
-      for j := 0 to Tokens.Count - 1 do
-      begin
-        Token := Tokens[j];
-        if Token = '' then Continue;
-
-        // Ignoruj liczby
-        if TryStrToFloat(Token, Value) then Continue;
-
-        // Zabezpieczenie np. przed tokenami z prefiksami $ (hexy)
-        if (Length(Token) > 0) and (Token[1] = '$') then Continue;
-
-        // Unikaj duplikatów tokenów w TEJ SAMEJ linii
         if LineTokens.IndexOf(Token) <> -1 then Continue;
         LineTokens.Add(Token);
 
@@ -3092,6 +3336,26 @@ begin
     Keywords.LoadFromFile(FileName)
   else
     raise Exception.Create('Nie znaleziono pliku documentation.txt');
+end;
+
+procedure TFormMain.DoAnalyzeAndTranslate(Silent: Boolean);
+begin
+  ExtractProgramFromSynEdit;
+  try
+    MemoOutPut.Clear;
+
+    // Sprawdza kod (CICHO, jeśli analizuje Timer w tle)
+    CheckAvocadoCode(Silent);
+
+    // Wykonujemy transpilację
+    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+    IsConsoleProgram := not FTranslator.IsGUIProject;
+
+    MemoOutPut.Lines.Text := FTranslatedCode.Text;
+  except
+    on E: Exception do
+      MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
+  end;
 end;
 
 

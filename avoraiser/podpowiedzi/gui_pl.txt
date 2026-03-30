@@ -441,6 +441,7 @@ avoraiser.dialogs
 avoraiser.system
 avoraiser.clipboard
 avoraiser.webview
+avoraiser.printer
 
 ;NOWE
 ustaw_w_polu_edycji_tylko_liczby=ustaw_w_polu_edycji_tylko_liczby - Umożliwia wprowadzanie wyłącznie liczb do Edit

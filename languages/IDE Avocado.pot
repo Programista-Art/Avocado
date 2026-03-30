@@ -866,11 +866,13 @@ msgid "Interpret"
 msgstr ""
 
 #: tformmain.toolbuttondebug.caption
-msgid "ToolButtonDebug"
+msgctxt "tformmain.toolbuttondebug.caption"
+msgid "Code Analyzer"
 msgstr ""
 
 #: tformmain.toolbuttondebug.hint
-msgid "Check the code"
+msgctxt "tformmain.toolbuttondebug.hint"
+msgid "Code Analyzer"
 msgstr ""
 
 #: tformmain.transpiluj.caption

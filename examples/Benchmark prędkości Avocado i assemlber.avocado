@@ -20,11 +20,11 @@ asm
     xor rax, rax         // wyzeruj licznik
     mov rcx, 1           // początek od 1
 
-  @@petla_start:
+  @petla_start:
     inc rax              // inkrementuj wynik
     inc rcx              // inkrementuj licznik
     cmp rcx, 1000000000  // porównaj z 1 miliardem
-    jbe @@petla_start
+    jbe @petla_start
 
     mov qword ptr [suma], rax   // zapis RAX do zmiennej Pascalowej
   end;

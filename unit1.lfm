@@ -46,9 +46,9 @@ object FormMain: TFormMain
     end
     object ToolButtonDebug: TToolButton
       Left = 70
-      Hint = 'Check the code'
+      Hint = 'Code Analyzer'
       Top = 2
-      Caption = 'ToolButtonDebug'
+      Caption = 'Code Analyzer'
       ImageIndex = 8
       ParentShowHint = False
       ShowHint = True
@@ -101,9 +101,9 @@ object FormMain: TFormMain
         Height = 572
         Top = 36
         Width = 264
-        ActivePage = FPCCode
+        ActivePage = Documentation
         Align = alClient
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 1
         TabPosition = tpBottom
         object FPCCode: TTabSheet

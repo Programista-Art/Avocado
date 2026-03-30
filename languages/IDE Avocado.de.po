@@ -876,11 +876,17 @@ msgid "Interpret"
 msgstr "Interpretieren"
 
 #: tformmain.toolbuttondebug.caption
-msgid "ToolButtonDebug"
+#, fuzzy
+#| msgid "ToolButtonDebug"
+msgctxt "tformmain.toolbuttondebug.caption"
+msgid "Code Analyzer"
 msgstr "ToolButtonDebug"
 
 #: tformmain.toolbuttondebug.hint
-msgid "Check the code"
+#, fuzzy
+#| msgid "Check the code"
+msgctxt "tformmain.toolbuttondebug.hint"
+msgid "Code Analyzer"
 msgstr "Überprüfen Sie den Code"
 
 #: tformmain.transpiluj.caption

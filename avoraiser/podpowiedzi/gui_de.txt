@@ -436,6 +436,7 @@ avoraiser.dialogs
 avoraiser.system
 avoraiser.clipboard
 avoraiser.webview
+avoraiser.printer
 
 ;NOWE
 set_edit_numbers_only=set_edit_numbers_only - Ermöglicht die Eingabe von Zahlen in das Bearbeitungsfeld

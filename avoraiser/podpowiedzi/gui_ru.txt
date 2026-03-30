@@ -432,6 +432,7 @@ avoraiser.dialogs
 avoraiser.system
 avoraiser.clipboard
 avoraiser.webview
+avoraiser.printer
 
 ;NOWE
 set_edit_numbers_only=set_edit_numbers_only - Позволяет вводить в поле Edit только цифры
