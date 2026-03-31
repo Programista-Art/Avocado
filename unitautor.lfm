@@ -10,6 +10,7 @@ object FormAutor: TFormAutor
   ClientWidth = 342
   Color = 2697513
   Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 32
@@ -49,7 +50,7 @@ object FormAutor: TFormAutor
     Font.Quality = fqDraft
     Lines.Strings = (
       'Autorem języka programowania Avocado jest '
-      'Programista Art'
+      'Dymitr Wygowski (Programista Art)'
     )
     ParentFont = False
     ReadOnly = True

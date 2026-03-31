@@ -1933,54 +1933,6 @@ begin
 
   // Start kompilacji w osobnym wątku
   TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
-  {
- // Check if a file is open (OD) or saved (SD)
- // Sprawdzenie, czy plik jest otwarty (OD) lub zapisany (SD)
-
-  if OD.FileName <> '' then
-    sFileName := OD.FileName
-  else if SD.FileName <> '' then
-    sFileName := SD.FileName
-  else
-    sFileName := '';
-  //If the file has not been saved, we force it to save before compiling
-  // Jeśli plik nie został zapisany, wymuszam zapisanie przed kompilacją
-  if (sFileName = '') then
-  begin
-    DlgResult := MessageDlg(TranslateAttention, TranslateSaveProject,
-                            mtConfirmation, [mbYes, mbNo], 0);
-    if DlgResult = mrYes then
-    begin
-      // Call "Save As"
-      MenuSaveAsClick(Sender);
-      if SD.FileName <> '' then
-        sFileName := SD.FileName // Update filename after saving
-      else
-      begin
-        MessageDlg(TranslateMistake, TranslateFilenotSaved, mtError, [mbOk], 0);
-        Exit; //If the user canceled the save, we exit the procedure / Jeśli użytkownik anulował zapis, kończymy procedurę
-      end;
-    end
-    else
-    begin
-      MessageDlg(TranslateMistake, TranslateFilenotSavedBuildCancel, mtError, [mbOk], 0);
-      Exit; //If the user refused to save, we terminate the procedure / Jeśli użytkownik odmówił zapisu, kończymy procedurę
-    end;
-  end;
-  // We extract the folder where the file was saved
-  // Wyodrębniamy folder, w którym zapisany został plik
-  OutputFolder := ExtractFilePath(sFileName);
-  // Setting the output file name based on the folder and the NameProgram variable
-  // Ustawienie nazwy pliku wynikowego na podstawie folderu oraz zmiennej NameProgram
-  ExeName := IncludeTrailingPathDelimiter(OutputFolder) + NameProgram + '.exe';
-
-  // Kompilujemy kod Pascala – funkcja CompilePascalCode przyjmuje tekst kodu i ścieżkę do pliku .exe
-  //bez watku CompilePascalCode(FTranslatedCode.Text, ExeName);
-
-  // Start kompilacji w osobnym wątku
-  //TCompileThread.Create(FTranslatedCode.Text, ExeName, Handle);
-  TCompileThread.Create(Self, FTranslatedCode.Text, ExeName);
-  }
 end;
 
 procedure TFormMain.TreeViewCollapsing(Sender: TObject; Node: TTreeNode;
@@ -2777,17 +2729,6 @@ begin
   if ListBoxSearchComments.Items.Count = 0 then
     ListBoxSearchComments.Items.Add(TranslateNoCommentsFound);
 end;
-
-{procedure TFormMain.LoadDebugKeywords(const FileName: string;
-  var Keywords: TStringList);
-begin
-  Keywords := TStringList.Create;
-  if FileExists(FileName) then
-    Keywords.LoadFromFile(FileName)
-  else
-    raise Exception.Create(TranslateDebuggerFileNotFound);
-end;
-}
 
 procedure TFormMain.LoadDebugKeywords(const FileName: string; Keywords: TStringList);
 begin

@@ -437,6 +437,7 @@ avoraiser.system
 avoraiser.clipboard
 avoraiser.webview
 avoraiser.printer
+
 ;NOWE
 set_edit_numbers_only=set_edit_numbers_only - Permet de saisir uniquement des chiffres dans le champ « Modifier »
 set_edit_math_only=set_edit_math_only(Handle) - N'autoriser que les chiffres et les caractères dans l'édition

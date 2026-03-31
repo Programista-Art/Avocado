@@ -103,3 +103,7 @@ file_stream
 dslowo
 dsłowo
 dword
+hdc
+hwnd
+uchwyt_okna
+uchwyt_plotna
