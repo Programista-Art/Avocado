@@ -15,6 +15,7 @@
 
 
 ; --- APPLICATION & GESTION DE FENÊTRES ---
+update_layout=update_layout(Handle) - Mise à jour de la mise en page.
 center_window=center_window(Handle) - Centre la fenêtre sur l'écran principal.
 set_dark_mode=set_dark_mode(Handle, Enable) - Bascule le mode sombre pour la fenêtre spécifiée.
 run=run(Msg) - Démarre la boucle principale des messages de l'application.

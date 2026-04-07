@@ -15,6 +15,7 @@
 
 
 ; --- APPLICATION & WINDOW MANAGEMENT ---
+update_layout=update_layout(Handle) - Das Layout wird aktualisiert.
 center_window=center_window(Handle) - Zentriert das Fenster auf dem Hauptbildschirm.
 set_dark_mode=set_dark_mode(Handle, Enable) - Schaltet den Dunkelmodus für das angegebene Fenster um.
 run=run(Msg) - Startet die Hauptnachrichtenschleife der Anwendung.

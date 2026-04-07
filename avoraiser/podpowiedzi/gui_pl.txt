@@ -14,9 +14,10 @@
 .bezramkowe=.bezramkowe = Prawda/Falsz - Tworzy nowoczesne okno bez systemowych ramek i paska tytułu
 
 ; --- ZARZĄDZANIE APLIKACJĄ I OKNEM ---
+aktualizuj_uklad=aktualizuj_uklad(uchwut) - Aktualizuje układ.
 wysrodkuj_okno=wysrodkuj_okno(uchwut) - Wyśrodkowuje okno na głównym ekranie.
 ustaw_ciemny_motyw=ustaw_ciemny_motyw() - Włącza ciemny motyw interfejsu aplikacji.
-uruchom=uruchom() - Rozpoczyna działanie głównej pętli programu.
+uruchom_petle=uruchom_petle() - Rozpoczyna działanie głównej pętli programu.
 uruchom_aplikacje=uruchom_aplikacje() - Inicjuje i uruchamia aplikację GUI.
 utworz_okno=utworz_okno(uchwyt, parametry_ui) - Tworzy główne okno programu.
 zamknij_okno=zamknij_okno(uchwyt) - Zamyka określone okno aplikacji.

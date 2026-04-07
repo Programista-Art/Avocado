@@ -15,6 +15,7 @@
 .frameless=.frameless = True/False - Создает современное окно без стандартных системных рамок
 
 ; --- ОКНА И ПРИЛОЖЕНИЕ ---
+update_layout=update_layout(Handle) - Обновление макета.
 center_window=center_window(Handle) - Размещает окно по центру главного экрана.
 set_dark_mode=set_dark_mode(Handle, Enable) - Установить темную тему для окна.
 run=run(msg) - Запустить цикл обработки сообщений.

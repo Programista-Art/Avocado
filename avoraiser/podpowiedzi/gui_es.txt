@@ -15,6 +15,7 @@
 .frameless=.frameless = True/False - Crea una ventana moderna sin bordes ni marcos del sistema
 
 ; --- APPLICATION & WINDOW MANAGEMENT ---
+update_layout=update_layout(Handle) - Actualización del diseño.
 center_window=center_window(Handle) - Centra la ventana en la pantalla principal.
 set_dark_mode=set_dark_mode(Handle, Enable) - Activa o desactiva el modo oscuro para la ventana especificada.
 run=run(Msg) - Inicia el bucle principal de mensajes de la aplicación.
