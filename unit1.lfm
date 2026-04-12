@@ -1547,7 +1547,7 @@ object FormMain: TFormMain
   end
   object SynCompletion1: TSynCompletion
     OnBeforeExecute = SynCompletion1BeforeExecute
-    Position = -1
+    Position = 0
     LinesInWindow = 10
     SelectedColor = 2458919
     CaseSensitive = False
@@ -1672,6 +1672,7 @@ object FormMain: TFormMain
     KeyWords.Strings = (
       '.FREE'
       '.ZWOLNIJ '
+      '_N_'
       'ACCEPT_DUPLICATES'
       'ADD_TO_LIST'
       'AKCEPTUJ_DUPLIKATY'
@@ -1680,7 +1681,6 @@ object FormMain: TFormMain
       'ASSIGN_FILE'
       'AZ'
       'Aż'
-      '_N_'
       'BLAD_DUPLIKATY'
       'BLOCK_READ'
       'BLOCK_WRITE'

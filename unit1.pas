@@ -1378,7 +1378,7 @@ begin
     SynEditCode.Lines.Add('start');
     SynEditCode.Lines.Add('  ui_parameters ui');
     SynEditCode.Lines.Add('  ui = default(TAvocadoWindowParams)');
-    SynEditCode.Lines.Add('  ui.title = ''Okno w Avoraiser - Avocado''');
+    SynEditCode.Lines.Add('  ui.title = ''Hello Avocado!''');
     SynEditCode.Lines.Add('  ui.width = 400');
     SynEditCode.Lines.Add('  ui.height = 600');
     SynEditCode.Lines.Add('  ui.x = 200');
@@ -1391,7 +1391,7 @@ begin
     SynEditCode.Lines.Add('  my_window = create_window(ui)');
     SynEditCode.Lines.Add('  ');
     SynEditCode.Lines.Add('  if my_window <> 0 then');
-    SynEditCode.Lines.Add('  begin');
+    SynEditCode.Lines.Add('  start');
     SynEditCode.Lines.Add('    center_window(my_window)');
     SynEditCode.Lines.Add('    //Application code');
     SynEditCode.Lines.Add('   ');
