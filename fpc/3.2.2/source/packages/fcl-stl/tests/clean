@@ -1,2 +1,0 @@
-#!/bin/bash
-rm *.o *.ppu ../*.o ../*.ppu

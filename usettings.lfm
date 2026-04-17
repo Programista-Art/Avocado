@@ -1,19 +1,20 @@
 object FormSettingIntepreter: TFormSettingIntepreter
   Left = 436
-  Height = 385
+  Height = 297
   Top = 389
   Width = 469
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Settings'
-  ClientHeight = 385
+  ClientHeight = 297
   ClientWidth = 469
   Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 353
+    Top = 265
     Width = 469
     Align = alBottom
     BevelColor = clMenu
@@ -127,38 +128,6 @@ object FormSettingIntepreter: TFormSettingIntepreter
       OnClick = SpbLoadFolderFPCClick
     end
   end
-  object GroupBox1: TGroupBox
-    Left = 0
-    Height = 88
-    Top = 264
-    Width = 469
-    Align = alTop
-    Caption = 'Platform'
-    ClientHeight = 68
-    ClientWidth = 465
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 3
-    object ComboBoboxPlatforms: TComboBox
-      Left = 8
-      Height = 23
-      Top = 8
-      Width = 147
-      BorderStyle = bsSingle
-      Color = clWindowFrame
-      Font.Color = clWindowText
-      ItemHeight = 15
-      ItemIndex = 0
-      Items.Strings = (
-        'x86_64-win64'
-      )
-      ParentFont = False
-      ReadOnly = True
-      Style = csDropDownList
-      TabOrder = 0
-      Text = 'x86_64-win64'
-    end
-  end
   object GroupBox3: TGroupBox
     Left = 0
     Height = 88
@@ -170,7 +139,7 @@ object FormSettingIntepreter: TFormSettingIntepreter
     ClientWidth = 465
     ParentBackground = False
     ParentColor = False
-    TabOrder = 4
+    TabOrder = 3
     object EditLinkToInstantFPC: TEdit
       Left = 5
       Height = 23

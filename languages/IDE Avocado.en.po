@@ -876,18 +876,16 @@ msgid "Interpret"
 msgstr "Interpret"
 
 #: tformmain.toolbuttondebug.caption
-#, fuzzy
 #| msgid "ToolButtonDebug"
 msgctxt "tformmain.toolbuttondebug.caption"
 msgid "Code Analyzer"
-msgstr "ToolButtonDebug"
+msgstr "Code Analyzer"
 
 #: tformmain.toolbuttondebug.hint
-#, fuzzy
 #| msgid "Check the code"
 msgctxt "tformmain.toolbuttondebug.hint"
 msgid "Code Analyzer"
-msgstr "Check the code"
+msgstr "Code Analyzer"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -948,14 +946,6 @@ msgstr "Ok"
 msgctxt "tformsettingintepreter.caption"
 msgid "Settings"
 msgstr "Settings"
-
-#: tformsettingintepreter.comboboboxplatforms.text
-msgid "x86_64-win64"
-msgstr "x86_64-win64"
-
-#: tformsettingintepreter.groupbox1.caption
-msgid "Platform"
-msgstr "Platform"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "Link to fpc.exe"
@@ -1109,7 +1099,7 @@ msgstr " - Added custom IDE modules path: "
 
 #: unit1.translateaddedavocadoframeworkpath
 msgid "Added Avocado framework path:"
-msgstr ""
+msgstr "Added Avocado framework path:"
 
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
@@ -1136,6 +1126,10 @@ msgstr "Attention!"
 msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr "Attention!"
+
+#: unit1.translateavocadoanalyzerfoundissues
+msgid "Avocado Analyzer found potential errors or unknown words."
+msgstr "Avocado Analyzer found potential errors or unknown words."
 
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
@@ -1179,6 +1173,10 @@ msgstr "Compilation successful! Output file: "
 msgctxt "unit1.translatecompilationsuccses"
 msgid "Compilation successful! Output file: "
 msgstr "Compilation successful! Output file: "
+
+#: unit1.translatecompileanywayquestion
+msgid "Would you like to try compiling the program anyway?"
+msgstr "Would you like to try compiling the program anyway?"
 
 #: unit1.translatecompilersettloaded
 msgid "Compiler settings loaded"
@@ -1255,7 +1253,7 @@ msgstr "An error occurred: "
 
 #: unit1.translateerrorcreatetempdir
 msgid "Error: Could not create temporary directory: "
-msgstr ""
+msgstr "Error: Could not create temporary directory: "
 
 #: unit1.translateerrorsinthecode
 msgid "Errors in the code!"
@@ -1302,6 +1300,10 @@ msgstr "File not saved. Compilation canceled."
 msgid "Project not saved. Build canceled."
 msgstr "Project not saved. Build canceled."
 
+#: unit1.translatefileopenerror
+msgid "File open error: "
+msgstr "File open error: "
+
 #: unit1.translatefound
 msgid "Found"
 msgstr "Found"
@@ -1330,6 +1332,10 @@ msgstr "Information"
 #: unit1.translateitemselected
 msgid "Empty item selected."
 msgstr "Empty item selected."
+
+#: unit1.translatekilobytes
+msgid " KB"
+msgstr " KB"
 
 #: unit1.translatelinktofpc
 msgid "Link to fpc.exe compiler: "
@@ -1387,6 +1393,10 @@ msgstr "No variables found."
 msgid "0 occurrences found"
 msgstr "0 occurrences found"
 
+#: unit1.translateoutputfilesize
+msgid "Output file size: "
+msgstr "Output file size: "
+
 #: unit1.translateplatform
 msgid "Platform: "
 msgstr "Platform: "
@@ -1433,11 +1443,19 @@ msgstr "The value you were looking for has been found!"
 
 #: unit1.translatewarningcannotdeleteoldexe
 msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
-msgstr ""
+msgstr "WARNING: Cannot delete old EXE file (maybe it is running?)"
 
 #: unit1.translatewarningframeworkfoldernotfound
 msgid "WARNING: Framework folder not found:"
-msgstr ""
+msgstr "WARNING: Framework folder not found:"
+
+#: unit1.translatewebview2engineconnected
+msgid "Chromium WebView2 engine connected: "
+msgstr "Chromium WebView2 engine connected: "
+
+#: unit1.translatewebview2enginefoldernotfound
+msgid "NOTE: WebView2 engine folder not found: "
+msgstr "NOTE: WebView2 engine folder not found: "
 
 #: unitautor.translatecannotopenlink
 msgctxt "unitautor.translatecannotopenlink"
@@ -1519,4 +1537,3 @@ msgstr "Information"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "The models.txt file was not found."
-

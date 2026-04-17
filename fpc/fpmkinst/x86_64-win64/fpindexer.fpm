@@ -1,0 +1,10 @@
+Name=fpindexer
+Version=3.2.2
+Checksum=1387234667
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\fpindexer\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-base|1387234643,fcl-db|1387234653,chm|1387234650,sqlite|1387234651
+NeedLibC=N
+FPMakeAddIn=N

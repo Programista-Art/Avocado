@@ -140,12 +140,13 @@ const
    (FromText: '[block_read]'; ToText: 'fmShareDenyRead'; Flags: [rfReplaceAll]; IsPrefix: False),
    (FromText: '[block_write]'; ToText: 'fmShareDenyWrite'; Flags: [rfReplaceAll]; IsPrefix: False),
    (FromText: '[exclusive]'; ToText: 'fmShareExclusive'; Flags: [rfReplaceAll]; IsPrefix: False),
-
+   (FromText: 'Int('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
      //
     (FromText: 'prawda'; ToText: 'True'; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'falsz'; ToText: 'False'; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_w_liczbe_cal('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    //(FromText: 'tekst_w_liczbe_cal('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'tekst_na_zmiennoprzecinkową('; ToText: 'StrToFloat('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_zmiennoprzecinkowa('; ToText: 'StrToFloat('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'liczba_na_tekst('; ToText: 'IntToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'zmiennoprzecinkowa_na_tekst('; ToText: 'FloatToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'rzeczywista('; ToText: 'Real('; Flags: [rfReplaceAll]; IsPrefix: False),
@@ -153,14 +154,116 @@ const
     (FromText: 'logiczny_na_tekst('; ToText: 'BoolToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'bajt_na_logiczny('; ToText: 'ByteBool(Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'tekst_na_liczbę_lub_domyślną('; ToText: 'StrToIntDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_liczbe_lub_domyslna('; ToText: 'StrToIntDef('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'zaokrąglij('; ToText: 'Round('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'zaokraglij('; ToText: 'Round('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'na_całkowitą_16('; ToText: 'Word('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'na_calkowita_16('; ToText: 'Word('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'liczba_całkowita_32('; ToText: 'LongInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_calkowita_32('; ToText: 'LongInt('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'liczebnik('; ToText: 'Cardinal('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'zmiennoprzecinkowa_na_tekst_formatowany('; ToText: 'FloatToStrF('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'podwójna_precyzja('; ToText: 'Double('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'Liczba_rozszerzonaWPojedynczą('; ToText: 'Extended('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'podwojna_precyzja('; ToText: 'Double('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_rozszerzona_na_pojedyńczą('; ToText: 'Extended('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_rozszerzona_na_pojedyncza('; ToText: 'Extended('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'Liczba_pojedyncza_na_zm('; ToText: 'Single('; Flags: [rfReplaceAll]; IsPrefix: False),
+
+
+    // character and string conversions / konwersje znaków i string
+    //Polish aliases
+    (FromText: 'liczba_na_znak('; ToText: 'Chr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'znak_na_liczbę('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'znak_na_liczbe('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'znak_na_tekst('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_znak('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+
+    (FromText: 'chr('; ToText: 'Chr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'ord('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'char('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'string('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'repeat_char('; ToText: 'StringOfChar('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_bool_def('; ToText: 'StrToBoolDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_bool('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'bool('; ToText: 'Boolean('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // logical conversions / konwersje logiczne
+    //Polish aliases
+    (FromText: 'tekst_na_logiczny('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_logiczny_dom('; ToText: 'StrToBoolDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'logiczny_z_liczby('; ToText: 'Boolean('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_całkowita_z_logicznego('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_calkowita_z_logicznego('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_całkowita_z_wyliczenia('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'liczba_calkowita_z_wyliczenia('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'pobierz_nazwę_tekstu('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'pobierz_wartość_wyliczenia('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'pobierz_nazwe_tekstu('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'pobierz_wartosc_wyliczenia('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+
+
+
+    (FromText: 'get_enum_name('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'get_enum_value('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // date and time / data i czas
+    //Polish aliases
+
+
+    (FromText: 'formatuj_data_czas_na_tekst('; ToText: 'FormatDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'data_czas_na_tekst('; ToText: 'DateTimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę_czas('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_date_czas('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę_dom('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_date_dom('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_czas_dom('; ToText: 'StrToTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę_czas_dom('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_date_czas_dom('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'utwórz_datę('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'utworz_date('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'utwórz_czas('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'utworz_czas('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rozłóż_datę('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rozloz_date('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rozłóż_czas('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'rozloz_czas('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_liczbę('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_liczbe('; ToText: 'StrToInt('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_datę('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_date('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'tekst_na_czas('; ToText: 'StrToTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'data_na_tekst('; ToText: 'DateToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'czas_na_tekst('; ToText: 'TimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // English aliases
+    (FromText: 'format_date_time('; ToText: 'FormatDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'date_time_str('; ToText: 'DateTimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_datetime_def('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_to_time('; ToText: 'StrToTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_date_time('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_date_def('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_time_def('; ToText: 'StrToTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'encode_date('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'encode_time('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'decode_date('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'decode_time('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'date_str('; ToText: 'DateToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'time_str('; ToText: 'TimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'str_date('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
+    // indicators
+    //Polish aliases
+    (FromText: 'adres_zmiennej('; ToText: 'Ptr('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'adres_zmiennej_z_wskażnika('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'adres_zmiennej_z_wskaznika('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: '@('; ToText: '@('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'klawisz_wciśnięty'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'klawisz_wcisniety'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    // English aliases
+    (FromText: 'int_ptr('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'ptr('; ToText: 'Ptr('; Flags: [rfReplaceAll]; IsPrefix: False),
+
+    (FromText: '@('; ToText: '@('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'key_pressed'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+
     // English aliases
     (FromText: ' and '; ToText: ' and '; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: ' or '; ToText: ' or '; Flags: [rfReplaceAll]; IsPrefix: False),
@@ -173,7 +276,7 @@ const
     (FromText: 'real('; ToText: 'Real('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'trunc('; ToText: 'Trunc('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'bool_str('; ToText: 'BoolToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'byte_bool(Ord('; ToText: 'ByteBool(Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
+    (FromText: 'byte_bool_Ord('; ToText: 'ByteBool(Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'str_int_def('; ToText: 'StrToIntDef('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'round('; ToText: 'Round('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'word('; ToText: 'Word('; Flags: [rfReplaceAll]; IsPrefix: False),
@@ -183,111 +286,47 @@ const
     (FromText: 'double('; ToText: 'Double('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'extended('; ToText: 'Extended('; Flags: [rfReplaceAll]; IsPrefix: False),
     (FromText: 'single('; ToText: 'Single('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // character and string conversions / konwersje znaków i string
-    //Polish aliases
-    (FromText: 'liczba_na_znak('; ToText: 'Chr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'znak_na_liczbę('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'znak_na_tekst('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_znak('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // English aliases
-    (FromText: 'chr('; ToText: 'Chr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'ord('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'char('; ToText: 'Char('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'string('; ToText: 'String('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'repeat_char('; ToText: 'StringOfChar('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // logical conversions / konwersje logiczne
-    //Polish aliases
-    (FromText: 'tekst_na_logiczny('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_logiczny_dom('; ToText: 'StrToBoolDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'logiczny_z_liczby('; ToText: 'Boolean('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'liczba_całkowita_z_logicznego('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'liczba_całkowita_z_wyliczenia('; ToText: 'Ord('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'pobierz_nazwę_tekstu('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'pobierz_wartość_wyliczenia('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // English aliases
-    (FromText: 'str_bool('; ToText: 'StrToBool('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_bool_def('; ToText: 'StrToBoolDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'bool('; ToText: 'Boolean('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'Int('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'get_enum_name('; ToText: 'GetEnumName('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'get_enum_value('; ToText: 'GetEnumValue('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // date and time / data i czas
-    //Polish aliases
-    (FromText: 'data_na_tekst('; ToText: 'DateToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'czas_na_tekst('; ToText: 'TimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'data_czas_na_tekst('; ToText: 'DateTimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'formatuj_data_czas_na_tekst('; ToText: 'FormatDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_datę('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_czas('; ToText: 'StrToTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_datę_czas('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_datę_dom('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_czas_dom('; ToText: 'StrToTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'tekst_na_datę_czas_dom('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'utwórz_datę('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'utwórz_czas('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'rozłóż_datę('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'rozłóż_czas('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // English aliases
-    (FromText: 'date_str('; ToText: 'DateToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'time_str('; ToText: 'TimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'date_time_str('; ToText: 'DateTimeToStr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'format_date_time('; ToText: 'FormatDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_date('; ToText: 'StrToDate('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_to_time('; ToText: 'StrToTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_date_time('; ToText: 'StrToDateTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_date_def('; ToText: 'StrToDateDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_time_def('; ToText: 'StrToTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'str_datetime_def('; ToText: 'StrToDateTimeDef('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'encode_date('; ToText: 'EncodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'encode_time('; ToText: 'EncodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'decode_date('; ToText: 'DecodeDate('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'decode_time('; ToText: 'DecodeTime('; Flags: [rfReplaceAll]; IsPrefix: False),
-    // indicators
-    //Polish aliases
-    (FromText: 'adres_zmiennej('; ToText: 'Ptr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'adres_zmiennej_z_wskażnika('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: '@('; ToText: '@('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'klawisz_wciśnięty'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    // English aliases
-    (FromText: 'ptr('; ToText: 'Ptr('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'int_ptr('; ToText: 'Integer('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: '@('; ToText: '@('; Flags: [rfReplaceAll]; IsPrefix: False),
-    (FromText: 'key_pressed'; ToText: 'KeyPressed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // colors
     //Polish aliases
-    (FromText: 'czarny'; ToText: 'Black'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'biały'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'niebieski'; ToText: 'Blue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'zielony'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'czerwony'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'żółty'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'cyjan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'magenta'; ToText: 'Magenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'brązowy'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'jasnoszary'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'ciemnoszary'; ToText: 'DarkGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'jasnoniebieski'; ToText: 'LightBlue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'jasnozielony'; ToText: 'LightGreen'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'jasnoczerwony'; ToText: 'LightRed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'jasnoróżowy'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'migotanie'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*czarny'; ToText: 'Black'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*biały'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*bialy'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*niebieski'; ToText: 'Blue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*zielony'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*czerwony'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*żółty'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*zolty'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*cyjan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*magenta'; ToText: 'Magenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*brązowy'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*brazowy'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*jasnoszary'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*ciemnoszary'; ToText: 'DarkGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*jasnoniebieski'; ToText: 'LightBlue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*jasnozielony'; ToText: 'LightGreen'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*jasnoczerwony'; ToText: 'LightRed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*jasnoróżowy'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*jasnorozowy'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*migotanie'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // English aliases
-    (FromText: 'black'; ToText: 'Black'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'white'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'blue'; ToText: 'Blue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'green'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'red'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'yellow'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'cyan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*black'; ToText: 'Black'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*white'; ToText: 'White'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*blue'; ToText: 'Blue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*green'; ToText: 'Green'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*red'; ToText: 'Red'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*yellow'; ToText: 'Yellow'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*cyan'; ToText: 'Cyan'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     //(FromText: 'magenta'; ToText: 'Magenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'brown'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'light_gray'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'dark_gray'; ToText: 'DarkGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'light_blue'; ToText: 'LightBlue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'light_green'; ToText: 'LightGreen'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'light_red'; ToText: 'LightRed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'light_magenta'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-    (FromText: 'blink'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*brown'; ToText: 'Brown'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*light_gray'; ToText: 'LightGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*dark_gray'; ToText: 'DarkGray'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*light_blue'; ToText: 'LightBlue'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*light_green'; ToText: 'LightGreen'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*light_red'; ToText: 'LightRed'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*light_magenta'; ToText: 'LightMagenta'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: '*blink'; ToText: 'Blink'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+
+
     // funkcje string
     //Polish aliases
     (FromText: 'porównaj_tekst('; ToText: 'CompareStr('; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
@@ -316,11 +355,13 @@ const
     (FromText: '_n_'; ToText: 'nil'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: '.tekst'; ToText: '.Text'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'zwolnij'; ToText: 'free'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
-     (FromText: 'zwiększ'; ToText: 'inc'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'zwiększ'; ToText: 'inc'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'zwieksz'; ToText: 'inc'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // English aliases
     (FromText: 'nil'; ToText: 'nil'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: '.text'; ToText: '.Text'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     (FromText: 'free'; ToText: 'free'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+
     // prefix aliases / aliasy prefiksowe
     //Polish aliases
     (FromText: 'czy_istnieje_plik'; ToText: 'FileExists'; Flags: []; IsPrefix: True),
@@ -332,6 +373,7 @@ const
     (FromText: 'ustaw_zmienną_środowiskową'; ToText: 'SysUtils.SetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'ustaw_zmienna_srodowiskowa'; ToText: 'SysUtils.SetEnvironmentVariable'; Flags: []; IsPrefix: True),
     (FromText: 'pobierz_katalog_bieżący'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
+    (FromText: 'pobierz_katalog_biezacy'; ToText: 'GetCurrentDir'; Flags: [rfReplaceAll, rfIgnoreCase]; IsPrefix: False),
     // English aliases
     (FromText: 'file_exists'; ToText: 'FileExists'; Flags: []; IsPrefix: True),
     (FromText: 'directory_exists'; ToText: 'DirectoryExists'; Flags: []; IsPrefix: True),
@@ -3212,7 +3254,7 @@ begin
     Exit;
   end;
 
-     // Obsługa KolorTekstu / TextColor
+    // Obsługa KolorTekstu / TextColor  poprawka 17.04.2026
     if (LowerCase(TrimmedLine).StartsWith('kolor_tekstu(')) or
        (LowerCase(TrimmedLine).StartsWith('text_color(')) then
     begin
@@ -3221,13 +3263,19 @@ begin
 
       if (OpenPos > 0) and (EndPos > OpenPos) then
       begin
-        Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
-        PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
+        Value := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
+        Value := TranslateExpression(Value);
+
+        Value := StringReplace(Value, '''', '', [rfReplaceAll]);
+        Value := StringReplace(Value, '"', '', [rfReplaceAll]);
+
+        //PascalCode.Add('TextColor(' + TranslateExpression(Value) + ');');
+        PascalCode.Add('TextColor(' + Value + ');');
         Exit;
       end;
     end;
 
-      // Obsługa tło_tekstu / text_background
+    // Obsługa tło_tekstu / text_background  poprawka 17.04.2026
     if (LowerCase(TrimmedLine).StartsWith('tło_tekstu(')) or
        (LowerCase(TrimmedLine).StartsWith('tlo_tekstu(')) or
        (LowerCase(TrimmedLine).StartsWith('text_background(')) then
@@ -3237,11 +3285,15 @@ begin
 
       if (OpenPos > 0) and (EndPos > OpenPos) then
       begin
-        // 2. Wytnij tylko to, co jest w środku nawiasów
-        Value := Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1);
+        Value := Trim(Copy(TrimmedLine, OpenPos + 1, EndPos - OpenPos - 1));
+        Value := TranslateExpression(Value);
 
-        // 3. Wygeneruj kod Pascala
-        PascalCode.Add('TextBackground(' + TranslateExpression(Value) + ');');
+        Value := StringReplace(Value, '''', '', [rfReplaceAll]);
+        Value := StringReplace(Value, '"', '', [rfReplaceAll]);
+
+        //PascalCode.Add('TextBackground(' + TranslateExpression(Value) + ');');
+         PascalCode.Add('TextBackground(' + Value + ');');
+
         Exit;
       end;
     end;

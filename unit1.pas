@@ -572,6 +572,13 @@ resourcestring
    TranslateWarningCannotDeleteOldExe = 'WARNING: Cannot delete old EXE file (maybe it is running?)';
    TranslateAddedAvocadoFrameworkPath = 'Added Avocado framework path:';
    TranslateWarningFrameworkFolderNotFound = 'WARNING: Framework folder not found:';
+   TranslateFileOpenError = 'File open error: ';
+   TranslateCompileAnywayQuestion = 'Would you like to try compiling the program anyway?';
+   TranslateAvocadoAnalyzerFoundIssues = 'Avocado Analyzer found potential errors or unknown words.';
+   TranslateKilobytes = ' KB';
+   TranslateOutputFileSize = 'Output file size: ';
+   TranslateWebView2EngineFolderNotFound = 'NOTE: WebView2 engine folder not found: ';
+   TranslateWebView2EngineConnected = 'Chromium WebView2 engine connected: ';
 
 implementation
 
@@ -673,7 +680,7 @@ begin
     // Obsługa błędu, np. wyświetlenie komunikatu
     ShowMessage(TranslateCannotCreateTemporaryDirectory + TempDir);
   end;
-  AvocadoVersion := 'IDE Avocado v 2.3.0.0';
+  AvocadoVersion := 'IDE Avocado v 2.3.0.1';
   //Ladowanie funkcji Avoraisera
   LoadFunctionsToHighlighter('avoraiser_translate.ini');
   FormMain.Caption := AvocadoVersion;
@@ -1882,8 +1889,8 @@ begin
     ListBoxErrCode.SetFocus;
 
     // Pytamy użytkownika, czy jest pewien, że chce kontynuować
-    DlgResult := MessageDlg('Analizator Avocado znalazł potencjalne błędy lub nieznane słowa.' + #13#10 +
-                            'Czy mimo to chcesz spróbować skompilować program?',
+    DlgResult := MessageDlg(TranslateAvocadoAnalyzerFoundIssues + #13#10 +
+                            TranslateCompileAnywayQuestion,
                             mtWarning, [mbYes, mbNo], 0);
 
     // Jeśli kliknął cokolwiek innego niż "Tak" (czyli "Nie" lub zamknął okno) -> przerywamy
@@ -1979,7 +1986,7 @@ begin
       ListCommentsFromSynEdit;
     except
       on E: Exception do
-        MemoLogs.Lines.Add('Błąd otwarcia pliku: ' + E.Message);
+        MemoLogs.Lines.Add(TranslateFileOpenError + E.Message);
     end;
 end;
 
@@ -2020,24 +2027,27 @@ begin
 end;
 
 
-
+// Poprawka 17.04.2026
 procedure TFormMain.LoadFpc;
+var
+AppDir: string;
+Ini: TIniFile;
+RelPath: string;
 begin
-   //MemoLogs.Lines.Add(TranslateLoadingSettings);
-  {
   AppDir := ExtractFilePath(Application.ExeName);
-  FFpcPath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'fpc\3.2.2\bin\x86_64-win64\fpc.exe');
-  FFpcBasePath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'fpc\3.2.2');
-  FModulsPath := ExpandFileName(IncludeTrailingPathDelimiter(AppDir) + 'moduly');
-  }
-  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
+  Ini := TIniFile.Create(AppDir + 'setting.ini');
   try
-    // Wczytaj z INI
-    FFpcPath := Ini.ReadString('main', 'fpc', '');
-    FFpcBasePath := Ini.ReadString('main', 'FpcBasePath', '');
-    FTargetPlatform := Ini.ReadString('main', 'TargetPlatform', '');
-    FModulsPath := Ini.ReadString('main', 'Units', 'moduly');
-    InstantFpcPath := Ini.ReadString('main', 'instantfpc', '\fpc\3.2.2\bin\x86_64-win64\instantfpc.exe');
+    RelPath := Ini.ReadString('main', 'fpc', '');
+    if RelPath <> '' then FFpcPath := ExpandFileName(AppDir + RelPath) else FFpcPath := '';
+
+    RelPath := Ini.ReadString('main', 'FpcBasePath', '');
+    if RelPath <> '' then FFpcBasePath := ExpandFileName(AppDir + RelPath) else FFpcBasePath := '';
+
+    RelPath := Ini.ReadString('main', 'Units', 'moduly');
+    if RelPath <> '' then FModulsPath := ExpandFileName(AppDir + RelPath) else FModulsPath := '';
+
+    RelPath := Ini.ReadString('main', 'instantfpc', '');
+    if RelPath <> '' then InstantFpcPath := ExpandFileName(AppDir + RelPath) else InstantFpcPath := '';
 
     //loads the programm language into the UI
     lang := Ini.ReadString('defaultlanguage','language','en');
@@ -2070,13 +2080,6 @@ begin
       IsClickMainMenuLanguage(2);
       LoadTextDocumenation('documentation-en.txt');
     end;
-    'pt':
-    begin
-      //Portuguese language
-      SetDefaultLang('pt');
-      IsClickMainMenuLanguage(4);
-      LoadTextDocumenation('documentation-en.txt');
-    end;
     'es':
     begin
       //Spanish language
@@ -2096,9 +2099,8 @@ begin
       IsClickMainMenuLanguage(0);
       LoadTextDocumenation('documentation-en.txt');
     end;
-     // end
 
-
+    // sprawdzanie ścieżek i blokowanie kompilacji
     if (FFpcPath = '') or not FileExists(FFpcPath) then
     begin
       MemoLogs.Lines.Add(TranslateFPCCompilerNotExist + FFpcPath);
@@ -2116,12 +2118,6 @@ begin
       //blocking compilation capabilities / blokowanie możliwości kompilacji
       butCompileCode.Enabled := False;
     end;
-
-    if FTargetPlatform = '' then
-    begin
-       MemoLogs.Lines.Add(TranslateConfErrTargetPlatform + FTargetPlatform + TranslateUnableUnitDirectory);
-    end;
-
     //Sprawdza FModulsPath sciezke moduly
     if FModulsPath = '' then
        begin
@@ -2130,7 +2126,6 @@ begin
     MemoLogs.Lines.Add(TranslateCompilerSettLoaded);
     MemoLogs.Lines.Add(TranslateLinkToFpc + FFpcPath);
     MemoLogs.Lines.Add(TranslateLinkToFpcFolder + FFpcBasePath);
-    MemoLogs.Lines.Add(TranslatePlatform + FTargetPlatform);
     MemoLogs.Lines.Add(TranslateModules + FModulsPath);
 
   finally
@@ -2217,6 +2212,9 @@ ParserLines: TStringList;
 LineStr: string;
 WebViewPath: string;
 MemStream: TMemoryStream;
+//Nowe 17.04.2026
+ExeFile: file of byte;
+SizeInKB: Double;
 begin
   // walidacja ścieżek
   if (FFpcPath = '') or not FileExists(FFpcPath) then
@@ -2349,14 +2347,26 @@ begin
       OutputLines := TStringList.Create;
       try
         AProcess.Executable := FFpcPath;
+        // Wymuszamy użycie kompilatora 64-bitowego (ppcx64.exe)
+        // Zapobiega to domyślnemu wywoływaniu wersji 32-bitowej przez fpc.exe
+        AProcess.Parameters.Add('-Px86_64');
         AProcess.Parameters.Add(TempFile); // Plik źródłowy  // Source file
 
-        // // Paths to units (-Fu) / Ścieżki do unitów (-Fu)
-        FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + FTargetPlatform;
+        // Paths to units (-Fu) / Ścieżki do unitów (-Fu)
+        FpcUnitPath := IncludeTrailingPathDelimiter(FFpcBasePath) + 'units' + PathDelim + 'x86_64-win64';
         if DirectoryExists(FpcUnitPath) then
-          AProcess.Parameters.Add('-Fu' + FpcUnitPath)
+        begin
+          //AProcess.Parameters.Add('-Fu' + FpcUnitPath)
+          // ZMIENIONO 17.04.2026 Dodajemy na końcu "\*", aby FPC przeszukał wszystkie podfoldery (np. fcl).
+          AProcess.Parameters.Add('-Fu' + IncludeTrailingPathDelimiter(FpcUnitPath) + '*');
+          // DODANO: 17.04.2026 Jawne dodanie folderu "rtl" (Run-Time Library).
+          AProcess.Parameters.Add('-Fu' + IncludeTrailingPathDelimiter(FpcUnitPath) + 'rtl');
+        end
         else
+        begin
           MemoLogs.Lines.Add(TranslateErrRequiredFPCstandardUnitDirfound + FpcUnitPath);
+          Exit;
+        end;
 
         // Tryb Release
         if BuildMode = 'Release' then
@@ -2418,11 +2428,11 @@ begin
                if DirectoryExists(WebViewPath) then
                 begin
                   AProcess.Parameters.Add('-Fu' + WebViewPath);
-                  MemoLogs.Lines.Add('Podłączono silnik Chromium WebView2: ' + WebViewPath);
+                  MemoLogs.Lines.Add(TranslateWebView2EngineConnected + WebViewPath);
                 end
                 else
                 begin
-                  MemoLogs.Lines.Add('UWAGA: Nie znaleziono folderu silnika WebView2: ' + WebViewPath);
+                  MemoLogs.Lines.Add(TranslateWebView2EngineFolderNotFound + WebViewPath);
                 end;
             end
             else
@@ -2469,7 +2479,24 @@ begin
 
         // Result
         if AProcess.ExitStatus = 0 then
-          MemoLogs.Lines.Add(TranslateCompilationSuccses + FinalExePath)
+          MemoLogs.Lines.Add(TranslateCompilationSuccses + FinalExePath);
+
+        if FileExists(FinalExePath) then
+        begin
+        try
+        // Otwieramy plik tylko do odczytu, nie blokując go (fmShareDenyNone)
+          with TFileStream.Create(FinalExePath, fmOpenRead or fmShareDenyNone) do
+          try
+            SizeInKB := Ceil(Size / 1024);
+            MemoLogs.Lines.Add(TranslateOutputFileSize + FloatToStrF(SizeInKB, ffFixed, 7, 0) + TranslateKilobytes);
+          finally
+            Free;
+          end;
+        except
+        // Cichy błąd, jeśli nie uda się odczytać rozmiaru (np. plik zablokowany)
+        end;
+
+        end
         else
           MemoLogs.Lines.Add(TranslateErrCompilationCode + IntToStr(AProcess.ExitStatus));
 

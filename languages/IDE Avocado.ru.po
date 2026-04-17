@@ -876,18 +876,14 @@ msgid "Interpret"
 msgstr "Интерпретировать"
 
 #: tformmain.toolbuttondebug.caption
-#, fuzzy
-#| msgid "ToolButtonDebug"
 msgctxt "tformmain.toolbuttondebug.caption"
 msgid "Code Analyzer"
-msgstr "ToolButtonDebug"
+msgstr "Анализатор кода"
 
 #: tformmain.toolbuttondebug.hint
-#, fuzzy
-#| msgid "Check the code"
 msgctxt "tformmain.toolbuttondebug.hint"
 msgid "Code Analyzer"
-msgstr "Проверить код"
+msgstr "Анализатор кода"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -948,14 +944,6 @@ msgstr "Ок"
 msgctxt "tformsettingintepreter.caption"
 msgid "Settings"
 msgstr "Настройки"
-
-#: tformsettingintepreter.comboboboxplatforms.text
-msgid "x86_64-win64"
-msgstr "x86_64-win64"
-
-#: tformsettingintepreter.groupbox1.caption
-msgid "Platform"
-msgstr "Платформа"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "Link to fpc.exe"
@@ -1109,7 +1097,7 @@ msgstr "- Добавлен путь к пользовательским моду
 
 #: unit1.translateaddedavocadoframeworkpath
 msgid "Added Avocado framework path:"
-msgstr ""
+msgstr "Добавлен путь к фреймворку Avocado: "
 
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
@@ -1136,6 +1124,10 @@ msgstr "Внимание!"
 msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr "Внимание!"
+
+#: unit1.translateavocadoanalyzerfoundissues
+msgid "Avocado Analyzer found potential errors or unknown words."
+msgstr "Avocado Analyzer обнаружил возможные ошибки или неизвестные слова."
 
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
@@ -1179,6 +1171,10 @@ msgstr "Компиляция прошла успешно! Выходной фа�
 msgctxt "unit1.translatecompilationsuccses"
 msgid "Compilation successful! Output file: "
 msgstr "Компиляция прошла успешно! Выходной файл: "
+
+#: unit1.translatecompileanywayquestion
+msgid "Would you like to try compiling the program anyway?"
+msgstr "Не хотите ли всё-таки попробовать скомпилировать программу?"
 
 #: unit1.translatecompilersettloaded
 msgid "Compiler settings loaded"
@@ -1255,7 +1251,7 @@ msgstr "Произошла ошибка: "
 
 #: unit1.translateerrorcreatetempdir
 msgid "Error: Could not create temporary directory: "
-msgstr ""
+msgstr "Ошибка: Не удалось создать временный каталог: "
 
 #: unit1.translateerrorsinthecode
 msgid "Errors in the code!"
@@ -1302,6 +1298,10 @@ msgstr "Файл не сохранён. Компиляция отменена."
 msgid "Project not saved. Build canceled."
 msgstr "Проект не сохранён. Сборка отменена."
 
+#: unit1.translatefileopenerror
+msgid "File open error: "
+msgstr "Ошибка открытия файла: "
+
 #: unit1.translatefound
 msgid "Found"
 msgstr "Найденный"
@@ -1330,6 +1330,10 @@ msgstr "Информация"
 #: unit1.translateitemselected
 msgid "Empty item selected."
 msgstr "Выбран пустой элемент."
+
+#: unit1.translatekilobytes
+msgid " KB"
+msgstr " КБ"
 
 #: unit1.translatelinktofpc
 msgid "Link to fpc.exe compiler: "
@@ -1387,6 +1391,10 @@ msgstr "Переменные не найдены."
 msgid "0 occurrences found"
 msgstr "Найдено 0 случаев"
 
+#: unit1.translateoutputfilesize
+msgid "Output file size: "
+msgstr "Размер выходного файла: "
+
 #: unit1.translateplatform
 msgid "Platform: "
 msgstr "Платформа: "
@@ -1433,11 +1441,19 @@ msgstr "Значение, которое вы искали, найдено!"
 
 #: unit1.translatewarningcannotdeleteoldexe
 msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
-msgstr ""
+msgstr "ПРЕДУПРЕЖДЕНИЕ: Не удаётся удалить старый файл EXE (возможно, он запущен?)"
 
 #: unit1.translatewarningframeworkfoldernotfound
 msgid "WARNING: Framework folder not found:"
-msgstr ""
+msgstr "ПРЕДУПРЕЖДЕНИЕ: Папка «Framework» не найдена: "
+
+#: unit1.translatewebview2engineconnected
+msgid "Chromium WebView2 engine connected: "
+msgstr "Подключен движок Chromium WebView2:  "
+
+#: unit1.translatewebview2enginefoldernotfound
+msgid "NOTE: WebView2 engine folder not found: "
+msgstr "ПРИМЕЧАНИЕ: Папка движка WebView2 не найдена: "
 
 #: unitautor.translatecannotopenlink
 msgctxt "unitautor.translatecannotopenlink"
@@ -1519,4 +1535,3 @@ msgstr "Информация"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Файл models.txt не найден."
-

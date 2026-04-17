@@ -1,0 +1,10 @@
+Name=chm
+Version=3.2.2
+Checksum=1387234650
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\chm\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-xml|1387234645,fcl-base|1387234643,rtl-generics|1387234647
+NeedLibC=N
+FPMakeAddIn=N

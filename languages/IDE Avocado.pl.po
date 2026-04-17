@@ -717,7 +717,7 @@ msgstr "Patroni Avocado"
 
 #: tformmain.menuitemcompile.caption
 msgid "Compile"
-msgstr "Kompilować"
+msgstr "Kompiluj"
 
 #: tformmain.menuitemconsoleprogram.caption
 msgid "Console program"
@@ -771,7 +771,7 @@ msgstr "Wklej"
 
 #: tformmain.menuitemrun.caption
 msgid "Run"
-msgstr "Uruchomić"
+msgstr "Uruchom"
 
 #: tformmain.menuitemrunwithoutcompilation.caption
 msgid "Run without compilation"
@@ -876,18 +876,14 @@ msgid "Interpret"
 msgstr "Interpretować"
 
 #: tformmain.toolbuttondebug.caption
-#, fuzzy
-#| msgid "ToolButtonDebug"
 msgctxt "tformmain.toolbuttondebug.caption"
 msgid "Code Analyzer"
-msgstr "ToolButtonDebug"
+msgstr "Analizator kodu"
 
 #: tformmain.toolbuttondebug.hint
-#, fuzzy
-#| msgid "Check the code"
 msgctxt "tformmain.toolbuttondebug.hint"
 msgid "Code Analyzer"
-msgstr "Sprawdź kod"
+msgstr "Analizator kodu"
 
 #: tformmain.transpiluj.caption
 msgctxt "tformmain.transpiluj.caption"
@@ -948,14 +944,6 @@ msgstr "Ok"
 msgctxt "tformsettingintepreter.caption"
 msgid "Settings"
 msgstr "Ustawienia"
-
-#: tformsettingintepreter.comboboboxplatforms.text
-msgid "x86_64-win64"
-msgstr "x86_64-win64"
-
-#: tformsettingintepreter.groupbox1.caption
-msgid "Platform"
-msgstr "Platforma"
 
 #: tformsettingintepreter.groupbox2.caption
 msgid "Link to fpc.exe"
@@ -1109,7 +1097,7 @@ msgstr " - Dodano ścieżkę własnych modułów IDE: "
 
 #: unit1.translateaddedavocadoframeworkpath
 msgid "Added Avocado framework path:"
-msgstr ""
+msgstr "Dodano ścieżkę do frameworka Avocado: "
 
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
@@ -1136,6 +1124,10 @@ msgstr "Uwaga!"
 msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr "Uwaga!"
+
+#: unit1.translateavocadoanalyzerfoundissues
+msgid "Avocado Analyzer found potential errors or unknown words."
+msgstr "Analizator Avocado znalazł potencjalne błędy lub nieznane słowa."
 
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
@@ -1179,6 +1171,10 @@ msgstr "Kompilacja udana! Plik wyjściowy: "
 msgctxt "unit1.translatecompilationsuccses"
 msgid "Compilation successful! Output file: "
 msgstr "Kompilacja udana! Plik wyjściowy: "
+
+#: unit1.translatecompileanywayquestion
+msgid "Would you like to try compiling the program anyway?"
+msgstr "Czy mimo to chcesz spróbować skompilować program?"
 
 #: unit1.translatecompilersettloaded
 msgid "Compiler settings loaded"
@@ -1255,7 +1251,7 @@ msgstr "Wystąpił błąd: "
 
 #: unit1.translateerrorcreatetempdir
 msgid "Error: Could not create temporary directory: "
-msgstr ""
+msgstr "Błąd: Nie można utworzyć katalogu tymczasowego: "
 
 #: unit1.translateerrorsinthecode
 msgid "Errors in the code!"
@@ -1302,6 +1298,10 @@ msgstr "Nie zapisano pliku. Kompilacja anulowana."
 msgid "Project not saved. Build canceled."
 msgstr "Projekt nie został zapisany. Kompilacja anulowana."
 
+#: unit1.translatefileopenerror
+msgid "File open error: "
+msgstr "Błąd otwarcia pliku: "
+
 #: unit1.translatefound
 msgid "Found"
 msgstr "Znaleziono"
@@ -1330,6 +1330,10 @@ msgstr "Informacja"
 #: unit1.translateitemselected
 msgid "Empty item selected."
 msgstr "Wybrano pusty element."
+
+#: unit1.translatekilobytes
+msgid " KB"
+msgstr " KB"
 
 #: unit1.translatelinktofpc
 msgid "Link to fpc.exe compiler: "
@@ -1387,6 +1391,10 @@ msgstr "Nie znaleziono żadnych zmiennych."
 msgid "0 occurrences found"
 msgstr "Znaleziono 0 wystąpień"
 
+#: unit1.translateoutputfilesize
+msgid "Output file size: "
+msgstr "Rozmiar pliku wynikowego: "
+
 #: unit1.translateplatform
 msgid "Platform: "
 msgstr "Platforma: "
@@ -1433,11 +1441,19 @@ msgstr "Szukana wartość odnaleziona!"
 
 #: unit1.translatewarningcannotdeleteoldexe
 msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
-msgstr ""
+msgstr "OSTRZEŻENIE: Nie można usunąć starego pliku EXE (może jest uruchomiony?)"
 
 #: unit1.translatewarningframeworkfoldernotfound
 msgid "WARNING: Framework folder not found:"
-msgstr ""
+msgstr "OSTRZEŻENIE: Nie znaleziono folderu frameworka:"
+
+#: unit1.translatewebview2engineconnected
+msgid "Chromium WebView2 engine connected: "
+msgstr "Podłączono silnik Chromium WebView2:  "
+
+#: unit1.translatewebview2enginefoldernotfound
+msgid "NOTE: WebView2 engine folder not found: "
+msgstr "UWAGA: Nie znaleziono folderu silnika WebView2: "
 
 #: unitautor.translatecannotopenlink
 msgctxt "unitautor.translatecannotopenlink"
@@ -1519,4 +1535,3 @@ msgstr "Informacja"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Nie znaleziono pliku models.txt."
-

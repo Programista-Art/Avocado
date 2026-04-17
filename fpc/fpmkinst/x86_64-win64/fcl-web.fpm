@@ -1,0 +1,10 @@
+Name=fcl-web
+Version=3.2.2
+Checksum=1387234665
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\fcl-web\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-base|1387234643,fcl-db|1387234653,fcl-xml|1387234645,fcl-json|1387234651,fcl-net|1387234661,fcl-process|1387234661,fcl-fpcunit|1387234659,fcl-registry|1387234656,openssl|1387234664,fastcgi|1387234650,httpd22|1387234664,httpd24|1387234664,winunits-base|1387234656,libmicrohttpd|1387234664
+NeedLibC=N
+FPMakeAddIn=N

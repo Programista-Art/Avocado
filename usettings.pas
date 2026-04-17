@@ -14,11 +14,9 @@ type
 
   TFormSettingIntepreter = class(TForm)
     BitBtn1: TBitBtn;
-    ComboBoboxPlatforms: TComboBox;
     EditLinkToInstantFPC: TEdit;
     EdtLinkFPCFolder: TEdit;
     EdtLinkFPC: TEdit;
-    GroupBox1: TGroupBox;
     GroupBox3: TGroupBox;
     SpbLoadFolderFPC1: TSpeedButton;
     SpbSaveFolderFPC: TGroupBox;
@@ -91,28 +89,42 @@ begin
   SaveFPCLink;
 end;
 
+// Poprawka 17.04.2026
 procedure TFormSettingIntepreter.LoadFPCLink;
+var
+  AppDir,FFpcPath,FFpcBasePath: string;
 begin
-  Ini:= TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
+  AppDir := ExtractFilePath(Application.ExeName);
+  Ini:= TIniFile.Create(AppDir + 'setting.ini');
   try
+    FFpcPath := ExpandFileName(AppDir + ini.ReadString('main', 'fpc', ''));
+    FFpcBasePath := ExpandFileName(AppDir + ini.ReadString('main', 'FpcBasePath', ''));
+
     EdtLinkFPC.Text := ini.ReadString('main', 'fpc','');
     EdtLinkFPCFolder.Text := ini.ReadString('main', 'FpcBasePath','');
-    EditLinkToInstantFPC.Text := ini.ReadString('main', 'instantfpc','\fpc\3.2.2\bin\x86_64-win64\instantfpc.exe');
-    ComboBoboxPlatforms.Text := ini.ReadString('main', 'TargetPlatform','');
-    //EditLinkLCL.Text := ini.ReadString('main', 'Units','')
+    EditLinkToInstantFPC.Text := ini.ReadString('main', 'instantfpc','');
   finally
     FreeAndNil(Ini);
   end;
 end;
 
+// Poprawka 17.04.2026
 procedure TFormSettingIntepreter.SaveFPCLink;
+var
+  AppDir: string;
+  RelFpc, RelBase, RelInstant: string;
 begin
-  Ini:= TIniFile.Create(ExtractFilePath(Application.ExeName) + 'setting.ini');
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  RelFpc := ExtractRelativePath(AppDir, EdtLinkFPC.Text);
+  RelBase := ExtractRelativePath(AppDir, EdtLinkFPCFolder.Text);
+  RelInstant := ExtractRelativePath(AppDir, EditLinkToInstantFPC.Text);
+
+  Ini := TIniFile.Create(AppDir + 'setting.ini');
   try
-    ini.WriteString('main', 'fpc', EdtLinkFPC.Text);
-    ini.WriteString('main', 'FpcBasePath', EdtLinkFPCFolder.Text);
-    ini.WriteString('main', 'instantfpc', EditLinkToInstantFPC.Text);
-    ini.WriteString('main', 'TargetPlatform', ComboBoboxPlatforms.Text);
+    ini.WriteString('main', 'fpc', RelFpc);
+    ini.WriteString('main', 'FpcBasePath', RelBase);
+    ini.WriteString('main', 'instantfpc', RelInstant);
   finally
     FreeAndNil(Ini);
   end;

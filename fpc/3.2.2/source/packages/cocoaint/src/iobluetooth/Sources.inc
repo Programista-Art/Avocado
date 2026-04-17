@@ -1,9 +1,0 @@
-{$define FRAMEWORK_LOADED_IOBLUETOOTH}
-{$include IOBluetooth.inc}
-{$include BluetoothAssignedNumbers.inc}
-{$include Bluetooth.inc}
-{$include IOBluetoothTypes.inc}
-{$include IOBluetoothUserLib.inc}
-{$include IOBluetoothUtilities.inc}
-{$include OBEX.inc}
-{$include OBEXBluetooth.inc}

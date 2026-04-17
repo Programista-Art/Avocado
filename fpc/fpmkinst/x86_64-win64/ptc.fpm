@@ -1,0 +1,10 @@
+Name=ptc
+Version=3.2.2
+Checksum=1387234669
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\ptc\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,hermes|1387234668,opengl|1387234666,fcl-base|1387234643,rtl-console|1387234668
+NeedLibC=N
+FPMakeAddIn=N

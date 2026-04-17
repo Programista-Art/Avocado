@@ -935,14 +935,6 @@ msgctxt "tformsettingintepreter.caption"
 msgid "Settings"
 msgstr ""
 
-#: tformsettingintepreter.comboboboxplatforms.text
-msgid "x86_64-win64"
-msgstr ""
-
-#: tformsettingintepreter.groupbox1.caption
-msgid "Platform"
-msgstr ""
-
 #: tformsettingintepreter.groupbox2.caption
 msgid "Link to fpc.exe"
 msgstr ""
@@ -1123,6 +1115,10 @@ msgctxt "unit1.translateattentionmsg"
 msgid "Attention!"
 msgstr ""
 
+#: unit1.translateavocadoanalyzerfoundissues
+msgid "Avocado Analyzer found potential errors or unknown words."
+msgstr ""
+
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
 msgstr ""
@@ -1164,6 +1160,10 @@ msgstr ""
 #: unit1.translatecompilationsuccses
 msgctxt "unit1.translatecompilationsuccses"
 msgid "Compilation successful! Output file: "
+msgstr ""
+
+#: unit1.translatecompileanywayquestion
+msgid "Would you like to try compiling the program anyway?"
 msgstr ""
 
 #: unit1.translatecompilersettloaded
@@ -1288,6 +1288,10 @@ msgstr ""
 msgid "Project not saved. Build canceled."
 msgstr ""
 
+#: unit1.translatefileopenerror
+msgid "File open error: "
+msgstr ""
+
 #: unit1.translatefound
 msgid "Found"
 msgstr ""
@@ -1315,6 +1319,10 @@ msgstr ""
 
 #: unit1.translateitemselected
 msgid "Empty item selected."
+msgstr ""
+
+#: unit1.translatekilobytes
+msgid " KB"
 msgstr ""
 
 #: unit1.translatelinktofpc
@@ -1373,6 +1381,10 @@ msgstr ""
 msgid "0 occurrences found"
 msgstr ""
 
+#: unit1.translateoutputfilesize
+msgid "Output file size: "
+msgstr ""
+
 #: unit1.translateplatform
 msgid "Platform: "
 msgstr ""
@@ -1423,6 +1435,14 @@ msgstr ""
 
 #: unit1.translatewarningframeworkfoldernotfound
 msgid "WARNING: Framework folder not found:"
+msgstr ""
+
+#: unit1.translatewebview2engineconnected
+msgid "Chromium WebView2 engine connected: "
+msgstr ""
+
+#: unit1.translatewebview2enginefoldernotfound
+msgid "NOTE: WebView2 engine folder not found: "
 msgstr ""
 
 #: unitautor.translatecannotopenlink

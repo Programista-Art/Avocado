@@ -1,0 +1,10 @@
+Name=odata
+Version=3.2.2
+Checksum=1387234681
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\odata\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-base|1387234643,rtl-extra|1387234641,rtl-objpas|1387234642,fcl-json|1387234651,fcl-web|1387234665
+NeedLibC=N
+FPMakeAddIn=N

@@ -1,0 +1,10 @@
+Name=utils-pas2js
+Version=3.2.2
+Checksum=1387234701
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\utils\pas2js\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-json|1387234651,fcl-js|1387234659,fcl-passrc|1387234660,pastojs|1387234684,fcl-web|1387234665,webidl|1387234684
+NeedLibC=N
+FPMakeAddIn=N

@@ -1,3 +1,0 @@
-fonts/DejaVuSans.ttf
-fonts/FreeSans.ttf
-fonts/LiberationSans-Italic.ttf

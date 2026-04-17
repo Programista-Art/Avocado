@@ -1,0 +1,1013 @@
+                            Free Pascal Compiler
+
+                                Version 3.2.2
+
+******************************************************************************
+
+Free Pascal 3.2.2 is a minor release of the 3.2.x fixes branch. As such, it
+contains mostly fixes of bugs discovered in the previous version, plus some
+updates for included packages. In this case a new target was also backported
+from trunk.
+
+There are currently no known changes which might result in incompatibility to
+the previous version 3.2.0.
+
+The main highlights of this version:
+
+Platforms:
+  * New platform: aarch64-darwin
+  * A new 32/64-bit combined installer for Windows.
+
+Utilities:
+  * fpcres provides support for compiling resources from *.rc files
+
+Packages:
+  * fcl-db extended with support for MySQL 8.0
+  * fcl-passrc updates
+  * pas2js updates
+  * fpdoc updates
+  * fcl-base includes new support for logging to StdOut and StdErr
+  * rtl-extra includes improvements for Sockets
+
+
+******************************************************************************
+
+                            Free Pascal Compiler
+
+                                Version 3.2.0
+
+******************************************************************************
+
+Free Pascal 3.2.0 is a new major release providing support for new
+architectures and targets and also many new features and compatibility fixes.
+
+Please also see https://wiki.freepascal.org/User_Changes_3.2.0 for a list
+of changes that may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Platforms:
+  * New platform: Android/AArch64
+  * New platform: i8086-win16 (16-bit Windows)
+  * New platform: Android/x86_64
+  * New platform: Javascript engines
+  * New platform: Linux/ppc64le
+
+New features are:
+-----------------
+* Attribute support
+* Default Unit Scopes
+* Extended Dynamic Array support
+    * support insert/delete/concat/+ operator
+    * Dynamic array constructor
+    * Enhcance dynamic array constant support
+* Generic methods/procedures.
+* Management operators, Initialize, Finalize, Copy and AddRef operators for records
+* IsManagedType intrinsic
+* Better character encoding support in base classes and DB components.
+* generics.* delphi compatible collections units
+* pas2js compiler
+* TTF and PDF rendering support
+* CHM index support rewritten.
+* Many changes and enhancements to TProcess.
+* GUI-independent reporting engine
+* Improved JSON-RPC support
+* Additional HTTP services, SSL support.
+* REST server components.
+* numerous fixes across all libraries and units.
+* Packager & repository management in fppkg.
+* 16-bit msdos target enhancements:
+  * internalink assembler/linker
+  * huge memory model
+  * near/far procedure types.
+
+Some important incompatible changes compared to 3.0.x releases:
+-----------------------------------------------------
+* RTTI format changed
+* Linux/Android platforms
+  * GNU Binutils 2.19.1 or later are required by default
+* Stack alignment on Linux/i386
+  * Now aligned to 16 bytes.
+* Windows platforms
+  * GNU Binutils 2.25 or later are required by default
+
+******************************************************************************
+
+
+                            Free Pascal Compiler
+
+                                 Version 3.0.4
+
+ ******************************************************************************
+                               What's New in 3.0.4
+ ******************************************************************************
+
+ Free Pascal 3.0.4 is a point release of the 3.0.x fixes branch.
+
+ Please also see http://wiki.freepascal.org/User_Changes_3.0.4 for a list
+ of changes that may affect the behaviour of previously working code, and
+ how to cope with these changes.
+
+ Some highlights are:
+
+ Packages:
+   * fcl-pdf updates
+   * fcl-passrc updates.
+   * fix traceback on ELF based systems
+
+ See http://bugs.freepascal.org/changelog_page.php for the list of reported
+ bugs which have been fixed in this release.
+
+                             Free Pascal Compiler
+
+                                Version 3.0.2
+
+******************************************************************************
+                              What's New in 3.0.2
+******************************************************************************
+
+Free Pascal 3.0.2 is a point release of the 3.0.x fixes branch.
+
+Please also see http://wiki.freepascal.org/User_Changes_3.0.2 for a list
+of changes that may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Rtl:
+  * TRect, TPoint and similar types are now type compatible between
+    Types and Windows unit, and are now advanced records. 
+
+Packages:
+  * googleapi and fcl-pdf packages.
+  * fcl-db and web packages synchronized 
+  * unicode tables updated.
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+                            Free Pascal Compiler
+
+                                Version 3.0.0
+
+******************************************************************************
+                              What's New in 3.0.0
+******************************************************************************
+
+Free Pascal 3.0.0 is a new major release providing support for new
+architectures and targets and also many new features and compatibility fixes.
+
+Please also see http://wiki.freepascal.org/User_Changes_3.0.0 for a list
+of changes that may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Platforms:
+  * New processor architecture: MIPS (big and little endian variants)
+  * New processor architecture: i8086 (primarily focusing legacy MS-DOS)
+  * New "processor" architecture: JVM
+  * Revived support for Motorola 68k processors (previously available
+    in 1.0.x series)
+  * Considerably extended supported range of ARM processor variants
+  * New platform: AIX/PowerPC
+  * New platform: AIX/PowerPC64
+  * New platform: Android/ARM
+  * New platform: Android/i386
+  * New platform: Android/JVM
+  * New platform: Android/MIPSEL
+  * New platform: AROS/i386
+  * New platform: DragonFly/x86_64
+  * New platform: Java/JVM
+  * New platform: Linux/MIPS
+  * New platform: Linux/MIPSEL
+  * New platform: msdos/i8086
+
+Compiler:
+  * New support for codepage-aware strings (bringing improved compatibility
+    to recent Delphi versions)
+  * Support for processor sub-architectures (mostly for ARM variants)
+  * Support for multiple memory models (i8086 - including memory models
+    not supported with the last TP/BP compilers)
+
+RTL:
+  * Partial support for codepage-aware strings and Unicode in the RTL
+    including transparent character set conversion
+  * OS/2 RTL finally provides full support for UnicodeString handling
+    when running under OS/2 versions including such support (OS/2 Warp 4
+    and up)
+  * Direct support for certain OS/2 API functions only available in later
+    OS/2 versions while allowing the created binaries to run also on older
+    versions
+
+Packages:
+  * Big improvements of fpmake (fpmkunit) - all packages and utilities
+    (actually everything except the compiler and RTL) are now built using
+    fpmake which somewhat decreases dependency on external utilities.
+  * New packages rtl-* containing units previously included in RTL; this
+    allowed streamlining the RTL and thus speeding up RTL building.
+  * New package fpwidestring - native implementation of Unicode string
+    handling routines. This allows full support of UnicodeString also
+    on targets not supporting Unicode natively or possibly on targets
+    requiring linking to libc for such support.
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+******************************************************************************
+                              What's New in 2.6.4
+******************************************************************************
+
+Free Pascal 2.6.4 is a point release from the 2.6.0 fixes branch.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.6.4 for a list
+of changes that may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Compiler:
+
+Packages:
+  * Lots and lots fixes and improvements for fcl-db
+  * Web and json packages synchronized.
+  * Improvements to the chmcmd compiler.
+  * Several fixes for winunits (and winceunits)
+
+Platforms:
+
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+******************************************************************************
+                              What's New in 2.6.2
+******************************************************************************
+
+Free Pascal 2.6.2 is a point release from the 2.6.0 fixes branch.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.6.2 for a list
+of changes that may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Compiler:
+  * Improvements and fixes for the ARM architecture
+
+Packages:
+  * New package fpindexer (indexing engine)
+  * Support for observer pattern added to fcl-base (and base classes in RTL)
+  * Lots and lots fixes and improvements for fcl-db
+        * Support for JSON dataset added among others
+  * Fixes and improvements for fcl-passrc (and fpdoc)
+  * Updates for PTCPas and gtk2
+  * Fpmkunit improvements (better support for future switch to fpmake)
+  * Several fixes for x11
+  * Several fixes for winunits (and winceunits)
+
+Platforms:
+  * Improvements to the NativeNT target (newly introduced as alpha in 2.6.0)
+  * Many fixes for OpenBSD and NetBSD (considered in beta state now)
+  * Internal ELF writer supported for more BSD targets
+  * Fixes and improvements for gba and nds
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+******************************************************************************
+                              What's New in 2.6.0
+******************************************************************************
+
+Free Pascal 2.6.0 is a new major version of the Free Pascal compiler.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.6.0 for a list
+of changes that may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Platforms:
+  * iPhoneSimulator target
+
+Compiler:
+  * Many new language features:
+     * Objective-Pascal dialect, supported on all Mac OS X and iOS targets
+     * constref parameter modifier for "const by reference"
+     * Pascal boolean types with multiple sizes (boolean16/32/64)
+     * ISO 7185 language mode (except for I/O). Features amongst others:
+        * nested procedure variables
+        * non-local goto's
+     * Mac Pascal mode improvements
+        * nested procedure variables
+        * univ modifier
+     * Intrinsics
+        * sar (shift arithmetic right)
+        * bsf/bsr (bitscan forward/reverse)
+     * Delphi compatibility mode improvements
+        * Nested types, class variables and class local constants
+        * Advanced records syntax (no constructors yet)
+        * (for..in) Enumerators in records
+        * Class and record helpers
+        * Generic records, arrays and procedural types
+        * Delphi-compatibility of generics improved
+        * Scoped enumerations
+        * Custom messages for "deprecated" directive
+        * Ability to use "&" for escaping keywords
+  * New ARM code generator features
+     * ARM VFPv2 and VFPv3 floating point unit support
+     * Thumb-2 support
+
+Packages:
+  * Many improvements to the rtl
+  * Many improvements to the database units (fcl-db)
+  * Objective-Pascal interfaces to Foundation, AppKit, CoreData and WebCore
+  * OpenGL headers updated to OpenGL 4.0
+  
+Details about these new features can be found at
+http://wiki.freepascal.org/FPC_New_Features_2.6.0
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs that have been fixed in this release.
+
+******************************************************************************
+                              What's New in 2.4.4
+******************************************************************************
+
+Free Pascal 2.4.4 contains most library fixes from early June 2010 till March
+2011. There are also some compiler fixes, mostly relating to 64-bit.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.4.4 for a list
+of changes which may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Packages:
+  * Many improvements to the XML units
+  * Many improvements to the database units. 
+        * Specially sqlite got quite some fixes.
+  * Many improvements to the chm units. 
+        * Including a commandline CHM compiler 
+  * Many improvements to fppkg and fpmake for another round of testing.
+
+Platforms:
+  * Fixes for multi-threading support in OS/2 RTL.
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+
+******************************************************************************
+                              What's New in 2.4.2
+******************************************************************************
+
+Free Pascal 2.4.2 contains many fixes and a few new features. Most bugfixes
+in the RTL and packages before June 2010 have been merged.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.4.2 for a list
+of changes which may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Compiler:
+  * Support D2006+ FOR..IN, with some FPC specific enhancements. Refer to
+     http://wiki.freepascal.org/for-in_loop for more information
+  * Support for sealed and abstract classes.
+
+Packages:
+  * The existing Mac OS X Universal Interfaces units have been synchronised
+    with the Mac OS X 10.6 SDK. Several new units have also been added, and
+    where indicated in the Mac OS X 10.6 SDK they have also been enabled for
+    iPhoneOS/iOS.
+  * Many improvements to the XML units
+  * Many improvements to the database units
+  * Many improvemnets to the chm units
+
+Platforms:
+  * Long term bug in OS/2 implementation of unit Video finally fixed which
+    among others allows inclusion of the text-mode IDE (without debugger)
+    for this platform as part of the distribution again.
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+
+******************************************************************************
+                              What's New in 2.4.0
+******************************************************************************
+
+Free Pascal 2.4.0 contains many fixes and new features. While we did not
+manage to incorporate all planned additions, we believe this release offers a
+nice collection of new functionality and bug fixes.
+
+
+Please also see http://wiki.freepascal.org/User_Changes_2.4.0 for a list
+of changes which may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+Platforms:
+  * New platform: Mac OS X/PowerPC64
+  * New platform: Mac OS X/x86_64
+  * New platform: Mac OS X/ARM (iPhone)
+
+Compiler:
+  * Support for Delphi-style resource handling
+  * Whole-program optimization infrastructure, which initially supports
+    program devirtualization and unused virtual method removal
+  * Much faster compilation of units containing many type-sections
+  * The ability to suppress individual hints/warnings/notes
+  * Several improvements to the DWARF debug information generation
+  * Fixes to the generics support
+  * Fixes to the interface delegation (implements) support
+  * Improved cpu register allocation
+  * Improved ARM/EABI support
+  
+RTL:
+  * Linearly scaling multi-threaded memory manager
+  * Support for (advisory) file locking on Unix-based platforms
+    when using the SysUtils file creation/opening routines
+  * Support for ANSI ISO Extended Pascal ReadStr/WriteStr
+  * A UnicodeString type that, while not yet equivalent to Delphi 2009's
+    UnicodeString type, offers reference counted UnicodeString support on
+    the Windows, Linux, Mac OS X, FreeBSD and Beos/Haiku platforms.
+
+Packages:
+  * Many improvements to the XML units
+  * Many improvements to the database units
+  * Updated the common Mac OS X Pascal interfaces to r241, including
+    an updated header translation of the CFNetwork framework
+  * The zipper unit now works correctly on big endian platforms
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+
+******************************************************************************
+                              What's New in 2.2.4
+******************************************************************************
+
+Free Pascal 2.2.4 contains many bug fixes and some new features. The 
+main purpose of this release is to fix problems reported with FPC 2.2.2.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.2.4 for a list
+of changes which may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+All:
+  * Experimental packages-installation tool
+
+Packages:
+  * Added support for TIFF reading/writing in fcl-image
+  * Improvements and fixes in CHM support
+  * Fixed linking the gtk2-package with gtk versions above 2.13.4
+
+IDE:
+  * Added support for CHM help files
+
+Documentation
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+
+******************************************************************************
+                              What's New in 2.2.2
+******************************************************************************
+
+Free Pascal 2.2.2 contains many bug fixes and some new features. The 
+main purpose of this release is to fix problems reported with FPC 2.2.0,
+and to remove all potentially tainted code from our source code base.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.2.2 for a list
+of changes which may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Some highlights are:
+
+All:
+  *  All code potentially infringing on CodeGear copyrighted code has been
+     reimplemented using a cleanroom approach.
+
+Platforms:
+  * Incompatibilities with Mac OS X 10.5's new default linker have been
+    resolved.
+
+Compiler:
+  * PIC support for Mac OS X (on by default, disable with -Cg-)
+  * several bugs in the experimental generics support have been fixed,
+    but this feature is still in beta
+  * initialisation and finalisation of shared libraries has been fixed
+    for all Darwin platforms, and for Linux/i386
+  * support for {$packset x} directive to enable set packing
+    (use {$packset 1} for Delphi-compatible sets, but note that the
+     format is different on little and big endian platforms)
+
+RTL:
+  * thread resource leaking under unix has been fixed
+  * the widestring manager for unix has been completed
+  * several floating point to string conversion errors have been fixed
+  * significantly improved variant support
+  * implementation of RTL exception handler for OS/2 allowing proper
+    translation of some runtime errors
+  * various fixes for GO32v2 improving useability of this target
+  * OS/2 RTL enhanced to allow seamless working with large files (64-bit
+    file system API calls) where available (WSeB/MCP/eCS/Warp 4 with FP15)
+
+Packages:
+  * the Windows API interface units have been significantly updated
+  * Apple universal interfaces updated to r234 of the common FPC/GPC/MW
+    interfaces
+  * New TRegexEngine class to parse regular expressions
+
+Documentation
+  *  Documentation was updated completely to conform to the actual
+     state of the compiler and RTL.
+
+See http://bugs.freepascal.org/changelog_page.php for the list of reported
+bugs which have been fixed in this release.
+
+
+******************************************************************************
+                              What's New in 2.2.0
+******************************************************************************
+
+Free Pascal 2.2.0 contains a lot of bug fixes and new features. The work on
+Free Pascal 2.2.0 started halfway during the year 2005. A lot has been improved
+since then.
+
+Please also see http://wiki.freepascal.org/User_Changes_2.2.0 for a list
+of changes which may affect the behaviour of previously working code, and
+how to cope with these changes.
+
+Platforms:
+  * New platform: Win64. FPC is the first open source compiler for 64-bit
+     Windows operating systems.
+  * New processor architecture: 64-bit PowerPC
+    * PowerPC/64 support for Linux
+  * Mac OS X on Intel (i386) is now supported
+  * New platform: Windows CE (Windows Mobile)
+  * New platform: Nintendo Game Boy Advance
+  * New platform: Nintendo DS
+  * Native support for ARM-platform
+  * GO32V2 DOS platform got a long needed update
+
+Compiler:
+  * Internal linker for win32, win64 and wince, resulting in smaller
+    executables, less memory used during compilation, and faster compile
+    times for programs using large frameworks like for example the Lazarus
+    Component Library.
+  * Generics (experimental)
+  * Bit packed arrays and records
+  * Resourcestrings can now be smartlinked, resulting in smaller executables
+  * Multiple resource files support
+  * pointer[low..high] syntax to pass C-style pointer arrays to procedures
+    using open arrays
+  * Interface delegation
+  * Proper safecall implementation
+  * Wide strings are COM/OLE compatible on Windows
+  * Added several speed optimisations, for example:
+    * Compiler can omit stack frames (x86 and ARM)
+    * Compiler can store records in registers
+    * Tail recursion expansion
+    * Register renaming optimizations
+  * Improved optimizer for ARM CPU
+  * Compiler can initialise local variables, function results, and "out"
+    parameters with several values (command line parameters -gt till -gtttt)
+    to help find uses of uninitialised variables
+  * Compiler can now properly deal with paths > 255 characters in all cases
+  * Dwarf debug format support
+  * Reduced memory usage during compilation
+  * Lot of small bugs and compatibility fixes
+
+RTL:
+  * Heap uses less memory
+  * Improved variants support
+  * Improved currency support
+  * Exception handling can be used without SysUtils unit
+  * Lot of small bug and compatibility fixes
+
+FCL:
+  * Improved database support
+  * The obsolete sqlitedataset, interbase, fpodbc, ddg, mysqldb3 and mysqldb4
+    units are removed
+  * Lot of small bugs and compatibility fixes
+
+Packages:
+  * Added a new fppkg package manager
+  * Improved database support
+  * Added Delphi compatible RichEdit unit
+  * Apple universal interfaces updated to r204 of the common FPC/GPC/MW
+    interfaces
+  * Lot of small bugs and compatibility fixes
+
+Free Vision:
+  * Now uses resourcestrings
+
+IDE:
+  * Evaluate window
+  * Improved HTML rendering
+  * Improved xterm support
+  * Small bug fixes
+
+Misc:
+  * Improved documentation
+  * Better cross compilation support
+
+For a detailed list of reported bugs that are fixed in this release see the
+bugtracker report at http://www.freepascal.org/mantis/changelog_page.php
+
+
+******************************************************************************
+                              What's New in 2.0.4
+******************************************************************************
+
+More than 1000 changes have been made to 2.0.4 since 2.0.2. As this is a bug
+fix release, most are fixes for some issues, but new features and performance
+enhancements have been added as well.
+
+Compiler:
+  * Lot of small bugs and compatibility fixes
+  * Updated several translations
+  * Improved code generation
+  * Improved and fixed PIC code generation
+  * Improved register allocation
+  * Improved ansistring string code generation
+  * Several alignment values increased so the requirements of modern processors
+    are met better
+  * WINDOWS defined on all windows platforms (Win32, Win64, WinCE)
+  * Parameter order for methods with structured results changed
+    (result pointer<->self swapped), please check such methods if they are
+    implemented in assembler
+  * i386 compiler no longer needs environment variables set when installed on
+    an x86_64 Linux distribution
+
+RTL:
+  * Lot of small bug and compatibility fixes
+  * 64 bit file pointer support on most targets
+  * Faster integer to string conversion
+  * Endian conversion routines added
+  * Improved heap manager
+  * Improved ansistring routines
+  * PowerPC: Power3/4/5/PPC970 compatibility
+
+FCL:
+  * Lot of small bugs and compatibility fixes
+  * Improved database support
+  * The interbase, fpodbc, ddg, mysqldb3 and mysqldb4 units
+    are obsolete and replaced by the sqldb components
+  * Oracle support added
+
+Packages:
+  * Lot of small bugs and compatibility fixes
+  * Improved database support
+  * Apple universal interfaces added
+
+Free Vision:
+  * New outline unit
+  * Small bug fixes
+  * Unix: much improved video and keyboard handling
+  * Unix: Free Vision applications no longer need to link to libc
+  * Linux: grab_vcsa utility to ensure vcsa access
+
+IDE:
+  * Small bug fixes
+  * Redesigned directories window
+  * Reorganised compiler options window
+  * Option to use Ctrl+X,C,V for cut/copy/paste
+
+Misc:
+  * Improved documentation
+  * Better cross compilation support
+
+******************************************************************************
+                              What's New in 2.0.2
+******************************************************************************
+This is a bug fix release, so don't expect a big new feature list here. Most
+of the almost 700 changes made to 2.0.2 since 2.0.0 are fixes for some issues.
+
+Compiler:
+  * Lot of small bugs and compatibility fixes
+  * Improved SSE support
+  * Improved inlining
+  * Enhanced variant support
+  * Embedded resource support for targets using elf32 executable format
+  + Type checking of compile time expressions
+  + Mode MacPas: Support for Mac style objects
+  + Mode MacPas: Compile time variables can be given on command line
+
+RTL:
+  * Lot of small bugs and compatibility fixes
+  * Enhanced variant support
+  * Embedded resource support for targets using elf32 executable format
+
+FCL:
+  * Lot of small bugs and compatibility fixes
+  * Improved SqlDB package
+
+Packages:
+  * Lot of small bugs and compatibility fixes
+  * Improved data base support
+
+IDE:
+  * Small bug fixes
+
+Misc:
+  * Improved docs
+  * Bug fixes for FreeVision
+
+******************************************************************************
+                              What's New in 2.0.0
+******************************************************************************
+Compiler:
+  + properties in objects are now allowed
+  + use of cmov when at least -Cppentium2 is supplied (i386+ only)
+  + .p is a searched source extension in macpas mode now
+  * Improved MacPas mode
+  * Improved variant support
+  * Updated language files
+  * Improved warnings regarding uninitialised variables
+  * Lot of small bugs and compatibility fixes
+
+RTL:
+  * Several widestring and unicode fixes
+  * Heavily improved variant support
+  * Improved threading support
+  * Improved 64 bit compatibility
+  * Lot of small bugs and compatibility fixes
+
+FCL:
+  * Improved data base support
+  * Lot of small bugs and compatibility fixes
+
+Packages:
+  + Jedi windows api is part of the packages now
+  + Windows specific units of the rtl have been moved to packages/base/winunits
+  + XFree header conversions to X package added
+  * Endian and 64 bit fixes
+  * Lot of small bugs and compatibility fixes
+
+IDE:
+  * Small bug fixes
+
+Misc:
+  * Improved docs
+  * Bug fixes for FreeVision
+
+
+******************************************************************************
+                      What's New in 1.9.8 aka 2.0.0-Rc2
+******************************************************************************
+
+
+Compiler:
+  + arm-linux cross compiler for i386-linux
+  + SysV style syscalls added for MorphOS
+  + Exportable macros for mode MacPas
+  + Support procvar declaration in parameters for mode MacPas
+  + Give warning if code is never executed in while/if statements
+  + Directive {$COPERATORS ON} added, synomym for -Sc
+  + Check for uninitialzed from and to values in for-loop statement
+  + -Fa<unit> option added to load units in a program before the uses statement
+    is parsed
+  + -vz for output to stderr
+  * Better support for unique types
+  * AfterConstruction/BeforeDestruction behaviour is now compatible with Delphi
+  * Better support for Widestring
+  * Removed {$THREADING ON} directive, threading support is always available
+  * Improved code generation on Sparc
+  * Lot of small bugs and compatibility fixes
+  + On target Mac OS, resource files is supported
+
+RTL:
+  + arm Linux support
+  * Basic threading support moved to the system unit
+  * Operator ** moved to math unit; system.power removed
+  * Improved variant support
+  * Lot of small bugs and compatibility fixes
+  + The unit MacOS (api to Mac OS) for target MacOS
+
+FCL:
+  + Support for Interbase/Firebird, PostgreSQL and MySQL 4.0 under windows
+  * Database drivers are now dynamically loaded
+  * The TSQLQuery is now fully editable using cached updates
+  * Lot of small bugs and compatibility fixes
+
+Packages:
+  + gtk2 interface units
+  * 64 bit compatibility fixes
+  * Lot of small bugs and compatibility fixes
+
+IDE:
+  + vector unit window
+  * x86-64 asssembler debugging support improved
+  * Sparc asssembler debugging support improved
+  * Some bug fixes
+
+Misc:
+  + txt output to fpdoc added
+  * some fpdoc bugs fixes
+  + demo for macos
+
+
+******************************************************************************
+                      What's New in 1.9.6 aka 2.0.0-Rc1
+******************************************************************************
+
+Compiler:
+  + x86_64/amd64 (Linux) compiler
+  + Sparc (Linux) compiler
+  + PowerPC MorphOS support
+  + Mac OS (classic) compiler (for MPW)
+  + Netware Libc support (-Tnetwlibc)
+  + Register variable support (-Or) for all targets
+  + MacPas compiler mode (-Mmacpas)
+  * Better inlining support
+  * For loop variable assignment is not allowed anymore
+  * $fpctarget expands to <cpu>-<os> (except for 8.3 limited targets),
+    old $target removed
+  * Implicit loading of Variants unit
+  * Lots of bug fixes
+
+RTL:
+  + x86_64/amd64 Linux support
+  + Sparc Linux support
+  + PowerPC MorphOS support
+  + Mac OS (classic) support (except Sysutils and its dependants)
+  + Netware Libc support
+  + New heap manager that releases memory back to the OS
+  + TThread.Synchronize support
+  + utf8bidi unit
+  + GetHeapStatus added
+  + GetProcessID added
+  + SysUtils.GetEnvironmentVariableCount and SysUtils.GetEnvironmentString added
+  * gpm unit does not need libgpm anymore
+  + Further additions for improved Delphi compatibility
+  + System.GetProcessID and System.GetThreadID added
+  + Dos.GetMsCount added
+  + Support for changing console resolution in Video for Win32
+  + Support for using high memory (> 512 MB) under OS/2 (where available)
+  - Removed MaxAvail, MemAvail, HeapSize due to their unreliability
+    (bogus/misleading return values) in multitasking environment with swapping
+
+FCL:
+  + RTTIUtils unit added
+  + fpcunit test-framework added
+  * Lots of dbf and other db fixes
+
+FV:
+  * Updated to fvision implementation, first official release
+
+IDE:
+  * Lots of improvements and stability fixes
+  * Support latest gdb 6.2.x and 6.3.x releases
+
+Docs:
+  + Lots of updates
+  + Easier to navigate html documentation
+  * fpDoc is used to generate all unit documentation
+
+Misc:
+  * Makefiles create units in a separate directory units/cpu-os/
+  * More cross compilation improvements
+
+
+******************************************************************************
+                      What's New in 1.9.4 aka 2.0.0-Beta3
+******************************************************************************
+
+Compiler:
+  + ARM (Linux) compiler
+  + PowerPC Darwin (Mac OS X) support
+  + reintroduce keyword support
+  + added prefetch(const mem) support
+  + MacPas compile mode
+  + -gv to generate an executable that can be run under Valgrind >= 2.1
+  * register allocator fixes and tweaks
+  * better support for preprocessor $IF expressions
+  * better overloaded operator support
+  * Win32 DLL export table fixes
+  * stabs (debuginfo) generation cleanups
+  * enum names in RTTI are now in their original case
+  * record alignment fixes
+  * lots of bug fixes
+
+RTL:
+  + ARM Linux support
+  + Powerpc Darwin support
+  + Sysutils.RaiseLastOSError added
+  + Sysutils.GetLastOSError added
+  + Classes.TOwnedCollection added
+  + Sysutils.FileIsReadOnly added
+  + support of widestring and currency in the typinfo unit
+  * Better support for Libc based RTL (FPC_USE_LIBC)
+  * 64bit cleanup for future x86_64 port
+  * ExecuteProcess fixes
+  * Linux use getdents syscall instead of deprecated readdir
+  * bug fixes
+
+FCL:
+  + SDF DB backend
+  + TGA support in fpImage
+  + support of widestring and currency type in stream related classes
+  * Lot of fixes to fpImage classes
+
+Misc:
+  * better cross development support
+  * Documentation updates
+  * Testsuite updates to store testrun results in a database
+  * Testsuite updates for cross platform testing, with remote rsh/ssh support
+
+
+******************************************************************************
+                      What's New in 1.9.2 aka 2.0.0-Beta2
+******************************************************************************
+
+Compiler:
+  + PowerPC compiler
+  + sse/sse2 code generation support
+  + "global" property support
+  * improved inlining support
+  * optimizer enabled again
+  * uses register calling conventions by default
+  * $fputype directive
+  + properties of type single can have default values
+  + support of $IF DECLARED()
+  + support of DQWORD in inline intel assembler code
+  * lots of bug fixes
+
+RTL:
+  * more improvements for unix runtime library
+  * using FPC_USE_LIBC allows to compile an rtl which uses libc instead of
+    syscalls
+  + System.Initialize
+  + Sysutils.ExecuteProcess
+  + System.WideStringManager
+  + System.PtrInt and System.PtrUInt
+  * ipv6 support
+  * lots of bug fixes
+
+FCL:
+  + sqlite support
+  * bug fixes
+
+Misc:
+  * improved docs
+
+******************************************************************************
+                      What's New in 1.9.0 aka 2.0.0-Beta1
+******************************************************************************
+
+Compiler:
+  + dynamic arrays
+  + interfaces
+  + variants
+  + full widestring support
+  + default parameters
+  + cross name scope overloading
+  + support for the PowerPC, Sparc and ARM processor, installation packages
+    will follow within the next weeks
+  + new and more sophisticated register allocator
+  + inlining across units
+  + register calling conventions
+  + SSE and SSE2 support for inline assembler
+  + PIC code generation
+  + new language mode: "Mac Pascal"
+  + full boolean evaluation is now also available
+  + threadvar support, enabled by using {$threading on}
+  * support of int64 integer constants
+  * improved Delphi compatibility in -Sd mode
+  * a lot of bug fixes
+  * large parts of the compiler are rewritten to create a more stable,
+    portable and maintainable compiler
+
+RTL:
+  + multithreading support
+  * completely rewritten unix runtime library
+  * improved Delphi compatiblity
+  * significantly improved speed of exception related code
+  * prepared for big endian and 64 Bit CPUs
+  * a lot of bug fixes
+
+FCL:
+  + tdataset support
+  + html generator
+  + 64 Bit file handling
+  * a lot of bug fixes
+
+Docs:
+  * adapted to reflect new language features
+
+IDE:
+  * a lot of bug fixes
+
+Misc:
+  * improved cross compilation
+
+

@@ -1,0 +1,20 @@
+link do fpc fpc\3.2.2\bin\x86_64-win64\fpc.exe
+link do folderu fpc fpc\3.2.2
+
+link do instant fpc \fpc\3.2.2\bin\x86_64-win64\instantfpc.exe
+
+
+
+właściwy kompilator fpc-3.2.2.win32.and.win64
+Destination location:
+      D:\fpc
+
+Setup type:
+      Custom installation
+
+Selected components:
+      Basic system for Windows (x86/x64)
+      Free Pascal for Win64 (x64)
+         Basic system for Win64 (x64)
+         GNU linker and assembler (x64)
+         Units (x64)

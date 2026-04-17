@@ -1,0 +1,10 @@
+Name=winunits-base
+Version=3.2.2
+Checksum=1387234656
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\winunits-base\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-registry|1387234656,fcl-base|1387234643,rtl-extra|1387234641
+NeedLibC=Y
+FPMakeAddIn=N

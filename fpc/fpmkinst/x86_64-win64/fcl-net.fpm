@@ -1,0 +1,10 @@
+Name=fcl-net
+Version=3.2.2
+Checksum=1387234661
+CPU=x86_64
+OS=win64
+SourcePath=C:\repo\fpcb322\fpcsrc\packages\fcl-net\
+FPMakeOptions=-o -Twin64 -o -Px86_64 -o -XPx86_64-win64- -o -Xr -o -Ur -o -Xs -o -O2 -o -n -o -dx86_64 -o -dRELEASE
+Depends=rtl,fcl-base|1387234643,fcl-xml|1387234645,fcl-passrc|1387234660,rtl-extra|1387234641
+NeedLibC=N
+FPMakeAddIn=N
