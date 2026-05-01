@@ -67,6 +67,7 @@ type
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
+    MenuItemComponents: TMenuItem;
     MenuItemShowintermediatecode: TMenuItem;
     MenuItemExit: TMenuItem;
     MenuItemAvocadoPatrons: TMenuItem;
@@ -76,7 +77,6 @@ type
     ItemTools: TMenuItem;
     MenuItAiAsystant: TMenuItem;
     MenuItem20: TMenuItem;
-    MenuItemrunwithoutcompilation: TMenuItem;
     MenuItemConsoleProgram: TMenuItem;
     MenuItemCompile: TMenuItem;
     MenuItemRun: TMenuItem;
@@ -224,10 +224,10 @@ type
     procedure MenuItemAlwaysontopmodeClick(Sender: TObject);
     procedure MenuItemAvocadoPatronsClick(Sender: TObject);
     procedure MenuItemCompileClick(Sender: TObject);
+    procedure MenuItemComponentsClick(Sender: TObject);
     procedure MenuItemConsoleProgramClick(Sender: TObject);
     procedure MenuItemExitClick(Sender: TObject);
     procedure MenuItemOpenFolderClick(Sender: TObject);
-    procedure MenuItemrunwithoutcompilationClick(Sender: TObject);
     procedure MenuItemSearchClick(Sender: TObject);
     procedure MenuItemShowintermediatecodeClick(Sender: TObject);
     procedure MenuItemStandardModeClick(Sender: TObject);
@@ -1232,7 +1232,6 @@ end;
 procedure TFormMain.MenuItem16Click(Sender: TObject);
 begin
   PanelLeft.Visible := not PanelLeft.Visible;
-  // Jeśli używasz elementu menu z "ptaszkiem" (właściwość AutoCheck lub ręczne Checked):
   MenuItem16.Checked := PanelLeft.Visible;
 end;
 
@@ -1369,6 +1368,12 @@ begin
   butCompileCodeClick(Sender);
 end;
 
+procedure TFormMain.MenuItemComponentsClick(Sender: TObject);
+begin
+  PanelRight.Visible := not PanelRight.Visible;
+  MenuItemComponents.Checked := PanelRight.Visible;
+end;
+
 procedure TFormMain.MenuItemConsoleProgramClick(Sender: TObject);
 var
   i: TModalResult;
@@ -1432,14 +1437,6 @@ begin
   end;
 end;
 
-procedure TFormMain.MenuItemrunwithoutcompilationClick(Sender: TObject);
-begin
-  if Trim(generatedCode.SynEditGeneratedCode.Text) = '' then
-  begin
-    MessageDlg(TranslateMistake, NoCodeOpenFileorWriteCodeEditor, mtError, [mbOk], 0);
-    Exit;
-  end;
-end;
 
 procedure TFormMain.MenuItemSearchClick(Sender: TObject);
 begin
@@ -1767,25 +1764,42 @@ begin
 end;
 
 procedure TFormMain.MenuOpenClick(Sender: TObject);
+var
+  TempLines: TStringList;
+  FileContent: string;
 begin
   if OD.Execute then
   begin
-  SynEditCode.Lines.LoadFromFile(OD.FileName);
-  OpenFileProject := OD.FileName;                           // pełna ścieżka
-  OpenProjectDir  := ExtractFilePath(OD.FileName);          // katalog projektu
-  OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), '');
-  Caption := AvocadoVersion  + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
-  IdleTimer1.Enabled := True;
-  //ToolButton1Click(Sender);
-  TranspilujKod;
-  //update feature list. / aktualizacja listy funkcji.
-  ListFunctionsFromSynEdit;
-  //updating the list of variables. / aktualizacja listy zmiennych.
-  ListVariablesFromSynEdit;
-  //Updating comment list. / Aktualizacja listy komentarzy.
-  ListCommentsFromSynEdit;
-  end;
+    TempLines := TStringList.Create;
+    try
+      TempLines.LoadFromFile(OD.FileName);
+      FileContent := TempLines.Text;
+      if (Length(FileContent) >= 3) and
+         (FileContent[1] = #$EF) and
+         (FileContent[2] = #$BB) and
+         (FileContent[3] = #$BF) then
+      begin
+        Delete(FileContent, 1, 3);
+      end;
 
+      SynEditCode.Text := FileContent;
+    finally
+      TempLines.Free;
+    end;
+
+    OpenFileProject := OD.FileName;
+    OpenProjectDir  := ExtractFilePath(OD.FileName);
+    OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), '');
+    Caption := AvocadoVersion  + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
+
+    IdleTimer1.Enabled := True;
+    TranspilujKod;
+
+    // Aktualizacja list
+    ListFunctionsFromSynEdit;
+    ListVariablesFromSynEdit;
+    ListCommentsFromSynEdit;
+  end;
 end;
 
 procedure TFormMain.MenuSaveAsClick(Sender: TObject);

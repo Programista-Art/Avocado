@@ -1334,10 +1334,6 @@ object FormMain: TFormMain
         SubMenuImages = ImageListListView
         OnClick = MenuItemCompileClick
       end
-      object MenuItemrunwithoutcompilation: TMenuItem
-        Caption = 'Run without compilation'
-        OnClick = MenuItemrunwithoutcompilationClick
-      end
     end
     object MenuItem14: TMenuItem
       Caption = 'View'
@@ -1353,6 +1349,10 @@ object FormMain: TFormMain
         Caption = 'Show Explorer'
         ShowAlwaysCheckable = True
         OnClick = MenuItem16Click
+      end
+      object MenuItemComponents: TMenuItem
+        Caption = 'Components'
+        OnClick = MenuItemComponentsClick
       end
       object MenuItemShowintermediatecode: TMenuItem
         Caption = 'Show intermediate code'

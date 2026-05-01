@@ -530,7 +530,6 @@ msgid "Kompiluj i zapisz"
 msgstr "Compile and save"
 
 #: tformmain.butcompilecode.hint
-#| msgid "Kompiluj"
 msgctxt "tformmain.butcompilecode.hint"
 msgid "Compile"
 msgstr "Compile"
@@ -729,6 +728,11 @@ msgctxt "tformmain.menuitemcompile.caption"
 msgid "Compile"
 msgstr "Compile"
 
+#: tformmain.menuitemcomponents.caption
+msgctxt "tformmain.menuitemcomponents.caption"
+msgid "Components"
+msgstr "Components"
+
 #: tformmain.menuitemconsoleprogram.caption
 msgid "New Console App"
 msgstr "New Console App"
@@ -782,10 +786,6 @@ msgstr "Paste"
 #: tformmain.menuitemrun.caption
 msgid "Run"
 msgstr "Run"
-
-#: tformmain.menuitemrunwithoutcompilation.caption
-msgid "Run without compilation"
-msgstr "Run without compilation"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"

@@ -728,6 +728,11 @@ msgctxt "tformmain.menuitemcompile.caption"
 msgid "Compile"
 msgstr "Kompiluj"
 
+#: tformmain.menuitemcomponents.caption
+msgctxt "tformmain.menuitemcomponents.caption"
+msgid "Components"
+msgstr "Komponenty"
+
 #: tformmain.menuitemconsoleprogram.caption
 msgid "New Console App"
 msgstr "Nowa aplikacja Konsolowa"
@@ -781,10 +786,6 @@ msgstr "Wklej"
 #: tformmain.menuitemrun.caption
 msgid "Run"
 msgstr "Uruchom"
-
-#: tformmain.menuitemrunwithoutcompilation.caption
-msgid "Run without compilation"
-msgstr "Uruchom bez kompilacji"
 
 #: tformmain.menuitemsavefile.caption
 msgctxt "tformmain.menuitemsavefile.caption"
