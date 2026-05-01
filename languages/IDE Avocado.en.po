@@ -530,14 +530,15 @@ msgid "Kompiluj i zapisz"
 msgstr "Compile and save"
 
 #: tformmain.butcompilecode.hint
+#| msgid "Kompiluj"
 msgctxt "tformmain.butcompilecode.hint"
-msgid "Kompiluj"
+msgid "Compile"
 msgstr "Compile"
 
 #: tformmain.documentation.caption
 msgctxt "tformmain.documentation.caption"
-msgid "Documentation"
-msgstr "Documentation"
+msgid "Components 2"
+msgstr "Components 2"
 
 #: tformmain.dokumentacja.caption
 msgid "Dokumentacja"
@@ -571,8 +572,8 @@ msgstr "filter variables"
 
 #: tformmain.fpccode.caption
 msgctxt "tformmain.fpccode.caption"
-msgid "Free Pascal Code"
-msgstr "Free Pascal Code"
+msgid "Components"
+msgstr "Components"
 
 #: tformmain.itemtools.caption
 msgid "Tools"
@@ -593,8 +594,8 @@ msgstr "Size"
 
 #: tformmain.label5.caption
 msgctxt "tformmain.label5.caption"
-msgid "Free Pascal Code"
-msgstr "Free Pascal Code"
+msgid "Komponenty"
+msgstr "Komponenty"
 
 #: tformmain.label6.caption
 msgid "Definition"
@@ -659,6 +660,14 @@ msgstr "Deutsch"
 msgid "View"
 msgstr "View"
 
+#: tformmain.menuitem15.caption
+msgid "New Web App"
+msgstr "New Web App"
+
+#: tformmain.menuitem16.caption
+msgid "Show Explorer"
+msgstr "Show Explorer"
+
 #: tformmain.menuitem19.caption
 msgctxt "tformmain.menuitem19.caption"
 msgid "Theme"
@@ -670,8 +679,8 @@ msgid "Settings"
 msgstr "Settings"
 
 #: tformmain.menuitem20.caption
-msgid "Program"
-msgstr "Program"
+msgid "New Window Application (Avoraiser)"
+msgstr "New Window Application (Avoraiser)"
 
 #: tformmain.menuitem3.caption
 msgid "Help"
@@ -716,12 +725,13 @@ msgid "Avocado Patrons"
 msgstr "Avocado Patrons"
 
 #: tformmain.menuitemcompile.caption
+msgctxt "tformmain.menuitemcompile.caption"
 msgid "Compile"
 msgstr "Compile"
 
 #: tformmain.menuitemconsoleprogram.caption
-msgid "Console program"
-msgstr "Console program"
+msgid "New Console App"
+msgstr "New Console App"
 
 #: tformmain.menuitemcopyallpascalzcode.caption
 msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
@@ -785,6 +795,11 @@ msgstr "Save"
 #: tformmain.menuitemsearch.caption
 msgid "Search"
 msgstr "Search"
+
+#: tformmain.menuitemshowintermediatecode.caption
+msgctxt "tformmain.menuitemshowintermediatecode.caption"
+msgid "Show intermediate code"
+msgstr "Show intermediate code"
 
 #: tformmain.menuitemstandardmode.caption
 msgid "Standard mode"
@@ -858,31 +873,12 @@ msgstr "Search results"
 msgid "ToolBar1"
 msgstr "ToolBar1"
 
-#: tformmain.toolbutton1.caption
-msgid "ToolButton1"
-msgstr "ToolButton1"
-
-#: tformmain.toolbutton1.hint
-msgctxt "tformmain.toolbutton1.hint"
-msgid "Transpiluj"
-msgstr "Transpile"
-
-#: tformmain.toolbutton2.caption
-msgid "ToolButton2"
-msgstr "ToolButton2"
-
-#: tformmain.toolbutton2.hint
-msgid "Interpret"
-msgstr "Interpret"
-
 #: tformmain.toolbuttondebug.caption
-#| msgid "ToolButtonDebug"
 msgctxt "tformmain.toolbuttondebug.caption"
 msgid "Code Analyzer"
 msgstr "Code Analyzer"
 
 #: tformmain.toolbuttondebug.hint
-#| msgid "Check the code"
 msgctxt "tformmain.toolbuttondebug.hint"
 msgid "Code Analyzer"
 msgstr "Code Analyzer"
@@ -958,6 +954,15 @@ msgstr "Link to Instant FPC"
 #: tformsettingintepreter.spbsavefolderfpc.caption
 msgid "Link to FPC folder"
 msgstr "Link to FPC folder"
+
+#: tgeneratedcode.button1.caption
+msgctxt "tgeneratedcode.button1.caption"
+msgid "Copy"
+msgstr "Copy"
+
+#: tgeneratedcode.caption
+msgid "Intermediate code"
+msgstr "Intermediate code"
 
 #: tpatronsavocado.button1.caption
 msgctxt "tpatronsavocado.button1.caption"
@@ -1098,8 +1103,20 @@ msgid " - Added custom IDE modules path: "
 msgstr " - Added custom IDE modules path: "
 
 #: unit1.translateaddedavocadoframeworkpath
-msgid "Added Avocado framework path:"
-msgstr "Added Avocado framework path:"
+msgid "Added Avocado framework path: "
+msgstr "Added Avocado framework path: "
+
+#: unit1.translateaddedavocadonetframeworkpath
+msgid "Added path to AvocadoNet framework: "
+msgstr "Added path to AvocadoNet framework: "
+
+#: unit1.translateaddedavoraiserframeworkpath
+msgid "Added path to Avoraiser framework: "
+msgstr "Added path to Avoraiser framework: "
+
+#: unit1.translateaddedavorendertframeworkpath
+msgid "Added path to Avorender framework: "
+msgstr "Added path to Avorender framework: "
 
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
@@ -1130,6 +1147,14 @@ msgstr "Attention!"
 #: unit1.translateavocadoanalyzerfoundissues
 msgid "Avocado Analyzer found potential errors or unknown words."
 msgstr "Avocado Analyzer found potential errors or unknown words."
+
+#: unit1.translateavocadonetrframeworkfoldernotfound
+msgid "WARNING: AvocadoNet Framework folder not found:"
+msgstr "WARNING: AvocadoNet Framework folder not found:"
+
+#: unit1.translateavorenderframeworkfoldernotfound
+msgid "WARNING: AvoRender Framework folder not found:"
+msgstr "WARNING: AvoRender Framework folder not found:"
 
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
@@ -1225,6 +1250,14 @@ msgstr "Editor font size loaded: "
 #: unit1.translateeditorfontsizenoloaded
 msgid "Editor font size not loaded: "
 msgstr "Editor font size not loaded: "
+
+#: unit1.translateentercorrectpassword
+msgid "Please enter the correct password"
+msgstr "Please enter the correct password"
+
+#: unit1.translateenterpassword
+msgid "Enter your password"
+msgstr "Enter your password"
 
 #: unit1.translateenterquestion
 msgid "Please enter your question!"
@@ -1324,6 +1357,10 @@ msgstr "Function not found."
 msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
 msgstr " - Info: IDE modules path is same as user modules, skipping duplicate."
 
+#: unit1.translateincorrectpassword
+msgid "Incorrect password"
+msgstr "Incorrect password"
+
 #: unit1.translateinformation
 msgctxt "unit1.translateinformation"
 msgid "Information"
@@ -1369,6 +1406,10 @@ msgstr "No data in the code!"
 msgid "No errors. Code ready to compile."
 msgstr "No errors. Code ready to compile."
 
+#: unit1.translatenofiletohighlight
+msgid "No file to highlight: "
+msgstr "No file to highlight: "
+
 #: unit1.translatenoitemselected
 msgid "No item selected."
 msgstr "No item selected."
@@ -1404,6 +1445,15 @@ msgstr "Platform: "
 #: unit1.translatesaveproject
 msgid "Project not saved. Save project before compiling?"
 msgstr "Project not saved. Save project before compiling?"
+
+#: unit1.translateshowintermediatecode
+msgctxt "unit1.translateshowintermediatecode"
+msgid "Show intermediate code"
+msgstr "Show intermediate code"
+
+#: unit1.translatesourcecodeerror
+msgid "Error in the source code: "
+msgstr "Error in the source code: "
 
 #: unit1.translatespeeches
 msgid "speeches"
@@ -1446,8 +1496,8 @@ msgid "WARNING: Cannot delete old EXE file (maybe it is running?)"
 msgstr "WARNING: Cannot delete old EXE file (maybe it is running?)"
 
 #: unit1.translatewarningframeworkfoldernotfound
-msgid "WARNING: Framework folder not found:"
-msgstr "WARNING: Framework folder not found:"
+msgid "WARNING: Framework folder not found: "
+msgstr "WARNING: Framework folder not found: "
 
 #: unit1.translatewebview2engineconnected
 msgid "Chromium WebView2 engine connected: "

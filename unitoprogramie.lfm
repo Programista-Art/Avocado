@@ -9,6 +9,7 @@ object FormOprogramie: TFormOprogramie
   ClientHeight = 218
   ClientWidth = 340
   Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   object Memo1: TMemo
     Left = 0
     Height = 186
@@ -26,7 +27,7 @@ object FormOprogramie: TFormOprogramie
       'Avocado IDE'
       'Środowisko programistyczne dla polskiego języka programowania Avocado, '
       'w tym sam język Avocado.'
-      'Zaktualizowano: 21.02.2026 r.'
+      'Zaktualizowano: 1.05.2026 r.'
       'www.avocado.dimitalart.pl'
       'Oficjalna strona internetowa '
       'www.avocado.code.com'

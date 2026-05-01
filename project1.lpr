@@ -15,7 +15,7 @@ uses
   unitopcjeprojektu, unitoprogramie, unitautor, uinformacjaoide, chatgptavocado,
   matematyka, internet, uwsparcie, ustawieniaai, pliki, Uprzyklady,
   themesettings, uDarkStyleParams, uDarkStyleSchemes, uMetaDarkStyle, aihelper,
-  AvocadoLCLComponents, patrons;
+  AvocadoLCLComponents, patrons, generated_code;
 
 {$R *.res}
 
@@ -44,6 +44,7 @@ begin
   Application.CreateForm(TSettingTheme, SettingTheme);
   Application.CreateForm(Taiassistant, aiassistant);
   Application.CreateForm(TPatronsAvocado, PatronsAvocado);
+  Application.CreateForm(TgeneratedCode, generatedCode);
   Application.Run;
 end.
 

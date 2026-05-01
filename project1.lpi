@@ -249,6 +249,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="generated_code.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="generatedCode"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

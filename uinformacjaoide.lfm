@@ -1,30 +1,31 @@
 object Finformacjaide: TFinformacjaide
   Left = 350
-  Height = 169
+  Height = 135
   Top = 250
-  Width = 215
+  Width = 282
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Information about the Avocado IDE'
-  ClientHeight = 169
-  ClientWidth = 215
+  ClientHeight = 135
+  ClientWidth = 282
   Color = 2697513
   Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 32
-    Top = 137
-    Width = 215
+    Top = 103
+    Width = 282
     Align = alBottom
     BevelColor = clWindow
     ClientHeight = 32
-    ClientWidth = 215
+    ClientWidth = 282
     Color = clWindow
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object SpeedButton1: TSpeedButton
-      Left = 184
+      Left = 251
       Height = 30
       Top = 1
       Width = 30
@@ -40,9 +41,9 @@ object Finformacjaide: TFinformacjaide
   end
   object Memo1: TMemo
     Left = 0
-    Height = 137
+    Height = 103
     Top = 0
-    Width = 215
+    Width = 282
     Align = alClient
     Alignment = taCenter
     Color = clBlack
@@ -51,13 +52,12 @@ object Finformacjaide: TFinformacjaide
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
-      'F8 - Transpile Code to Free Pascal'
-      'F9 - Compile Program to .exe'
-      'F1 - Opens documentation online'
+      'F9 – Kompilacja programu do pliku .exe'
+      'F1 – Otwieranie dokumentacji online'
       ''
-      'Ctrl+N → New File'
-      'Ctrl+O → Open File'
-      'Ctrl+S → Save File'
+      'Ctrl+N → Nowy plik'
+      'Ctrl+O → Otwórz plik'
+      'Ctrl+S → Zapisz plik'
     )
     ParentFont = False
     ReadOnly = True

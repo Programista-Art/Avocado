@@ -24,19 +24,9 @@ object FormMain: TFormMain
     Images = ImageListListView
     ParentColor = False
     TabOrder = 0
-    object ToolButton1: TToolButton
-      Left = 1
-      Hint = 'Transpiluj'
-      Top = 2
-      Caption = 'ToolButton1'
-      ImageIndex = 6
-      ParentShowHint = False
-      ShowHint = True
-      OnClick = ToolButton1Click
-    end
     object butCompileCode: TToolButton
-      Left = 24
-      Hint = 'Kompiluj'
+      Left = 1
+      Hint = 'Compile'
       Top = 2
       Caption = 'Kompiluj i zapisz'
       ImageIndex = 7
@@ -45,7 +35,7 @@ object FormMain: TFormMain
       OnClick = butCompileCodeClick
     end
     object ToolButtonDebug: TToolButton
-      Left = 70
+      Left = 24
       Hint = 'Code Analyzer'
       Top = 2
       Caption = 'Code Analyzer'
@@ -54,18 +44,8 @@ object FormMain: TFormMain
       ShowHint = True
       OnClick = ToolButtonDebugClick
     end
-    object ToolButton2: TToolButton
-      Left = 47
-      Hint = 'Interpret'
-      Top = 2
-      Caption = 'ToolButton2'
-      ImageIndex = 12
-      ParentShowHint = False
-      ShowHint = True
-      OnClick = ToolButton2Click
-    end
   end
-  object Panel1: TPanel
+  object PanelRight: TPanel
     Left = 877
     Height = 611
     Top = 26
@@ -76,7 +56,8 @@ object FormMain: TFormMain
     ParentBackground = False
     ParentColor = False
     TabOrder = 1
-    object PanelPrawy: TPanel
+    Visible = False
+    object PanelTop: TPanel
       Left = 1
       Height = 609
       Top = 1
@@ -86,7 +67,7 @@ object FormMain: TFormMain
       ClientWidth = 266
       ParentBackground = False
       TabOrder = 0
-      object Panel2: TPanel
+      object PanelPrawyKomponnety: TPanel
         Left = 1
         Height = 35
         Top = 1
@@ -101,32 +82,15 @@ object FormMain: TFormMain
         Height = 572
         Top = 36
         Width = 264
-        ActivePage = Documentation
+        ActivePage = FPCCode
         Align = alClient
-        TabIndex = 1
+        TabIndex = 0
         TabOrder = 1
         TabPosition = tpBottom
         object FPCCode: TTabSheet
-          Caption = 'Free Pascal Code'
+          Caption = 'Components'
           ClientHeight = 544
           ClientWidth = 256
-          object MemoOutPut: TMemo
-            Left = 0
-            Height = 519
-            Top = 25
-            Width = 256
-            Align = alClient
-            Color = clBlack
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clWhite
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            ParentFont = False
-            PopupMenu = PopupMenuOutPutPascalCode
-            ReadOnly = True
-            ScrollBars = ssBoth
-            TabOrder = 0
-          end
           object Label5: TLabel
             Left = 5
             Height = 15
@@ -135,7 +99,7 @@ object FormMain: TFormMain
             Align = alTop
             Alignment = taCenter
             BorderSpacing.Around = 5
-            Caption = 'Free Pascal Code'
+            Caption = 'Komponenty'
             Color = clMenu
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clWhite
@@ -146,7 +110,7 @@ object FormMain: TFormMain
           end
         end
         object Documentation: TTabSheet
-          Caption = 'Documentation'
+          Caption = 'Components 2'
           ClientHeight = 544
           ClientWidth = 256
           object PanelTopDocumentation: TPanel
@@ -1320,12 +1284,15 @@ object FormMain: TFormMain
       object MenuNewFile: TMenuItem
         Caption = 'New'
         object MenuItemConsoleProgram: TMenuItem
-          Caption = 'Console program'
+          Caption = 'New Console App'
           OnClick = MenuItemConsoleProgramClick
         end
         object MenuItem20: TMenuItem
-          Caption = 'Program'
+          Caption = 'New Window Application (Avoraiser)'
           OnClick = MenuItem20Click
+        end
+        object MenuItem15: TMenuItem
+          Caption = 'New Web App'
         end
       end
       object MenuOpen: TMenuItem
@@ -1381,6 +1348,15 @@ object FormMain: TFormMain
       object MenuItemStandardMode: TMenuItem
         Caption = 'Standard mode'
         OnClick = MenuItemStandardModeClick
+      end
+      object MenuItem16: TMenuItem
+        Caption = 'Show Explorer'
+        ShowAlwaysCheckable = True
+        OnClick = MenuItem16Click
+      end
+      object MenuItemShowintermediatecode: TMenuItem
+        Caption = 'Show intermediate code'
+        OnClick = MenuItemShowintermediatecodeClick
       end
     end
     object MenuProjekt: TMenuItem
@@ -1547,7 +1523,7 @@ object FormMain: TFormMain
   end
   object SynCompletion1: TSynCompletion
     OnBeforeExecute = SynCompletion1BeforeExecute
-    Position = -1
+    Position = 0
     LinesInWindow = 10
     SelectedColor = 2458919
     CaseSensitive = False
@@ -1568,11 +1544,9 @@ object FormMain: TFormMain
     Top = 216
     object MenuItemcopyPascalCode: TMenuItem
       Caption = 'Kopiuj'
-      OnClick = MenuItemcopyPascalCodeClick
     end
     object MenuItemCopyAllPascalzCode: TMenuItem
       Caption = 'Kopiuj wszystko'
-      OnClick = MenuItemCopyAllPascalzCodeClick
     end
     object MenuItem7: TMenuItem
       Caption = 'Sprawdź kod [AI]'
@@ -1672,6 +1646,7 @@ object FormMain: TFormMain
     KeyWords.Strings = (
       '.FREE'
       '.ZWOLNIJ '
+      '_N_'
       'ACCEPT_DUPLICATES'
       'ADD_TO_LIST'
       'AKCEPTUJ_DUPLIKATY'
@@ -1680,7 +1655,6 @@ object FormMain: TFormMain
       'ASSIGN_FILE'
       'AZ'
       'Aż'
-      '_N_'
       'BLAD_DUPLIKATY'
       'BLOCK_READ'
       'BLOCK_WRITE'
@@ -2064,8 +2038,8 @@ object FormMain: TFormMain
     Entity = True
     DollarVariables = False
     ActiveDot = False
-    Left = 120
-    Top = 120
+    Left = 48
+    Top = 112
   end
   object IdleTimer1: TIdleTimer
     AutoEndEvent = itaOnIdle

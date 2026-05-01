@@ -3,6 +3,7 @@ print
 print_line
 read_key
 set_length
+randomize
 random
 main
 randomize 
@@ -156,6 +157,7 @@ for
 in
 dla
 do
+powtarzaj
 w
 aż
 az

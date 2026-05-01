@@ -11,7 +11,7 @@ uses
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
   AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
   DefaultTranslator, SynEditTypes, Math,
-  LCLTranslator, LCLType, StrUtils, Types;
+  LCLTranslator, LCLType, StrUtils, Types,sha1;
 
 type
   PNodeRec = ^TNodeRec;
@@ -26,20 +26,6 @@ type
 
  type
 
-  { TRunInstantThread }
-
-  TRunInstantThread = class(TThread)
-  private
-    FPascalCode: string;
-    FInstantFPCPath: string;
-    FTempFile: string;
-    FLogMsg: string;
-    procedure SyncLog; // Metoda synchronizująca
-  protected
-    procedure Execute; override;
-  public
-    constructor Create(const APascalCode, AInstantFPCPath: string);
-  end;
 
   PFileNode = ^TFileNode;
   TFileNode = record
@@ -72,7 +58,6 @@ type
     LRozmiarZccionkiEdytora: TLabel;
     MemoSearchDocumentation: TMemo;
     MemoLogs: TMemo;
-    MemoOutPut: TMemo;
     MenuExamples: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
@@ -80,6 +65,9 @@ type
     MenuItem13: TMenuItem;
     MenuIRosyjski: TMenuItem;
     MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItemShowintermediatecode: TMenuItem;
     MenuItemExit: TMenuItem;
     MenuItemAvocadoPatrons: TMenuItem;
     MenuItemStandardMode: TMenuItem;
@@ -148,7 +136,6 @@ type
     TabSheetLog: TTabSheet;
     TabSheetSearch: TTabSheet;
     TimerScanFunctions: TTimer;
-    ToolButton2: TToolButton;
     ToolButtonDebug: TToolButton;
     Transpiluj: TAction;
     TreeFilterEdit1: TTreeFilterEdit;
@@ -168,10 +155,10 @@ type
     MenuItemCutCode: TMenuItem;
     MenuItemPasteCode: TMenuItem;
     MenuItemCopyCode: TMenuItem;
-    Panel1: TPanel;
-    Panel2: TPanel;
+    PanelRight: TPanel;
+    PanelPrawyKomponnety: TPanel;
     PanelLewy: TPanel;
-    PanelPrawy: TPanel;
+    PanelTop: TPanel;
     PopupMenuMemoLogs: TPopupMenu;
     PopupMenuOutPutPascalCode: TPopupMenu;
     PopupMenuCode: TPopupMenu;
@@ -192,7 +179,6 @@ type
     SplitterDown: TSplitter;
     SynCompletion1: TSynCompletion;
     ToolBar1: TToolBar;
-    ToolButton1: TToolButton;
     butCompileCode: TToolButton;
 
     //procedure FileTreeDblClick(Sender: TObject);
@@ -231,6 +217,7 @@ type
     procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuIRosyjskiClick(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem19Click(Sender: TObject);
     procedure MenuItem20Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
@@ -242,6 +229,7 @@ type
     procedure MenuItemOpenFolderClick(Sender: TObject);
     procedure MenuItemrunwithoutcompilationClick(Sender: TObject);
     procedure MenuItemSearchClick(Sender: TObject);
+    procedure MenuItemShowintermediatecodeClick(Sender: TObject);
     procedure MenuItemStandardModeClick(Sender: TObject);
     procedure NowyPlikExecute(Sender: TObject);
     procedure ReplaceDialogFind(Sender: TObject);
@@ -250,8 +238,6 @@ type
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
-    procedure MenuItemCopyAllPascalzCodeClick(Sender: TObject);
-    procedure MenuItemcopyPascalCodeClick(Sender: TObject);
     procedure MenuItemWsparcieprojektuClick(Sender: TObject);
     procedure SBClearSearchCommentsClick(Sender: TObject);
     procedure SBClearSearchDocumentaionClick(Sender: TObject);
@@ -266,11 +252,9 @@ type
       SourceValue: string; var SourceStart, SourceEnd: TPoint;
       KeyChar: TUTF8Char; Shift: TShiftState);
 
-
     procedure SynEditCodeChange(Sender: TObject);
     procedure SynEditCodeClick(Sender: TObject);
     procedure TimerScanFunctionsTimer(Sender: TObject);
-    procedure ToolButton2Click(Sender: TObject);
 
     procedure ToolButtonDebugClick(Sender: TObject);
     procedure TranspilujExecute(Sender: TObject);
@@ -295,7 +279,6 @@ type
     procedure MenuSaveAsClick(Sender: TObject);
     procedure MenuUstawiniaClick(Sender: TObject);
     procedure KompilujExecute(Sender: TObject);
-    procedure ToolButton1Click(Sender: TObject);
     procedure butCompileCodeClick(Sender: TObject);
     procedure TreeViewCollapsing(Sender: TObject; Node: TTreeNode;
       var AllowCollapse: Boolean);
@@ -337,8 +320,7 @@ type
     procedure AddSubNodes(ParentNode: TTreeNode; const Path: string);
     //Filtrowanie w Listboxach ListBoxSearchComments, ListBoxSearchVariables, ListBoxSearchFunctions, ListBoxSeacrh, ListBoxErrCode
     procedure FilterListBox(const FilterText: string; const SourceList: TStringList; ListBox: TListBox);
-    //Uruchaminaie kodu przez instantFPC
-    procedure RunPascalInstantly(const PascalCode: string);
+
 
   public
     function DetectIfConsole: Boolean;
@@ -354,6 +336,12 @@ type
     //Code compilation / Kompilacja kodu
     procedure CompilePascalCode(const PascalCode: string; var OutputFile: string);
 
+    //Ukrywanie panelu prawego
+    procedure HidePanelRight;
+    procedure HidePanelTreeView;
+    //Pokaz panel prawy
+    procedure ShowPanelRight;
+    procedure ShowPanelTreeView;
 
     procedure InternalLoadAvocadoFile(const FileName: string);
     procedure TranspilujKod;
@@ -570,8 +558,11 @@ resourcestring
    TranslateClosingAvocadoIDE = 'Closing Avocado IDE.';
    TranslateErrorCreateTempDir = 'Error: Could not create temporary directory: ';
    TranslateWarningCannotDeleteOldExe = 'WARNING: Cannot delete old EXE file (maybe it is running?)';
-   TranslateAddedAvocadoFrameworkPath = 'Added Avocado framework path:';
-   TranslateWarningFrameworkFolderNotFound = 'WARNING: Framework folder not found:';
+   TranslateAddedAvocadoFrameworkPath = 'Added Avocado framework path: ';
+   TranslateAddedAvocadoNetFrameworkPath = 'Added path to AvocadoNet framework: ';
+   TranslateAddedAvorendertFrameworkPath = 'Added path to Avorender framework: ';
+   TranslateAddedAvoraiserFrameworkPath = 'Added path to Avoraiser framework: ';
+   TranslateWarningFrameworkFolderNotFound = 'WARNING: Framework folder not found: ';
    TranslateFileOpenError = 'File open error: ';
    TranslateCompileAnywayQuestion = 'Would you like to try compiling the program anyway?';
    TranslateAvocadoAnalyzerFoundIssues = 'Avocado Analyzer found potential errors or unknown words.';
@@ -579,90 +570,23 @@ resourcestring
    TranslateOutputFileSize = 'Output file size: ';
    TranslateWebView2EngineFolderNotFound = 'NOTE: WebView2 engine folder not found: ';
    TranslateWebView2EngineConnected = 'Chromium WebView2 engine connected: ';
+   TranslateAvoRenderFrameworkFolderNotFound = 'WARNING: AvoRender Framework folder not found:';
+   TranslateAvocadoNetrFrameworkFolderNotFound = 'WARNING: AvocadoNet Framework folder not found:';
+   TranslateShowIntermediateCode = 'Show intermediate code';
+   TranslateEnterPassword = 'Enter your password';
+   TranslateIncorrectPassword = 'Incorrect password';
+   TranslateEnterCorrectPassword = 'Please enter the correct password';
+   TranslateSourceCodeError = 'Error in the source code: ';
+   TranslateNoFileToHighlight = 'No file to highlight: ';
 
 implementation
 
 uses
  usettings,unitopcjeprojektu,unitoprogramie,unitautor,uinformacjaoide, uwsparcie,
- uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper, patrons;
+ uchatgpt,uprzyklady,ustawieniaai, themesettings, aihelper, patrons, generated_code;
 
-{ TRunInstantThread }
 
-procedure TRunInstantThread.SyncLog;
-begin
-  if Assigned(FormMain) then
-  begin
-    FormMain.MemoLogs.Lines.Add(FLogMsg);
-    FormMain.PageInfo.ActivePage := FormMain.TabSheetLog;
-  end;
-end;
 
-procedure TRunInstantThread.Execute;
-var
-  AProcess: TProcess;
-  CommandLine: string;
-  CodeList: TStringList;
-begin
-    // Zapisz kod do pliku (w wątku)
-    CodeList := TStringList.Create;
-    try
-      try
-        CodeList.Text := FPascalCode;
-        CodeList.SaveToFile(FTempFile);
-      except
-        on E: Exception do
-        begin
-          FLogMsg := ErrWritingTemporaryFile + E.Message;
-          Synchronize(@SyncLog);
-          Exit;
-        end;
-      end;
-    finally
-      CodeList.Free;
-    end;
-    AProcess := TProcess.Create(nil);
-    try
-      AProcess.Executable := 'cmd.exe';
-
-      // Budowanie komendy: "instantfpc" "plik" & PAUSE
-      //CommandLine := Format('"%s" "%s" & PAUSE', [FInstantFPCPath, FTempFile]);
-      CommandLine := Format('"%s" "%s"', [FInstantFPCPath, FTempFile]);
-      AProcess.Parameters.Add('/C "' + CommandLine + '"');
-
-      AProcess.Options := [poWaitOnExit];
-      AProcess.ShowWindow := swoShowNormal; // Pokaż konsolę
-      FLogMsg := RunInterpreterSeparateWindow;
-      Synchronize(@SyncLog);
-      try
-        AProcess.Execute;
-        FLogMsg := InterpretationCompleted;
-        Synchronize(@SyncLog);
-      except
-        on E: Exception do
-        begin
-          FLogMsg := ProcessStartupErr + E.Message;
-          Synchronize(@SyncLog);
-        end;
-      end;
-
-    finally
-      if FileExists(FTempFile) then
-        DeleteFile(FTempFile);
-      AProcess.Free;
-    end;
-end;
-
-constructor TRunInstantThread.Create(const APascalCode, AInstantFPCPath: string);
-begin
-inherited Create(False); // Uruchom od razu
-FreeOnTerminate := True; // Zwolnij pamięć po zakończeniu
-FPascalCode := APascalCode;
-FInstantFPCPath := AInstantFPCPath;
-// Ustal ścieżkę pliku tymczasowego tutaj, aby była dostępna w wątku
-FTempFile := GetTempDir + 'avocado_temp_code.pas';
-end;
-
- //chatgptavocado
 {$R *.lfm}
 
 { TFormMain }
@@ -680,7 +604,9 @@ begin
     // Obsługa błędu, np. wyświetlenie komunikatu
     ShowMessage(TranslateCannotCreateTemporaryDirectory + TempDir);
   end;
-  AvocadoVersion := 'IDE Avocado v 2.3.0.1';
+  HidePanelRight;
+  HidePanelTreeView;
+  AvocadoVersion := 'IDE Avocado v 2.4.0.0';
   //Ladowanie funkcji Avoraisera
   LoadFunctionsToHighlighter('avoraiser_translate.ini');
   FormMain.Caption := AvocadoVersion;
@@ -717,7 +643,7 @@ end;
 
 procedure TFormMain.TranspilujExecute(Sender: TObject);
 begin
-  ToolButton1Click(sender);
+  //ToolButton1Click(sender);
 end;
 
 procedure TFormMain.MenuINformacjaIDEClick(Sender: TObject);
@@ -1303,6 +1229,13 @@ begin
   //LoadCodeCompletion('podpowiedzi_' + lang + '.txt');
 end;
 
+procedure TFormMain.MenuItem16Click(Sender: TObject);
+begin
+  PanelLeft.Visible := not PanelLeft.Visible;
+  // Jeśli używasz elementu menu z "ptaszkiem" (właściwość AutoCheck lub ręczne Checked):
+  MenuItem16.Checked := PanelLeft.Visible;
+end;
+
 
 
 procedure TFormMain.MenuItem19Click(Sender: TObject);
@@ -1326,11 +1259,10 @@ begin
 
   SynEditCode.ClearAll;
   SynEditCode.Lines.Clear;
-  MemoOutPut.Clear;
   MemoLogs.Clear;
   IsConsoleProgram := False;
   RefreshCompletionList(IsConsoleProgram);
-
+  ShowPanelRight;
 
   SynEditCode.Lines.Add('program_ui ' + NameProgram);
 
@@ -1367,14 +1299,12 @@ begin
     SynEditCode.Lines.Add('  koniec');
     SynEditCode.Lines.Add('koniec');
 
-    ToolButton1Click(Sender);
-//    SynEditCode.Lines.Add('glowny ');
-//    SynEditCode.Lines.Add(' ');
-//    SynEditCode.Lines.Add('koniec.');
+    //ToolButton1Click(Sender);
+    TimerScanFunctionsTimer(Sender);
   end
   else
   begin
-        SynEditCode.Lines.Add('import avoraiser.window');
+    SynEditCode.Lines.Add('import avoraiser.window');
     SynEditCode.Lines.Add('hwnd my_window');
     SynEditCode.Lines.Add('main');
     SynEditCode.Lines.Add('  my_win');
@@ -1405,7 +1335,8 @@ begin
     SynEditCode.Lines.Add('  end');
     SynEditCode.Lines.Add('end');
 
-    ToolButton1Click(Sender);
+    //ToolButton1Click(Sender);
+     TimerScanFunctionsTimer(Sender);
     {
     SynEditCode.Lines.Add('main ');
     SynEditCode.Lines.Add(' ');
@@ -1448,8 +1379,8 @@ begin
     SynEditCode.ClearAll;
   if InputQuery(NewProgramFile, NewNamezprogram, NameProgram) then
   begin
+    HidePanelRight;
     SynEditCode.Clear;
-    MemoOutPut.Clear;
     MemoLogs.Clear;
     IsConsoleProgram := True;
     RefreshCompletionList(IsConsoleProgram);
@@ -1496,24 +1427,61 @@ begin
   if OD.Execute then
   begin
     OpenFileProject := OD.FileName;
+    ShowPanelTreeView;
     LoadProjectTree;
   end;
 end;
 
 procedure TFormMain.MenuItemrunwithoutcompilationClick(Sender: TObject);
 begin
-  if Trim(MemoOutPut.Text) = '' then
+  if Trim(generatedCode.SynEditGeneratedCode.Text) = '' then
   begin
     MessageDlg(TranslateMistake, NoCodeOpenFileorWriteCodeEditor, mtError, [mbOk], 0);
     Exit;
   end;
-  RunPascalInstantly(MemoOutPut.Text);
 end;
 
 procedure TFormMain.MenuItemSearchClick(Sender: TObject);
 begin
   ListBoxSeacrh.Clear;
   FindDialog.Execute;
+end;
+
+procedure TFormMain.MenuItemShowintermediatecodeClick(Sender: TObject);
+var
+password,hashedInput: string;
+const
+  EXPECTED_HASH = '54684fa7a2a1ea4537323108689a1b6d28cf373a';
+begin
+  //Sprawdzanie hasla
+  password := InputBox(TranslateShowIntermediateCode,TranslateEnterPassword,'');
+
+
+
+  if password = '' then Exit;
+  hashedInput := SHA1Print(SHA1String(password));
+  if hashedInput = EXPECTED_HASH then
+   begin
+    if not Assigned(generatedCode) then
+        generatedCode := TgeneratedCode.Create(Application);
+
+    try
+      generatedCode.SynEditGeneratedCode.Lines.Clear;
+      FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+
+       generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+
+    except
+      on E: Exception do
+        MemoLogs.Lines.Add(TranslateSourceCodeError + E.Message);
+    end;
+
+    generatedCode.Show;
+  end
+  else
+  begin
+    MessageDlg(TranslateIncorrectPassword,TranslateEnterCorrectPassword, mtWarning, [mbOK],0);
+  end;
 end;
 
 procedure TFormMain.MenuItemStandardModeClick(Sender: TObject);
@@ -1550,17 +1518,6 @@ begin
 end;
 
 
-
-procedure TFormMain.MenuItemCopyAllPascalzCodeClick(Sender: TObject);
-begin
-  MemoOutPut.SelectAll;
-  MemoOutPut.CopyToClipboard;
-end;
-
-procedure TFormMain.MenuItemcopyPascalCodeClick(Sender: TObject);
-begin
- MemoOutPut.CopyToClipboard;
-end;
 
 procedure TFormMain.MenuItemWsparcieprojektuClick(Sender: TObject);
 begin
@@ -1648,40 +1605,41 @@ end;
 
 procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
-  TimerScanFunctions.Enabled := False; // zatrzymujemy timer
-
-  // Automatyczne sprawdzenie w tle - True oznacza TRYB CICHY (żadnych okienek!)
+  TimerScanFunctions.Enabled := False;
   ExtractProgramFromSynEdit;
   try
-    MemoOutPut.Clear;
-
-    // 2. WYWOŁUJEMY ANALIZATOR W TRYBIE CICHYM (True)! Żadnych okienek!
+    //MemoOutPut.Clear;
     CheckAvocadoCode(True);
 
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
     IsConsoleProgram := not FTranslator.IsGUIProject;
-    MemoOutPut.Lines.Text := FTranslatedCode.Text;
+
+    generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+
+
+    if Assigned(generatedCode) then
+    begin
+      generatedCode.SynEditGeneratedCode.BeginUpdate;
+      try
+        generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+
+      finally
+        generatedCode.SynEditGeneratedCode.EndUpdate;
+      end;
+    end;
+
   except
     on E: Exception do
-      MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
+      MemoLogs.Lines.Add(TranslateTranslationError + E.Message);
   end;
 
-  // 3. Reszta Twoich aktualizacji UI
   ListFunctionsFromSynEdit;
   ListVariablesFromSynEdit;
   ListCommentsFromSynEdit;
-  {DoAnalyzeAndTranslate(True);
-
-  ListFunctionsFromSynEdit;
-  ListVariablesFromSynEdit;
-  ListCommentsFromSynEdit;
-  }
+  TimerScanFunctions.Enabled := True;
 end;
 
-procedure TFormMain.ToolButton2Click(Sender: TObject);
-begin
-  MenuItemrunwithoutcompilationClick(sender);
-end;
+
 
 
 
@@ -1818,7 +1776,8 @@ begin
   OpenProjectName := ChangeFileExt(ExtractFileName(OD.FileName), '');
   Caption := AvocadoVersion  + ' ' + OpenProjectTranslate + ' ' + OpenProjectName;
   IdleTimer1.Enabled := True;
-  ToolButton1Click(Sender);
+  //ToolButton1Click(Sender);
+  TranspilujKod;
   //update feature list. / aktualizacja listy funkcji.
   ListFunctionsFromSynEdit;
   //updating the list of variables. / aktualizacja listy zmiennych.
@@ -1844,27 +1803,6 @@ begin
   butCompileCodeClick(Sender);
 end;
 
-
-procedure TFormMain.ToolButton1Click(Sender: TObject);
-begin
-  ExtractProgramFromSynEdit;
-  try
-    MemoOutPut.Clear;
-
-    // Wywołanie BEZ parametru (lub z False) - okienka się pojawią!
-    CheckAvocadoCode(False);
-
-    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    IsConsoleProgram := not FTranslator.IsGUIProject;
-    MemoOutPut.Lines.Text := FTranslatedCode.Text;
-  except
-    on E: Exception do
-      MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
-  end;
-
-  //DoAnalyzeAndTranslate(False);
-
-end;
 
 procedure TFormMain.butCompileCodeClick(Sender: TObject);
 var
@@ -1977,7 +1915,8 @@ begin
       OpenFileProject := P^.FullPath; // aktualizuje aktualny plik
       Caption := AvocadoVersion + ' ' + OpenProjectTranslate + ' ' + ExtractFileName(OpenProjectName);
       IdleTimer1.Enabled := True;
-      ToolButton1Click(Sender);
+      //ToolButton1Click(Sender);
+       TimerScanFunctionsTimer(Sender);
       //update feature list. / aktualizacja listy funkcji.
       ListFunctionsFromSynEdit;
       //updating the list of variables. / aktualizacja listy zmiennych.
@@ -2119,10 +2058,11 @@ begin
       butCompileCode.Enabled := False;
     end;
     //Sprawdza FModulsPath sciezke moduly
-    if FModulsPath = '' then
-       begin
-          MemoLogs.Lines.Add(TranslateConfErrModulePath + FModulsPath + TranslateUnableUnitDirectory);
-       end;
+   if (FModulsPath = '') or not DirectoryExists(FModulsPath) then
+   begin
+      MemoLogs.Lines.Add(TranslateConfErrModulePath + FModulsPath + TranslateUnableUnitDirectory);
+      butCompileCode.Enabled := False;
+   end;
     MemoLogs.Lines.Add(TranslateCompilerSettLoaded);
     MemoLogs.Lines.Add(TranslateLinkToFpc + FFpcPath);
     MemoLogs.Lines.Add(TranslateLinkToFpcFolder + FFpcBasePath);
@@ -2208,6 +2148,8 @@ i: Integer;
 FinalExePath: string;
 ExeNameFromCode: string;
 AvoraiserPath: string;
+AvoRenderPath: string;
+AvocadoNetPath: string;
 ParserLines: TStringList;
 LineStr: string;
 WebViewPath: string;
@@ -2417,12 +2359,13 @@ begin
         else
           MemoLogs.Lines.Add(TranslateCustModulesDirNotFound + IdeModulesPath + '.');
 
+           {AVORAISER}
            //Loading Avoraiser framework modules / Ladownaie modulow frameworka Avoraiser
            AvoraiserPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avoraiser';
           if DirectoryExists(AvoraiserPath) then
           begin
             AProcess.Parameters.Add('-Fu' + AvoraiserPath);
-            MemoLogs.Lines.Add(TranslateAddedAvocadoFrameworkPath + AvoraiserPath);
+            MemoLogs.Lines.Add(TranslateAddedAvoraiserFrameworkPath + AvoraiserPath);
             //Ładowanie biblioteki silnika Chromium (WebView)
             WebViewPath := IncludeTrailingPathDelimiter(AvoraiserPath) + 'webview';
                if DirectoryExists(WebViewPath) then
@@ -2439,7 +2382,34 @@ begin
             begin
               MemoLogs.Lines.Add(TranslateWarningFrameworkFolderNotFound  + AvoraiserPath);
             end;
-        //plik wyjściowy (-o)
+
+          {AVORENDER}
+          //Loading AvoRender framework modules / Ladownaie modulow frameworka AvoRender
+           AvoRenderPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avorender';
+          if DirectoryExists(AvoraiserPath) then
+          begin
+            AProcess.Parameters.Add('-Fu' + AvoraiserPath);
+            MemoLogs.Lines.Add(TranslateAddedAvorendertFrameworkPath + AvoRenderPath);
+          end
+          else
+          begin
+            MemoLogs.Lines.Add(TranslateAvoRenderFrameworkFolderNotFound  + AvoRenderPath);
+          end;
+
+          {AVOCADONET}
+          //Loading AvoRender framework modules / Ladownaie modulow frameworka avocadonet
+           AvocadoNetPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avocadonet';
+          if DirectoryExists(AvoraiserPath) then
+          begin
+            AProcess.Parameters.Add('-Fu' + AvocadoNetPath);
+            MemoLogs.Lines.Add(TranslateAddedAvocadoNetFrameworkPath + AvocadoNetPath);
+          end
+          else
+          begin
+            MemoLogs.Lines.Add(TranslateAvocadoNetrFrameworkFolderNotFound  + AvocadoNetPath);
+          end;
+
+          //plik wyjściowy (-o)
         AProcess.Parameters.Add('-o' + FinalExePath);
 
         // Opcje procesu
@@ -2522,6 +2492,26 @@ begin
   end;
 end;
 
+procedure TFormMain.HidePanelRight;
+begin
+  PanelRight.Visible := False;
+end;
+
+procedure TFormMain.HidePanelTreeView;
+begin
+  PanelLeft.Visible := False;
+end;
+
+procedure TFormMain.ShowPanelTreeView;
+begin
+  PanelLeft.Visible := True;
+end;
+
+procedure TFormMain.ShowPanelRight;
+begin
+  PanelRight.Visible := True;
+end;
+
 
 procedure TFormMain.InternalLoadAvocadoFile(const FileName: string);
 begin
@@ -2533,17 +2523,21 @@ end;
 procedure TFormMain.TranspilujKod;
 begin
    ExtractProgramFromSynEdit;
-  //CompileToPascal;
-  try
-    MemoOutPut.Clear;
-    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    //MemoOutPut.Lines.Add('{=== Free Pascal Code ===}');
+   if not Assigned(generatedCode) then
+      generatedCode := TgeneratedCode.Create(Application);
 
-    MemoOutPut.Lines.Add(FTranslatedCode.Text);
-    //BtnCompile.Enabled := True;
+  try
+    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+    generatedCode.SynEditGeneratedCode.BeginUpdate;
+    try
+      generatedCode.SynEditGeneratedCode.Lines.Clear;
+      generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+    finally
+      generatedCode.SynEditGeneratedCode.EndUpdate;
+    end;
   except
     on E: Exception do
-      MemoOutPut.Lines.Add('Translation Error: ' + E.Message);
+      MemoLogs.Lines.Add(TranslateSourceCodeError + E.Message);
   end;
 end;
 
@@ -3310,20 +3304,57 @@ procedure TFormMain.DoAnalyzeAndTranslate(Silent: Boolean);
 begin
   ExtractProgramFromSynEdit;
   try
-    MemoOutPut.Clear;
-
-    // Sprawdza kod (CICHO, jeśli analizuje Timer w tle)
     CheckAvocadoCode(Silent);
-
-    // Wykonujemy transpilację
     FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
     IsConsoleProgram := not FTranslator.IsGUIProject;
 
-    MemoOutPut.Lines.Text := FTranslatedCode.Text;
+    if not Assigned(generatedCode) then
+      generatedCode := TgeneratedCode.Create(Application);
+
+    generatedCode.SynEditGeneratedCode.BeginUpdate;
+    try
+      generatedCode.SynEditGeneratedCode.Lines.Clear;
+      generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+    finally
+      generatedCode.SynEditGeneratedCode.EndUpdate;
+    end;
+
   except
     on E: Exception do
-      MemoOutPut.Lines.Add(TranslateTranslationError + E.Message);
+    begin
+      MemoLogs.Lines.Add(TranslateTranslationError + ' ' + E.Message);
+    end;
   end;
+
+
+ { // Upewniamy się, że forma docelowa istnieje w pamięci
+  if not Assigned(generatedCode) then
+    generatedCode := TgeneratedCode.Create(Application);
+  try
+    //MemoOutPut.Clear;
+    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
+    IsConsoleProgram := not FTranslator.IsGUIProject;
+    generatedCode.SynEditGeneratedCode.BeginUpdate;
+
+    try
+      generatedCode.SynEditGeneratedCode.Lines.Clear;
+          // Sprawdza kod (CICHO, jeśli analizuje Timer w tle)
+      CheckAvocadoCode(Silent);
+
+      generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+    finally
+      generatedCode.SynEditGeneratedCode.EndUpdate;
+    end;
+
+
+
+
+    //MemoOutPut.Lines.Text := FTranslatedCode.Text;
+  except
+    on E: Exception do
+      MemoLogs.Lines.Add(TranslateTranslationError + E.Message);
+  end;
+  }
 end;
 
 
@@ -3562,88 +3593,6 @@ begin
     end;
 end;
 
-procedure TFormMain.RunPascalInstantly(const PascalCode: string);
-var
-    TempFile: string;
-    AProcess: TProcess;
-    CommandLine: string;
-begin
-  // Sprawdzenie zmiennej globalnej/pola
-  if (InstantFPCPath = '') or (not FileExists(InstantFPCPath)) then
-  begin
-    MemoLogs.Lines.Add('BŁĄD: Nie znaleziono instantfpc.exe.');
-    MemoLogs.Lines.Add('Sprawdź ustawienia ścieżki.');
-    PageInfo.ActivePage := TabSheetLog;
-    Exit;
-  end;
-
-  // Uruchomienie wątku - "Fire and Forget"
-  // Wątek sam zwolni pamięć dzięki FreeOnTerminate := True
-  TRunInstantThread.Create(PascalCode, InstantFPCPath);
-  {
-  // 1. Sprawdź, czy ścieżka do InstantFPC jest ustawiona (zakładając, że to pole klasy/zmienna globalna)
-    if (InstantFPCPath = '') or (not FileExists(InstantFPCPath)) then
-    begin
-      MemoLogs.Lines.Add('BŁĄD: Nie znaleziono instantfpc.exe.');
-      MemoLogs.Lines.Add('Sprawdź ścieżkę w setting.ini');
-      PageInfo.ActivePage := TabSheetLog;
-      Exit;
-    end;
-
-    TempFile := GetTempDir + 'avocado_temp_code.pas';
-    AProcess := TProcess.Create(nil);
-    try
-    	 // 2. Zapisz kod źródłowy do pliku tymczasowego
-    	 with TStringList.Create do
-    	 try
-    	   Text := PascalCode;
-    	   SaveToFile(TempFile);
-    	 finally
-    	   Free;
-    	 end;
-
-      // --- 3. POPRAWIONA LOGIKA URUCHOMIENIA ---
-
-      // Używamy 'cmd.exe' jako programu uruchamiającego
-    	 AProcess.Executable := 'cmd.exe';
-
-      // Tworzymy linię poleceń:
-      // Używamy /C (uruchom i zamknij) oraz łączymy dwa polecenia:
-      // 1. Uruchom InstantFPC (w cudzysłowach, na wypadek spacji w ścieżkach)
-      // 2. Uruchom PAUSE (aby konsola czekała na naciśnięcie klawisza)
-      CommandLine := Format('"%s" "%s" & PAUSE', [InstantFPCPath, TempFile]);
-
-      AProcess.Parameters.Clear;
-      //AProcess.Parameters.Add('/C ' + CommandLine);
-      AProcess.Parameters.Add('/C "' + CommandLine + '"');
-
-      // Nie chcemy przechwytywać wyjścia, chcemy je zobaczyć w konsoli
-    	 AProcess.Options := [poWaitOnExit]; // Usuwamy poUsePipes i poStderrToOutput
-
-         // Pokazujemy okno konsoli
-    	 AProcess.ShowWindow := swoShowNormal;
-
-    	 MemoLogs.Lines.Add('Uruchamianie InstantFPC w nowej konsoli...');
-    	 try
-    	   AProcess.Execute;
-         // Czekamy, aż użytkownik zamknie konsolę (dzięki poWaitOnExit)
-    	   MemoLogs.Lines.Add('InstantFPC zakończył działanie.');
-    	 except
-    	   on E: Exception do
-    	 	 MemoLogs.Lines.Add('Błąd podczas uruchamiania cmd.exe: ' + E.Message);
-    	 end;
-
-       PageInfo.ActivePage := TabSheetLog; // Pokaż logi
-
-    finally
-    	 // 4. Usuń plik tymczasowy
-    	 if FileExists(TempFile) then
-    	   DeleteFile(TempFile);
-
-    	 AProcess.Free;
-    end;
-    }
-end;
 
 function TFormMain.DetectIfConsole: Boolean;
 begin
@@ -3678,18 +3627,13 @@ end;
 procedure TFormMain.LoadCodeCompletion(const FullPath: string);
 var
   Lines: TStringList;
-  i, EqPos: Integer;
-  LineStr, Command, DisplayHint: string;
-//FilePath: string;
-//Lines: TStringList;
-//i, EqPos: Integer;
-//LineStr, WhatToShow: string;
+  i: Integer;
+  LineStr: string;
 begin
-    //SynCompletion1.ItemList.Clear;
 
     if not FileExists(FullPath) then
     begin
-      ShowMessage('Nie znaleziono pliku: ' + FullPath);
+      ShowMessage(TranslateFileNotFound + FullPath);
       Exit;
     end;
 
@@ -3705,44 +3649,6 @@ begin
     finally
       Lines.Free;
     end;
-  {
-  SynCompletion1.ItemList.Clear;
-   if not FileExists(FilePath) then Exit;
-  //FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + FileName;
-  //FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +
-  //'avoraiser' + PathDelim + 'podpowiedzi' + PathDelim + FileName;
-
-  FilePath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +
-  'avoraiser' + PathDelim + 'gui' + PathDelim + FileName;
-
-
-
-  Lines := TStringList.Create;
-  try
-    Lines.LoadFromFile(FilePath);
-
-    for i := 0 to Lines.Count - 1 do
-    begin
-      LineStr := Trim(Lines[i]);
-
-      // Ignorowanie pustych linii i komentarzy
-      if (LineStr = '') or (LineStr[1] = ';') or (Copy(LineStr, 1, 2) = '//') then
-        Continue;
-
-      EqPos := Pos('=', LineStr);
-      if EqPos > 0 then
-      begin
-        // Po "=" (to będzie wyświetlone na liście w dymku)
-        WhatToShow := Trim(Copy(LineStr, EqPos + 1, MaxInt));
-        SynCompletion1.ItemList.Add(WhatToShow);
-      end
-      else
-        SynCompletion1.ItemList.Add(LineStr);
-    end;
-  finally
-    Lines.Free;
-  end;
-  }
 end;
 
 procedure TFormMain.LoadFunctionsToHighlighter(const FileName: string);
@@ -3756,7 +3662,7 @@ begin
 
     if not FileExists(FilePath) then
     begin
-      MemoLogs.Lines.Add('Brak pliku do podświetlania: ' + FileName);
+      MemoLogs.Lines.Add(TranslateNoFileToHighlight + FileName);
       Exit;
     end;
 
