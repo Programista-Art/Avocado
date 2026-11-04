@@ -1,0 +1,198 @@
+﻿Zdarzenia i Pętla Komunikatów (Events & Message Loop) w Avoraiser
+
+Avoraiser opiera się na "Rejestrze Zdarzeń". Zamiast przypisywać kod bezpośrednio do klas wizualnych, używamy wskaźników do funkcji (np.  @MojeZdarzenie ), które silnik uruchomi w odpowiedzi na kliknięcie myszką, ruch klawiszem czy komunikat systemowy od Windowsa.
+
+Typy zdarzeń wykorzystują struktury takie jak  TAvocadoEvent  czy  TavocadoKeyEvent .
+
+ 
+
+   1. Zdarzenia Myszy (Mouse Events)
+
+Aby obsłużyć kliknięcie, najechanie lub podwójne kliknięcie myszką na danej kontrolce (np. przycisku lub oknie), używamy funkcji rejestrujących. Poniższe metody przekazują współrzędne ekranowe/okna lub odpowiednie kody przycisków w rekordzie  Event .
+
+    Ruch i Kółko Myszy
+-  set_on_mouse_move : Gdy kursor myszy przesuwa się nad obszarem kontrolki.
+-  set_on_wheel : Ogólna obsługa przewijania kółkiem (rolką myszy).
+-  set_on_mouse_wheel : Przewijanie pionowe (Vertical Scroll).
+-  set_on_mouse_hwheel : Przewijanie poziome (Horizontal Scroll).
+
+    Lewy Przycisk Myszy (LMB)
+-  set_on_lbutton_down  /  set_on_mouse_down : Gdy użytkownik wciśnie lewy przycisk (zanim go puści).
+-  set_on_lbutton_up : Gdy użytkownik zwolni (puści) lewy przycisk.
+-  set_on_lbutton_dbl_clk : Podwójne szybkie kliknięcie lewym przyciskiem myszy.
+-  set_on_click : Podstawowe przypisanie szybkiej procedury kliknięcia. (Zazwyczaj Alias do wyżej wymienionego w interfejsie).
+
+    Prawy Przycisk Myszy (RMB)
+-  set_on_rbutton_down : Wciśnięcie prawego klawisza.
+-  set_on_rbutton_up : Puszczenie prawego klawisza.
+-  set_on_rbutton_dbl_clk : Podwójny klik prawym klawiszem (rzadko używane w UI, ale wspierane w API).
+
+    Środkowy Przycisk Myszy (MMB / Kółko)
+-  set_on_mbutton_down : Wciśnięcie "rolki" (Scroll Click).
+-  set_on_mbutton_up : Puszczenie "rolki".
+-  set_on_mbutton_dbl_clk : Podwójny klik "rolką".
+
+    Obszar "Non-Client" (Ramka i Pasek Tytułu Okna)
+Zdarzenia  NC  (Non-Client) reagują tylko wtedy, kiedy użytkownik klika myszką poza roboczym obszarem okna – np. w jego pasek tytułu, przyciski minimalizacji, czy cienką ramkę okna podczas jej skalowania. Te zdarzenia zwracają kod  HitTest  (w co kliknięto) oraz bezwzględne pozycje na ekranie.
+-  set_on_nc_mouse_move : Przesunięcie nad paskiem/ramką.
+-  set_on_nc_left_down : Kliknięcie lewym w pasek/ramkę.
+-  set_on_nc_left_up : Puszczenie nad paskiem/ramką.
+-  set_on_nc_left_double_click : Podwójny klik lewym na pasku (często powiększa okno).
+-  set_on_nc_right_down : Prawy klik np. wywołujący systemowe menu na pasku tytułu.
+-  set_on_nc_right_up : Puszczenie nad paskiem/ramką.
+-  set_on_hittest : Zaawansowana odpowiedź do nadpisania. Pozwala zwrócić fałszywy wynik dla Windowsa, np. "Kliknięto w mój środek okna, a traktuj go jak Pasek Tytułu" (tzw. _Frameless Drag_).
+
+2. Klawiatura (Keyboard Events)
+
+Rozbudowana obsługa naciskania klawiszy w grach, formularzach, polach tekstowych czy listach.
+
+-  set_on_key_down : Wciśnięcie fizycznego klawisza (Virtual Key, np. Strzałka W Prawo, F5).
+-  set_on_key_up : Fizyczne puszczenie z wciśniętego klawisza.
+-  set_on_sys_key_down : Wciśnięcie tzw. Systemowych Klawiszy (gdy użytkownik ma wciśnięty klawisz  ALT  lub  F10 ).
+-  set_on_sys_key_up : Puszczenie z Systemowych Klawiszy.
+-  set_on_char : Zwrot "czystych" znaków tekstowych (np. mała litera 'a').
+-  set_on_sys_char : Rzadko spotykane znaki wywołane równolegle z  ALT .
+-  set_on_dead_char : "Martwe" znaki, niewidoczne od razu (np. przed ogonkami z innej strony i Akcentami językowymi).
+-  set_on_uni_char : Uniwersalne wywołanie z formatem wielobajtowym na nowoczesne emotikony i cyrylicę w Unicode.
+
+ 
+
+   3. Zdarzenia Geometrii Okna (Window Resizing & Moving)
+
+Obsługa modyfikacji gabarytów na żywo. Windows oferuje niesamowitą potęgę poprzez komunikaty API.
+
+     set_on_resize 
+ PL:  Procedura zmiana wymiarów w formularzu ( WM_SIZE ) |  EN:  Set on resize
+Funkcja otrzymuje parametr nowej szerokości, nowej wysokości i flagi: np. 0 ( SIZE_RESTORED ), 1 ( SIZE_MINIMIZED ), 2 ( SIZE_MAXIMIZED ).
+   pascal
+procedure MojeZdarzenieResize(h_wnd: HWND; w, h: Integer; resize_type: WPARAM);
+set_on_resize(MyWindow, @MojeZdarzenieResize);
+   
+
+     set_on_move 
+ PL:  Okno zmienione w jego pozycjonowaniu ( WM_MOVE ) |  EN:  Set on move
+Aktywowane, gdy całe okno (po przeniesieniu za pasek/z użycia myszy) zakończy ruch.
+   pascal
+set_on_move(Handle: HWND; OnMoveEvent: TAvocadoEvent);
+   
+
+     set_on_sizing  /  set_on_moving 
+ PL:  Podgląd na bieżąco podczas skalowania na krawędzi / paska Tytułowego (Drag) |  EN:  Set on sizing / moving
+Odpowiedź nadchodzi natychmiast ułamek sekundy i co każdy przebyty piksel od wskaźnika. Idealne np. na rysowanie podglądu na żywo u siatek.
+
+     set_on_window_pos_changing 
+ PL:  Najpotężniejszy komunikat od gabarytów (Strażnik  WM_WINDOWPOSCHANGING ) |  EN:  Set on window pos changing
+Pozwala ręcznie napisać zablokowanie zmniejszania okien poniżej 100x100 z własnej reguły algorytmu lub wstawić opcję Grid Snap (Przyciąganie co 50 pikseli podczas ruchu ekranem). Wywoływane ZANIM okno zmieni rozmiar / kolejność "Z-Order" na widoku.
+   pascal
+set_on_window_pos_changing(Handle: HWND; OnPosChangingEvent: TAvocadoWindowPosEvent);
+   
+
+     set_on_get_min_max_info 
+ PL:  Informacja na prośbę dla systemowego przyciągania do wymiarów u ramki |  EN:  Set on get min max info
+Funkcja nadpisuje domyślne limity (MinTrackSize/MaxTrackSize) dla przeciągania na myszce.
+   pascal
+set_on_get_min_max_info(Handle: HWND; Event: TAvocadoMinMaxEvent);
+  
+
+4. Aktywacja, Wyłączanie i System (State & System Events)
+
+set_on_close_query 
+ PL:  Zapytanie systemowe o próbę zamknięcia "X" -  WM_CLOSE  |  EN:  Set on close query
+To bardzo ważna funkcja (np.  Czy chcesz zapisać zmiany przed wyjściem? ). Zwrócenie na Prawda (True) - Okno zostaje zniszczone. False - Zamknięcie okna jest anulowane.
+   pascal
+set_on_close_query(MyWindow, @CzyNaPewnoZamknac);
+   
+
+     set_on_set_focus  /  set_on_kill_focus 
+ PL:  Dostał sygnał i utracił - (Klik u pola by pisać lub odeszliśmy pisząc u innej w panelu) |  EN:  Set on set focus / kill focus
+Aktywacje kursora. Niezwykle używane do opcji takich jak: np automatyczne pole Placeholder w logikach.
+
+     set_on_activate_app  /  set_on_enable 
+ PL:  Czy Nasza aplikacja była w uśpieniu na tle |  EN:  Set on activate app / enable
+Aktywator systemowego działania. (Np by pauzować Grę za nas w Avoraiser po kliknięciu poza Pulpit).
+
+     set_on_power_event  /  set_on_device_event 
+ PL:  Wydarzenia z Oszczędzania Baterii dla Laptopy / Usb Urządzenia pendrive podłączone w system |  EN:  Set on power / device event
+Wysyłane do systemów "nasłuchujących", że podłączono ładowarkę (PBT_APMSUSPEND) czy myszkę.
+   pascal
+set_on_power_event(Handle: HWND; Event: TAvocadoPowerEvent);
+set_on_device_event(Handle: HWND; Event: TAvocadoDeviceEvent);
+   
+ set_on_query_end_session  /  set_on_end_session 
+ PL:  Windows Próbuje Zrestartować kompa by zamknąć/Wylogować się (Klamka Zapadła) |  EN:  Set on query end session / end session
+Cofnięcie zapytania (Odmowa) to prośba "Aplikacja zapobiega zamknięciu", EndSession to puszczenie sprzątania RAM, zrzuty procesów.
+   pascal
+set_on_query_end_session(Handle: HWND; Event: TAvocadoQueryEndSessionEvent);
+set_on_end_session(Handle: HWND; Event: TAvocadoEndSessionEvent);
+   
+
+     set_on_time_change 
+ PL:  Pytanie z synchronizacją dat / Zmiana Stref czasowych z Sieci dla Komputera |  EN:  Set on time change
+Odpytane i wysłane okno zostanie powiadomione by uaktualnić domyślnie swoje napisy od Zegarków, aby omijać Timery Pytające CPU.
+
+     set_on_change 
+ PL:  Wywołanie w TextBox (Edit/RichEdit) od jakiejkolwiek poprawki litery pod klawiaturą z wnętrza Kontrolek (On Change!) |  EN:  Set on change
+   pascal
+set_on_change(Handle: HWND; OnChangeEvent: TAvocadoEvent);
+   
+5. Zegar / Odświeżanie Czasowe (Timer)
+Obsługa asynchronicznych tyknięć, nie zatrzymujących procesów głównych a podająca animowane przejścia.
+
+set_on_timer 
+ PL:  Rejestracja zdarzenia (co ma się stać, gdy timer tyknie) |  EN:  Set on timer
+   pascal
+set_on_timer(Handle: HWND; Event: TAvocadoTimerEvent);
+   
+start_timer  /  stop_timer 
+ PL:  Szybkie przypisanie ID i interwału działania w Milisekundach na zadeklarowaną Pamięciowo Zmienną lub zniszczenie licznika i zastopowanie |  EN:  Start timer / stop timer
+pascal
+function start_timer(Handle: HWND; TimerID: UINT_PTR; Interval: UINT): UINT_PTR;
+function stop_timer(Handle: HWND; TimerID: UINT_PTR): BOOL;
+   
+
+
+6. Szybkie Narzędzia Systemu i Renderowania
+process_messages 
+ PL:  Pozwala aplikacji na szybkie prze-kompilowanie zaległych pętli i odebranie zadań u windows. Przełączanie w zapobieganiu w długich For do operacji ciężkich i rysunku ( Zwiechy z kółkiem windows...  Brak Odpowiedzi zapobiega!) |  EN:  Process messages
+   pascal
+process_messages;
+   
+refresh_ui 
+ PL:  Odświeża interfejs w trakcie ciężkich obliczeń, zapobiegając zawieszeniu okna |  EN:  Refresh UI
+Różni się on od  process_messages  z wbudowaniem logik z UI u Frameworka Avoraisera. Idealny by przerysować klatkę bez ucinania jej na szary panel gdy skrypt np. generuje w 10 sekund ogromne logiki danych.
+   pascal
+refresh_ui;
+   
+
+     repaint  /  Invalidate 
+ PL:  Wymuś Rysunek / Oznacz na Nieważne ( WM_PAINT ) u Kontrolki ułamkowo w wolnym trybie (Lekkie) |  EN:  Repaint / Invalidate
+   pascal
+repaint(Handle: HWND);
+Invalidate(Handle: HWND);
+   
+
+     begin_update  /  end_update 
+ PL:  Stop rysowanie podczas zapisu / Przywróć i Rysuj Całość |  EN:  Begin / End update
+Najważniejsze do pętli do list / notatników by usunąć objaw okien mrugania 1000 elementów z powtarzaniem po wygenerowaniu okna z pętlą!
+   pascal
+begin_update(Handle: HWND);
+end_update(Handle: HWND);
+   
+
+ 
+
+   7. Metody Systemu Dodatkowe Menu / Kontrole WinAPI Pomocnicze ( Utils  & Bitowe Komunikaty API)
+
+-  set_on_notify : Skomplikowane tablice z ListView / Zakładki Windows itd. Wysyłające structy powiadamiania ( WM_NOTIFY ).
+-  set_on_color_edit  /  set_on_color_btn : Wstrzyknięcie od  WM_CTLCOLOR...  do zmian natywnych standardowych opcji dla rysunku kontrolek ( CTLCOLORBTN / EDIT  i ich ulepszonych przez Avocado funkcji).
+-  set_on_vscroll  /  set_on_hscroll : Skrolowane kontrolki ręczne paski poziome pionowe od przewijania z myszą.
+-  set_on_drop_files : Drag & Drop na Upuszczenie (Obsługa plików przenoszonych nad oknem).
+-  set_on_clipboard_render : Obsługa opóźnionego wywoływania Schowków ( Delayed Rendering ), czyli pojęcie  Skopiuj = True, ale Skompresuj to mi do Schowka u RAMu dopiero, jak on Fizycznie Wciśnie "Wklej" w np Photoshopie by nie Lagować .
+-  set_on_init_menu_popup : Wysyła ułamek sekundy przed Menu do decyzji "Czy zaszaryć Opcję Wklej z Menu w locie".
+-  set_on_menu_command : Reakcje  WM_COMMAND  klikniętych elementu na Oknie ID u Paska (Menu Buttonów systemowych i z listy).
+-  set_on_menu_select : Informuje, gdy u góry podświetlamy nie klikając nad Menusem (Do wygenerowania opisu w Status Bar "Opcja by Wyjść u Dołu").
+-  set_on_context_menu : Prawe Paski kliknięć okienka Menu pod oknem na dane.
+-  set_on_init_popup : Opcjonalny skrót od zainicjowania małych zrzutek na klik.
+-  lo_word  /  hi_word : Przydatne pomoce w makrach i rozbiciu  lParam  na parametry u procedur ze wskaźnika zdarzeniowego myszy od "Z" do X/Y.
+   pascal
+// np lo_word(l_param) = Współrzędna X

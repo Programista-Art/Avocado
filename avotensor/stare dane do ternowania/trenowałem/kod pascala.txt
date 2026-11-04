@@ -1,0 +1,12 @@
+program kodpascala
+main
+  kodpascala
+end.
+
+procedura kodpascala
+start
+//Wstawka kodu Pascala
+pascal{
+WriteLn('Hello Avocado!');
+}
+end

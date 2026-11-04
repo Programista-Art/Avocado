@@ -1,0 +1,9 @@
+﻿program grafika
+main
+pascal{
+ PaintBox1.Canvas.Rectangle( 10,20, 200,100);
+}
+
+end.
+
+

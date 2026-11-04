@@ -1,0 +1,14 @@
+program testowecos
+główny
+  test
+koniec.
+
+procedura test
+początek
+    tekst oryginalny_tekst = 'Ala ma kota.'
+    tekst zmieniony_tekst = ''
+    tekst szukany_tekst = 'kota'
+    tekst nowy_tekst = 'psa'
+    zmieniony_tekst = zamień_tekst(oryginalny_tekst, szukany_tekst, nowy_tekst)
+    pisz_linie(zmieniony_tekst)
+koniec

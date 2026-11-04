@@ -1,0 +1,289 @@
+﻿  WebView (Przeglądarka Chromium / WebView2) w Avoraiser
+Avoraiser zapewnia pełną, 100% integrację z silnikiem przeglądarki  CoreWebView2 (Chromium) . 
+
+1. Tworzenie i Nawigacja
+
+Silnik WebView2 automatycznie dopasowuje swój rozmiar (100% obszaru roboczego) do okna lub panelu, który wskażesz mu jako rodzica.
+
+webview_create  - Inicjuje silnik przeglądarki wewnątrz wskazanego okna 
+lub panelu. Przeglądarka automatycznie dopasuje się do wielkości rodzica.
+
+ PL:   przegladarka_stworz  |  EN:   webview_create 
+
+Parametry:
+uchwyt_okna / h_wnd - Uchwyt okna lub panelu docelowego.
+Przykład użycia nazwa polska:
+
+ 
+przegladarka_stworz(uchwyt_okna)
+webview_create(h_wnd)
+// Przykład użycia z panelem:
+my_panel := create_panel(MyWindow, 50, 50, 800, 600, RGB(151, 255, 234));
+webview_create(my_panel);
+
+Przykład użycia nazwa angielska:
+webview_create(h_wnd)
+// Przykład użycia z panelem:
+my_panel := create_panel(MyWindow, 50, 50, 800, 600, RGB(151, 255, 234));
+webview_create(my_panel);
+
+webview_navigate  - Ładuje wskazaną stronę WWW w przeglądarce.
+PL:   przegladarka_nawiguj  |  EN:   webview_navigate 
+Parametry:
+adres_url / url - Adres strony do załadowania.
+Przykład użycia nazwa polska:
+przegladarka_nawiguj(adres_url)
+Przykład użycia nazwa angielska:
+webview_navigate(url)
+// webview_navigate('https://www.google.pl');
+
+webview_navigate_to_string  - Zamiast pobierać stronę ze zdalnego serwera, renderuje lokalnie wstrzyknięty łańcuch z kodem HTML (np. offline wykresy, własne wygenerowane tabele).
+ PL:   przegladarka_wczytaj_html  |  EN:   webview_navigate_to_string 
+Parametry:
+adres_url / html_content - HTML kod.
+Przykład użycia nazwa polska:  
+przegladarka_wczytaj_html(html_content)
+Przykład użycia nazwa angielska: 
+webview_navigate_to_string(html_content)
+   
+webview_resize  - Zmienia rozmiar przeglądarki.
+PL:   przegladarka_zmiana_rozmiaru  |  EN:   webview_resize 
+Parametry:
+Brak parametrów
+Przykład użycia nazwa polska:
+przegladarka_zmiana_rozmiaru()
+Przykład użycia nazwa angielska:
+webview_resize
+webview_execute_js  - Wstrzykuje i natychmiastowo wykonuje kod 
+Wykonaj kod JavaScript (Wstrzyknięcie) 
+Najpotężniejsza z funkcji do tworzenia botów i "skrobania" danych (Scraping). Pozwala zasymulować kliknięcia myszką przez skrypt, wypełnić formularz, wyciągnąć listę plików czy obejść blokady bezpośrednio w środowisku przeglądarki.
+
+PL:   przegladarka_wykonaj_js  |  EN:   webview_execute_js 
+Parametry:
+kod_js / js_code - Kod JavaScript do wykonania.
+Przykład użycia nazwa polska:
+przegladarka_wykonaj_js(kod_js)
+Przykład użycia nazwa angielska:
+webview_execute_js(js_code)
+// Przykład wyświetlający natywny alert strony:
+// webview_execute_js('alert("Avoraiser przejął pełną kontrolę nad tą stroną!");')
+
+2. Podstawowe Kontrolki i Zmiany w Historii (History)
+Odpowiedniki klasycznych przycisków w przeglądarkach internetowych.
+webview_go_back  - Cofa do poprzedniej odwiedzonej strony (jeśli istnieje w historii). Sprawdza to bezpiecznie by uniknąć wyrzucenia błędu przy pierwszej stronie.
+ PL:   przegladarka_wstecz  |  EN:   webview_go_back 
+Parametry:
+Brak parametrów
+Przykład użycia nazwa polska:
+przegladarka_wstecz()
+   
+Przykład użycia nazwa angielska:
+webview_go_back
+   
+webview_go_forward  - Przechodzi dalej do strony, z której wcześniej się cofnięto.
+PL:   przegladarka_dalej  |  EN:   webview_go_forward 
+Parametry:
+Brak parametrów
+Przykład użycia nazwa polska:
+przegladarka_dalej()
+   
+
+Przykład użycia nazwa angielska:
+webview_go_forward
+   
+webview_reload  - Odświeża bieżącą stronę pobierając pliki na nowo lub wciśnij F5.
+ PL:  przegladarka_odswiez |  EN:  webview_reload
+Parametry:
+Brak parametrów
+Przykład użycia nazwa polska:
+przegladarka_odswiez()
+   
+Przykład użycia nazwa angielska:
+webview_reload
+   
+webview_stop  - Natychmiastowo przerywa renderowanie i pobieranie danych ze strony internetowej (szczególnie, gdy witryna zawiesza przeglądarkę ciężkimi skryptami).
+PL:  przegladarka_zatrzymaj |  EN:  webview_stop
+Parametry:
+Brak parametrów
+
+Przykład użycia nazwa polska:
+avocado
+przegladarka_zatrzymaj()
+   
+
+Przykład użycia nazwa angielska:
+webview_stop;
+   
+3. Informacje z Załadowanej Karty (Card Info)
+
+webview_get_title  - Pobiera tekst aktualnie załadowanej witryny ze znacznika  <title>  (np. do podmiany nagłówka w swoim głównym oknie programu).
+ PL:  przegladarka_pobierz_tytul |  EN:  webview_get_title
+
+Parametry:
+Brak parametrów
+
+Przykład użycia nazwa polska:
+przegladarka_pobierz_tytul()
+   
+
+Przykład użycia nazwa angielska:
+webview_get_title
+   
+webview_get_url  - Zwraca aktualny adres otwartej strony. Idealne do tworzenia własnego paska wyszukiwania.
+PL:  przegladarka_pobierz_adres |  EN:  webview_get_url
+Parametry:
+Brak parametrów
+
+Przykład użycia nazwa polska:
+przegladarka_pobierz_adres()
+   
+Przykład użycia nazwa angielska:
+webview_get_url
+  
+4. Ograniczenia Interfejsu i Sterowanie Systemowe
+
+Bardzo przydatne funkcje chroniące, np. przy tworzeniu zamkniętych "kiosków", by użytkownik nie otworzył przypadkiem kodu strony lub nie zapisywał plików prawym przyciskiem.
+
+webview_set_context_menu_enabled  - Zezwala lub zablokuje wywoływanie domyślnego menu "Zbadaj element" / "Kopiuj" w przeglądarce.
+ PL:  przegladarka_ustaw_menu_kontekstowe|  EN:  webview_set_context_menu_enabled
+Parametry:
+  true / prawda - typ logiczny
+  false / falsz - typ logiczny
+
+Przykład użycia nazwa polska:
+przegladarka_ustaw_menu_kontekstowe(prawda)
+Przykład użycia nazwa angielska:
+webview_set_context_menu_enabled(true)
+   
+webview_set_dev_tools_enabled  - Zablokowanie / włączenie możliwości odpalenia "DevTools" i wstrzykiwania skryptów przez użytkowników skrótami klawiaturowymi.
+Narzędzia Programistyczne (F12) 
+ PL:  przegladarka_ustaw_narzedzia_dev|  EN:  webview_set_dev_tools_enabled
+    Parametry:
+  true / prawda - typ logiczny
+  false / falsz - typ logiczny
+Przykład użycia nazwa polska:
+przegladarka_ustaw_narzedzia_dev(prawda)
+   
+    Przykład użycia nazwa angielska:
+webview_set_dev_tools_enabled(true)
+   
+
+     webview_set_status_bar_enabled  - Ukrywa lub wyświetla systemowy, szary komunikat w lewym rogu po najechaniu myszką na odnośnik. False nadaje stronie większy charakter natywnej aplikacji.
+ PL:  przegladarka_ustaw_pasek_statusu|  EN:  webview_set_status_bar_enabled
+    Parametry:
+  true / prawda - typ logiczny
+  false / falsz - typ logiczny
+
+    Przykład użycia nazwa polska:
+przegladarka_ustaw_pasek_statusu(prawda/falsz)
+   Przykład użycia nazwa angielska:
+webview_set_status_bar_enabled(true/false)
+   
+
+webview_show_dev_tools  - Otwiera okno z konsolą sieciową Chromium (Błędy, Network, Application).
+Otwórz natywną konsolę (DevTools) 
+ PL:  przegladarka_pokaz_konsole |  EN:  webview_show_dev_tools
+    Parametry:
+  Brak parametrów
+    Przykład użycia nazwa polska:
+przegladarka_pokaz_konsole() 
+    Przykład użycia nazwa angielska:
+webview_show_dev_tools
+   
+webview_show_print_ui  - Otwiera domyślne okno systemu (Przeglądarki Chrome) umożliwiające natychmiastowe wydrukowanie wczytanej witryny lub wyeksportowania jako PDF.
+ PL:  przegladarka_pokaz_okno_drukowania |  EN:  webview_show_print_ui
+    Parametry:
+  Brak parametrów
+
+    Przykład użycia nazwa polska:
+przegladarka_pokaz_okno_drukowania()
+   Przykład użycia nazwa angielska:
+webview_show_print_ui
+  
+
+   5. Optymalizacja i Kontrola Parametrów Multimediów 
+Skala Powiększenia (Zoom) 
+     webview_set_zoom  - Programowe przybliżanie/oddalanie witryny. Parametr  1.0  to domyślne 100%.  1.5  to 150%, a  0.8  to 80%.
+ PL: przegladarka_ustaw_zoom |  EN:  webview_set_zoom
+Parametry:
+  zoom_factor typ real
+
+    Przykład użycia nazwa polska:
+przegladarka_ustaw_zoom(zoom_factor)
+   
+    Przykład użycia nazwa angielska:
+webview_set_zoom(zoom_factor)
+   webview_set_muted  - Zapobiega odtwarzaniu dźwięków np. od wideo, reklam lub komunikatorów u danej karty.
+ PL:  przegladarka_ustaw_wyciszenie |  EN:  webview_set_muted
+    Parametry:
+  is_muted - typ logiczny / boolean / true / false
+
+    Przykład użycia nazwa polska:
+przegladarka_ustaw_wyciszenie(is_muted)
+   
+    Przykład użycia nazwa angielska:
+webview_set_muted(is_muted)
+   
+webview_suspend  - Usypia silnik Chromium (Sleeping Tabs)
+Przeglądarka Chromium zużywa dużo pamięci. WebView2 wspiera tzw. "Sleeping Tabs" (Usypianie Kart), uwalniając cenne zasoby procesora, gdy karta pracuje w tle. Kiedy okno znowu się pojawi na pierwszym planie, wystarczy wywołać obudzenie.
+
+ PL:   przegladarka_uspij  |  EN:   webview_suspend 
+    Parametry:
+  Brak parametrów.
+    Przykład użycia nazwa polska:
+przegladarka_uspij()
+Przykład użycia nazwa angielska:
+webview_suspend
+webview_resume  - Wybudza kartę przeglądarki ze snu do normalnej pracy.
+PL:   przegladarka_obudz  |  EN:   webview_resume 
+Parametry:
+Brak parametrów.
+Przykład użycia nazwa polska:
+przegladarka_obudz()
+Przykład użycia nazwa angielska:
+webview_resume
+
+webview_clear_cache  - Zmusza silnik do wyrzucenia z pamięci starych plików CSS i JavaScript, wymuszając pobranie ich świeżych wersji prosto od serwera (tzw. "Czysty Reload"). Wyczyść Pamięć Podręczną (Cache) 
+Parametry:
+Brak parametrów.
+PL: przegladarka_wyczysc_cache |  EN:  webview_clear_cache
+    Przykład użycia nazwa polska:
+przegladarka_wyczysc_cache()
+   
+Przykład użycia nazwa angielska:
+webview_clear_cache
+  
+6. Zamknięcie Silnika
+webview_destroy  - Uwalnia wszystkie rezerwacje zadeklarowanych w procesie i podzespołów systemowych "Core". Działa nieodwracalnie.
+ PL:  przegladarka_usun |  EN:  webview_destroy
+
+Parametry:
+Brak parametrów.
+Przykład użycia nazwa polska:
+avocado
+przegladarka_usun()
+Przykład użycia nazwa angielska:
+
+webview_destroy
+   
+webview_hide  - Tymczasowo sprawia, że okno z nałożoną przeglądarką staje się przezroczyste na wylot / 
+ PL: przegladarka_ukryj |  EN:  webview_hide
+    Parametry:
+Brak parametrów.
+
+Przykład użycia nazwa polska:
+przegladarka_ukryj()
+   
+Przykład użycia nazwa angielska:
+webview_hide
+   
+webview_show  - Przeglądarka pokazuje się.
+ PL:  przegladarka_pokaz|  EN:  wwebview_show
+    Parametry:
+  Brak parametrów.
+Przykład użycia nazwa polska:
+przegladarka_pokaz()
+   
+Przykład użycia nazwa angielska:
+webview_show
+   

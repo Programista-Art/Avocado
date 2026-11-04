@@ -1,11 +1,12 @@
 object FormMain: TFormMain
   Left = 347
-  Height = 637
+  Height = 796
   Top = 221
-  Width = 1145
-  ClientHeight = 637
-  ClientWidth = 1145
+  Width = 1431
+  ClientHeight = 796
+  ClientWidth = 1431
   Color = 5197647
+  DesignTimePPI = 120
   Menu = MainMenu1
   Position = poMainFormCenter
   LCLVersion = '4.4.0.0'
@@ -16,9 +17,8 @@ object FormMain: TFormMain
   OnShow = FormShow
   object ToolBar1: TToolBar
     Left = 0
-    Height = 26
     Top = 0
-    Width = 1145
+    Width = 1431
     Caption = 'ToolBar1'
     Color = clMenu
     Images = ImageListListView
@@ -35,7 +35,7 @@ object FormMain: TFormMain
       OnClick = butCompileCodeClick
     end
     object ToolButtonDebug: TToolButton
-      Left = 24
+      Left = 30
       Hint = 'Code Analyzer'
       Top = 2
       Caption = 'Code Analyzer'
@@ -46,32 +46,32 @@ object FormMain: TFormMain
     end
   end
   object PanelRight: TPanel
-    Left = 877
-    Height = 611
-    Top = 26
-    Width = 268
+    Left = 1096
+    Height = 764
+    Top = 32
+    Width = 335
     Align = alRight
-    ClientHeight = 611
-    ClientWidth = 268
+    ClientHeight = 764
+    ClientWidth = 335
     ParentBackground = False
     ParentColor = False
     TabOrder = 1
     Visible = False
     object PanelTop: TPanel
       Left = 1
-      Height = 609
+      Height = 762
       Top = 1
-      Width = 266
+      Width = 333
       Align = alClient
-      ClientHeight = 609
-      ClientWidth = 266
+      ClientHeight = 762
+      ClientWidth = 333
       ParentBackground = False
       TabOrder = 0
       object PanelPrawyKomponnety: TPanel
         Left = 1
-        Height = 35
+        Height = 44
         Top = 1
-        Width = 264
+        Width = 331
         Align = alTop
         ParentBackground = False
         ParentColor = False
@@ -79,9 +79,9 @@ object FormMain: TFormMain
       end
       object PagePanelRight: TPageControl
         Left = 1
-        Height = 572
-        Top = 36
-        Width = 264
+        Height = 716
+        Top = 45
+        Width = 331
         ActivePage = FPCCode
         Align = alClient
         TabIndex = 0
@@ -89,16 +89,16 @@ object FormMain: TFormMain
         TabPosition = tpBottom
         object FPCCode: TTabSheet
           Caption = 'Components'
-          ClientHeight = 544
-          ClientWidth = 256
+          ClientHeight = 683
+          ClientWidth = 323
           object Label5: TLabel
-            Left = 5
-            Height = 15
-            Top = 5
-            Width = 246
+            Left = 6
+            Height = 20
+            Top = 6
+            Width = 311
             Align = alTop
             Alignment = taCenter
-            BorderSpacing.Around = 5
+            BorderSpacing.Around = 6
             Caption = 'Komponenty'
             Color = clMenu
             Font.CharSet = EASTEUROPE_CHARSET
@@ -111,36 +111,36 @@ object FormMain: TFormMain
         end
         object Documentation: TTabSheet
           Caption = 'Components 2'
-          ClientHeight = 544
-          ClientWidth = 256
+          ClientHeight = 683
+          ClientWidth = 323
           object PanelTopDocumentation: TPanel
             Left = 0
-            Height = 35
+            Height = 44
             Top = 0
-            Width = 256
+            Width = 323
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 256
+            ClientHeight = 44
+            ClientWidth = 323
             TabOrder = 0
             object EditSearchDocumentation: TEdit
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 216
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 274
               Align = alClient
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               TabOrder = 0
               TextHint = 'Enter the name of the function'
             end
             object SBClearSearchDocumentaion: TSpeedButton
-              Left = 227
-              Height = 23
-              Top = 6
-              Width = 23
+              Left = 287
+              Height = 30
+              Top = 7
+              Width = 29
               Align = alRight
-              BorderSpacing.Top = 5
-              BorderSpacing.Right = 5
-              BorderSpacing.Bottom = 5
+              BorderSpacing.Top = 6
+              BorderSpacing.Right = 6
+              BorderSpacing.Bottom = 6
               Images = ImageListListView
               ImageIndex = 4
               OnClick = SBClearSearchDocumentaionClick
@@ -148,9 +148,9 @@ object FormMain: TFormMain
           end
           object ListBoxSearchDocumentaion: TListBox
             Left = 0
-            Height = 288
-            Top = 35
-            Width = 256
+            Height = 360
+            Top = 44
+            Width = 323
             Align = alTop
             ItemHeight = 0
             TabOrder = 1
@@ -158,30 +158,30 @@ object FormMain: TFormMain
           end
           object MemoSearchDocumentation: TMemo
             Left = 0
-            Height = 186
-            Top = 358
-            Width = 256
+            Height = 235
+            Top = 448
+            Width = 323
             Align = alClient
             ScrollBars = ssBoth
             TabOrder = 2
           end
           object Panel6: TPanel
             Left = 0
-            Height = 35
-            Top = 323
-            Width = 256
+            Height = 44
+            Top = 404
+            Width = 323
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 256
+            ClientHeight = 44
+            ClientWidth = 323
             TabOrder = 3
             object Label6: TLabel
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 244
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 309
               Align = alClient
               Alignment = taCenter
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               Caption = 'Definition'
               Color = clMenu
               Font.CharSet = EASTEUROPE_CHARSET
@@ -198,73 +198,73 @@ object FormMain: TFormMain
   end
   object PanelLewy: TPanel
     Left = 0
-    Height = 611
-    Top = 26
-    Width = 874
+    Height = 764
+    Top = 32
+    Width = 1092
     Align = alClient
     Caption = 'PanelLewy'
-    ClientHeight = 611
-    ClientWidth = 874
+    ClientHeight = 764
+    ClientWidth = 1092
     ParentBackground = False
     TabOrder = 2
     object SplitterDown: TSplitter
       Cursor = crVSplit
       Left = 1
       Height = 1
-      Top = 429
-      Width = 872
+      Top = 537
+      Width = 1090
       Align = alBottom
       ResizeAnchor = akBottom
       ResizeStyle = rsLine
     end
     object Panel3: TPanel
       Left = 1
-      Height = 180
-      Top = 430
-      Width = 872
+      Height = 225
+      Top = 538
+      Width = 1090
       Align = alBottom
-      ClientHeight = 180
-      ClientWidth = 872
+      ClientHeight = 225
+      ClientWidth = 1090
       ParentBackground = False
       TabOrder = 1
       object StatusBar: TStatusBar
         Left = 1
-        Height = 23
-        Top = 156
-        Width = 870
+        Height = 29
+        Top = 195
+        Width = 1088
         Color = clMenuBar
         Panels = <        
           item
-            Width = 150
+            Width = 188
           end        
           item
-            Width = 150
+            Width = 188
           end        
           item
-            Width = 150
+            Width = 188
           end>
         ParentColor = False
         SimplePanel = False
       end
       object PanelDolnynadKosnola: TPanel
         Left = 1
-        Height = 27
+        Height = 34
         Top = 1
-        Width = 870
+        Width = 1088
         Align = alTop
-        ClientHeight = 27
-        ClientWidth = 870
+        ClientHeight = 34
+        ClientWidth = 1088
         Color = clMenuBar
         ParentBackground = False
         ParentColor = False
         TabOrder = 1
         object Label1: TLabel
-          Left = 6
-          Height = 15
-          Top = 6
-          Width = 66
+          Left = 7
+          Height = 20
+          Top = 7
+          Width = 82
           Align = alLeft
-          BorderSpacing.Around = 5
+          BorderSpacing.Around = 6
           Caption = 'Console Log'
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
@@ -275,22 +275,22 @@ object FormMain: TFormMain
       end
       object PageInfo: TPageControl
         Left = 1
-        Height = 128
-        Top = 28
-        Width = 870
+        Height = 160
+        Top = 35
+        Width = 1088
         ActivePage = TabSheetLog
         Align = alClient
         TabIndex = 0
         TabOrder = 2
         object TabSheetLog: TTabSheet
           Caption = 'Logs'
-          ClientHeight = 100
-          ClientWidth = 862
+          ClientHeight = 127
+          ClientWidth = 1080
           object MemoLogs: TMemo
             Left = 0
-            Height = 100
+            Height = 127
             Top = 0
-            Width = 862
+            Width = 1080
             Align = alClient
             Color = clBlack
             Font.CharSet = EASTEUROPE_CHARSET
@@ -305,13 +305,13 @@ object FormMain: TFormMain
         end
         object TabSheetSearch: TTabSheet
           Caption = 'Search results'
-          ClientHeight = 100
-          ClientWidth = 862
+          ClientHeight = 127
+          ClientWidth = 1080
           object ListBoxSeacrh: TListBox
             Left = 0
-            Height = 68
-            Top = 32
-            Width = 862
+            Height = 85
+            Top = 42
+            Width = 1080
             Align = alBottom
             Color = clWindow
             ItemHeight = 0
@@ -322,36 +322,36 @@ object FormMain: TFormMain
           end
           object Panel4: TPanel
             Left = 0
-            Height = 35
+            Height = 44
             Top = 0
-            Width = 862
+            Width = 1080
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 862
+            ClientHeight = 44
+            ClientWidth = 1080
             ParentBackground = False
             ParentColor = False
             TabOrder = 1
             object EditSearchResults: TEdit
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 200
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 250
               Align = alLeft
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               Color = clWindow
               TabOrder = 0
               TextHint = 'filter functions'
               OnChange = EditSearchResultsChange
             end
             object SBClearSearcResults: TSpeedButton
-              Left = 211
-              Height = 23
-              Top = 6
-              Width = 23
+              Left = 263
+              Height = 30
+              Top = 7
+              Width = 29
               Align = alLeft
-              BorderSpacing.Top = 5
-              BorderSpacing.Right = 5
-              BorderSpacing.Bottom = 5
+              BorderSpacing.Top = 6
+              BorderSpacing.Right = 6
+              BorderSpacing.Bottom = 6
               Images = ImageListListView
               ImageIndex = 4
               OnClick = SBClearSearcResultsClick
@@ -360,13 +360,13 @@ object FormMain: TFormMain
         end
         object BottomPanelTab: TTabSheet
           Caption = 'Functions'
-          ClientHeight = 100
-          ClientWidth = 862
+          ClientHeight = 127
+          ClientWidth = 1080
           object ListBoxSearchFunctions: TListBox
             Left = 0
-            Height = 65
-            Top = 35
-            Width = 862
+            Height = 83
+            Top = 44
+            Width = 1080
             Align = alClient
             Color = clWindow
             ItemHeight = 0
@@ -377,36 +377,36 @@ object FormMain: TFormMain
           end
           object PanelTopFunctions: TPanel
             Left = 0
-            Height = 35
+            Height = 44
             Top = 0
-            Width = 862
+            Width = 1080
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 862
+            ClientHeight = 44
+            ClientWidth = 1080
             ParentBackground = False
             ParentColor = False
             TabOrder = 1
             object EditSearchFunctions: TEdit
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 200
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 250
               Align = alLeft
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               Color = clWindow
               TabOrder = 0
               TextHint = 'filter functions'
               OnChange = EditSearchFunctionsChange
             end
             object SBClearSearchFunctions: TSpeedButton
-              Left = 211
-              Height = 23
-              Top = 6
-              Width = 23
+              Left = 263
+              Height = 30
+              Top = 7
+              Width = 29
               Align = alLeft
-              BorderSpacing.Top = 5
-              BorderSpacing.Right = 5
-              BorderSpacing.Bottom = 5
+              BorderSpacing.Top = 6
+              BorderSpacing.Right = 6
+              BorderSpacing.Bottom = 6
               Images = ImageListListView
               ImageIndex = 4
               OnClick = SBClearSearchFunctionsClick
@@ -415,40 +415,40 @@ object FormMain: TFormMain
         end
         object TabSheet1: TTabSheet
           Caption = 'Variables'
-          ClientHeight = 100
-          ClientWidth = 862
+          ClientHeight = 127
+          ClientWidth = 1080
           object PanelTopVariables: TPanel
             Left = 0
-            Height = 35
+            Height = 44
             Top = 0
-            Width = 862
+            Width = 1080
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 862
+            ClientHeight = 44
+            ClientWidth = 1080
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
             object EditSearchVariables: TEdit
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 200
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 250
               Align = alLeft
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               Color = clWindow
               TabOrder = 0
               TextHint = 'filter variables'
               OnChange = EditSearchVariablesChange
             end
             object SBClearSearchVariables: TSpeedButton
-              Left = 211
-              Height = 23
-              Top = 6
-              Width = 23
+              Left = 263
+              Height = 30
+              Top = 7
+              Width = 29
               Align = alLeft
-              BorderSpacing.Top = 5
-              BorderSpacing.Right = 5
-              BorderSpacing.Bottom = 5
+              BorderSpacing.Top = 6
+              BorderSpacing.Right = 6
+              BorderSpacing.Bottom = 6
               Images = ImageListListView
               ImageIndex = 4
               OnClick = SBClearSearchVariablesClick
@@ -456,9 +456,9 @@ object FormMain: TFormMain
           end
           object ListBoxSearchVariables: TListBox
             Left = 0
-            Height = 65
-            Top = 35
-            Width = 862
+            Height = 83
+            Top = 44
+            Width = 1080
             Align = alClient
             Color = clWindow
             ItemHeight = 0
@@ -470,40 +470,40 @@ object FormMain: TFormMain
         end
         object TabSheetComments: TTabSheet
           Caption = 'Comments'
-          ClientHeight = 100
-          ClientWidth = 862
+          ClientHeight = 127
+          ClientWidth = 1080
           object PanelTopComments: TPanel
             Left = 0
-            Height = 35
+            Height = 44
             Top = 0
-            Width = 862
+            Width = 1080
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 862
+            ClientHeight = 44
+            ClientWidth = 1080
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
             object EditSearchComments: TEdit
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 200
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 250
               Align = alLeft
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               Color = clWindow
               TabOrder = 0
               TextHint = 'filter comments'
               OnChange = EditSearchCommentsChange
             end
             object SBClearSearchComments: TSpeedButton
-              Left = 211
-              Height = 23
-              Top = 6
-              Width = 23
+              Left = 263
+              Height = 30
+              Top = 7
+              Width = 29
               Align = alLeft
-              BorderSpacing.Top = 5
-              BorderSpacing.Right = 5
-              BorderSpacing.Bottom = 5
+              BorderSpacing.Top = 6
+              BorderSpacing.Right = 6
+              BorderSpacing.Bottom = 6
               Images = ImageListListView
               ImageIndex = 4
               OnClick = SBClearSearchCommentsClick
@@ -511,9 +511,9 @@ object FormMain: TFormMain
           end
           object ListBoxSearchComments: TListBox
             Left = 0
-            Height = 65
-            Top = 35
-            Width = 862
+            Height = 83
+            Top = 44
+            Width = 1080
             Align = alClient
             Color = clWindow
             ItemHeight = 0
@@ -525,39 +525,39 @@ object FormMain: TFormMain
         end
         object TabErrors: TTabSheet
           Caption = 'Mistakes'
-          ClientHeight = 100
-          ClientWidth = 862
+          ClientHeight = 127
+          ClientWidth = 1080
           object PanelTopmistakes: TPanel
             Left = 0
-            Height = 35
+            Height = 44
             Top = 0
-            Width = 862
+            Width = 1080
             Align = alTop
-            ClientHeight = 35
-            ClientWidth = 862
+            ClientHeight = 44
+            ClientWidth = 1080
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
             object EditSearchMistakes: TEdit
-              Left = 6
-              Height = 23
-              Top = 6
-              Width = 200
+              Left = 7
+              Height = 30
+              Top = 7
+              Width = 250
               Align = alLeft
-              BorderSpacing.Around = 5
+              BorderSpacing.Around = 6
               TabOrder = 0
               TextHint = 'filter errors'
               OnChange = EditSearchMistakesChange
             end
             object SBClearSearchMistakes: TSpeedButton
-              Left = 211
-              Height = 23
-              Top = 6
-              Width = 23
+              Left = 263
+              Height = 30
+              Top = 7
+              Width = 29
               Align = alLeft
-              BorderSpacing.Top = 5
-              BorderSpacing.Right = 5
-              BorderSpacing.Bottom = 5
+              BorderSpacing.Top = 6
+              BorderSpacing.Right = 6
+              BorderSpacing.Bottom = 6
               Images = ImageListListView
               ImageIndex = 4
               OnClick = SBClearSearchMistakesClick
@@ -565,9 +565,9 @@ object FormMain: TFormMain
           end
           object ListBoxErrCode: TListBox
             Left = 0
-            Height = 65
-            Top = 35
-            Width = 862
+            Height = 83
+            Top = 44
+            Width = 1080
             Align = alClient
             Color = clWindow
             ItemHeight = 0
@@ -581,24 +581,24 @@ object FormMain: TFormMain
     end
     object PaneMain: TPanel
       Left = 1
-      Height = 428
+      Height = 536
       Top = 1
-      Width = 872
+      Width = 1090
       Align = alClient
-      ClientHeight = 428
-      ClientWidth = 872
+      ClientHeight = 536
+      ClientWidth = 1090
       ParentBackground = False
       TabOrder = 2
       inline SynEditCode: TSynEdit
-        Left = 213
-        Height = 398
+        Left = 266
+        Height = 499
         Top = 1
-        Width = 658
+        Width = 823
         Align = alClient
         Color = clWindow
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clActiveCaption
-        Font.Height = -13
+        Font.Height = -16
         Font.Name = 'Courier New'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -612,7 +612,7 @@ object FormMain: TFormMain
         Gutter.CurrentLineColor.Background = 2458919
         Gutter.CurrentLineColor.Foreground = 2458919
         Gutter.CurrentLineColor.FrameColor = 2458919
-        Gutter.Width = 33
+        Gutter.Width = 42
         Gutter.MouseActions = <>
         RightGutter.Color = 2458919
         RightGutter.CurrentLineColor.Background = clActiveBorder
@@ -1096,7 +1096,7 @@ object FormMain: TFormMain
         OnChange = SynEditCodeChange
         inline SynLeftGutterPartList1: TSynGutterPartList
           object SynGutterMarks1: TSynGutterMarks
-            Width = 24
+            Width = 30
             LeftOffset = -10
             Visible = False
             MouseActions = <>
@@ -1106,7 +1106,7 @@ object FormMain: TFormMain
             MarkupInfo.Foreground = clNone
           end
           object SynGutterLineNumber1: TSynGutterLineNumber
-            Width = 17
+            Width = 21
             MouseActions = <>
             MarkupInfo.Background = clWindow
             MarkupInfo.Foreground = 2458919
@@ -1121,7 +1121,7 @@ object FormMain: TFormMain
             LeadingZeros = False
           end
           object SynGutterChanges1: TSynGutterChanges
-            Width = 4
+            Width = 5
             MouseActions = <>
             ModifiedColor = 4842717
             SavedColor = clGreen
@@ -1130,12 +1130,13 @@ object FormMain: TFormMain
             MarkupInfo.FrameColor = 4842717
           end
           object SynGutterSeparator1: TSynGutterSeparator
-            Width = 2
+            Width = 3
             MouseActions = <>
             MarkupInfo.Background = clWhite
             MarkupInfo.Foreground = clGray
           end
           object SynGutterCodeFolding1: TSynGutterCodeFolding
+            Width = 13
             MouseActions = <>
             MarkupInfo.Background = clNone
             MarkupInfo.Foreground = clGray
@@ -1146,21 +1147,21 @@ object FormMain: TFormMain
       end
       object Panel5: TPanel
         Left = 1
-        Height = 28
-        Top = 399
-        Width = 870
+        Height = 35
+        Top = 500
+        Width = 1088
         Align = alBottom
-        ClientHeight = 28
-        ClientWidth = 870
+        ClientHeight = 35
+        ClientWidth = 1088
         Color = clMenuBar
         ParentBackground = False
         ParentColor = False
         TabOrder = 1
         object RozmiarCzcionkiSynEditor: TBCFluentSlider
-          Left = 65
-          Height = 26
+          Left = 82
+          Height = 33
           Top = 1
-          Width = 98
+          Width = 122
           MinValue = 10
           MaxValue = 50
           Value = 10
@@ -1170,18 +1171,18 @@ object FormMain: TFormMain
           Align = alLeft
         end
         object Label3: TLabel
-          Left = 154
+          Left = 192
           Height = 1
-          Top = 13
+          Top = 16
           Width = 1
         end
         object Label4: TLabel
-          Left = 6
-          Height = 16
-          Top = 6
-          Width = 43
+          Left = 7
+          Height = 21
+          Top = 7
+          Width = 55
           Align = alLeft
-          BorderSpacing.Around = 5
+          BorderSpacing.Around = 6
           Caption = 'Rozmiar'
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
@@ -1190,12 +1191,12 @@ object FormMain: TFormMain
           ParentFont = False
         end
         object LRozmiarZccionkiEdytora: TLabel
-          Left = 54
-          Height = 16
-          Top = 6
-          Width = 6
+          Left = 68
+          Height = 21
+          Top = 7
+          Width = 8
           Align = alLeft
-          BorderSpacing.Around = 5
+          BorderSpacing.Around = 6
           Caption = '0'
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clWhite
@@ -1206,25 +1207,25 @@ object FormMain: TFormMain
       end
       object SplitterLeft: TSplitter
         Left = 1
-        Height = 398
+        Height = 499
         Top = 1
         Width = 1
       end
       object PanelLeft: TPanel
         Left = 2
-        Height = 398
+        Height = 499
         Top = 1
-        Width = 206
+        Width = 258
         Align = alLeft
-        ClientHeight = 398
-        ClientWidth = 206
+        ClientHeight = 499
+        ClientWidth = 258
         ParentBackground = False
         TabOrder = 3
         object TreeView: TTreeView
           Left = 1
-          Height = 373
-          Top = 24
-          Width = 204
+          Height = 469
+          Top = 29
+          Width = 256
           Align = alClient
           ExpandSignColor = 8446794
           ExpandSignType = tvestPlusMinus
@@ -1245,10 +1246,10 @@ object FormMain: TFormMain
         end
         object TreeFilterEdit1: TTreeFilterEdit
           Left = 1
-          Height = 23
+          Height = 28
           Top = 1
-          Width = 204
-          ButtonWidth = 23
+          Width = 256
+          ButtonWidth = 29
           Align = alTop
           NumGlyphs = 1
           Images = ImageListListView
@@ -1259,26 +1260,26 @@ object FormMain: TFormMain
         end
       end
       object Splitter2: TSplitter
-        Left = 208
-        Height = 398
+        Left = 260
+        Height = 499
         Top = 1
-        Width = 5
+        Width = 6
       end
     end
   end
   object Splitter1: TSplitter
-    Left = 874
-    Height = 611
-    Top = 26
-    Width = 3
+    Left = 1092
+    Height = 764
+    Top = 32
+    Width = 4
     Align = alRight
     ResizeAnchor = akRight
     ResizeStyle = rsLine
   end
   object MainMenu1: TMainMenu
     Images = ImageListListView
-    Left = 464
-    Top = 48
+    Left = 580
+    Top = 60
     object MenuItem1: TMenuItem
       Caption = 'File'
       object MenuNewFile: TMenuItem
@@ -1456,24 +1457,24 @@ object FormMain: TFormMain
   end
   object OD: TOpenDialog
     Filter = 'Pliki Avocado (*.avocado)|*.avocado|Wszystkie pliki (*.*)|*.*'
-    Left = 352
-    Top = 240
+    Left = 440
+    Top = 300
   end
   object SD: TSaveDialog
     Filter = 'Avocado|.avocado'
-    Left = 552
-    Top = 160
+    Left = 690
+    Top = 200
   end
   object PopupMenuKonsola: TPopupMenu
-    Left = 680
-    Top = 112
+    Left = 850
+    Top = 140
     object MenuItemDeleteAllCode: TMenuItem
       Caption = 'Usuń kod '
     end
   end
   object ActionList1: TActionList
-    Left = 608
-    Top = 85
+    Left = 760
+    Top = 106
     object Kompiluj: TAction
       Caption = 'Kompiluj'
       ShortCut = 120
@@ -1502,8 +1503,8 @@ object FormMain: TFormMain
     end
   end
   object PopupMenuCode: TPopupMenu
-    Left = 520
-    Top = 248
+    Left = 650
+    Top = 310
     object MenuItemCopyCode: TMenuItem
       Caption = 'Kopiuj'
       OnClick = MenuItemCopyCodeClick
@@ -1523,7 +1524,7 @@ object FormMain: TFormMain
   end
   object SynCompletion1: TSynCompletion
     OnBeforeExecute = SynCompletion1BeforeExecute
-    Position = 0
+    Position = -1
     LinesInWindow = 10
     SelectedColor = 2458919
     CaseSensitive = False
@@ -1536,12 +1537,12 @@ object FormMain: TFormMain
     ExecCommandID = ecSynCompletionExecute
     Editor = SynEditCode
     ToggleReplaceWhole = True
-    Left = 64
-    Top = 240
+    Left = 80
+    Top = 300
   end
   object PopupMenuOutPutPascalCode: TPopupMenu
-    Left = 936
-    Top = 216
+    Left = 1170
+    Top = 270
     object MenuItemcopyPascalCode: TMenuItem
       Caption = 'Kopiuj'
     end
@@ -1553,8 +1554,8 @@ object FormMain: TFormMain
     end
   end
   object PopupMenuMemoLogs: TPopupMenu
-    Left = 688
-    Top = 288
+    Left = 860
+    Top = 360
     object MenuItemDeleteMemoLogs: TMenuItem
       Caption = 'Usuń'
     end
@@ -1619,8 +1620,8 @@ object FormMain: TFormMain
     ShortCut = 32800
     ExecCommandID = ecSynAutoCompletionExecute
     Editor = SynEditCode
-    Left = 296
-    Top = 48
+    Left = 370
+    Top = 60
   end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
@@ -1646,7 +1647,6 @@ object FormMain: TFormMain
     KeyWords.Strings = (
       '.FREE'
       '.ZWOLNIJ '
-      '_N_'
       'ACCEPT_DUPLICATES'
       'ADD_TO_LIST'
       'AKCEPTUJ_DUPLIKATY'
@@ -1655,6 +1655,7 @@ object FormMain: TFormMain
       'ASSIGN_FILE'
       'AZ'
       'Aż'
+      '_N_'
       'BLAD_DUPLIKATY'
       'BLOCK_READ'
       'BLOCK_WRITE'
@@ -2038,21 +2039,21 @@ object FormMain: TFormMain
     Entity = True
     DollarVariables = False
     ActiveDot = False
-    Left = 48
-    Top = 112
+    Left = 60
+    Top = 140
   end
   object IdleTimer1: TIdleTimer
     AutoEndEvent = itaOnIdle
     Enabled = False
     Interval = 300000
-    Left = 56
-    Top = 328
+    Left = 70
+    Top = 410
   end
   object ImageListListView: TImageList
     Masked = True
     Scaled = True
-    Left = 280
-    Top = 176
+    Left = 350
+    Top = 220
     Bitmap = {
       4C7A0D0000001000000010000000830E00000000000078DAED5A795854D7DD3E
       B16A92C67F9AE44B9FB4861414312A2AA8E09A228888CA8041B6A871236A62DB
@@ -2176,26 +2177,26 @@ object FormMain: TFormMain
   object FindDialog: TFindDialog
     OnShow = FindDialogShow
     OnFind = FindDialogFind
-    Left = 272
-    Top = 272
+    Left = 340
+    Top = 340
   end
   object ReplaceDialog: TReplaceDialog
     Options = [frDown, frReplace, frReplaceAll, frHidePromptOnReplace]
     OnFind = ReplaceDialogFind
-    Left = 272
-    Top = 328
+    Left = 340
+    Top = 410
   end
   object TimerScanFunctions: TTimer
     Enabled = False
     Interval = 400
     OnTimer = TimerScanFunctionsTimer
-    Left = 279
-    Top = 110
+    Left = 349
+    Top = 138
   end
   object AutoCompleteDocumentation: TJvLookupAutoComplete
     Edit = EditSearchDocumentation
     ListBox = ListBoxSearchDocumentaion
-    Left = 768
-    Top = 40
+    Left = 960
+    Top = 50
   end
 end

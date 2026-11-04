@@ -1,0 +1,59 @@
+﻿// Wygenerowano przez Edytor UI Avoraiser
+program_ui moje_okno
+
+import avoraiser.window
+import avoraiser.layout
+import avoraiser.button
+import avoraiser.gdi
+import avoraiser.groupbutton
+import avoraiser.richedit
+import avoraiser.trackbar
+
+hwnd my_window
+hwnd przycisk_1
+hwnd gradient_2
+hwnd grupa_3
+hwnd rtf_4
+hwnd kolko_5
+hwnd kolko_6
+hwnd kolko_7
+hwnd kolko_8
+hwnd kolko_9
+hwnd grupa_10
+hwnd suwak_11
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Moja aplikacja'
+  ui.width = 480
+  ui.height = 320
+  ui.visible = true
+  ui.frameless = true
+
+  my_window = utworz_okno(ui)
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+
+    przycisk_1 = utworz_przycisk(my_window, '', 133, 456, 160, 80)
+    gradient_2 = utworz_panel_gradientowy(my_window, 133, 456, 160, 80, $DDEEFF, $00FFFFFF, 1)
+    grupa_3 = utworz_grupe_opcji(my_window, '', 133, 456, 160, 80, $DDEEFF)
+    rtf_4 = utworz_bogaty_edytor(my_window, 133, 456, 160, 80, $DDEEFF, $000000)
+    kolko_5 = utworz_zaokraglony_panel(my_window, 133, 456, 160, 80, $DDEEFF, 12)
+    kolko_6 = utworz_zaokraglony_panel(my_window, 133, 456, 160, 80, $DDEEFF, 12)
+    kolko_7 = utworz_zaokraglony_panel(my_window, 133, 456, 160, 80, $DDEEFF, 12)
+    kolko_8 = utworz_zaokraglony_panel(my_window, 133, 456, 160, 80, $DDEEFF, 12)
+    kolko_9 = utworz_zaokraglony_panel(my_window, 133, 456, 160, 80, $DDEEFF, 12)
+    grupa_10 = utworz_grupe_opcji(my_window, '', 133, 456, 160, 80, $DDEEFF)
+    suwak_11 = utworz_suwak(my_window, 113, 138, 160, 80)
+  end
+end
+
+

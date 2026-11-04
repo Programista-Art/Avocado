@@ -1,0 +1,33 @@
+2026/03/31-15:19:59.705 785c Creating DB D:\Programowanie na Delphi\Lazarus projekty\2025\Luty-2025\moj-jezyk-programowania\Avocado\examples\ui\avoraiser\przegladarka\AvocadoCache\EBWebView\Default\WebStorage\2\IndexedDB\indexeddb.leveldb since it was missing.
+2026/03/31-15:19:59.708 785c Reusing MANIFEST D:\Programowanie na Delphi\Lazarus projekty\2025\Luty-2025\moj-jezyk-programowania\Avocado\examples\ui\avoraiser\przegladarka\AvocadoCache\EBWebView\Default\WebStorage\2\IndexedDB\indexeddb.leveldb/MANIFEST-000001
+2026/03/31-15:20:05.507 f08 Level-0 table #5: started
+2026/03/31-15:20:05.508 f08 Level-0 table #5: 28945 bytes OK
+2026/03/31-15:20:05.510 f08 Delete type=0 #3
+2026/03/31-15:20:05.510 785c Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.524 f08 Level-0 table #7: started
+2026/03/31-15:20:05.525 f08 Level-0 table #7: 801 bytes OK
+2026/03/31-15:20:05.526 f08 Delete type=0 #4
+2026/03/31-15:20:05.526 785c Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.526 785c Manual compaction at level-1 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at '\x00\x03\x01\x1f\x04\x03\x01\x03\x00N\x00E\x00W\x03\x00\x00\x00\x00\x00\x00L@\x03\x00\x80\xe3\xd1@\xd4yB\x00\x03\x00\x00\x00\x00\x00\x00\xf0?' @ 568 : 0
+2026/03/31-15:20:05.526 785c Compacting 1@1 + 1@2 files
+2026/03/31-15:20:05.527 785c Generated table #8@1: 78 keys, 1478 bytes
+2026/03/31-15:20:05.527 785c Compacted 1@1 + 1@2 files => 1478 bytes
+2026/03/31-15:20:05.528 785c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/31-15:20:05.529 785c Delete type=2 #7
+2026/03/31-15:20:05.529 785c Manual compaction at level-1 from '\x00\x03\x01\x1f\x04\x03\x01\x03\x00N\x00E\x00W\x03\x00\x00\x00\x00\x00\x00L@\x03\x00\x80\xe3\xd1@\xd4yB\x00\x03\x00\x00\x00\x00\x00\x00\xf0?' @ 568 : 0 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.549 f08 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.549 f08 Manual compaction at level-1 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.549 f08 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.549 f08 Manual compaction at level-1 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.563 7c4c Level-0 table #10: started
+2026/03/31-15:20:05.564 7c4c Level-0 table #10: 1380 bytes OK
+2026/03/31-15:20:05.565 7c4c Delete type=2 #5
+2026/03/31-15:20:05.565 7c4c Delete type=0 #6
+2026/03/31-15:20:05.566 785c Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/31-15:20:05.566 785c Manual compaction at level-1 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at '\x00\x06\x00\x00\xc8\x11\x00L\x00o\x00g\x00s\x00R\x00e\x00q\x00u\x00e\x00s\x00t\x00s\x00S\x00t\x00o\x00r\x00e' @ 658 : 0
+2026/03/31-15:20:05.566 785c Compacting 1@1 + 1@2 files
+2026/03/31-15:20:05.567 785c Generated table #11@1: 21 keys, 750 bytes
+2026/03/31-15:20:05.567 785c Compacted 1@1 + 1@2 files => 750 bytes
+2026/03/31-15:20:05.568 785c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/31-15:20:05.568 785c Delete type=2 #10
+2026/03/31-15:20:05.568 785c Manual compaction at level-1 from '\x00\x06\x00\x00\xc8\x11\x00L\x00o\x00g\x00s\x00R\x00e\x00q\x00u\x00e\x00s\x00t\x00s\x00S\x00t\x00o\x00r\x00e' @ 658 : 0 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)

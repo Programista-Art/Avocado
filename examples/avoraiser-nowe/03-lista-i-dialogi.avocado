@@ -1,0 +1,76 @@
+// Avoraiser - lista wyboru i komunikaty
+program_ui lista_dialogi
+
+import avoraiser.window
+import avoraiser.listbox
+import avoraiser.button
+import avoraiser.dialogs
+import avoraiser.labels
+
+hwnd my_window
+hwnd moja_lista
+hwnd etykieta
+hwnd przycisk_pokaz
+hwnd przycisk_dodaj
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure wypelnij_liste
+start
+  dodaj_do_listy_wyboru(moja_lista, 'Jabłko')
+  dodaj_do_listy_wyboru(moja_lista, 'Gruszka')
+  dodaj_do_listy_wyboru(moja_lista, 'Śliwka')
+  dodaj_do_listy_wyboru(moja_lista, 'Wiśnia')
+end
+
+procedure po_kliknieciu_pokaz(sender: hwnd)
+start
+  lc indeks
+  tekst wybor
+  indeks = pobierz_indeks_listy_wyboru(moja_lista)
+
+  if indeks >= 0 then
+  start
+    wybor = pobierz_tekst_listy_wyboru(moja_lista)
+    pokaz_wiadomosc(my_window, 'Wybrano', wybor)
+  end
+  inaczej
+    pokaz_ostrzezenie(my_window, 'Uwaga', 'Najpierw wybierz element z listy.')
+end
+
+procedure po_kliknieciu_dodaj(sender: hwnd)
+start
+  dodaj_do_listy_wyboru(moja_lista, 'Nowy element')
+end
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+
+  ui.title = 'Lista i okna dialogowe'
+  ui.width = 400
+  ui.height = 360
+  ui.visible = true
+
+  my_window = utworz_okno(ui)
+
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+
+    etykieta = utworz_etykiete(my_window, 'Wybierz owoc z listy:', 20, 16, 340, 24)
+
+    moja_lista = utworz_liste_wyboru(my_window, 20, 48, 340, 180)
+    wypelnij_liste
+
+    przycisk_pokaz = utworz_przycisk(my_window, 'Pokaż wybór', 20, 250, 160, 40)
+    reaguj_na_klikniecie(przycisk_pokaz, @po_kliknieciu_pokaz)
+
+    przycisk_dodaj = utworz_przycisk(my_window, 'Dodaj element', 200, 250, 160, 40)
+    reaguj_na_klikniecie(przycisk_dodaj, @po_kliknieciu_dodaj)
+  end
+end

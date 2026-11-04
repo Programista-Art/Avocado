@@ -1,0 +1,16 @@
+﻿program warunki
+glowny
+test
+koniec.
+
+procedura test
+poczatek
+  liczba_całkowita a = 10
+  jezeli a > 5 wtedy
+  poczatek
+    pisz_linie('a>5')
+  koniec
+  inaczej
+    pisz_linie('a<5')
+koniec
+

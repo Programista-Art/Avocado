@@ -1,0 +1,14 @@
+program test
+main
+test
+tekst a = 'siema'
+  lc i = 0
+i = długość(a)
+pisz_linie('Tekst zawiera ',liczba_na_tekst(i), 'znaków')
+end.
+//siemka
+
+procedure test
+start
+pisz_linie('jan Kowalski')
+end

@@ -1108,6 +1108,10 @@ msgstr ""
 msgid "Added path to Avorender framework: "
 msgstr ""
 
+#: unit1.translateaddedavotensorframeworkpath
+msgid "Added path to AvoTensor framework: "
+msgstr ""
+
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
 msgstr ""
@@ -1144,6 +1148,10 @@ msgstr ""
 
 #: unit1.translateavorenderframeworkfoldernotfound
 msgid "WARNING: AvoRender Framework folder not found:"
+msgstr ""
+
+#: unit1.translateavotensorframeworkfoldernotfound
+msgid "WARNING: AvoTensor Framework folder not found:"
 msgstr ""
 
 #: unit1.translatecannotcreatetemporarydirectory

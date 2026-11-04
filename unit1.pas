@@ -11,7 +11,8 @@ uses
   SynHighlighterMulti, SynHighlighterAny, SynHighlighterPo, Process, IniFiles,
   AvocadoTranslator, ShellAPI, LazUTF8, TreeFilterEdit, LCLIntf, InterfaceBase,
   DefaultTranslator, SynEditTypes, Math,
-  LCLTranslator, LCLType, StrUtils, Types,sha1;
+  LCLTranslator, LCLType, StrUtils, Types,sha1,
+  avocado_compiler, avocado_diagnostics, uivisualdesigner;
 
 type
   PNodeRec = ^TNodeRec;
@@ -220,6 +221,7 @@ type
     procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem19Click(Sender: TObject);
     procedure MenuItem20Click(Sender: TObject);
+    procedure OpenUIDesignerClick(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
     procedure MenuItemAlwaysontopmodeClick(Sender: TObject);
     procedure MenuItemAvocadoPatronsClick(Sender: TObject);
@@ -290,6 +292,7 @@ type
 
   private
     FTranslator: TAvocadoTranslator;
+    FUiDesignerMenu: TMenuItem;
     FTranslatedCode: TStringList;
     //Laduje link do FPC kompilatora
     procedure LoadFpc;
@@ -560,6 +563,7 @@ resourcestring
    TranslateWarningCannotDeleteOldExe = 'WARNING: Cannot delete old EXE file (maybe it is running?)';
    TranslateAddedAvocadoFrameworkPath = 'Added Avocado framework path: ';
    TranslateAddedAvocadoNetFrameworkPath = 'Added path to AvocadoNet framework: ';
+   TranslateAddedAvoTensorFrameworkPath = 'Added path to AvoTensor framework: ';
    TranslateAddedAvorendertFrameworkPath = 'Added path to Avorender framework: ';
    TranslateAddedAvoraiserFrameworkPath = 'Added path to Avoraiser framework: ';
    TranslateWarningFrameworkFolderNotFound = 'WARNING: Framework folder not found: ';
@@ -572,6 +576,7 @@ resourcestring
    TranslateWebView2EngineConnected = 'Chromium WebView2 engine connected: ';
    TranslateAvoRenderFrameworkFolderNotFound = 'WARNING: AvoRender Framework folder not found:';
    TranslateAvocadoNetrFrameworkFolderNotFound = 'WARNING: AvocadoNet Framework folder not found:';
+   TranslateAvoTensorFrameworkFolderNotFound = 'WARNING: AvoTensor Framework folder not found:';
    TranslateShowIntermediateCode = 'Show intermediate code';
    TranslateEnterPassword = 'Enter your password';
    TranslateIncorrectPassword = 'Incorrect password';
@@ -606,7 +611,7 @@ begin
   end;
   HidePanelRight;
   HidePanelTreeView;
-  AvocadoVersion := 'IDE Avocado v 2.4.0.0';
+  AvocadoVersion := 'IDE Avocado v 3.0.0.0';
   //Ladowanie funkcji Avoraisera
   LoadFunctionsToHighlighter('avoraiser_translate.ini');
   FormMain.Caption := AvocadoVersion;
@@ -1242,6 +1247,11 @@ begin
   SettingTheme.ShowModal;
 end;
 
+procedure TFormMain.OpenUIDesignerClick(Sender: TObject);
+begin
+  ShowUIVisualDesigner;
+end;
+
 procedure TFormMain.MenuItem20Click(Sender: TObject);
 var
 i: TModalResult;
@@ -1445,41 +1455,21 @@ begin
 end;
 
 procedure TFormMain.MenuItemShowintermediatecodeClick(Sender: TObject);
-var
-password,hashedInput: string;
-const
-  EXPECTED_HASH = '54684fa7a2a1ea4537323108689a1b6d28cf373a';
 begin
-  //Sprawdzanie hasla
-  password := InputBox(TranslateShowIntermediateCode,TranslateEnterPassword,'');
-
-
-
-  if password = '' then Exit;
-  hashedInput := SHA1Print(SHA1String(password));
-  if hashedInput = EXPECTED_HASH then
-   begin
     if not Assigned(generatedCode) then
         generatedCode := TgeneratedCode.Create(Application);
 
     try
       generatedCode.SynEditGeneratedCode.Lines.Clear;
       FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-
-       generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
-
+      generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+       generatedCode.Show;
     except
       on E: Exception do
         MemoLogs.Lines.Add(TranslateSourceCodeError + E.Message);
     end;
-
-    generatedCode.Show;
-  end
-  else
-  begin
-    MessageDlg(TranslateIncorrectPassword,TranslateEnterCorrectPassword, mtWarning, [mbOK],0);
-  end;
 end;
+
 
 procedure TFormMain.MenuItemStandardModeClick(Sender: TObject);
 begin
@@ -1603,33 +1593,7 @@ end;
 procedure TFormMain.TimerScanFunctionsTimer(Sender: TObject);
 begin
   TimerScanFunctions.Enabled := False;
-  ExtractProgramFromSynEdit;
-  try
-    //MemoOutPut.Clear;
-    CheckAvocadoCode(True);
-
-    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    IsConsoleProgram := not FTranslator.IsGUIProject;
-
-    generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
-
-
-    if Assigned(generatedCode) then
-    begin
-      generatedCode.SynEditGeneratedCode.BeginUpdate;
-      try
-        generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
-
-      finally
-        generatedCode.SynEditGeneratedCode.EndUpdate;
-      end;
-    end;
-
-  except
-    on E: Exception do
-      MemoLogs.Lines.Add(TranslateTranslationError + E.Message);
-  end;
-
+  DoAnalyzeAndTranslate(True);
   ListFunctionsFromSynEdit;
   ListVariablesFromSynEdit;
   ListCommentsFromSynEdit;
@@ -1655,6 +1619,14 @@ constructor TFormMain.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FTranslator := TAvocadoTranslator.Create;
+  // Wizualny edytor UI Avoraiser (LCL)
+  if Assigned(MainMenu1) and (MainMenu1.Items.Count > 0) then
+  begin
+    FUiDesignerMenu := TMenuItem.Create(Self);
+    FUiDesignerMenu.Caption := 'Wizualny edytor UI (Avoraiser)';
+    FUiDesignerMenu.OnClick := @OpenUIDesignerClick;
+    MainMenu1.Items[0].Add(FUiDesignerMenu);
+  end;
   FTranslatedCode := TStringList.Create;
   FPC_Params := TStringList.Create;
   FPC_Params.Add('-Sg');
@@ -1823,31 +1795,26 @@ var
    sFileName: string;
    DlgResult: Integer;
    OutputFolder: string;
+   Res: TAvocadoCompileResult;
+   I: Integer;
 begin
-  // ANALIZA I AKTUALIZACJA KODU PRZED KOMPILACJĄ
-  // Wymuszamy najświeższą analizę (w trybie cichym, żeby nie wyskakiwało "Brak błędów")
-  CheckAvocadoCode(True);
+  // New frontend: structured analysis + translation. Errors block compilation.
+  DoAnalyzeAndTranslate(True);
 
-  // Wymuszamy najświeższą transpilację, na wypadek gdyby użytkownik
-  // wcisnął kompiluj zanim odliczył się timer!
-  FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-  IsConsoleProgram := not FTranslator.IsGUIProject;
-
-  // OSTRZEŻENIE O BŁĘDACH Z MOŻLIWOŚCIĄ WYMUSZENIA KOMPILACJI
   if FErrAll.Count > 0 then
   begin
-    // Przenosimy użytkownika do zakładki z błędami, żeby widział co "nie gra"
     PageInfo.ActivePage := TabErrors;
     ListBoxErrCode.SetFocus;
+    MessageDlg(TranslateAvocadoAnalyzerFoundIssues + #13#10 +
+               TranslateCompileAnywayQuestion,
+               mtError, [mbOk], 0);
+    Exit;
+  end;
 
-    // Pytamy użytkownika, czy jest pewien, że chce kontynuować
-    DlgResult := MessageDlg(TranslateAvocadoAnalyzerFoundIssues + #13#10 +
-                            TranslateCompileAnywayQuestion,
-                            mtWarning, [mbYes, mbNo], 0);
-
-    // Jeśli kliknął cokolwiek innego niż "Tak" (czyli "Nie" lub zamknął okno) -> przerywamy
-    if DlgResult <> mrYes then
-      Exit;
+  if FTranslatedCode.Count = 0 then
+  begin
+    MessageDlg(TranslateMistake, 'Brak wygenerowanego kodu Pascala.', mtError, [mbOk], 0);
+    Exit;
   end;
 
 
@@ -2164,6 +2131,7 @@ ExeNameFromCode: string;
 AvoraiserPath: string;
 AvoRenderPath: string;
 AvocadoNetPath: string;
+AvotensorPath: string;
 ParserLines: TStringList;
 LineStr: string;
 WebViewPath: string;
@@ -2400,9 +2368,9 @@ begin
           {AVORENDER}
           //Loading AvoRender framework modules / Ladownaie modulow frameworka AvoRender
            AvoRenderPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avorender';
-          if DirectoryExists(AvoraiserPath) then
+          if DirectoryExists(AvoRenderPath) then
           begin
-            AProcess.Parameters.Add('-Fu' + AvoraiserPath);
+            AProcess.Parameters.Add('-Fu' + AvoRenderPath);
             MemoLogs.Lines.Add(TranslateAddedAvorendertFrameworkPath + AvoRenderPath);
           end
           else
@@ -2413,7 +2381,7 @@ begin
           {AVOCADONET}
           //Loading AvoRender framework modules / Ladownaie modulow frameworka avocadonet
            AvocadoNetPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avocadonet';
-          if DirectoryExists(AvoraiserPath) then
+          if DirectoryExists(AvocadoNetPath) then
           begin
             AProcess.Parameters.Add('-Fu' + AvocadoNetPath);
             MemoLogs.Lines.Add(TranslateAddedAvocadoNetFrameworkPath + AvocadoNetPath);
@@ -2422,6 +2390,20 @@ begin
           begin
             MemoLogs.Lines.Add(TranslateAvocadoNetrFrameworkFolderNotFound  + AvocadoNetPath);
           end;
+
+          {AVOTENSOR}
+          //Loading AvoTensor framework modules / Ladownaie modulow frameworka avotensor
+           AvotensorPath := IncludeTrailingPathDelimiter(IdeDirectory) + 'avotensor';
+          if DirectoryExists(AvotensorPath) then
+          begin
+            AProcess.Parameters.Add('-Fu' + AvotensorPath);
+            MemoLogs.Lines.Add(TranslateAddedAvoTensorFrameworkPath + AvotensorPath);
+          end
+          else
+          begin
+            MemoLogs.Lines.Add(TranslateAvoTensorFrameworkFolderNotFound  + AvotensorPath);
+          end;
+
 
           //plik wyjściowy (-o)
         AProcess.Parameters.Add('-o' + FinalExePath);
@@ -2536,23 +2518,7 @@ end;
 
 procedure TFormMain.TranspilujKod;
 begin
-   ExtractProgramFromSynEdit;
-   if not Assigned(generatedCode) then
-      generatedCode := TgeneratedCode.Create(Application);
-
-  try
-    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    generatedCode.SynEditGeneratedCode.BeginUpdate;
-    try
-      generatedCode.SynEditGeneratedCode.Lines.Clear;
-      generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
-    finally
-      generatedCode.SynEditGeneratedCode.EndUpdate;
-    end;
-  except
-    on E: Exception do
-      MemoLogs.Lines.Add(TranslateSourceCodeError + E.Message);
-  end;
+  DoAnalyzeAndTranslate(True);
 end;
 
 procedure TFormMain.ListFunctionsFromSynEdit;
@@ -3315,29 +3281,66 @@ begin
 end;
 
 procedure TFormMain.DoAnalyzeAndTranslate(Silent: Boolean);
+var
+  Res: TAvocadoCompileResult;
+  I: Integer;
+  Diag: TAvocadoDiagnostic;
 begin
   ExtractProgramFromSynEdit;
+  if not Assigned(FErrAll) then
+    FErrAll := TStringList.Create;
+  FErrAll.Clear;
+  ListBoxErrCode.Items.Clear;
+
+  Res := FTranslator.Compile(SynEditCode.Lines);
   try
-    CheckAvocadoCode(Silent);
-    FTranslatedCode.Assign(FTranslator.Translate(SynEditCode.Lines));
-    IsConsoleProgram := not FTranslator.IsGUIProject;
+    IsConsoleProgram := not (Res.ProjectKind = apkGui);
 
-    if not Assigned(generatedCode) then
-      generatedCode := TgeneratedCode.Create(Application);
-
-    generatedCode.SynEditGeneratedCode.BeginUpdate;
-    try
-      generatedCode.SynEditGeneratedCode.Lines.Clear;
-      generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
-    finally
-      generatedCode.SynEditGeneratedCode.EndUpdate;
-    end;
-
-  except
-    on E: Exception do
+    // structured diagnostics from the new frontend
+    for I := 0 to Res.Diagnostics.Count - 1 do
     begin
-      MemoLogs.Lines.Add(TranslateTranslationError + ' ' + E.Message);
+      Diag := Res.Diagnostics[I];
+      FErrAll.Add(Diag.FormatText);
+      ListBoxErrCode.Items.Add(Diag.FormatText);
     end;
+
+    if Res.Success then
+    begin
+      FTranslatedCode.Assign(Res.GeneratedPascal);
+      if not Assigned(generatedCode) then
+        generatedCode := TgeneratedCode.Create(Application);
+      generatedCode.SynEditGeneratedCode.BeginUpdate;
+      try
+        generatedCode.SynEditGeneratedCode.Lines.Clear;
+        generatedCode.SynEditGeneratedCode.Lines.Assign(FTranslatedCode);
+      finally
+        generatedCode.SynEditGeneratedCode.EndUpdate;
+      end;
+      if not Silent then
+        MemoLogs.Lines.Add('Analiza zakończona poprawnie.');
+    end
+    else
+    begin
+      // never keep stale generated code after a failed translation
+      FTranslatedCode.Clear;
+      if Assigned(generatedCode) then
+      begin
+        generatedCode.SynEditGeneratedCode.BeginUpdate;
+        try
+          generatedCode.SynEditGeneratedCode.Lines.Clear;
+        finally
+          generatedCode.SynEditGeneratedCode.EndUpdate;
+        end;
+      end;
+      if not Silent then
+      begin
+        MemoLogs.Lines.Add(TranslateTranslationError);
+        TabErrors.TabVisible := True;
+        PageInfo.ActivePage := TabErrors;
+      end;
+    end;
+  finally
+    Res.Free;
   end;
 
 

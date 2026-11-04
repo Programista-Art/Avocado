@@ -1,2 +1,25 @@
 /backup
 /lib
+# --- Pliki binarne i wykonywalne ---
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+
+# --- Pliki kompilacji FPC (Free Pascal) ---
+*.o
+*.ppu
+*.a
+*.or
+*.s
+
+# --- Pliki sesji i tymczasowe Lazarus IDE ---
+*.lps
+*.bak
+*.~*
+*.compiled
+
+# --- Pliki platformy macOS / GDB ---
+*.dSYM/
+*.gdb

@@ -1,0 +1,11 @@
+program strumien
+glowny
+strumien_pliku a
+dword s = 0
+twórz_strumień_pliku(a,'test.txt',[tylko_odczyt])
+czytaj_bajt(s,a)
+czytaj_słowo(s,a)
+czytaj_s
+
+a.zwolnij
+koniec.

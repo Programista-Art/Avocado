@@ -1,0 +1,10 @@
+program downloadfile
+import internet
+main
+string error ='Bład pobierania'
+//string url = 'https://tomato.dimitalart.pl/images/tomato.jpg'
+string url = 'https://memoria.bn.gov.br/DocReader/cache/2014800353052/I0000001-D-0-010404-007888-008669-006575.JPG'
+string pathimg = 'D:\bazy\info\I0000001.jpg'
+download_file(url,pathimg,error)
+end.
+

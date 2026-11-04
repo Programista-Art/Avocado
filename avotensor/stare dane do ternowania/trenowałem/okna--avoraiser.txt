@@ -1,0 +1,683 @@
+﻿Moduł avoraiser.window zawiera (73 funkcje)
+Okna i Zarządzanie w Avoraiser
+W tej sekcji znajdziesz wszystkie funkcje do tworzenia, manipulowania i stylowania głównych okien (oraz ich potomków) w frameworku Avoraiser.
+
+ 
+Zarządzanie Oknami (Window Management)
+Podstawowe operacje (Basics)
+
+create_window  - Tworzy główne okno aplikacji na podstawie zdefiniowanych parametrów.
+
+ PL:   utworz_okno  |  EN:   create_window 
+Przykład użycia nazwa polska:
+
+utworz_okno(parametry)
+
+Przykład użycia nazwa angielska:
+create_window(params)
+
+Parametry nazwy angielskie:
+ui_parameters params - Struktura parametrów okna (kolor tła, wymiary itp.).
+Zwraca:   HWND - Uchwyt do utworzonego okna.
+
+Dostępne parametry okna
+params.title = 'Twoja Nazwa'     -  Tytuł okna
+params = default(TAvocadoWindowParams)   - Resetuje wartości parametrów na standardowe 
+    params.width = 400   - szerokość okna
+    params.height = 600   - wysokość okna
+    params.x = 200  - pozycja okna x
+    params.y = 200  - pozycja okna y
+    params.visible = true  - czy okno widoczne (true / false)
+    params.allowmaximize = true   - Maksymalizacja okna (true /False) 
+    params.allowdrag = true  - Przeciaganie okna za inne elementy okna (true /False) 
+    params.frameless = True  -  Okno bez ramki nowoczesne UI (true /False)  
+    params.BackgroundColor = $000000  - Kolor tła okna (BGR) lub można użyć konwersji na RGB - RGB(55, 96, 196)
+
+
+
+    Parametry nazwy polskie:
+parametry_ui params - Struktura parametrów okna (kolor tła, wymiary itp.).
+Zwraca:   HWND - Uchwyt do utworzonego okna.
+
+    Dostępne parametry okna
+   params.tytul = 'Twoja Nazwa'     -  Tytuł okna
+   params = default(TAvocadoWindowParams)  - Resetuje wartości parametrów na standardowe  
+   params.szerokosc = 400   - szerokość okna
+   params.wysokosc = 600   - wysokość okna
+   params.x = 200 - pozycja okna x
+   params.y = 200  - pozycja okna y
+   params.widoczne = prawda  - czy okno widoczne (prawda / falsz)
+   params.maksymalizacja = prawda   - Maksymalizacja okna (prawda / falsz) 
+   params.przeciaganie = prawda   - Przeciaganie okna za inne elementy okna (prawda / falsz) 
+   params.bezramkowe = prawda   - Okno bez ramki nowoczesne UI (prawda / falsz)  
+   params.kolor_tla = $000000  - Kolor tła okna (BGR) lub można użyć konwersji na RGB - RGB(55, 96, 196)   
+
+
+Przykład użycia nazwy polskie:
+Tworzy główne okno w Avoraiser.
+ avocado
+program_ui test
+import avoraiser.window
+uchwyt_okna moje_okno
+glowny
+  glowna_funkcja
+  uruchom_aplikacje()
+koniec.
+ 
+procedura glowna_funkcja
+poczatek
+  parametry_ui ui
+  ui = default(TAvocadoWindowParams)
+  ui.tytul = 'Okno w Avocado'
+  ui.szerokosc = 400
+  ui.wysokosc = 600
+  ui.x = 200
+  ui.y = 200
+  ui.widoczne = prawda
+  ui.maksymalizacja = prawda
+  
+  
+  //Tworzenie Okna Main
+  moje_okno = utworz_okno(ui)
+  
+  jezeli moje_okno <> 0 wtedy
+  poczatek
+    wysrodkuj_okno(moje_okno)
+    //Kod aplikacji
+   
+  koniec
+koniec   
+ 
+Przykład użycia nazwy angielskie:
+Tworzy główne okno w Avoraiser.
+ avocado
+program_ui test
+import avoraiser.window
+hwnd my_window
+main
+  my_win
+  run_app
+end.
+ 
+procedure my_win
+start
+  ui_parameters ui
+  ui = default(TAvocadoWindowParams)
+  ui.title = 'Okno w Avoraiser - Avocado'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = true
+  ui.allowmaximize = true
+  
+  
+  //Creating a Window Main
+  my_window = create_window(ui)
+  
+  if my_window <> 0 then
+  start
+    center_window(my_window)
+    //Application code
+   
+  end
+end               
+ 
+
+
+run  - Wyświetla okno i wchodzi w pętlę komunikatów.  
+ PL:   uruchom_petle()  |  EN:   run 
+    Parametry:
+  komunikat / message - Zmienna przechowująca komunikaty okna.
+    Przykład użycia nazwa polska:
+ avocado
+uruchom_petle(komunikat)
+ 
+    Przykład użycia nazwa angielska:
+ avocado
+run(message)
+ 
+
+
+run_app  - Ukrywa pętlę komunikatów przed użytkownikiem. Używana do uruchomienia głównej pętli aplikacji.
+ PL:   uruchom_aplikacje()  |  EN:   run_ap 
+    Parametry:
+  Wymagane nawiasy puste nawiasy na końcu ()
+    Przykład użycia nazwa polska:
+ avocado
+uruchom_aplikacje()
+ 
+    Przykład użycia nazwa angielska:
+ avocado
+run_app
+ 
+close_window  - Zamyka wybrane okno i zwalnia jego zasoby.
+ PL:   zamknij_okno  |  EN:   close_window 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna do zamknięcia.
+    Przykład użycia nazwa polska:
+ avocado
+zamknij_okno(uchwyt_okna)
+ 
+    Przykład użycia nazwa angielska:
+ avocado
+close_window(hwnd)
+ 
+
+destroy_window  - Natychmiast usuwa obiekt z pamięci i ekranu (nie pyta o zgodę i pomija OnCloseQuery). Idealne do usuwania przycisków czy paneli w trakcie działania programu.
+
+ PL:   zniszcz_okno  |  EN:   destroy_window 
+
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna lub kontrolki do zniszczenia.
+    Przykład użycia nazwa polska:
+zniszcz_okno(uchwyt_okna)
+    Przykład użycia nazwa angielska:
+destroy_window(hwnd)
+ 
+<!-- Trzeba poprawić kod -->
+
+     window_get_default_params  - Zwraca domyślne parametry (rekord TAvocadoWindowParams) używane do stworzenia okna.
+
+ PL:   pobierz_domyslne_parametry_okna  |  EN:   window_get_default_params 
+
+    Parametry:
+
+  TAvocadoWindowParams
+
+    Przykład użycia nazwa polska:
+
+ 
+parametry := pobierz_domyslne_parametry_okna()
+parametry = default(TAvocadoWindowParams)  // Aktualna funkcja
+
+ 
+
+Przykład użycia nazwa angielska:
+params := window_get_default_params()
+params = default(TAvocadoWindowParams)  // Aktualna funkcja
+
+ 
+   Wyświetlanie (Visibility & Focus)
+     show  - Pokazuje okno (jeśli było wcześniej ukryte).
+
+ PL:   pokaz  |  EN:   show 
+
+    Parametry:
+
+uchwyt_okna / hwnd - Uchwyt okna do pokazania.
+Przykład użycia nazwa polska:
+pokaz(uchwyt_okna)
+
+Przykład użycia nazwa angielska:
+show(hwnd)
+
+ 
+hide  - Ukrywa okno (staje się niewidoczne, ale program działa dalej w tle).
+ PL:   ukryj  |  EN:   hide 
+Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna do ukrycia.
+
+Przykład użycia nazwa polska:
+ukryj(uchwyt_okna)
+Przykład użycia nazwa angielska:
+hide(hwnd)
+
+ bring_to_top  - Wyciąga okno na sam wierzch (bez aktywowania / kradzenia klawiatury).
+ PL:   przenies_na_wierzch  |  EN:   bring_to_top 
+    Parametry:
+
+  uchwyt_okna / hwnd - Uchwyt okna.
+
+    Przykład użycia nazwa polska:
+przenies_na_wierzch(uchwyt_okna)
+Przykład użycia nazwa angielska:
+bring_to_top(hwnd)
+
+
+send_to_back  - Spycha okno na sam spód (pod wszystkie inne okna).
+ PL:   przesun_na_spod  |  EN:   send_to_back 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+
+    Przykład użycia nazwa polska:
+przesun_na_spod(uchwyt_okna)
+Przykład użycia nazwa angielska:
+send_to_back(hwnd)
+
+ activate_window  - Sprawia, że okno staje się aktywne i przyjmuje sygnały z klawiatury (Focus).
+ PL:   aktywuj_okno  |  EN:   activate_window 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna do aktywacji.
+    Przykład użycia nazwa polska:
+aktywuj_okno(uchwyt_okna)
+
+Przykład użycia nazwa angielska:
+activate_window(hwnd)
+
+set_window_enabled  - Blokuje lub odblokowuje okno. Bardzo przydatne do tworzenia "okien modalnych", kiedy chcesz wymusić reakcję użytkownika.
+
+ PL:   ustaw_okno_aktywne  |  EN:   set_window_enabled 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+  wlacz / enable -  true  /  prawda  aby odblokować,  false  /  falsz aby zablokować.
+Przykład użycia nazwa polska:
+
+ustaw_okno_aktywne(uchwyt_okna, prawda)
+Przykład użycia nazwa angielska:
+set_window_enabled(hwnd, true)
+Pozycja i Rozmiar (Geometry)
+
+center_window  - Ustawia okno dokładnie w centrum dostępnego obszaru pulpitu.
+PL:   wysrodkuj_okno  |  EN:   center_window 
+Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna do wycentrowania.
+    Przykład użycia nazwa polska:
+wysrodkuj_okno(uchwyt_okna)
+Przykład użycia nazwa angielska:
+center_window(hwnd)
+set_position  - Ustawia nową pozycję (X, Y) okna na ekranie.
+
+ PL:   ustaw_pozycje  |  EN:   set_position 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+  x, y / x, y - Nowe współrzędne okna na ekranie.
+
+    Przykład użycia nazwa polska:
+ustaw_pozycje(uchwyt_okna, x, y)
+    Przykład użycia nazwa angielska:
+set_position(hwnd, x, y)
+     set_size  - Zmienia szerokość i wysokość okna.
+ PL:   ustaw_rozmiar  |  EN:   set_size 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+  szerokosc, wysokosc / width, height - Nowe wymiary okna.
+    Przykład użycia nazwa polska:
+ustaw_rozmiar(uchwyt_okna, szerokosc, wysokosc)
+    Przykład użycia nazwa angielska:
+set_size(hwnd, width, height)
+     set_min_window_size  - Pozwala ustawić sztywne granice zmiany wielkości okna (np. minimalnie 300x200).
+
+ PL:   ustaw_minimalny_rozmiar_okna  |  EN:   set_min_window_size 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+  min_szerokosc, min_wysokosc / min_width, min_height - Minimalne dopuszczalne wymiary okna.
+    Przykład użycia nazwa polska:
+ustaw_minimalny_rozmiar_okna(uchwyt_okna, min_szerokosc, min_wysokosc)
+    Przykład użycia nazwa angielska:
+set_min_window_size(hwnd, min_width, min_height)
+    Pozycja i Rozmiar (Geometry)
+     get_x  - Pobiera aktualną współrzędną X lewego górnego rogu okna.
+
+ PL:   pobierz_x  |  EN:   get_x 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+pobierz_x(uchwyt_okna)
+    Przykład użycia nazwa angielska:
+get_x(hwnd)
+     get_y  - Pobiera aktualną współrzędną Y lewego górnego rogu okna.
+ PL:   pobierz_y  |  EN:   get_y 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+    Przykład użycia nazwa polska:
+pobierz_y(uchwyt_okna)
+ 
+    Przykład użycia nazwa angielska:
+get_y(hwnd)
+     get_width  - Pobiera aktualną całkowitą szerokość okna.
+ PL:   pobierz_szerokosc  |  EN:   get_width 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+    Przykład użycia nazwa polska:
+
+pobierz_szerokosc(uchwyt_okna)
+    Przykład użycia nazwa angielska:
+get_width(hwnd)
+
+
+get_height  - Pobiera aktualną całkowitą wysokość okna.
+ PL:   pobierz_wysokosc  |  EN:   get_height 
+Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+    Przykład użycia nazwa polska:
+pobierz_wysokosc(uchwyt_okna)
+    Przykład użycia nazwa angielska:
+get_height(hwnd)
+     get_client_area  - Zwraca obszar roboczy (TRect) wewnątrz okna, pomijając ramki i 
+wysokość paska tytułu.
+ PL:   pobierz_obszar_roboczy  |  EN:   get_client_area 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+pobierz_obszar_roboczy(uchwyt_okna)
+
+
+Przykład użycia nazwa angielska:
+get_client_area(hwnd)
+update_layout  - Przelicza pozycje dla podpiętego systemu kotwic (Anchors). 
+Wywoływane wewnątrz pętli komunikatów.
+ PL:   aktualizuj_uklad  |  EN:   update_layout 
+Parametry:
+
+  rodzic / parent_wnd - Uchwyt okna rodzica.
+    Przykład użycia nazwa polska:
+aktualizuj_uklad(rodzic)
+Przykład użycia nazwa angielska:
+
+
+update_layout(parent_wnd)
+
+Wygląd, Styl i Przezroczystość (Appearance)
+set_title  - Zmienia napis wyświetlany na pasku tytułu okna.
+ PL:   ustaw_tytul  |  EN:   set_title 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+nowy_tytul / new_title - Nowy tekst na pasku tytułu.
+Przykład użycia nazwa polska:
+ustaw_tytul(uchwyt_okna, nowy_tytul)
+Przykład użycia nazwa angielska:
+set_title(hwnd, new_title)
+
+ 
+get_window_title  - Pobiera aktualny tytuł okna (Alias dla get_text, dla czytelności).
+PL:   pobierz_tytul_okna  |  EN:   get_window_title 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna
+Przykład użycia nazwa polska:
+
+pobierz_tytul_okna(uchwyt_okna)
+Przykład użycia nazwa angielska:
+get_window_title(hwnd)
+
+ set_color  - Zmienia kolor tła okna i natychmiast je odrysowuje (usuwa stary pędzel by zapobiec wyciekom pamięci).
+
+ PL:   ustaw_kolor  |  EN:   set_color 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+kolor / color - Nowy kolor tła (DWORD).
+Przykład użycia nazwa polska:
+ustaw_kolor(uchwyt_okna, kolor)
+
+Przykład użycia nazwa angielska:
+set_color(hwnd, color)
+
+ get_color  - Pobiera aktual kolor tła okna.
+ PL:   pobierz_kolor  |  EN:   get_color 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+
+ 
+pobierz_kolor(uchwyt_okna)
+Przykład użycia nazwa angielska:
+get_color(hwnd)
+set_opacity  - Zmienia przezroczystość całego okna (0 - całkowicie niewidoczne, 
+255 - w pełni widoczne).
+
+PL:   ustaw_przezroczystosc  |  EN:   set_opacity 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+
+  widocznosc / opacity_value - Wartość przezroczystości (0-255).
+
+    Przykład użycia nazwa polska:
+ustaw_przezroczystosc(uchwyt_okna, widocznosc) 
+    Przykład użycia nazwa angielska:
+set_opacity(hwnd, opacity_value) 
+     set_caption_color  - Zmienia kolor samego paska tytułu.
+ PL:   ustaw_kolor_naglowka  |  EN:   set_caption_color 
+    Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+kolor / color - Nowy kolor paska.
+Przykład użycia nazwa polska:
+
+
+ustaw_kolor_naglowka(uchwyt_okna, kolor)
+Przykład użycia nazwa angielska:
+set_caption_color(hwnd, color)
+set_caption_text_color  - Zmienia kolor czcionki nagłówka na pasku tytułu.
+PL:   ustaw_kolor_tekstu_naglowka  |  EN:   set_caption_text_color 
+
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+kolor / color - Nowy kolor tekstu paska.
+Przykład użycia nazwa polska:
+ustaw_kolor_tekstu_naglowka(uchwyt_okna, kolor)
+Przykład użycia nazwa angielska: 
+set_caption_text_color(hwnd, color)
+
+set_border  - Włącza lub wyłącza ramki okna. Przydatne do przechodzenia w tryb 
+Fullscreen (bez ramek).
+ PL:   ustaw_obramowanie  |  EN:   set_border 
+Parametry:
+
+uchwyt_okna / hwnd - Uchwyt okna.
+wlacz / enable -  True  aby włączyć ramki,  False  aby wyłączyć.
+Przykład użycia nazwa polska:
+ustaw_obramowanie(uchwyt_okna, wlacz)
+Przykład użycia nazwa angielska:
+set_border(hwnd, enable)
+
+set_window_shadow  - Włącza lub wyłącza systemowy cień pod oknem 
+(szczególnie widoczne dla okien Frameless).
+ PL:   ustaw_cien_okna  |  EN:   set_window_shadow 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+wlacz / enable -  True  aby włączyć cień,  False  aby wyłączyć.
+Przykład użycia nazwa polska:
+
+ 
+ustaw_cien_okna(uchwyt_okna, wlacz)
+Przykład użycia nazwa angielska: 
+set_window_shadow(hwnd, enable)
+set_dark_mode  - Ustawia natywny tryb ciemny dla paska tytułu (Windows 10+).
+PL:   ustaw_tryb_ciemny  |  EN:   set_dark_mode 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+
+wlacz / enable -  True  aby włączyć tryb ciemny,  False  aby wyłączyć.
+Przykład użycia nazwa polska:
+ustaw_tryb_ciemny(uchwyt_okna, wlacz)
+Przykład użycia nazwa angielska: 
+set_dark_mode(hwnd, enable)
+
+Ustawienia Okna i Zachowania (Behaviors)
+set_always_on_top  - Przypina okno tak, aby stale znajdowało się nad wszystkimi 
+innymi aplikacjami.
+ PL:   ustaw_zawsze_na_wierzchu  |  EN:   set_always_on_top 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+wlacz / enable -  True  aby przypiąć,  False  aby odpiąć.
+Przykład użycia nazwa polska:
+
+ustaw_zawsze_na_wierzchu(uchwyt_okna, wlacz)
+Przykład użycia nazwa angielska:
+set_always_on_top(hwnd, enable)
+is_window_on_top  - Sprawdza, czy okno jest obecnie aktywne i na wierzchu 
+(korzysta z GetForegroundWindow).
+PL:   czy_okno_na_wierzchu  |  EN:   is_window_on_top 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+czy_okno_na_wierzchu(uchwyt_okna)
+
+Przykład użycia nazwa angielska:
+is_window_on_top(hwnd)
+maximize_window  - Rozszerza okno na cały ekran.
+PL:   zmaksymalizuj_okno  |  EN:   maximize_window 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna do zmaksymalizowania.
+Przykład użycia nazwa polska:
+zmaksymalizuj_okno(uchwyt_okna)
+Przykład użycia nazwa angielska:
+maximize_window(hwnd)
+minimize_window  - Ukrywa okno i zwija do ikony na pasku zadań.
+PL:   zminimalizuj_okno  |  EN:   minimize_window 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna do zminimalizowania.
+Przykład użycia nazwa polska:
+zminimalizuj_okno(uchwyt_okna)
+Przykład użycia nazwa angielska:
+minimize_window(hwnd)
+
+ 
+restore_window  - Przywraca okno do rozmiaru i położenia sprzed maksymalizacji 
+lub minimalizacji.
+PL:   przywroc_okno  |  EN:   restore_window 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna do przywrócenia.
+Przykład użycia nazwa polska:
+przywroc_okno(uchwyt_okna)
+Przykład użycia nazwa angielska:
+restore_window(hwnd)
+
+ 
+is_window_minimized  - Zwraca True, jeśli okno znajduje się na pasku zadań.
+PL:   czy_okno_zminimalizowane  |  EN:   is_window_minimized 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+czy_okno_zminimalizowane(uchwyt_okna)
+Przykład użycia nazwa angielska:
+is_window_minimized(hwnd)
+
+ 
+
+is_window_maximized  - Zwraca True, jeśli okno zajmuje cały ekran roboczy.
+PL:   czy_okno_zmaksymalizowane  |  EN:   is_window_maximized 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+czy_okno_zmaksymalizowane(uchwyt_okna)
+Przykład użycia nazwa angielska:
+
+ 
+is_window_maximized(hwnd)
+set_sizable  - Zezwala lub blokuje użytkownikowi możliwość zmiany rozmiaru okna 
+przez przeciąganie jego krawędzi.
+PL:   ustaw_zmiane_rozmiaru  |  EN:   set_sizable 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+wlacz / enable -  true  /  prawda  aby zezwolić,  False  /  falsz  aby zablokować skalowanie.
+Przykład użycia nazwa polska:
+ustaw_zmiane_rozmiaru(uchwyt_okna, wlacz)
+Przykład użycia nazwa angielska:
+set_sizable(hwnd, enable)
+set_window_resizable  - Funkcja do blokowania lub odblokowywania zmiany rozmiaru z poziomu kodu konwencji UI (skrót do sizable).
+
+PL:   ustaw_zmiane_rozmiaru_okna  |  EN:   set_window_resizable 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+mozna_zmieniac / is_resizable -  True  /  prawda  aby odblokować,  False  /  falsz  aby zablokować.
+
+Przykład użycia nazwa polska:
+ustaw_zmiane_rozmiaru_okna(uchwyt_okna, mozna_zmieniac)
+Przykład użycia nazwa angielska:
+set_window_resizable(hwnd, is_resizable)
+
+ set_window_minimize_button  - Ukrywa lub wyświetla przycisk "Minimalizuj" w 
+prawej części paska tytułu.
+PL:   ustaw_przycisk_minimalizacji  |  EN:   set_window_minimize_button 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+wlacz / enable -  True  aby pokazać,  False  aby ukryć.
+Przykład użycia nazwa polska:
+ustaw_przycisk_minimalizacji(uchwyt_okna, wlacz)
+Przykład użycia nazwa angielska:
+set_window_minimize_button(hwnd, enable)
+
+set_window_maximize_button  - Ustawia czy przycisk maksymalizacji ma być 
+włączony i widoczny.
+
+PL:   ustaw_przycisk_maksymalizacji_okna  |  EN:   set_window_maximize_button 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+wlaczone / enabled -  True  aby włączyć,  False  aby wyłączyć.
+Przykład użycia nazwa polska:
+ustaw_przycisk_maksymalizacji_okna(uchwyt_okna, wlaczone)
+Przykład użycia nazwa angielska:
+set_window_maximize_button(hwnd, enabled)
+
+ set_window_close_button  - Włącza lub wyłącza (wyszarza) domyślny krzyżyk 
+zamykający okno ("X").
+
+ PL:   ustaw_przycisk_zamkniecia_okna  |  EN:   set_window_close_button 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+wlaczone / enabled -  True  aby włączyć,  False  aby wyłączyć krzyżyk.
+Przykład użycia nazwa polska:
+
+ustaw_przycisk_zamkniecia_okna(uchwyt_okna, wlaczone)
+Przykład użycia nazwa angielska:
+set_window_close_button(hwnd, enabled)
+set_window_sticky  - Włącza mechanizm przyklejania ("snapping") okna do 
+krawędzi ekranu z zadaną precyzją.
+ PL:   ustaw_przyklejanie_okna  |  EN:   set_window_sticky 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+  wlacz / enable -  True  aby włączyć przyklejanie,  False  aby wyłączyć.
+  dystans_przyciagania / snap_distance - Odległość w pikselach, przy której okno ma 
+zostać przyciągnięte.
+    Przykład użycia nazwa polska:
+ustaw_przyklejanie_okna(uchwyt_okna, wlacz, dystans_przyciagania)
+    Przykład użycia nazwa angielska
+set_window_sticky(hwnd, enable, snap_distance)
+     flash_window  - Funkcja przydatna do powiadomienia użytkownika (miganie na 
+pasku zadań), kiedy okno znajduje się pod spodem lub jest zminimalizowane.
+ PL:   migaj_oknem  |  EN:   flash_window 
+    Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+  ilosc / count - Ilość mrugnięć ( -1  = w nieskończoność,  0  = zatrzymaj).
+  interwal / interval - Szybkość mrugania w milisekundach (lub  0  dla domyślnej).
+    Przykład użycia nazwa polska:
+migaj_oknem(uchwyt_okna, ilosc, interwal)
+Przykład użycia nazwa angielska:
+flash_window(hwnd, count, interval)
+avo_set_window_icons  - Ustawia główną ikonę dla okna na pasku tytułu i pasku 
+zadań.
+ PL:   ustaw_ikony_okna  |  EN:   set_window_icons 
+Parametry:
+  uchwyt_okna / hwnd - Uchwyt okna.
+  ikona_mała / icon_small - Uchwyt małej załadowanej ikony ( HICON ).
+  ikona_duża / icon_big - Uchwyt dużej załadowanej ikony ( HICON ).
+    Przykład użycia nazwa polska:
+ustaw_ikony_okna(uchwyt_okna, ikona_mała, ikona_duża)
+Przykład użycia nazwa angielska:
+set_window_icons(hwnd, icon_small, icon_big)
+
+ 
+
+get_window_monitor_info  - Zwraca strukturę z informacją o monitorze, na którym 
+znajduje się aktualnie okno (rozdzielczość, wirtualny obszar roboczy z pominięciem 
+paska zadań).
+
+PL:   pobierz_info_o_monitorze  |  EN:   get_window_monitor_info 
+Parametry:
+uchwyt_okna / hwnd - Uchwyt okna.
+Przykład użycia nazwa polska:
+pobierz_info_o_monitorze(uchwyt_okna)
+Przykład użycia nazwa angielska:
+
+get_window_monitor_info(hwnd)
+2. Kontrolki i Komponenty (Controls)
+set_text  - Ustawia tekst w dowolnej kontrolce (Edit, Label, Button, Window).
+PL:   ustaw_tekst  |  EN:   set_text 
+Parametry:
+uchwyt_kontrolki / hwnd - Uchwyt kontrolki.
+tekst / text - Tekst do ustawienia.
+Przykład użycia nazwa polska:
+ustaw_tekst(uchwyt_kontrolki, tekst)
+Przykład użycia nazwa angielska:
+set_text(hwnd, text)
+
+get_text  - Pobiera tekst z dowolnej kontrolki (Edit, Label, Button, Window).
+PL:   pobierz_tekst  |  EN:   get_text 
+Parametry:
+uchwyt_kontrolki / hwnd - Uchwyt kontrolki.
+Przykład użycia nazwa polska:
+pobierz_tekst(uchwyt_kontrolki)
+Przykład użycia nazwa angielska:
+get_text(hwnd)
+
+ 

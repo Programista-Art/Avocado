@@ -1,0 +1,12 @@
+program wdol
+główny
+test
+koniec.
+
+procedura test
+początek
+lc a = 5
+  dla a = 5 malejąco 1 wykonaj
+  pisz_linie('1')
+koniec
+

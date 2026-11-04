@@ -1,0 +1,14 @@
+﻿//Program w Avorender
+// Pobieramy to co wpisał użytkownik w input
+zmienna tresc_wiadomosci = pobierz_wartosc(wyszukaj_element("#pole_tekstowe"));
+
+// Tworzymy JSON, który chcemy wysłać
+zmienna json_dane = '{"autor": "Dyktator", "tekst": "' + tresc_wiadomosci + '"}';
+
+// Wysyłamy wiadomość prosto na serwer!
+wyslij_do_sieci("http://localhost:8080/api/wyslij_wiadomosc", json_dane, funkcja(odpowiedz)
+poczatek
+    // Ten blok wykona się dopiero, jak serwer potwierdzi odbiór (np. "Zapisano w bazie")
+    zmienna status = wyszukaj_element("#status");
+    ustaw_tekst(status, "Wysłano: " + odpowiedz);
+koniec);

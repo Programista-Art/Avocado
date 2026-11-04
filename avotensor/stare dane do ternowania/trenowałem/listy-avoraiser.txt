@@ -1,0 +1,147 @@
+﻿Listy i Pola Wyboru (Lists & Combo Boxes)
+
+Zestaw funkcji ułatwiających tworzenie i manipulowanie listami z elementami (klasy  ListBox  oraz  ComboBox ).
+
+1. ListBox (Lista Klasyczna)
+
+Klasyczna wielowierszowa lista rozwijalna lub z paskiem przewijania, w której użytkownik może kliknąć jeden lub wiele elementów.
+
+create_listbox 
+ PL:  Utwórz pole z listą opcji na wierzchu z Paskiem Przewijania |  EN:  Create listbox
+Podstawa do stworzenia formularza z opcjami od okna z użyciem LBS... stylów na oknie Parenta.
+   pascal
+create_listbox(Parent: HWND; X, Y, W, H: Integer): HWND;
+   
+list_add  /  AvocadoListAdd 
+ PL:  Dopisz pole tekstowe jako pozycję z numeracją od 0 u góry w listboxie na końcu do wyboru |  EN:  List add
+   pascal
+list_add(hList: HWND; const Text: UnicodeString);
+   
+
+list_clear  /  AvocadoListClear 
+ PL:  Całkowite odświeżenie puste (Zwolnienie buforu i widocznych liter u wyboru) z listy |  EN:  List clear
+list_clear(hList: HWND);
+   
+
+list_get_index  /  AvocadoListGetIndex 
+ PL:  Wyciągnięcie z ListBox liczbowego wskaźnika podświetlonej kursorem w WinAPI pozycji u użytkownika klikającego u UI. |  EN:  List get index
+Zwraca  -1  gdy nic nie ma wciśnięte w liście.
+function list_get_index(hList: HWND): Integer;
+   
+
+list_get_text  /  AvocadoListGetText 
+ PL:  Wydobycie z podświetlenia z listy zawartego wpisu (np z opcji 2  Pobierz Tekst z 'Czerwony'  do Stringu od aplikacji) |  EN:  List get text
+   pascal
+function list_get_text(hList: HWND): UnicodeString;
+   
+
+list_delete  /  AvocadoListDelete 
+ PL:  Wyrzucenie z indeksu z ListBox |  EN:  List delete
+Skasowanie pola o podanym u góry ID (np skasuj pierwszą u góry to 0 na indeksie). Zwraca pozostałe w kontenerze z liczbą od elementów (Lub  LB_ERR  gdy błąd z out-of-bounds).
+   pascal
+function list_delete(hList: HWND; Index: Integer): Integer;
+   
+list_delete_selected  /  AvocadoListDeleteSelected 
+ PL:  Usunięcie od razu bieżącego z naciśniętego po najechaniu i kliku (Skrócone z API usuwanie wybranego) z ListBox. |  EN:  List delete selected
+
+list_delete_selected(hList: HWND);
+   
+
+list_set_data  /  AvocadoListSetData 
+ PL:  Magiczne ID (Ukryte przypięte do tekstu na opcji u Listy - przechowuje dodatkowe pole liczbowe bazy danych od rekordu  Czerwony -> ID 23  gdzie ID=23 jest niewidoczne z ekranu). |  EN:  List set data
+Przypisz ukrytą liczbę w indeks z listą opcji i zachowaj.
+   pascal
+list_set_data(hList: HWND; Index: Integer; Value: Integer);
+   
+     list_get_data  /  AvocadoListGetData 
+ PL:  Odbiór z ID liczby od pola z wybranego tekstu od ListBox (z elementu). |  EN:  List get data
+   pascal
+function list_get_data(hList: HWND; Index: Integer): Integer;
+   
+
+     list_get_selected_data  /  AvocadoListGetSelectedData 
+ PL:  Wyjęcie od aktualnego z ListBox (Skrót od  GetData  przez Index Podświetlenia - klik w 'Czerwony' zwraca 23  ID  ukryte z bazy) |  EN:  List get selected data
+   pascal
+function list_get_selected_data(hList: HWND): Integer;
+   
+
+     list_insert  /  AvocadoListInsert 
+ PL:  Wepchnięcie do wewnątrz w połowie pomiędzy np 1 a 2 z Opcją Insert i odświeżenie indeksów poniżej dla tekstu |  EN:  List insert
+   pascal
+list_insert(hList: HWND; Index: Integer; const Text: UnicodeString);
+// Wstawienie np na samą górę: list_insert(hList, 0, 'Pierwsza');
+   
+
+     list_find  /  AvocadoListFind 
+ PL:  Sprawdź od ręki poprzez string np. czy w Liście masz  Opcję Czerwony  by zablokować drugi jej dodatek w liście opcji od systemu (Wyszukiwanie). Zwraca Numer Indeksu od  ListBox  lub  -1  przy braku elementu. |  EN:  List find
+   pascal
+function list_find(hList: HWND; const Text: UnicodeString): Integer;
+   
+
+     list_count  /  AvocadoListCount 
+ PL:  Zmierz objętość ile pozycji dodano w ListBox |  EN:  List count
+   pascal
+function list_count(hList: HWND): Integer;
+   
+
+     list_begin_update  /  list_end_update 
+ PL:  Blokady od Migającego Ekranu Listy przy petli  for  od dodawania 1000 elementów z bazy |  EN:  List begin update / end update
+Profesjonalne zatrzymanie Redraw ( WM_SETREDRAW = False ) odświeżeń w UI od pętli dla gładkiego wyrysowania okna po pełnej paczce do wgrania.
+   pascal
+list_begin_update(hList: HWND);
+// ... dodaj 1000 elementów z list_add
+list_end_update(hList: HWND);
+   
+set_listbox_selection_color 
+ PL:  Barwy u Najechanej lub zaznaczonej opcji od Avocado UI |  EN:  Set listbox selection color
+Dzięki Custom Draw i ListBox kontrolerze mamy tu ulepszony i wyjęty schemat zmiany z czarnego podświetlenia na dowolną jasną/ciemną kompozycję z  SelBgColor  i liter.
+   pascal
+set_listbox_selection_color(hList: HWND; SelBgColor, SelTextColor: DWORD);
+   
+2. ComboBox (Lista Rozwijana)
+Rozwijalne menu, łączące w sobie pole tekstowe (często pozwalające na wpisywanie z klawiatury) i ukrytą po rozwinięciu opcję z  ListBox .
+
+create_combo_box 
+ PL:  Wygeneruj opcję rozwijaną typu CBS... (Tylko rozwijana czy wpisywalna? Domyślnie z UI ComboBox API). |  EN:  Create combo box
+Wymaga wstrzyknięcia obsługi z  ComboBoxProc  od zablokowania malowania tła u opcji po klasycznym kliku lub zjazdu w krawędzie.
+   pascal
+create_combo_box(Parent: HWND; X, Y, Width, Height: Integer): HWND;
+   
+add_item_combo_box 
+PL:  Dopisz do zwiniętej i na koniec elementu tekstowego i w locie Zwróć na Index nowododaną literację od Opcji |  EN:  Add item combo box
+
+function add_item_combo_box(Handle: HWND; const Text: UnicodeString): Integer;
+   
+
+select_combo_box_index 
+ PL:  Oznaczenie na 0 czy 2 indeks jako narysowany od góry podglądowo jako "Podświetlona Startowa" opcja w zagnieżdżonym z UI ComboBoxie. |  EN:  Select combo box index
+   pascal
+select_combo_box_index(Handle: HWND; Index: Integer); // Np chcę na 3 opcji z góry, liczymy 0,1,2, czyli indeks 2 = Trzecia opcja od uruchomienia okienka.
+   
+
+clear_combo_box 
+ PL:  Wyrzuć i Wyczyszcz z całego pola Opcje |  EN:  Clear combo box
+Z użyciem  CB_RESETCONTENT  okienko wraca do 0 zawartości u opcji z listą.
+   pascal
+clear_combo_box(Handle: HWND);
+   
+
+get_combo_box_index 
+ PL:  Obecny u zwiniętego indeksu opcji z API z użytkownika wybrany w UI |  EN:  Get combo box index
+Zwraca na indeks od zera liczbę elementu u zaznaczonego (np z odczytu zapisanej przy zmianie od usera bazy w  0, 1, 2... ).
+   pascal
+function get_combo_box_index(hCombo: HWND): Integer;
+   
+
+get_combo_box_text  /  get_selected_combo_text 
+ PL:  Skrót od odczytu  CB_GETLBTEXT  z pobraną literową od rozwinięcia |  EN:  Get selected combo text
+   pascal
+function get_selected_combo_text(hCombo: HWND): UnicodeString;
+   
+
+set_dropdown_color 
+ PL:  Zmodyfikowanie Tła z Opcji Zsuwania W Dół z Listy w u Comboboxie np po przejściu Opcji na DarkMode z Menu Okna |  EN:  Set dropdown color
+Działa by kolor z tłem wysunął i zafarbował się po barwie  TextColor, BackgroundColor .
+   pascal
+set_dropdown_color(Handle: HWND; TextColor, BackgroundColor: DWORD);
+   

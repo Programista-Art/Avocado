@@ -1,0 +1,1545 @@
+﻿Wprowadzenie do języka Avocado
+Czym jest Avocado
+
+Avocado to imperatywny język programowania o charakterze proceduralnym, zaprojektowany z myślą o prostocie, czytelności oraz szybkim przyswajaniu podstaw programowania. Łączy klasyczne podejście znane z języków takich jak Pascal i C z nowoczesnym podejściem do narzędzi i ekosystemu.
+
+Język pełni jednocześnie rolę:
+
+    języka edukacyjnego,
+    języka skryptowego,
+    warstwy abstrakcji nad niższym poziomem (transpilacja).
+
+Paradygmat i model wykonania
+
+Avocado opiera się na modelu imperatywnym - instrukcje wykonywane są sekwencyjnie, krok po kroku. Programista bezpośrednio kontroluje przepływ programu poprzez: * przypisania zmiennych, * instrukcje warunkowe, * pętle, * wywołania procedur i funkcji.
+
+Model ten odpowiada klasycznemu podejściu: najpierw wykonaj A potem B jeśli warunek C wykonaj D.
+Struktura programu
+
+Programy w Avocado są organizowane w:
+
+    procedury (procedura / procedure),
+    funkcje (funkcja / function),
+    blok główny (główny / main).
+
+Każdy blok zawiera zestaw instrukcji wykonywanych w określonej kolejności. Podejście to wspiera modularność i czytelność kodu.
+Blok główny programu
+
+Każdy program musi zawierać blok główny (main / główny), od którego rozpoczyna się wykonanie programu.
+Blok główny:
+
+    nie jest procedurą,
+    stanowi punkt wejścia,
+    kończy się słowem end. (z kropką).
+
+polska składnia
+
+główny
+
+wywołaj_inną_procedurę
+
+koniec.
+
+angielska składnia 
+
+main
+
+call_other_procedure
+
+end.
+Struktura blokowa i kontrola przepływu
+Avocado wykorzystuje klasyczne konstrukcje programowania strukturalnego:
+
+    bloki: początek ... koniec / start ... end
+    instrukcje warunkowe: jeżeli ... wtedy ... inaczej / if ... then ... else
+    pętle:
+    dla / for
+    dopóki / while
+
+Te elementy stanowią fundament czytelnego i przewidywalnego kodu.
+Dwujęzyczna składnia
+
+Jedną z kluczowych cech języka Avocado jest pełne wsparcie dla składni polskiej i angielskiej.
+Możliwości:
+
+    używanie polskich słów kluczowych (jeżeli, dopóki, procedura),
+    używanie angielskich odpowiedników (if, while, procedure),
+    opcjonalne użycie znaków diakrytycznych (jeżeli / jezeli),
+    możliwość mieszania składni (choć zalecana jest spójność w projekcie).
+
+Zasada: składnia ma być wygodna dla programisty.
+Aktualny zakres języka
+Obecna wersja Avocado:
+
+    koncentruje się na programowaniu proceduralnym,
+    nie zawiera jeszcze mechanizmów programowania obiektowego (OOP),
+    rozwijana jest w kierunku rozszerzeń systemowych i frameworków.
+
+Wykonywanie i kompilacja
+
+Avocado wykorzystuje własny proces przetwarzania kodu źródłowego, który przekształca program w wydajną formę wykonywalną.
+Proces ten obejmuje:
+
+    analizę składniową i semantyczną,
+    walidację kodu,
+    optymalizację,
+    generowanie kodu wykonywalnego.
+
+Dzięki temu:
+
+    programy działają szybko i przewidywalnie,
+    środowisko zachowuje pełną kontrolę nad procesem kompilacji,
+    możliwy jest dalszy rozwój backendów (np. WebAssembly).
+
+Kierunek rozwoju
+
+Architektura Avocado została zaprojektowana w sposób umożliwiający rozwój wielu backendów wykonania. Aktualne kierunki obejmują:
+
+    natywny kod wykonywalny,
+    WebAssembly (w tym generowanie formatu WAT),
+    lekkie środowiska uruchomieniowe.
+
+Takie podejście pozwala zachować niezależność technologii oraz elastyczność wdrożeń.
+Ekosystem frameworków
+
+Avocado nie jest tylko językiem - to cały ekosystem narzędzi i frameworków:
+Avoraiser - GUI (desktop)
+
+Framework do budowy natywnych aplikacji desktopowych: 
+oparty o WinAPI,  nastawiony na wydajność,  bez ciężkich zależności,  kontrola niskopoziomowa UI
+AvocadoNet - sieć / backend
+Framework do komunikacji sieciowej i backendu:
+
+    obsługa protokołów,
+    komunikacja klient-serwer,
+    budowa usług sieciowych,
+    fundament pod aplikacje backendowe.
+
+Avorender - aplikacje webowe
+Framework do tworzenia aplikacji webowych:
+
+    warstwa frontend/web,
+    integracja z generowanym kodem,
+    kierunek: lekki runtime + renderowanie.
+Pobierz Avocado
+
+Pobierz Avocado dla systemu Windows https://sourceforge.net/projects/avocado-programming-language/files/Avocado%20Windows%2064%20bits/
+
+Prosty przykład apliakcjia konsolowej w Avocado
+Wpisz poniższy kod w IDE Avocado
+Na poczatku zawsze musi być słowo kluczowe "program" i nazwa programu będzie to nazwa skompilowanego pliku exe bez tego będzie domyślna nazwa "untitledprogram" a skompiluje się program bez nazwy ".exe"
+
+ 
+
+program helloworld
+główny
+  pisz_linie('Hello Wolrd')
+koniec.
+
+ 
+Całkowite
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Liczba całkowita 	liczba_całkowita 	liczba_calkowita, lc 	int 	Liczba całkowita ze znakiem o rozmiarze zależnym od platformy (zazwyczaj 4 bajty, np. -2147483648 do 2147483647) – zalecany typ domyślny.
+Liczba mała 	liczba_mała 	liczba_mala 	int16 	Liczba całkowita ze znakiem o rozmiarze 2 bajtów (-32768 do 32767).
+Liczba długa 	liczba_długa 	liczba_dluga 	int32 	Liczba całkowita ze znakiem o rozmiarze 4 bajtów (-2147483648 do 2147483647).
+Liczba krótka 	liczba_krótka 	liczba_krotka 	int8 	Liczba całkowita ze znakiem o rozmiarze 1 bajta (-128 do 127).
+Liczba 64-bit 	liczba64 	liczba64 	int64 	Liczba całkowita ze znakiem o rozmiarze 8 bajtów (-9223372036854775808 do 9223372036854775807).
+Bajt (8-bit, unsigned) 	bajt 	bajt 	byte 	Liczba całkowita bez znaku o rozmiarze 1 bajta (0 do 255).
+Liczba 16-bit bez znaku 	liczba16 	liczba16 	uint16 	Liczba całkowita bez znaku o rozmiarze 2 bajtów (0 do 65535) – liczba dodatnia, 16-bitowa.
+Liczba 32-bit bez znaku 	liczba32 	liczba32 	uint32 	Liczba całkowita bez znaku o rozmiarze 4 bajtów (0 do 4294967295) – liczba dodatnia, 32-bitowa.
+Duża liczba bez znaku (qword) 	qliczba 	qliczba 	qword 	Nie ma znaku, możesz przechowywać duże wartości binarne, adresy, maski bitowe, ID, znaczniki czasu, itp. Potrzebujesz dużych liczb całkowitych (większych niż LongWord), liczby nie mogą być ujemne, do operacji niskopoziomowych.
+
+
+Rzeczywiste
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Typ zmiennoprzecinkowy 	liczba_zm 	lzm 	real 	Typ zmiennoprzecinkowy o rozmiarze zależnym od implementacji (zazwyczaj odpowiada Double) – niezalecany do nowych projektów.
+Liczba pojedynczej precyzji 	liczba_pojedyncza 	liczba_pojedyncza 	ubyte 	Liczba zmiennoprzecinkowa o pojedynczej precyzji (4 bajty).
+Liczba podwójnej precyzji 	liczba_podwójna 	liczba_podwojna 	float 	Liczba zmiennoprzecinkowa o podwójnej precyzji (8 bajtów) – zalecany typ domyślny.
+Liczba rozszerzonej precyzji 	liczba_rozszerzona 	liczba_rozszerzona 	float80 	Liczba zmiennoprzecinkowa o rozszerzonej precyzji (10 bajtów).
+Liczba zgodna z Delphi 	liczba_zgodna_delphi 	liczba_zgodna_delphi 	comp 	Liczba całkowita o rozmiarze 8 bajtów, przechowywana jako zmiennoprzecinkowa (dla kompatybilności z Delphi).
+Typ do operacji finansowych 	liczba_waluta 	liczba_waluta 	decimal 	Typ danych do operacji finansowych, o stałej precyzji (8 bajtów).
+
+
+Logiczne
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Typ logiczny 	logiczny 	logiczny 	bool 	Przyjmuje wartości prawda lub fałsz (zazwyczaj 1 bajt).
+Typ logiczny jako bajt 	logiczny_bajt 	logiczny_bajt 	byte_bool 	Liczba – 0 oznacza fałsz, każda inna wartość to prawda (1 bajt).
+Typ logiczny jako słowo 	logiczne_słowo 	logiczne_slowo 	word_bool 	Podobny do logiczny_bajt, ale o rozmiarze 2 bajtów.
+Typ logiczny długi 	logiczny_długi 	logiczny_dlugi 	long_bool 	Podobny do logiczny_bajt, ale o rozmiarze 4 bajtów.
+
+Znakowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Pojedynczy znak 	znak 	znak 	char 	Pojedynczy znak (zazwyczaj 1 bajt, reprezentujący znak ASCII).
+Pojedynczy znak Unicode 	znak_unicode 	znak_unicode 	char32 	Pojedynczy znak Unicode (zazwyczaj 2 lub 4 bajty, zależnie od implementacji).
+
+Łańcuchowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Łańcuch znaków dynamiczny 	tekst 	tekst 	string 	Łańcuch znaków o dynamicznej długości – tzw. długi łańcuch.
+Łańcuch statyczny (maks. 255) 	tekst255 	tekst255 	string255 	Łańcuch o statycznej długości (maks. 255 znaków), z pierwszym bajtem przechowującym długość.
+Alias dla tekstu 	tekst_ansi 	tekst_ansi 	ansi_string 	Alias dla tekst.
+Łańcuch Unicode dynamiczny 	tekst_unicode 	tekst_unicode 	unicode_string 	Łańcuch Unicode o dynamicznej długości, zalecany do obsługi znaków spoza standardowego zestawu.
+Łańcuch Unicode systemowy 	tekst_systemowy 	tekst_systemowy 	wide_string 	Łańcuch Unicode, podobny do UnicodeString, lecz zarządzany przez system.
+Lista łańcuchów 	lista_tekstów 	lista_tekstow 	string_list 	Lista łańcuchów Unicode, podobna do UnicodeString, zarządzana przez system.
+
+Tablicowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Tablica liczbowa 	tablica_liczb nazwa = [1,2,3,4] 	tablica_liczb nazwa = [1,2,3,4] 	-- 	Tablica liczbowa o stałym rozmiarze.
+Tablica tekstowa 	tablica_tekstów nazwa = [’a’,’b’,’c’] 	tablica_tekstow nazwa = [’a’,’b’,’c’] 	-- 	Tablica tekstowa o stałym rozmiarze.
+Ustawienie rozmiaru tablicy 	ustaw_długość(tablica, 10) 	ustaw_dlugosc(tablica, 10) 	set_length(tablica, 10) 	Ustawienie rozmiaru tablicy tekstów i tablicy liczb.
+
+
+Zbiorowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Zbiór unikalnych elementów 	kolekcja 	kolekcja 	set 	Zbiór unikalnych elementów określonego typu (typ bazowy musi być prosty, np. znak lub typ wyliczeniowy).
+
+Wskaźnikowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Ogólny typ wskaźnikowy 	wskaźnik 	wskaznik 	pointer 	Ogólny typ wskaźnikowy, przechowujący adres pamięci.
+Wskaźnik do zmiennej 	wskaźnik_na 	wskaznik_na 	pointer_to 	Wskaźnik do zmiennej określonego typu.
+
+Wariantowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Zmienna mogąca przyjmować różne typy 	wariant 	wariant 	any 	Zmienna mogąca przechowywać dane różnych typów – używać ostrożnie (brak kontroli typu może prowadzić do błędów).
+Wariant kompatybilny z OLE 	oleVariant 	oleVariant 	ole_variant 	Wariant kompatybilny z technologią OLE (Object Linking and Embedding).
+
+Plikowe
+Typ (opis) 	Polska (z diakrytyką) 	Polska (bez) 	Angielska 	Opis
+Ogólny typ plikowy 	plik 	plik 	file 	Ogólny typ plikowy.
+Plik tekstowy 	plik_tekstowy 	plik_tekstowy 	text_file 	Plik tekstowy.
+Plik binarny 	plik_binarny 	plik_binarny 	binary_file 	Plik binarny.
+Plik z rekordami 	plik_struktur 	plik_struktur 	file_struct 	Plik zawierający rekordy określonego typu.
+
+
+
+Konwersje
+Polska 	Angielska 	Opis
+tekst_na_liczbę() 	str_int() 	Konwertuje tekst na liczbę całkowitą.
+bajt_na_logiczny() 	byte_bool() 	Rzutowanie. 0 → Falsz, każda inna wartość → Prawda.
+tekst_na_zmiennoprzecinkową() 	str_float() 	Konwertuje tekst na liczbę zmiennoprzecinkową.
+liczba_na_tekst() 	int_str() 	Konwertuje liczbę całkowitą na tekst.
+zmiennoprzecinkowa_na_tekst() 	float_str() 	Konwertuje liczbę zmiennoprzecinkową na tekst.
+rzeczywista() 	real() 	Konwertuje liczbę całkowitą na liczbę zmiennoprzecinkową.
+obetnij() 	trunc() 	Konwertuje liczbę zmiennoprzecinkową na liczbę całkowitą.
+logiczny_na_tekst() 	bool_str() 	Konwertuje wartość logiczną na tekst.
+tekst_na_liczbę_lub_domyślną(tekst, wartość_domyślna) 	str_int_def(tekst, wartość_domyślna) 	Konwertuje string na liczbę całkowitą. Jeśli konwersja się nie powiedzie, zwraca wartość domyślną.
+zaokrąglij(liczba_zmiennoprzecinkowa) 	round(liczba_zmiennoprzecinkowa) 	Zaokrągla liczbę zmiennoprzecinkową do najbliższej liczby całkowitej.
+na_całkowitą_16(większa_liczba_całkowita) 	word(większa_liczba_całkowita) 	Rzutowanie do liczby całkowitej 16-bitowej bez znaku.
+liczba_całkowita_32(większa_liczba_całkowita) 	long_int(większa_liczba_całkowita) 	Rzutowanie do liczby całkowitej 32-bitowej ze znakiem.
+liczebnik(liczba_całkowita) 	cardinal(int) 	Rzutowanie. Zapewnia konwersję na typ bez znaku.
+zmiennoprzecinkowa_na_tekst_formatowany 	float_strf(liczba_zmiennoprzecinkowa, format, precyzja, cyfry) 	Konwertuje liczbę zmiennoprzecinkową na string z kontrolowanym formatowaniem. format: ffGeneral, ffExponent, ffFixed, ffNumber, ffCurrency. precyzja i cyfry kontrolują liczbę cyfr.
+podwójna_precyzja() 	double(float80) 	Rzutowanie między typami zmiennoprzecinkowymi.
+Liczba_pojedyncza_na_zm(liczba_podwójna/Liczba_rozszerzona) 	single(float80) 	Rzutowanie do liczby zmiennoprzecinkowej pojedynczej precyzji.
+liczba_rozszerzona_na_pojedyńczą(Liczba_pojedyncza/liczba_podwójna) 	extended(ubyte/float) 	Rzutowanie do liczby zmiennoprzecinkowej rozszerzonej precyzji.
+liczba_na_znak(kod_ASCII) 	chr(kod_ASCII) 	Konwertuje kod ASCII (liczba całkowita) na znak.
+znak_na_liczbę(znak) 	ord(char) 	Konwertuje znak na jego kod ASCII (liczbę całkowitą).
+tekst_na_znak(znak) 	string(char) 	Tworzy jednoznakowy tekst z podanego znaku.
+znak_na_tekst(tekst[indeks]) 	char(string[index]) 	Pobiera znak z tekstu na danej pozycji (indeksowanie od 1).
+logiczny_na_tekst(logiczny, użyj wartości prawda lub falsz) 	bool_str(bool, użyj wartości true lub false) 	Konwertuje wartość logiczną (Logiczny) na Tekst. Jeśli używasz wartości Prawda/Falsz → "Prawda"/"Falsz", jeśli Falsz (domyślnie) → "1"/"0".
+tekst_na_logiczny(tekst) 	str_bool(string) 	Konwertuje string ("prawda", "falsz", "1", "0") na wartość logiczną. Wielkość liter nie ma znaczenia przy "prawda" i "falsz". Zwraca błąd przy nieprawidłowym tekście.
+tekst_na_logiczny_dom(tekst, wartość domyślna) 	str_bool_def(string, wartość domyślna) 	Konwertuje string na wartość logiczną. Jeśli konwersja się nie powiedzie, zwraca wartość domyślną.
+logiczny_z_liczby(liczba) 	bool(liczba) 	Rzutowanie. 0 → Falsz, każda inna wartość → Prawda.
+liczba_całkowita_z_logicznego(Logiczny) 	int(bool) 	Rzutowanie. Prawda → 1, Falsz → 0.
+liczba_całkowita_z_wyliczenia(wartość wyliczeniowa) 	ord(wartość wyliczeniowa) 	Zwraca numer porządkowy wartości wyliczeniowej (liczbę całkowitą).
+pobierz_nazwę_tekstu(TypWyliczeniowy, Liczba(wartość wyliczeniowa)) 	get_enum_name(TypWyliczeniowy, Liczba(wartość wyliczeniowa)) 	Zwraca nazwę wartości wyliczeniowej jako string. Wymaga modułu TypInfo.
+pobierz_wartość_wyliczenia(TypWyliczeniowy, Nazwa Wartości) 	get_enum_value(TypWyliczeniowy, Nazwa Wartości) 	Zwraca wartość wyliczeniową (jako liczbę całkowitą) na podstawie nazwy (Tekst). Wymaga modułu TypInfo.
+data_na_tekst(data) 	date_str(data) 	Konwertuje datę na tekst w domyślnym formacie.
+czas_na_tekst(czas) 	time_str(czas) 	Konwertuje czas na tekst w domyślnym formacie.
+data_czas_na_tekst(data i czas) 	date_time_str(data i czas) 	Konwertuje datę i czas na tekst w domyślnym formacie.
+formatuj_data_czas_na_tekst(format, data i czas) 	format_date_time(format, data i czas) 	Konwertuje datę i czas na tekst z użyciem podanego formatu (np. "yyyy-mm-dd hh:nn:ss").
+tekst_na_czas(tekst) 	str_to_time(string) 	Konwertuje tekst na czas.
+tekst_na_czas_dom(tekst) 	str_time_def(string) 	Konwertuje tekst na wartość czasu.
+tekst_na_datę_czas_dom(tekst) 	str_datetime_def(string) 	Konwertuje ciąg znaków na wartość daty i czasu. Jeśli konwersja się nie powiedzie, zwraca wartość domyślną.
+tekst_na_datę(tekst) 	str_date(string) 	Konwertuje tekst na datę i czas.
+tekst_na_datę_dom(tekst, wartość domyślna) 	str_date_def(string, wartość domyślna) 	Konwertuje string na datę. Jeśli konwersja się nie powiedzie, zwraca wartość domyślną.
+utwórz_datę(rok, miesiąc, dzień) 	encode_date(rok, miesiąc, dzień) 	Tworzy wartość daty z podanych składowych.
+utwórz_czas(godzina, minuta, sekunda, milisekunda) 	encode_time(godzina, minuta, sekunda, milisekunda) 	Tworzy wartość czasu z podanych składowych.
+rozłóż_datę(data, rok, miesiąc, dzień) 	decode_date(data, rok, miesiąc, dzień) 	Rozkłada wartość na rok, miesiąc i dzień.
+rozłóż_czas(czas, godzina, minuta, sekunda, milisekunda) 	decode_time(czas, godzina, minuta, sekunda, milisekunda) 	Rozkłada wartość na godzinę, minutę, sekundę i milisekundę.
+adres_zmiennej(liczba całkowita) 	ptr 	Konwertuje liczbę całkowitą na wskaźnik (Pointer). Używać ostrożnie, do niskopoziomowego kodu lub API.
+@zmienna 	@zmienna 	Operator pobrania adresu. Zwraca wskaźnik do zmiennej.
+adres_zmiennej_z_wskażnika 	int_ptr 	Operator pobrania adresu ze wskaźnika. Zwraca wskaźnik do zmiennej.
+
+
+Co to jest definicja funkcji?
+
+Definicja funkcji (nazywanej również procedurą) to stworzenie nazwanego bloku kodu, który wykonuje określone zadanie. Zamiast pisać ten sam kod wielokrotnie w różnych miejscach programu, definiujesz go raz, nadajesz mu nazwę, a następnie możesz go używać (wywoływać) wielokrotnie.
+
+Można o tym myśleć jak o tworzeniu nowej, własnej komendy w języku Avocado.
+Składnia Definicji
+
+W Avocado definicja funkcji składa się z trzech głównych części:
+
+    Nagłówek: Określa, że tworzymy nową funkcję i nadaje jej unikalną nazwę.
+
+    Blok startowy: Słowo kluczowe oznaczające początek instrukcji.
+
+    Ciało funkcji: Kod, który ma się wykonać.
+
+    Blok końcowy: Słowo kluczowe oznaczające koniec definicji.
+
+Schemat ogólny:
+
+
+funkcja nazwa_twojej_funkcji
+początek
+    // Tutaj wpisujesz instrukcje
+    // np. deklaracje zmiennych, operacje
+koniec
+
+Zasady Tworzenia Definicji
+Aby funkcja była poprawna i bezpieczna, należy przestrzegać kilku reguł:
+
+    Lokalizacja: Funkcje definiujemy poza blokiem main. Zazwyczaj umieszcza się je pod blokiem głównym programu.
+
+    Unikalność: Nazwa funkcji nie może się powtarzać w obrębie jednego programu.
+
+    Nazewnictwo:
+        Nazwa nie może zawierać spacji (używaj _ , np. moje_obliczenia).
+        Nazwa nie może zaczynać się od cyfry.
+        Nie używaj nazw zarezerwowanych (np. nie nazywaj funkcji if lub start).
+
+    Zawartość: Wewnątrz definicji możesz deklarować zmienne lokalne. Zmienne te będą widoczne tylko wewnątrz tej funkcji (pomiędzy początek a koniec).
+    Przykłady
+
+Funkcja z logiką i zmiennymi lokalnymi nazewnictwo polskie
+
+ 
+
+program mojafunkcja
+główny
+  lc wynik = dodaj(5, 10)
+  lc wynik2 = subtract(10, 2)
+  pozycja_kursora(10,50)
+  pisz_linie('Wynik dodawania: ', wynik)
+  pisz_linie('Wynik odejmowania: ', wynik2)
+koniec.
+
+//funkcja nazewnictwo polskie
+funkcja dodaj(a: lc; b: lc): lc
+początek
+  lc n = 10
+  zwróć a + b + n
+koniec
+
+//funkcja nazewnictwo angielskie
+function subtract(a: lc; b: lc): lc
+start
+  int n = 5
+  return a - b - n
+end   
+
+    Różnica między Definicją a Wywołaniem
+
+Ważne jest rozróżnienie dwóch pojęć:
+
+    Definicja (Tworzenie): To moment, w którym piszesz procedura nazwa ... początek ... koniec. W tym momencie kod nie jest jeszcze wykonywany, komputer tylko "uczy się", co ta funkcja ma robić.
+
+    Wywołanie (Użycie): To moment, w którym w bloku główny / main (lub innej funkcji) wpisujesz samą nazwę funkcji. Wtedy komputer skacze do definicji i wykonuje zawarty tam kod.
+
+Słowo kluczowe / Funkcja 	Polska 	Polska (bez diakrytyki) 	Angielska 	Opis
+deklaracja funkcji 	funkcja 	funkcja 	function 	Deklaracja własnej funkcji. Pozwala określić nazwę, parametry i typ zwracany.
+zwracanie wartości 	zwróć 	zwroc 	return 	Służy do zwrócenia wartości z funkcji. Może być użyte tylko wewnątrz funkcji.
+lokalna zmienna 	zmienna 	zmienna 	local variable 	Zmienna zadeklarowana wewnątrz funkcji, dostępna tylko w jej zakresie.
+
+
+
+Procedury
+Avocado jest językiem proceduralnym. Oznacza to, że kod programu jest zorganizowany w nazwane bloki zwane procedurami. Głównym celem procedur jest podzielenie skomplikowanego programu na mniejsze, czytelne i łatwiejsze do zarządzania fragmenty.
+W Avocado przepływ sterowania rozpoczyna się zawsze w bloku głównym (główny / main), który następnie wywołuje inne zdefiniowane przez programistę procedury
+Definiowanie Procedur
+
+Użytkownik może tworzyć własne procedury, używając słów kluczowych w języku polskim lub angielskim. Procedura składa się z nagłówka (nazwy) oraz ciała (bloku kodu) ograniczonego słowami początek i koniec.
+Procedura nazewnictwo polskie
+
+ 
+
+procedura [NazwaProcedury]
+początek
+    // Tutaj znajduje się kod procedury
+    // np. deklaracje lokalnych zmiennych, obliczenia, wywołania innych funkcji
+koniec
+
+Procedura nazewnictwo angielskie
+
+ 
+
+procedure [NazwaProcedury]
+start
+    // Tutaj znajduje się kod procedury
+    // np. deklaracje lokalnych zmiennych, obliczenia, wywołania innych funkcji
+end
+
+Słowa kluczowe (zamienne)
+Język Avocado jest elastyczny i obsługuje dwujęzyczne słowa kluczowe:
+
+    Nagłówek: procedura lub procedure
+
+    Początek bloku: początek / poczatek lub start
+
+    Koniec bloku: koniec lub end
+
+Zasady nazewnictwa:
+
+    Nazwa procedury musi być unikalna.
+
+    Nie może zawierać spacji (używaj podkreśleń, np. oblicz_podatek).
+
+    Nie może zaczynać się od cyfry.
+
+Wywoływanie procedury
+
+Aby wywołać zdefiniowaną procedurę, wystarczy wpisać jej nazwę wnowej linii.
+
+ 
+
+program mojprogram
+
+// Główny punkt wejścia
+główny
+    powitanie
+    obliczenia
+koniec.
+
+// Definicja pierwszej procedury
+procedura powitanie
+początek
+    pisz_linie('Witaj w Avocado!')
+koniec
+
+// Definicja drugiej procedury
+procedure obliczenia
+początek
+    pisz_linie('Druga procedura!')
+end
+
+Zmienne Lokalne i Globalne
+Avocado rozróżnia miejsce deklaracji zmiennych, co wpływa na ich widoczność (zakres):
+
+Zmienne Lokalne: Zadeklarowane wewnątrz bloku początek ... koniec procedury. Są widoczne tylko dla tej konkretnej procedury. Po zakończeniu procedury są usuwane z pamięci.
+
+
+procedura test
+początek
+    tekst a = 'Widoczne tylko tu'
+koniec
+
+Zmienne Globalne: Zadeklarowane poza procedurami (zazwyczaj na początku pliku lub przed blokiem główny / main). Są dostępne dla wszystkich funkcji i procedur w programie.
+
+
+program superprogram
+//globalna zmienna
+tekst a = 'Siemka'
+
+główny
+  test
+konie.
+
+procedura test
+początek
+    //Użycie zmiennej globalnej a
+    pisz_linie(a)
+koniec
+
+
+Arytmetyczne
+Operacje arytmetyczne na liczbach (4)
+Operator 	Opis
++ 	Dodawanie a + b.
+- 	Odejmowanie a - b.
+* 	Mnożenie a * b.
+/ 	Dzielenie a / b.
+
+Porównawcze
+Znak 	Opis
+= 	Równy — sprawdza, czy dwie wartości są sobie równe. Przykład: a = b
+<> 	Różny — sprawdza, czy wartości nie są sobie równe. Przykład: a <> b
+> 	Większy niż — sprawdza, czy lewa wartość jest większa od prawej. a > b
+< 	Mniejszy niż — sprawdza, czy lewa wartość jest mniejsza od prawej. a < b
+>= 	Większy lub równy — a >= b
+<= 	Mniejszy lub równy — a <= b
+=, <>, >, <, >=, <= 	Mogą być używane także do porównywania tekstu (alfabetycznie).
+
+
+Operacje nad tekstem (17)
+Funkcja PL 	Funkcja EN 	Parametry 	Opis
++ 	+ 	(lista, separator) 	Konkatenacja – operacja łączenia dwóch lub więcej ciągów znaków napisów, tekstów w jeden dłuższy ciąg.
+czytaj_klawisz 	read_key 	(tekst) 	Odczytuje pojedynczy znak z klawiatury bez echa (nie wyświetla się na ekranie). Przydatne do obsługi interakcji z użytkownikiem (np. "Naciśnij dowolny klawisz, aby kontynuować").
+długość / dlugosc(s) 	length 	(tekst) 	Zwraca liczbę znaków w tekście.
+kopiuj 	copy 	(źródło, początek, długość) 	Zwraca fragment tekstu źródło, zaczynając od pozycji początek (licząc od 1) i pobierając długość znaków. Parametry źródło – łańcuch wejściowy początek – indeks pierwszego znaku (1 = początek łańcucha) długość – liczba znaków do skopiowania
+wstaw 	insert 	(co, tekst, indeks) 	Wstawia podany tekst w określone miejsce w zmiennej.
+usuń 	delete 	(zmienna, indeks, ilość_znaków) 	Usuwa określoną liczbę znaków od podanej pozycji.
+duże_litery / duze_litery 	uppercase 	(tekst) 	Zamienia cały tekst na duże litery.
+duże_litery_ansi / duze_litery_ansi 	utf8_upper_case 	(tekst) 	Zamienia tekst na WIELKIE litery, z obsługą polskich znaków
+małe_litery / male_litery 	lowercase 	(tekst) 	Zamienia cały tekst na małe litery.
+małe_litery_ansi / male_litery_ansi 	utf8_lower_case 	(tekst) 	Zamienia cały tekst na małe litery, z obsługą polskich znaków
+przytnij 	trim 	(tekst) 	Usuwa spacje z początku i końca tekstu.
+przytnij_z_lewa 	trim_left 	(tekst) 	Usuwa spacje z lewej strony tekstu.
+przytnij_z_prawa 	trim_right 	(tekst) 	Usuwa spacje z prawej strony tekstu.
+powtórz_znak / powtorz_znak 	repeat_char 	(znak, ilość) 	Tworzy tekst z powtarzającego się znaku.
+porównaj_tekst / porownaj_tekst 	compare_text 	(tekst, tekst) 	Porównuje dwa napisy (uwzględnia wielkość liter) porównuję napisy, patrząc na ich zawartość od lewej do prawej. Porównanie kończy się w momencie, gdy napotka się pierwszą różnicę. Wynik porównania jest wtedy oparty na różnicy w wartościach kodów ASCII lub Unicode tych konkretnych, różnych znaków. Zwraca 0, jeśli są równe <0, jeśli s1 < s2 0, jeśli s1 > s2
+szukaj 	search 	(szukany, tekst) 	Zastępuje wszystkie wystąpienia szukany_tekst ciągiem nowy_tekst.
+zamień_tekst / zamien_tekst 	replace_text 	(oryginalny_tekst, szukany_tekst, nowy_tekst) 	Zamienia wszystkie wystąpienia podanego fragmentu.
+Przykłady
+Odczytuje pojedynczy znak z klawiatury bez echa (nie wyświetla się na ekranie). Przydatne do obsługi interakcji z użytkownikiem (np. "Naciśnij dowolny klawisz, aby kontynuować").
+Przykład.
+
+program test 
+główny
+    znak a = 's'
+    czytaj_linie(a)   
+    pisz_linie('Wynik: ',a )     
+koniec.
+
+Sprawdza czy został naciśnięty klawisz.
+Przykład.
+
+program przycisknacisniety 
+główny
+  jeżeli klawisz_wciśnięty 
+  wtedy 
+początek
+  pisz('Przycsk naciśnięty') 
+koniec
+inaczej 
+początek
+   pisz('Żaden przycsk nie naciśnięty') 
+koniec 
+koniec.
+
+Zwraca długość tekstu s.
+Przykład.
+
+program dlugosctekstu
+główny
+   tekst a = 'siema'
+   liczba_całkowita i = 0
+   i = długość(a)
+   pisz_linie('Tekst zawiera: ', liczba_na_tekst(i), ' znaków') 
+koniec.
+
+Zwraca fragment tekstu źródło, zaczynając od pozycji początek (licząc od 1) i pobierając długość znaków. Parametry źródło – łańcuch wejściowy początek – indeks pierwszego znaku (1 = początek łańcucha) długość – liczba znaków do skopiowania
+Przykład
+
+Program kopiowanie
+główny
+   tekst a = 'Ala'
+   pisz_linie(a)
+   tekst b = kopiuj(a, 1, 2)
+   pisz_linie(b)
+koniec.
+
+Wstawia podany tekst w określone miejsce w zmiennej.
+Przykład
+
+program alamakota
+główny
+   tekst a = 'Ala ma kota'
+   wstaw(' czarnego', a, 7)
+   pisz_linie(a)
+koniec.
+// Wynik: Ala ma czarnego kota
+
+Usuwa określoną liczbę znaków od podanej pozycji.
+Przykład
+
+program usuwanie
+główny
+  tekst a = 'Ala ma kota'
+  usuń(a, 1, 3)
+  pisz_linie(a)
+koniec.
+// Wynik:  ma kota
+
+Zamienia wszystkie litery w tekście na wielkie.
+Przykład
+
+program duzelitery
+główny
+   tekst a = 'siemka'
+   a = duze_litery(a)
+   pisz_linie(a)
+koniec.
+// Wynik: SIEMKA
+
+Zamienia wszystkie litery w tekście na małe. s - zmienna tekstowa.
+Przykład
+
+program malelitery
+główny
+    tekst a = 'SIEMA'
+    a = małe_litery(a)
+    pisz_linie(a)
+koniec.
+// Wynik: siema
+
+Usuwa spacje z początku i końca tekstu.
+Przykład
+
+program przycietytekst                            
+główny
+    tekst a = '  siema  '
+    a = przytnij(a)
+    pisz_linie(a)
+koniec.
+// Wynik: siema  
+
+Usuwa spacje tylko z końca tekstu.
+Przykład
+
+program przycietytekst
+główny
+    tekst b = '   Programista Art    '
+    tekst c = 'Wita'
+    tekst suma = przytnij_z_prawa(b) + c
+    pisz_linie(suma)
+koniec.
+// Wynik:    Programista ArtWita   
+
+Usuwa spacje tylko z początku tekstu.
+Przykład
+
+program przycietytekst
+główny
+   tekst b = '   Programista Art'
+   tekst c = c = przytnij_z_lewa(b)
+   pisz_linie(b)
+   pisz_linie(c)
+koniec.
+// Wynik: Programista Art  
+
+Tworzy tekst z powtarzającego się znaku.
+Przykład
+
+program powtorzenie
+główny
+   znak a = 'b'
+   liczba_całkowita ile = 10
+   tekst c = powtórz_znak(a,ile) 
+   pisz_linie(c)
+koniec.
+// Wynik: bbbbbbbbbb   
+
+Porównuje dwa napisy (uwzględnia wielkość liter) porównuję napisy, patrząc na ich zawartość od lewej do prawej. Porównanie kończy się w momencie, gdy napotka się pierwszą różnicę. Wynik porównania jest wtedy oparty na różnicy w wartościach kodów ASCII lub Unicode tych konkretnych, różnych znaków.
+
+Zwraca 0, jeśli są równe <0, jeśli s1 < s2 0, jeśli s1 > s2
+Przykład
+
+program porownajtekst
+główny
+  testowa
+koniec.
+
+procedura testowa
+początek
+  tekst a = 'Siema'
+  tekst b = 'Programista'
+  liczba_całkowita c = porównaj_tekst(a, b)  
+  pisz_linie(c) 
+koniec
+// Wynik: 3 oznacza, że pierwszy napis ('siema') jest "większy" od drugiego ('programista'). 
+
+Zwraca pozycję pierwszego wystąpienia znaku "szukany" w łańcuchu "tekst". Jeśli nie znajdzie – zwraca 0. Parametry szukany – znak lub słowo, którego szukamy tekst – zdanie, w którym szukamy
+Przykład
+
+program szukajslowo
+główny
+  test
+koniec.
+
+procedura test
+początek
+   tekst a = 'Siema programista'
+   tekst b = 'programista'
+   liczba_całkowita c = szukaj(b, a)
+jeżeli c > 0 wtedy
+początek
+   pisz_linie('znalezione: '+ b + ' pozycja: ' + liczba_na_tekst(c))
+koniec
+   inaczej
+     pisz_linie('brak szukanego słowa')
+koniec   
+
+Zastępuje wszystkie wystąpienia szukany_tekst ciągiem nowy_tekst.
+Przykład
+
+program zamientekst
+główny
+  test
+koniec.
+
+procedura test
+początek
+    tekst oryginalny_tekst = 'Ala ma kota.'
+    tekst zmieniony_tekst = ''
+    tekst szukany_tekst = 'kota'
+    tekst nowy_tekst = 'psa'
+    zmieniony_tekst = zamień_tekst(oryginalny_tekst, szukany_tekst, nowy_tekst)
+    pisz_linie(zmieniony_tekst)
+koniec
+// Wynik: Ala ma psa
+
+Zamienia tekst na WIELKIE litery, z obsługą polskich znaków
+Przykład
+
+program duze_litery
+główny
+   tekst a = 'Zażółć gęślą jaźń'
+   a = duże_litery_ansi(a)
+   pisz_linie(a)
+   // Wynik: ZAŻÓŁĆ GĘŚLĄ JAŹŃ
+koniec.
+
+Instrukcje warunkowe
+Instrukcja warunkowa jeżeli (1)
+Nazwa polska 	Nazwa angielska 	Opis
+jeżeli ... wtedy ... inaczej
+jezeli ... wtedy ... inaczej 	if ... then ... else 	Instrukcja warunkowa pozwalająca wykonywać kod tylko wtedy, gdy warunek logiczny jest spełniony.
+Przykład użycia nazewnictwo polskie:
+
+program warunki
+główny
+  test
+koniec.
+
+procedura test
+początek
+  liczba_calkowita a = 10
+  jeżeli a > 5 wtedy
+  początek
+    pisz_linie('a>5')
+  koniec
+  inaczej
+    pisz_linie('a<5')
+koniec 
+
+Przykład użycia nazewnictwo angielskie:
+
+program warunki
+main
+test
+end.
+
+procedure test
+start
+  int a = 10
+  if a > 5 then
+  start
+    print_line('a>5')
+  end
+  else
+    print_line('a<5')
+end 
+
+Pętle
+Rodzaje pętli (9)
+Nazwa polska 	Nazwa angielska 	Opis
+dla .. do .. wykonaj 	for ... to ... do 	Pętla wykonywana określoną liczbę razy. Licznik zmienia się automatycznie.
+przerwij 	break 	Natychmiast kończy działanie bieżącej pętli.
+kontynuuj 	continue 	Pomija resztę bieżącej iteracji i przechodzi do następnej.
+malejąco / malejaco 	descending 	Odliczanie w dół — odpowiednik downto.
+powtarzaj ... aż / powtarzaj ... az 	repeat ... until 	Pętla wykonywana przynajmniej raz, warunek sprawdzany na końcu.
+dopóki warunek wykonaj 	while warunek do 	Pętla wykonywana tak długo, jak warunek jest prawdziwy.
+pętla dla ... w ... wykonaj 	for ... in ... do 	Iteracja po elementach tablic, list, zbiorów itp.
+Używana, gdy z góry wiesz, ile razy chcesz wykonać kod. Licznik zmienia się automatycznie.
+
+Przykład polskie nazwy
+Przykład użycia:
+
+program forto
+główny
+   test
+koniec.
+
+procedura test
+początek
+   liczba_calkowita i = 0
+   dla i = 1 do 4 wykonaj
+   pisz_linie(i) 
+koniec
+//wynik: wypisze po kolei 1,2,3,4
+
+Przerwij / break - Pomocnicza funkcja - natychmiast kończy pętlę
+Przykład polskie nazwy
+
+program fortobreak
+główny
+   test
+koniec.
+
+procedura test
+początek
+   liczba_całkowita i = 0
+   dla i = 1 do 4 wykonaj
+   początek
+     jeżeli i = 3 wtedy
+     przerwij
+     pisz_linie(i)
+   koniec    
+koniec   
+//wynik: 1,2    
+
+Kontynuuj / continue - Pomocnicza funkcja - pomija resztę bieżącej iteracji i przechodzi do następnej
+Przykład polskie nazwy
+
+program fortobreak
+główny
+  test
+koniec.
+
+procedura test
+początek
+liczba_calkowita i = 0
+dla i = 1 do 4 wykonaj
+początek
+   jeżeli i = 3 wtedy
+   kontynuuj
+   pisz_linie(i)
+koniec 
+koniec 
+//wynik 1,2,4
+
+Malejąco / descending - Pętla odliczanie w dół (downto)
+Przykład polskie nazwy
+
+program descendingtest
+główny
+   liczba_całkowita i = 0
+   dla i = 5 malejaco 1 do
+   pisz_linie('Liczba: ', i);
+koniec.
+
+powtarzaj ... aż / repeat ... until - Podobna do while, ale warunek sprawdzany jest na końcu — czyli pętla wykona się przynajmniej raz. W repeat .. until warunek oznacza koniec pętli — czyli dopóki warunek jest False, pętla się powtarza.
+Przykład polskie nazwy
+
+program fortobreak
+główny
+  test
+koniec.
+
+procedura test
+początek
+   int a = 0
+powtarzaj
+   pisz_linie('Liczba: ', a);
+   a = a+1
+az a > 5
+koniec   
+
+Pętal dopóki warunek wykonać / while warunek do - Wykonuje się tak długo, jak warunek jest prawdziwy (True). Warunek sprawdzany jest przed każdą iteracją.
+
+Przykład polskie nazwy
+Przykład użycia:
+
+
+program testsiema
+główny
+  testowa
+koniec.
+
+procedura testowa
+początek
+    liczba_całkowita a = 1
+    dopóki a <= 5 wykonaj
+    początek
+      pisz_linie(' a: ', a)
+      a = a +1
+    koniec
+koniec  
+
+Pętla dla ... w ... wykonać, for .. in .. do (pętla po kolekcjach) Używana do iteracji po tablicach, listach, zbiorach itp.
+Przykład polskie nazwy
+
+program forin
+główny
+  test
+koniec.
+
+procedura test
+początek
+   tekst n = ''
+   tekst s = 'Ala ma kota'
+   dla n w s wykonaj
+   pisz_linie(n)
+   pisz_linie(s)
+koniec       
+
+Komentarze
+Komentarze (2)
+Nazwa 	Opis
+//komentarz 	Komentarz jednoliniowy — ignoruje resztę wiersza.
+(* kod *) 	Komentarz wielowierszowy — ignorowany jest cały blok.
+
+Konsola
+Czytanie i pisanie w konsoli (5)
+Nazwa polska 	Nazwa angielska 	Opis
+pisz() 	print() 	Wypisuje dane na wyjście w konsoli bez dodawania znaku nowej linii. Przykład: pisz('Hello World').
+pisz_linie() 	print_line() 	Wypisuje dane na wyjście w konsoli i dodaje znak nowej linii po wypisaniu. Można wypisywać wiele wartości, np. pisznl('Wartość a: ', a, ', wartość b: ', b).
+piszf('') 	printf('') 	Pozwala na formatowanie wyjścia przy pomocy specyfikatorów formatu. Np. piszf('Liczba: %d, zmiennoprzecinkowa: %.2f', [liczba, zmiennoprzecinkowa]). Przykład: piszf('Imię: %s, Wiek: %d lat, Wzrost: %.2f', [Imie, Wiek, Wzrost]).
+czytaj('') 	read('') 	Wprowadzanie danych przez użytkownika, odczytuje do napotkania znaku białego (spacja, tabulacja, enter). Przykład: czytaj('Wpisz imię').
+czytaj_linie('') 	read_line('') 	Wprowadzanie danych przez użytkownika, odczytuje całą linię (do znaku końca linii). Można odczytywać wiele zmiennych jednocześnie, np. czytaj_linie(a, b, c). Przykład: czytaj('Wpisz imię').
+
+Kolory tekstu
+Kolory (18)
+Nazwa polska 	Nazwa angielska 	Opis
+pozycja_kursora(x,y) 	cursor_position(x,y) 	Ustawia kursor w określonej pozycji w konsoli.
+tło_tekstu / tlo_tekstu 	text_background 	Ustawia kolor tła tekstu.
+kolor_tekstu 	text_color 	Ustawia kolor tekstu.
+czarny 	black 	Kolor czarny lub wartość 0.
+zielony 	green 	Kolor zielony lub wartość 2.
+żółty 	yellow 	Kolor żółty lub wartość 24.
+niebieski 	blue 	Kolor niebieski lub wartość 1.
+biały 	white 	Kolor biały lub wartość 15.
+cyjan 	cyan 	Kolor cyjan lub wartość 3.
+czerwony 	red 	Kolor czerwony lub wartość 4.
+magenta 	magenta 	Kolor magenta lub wartość 5.
+brązowy 	brown 	Kolor brązowy lub wartość 6.
+jasnoszary 	light_gray 	Kolor jasnoszary lub wartość 7.
+ciemnoszary 	dark_gray 	Kolor ciemnoszary lub wartość 8.
+jasnoniebieski 	light_blue 	Kolor jasnoniebieski lub wartość 9.
+jasnozielony 	light_green 	Kolor jasnozielony lub wartość 10.
+jasnoczerwony 	light_red 	Kolor jasnoczerwony lub wartość 12.
+jasnoróżowy 	light_magenta 	Kolor jasnoróżowy lub wartość 13.
+migotanie 	blink 	Efekt migotania lub wartość 128.
+
+program kolory początek kolory koniec.
+
+procedure kolory początek kolor_tekstu('czerwony') tło_tekstu('biały') print_line('Polska')
+
+kolor_tekstu('biały') tło_tekstu('czerwony') print_line('Poland') koniec
+
+Specyfikatory formatu
+Specyfikatory formatu (4)
+
+Specyfikatory formatu to specjalne sekwencje umieszczane w ciągu znaków (stringu), które informują funkcję formatującą piszf / printf o sposobie konwersji i wyświetlania podanych argumentów. Dzięki nim możesz kontrolować, w jaki sposób liczby, ciągi znaków i inne typy danych mają być przekształcone do postaci tekstowej.
+Nazwa polska 	Nazwa angielska 	Opis
+%d 	%d 	Format dla liczb całkowitych (decimal). Przykład: piszf('Wiek: %d lat', [wiek]).
+%f 	%f 	Format dla liczb zmiennoprzecinkowych. Przykład: piszf('Wzrost: %f', [Wzrost]).
+%.2f 	%.2f 	Format dla liczb zmiennoprzecinkowych z dwoma miejscami po przecinku. Przykład: piszf('Wzrost: %.2f', [Wzrost]).
+%s 	%s 	Format dla ciągów znaków. Przykład: piszf('Imię: %s', [Imie]).
+
+Zarządzanie programem
+Zarządzanie programem (2)
+Nazwa polska 	Nazwa angielska 	Opis
+zakończ(2) 	halt() 	Natychmiast kończy cały program. Parametr określa kod wyjścia (np. 2).
+wyjść 	exit 	Kończy bieżącą procedurę lub funkcję. W kodzie głównym kończy program.
+informacje_o_wyszukaniu 	search_record 	Struktura danych grupująca informacje o pliku: nazwę, rozmiar, datę modyfikacji i atrybuty. Wypełniana automatycznie przez funkcje wyszukiwania plików (np. FindFirst, FindNext).
+Przykład:
+
+program testpwyprogram
+główny
+  test
+koniec.
+
+procedura test
+start
+    liczba_całkowita a = 0
+    a = czytaj_linie('Podaj liczbę: ')
+    jezeli a < 0 wtedy
+    początek
+      exit
+    koniec
+    inaczej
+    początek
+      pisz_linie('Podana liczba to: ', a)
+      pisz_linie('Program nie zamyka się od razu')
+    koniec
+koniec
+
+
+Import modułów
+Import Modułów (1)
+Nazwa polska 	Nazwa angielska 	Opis
+importuj nazwa-modułu 	import nazwa-modułu 	Importuje moduł Pascala do projektu.
+
+Matematyka
+Moduł matematyka (55)
+Nazwa polska 	Nazwa angielska 	Opis
+oblicz('wyrażenie') 	calc('wyrażenie') 	Główna funkcja która oblicza wyrażenia matematyczne i trygonometryczne.
+oblicz_formatuj('wyrażenie', n) 	calc_format('wyrażenie', n) 	Oblicza wyrażenia matematyczne i trygonometryczne z określoną liczbą miejsc po przecinku.
+sin(x) 	sin(x) 	Zwraca sinus kąta 'x' (w radianach). Argument i wynik są typu 'liczba_rozszerzona' (typ zmiennoprzecinkowy o najwyższej precyzji).
+cos(x) 	cos(x) 	Zwraca cosinus kąta 'x' (w radianach). Argument i wynik są typu 'liczba_rozszerzona' Argument i wynik są typu 'liczba_rozszerzona'.
+tan(x) 	tan(x) 	Zwraca tangens kąta 'x' (w radianach). Argument i wynik są typu 'Liczba_rozszerzona' Uwaga: Dla kątów bliskich π/2 + kπ (gdzie tangens dąży do nieskończoności), wynik może być bardzo dużą liczbą lub może wystąpić błąd przepełnienia w zależności od kontekstu..
+arcsin(x) 	arcsin(x) 	Zwraca arcus sinus wartości x. Wynik jest kątem w radianach w zakresie [-π/2, π/2]. Argument x musi należeć do przedziału [-1, 1]. Podanie wartości spoza tego zakresu spowoduje błąd wykonania (lub zwróci NaN - Not a Number).
+arccos(x) 	arccos(x) 	Zwraca arcus cosinus wartości x. Wynik jest kątem w radianach w zakresie [0, π]. Argument x musi należeć do przedziału [-1, 1]. Podanie wartości spoza tego zakresu spowoduje błąd wykonania (lub zwróci NaN - Not a Number).
+arctan(x) 	arctan(x) 	Zwraca arcus tangens wartości x. Wynik jest kątem w radianach w zakresie (-π/2, π/2).
+arctan2(x,y) 	arctan2(x,y) 	Zwraca arcus tangens ilorazu y / x, ale bierze pod uwagę znaki obu argumentów (y i x), aby poprawnie określić ćwiartkę układu współrzędnych. Wynik jest kątem w radianach w zakresie (-π, π]). Jest to preferowana funkcja do obliczania kąta na podstawie współrzędnych (x, y), ponieważ ArcTan(y/x) nie rozróżnia między kątami różniącymi się o π (180 stopni). Jeśli 'x' i 'y' są oba równe 0, wynik jest zazwyczaj 0, ale zachowanie może zależeć od implementacji.
+degtorad(stopień) 	degtorad(degree) 	Konwertuje stopnie na radiany.
+dadtodeg(radian) 	dadtodeg(radian) 	Konwertuje radiany na stopnie.
+Pi 	Pi 	Reprezentuje liczbę π z dużą precyzją.
+cotan(x) 	cotan(x) 	Zwraca kotangens kąta x (w radianach).
+sinh(x) 	sinh(x) 	Zwraca sinus hiperboliczny wartości x.
+cosh(x) 	cosh(x) 	Zwraca cosinus hiperboliczny wartości x.
+tanh(x) 	tanh(x) 	Zwraca tangens hiperboliczny wartości x.
+arcsinh(x) 	arcsinh(x) 	Zwraca arcus sinus hiperboliczny wartości x.
+arctanh(x) 	arctanh(x) 	Zwraca arcus tangens hiperboliczny wartości x.
+sec(x) 	sec(x) 	Zwraca sekans kąta x (1/cos(x)).
+scc(x) 	scc(x) 	Zwraca kosekans kąta x (1/sin(x)).
+arccot(x) 	arccot(x) 	Zwraca arcus kotangens wartości x.
+arcsec(x) 	arcsec(x) 	Zwraca arcus sekans wartości x.
+arccsc(x) 	arccsc(x) 	Zwraca arcus kosekans wartości x.
+arccosh(x) 	arccosh(x) 	Zwraca arcus cosinus hiperboliczny wartości x.
+coth(x) 	coth(x) 	Zwraca kotangens hiperboliczny wartości x.
+ccsch(x) 	ccsch(x) 	Zwraca kosekans hiperboliczny wartości x.
+sech(x) 	sech(x) 	Zwraca sekans hiperboliczny wartości x.
+csc(x) 	csc(x) 	Zwraca kosekans kąta x.
+abs(x) 	abs(x) 	Zwraca wartość bezwzględną liczby x.
+sqr(x) 	sqr(x) 	Zwraca kwadrat liczby x.
+sqrt(x) 	sqrt(x) 	Zwraca pierwiastek kwadratowy z liczby x.
+ln(x) 	ln(x) 	Zwraca logarytm naturalny liczby x.
+power(x, y) 	power(x, y) 	Podnosi x do potęgi y.
+zwiększ(x) 	inc(x) 	Inkrementuje wartość x o 1.
+zmniejsz(x) 	dec(x) 	Dekrementuje wartość x o 1.
+ułamek(x) 	-- 	Zwraca część ułamkową liczby x.
+losuj() 	randomize() 	Inicjalizuje generator liczb losowych.
+losowy(max) 	random(max) 	Zwraca losową liczbę całkowitą w zakresie 0..max-1.
+Int(x) 	Int(x) 	Zwraca część całkowitą liczby x.
+odd(x) 	odd(x) 	Sprawdza, czy liczba całkowita x jest nieparzysta.
+log10(x) 	log10(x) 	Zwraca logarytm dziesiętny liczby x.
+log2(x) 	log2(x) 	Zwraca logarytm binarny liczby x.
+sufit(x) 	ceil(x) 	Zaokrągla liczbę w górę.
+podłoga(x) 	floor(x) 	Zaokrągla liczbę w dół.
+hypot(x,y) 	hypot(x,y) 	Zwraca długość przeciwprostokątnej √(x² + y²).
+min(x,y) 	min(x,y) 	Zwraca mniejszą z dwóch liczb.
+maks(x,y) 	max(x,y) 	Zwraca większą z dwóch liczb.
+zaokrąglić(x) 	round(x) 	Zaokrągla liczbę do najbliższej liczby całkowitej.
+czy_jest_nan(x) 	is_nan(x) 	Sprawdza, czy wartość x jest NaN.
+isinfinite(x) 	isinfinite(x) 	Sprawdza, czy wartość x jest nieskończona.
+isnanorinfinity(x) 	isnanorinfinity(x) 	Sprawdza, czy wartość x jest NaN lub nieskończona.
+iszero(A,[Epsilon]) 	iszero(A,[Epsilon]) 	Sprawdza, czy liczba A jest bliska zeru.
+isnegative(X) 	isnegative(X) 	Sprawdza, czy liczba X jest ujemna.
+isnanorinf(X) 	isnanorinf(X) 	Sprawdza, czy X jest NaN lub nieskończonością.
+odcięcie(X) 	trunc(X) 	Obcina część ułamkową liczby w kierunku zera.
+
+Internet
+Moduł internet (3)
+Nazwa polska 	Nazwa angielska 	Opis
+ping('adres_strony') 	ping('adres_strony') 	Sprawdza, czy dana strona internetowa odpowiada.
+pobierz_plik('adres_pliku', 'ścieżka_docelowa') 	download_file('adres_pliku', 'ścieżka_docelowa') 	Pobiera plik z internetu i zapisuje go w wskazanej lokalizacji.
+pobierz_strone('adres_strony', lista_tekstów, 'ścieżka_docelowa') 	download_page('adres_strony', lista_textów, 'ścieżka_docelowa') 	Pobiera stronę internetową, zapisuje jej zawartość w zmiennej typu lista_tekstów i do pliku.
+Przykłady
+Nazewnictwo polskie
+
+program testpingnew
+import internet
+
+główny
+  tekst weblink = 'www.programista.art'
+  pisz_linie('Funkcja sprawdza, czy dana strona odpowiada. ')
+  //użycie procedury
+  ping_strony(weblink)
+koniec.
+
+procedura ping_strony(link:string)
+początek
+    jeżeli ping(link) wtedy
+    początek
+      pisz_linie('Strona', link , ' odpowiada!')
+    koniec
+    inaczej
+      pisz_linie('Nie można nawiązać połączenia ', link)
+koniec
+
+Nazewnictwo angielskie
+
+program testpingnew
+import internet
+main
+    string weblink = 'www.programista.art'
+    print_line('Funkcja sprawdza, czy dana strona odpowiada. ')
+    //użycie procedury
+    ping_webs_site(weblink)
+end.
+
+procedure ping_webs_site(link:string)
+start
+    if ping(link) then
+    start
+       print_line('Strona', link , ' odpowiada!')
+    end
+    else
+       print_line('Nie można nawiązać połączenia ', link)
+end
+
+Nazewnictwo polskie
+
+program pobieramzdjecie
+importuj internet
+główny
+  pisz_linie('Witaj w programie pobierania zdjęcia ze strony dimitalart.pl' )
+  tekst linkstr = 'https://avocado.doc.dimitalart.pl/Avocado-ustawienia-nowy-motyw.png'
+  tekst pathstr = 'D:\bazy\info\ustawienia.jpg'
+  //użycie procedury pobierania
+  pobierzplik(linkstr,pathstr)
+koniec.
+
+procedure pobierzplik(link:string; path:string)
+początek
+  pobierz_plik(link, path)
+koniec       
+
+Nazewnictwo angielskie
+
+program pobieramzdjecie
+importuj internet
+main
+  print_line('Witaj w programie pobierania zdjęcia ze strony dimitalart.pl' )
+  string linkstr = 'https://avocado.doc.dimitalart.pl/Avocado-ustawienia-nowy-motyw.png'
+  string pathstr = 'D:\bazy\info\ustawienia.jpg'
+  //użycie procedury pobierania
+  download_file(linkstr,pathstr)
+end.
+
+procedure download_file(link:string; path:string)
+start
+  download_file(link, path)
+end       
+
+
+Pliki i katalogi
+Operacje na plikach (11)
+Nazwa polska 	Nazwa angielska 	Opis
+przypisz_plik(f, nazwa_pliku) 	assign_file(f, nazwa_pliku) 	Przypisuje zmienną plikową f do pliku o nazwie nazwa_pliku.
+otwórz_do_odczytu(f) / otworz_do_odczytu(f) 	open_read(f) 	Otwiera plik do odczytu.
+otwórz_do_zapisu(f) / otworz_do_zapisu(f) 	open_save(f) 	Otwiera plik do zapisu. Jeśli plik istnieje, jego zawartość jest nadpisywana.
+otwórz_do_dopisywania(f) / dopisz(f) 	append(f) 	Otwiera plik do dopisywania. Nowe dane są dodawane na końcu istniejącego pliku.
+zamknij_plik(f) 	close_file(f) 	Zamyka plik. Ważne, aby zawsze zamykać pliki po zakończeniu pracy z nimi.
+koniec_pliku(f) 	eof(f) 	Sprawdza koniec pliku; zwraca prawda, jeśli osiągnięto koniec pliku, w przeciwnym razie fałsz.
+pisz_linie(zmienna f: plik_tekstowy; tekst) 	print_line(zmienna f: plik_tekstowy; tekst) 	Zapisuje tekst do pliku na nowej linii.
+pisz(zmienna f: plik_tekstowy; tekst) 	print(zmienna f: plik_tekstowy; tekst) 	Zapisuje tekst w jednej linii w pliku.
+czy_istnieje_plik(nazwa) logiczny 	file_exists(nazwa) logiczny 	Sprawdza, czy plik o podanej nazwie istnieje.
+~~wynik_io~~ 	-- 	Zwraca kod błędu ostatniej operacji wejścia/wyjścia. Używane do sprawdzania poprawności operacji na plikach.
+Operacje na katalogach (8)
+Nazwa polska 	Nazwa angielska 	Opis
+zmień_katalog('ścieżka') / zmien_katalog('ścieżka') 	change_dir('path') 	Zmienia bieżący katalog.
+utwórz_katalog('ścieżka') / utworz_katalog('ścieżka') 	create_dir('path') 	Tworzy nowy katalog.
+usuń_katalog('ścieżka') / usun_katalog('ścieżka') 	remove_dir('path') 	Usuwa katalog (katalog musi być pusty).
+pobierz_katalog_bieżący / pobierz_katalog_biezacy 	get_current_dir 	Zwraca ścieżkę do bieżącego katalogu.
+czy_istnieje_katalog('ścieżka') 	directory_exists('path') 	Sprawdza, czy katalog istnieje.
+parametr_programu(index) 	get_argument(index) 	Zwraca parametr o numerze index przekazany do programu z linii poleceń.
+pobierz_zmienną_środowiskową(nazwa) / pobierz_zmienna_srodowiskowa(nazwa) 	get_env(name) 	Zwraca wartość zmiennej środowiskowej o podanej nazwie.
+ustaw_zmienną_środowiskową / ustaw_zmienna_srodowiskowa 	se
+
+lista_tekstów
+Obiekty (19)
+Oznaczenie
+
+l - nazwa listy
+
+w - wartość p - zmienna plikowa
+Nazwa polska 	Nazwa angielska 	Opis
+lista_tekstów / lista_tekstow 	string_list 	Typ danych oparty na klasie. Posiada właściwości, metody i zdarzenia. Umożliwia tworzenie oraz obsługę listy tekstów, w tym dodawanie, usuwanie i sortowanie elementów.
+twórz_lista_tekstów(l) / tworz_lista_tekstow(l) 	create_string_list(l) 	Tworzy nową listę
+dodaj_lista(l,w) 	add_list(l,w) 	Dodaje element do listy
+ilość(l) / ilosc(l) 	count(l) 	Liczba elementów
+pisz_linie(teksty(l,0)) 	print_line(strings(l,0)) 	Pobiera jeden element
+pisz_linie(l.tekst) 	print_line(l.text) 	Wypisywanie wszystkich elementów z listy
+czytaj_od_pozycji_wskaźnika(p,0) / czytaj_pw(p,0) 	read_from_pointer_position(p,0) / seek(p,0) 	Ustawia pozycję rekordu w pliku, pozycja liczy się od 0, działa tylko dla plików binarnych, jednostką przesunięcia jest rozmiar rekordu
+wstaw_do_listy(l,indeks,'w') 	insert_to_list(l,indeks,'w') 	Wstawianie elementu na konkretną pozycję
+usuń_z_listy(l,indeks) / usun_z_listy(l,indeks) 	delete_from_list(l,indeks) 	Usuwanie elementu po indeksie
+usuń_z_listy_id(l,w) / usun_z_listy(l,w) 	delete_from_list_id(l,w) 	Usuwanie elementu po wartości
+wyczyść_listę(l) / wyczysc_liste(l) 	clear_list(l) 	Czyszczenie całej listy
+ustaw_tekst(l,1,'w') 	set_text(h,1,'w') 	Ustawianie nowej wartości elementu
+sortuj_listę(l,logiczny) / sortuj_liste(l,logiczny) 	sort_list(l,logiczny) 	Włączenie automatycznego sortowania
+ręcznie_sortuj_listę(l) / recznie_sortuj_liste(l) 	manually_sort_list(l) 	Ręczne sortowanie
+znajdź_indeks_lista(zmienna int, lista, ‘wartość)’ / znajdz_indeks_lista(zmienna int, lista, ‘wartość’) 	find_index_list(zmienna int, lista, ‘wartość’) 	Znajdowanie indeksu tekstu
+szukaj_wartość_w_liście / szukaj_wartosc_w_liscie 	search_value_in_list 	Szybkie wyszukiwanie w posortowanej liście
+załaduj_z_pliku(l,‘nazwa_pliku.txt’) / zaladuj_z_pliku(lista,‘nazwa_pliku.txt’) 	load_from_file(lista,‘nazwa_pliku.txt’) 	Wczytanie z pliku
+.tekst 	.text 	Pobiera zawartość listy_tekstów jako jeden ciąg znaków.
+zwolnij 	free 	Zwalnia zasób z pamięci.
+
+program listatekstoww
+main 
+ test 
+end.
+
+procedura test
+poczatek
+lista_tekstów s
+tekst a
+twórz_lista_tekstów(s)
+dodaj_lista(s,Ala)
+dodaj_lista(s,ma)
+dodaj_lista(s,kota)
+
+dla a w s wykonać
+pisz_linie(a)
+koniec      
+
+program wstawianielisty
+glowny
+test
+koniec.
+
+procedura test
+poczatek
+lista_tekstów a
+twórz_lista_tekstów(a)
+dodaj_lista(a,tekst1)
+dodaj_lista(a,tekst2)
+wstaw_do_listy(a,1,'Nowy tekst')
+pisz_linie(a.tekst)
+a.zwolnij
+koniec
+
+Szybkie wyszukiwanie w posortowanej liście
+
+przykład
+jeżeli szukaj_wartość_w_liście(h,'Hi',a) wtedy
+początek
+    pisz_linie('Znaleziono!')
+koniec
+
+
+Fragmenty kodu w innych językach
+Fragmenty kodu w innych językach (3)
+Nazwa polska 	Nazwa angielska 	Opis
+asm { kod asemblera } → 	asm { kod asemblera } 	Wstawienie kodu asemblera w Avocado.
+pascal{kod pascala} 	pascal{kod pascala} 	Wstawienie bloku kodu Pascala w Avocado.
+pascal_linia{kod pascala} 	pascal_line{kod pascala} 	Wstawienie kodu Pascala w jednej linii w Avocado.
+Przykłady
+Wstawka kodu asemblera w Avocado
+
+program asmtest
+główny
+  asmobliczenie
+koniec.
+
+procedura asmobliczenie
+początek
+liczba_całkowita wynik = 0
+asm{
+asm
+  mov eax, 7
+  mov ebx, 8
+  imul eax, ebx
+  mov wynik, eax
+end;
+}
+pisz_linie(wynik)
+koniec   
+
+Wstawka bloku kodu pascala w Avocado
+
+program testkodupascala
+główny
+liczba_całkowita liczba = 0
+pascal{
+  if liczba > 0 then
+  WriteLn('Liczba jest dodatnia.')
+  else if liczba < 0 then
+  WriteLn('Liczba jest ujemna.')
+  else
+  WriteLn('Liczba jest równa zero.');
+}
+koniec.
+
+Wstawka kodu pascala w jedenj linii w Avocado
+
+program testkodupascalanowe
+główny
+  pascal_linia{WriteLn('Siema!');}
+  // angielska nazwa
+  pascal_line{WriteLn('Siema 2!');}
+koniec.     
+
+
+Przykłady kodu
+Przykłady aplikacji
+Program - Test predkości Avocado 1 miliad interakcji
+
+program benchmarkavocado
+główny
+ pisz_linie('Test predkości Avocado 1 miliad interakcji')
+ pisz_linie('Czekaj na wynik...')
+ speed_avocado
+koniec.
+
+
+procedura speed_avocado
+początek
+liczba_długa i = 0
+qliczba czas_start = 0
+qliczba czas_stop = 0
+liczba64 suma = 0
+  czas_start = GetTickCount64
+  dla i = 1 do 1000000000 wykonaj
+  start
+   suma = suma + 1
+   czas_stop = GetTickCount64
+  koniec
+    pisz_linie('Czas wykonania 1 miliard iteracji: ', (czas_stop - czas_start), ' ms');
+    pisz_linie('Wynik kontrolny: ', suma);
+koniec
+
+Program - obliczenie wartości
+
+program calculation
+
+main
+  print_line('I''am in the main program.')
+  calculation(4,4)
+end.
+
+procedure calculation(numb1: int; numb2: int)
+start
+  int a = numb1
+  int b = numb2
+  int c = numb1 + numb2
+  print_line('Calculation result: ', c)
+end  
+
+Program - rysuje polską falgę
+
+program kolory
+main
+  kolory
+end.
+
+procedure kolory
+start
+  kolor_tekstu('*czerwony')
+  tło_tekstu('*biały')
+  print_line('Polska')
+
+  kolor_tekstu('*biały')
+  tło_tekstu('*czerwony')
+  print_line('Poland')
+end   
+
+Program - pętla dla ... malejąco .. wykonać
+
+program wdol
+start
+test
+koniec.
+
+procedura test
+start
+lc a = 5
+  dla a = 5 malejąco 1 wykonaj
+  pisz_linie('1')
+koniec
+
+Program - randomowa liczba
+
+program randomowa
+main
+  test
+end.
+
+procedure test
+start
+  randomize
+  //Random maximum number 100
+  int a = random(100)
+  print_line(a)
+end     
+
+Program - Wyświetlanie napisów w UTF-8
+
+program testowaniekodu
+główny
+    pisz_linie('śćźżą')
+    pisz_linie('Привет Мир')
+    pisz_linie('Hello')
+    pisz_linie('ÜÖ')
+    pisz_linie('你好世界')
+    pisz_linie('مرحبا بالعالم')
+    pisz_linie('हैलो वर्ल्ड')
+koniec.           
+
+
+Avoraiser framework GUI dla Avocado (desktop)
+
+Avoraiser to wysokowydajny framework do tworzenia natywnych aplikacji desktopowych w Avocado. Został zaprojektowany jako lekka, bezpośrednia warstwa nad WinAPI, zapewniająca pełną kontrolę nad interfejsem użytkownika przy minimalnym narzucie.
+Założenia projektowe
+Avoraiser powstał z naciskiem na:
+
+    maksymalną wydajność (bez dodatkowych warstw abstrakcji),
+    minimalny rozmiar aplikacji wynikowej,
+    brak zewnętrznych zależności (Zero-Runtime),
+    pełną kontrolę nad systemem i renderingiem,
+    prostą integrację z językiem Avocado.
+
+Framework nie korzysta z klasycznych widgetsetów ani ciężkich bibliotek UI — operuje bezpośrednio na natywnych API systemu.
+Kluczowe cechy
+
+    Natywne WinAPI
+    Bezpośrednia komunikacja z systemem operacyjnym.
+    Wysoka wydajność
+    Brak pośrednich warstw (np. VCL/LCL), co przekłada się na szybki start i niskie zużycie zasobów.
+    Lekkość aplikacji
+    Bardzo mały rozmiar plików wykonywalnych, odpowiedni dla aplikacji typu portable.
+    Rendering GDI+
+
+Obsługa:
+
+    antyaliasingu,
+    przezroczystości (alpha channel),
+    rysowania kształtów i grafiki z pamięci.
+    Nowoczesny wygląd UI
+    Dark Mode,
+    okna typu Frameless (bez ramki systemowej),
+    skalowanie interfejsu.
+    Pełna obsługa Unicode W tym polskie znaki diakrytyczne.
+    Wbudowane funkcje systemowe
+    schowek (clipboard),
+    dialogi systemowe,
+    drag & drop.
+
+Generowanie PDF
+
+Wbudowany moduł do tworzenia dokumentów i raportów.
+Moduł kryptograficzny avoraiser.cryptography
+
+Natywny moduł kryptograficzny przeznaczony do szyfrowania danych oraz bezpiecznego przetwarzania haseł.
+Obsługiwane mechanizmy
+
+    AES-256-GCM — szyfrowanie danych z uwierzytelnieniem
+    PBKDF2 (SHA-256) — wyprowadzanie klucza z hasła
+
+Kluczowe właściwości
+Brak zewnętrznych zależności
+
+Moduł wykorzystuje bezpośrednio systemowe API kryptograficzne Windows (CNG / BCrypt), co eliminuje potrzebę użycia dodatkowych bibliotek runtime.
+Strumieniowe szyfrowanie (Chunked GCM)
+
+Umożliwia przetwarzanie bardzo dużych plików przy niskim zużyciu pamięci operacyjnej (rzędu kilku MB).
+Ochrona hasła (PBKDF2)
+
+Zastosowanie wysokiej liczby iteracji (np. 500 000) zwiększa odporność na ataki słownikowe i brute-force.
+Integralność danych (GCM + AAD)
+
+Każdy fragment danych jest uwierzytelniany. Naruszenie integralności (np. zmiana pojedynczego bitu) powoduje błąd podczas odszyfrowywania.
+Charakterystyka implementacji
+
+    bezpośrednie wykorzystanie Windows CNG (Cryptography Next Generation)
+    możliwość użycia sprzętowej akceleracji AES
+    minimalny narzut na rozmiar pliku wykonywalnego
+
+Moduł hashowania haseł oparty o Argon2id.
+
+Argon2id jest aktualnym standardem branżowym przeznaczonym do ochrony haseł przed atakami słownikowymi, brute-force oraz atakami z użyciem GPU.
+Zakres funkcjonalny
+Moduł udostępnia kompletne API do obsługi haseł:
+
+    hashowanie haseł (Argon2id),
+    weryfikację hashy,
+    automatyczną ocenę parametrów bezpieczeństwa (NeedsRehash).
+
+Mechanizmy bezpieczeństwa
+
+Automatyczne wykrywanie przestarzałych hashy Funkcja NeedsRehash pozwala określić, czy istniejący hash spełnia aktualne wymagania bezpieczeństwa (np. liczba iteracji, pamięć). Umożliwia to stopniową migrację hashy bez wymuszania resetu haseł.
+Obsługa peppera
+
+    możliwość użycia dodatkowego sekretu (pepper),
+    ładowanie z zmiennych środowiskowych,
+    bezpieczne usuwanie z pamięci po użyciu.
+
+Generowanie soli (CSPRNG)
+Sól generowana jest przy użyciu kryptograficznie bezpiecznego generatora liczb losowych (Windows CNG / BCrypt).
+Ochrona danych w pamięci
+
+    blokowanie pamięci (VirtualLock),
+    zerowanie buforów po użyciu,
+    minimalizacja czasu przechowywania danych wrażliwych.
+
+Charakterystyka implementacji
+
+    wykorzystanie referencyjnej implementacji Argon2,
+    lokalna kompilacja (brak zewnętrznych, niezweryfikowanych binariów),
+    integracja z natywnym środowiskiem Windows.
+
+Zalety
+
+    większa kontrola nad parametrami bezpieczeństwa niż w typowych wrapperach,
+    gotowość do zastosowań produkcyjnych (np. systemy autoryzacji),
+    możliwość automatycznej aktualizacji hashy w czasie działania aplikacji.
+
+Ograniczenia
+
+    wymagana natywna biblioteka: argon2.dll,
+    zależność od mechanizmów Windows (np. VirtualLock).
+
+Zastosowanie
+
+Moduł może być używany jako podstawa dla:
+
+    systemów logowania i autoryzacji,
+    aplikacji backendowych,
+    bezpiecznego przechowywania danych uwierzytelniających.
+
+Przykład
+Przykład prostej aplikacji z UI w Avocado
+
+Nazewnictwo polskie
+
+program_ui test
+import avoraiser.window
+uchwyt_okna moje_okno
+glowny
+  glowna_funkcja
+  uruchom_aplikacje()
+koniec.
+
+procedura glowna_funkcja
+poczatek
+  parametry_ui ui
+  ui = default(TAvocadoWindowParams)
+  ui.tytul = 'Okno w Avocado'
+  ui.szerokosc = 400
+  ui.wysokosc = 600
+  ui.x = 200
+  ui.y = 200
+  ui.widoczne = prawda
+  ui.maksymalizacja = prawda
+
+
+  //Tworzenie Okna Main
+  moje_okno = utworz_okno(ui)
+
+  jezeli moje_okno <> 0 wtedy
+  poczatek
+    wysrodkuj_okno(moje_okno)
+    //Kod aplikacji
+
+  koniec
+koniec
+
+Nazewnictwo angielksie
+
+program_ui test
+import avoraiser.window
+hwnd my_window
+main
+  my_win
+  run_app
+end.
+
+procedure my_win
+start
+  ui_parameters ui
+  ui = default(TAvocadoWindowParams)
+  ui.title = 'Hello Avoraiser'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = true
+  ui.allowmaximize = true
+
+
+  //Creating a Window Main
+  my_window = create_window(ui)
+
+  if my_window <> 0 then
+  start
+    center_window(my_window)
+    //Application code
+
+  end
+end
+
+Avocado UI Editor
+
+Avocado UI Editor - wizualny edytor interfejsów, który będzie korzystał bezpośrednio z frameworka Avoraiser. Celem jest projektowanie okien i kontrolek wizualnie, a nie tylko w kodzie. Avocado zmierza w stronę kompletnej platformy do tworzenia nowoczesnych aplikacji desktopowych na Windows.

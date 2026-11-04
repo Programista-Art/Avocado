@@ -1,0 +1,151 @@
+﻿Okna Dialogowe i Powiadomienia (Dialogs & Menus)
+
+Framework Avoraiser udostępnia szereg gotowych, wbudowanych okien dialogowych – począwszy od standardowych komunikatów systemowych, po nowoczesne, własne okna (Custom Dialogs), toasty (dymki) oraz menu kontekstowe.
+
+ 1. Standardowe Komunikaty (MessageBox)
+Proste funkcje wykorzystujące systemowe okna dialogowe Windows.
+
+show_message 
+ PL:  Pokaż komunikat |  EN:  Show message
+Wyświetla proste okienko z informacją i przyciskiem "OK".
+ pascal
+show_message(Owner: HWND; const Title, Text: UnicodeString);
+ 
+
+ask_question 
+ PL:  Zadaj pytanie (Tak/Nie) |  EN:  Ask question
+Wyświetla okno z pytaniem i przyciskami "Tak" / "Nie". Zwraca  True , jeśli użytkownik wybrał "Tak".
+ pascal
+function ask_question(Owner: HWND; const Title, Text: UnicodeString): Boolean;
+ 
+
+show_warning 
+ PL:  Pokaż ostrzeżenie |  EN:  Show warning
+Wyświetla systemowe okienko z ikoną żółtego wykrzyknika i przyciskiem "OK".
+ pascal
+show_warning(Owner: HWND; const Title, Text: UnicodeString);
+ 
+
+ 2. Niestandardowe Okna Dialogowe (Custom Dialogs)
+
+Avoraiser pozwala na wyświetlanie nowoczesnych, okien dialogowych, które dopasowują się do reszty aplikacji (np. trybu ciemnego).
+   show_custom_dialog  - Wyświetla spersonalizowane okno dialogowe 
+Avocado i blokuje aplikację do czasu jego zamknięcia.
+
+ PL:   pokaz_wlasne_okno_dialogowe  |  EN:   show_custom_dialog 
+
+Parametry:
+
+ uchwyt_okna / Handle - Okno główne.
+
+ tytul / title - Tytuł okna.
+ opis / description - Treść okna.
+ kolor_tla / bg_color - Kolor tła.
+ kolor_tekstu / text_color - Kolor tekstu.
+ kolor_akcentu / accent_color - Kolor akcentu.
+ przyciski / buttons - Rodzaj przycisków (np.  DlgBtnYesNo ).
+
+ Dostępne typy przycisków ( Buttons ): 
+-  DlgBtnOK  (tylko OK)
+-  DlgBtnOKCancel  (OK, Anuluj)
+-  DlgBtnYesNo  (Tak, Nie)
+-  DlgBtnYesNoCancel  (Tak, Nie, Anuluj)
+-  DlgBtnAbortRetryIgnore  (Przerwij, Ponów, Ignoruj)
+-  DlgBtnRetryCancel  (Ponów, Anuluj)
+
+  Przykład użycia nazwa polska:
+
+
+pokaz_wlasne_okno_dialogowe(uchwyt_okna, tytul, opis, kolor_tla, kolor_tekstu, 
+kolor_akcentu, przyciski)
+
+Przykład użycia nazwa angielska:
+show_custom_dialog(Handle, title, description, bg_color, text_color, 
+accent_color, buttons)
+
+
+set_dialog_language 
+ PL:  Ustaw język okien dialogowych |  EN:  Set dialog language
+Zmienia język przycisków (np. "Tak" vs "Yes") dla customowych okien dialogowych.
+ pascal
+set_dialog_language(Lang: TDialogLanguage);
+// Dostępne opcje: LangPL, LangEN
+ 
+ 3. Okna Wprowadzania Danych (Input & Password)
+
+Gotowe formularze żądające od użytkownika wpisania wartości. Zwracają  True , jeśli użytkownik zatwierdził przyciskiem OK. Wartość jest wpisywana bezpośrednio do przekazanej zmiennej  Value .
+
+   input_box  - Wysuwa okno z prośbą o wpisanie tekstu przez użytkownika. 
+Zwraca True, jeśli użytkownik zatwierdził.
+
+ PL:   okno_wprowadzania  |  EN:   input_box 
+Parametry:
+ wlasciciel / owner - Okno główne.
+
+ tytul / title - Tytuł okna.
+ zacheta / prompt - Komunikat zachęcający do wpisania.
+ wartosc / value - Zmienna na wpisany tekst.
+ Kolor_tła / bg_color - kolor tła.
+ Kolor_tekstu / bg_color - kolor tekstu.
+ Kolor_akcentujący / accent_color - Kolor akcentujący
+ Kolor_tła_pola / edit_bg_color -  Kolor tła pola
+ Kolor_tekstu_pola/ edit_text_color - Kolor tekstu pola
+
+  Przykład użycia nazwa polska:
+
+ 
+okno_wprowadzania(wlasciciel, tytul, zacheta, wartosc, Kolor_tła, Kolor_tekstu, Kolor_akcentujący, Kolor_tła_pola, Kolor_tekstu_pola)
+
+Przykład użycia nazwa angielska:
+input_box(owner, title, prompt, value,  bg_color, TextColor, accent_color, edit_bg_color, edit_text_color)
+
+ password_box 
+ PL:  Pole do wpisywania hasła |  EN:  Password box
+Wyświetla okno podobne do  input_box , ale maskuje wpisywane znaki (np. hasła dostępu lub klucze API).
+ pascal
+function password_box(
+  Owner: HWND;
+  const Title, Prompt: UnicodeString;
+  var Value: UnicodeString;
+  BgColor, TextColor, AccentColor, EditBgColor, EditTextColor: DWORD
+): Boolean;
+ 
+
+ 4. Inne Powiadomienia (Toasts & Sheets)
+
+Lekkie komunikaty i powiadomienia, które nie blokują głównego toku działania programu, lub stanowią nowoczesną alternatywę dla standardowych menu.
+
+   show_toast 
+ PL:  Pokaż powiadomienie typu "Toast" |  EN:  Show toast
+Wyświetla w rogu lub na dole ekranu powiadomienie-dymek. Nie blokuje okna rodzica i znika automatycznie po określonym czasie ( Duration  w milisekundach).
+ pascal
+procedure show_toast(Owner: HWND; const MessageText: UnicodeString; BgColor, TextColor: DWORD; Duration: Integer = 3000);
+ 
+show_action_sheet 
+ PL:  Pokaż panel akcji |  EN:  Show action sheet
+Wyświetla modny w aplikacjach mobilnych pionowy panel z dużymi przyciskami (opcjami) do wyboru. Zwraca indeks klikniętego przycisku (0, 1, 2...) lub  -1 , jeśli anulowano klikając poza okno.
+ pascal
+function show_action_sheet(Owner: HWND; const Title: UnicodeString; const Options: array of UnicodeString; BgColor, TextColor, AccentColor: DWORD): Integer;
+ 
+
+show_progress_dialog 
+ PL:  Okno z oknem paska postępu |  EN:  Show progress dialog
+Tworzy eleganckie, niemodalne okno z kręcącym się kółkiem ładowania lub paskiem postępu. Zwraca uchwyt okna, by móc je w odpowiednim momencie zamknąć.
+ pascal
+function show_progress_dialog(Owner: HWND; const Title, Status: UnicodeString; AccentColor: DWORD): HWND;
+ 
+
+ 5. Wybór Plików i Menu Kontekstowe (Files & Context Menu)
+
+   get_file_name_from_user  /  get_save_file_name 
+ PL:  Pobierz ścieżkę do pliku od użytkownika |  EN:  Get file name from user
+Otwiera systemowe okno dialogowe "Otwórz plik" (jeśli  IsSave  = False) lub "Zapisz jako" (jeśli  IsSave  = True), filtrując np. odpowiednie rozszerzenia.
+ pascal
+function get_file_name_from_user(Handle: HWND; IsSave: Boolean): UnicodeString;
+// Wewnętrznie filtry podajemy z NullCharami np. 'Obrazy PNG' 0'*.png' 0...
+ 
+ show_context_menu 
+ PL:  Pokaż Menu Kontekstowe |  EN:  Show context menu
+Tworzy menu w pamięci RAM, podczepia wcześniej skonfigurowane pozycje i natychmiast je wyświetla dokładnie w miejscu kursora myszy. Automatycznie reaguje na kliknięcia, jeśli podpięto odpowiednie funkcje zwrotne.
+ pascal
+procedure show_context_menu(HTarget: HWND);

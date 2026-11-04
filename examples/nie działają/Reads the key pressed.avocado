@@ -1,0 +1,11 @@
+program czytajklawisz
+start
+  test
+koniec.
+
+procedura test
+start
+  znak a ='d'
+  read_key(a)
+  pisz_linie('Wybrany klawisz: ', a)
+end

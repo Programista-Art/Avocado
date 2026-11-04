@@ -1,0 +1,83 @@
+program Kalkulator
+glowny
+    pisz_linie('Prosty kalkulator')
+    obliczenia
+koniec.
+
+
+//funkcje
+funkcja dodaj(a: lzm; b: lzm ): lzm
+start
+ zwróć a + b
+end
+
+funkcja odejmij(a,b:lzm ): lzm
+start
+ zwróć a - b
+end
+
+funkcja dzielic(a,b: lzm ): lzm
+start
+ zwróć a / b
+end
+
+funkcja mnozyc(a: lzm; b: lzm ): lzm
+start
+ zwróć a * b
+end
+
+
+procedura obliczenia
+start
+  tekst liczba_a = ''
+  tekst liczba_b = ''
+  pisz_linie('Liczba pierwsza')
+  czytaj_linie(liczba_a)
+  pisz_linie('Liczba druga')
+  czytaj_linie(liczba_b)
+
+  pisz_linie('Operacja: 1 (dodać), 2 (odjąć), 3 (dzielić), 4 (mnożyć), 5 (powonie liczyć)')
+  pisz_linie('Operacja: ')
+  lzm a = tekst_na_zmiennoprzecinkową(liczba_a)
+  lzm b = tekst_na_zmiennoprzecinkową(liczba_b)
+  znak symbol = 'a'
+  lzm suma = 0
+  czytaj_linie(symbol)
+
+jeżeli symbol = '1' wtedy
+start
+  suma = dodaj(a,b)
+koniec
+
+jeżeli symbol = '2' wtedy
+start
+  suma = odejmij(a,b)
+koniec
+
+jeżeli symbol = '3' wtedy
+start
+ suma = dzielic(a,b)
+koniec
+
+jeżeli symbol = '4' wtedy
+start
+ suma = mnozyc(a,b)
+koniec
+  //pokazuje wynik
+  pisz_linie('Wynik: ', suma:0:2)
+  czytaj_linie()
+koniec
+
+
+
+
+
+
+
+
+
+
+
+
+
+

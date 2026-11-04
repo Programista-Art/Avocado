@@ -1,0 +1,5 @@
+﻿program odczytajklawisz
+main
+znak a = czytaj_klawisz
+pisz('Wybrany klawisz: ', a)
+end.

@@ -1,0 +1,15 @@
+program mojafunkcja
+główny
+  lc wynik = dodaj(5, 10)
+  lc wynik2 = subtract(10, 2)
+  pozycja_kursora(10,50)
+  pisz_linie('Wynik dodawania: ', wynik)
+  pisz_linie('Wynik odejmowania: ', wynik2)
+koniec.
+
+//funkcja nazewnictwo polskie
+funkcja dodaj(a: lc; b: lc): lc
+początek
+  lc n = 10
+  zwróć a + b + n
+koniec

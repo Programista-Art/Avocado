@@ -1,0 +1,46 @@
+﻿//Karta produktów w Avorender
+zmienna cialo = pobierz_cialo();
+// Ustawiamy ładne tło i wyrównanie na środku dla całego ekranu
+ustaw_styl(cialo, 'background-color: #f4f7f6; font-family: "Segoe UI", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;');
+
+// 1. Główny kontener karty
+zmienna karta = stworz_element('div');
+ustaw_styl(karta, 'background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px; width: 320px; text-align: center; transition: 0.3s;');
+
+// 2. Nagłówek
+zmienna tytul = stworz_element('h2');
+ustaw_tekst(tytul, 'Avocado PRO');
+ustaw_styl(tytul, 'color: #2D2D2D; margin-top: 0; font-size: 24px;');
+dodaj_dziecko(karta, tytul);
+
+// 3. Opis tekstowy
+zmienna opis = stworz_element('p');
+ustaw_tekst(opis, 'Hybrydowy ekosystem łączący moc WinAPI z pięknem interfejsów webowych.');
+ustaw_styl(opis, 'color: #666; line-height: 1.6; font-size: 15px; margin-bottom: 25px;');
+dodaj_dziecko(karta, opis);
+
+// 4. Przycisk Akcji
+zmienna btn_akcja = stworz_element('button');
+ustaw_tekst(btn_akcja, 'Uruchom moduł');
+ustaw_styl(btn_akcja, 'background: #00FF4842; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; width: 100%;');
+
+// Efekty najechania myszką (Hover) realizowane przez zdarzenia JS!
+nasluchuj_zdarzenia(btn_akcja, 'mouseover', funkcja() 
+poczatek
+    ustaw_styl(btn_akcja, 'background: #00CC3A; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,72,0.3);');
+koniec);
+
+nasluchuj_zdarzenia(btn_akcja, 'mouseout', funkcja() 
+poczatek
+    ustaw_styl(btn_akcja, 'background: #00FF4842; transform: translateY(0); box-shadow: none;');
+koniec);
+
+// Wysyłanie sygnału do Avoraiser
+nasluchuj_zdarzenia(btn_akcja, 'klikniecie', funkcja()
+poczatek
+    ustaw_tekst(btn_akcja, 'Ładowanie...');
+    wyslij_sygnal('uruchom_modul_pro');
+koniec);
+
+dodaj_dziecko(karta, btn_akcja);
+dodaj_dziecko(cialo, karta);

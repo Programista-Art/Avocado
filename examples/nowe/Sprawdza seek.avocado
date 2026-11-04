@@ -1,0 +1,13 @@
+program seektest
+main
+test
+end.
+
+procedure test
+start
+text_file f
+assign_file(f,'plik.txt')
+czytaj_od_pozycji_wskaźnika(f)
+
+end
+

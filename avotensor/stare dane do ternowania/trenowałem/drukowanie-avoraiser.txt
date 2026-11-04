@@ -1,0 +1,14 @@
+﻿Drukowanie i PDF moduł avoraiser.printer
+printer_export_to_pdf  - Tworzy plik PDF w tle i zwraca uchwyt HDC, po 
+którym można rysować funkcjami graficznymi.
+
+ PL:   eksportuj_do_pdf  |  EN:   printer_export_to_pdf 
+
+Parametry:
+ sciezka_pliku / file_path - Ścieżka docelowa pliku PDF.
+
+ uchwyt_drukarki / h_printer_dc - Zwracany uchwyt HDC.
+Przykład użycia nazwa polska: 
+eksportuj_do_pdf(sciezka_pliku, uchwyt_drukarki)
+Przykład użycia nazwa angielska:
+printer_export_to_pdf(file_path, h_printer_dc)

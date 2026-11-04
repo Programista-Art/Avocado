@@ -1,0 +1,11 @@
+﻿//program w Avorender
+
+// Zapisanie po prawidłowym wpisaniu kodu:
+zapisz_lokalnie("czy_bot", "nie");
+
+// Sprawdzanie przy starcie programu:
+zmienna weryfikacja = odczytaj_lokalnie("czy_bot");
+jesli (weryfikacja == "nie")
+start
+    // Ukryj CAPTCHĘ, użytkownik jest już sprawdzony!
+end

@@ -1,0 +1,6 @@
+program trenowanieai
+importuj math,types, avotensor.core, avotensor.nn, avotensor.ops,avotensor.init,avotensor.embed, avotensor.attention,avotensor.transformer, avotensor.loss, avotensor.model, avotensor.generate,avotensor.trainer,avotensor.tokenizer, avotensor.gpu
+glowny 
+ pisz_linie('─────────────────────────────────────────')
+
+koniec.

@@ -1,0 +1,36 @@
+program_ui TestPlSyntax
+
+importuj avoraiser.window
+importuj avoraiser.button
+importuj avoraiser.events
+
+uchwyt_okna moje_okno
+uchwyt_okna przycisk_a
+
+glowny
+  utworz_glowne_okno
+  uruchom_aplikacje
+koniec.
+
+procedura utworz_glowne_okno
+poczatek
+  parametry_ui ui
+  ui = domyslne_parametry_okna()
+  ui.title = 'Tytul'
+  ui.width = 640
+  ui.height = 480
+  ui.visible = prawda
+  ui.backgroundcolor = 
+
+  moje_okno = utworz_okno(ui)
+  jezeli moje_okno <> 0 wtedy
+  poczatek
+    wysrodkuj_okno(moje_okno)
+    przycisk_a = utworz_przycisk(moje_okno, 'Test', 10, 10, 100, 30)
+    reaguj_na_klikniecie(przycisk_a, @przycisk_a_klikniecie)
+  koniec
+koniec
+
+procedura przycisk_a_klikniecie(nadawca: uchwyt_okna)
+poczatek
+koniec

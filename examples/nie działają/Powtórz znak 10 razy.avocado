@@ -1,0 +1,7 @@
+﻿program powtorzenie
+główny
+znak a = 'b'
+liczba_całkowita ile  = 10
+pisz_linie(powtórz_znak(a,ile))
+koniec.
+

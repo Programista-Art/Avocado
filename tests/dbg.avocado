@@ -1,0 +1,9 @@
+program mojrogram
+liczba_całkowita i
+początek
+  pisz_linie('Witaj w Avocado!')
+  dla i = 1 do 5 wykonaj
+  początek
+    pisz_linie('Numer: ', i)
+  koniec
+koniec.

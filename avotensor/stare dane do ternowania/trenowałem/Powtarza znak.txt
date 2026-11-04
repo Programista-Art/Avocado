@@ -1,0 +1,12 @@
+program powtorzznak
+główny
+  test
+koniec.
+
+procedura test
+początek
+znak a = 'b'
+liczba_całkowita ile = 10
+  tekst nowy = powtórz_znak(a, ile)
+  pisz_linie(nowy)
+koniec

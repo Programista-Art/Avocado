@@ -1,0 +1,8 @@
+program test
+main
+int a = 5
+ pisz_linie('Niebo jest niebieskie')
+ //przypisanie innej wartości do a
+ a = 10
+ print_line('Wynik ', IntToStr(a))
+end.

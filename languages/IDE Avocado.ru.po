@@ -1118,6 +1118,10 @@ msgstr "Добавлен путь к фреймворку Avoraiser: "
 msgid "Added path to Avorender framework: "
 msgstr "Добавлен путь к фреймворку Avorender: "
 
+#: unit1.translateaddedavotensorframeworkpath
+msgid "Added path to AvoTensor framework: "
+msgstr ""
+
 #: unit1.translateaddusermodulespath
 msgid " - Added user modules path: "
 msgstr "- Добавлен путь к пользовательским модулям:  "
@@ -1155,6 +1159,10 @@ msgstr "ПРЕДУПРЕЖДЕНИЕ: Папка AvocadoNet Framework не на�
 #: unit1.translateavorenderframeworkfoldernotfound
 msgid "WARNING: AvoRender Framework folder not found:"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: Папка AvoRender Framework не найдена:"
+
+#: unit1.translateavotensorframeworkfoldernotfound
+msgid "WARNING: AvoTensor Framework folder not found:"
+msgstr ""
 
 #: unit1.translatecannotcreatetemporarydirectory
 msgid "Error: Cannot create temporary directory: "
@@ -1587,3 +1595,4 @@ msgstr "Информация"
 #: ustawieniaai.translatemodelstxtfilewasnotfound
 msgid "The models.txt file was not found."
 msgstr "Файл models.txt не найден."
+

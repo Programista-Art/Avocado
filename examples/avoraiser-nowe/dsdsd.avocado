@@ -1,0 +1,42 @@
+﻿// Wygenerowano przez Edytor UI Avoraiser (JVCL)
+program_ui moje_okno
+
+import avoraiser.window
+import avoraiser.layout
+import avoraiser.button
+
+hwnd my_window
+hwnd AvocadoButton1
+hwnd Label1
+hwnd Panel1
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Avocado App'
+  ui.width = 480
+  ui.height = 320
+  ui.visible = true
+  ui.backgroundcolor = $202020
+
+  my_window = utworz_okno(ui)
+  if my_window <> 0 then
+  start
+    ustaw_przycisk_maksymalizacji_okna(my_window, true)
+    ustaw_kolor_naglowka(my_window, $303030)
+    wysrodkuj_okno(my_window)
+
+    AvocadoButton1 = utworz_przycisk(my_window, 'Button', 554, 221, 150, 40)
+    ustaw_kolory_przycisku(AvocadoButton1, $2D2D2D, $404040, $00AA00, $FFFFFF, $FFFFFF)
+    Label1 = utworz_etykiete(my_window, 'Label1', 991, 273, 44, 20)
+    Panel1 = utworz_panel(my_window, 582, 426, 562, 402, $FFFFFF)
+  end
+end
+
+

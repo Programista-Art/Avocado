@@ -1,0 +1,8 @@
+program listyladowanie
+glowny 
+lista_tekstów a
+twórz_lista_tekstów(a)
+załaduj_z_pliku(a,'test.txt')
+pisz_linie(a.tekst)
+a.zwolnij
+koniec.

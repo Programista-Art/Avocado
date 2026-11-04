@@ -1,0 +1,23 @@
+﻿//przyciski program w Avorender
+// 1. Definiujemy "fabrykę" przycisków
+funkcja stworz_super_przycisk(rodzic, tekst_przycisku, sygnal)
+poczatek
+    zmienna btn = stworz_element('button');
+    ustaw_tekst(btn, tekst_przycisku);
+    ustaw_styl(btn, 'padding: 12px 24px; margin: 10px; background: #00FF4842; color: white; border: none; border-radius: 8px; cursor: pointer;');
+    
+    nasluchuj_zdarzenia(btn, 'klikniecie', funkcja()
+    poczatek
+        wyslij_sygnal(sygnal);
+    koniec);
+    
+    dodaj_dziecko(rodzic, btn);
+koniec
+
+// 2. Główny kod aplikacji - teraz jest niesamowicie krótki i czysty!
+zmienna cialo = pobierz_cialo();
+ustaw_styl(cialo, 'background: #121212; display: flex; justify-content: center; align-items: center; height: 100vh;');
+
+stworz_super_przycisk(cialo, "Zapisz projekt", "akcja_zapisz");
+stworz_super_przycisk(cialo, "Otwórz plik", "akcja_otworz");
+stworz_super_przycisk(cialo, "Zamknij system", "akcja_wyjscie");

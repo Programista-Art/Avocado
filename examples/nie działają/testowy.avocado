@@ -1,0 +1,12 @@
+program przycisknacisniety
+główny
+  jeżeli kławisz_wciśnięty
+  wtedy
+początek
+  pisz('Przycsk naciśnięty')
+koniec
+inaczej
+początek
+   pisz('Żaden przycsk nie naciśnięty')
+koniec
+koniec.

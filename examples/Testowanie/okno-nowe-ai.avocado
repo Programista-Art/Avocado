@@ -1,0 +1,21 @@
+﻿import avoraiser.window
+
+program simple_gui
+main
+  ui_params params
+  params = Default(TAvocadoWindowParams)
+  params.title = 'Proste Okno'
+  params.width = 400
+  params.height = 300
+  params.x = 100
+  params.y = 100
+  params.visible = True
+
+  hwnd window_handle
+  window_handle = create_window(params)
+
+  if window_handle <> 0 then
+    show_window(window_handle)
+  end
+end
+

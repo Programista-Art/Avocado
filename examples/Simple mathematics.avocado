@@ -1,0 +1,8 @@
+Program matma
+importuj matematyka
+main
+oblicz('(2+2)*4')
+oblicz('Cos(0)')
+oblicz('sin(50)')
+oblicz('tan(6)')
+end.

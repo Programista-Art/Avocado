@@ -1,0 +1,52 @@
+﻿//Program w Avorender to do
+zmienna cialo = pobierz_cialo();
+ustaw_styl(cialo, 'background: #121212; font-family: "Segoe UI", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: white;');
+
+zmienna panel = stworz_element('div');
+ustaw_styl(panel, 'background: #1E1E1E; padding: 30px; border-radius: 12px; width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333;');
+
+zmienna tytul = stworz_element('h2');
+ustaw_tekst(tytul, 'Zadania Systemowe');
+ustaw_styl(tytul, 'margin-top: 0; color: #00FF4842;');
+dodaj_dziecko(panel, tytul);
+
+// Kontener na pole tekstowe i przycisk
+zmienna form_box = stworz_element('div');
+ustaw_styl(form_box, 'display: flex; gap: 10px; margin-bottom: 25px;');
+
+// Nasze pole tekstowe (Input)
+zmienna pole_input = stworz_element('input');
+ustaw_atrybut(pole_input, 'placeholder', 'Wpisz zadanie (np. Zrób backup)...');
+ustaw_styl(pole_input, 'flex: 1; padding: 12px; border-radius: 6px; border: 1px solid #444; background: #2D2D2D; color: white; font-size: 15px;');
+
+// Przycisk Dodaj
+zmienna btn_dodaj = stworz_element('button');
+ustaw_tekst(btn_dodaj, 'Dodaj');
+ustaw_styl(btn_dodaj, 'padding: 12px 24px; background: #00FF4842; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;');
+
+dodaj_dziecko(form_box, pole_input);
+dodaj_dziecko(form_box, btn_dodaj);
+dodaj_dziecko(panel, form_box);
+
+// Kontener na dodawane zadania
+zmienna lista_zadan = stworz_element('div');
+dodaj_dziecko(panel, lista_zadan);
+
+// Magia odczytywania inputa w akcji!
+nasluchuj_zdarzenia(btn_dodaj, 'klikniecie', funkcja()
+poczatek
+    // 1. POBIERAMY WARTOSC Z POLA
+    zmienna nowa_tresc = pobierz_wartosc(pole_input);
+    
+    // 2. TWORZYMY NOWY ELEMENT NA LISCIE
+    zmienna element_listy = stworz_element('div');
+    ustaw_tekst(element_listy, nowa_tresc);
+    ustaw_styl(element_listy, 'padding: 14px; background: #2A2A2A; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #00FF4842; font-size: 15px;');
+    
+    dodaj_dziecko(lista_zadan, element_listy);
+    
+    // 3. WYSYLAMY ZADANIE BEZPOSREDNIO DO AVORAISERA (PASCALA)
+    wyslij_sygnal(nowa_tresc);
+koniec);
+
+dodaj_dziecko(cialo, panel);

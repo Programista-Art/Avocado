@@ -1,0 +1,18 @@
+program pingujetest
+importuj internet
+main
+testee
+end.
+
+
+procedure teste
+start
+
+ping 'www.programista.art','Działa programista.art'
+//ping('www.dimitalart.pl', 'Działa! dimitalart.pl ')
+end
+
+
+
+
+

@@ -1,0 +1,6 @@
+program sssss
+glowny
+lc i = 0
+dla i = 5 malejąco 1 wykonaj
+  pisz_linie('Odliczanie:', i)
+koniec.

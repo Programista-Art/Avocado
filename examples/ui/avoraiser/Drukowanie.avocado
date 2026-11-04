@@ -1,0 +1,155 @@
+program_ui print_pdf
+import avoraiser.core,avoraiser.window, avoraiser.printer, avoraiser.button, avoraiser.utils, avoraiser.memo,avoraiser.richedit
+
+hdc drukarka
+ui_parameters ui
+hwnd main_app
+hwnd my_memo
+hwnd save_btn
+hwnd btn_new_doc
+hwnd btn_clear_doc
+hwnd btn_print_doc
+string text_memo
+unicode_string path_img
+string img_new_file
+string img_save_file
+string img_delete
+string img_print
+unicode_string current_file_path
+
+main
+  my_app_main
+  run_app
+end.
+
+
+procedure on_open_click(h_btn: HWND)
+start
+unicode_string selected_path
+unicode_string ext
+  // Wywołujemy okno z kilkoma filtrami
+  selected_path = get_file_name_from_user( main_app,False,'Pliki tekstowe|*.txt|Źródła Pascal|*.pas|Wszystkie pliki|*.*')
+
+  // Jeśli użytkownik nie kliknął "Anuluj"
+  if selected_path <> '' then
+  start
+    if load_memo_from_file(my_memo, selected_path) then
+    start
+      current_file_path = selected_path
+      // Opcjonalnie: zaktualizuj tytuł okna
+      SetWindowTextW(main_app, PWideChar('Avocado - ' + selected_path))
+      //pobieram rozszerzenie pliku
+      ext = LowerCase(get_file_extension(selected_path))
+      if ext = 'txt' then
+      start
+        //append_memo_text(my_memo, 'Dane Wczytane')
+        SetWindowTextW(main_app, PWideChar('Avocado - ' + selected_path + ' Dane Wczytane'))
+      end
+    end
+  end
+end
+
+
+//Drukowanie dokumentu
+procedure print_dc(sender: HWND)
+start
+int with_page
+int center_x
+
+//Pobieram zawartość z memo
+text_memo = get_memo_text(my_memo)
+if printer_show_dialog(main_app, drukarka) then
+start
+with_page = get_device_width(drukarka)
+//Wyliczamy środek
+ center_x = with_page div 2
+ printer_begin_doc(drukarka, 'Raport Avocado')
+// Włączamy tryb centrowania
+  set_text_align_center(drukarka)
+ // Rysuje nagłówek
+ printer_draw_text(drukarka, center_x, 200, 'CV')
+ // normalnie rysowała się od lewego marginesu
+ set_text_align_left(drukarka);
+ printer_draw_text(drukarka,200,300,'Moduł avoraiser.printer')
+ printer_draw_text(drukarka,200,400, text_memo)
+ // Rysuje poziomą linię oddzielającą (od X: 200 do X: 1500)
+ printer_draw_line(drukarka, 0, 550, 5500, 550)
+ // printer_show_dialog(drukarka)
+ printer_end_doc(drukarka)
+end
+end
+
+procedure on_save_as_click(h_btn: HWND)
+start
+unicode_string new_path
+  // Podajemy domyślne rozszerzenie 'txt'
+   new_path = get_file_name_from_user(main_app,True,'Pliki tekstowe|*.txt|Wszystkie pliki|*.*','txt')
+
+  if new_path <> '' then
+  start
+    if write_string_to_file(new_path, get_rich_text_text(my_memo)) then
+    start
+      current_file_path = new_path
+      MessageBoxW(main_app, 'Plik zapisany!', 'Avocado', MB_OK or MB_ICONINFORMATION)
+    end
+  end
+end
+
+procedure my_app_main
+start
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Drukowanie Tekstu i zapis do pliku PDF w Avoraiser - Avocado'
+  ui.width = 1920
+  ui.height = 1080
+  ui.x = 200
+  ui.y = 200
+  ui.visible = True
+  //ui.Frameless= False
+  //ui.AllowMaximize = TRue
+  ui.BackgroundColor = $121212
+
+  main_app = create_window(ui)
+
+  if main_app <> 0 then
+  start
+   path_img = get_app_path
+   //kIkonki do przycisków
+   img_new_file =  path_img +  'img\open-file-24x24px.png'
+   img_save_file =  path_img + 'img\save-file-24x24px.png'
+   img_delete =  path_img + 'img\delete-file-24x24px.png'
+   img_print = path_img + 'img\printer-file-24x24px.png'
+
+   maximize_window(main_app)
+   set_window_maximize_button(main_app, True)
+   //Memo
+   my_memo = create_memo(main_app,10,50,500,500)
+   set_memo_text(my_memo,'Drukowanie Tekstu i zapis do pliku PDF w Avoraiser - Avocado śćżą')
+
+   //przycisk otwórz plik
+   btn_new_doc = create_image_button(main_app,'',img_new_file, 20, 10, 24, 24);
+   set_component_rounding(btn_new_doc,5);
+   //set_component_size_font(btn_icon,'Segoe UI',19);
+   set_button_colors(btn_new_doc,$2D2D2D,$00FF4842,$00FFB77D,$00FFFC72,$00FFFC72);
+   set_on_click(btn_new_doc, @on_open_click);
+
+   //przycisk zapisz do pdf
+   save_btn = create_image_button(main_app,'',img_save_file, 50, 10, 24, 24)
+   set_component_rounding(save_btn,5)
+   set_button_colors(save_btn,$2D2D2D,$00FF4842,$00FFB77D,$00FFFC72,$00FFFC72)
+   set_on_click(save_btn, @on_save_as_click)
+
+   //przycisk usuń dane
+   btn_clear_doc = create_image_button(main_app,'',img_delete, 80, 10, 24, 24);
+   set_component_rounding(btn_clear_doc,5);
+   set_button_colors(btn_clear_doc,$2D2D2D,$00FF4842,$00FFB77D,$00FFFC72,$00FFFC72);
+   set_on_click(btn_clear_doc, @print_dc)
+
+   //przycisk drukuj
+   btn_print_doc = create_image_button(main_app,'',img_print, 110, 10, 24, 24);
+   set_component_rounding(btn_print_doc,5);
+   set_button_colors(btn_print_doc,$2D2D2D,$00FF4842,$00FFB77D,$00FFFC72,$00FFFC72);
+   set_on_click(btn_print_doc, @print_dc)
+ end
+end
+
+

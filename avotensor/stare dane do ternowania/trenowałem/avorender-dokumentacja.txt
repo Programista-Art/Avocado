@@ -1,0 +1,58 @@
+﻿Avorender - dokumentacja, zestaw wszystkich funkcji.
+Łącznie daje to 36 instrukcje, które pozwalają na budowę w pełni asynchronicznych i bezpiecznych aplikacji Full-Stack!
+Oto dokładne zestawienie tego, co potrafi obecnie Twój framework:
+Funkcje manipulacji interfejsem (DOM) – 12 funkcji
+pobierz_cialo()
+wyszukaj_element(selektor)
+stworz_element(tag)
+dodaj_dziecko(rodzic, dziecko)
+ustaw_styl(element, styl)
+ustaw_tekst(element, tekst)
+ustaw_atrybut(element, nazwa, wartosc)
+pobierz_wartosc(element)
+ustaw_wartosc(element, wartość) – do bezpiecznego czyszczenia i ustawiania pól <input>.
+usun_element(element) – do całkowitego usuwania komponentów (np. okienka CAPTCHA) z ekranu.
+ustaw_atrybut(element, "disabled", "true") – możliwość fizycznego blokowania interakcji z polami.
+Zaawansowana obsługa czasu: Wprowadziliśmy wykonuj_co (pętla setInterval) oraz zatrzymaj_wykonywanie (clearInterval), co pozwoliło na stworzenie dynamicznego, 10-sekundowego odliczania kary.
+ Funkcje asynchroniczne i zdarzenia - 5 funkcje
+nasluchuj_zdarzenia(element, zdarzenie, funkcja)
+za_czas(ms, funkcja)
+wykonuj_co(ms, funkcja) wykonuje kod cyklicznie w pętli (odpowiednik 
+pobierz_pole(event, "keyCode") – wyciąga z przeglądarki informacje o akcji, np. który klawisz został wciśnięty. 
+zatrzymaj_wykonywanie(licznik) – przerywa pętlę czasową (odpowiednik clearInterval). 
+Komunikacja z Serwerem i Systemem (API) - 3 funkcje
+pobierz_z_sieci(url, funkcja)
+wyslij_do_sieci(url, dane, funkcja) wysyła asynchroniczne żądania do Twojego serwera AvocadoNet (odpowiednik fetch). 
+wyslij_sygnal(dane) natywny most łączący widok przeglądarki z Twoim kodem WinAPI we Free Pascalu (odpowiednik window.chrome.webview.postMessage). 
+ Przetwarzanie Danych i Bezpieczeństwo - 3 funkcje
+parsuj_json(tekst)
+pobierz_pole(obiekt, pole)
+bezpieczny_tekst(tekst)
+
+Do tego dochodzi 8 głównych słów kluczowych (sterowanie):
+zmienna
+stala
+funkcja
+esli (warunek) – instrukcja warunkowa. 
+w_przeciwnym_razie  gałąź alternatywna (plan B). 
+powtarzaj
+start (lub poczatek) – otwiera blok kodu {.
+ end (lub koniec) – zamyka blok kodu }.
+       
+
+Argumenty w zdarzeniach (funkcja(e)): Zaimplementowaliśmy przekazywanie obiektu zdarzenia z przeglądarki. Pozwala to m.in. na nasłuchiwanie konkretnych klawiszy klawiatury (np. wciśnięcie klawisza Enter). 
+Funkcja losowania (Matematyka dla CAPTCHY) 
+Nowa funkcja: losuj_liczbe(min, max)
+Mapowanie JS: Math.floor(Math.random() * (max - min + 1)) + min;
+Zastosowanie: zmienna liczba1 = losuj_liczbe(1, 10);
+
+Pamięć Lokalna (Local Storage)
+Teraz, gdy użytkownik wyłączy Avoraisera i włączy go ponownie, znowu będzie musiał wpisywać CAPTCHĘ. Byłoby świetnie, gdyby AvoRender potrafił zapamiętywać dane na dysku użytkownika.
+Nowe funkcje: 
+zapisz_lokalnie("klucz", wartosc) oraz odczytaj_lokalnie("klucz")
+Mapowanie JS: localStorage.setItem(...) / localStorage.getItem(...)
+Zastosowanie: Zapisywanie tokenów autoryzacji, historii czatu czy trybu ciemnego/jasnego.
+Tablice i Listy (Zarządzanie masowymi danymi) W komunikatorze masz dziesiątki wiadomości. Potrzebujesz mechanizmu, aby łatwo dodawać nowe wiadomości do listy i liczyć ich ilość.
+Nowe funkcje: dodaj_do_listy(tablica, element) oraz rozmiar_listy(tablica)
+Mapowanie JS: tablica.push(element); oraz tablica.length;
+

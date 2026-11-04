@@ -1,0 +1,7 @@
+program testkodupascalanowe
+główny
+  pascal_linia{WriteLn('Siema!');}
+  pascal_line{WriteLn('Siema 2!');}
+koniec.
+
+

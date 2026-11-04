@@ -1,0 +1,100 @@
+﻿//program chat w Avorender
+// --- 1. BUDOWA INTERFEJSU (UI) ---
+zmienna cialo = wyszukaj_element("body");
+ustaw_styl(cialo, "background: #121212; color: white; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px;");
+
+zmienna naglowek = stworz_element("h1");
+ustaw_tekst(naglowek, " AvocadoChat Live");
+ustaw_styl(naglowek, "color: #10b981;");
+dodaj_dziecko(cialo, naglowek);
+
+// Ekran wiadomości
+zmienna ekran = stworz_element("div");
+ustaw_atrybut(ekran, "id", "ekran-czatu");
+ustaw_styl(ekran, "width: 500px; height: 400px; background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 15px; overflow-y: auto; margin-bottom: 20px;");
+dodaj_dziecko(cialo, ekran);
+
+// Formularz (Autor i Tekst)
+zmienna panel_dolny = stworz_element("div");
+dodaj_dziecko(cialo, panel_dolny);
+
+zmienna input_autor = stworz_element("input");
+ustaw_atrybut(input_autor, "placeholder", "Twój nick...");
+ustaw_styl(input_autor, "padding: 10px; margin-right: 10px; border-radius: 5px; border: none; width: 120px; background: #2d2d2d; color: white;");
+dodaj_dziecko(panel_dolny, input_autor);
+
+zmienna input_tekst = stworz_element("input");
+ustaw_atrybut(input_tekst, "placeholder", "Napisz wiadomość...");
+ustaw_styl(input_tekst, "padding: 10px; margin-right: 10px; border-radius: 5px; border: none; width: 250px; background: #2d2d2d; color: white;");
+dodaj_dziecko(panel_dolny, input_tekst);
+
+zmienna przycisk_wyslij = stworz_element("button");
+ustaw_tekst(przycisk_wyslij, "Wyślij 🚀");
+ustaw_styl(przycisk_wyslij, "padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;");
+dodaj_dziecko(panel_dolny, przycisk_wyslij);
+
+
+// --- 2. LOGIKA BIZNESOWA (AvoRender + AvocadoNet) ---
+
+// ZDARZENIE: Wysyłanie wiadomości na serwer (POST)
+nasluchuj_zdarzenia(przycisk_wyslij, "klikniecie", funkcja()
+poczatek
+    (* 
+    zmienna autor = pobierz_wartosc(input_autor);
+    zmienna tekst = pobierz_wartosc(input_tekst);
+    *)
+    //zabezpieczenie od ściany tekstu maks 1000 znaków
+    zmienna autor = bezpieczny_tekst(input_autor);
+    zmienna tekst = bezpieczny_tekst(input_tekst);
+
+    
+    // Budujemy naszego JSONa (dzięki poprawce z apostrofami to teraz super bezpieczne!)
+    //zmienna json_dane = '{"autor": "' + autor + '", "tekst": "' + tekst + '"}';
+
+    // Teraz możemy bezpiecznie budować JSON-a, nawet jak użytkownik wpisze milion cudzysłowów!
+    zmienna json_dane = '{"autor": "' + bezpieczny_autor + '", "tekst": "' + bezpieczny_tekst_wiadomosci + '"}';
+    
+    wyslij_do_sieci("http://localhost:8080/api/czat/pisz", json_dane, funkcja(odpowiedz)
+    poczatek
+        // Czyścimy pole tekstowe po wysłaniu!
+        ustaw_atrybut(input_tekst, "value", "");
+    koniec);
+koniec);
+
+// PĘTLA: Pobieranie wiadomości z serwera co 2 sekundy (GET)
+wykonuj_co(2000, funkcja()
+poczatek
+    pobierz_z_sieci("http://localhost:8080/api/czat/czytaj", funkcja(surowy_tekst)
+    poczatek
+        zmienna okno = wyszukaj_element("#ekran-czatu");
+        
+        // 1. Czyścimy stare wiadomości (żeby nie dodawać ich w nieskończoność do starych)
+        ustaw_tekst(okno, ""); 
+        
+        // 2. Ożywiamy JSON - zamieniamy tekst na prawdziwą listę!
+        zmienna lista_wiadomosci = parsuj_json(surowy_tekst);
+        
+        // 3. Pobieramy długość listy (w JS to pole nazywa się "length")
+        zmienna ilosc = pobierz_pole(lista_wiadomosci, "length");
+        
+        // 4. Pętla przechodząca przez wszystkie wiadomości
+        powtarzaj(ilosc)
+        poczatek
+            // Wyciągamy konkretny obiekt wiadomości używając indeksu 'i' z pętli
+            zmienna wiadomosc = pobierz_pole(lista_wiadomosci, i);
+            
+            // Wyciągamy autora i tekst z tego konkretnego obiektu
+            zmienna autor_z_bazy = pobierz_pole(wiadomosc, "autor");
+            zmienna tekst_z_bazy = pobierz_pole(wiadomosc, "tekst");
+            
+            // 5. Budujemy piękny dymek czatu!
+            zmienna dymek = stworz_element("div");
+            ustaw_tekst(dymek, autor_z_bazy + " napisał(a): " + tekst_z_bazy);
+            
+            // Ostylujmy to, żeby wyglądało pro!
+            ustaw_styl(dymek, "background: #2d2d2d; padding: 10px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #10b981; color: white;");
+            
+            dodaj_dziecko(okno, dymek);
+        koniec;
+    koniec);
+koniec);

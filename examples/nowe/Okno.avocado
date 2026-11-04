@@ -1,0 +1,19 @@
+program testokno
+import Crt
+main
+  okno
+end.
+
+procedure okno
+start
+pascal{
+  MessageBox(
+    0, // Uchwyt okna (0 = domyślny pulpit)
+    'Ten komunikat jest wywołany bezpośrednio przez WinAPI!', // Treść
+    'WinAPI w konsoli', // Tytuł
+    MB_OK + MB_ICONINFORMATION // Styl okna (OK + Ikona Informacji)
+  );
+
+}
+
+end

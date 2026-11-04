@@ -41,7 +41,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="moduly"/>
+            <OtherUnitFiles Value="moduly;compiler"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -122,6 +122,12 @@
       </Item>
       <Item>
         <PackageName Value="SynEdit"/>
+      </Item>
+      <Item>
+        <PackageName Value="JvRuntimeDesignLazR"/>
+      </Item>
+      <Item>
+        <PackageName Value="JvRuntimeDesignLazD"/>
       </Item>
       <Item>
         <PackageName Value="LCL"/>
@@ -243,6 +249,10 @@
         <UnitName Value="AvocadoLCLComponents"/>
       </Unit>
       <Unit>
+        <Filename Value="uivisualdesigner.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="patrons.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="PatronsAvocado"/>
@@ -253,6 +263,7 @@
         <Filename Value="generated_code.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="generatedCode"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
@@ -265,7 +276,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="moduly"/>
+      <OtherUnitFiles Value="moduly;compiler"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

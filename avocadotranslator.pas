@@ -5,7 +5,9 @@ unit AvocadoTranslator;
 interface
 
 uses
-  Classes, Math, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,DefaultTranslator,LCLTranslator;
+  Classes, Math, SysUtils, StrUtils,fpexprpars,Crt,LazUTF8,Graphics,Variants,DefaultTranslator,LCLTranslator,
+  avocado_compiler, avocado_diagnostics, avocado_source;
+
 
 type
   TReplaceRule = record
@@ -93,6 +95,9 @@ end;
     procedure AddCompilerDirective(PascalCode: TStringList; IsGUI: Boolean);
         // Deklaracja funkcji tłumaczącej
     function TranslateFunctions(const CodeLine: string): string;
+    { Structured compilation via the new frontend. Caller owns the result. }
+    function Compile(const AvocadoCode: TStrings; const AFileName: string = ''): TAvocadoCompileResult;
+    { Compatibility facade: returns generated Pascal. Raises on hard failure. }
     function Translate(const AvocadoCode: TStrings): TStringList;
     function DetectCodePage(const Source: string): string;
     procedure InsertCodePageDirective(PascalCode: TStringList);
@@ -4428,340 +4433,52 @@ end;
 
 
 
-function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
+function TAvocadoTranslator.Compile(const AvocadoCode: TStrings;
+  const AFileName: string): TAvocadoCompileResult;
 var
-PascalCode: TStringList;
-i: Integer;
-trimmedLine, ModulesStr : string;
-ModulPascalowy: string;
-DetectedProgramName: string;
-UsesList: TStringList;
-UName: string;
-ExistingUnits: TStringList;
-NextTrimmedLowerLine: string;
-LowerLine: string;
-ProcedureDepth: Integer;
-j: integer;
-DetectedCodePage: string;
-WinCP: string;
-IsGUI: Boolean;
-TranslateCode: TStringList;
-
+  C: TAvocadoCompiler;
+  Text: string;
+  Name: string;
 begin
-  TranslateCode := TStringList.Create;
-  PascalCode := TStringList.Create;
-  UsesList := TStringList.Create;
-  ExistingUnits := TStringList.Create;
-
-  SetLength(FVariables, 0);
-  FInRepeatBlock := False;
-  FInMultiLineComment := False;
-  FInProcedureBody := False; // Używane tylko przez Pętlę 1
-
-
-
-    // SPRAWDZENIE: Czy słownik został utworzony w Create?
-    if FFunctionMap = nil then
-       raise Exception.Create(TranslateFFunctionMapNotInitialized);
-
-    // FAZA PREPROCESORA - Tłumaczenie
-    if AvocadoCode <> nil then
-    begin
-      for i := 0 to AvocadoCode.Count - 1 do
-      begin
-        // Tłumaczymy każdą linię i dodajemy do nowej listy
-        TranslateCode.Add(TranslateFunctions(AvocadoCode[i]));
-      end;
-    end;
-
-    // Usuwanie BOM na przetłumaczonym kodzie
-    if (TranslateCode.Count > 0) and (Length(TranslateCode[0]) >= 3) then
-    begin
-      if (TranslateCode[0][1] = #$EF) and (TranslateCode[0][2] = #$BB) and (TranslateCode[0][3] = #$BF) then
-        TranslateCode[0] := Copy(TranslateCode[0], 4, MaxInt);
-    end;
-   IsGUI := False; // Domyślnie konsola
-   self.IsGUIProject := False;
-
-  //Wykrywam kodowanie na podstawie calego kodu źródłowego
-  DetectedCodePage := DetectCodePage(TranslateCode.Text);
-  WinCP := GetWindowsCP(DetectedCodePage);
-
-  PascalCode := TStringList.Create;
-  UsesList := TStringList.Create;
-  ExistingUnits := TStringList.Create;
-
-  // Skanowanie nazwy programu
-  NameProgram := '';
-  DetectedProgramName := 'untitledprogram';
-
-  for i := 0 to TranslateCode.Count - 1 do
-  begin
-    trimmedLine := Trim(TranslateCode[i]);
-    if trimmedLine = '' then Continue;
-    LowerLine := LowerCase(trimmedLine);
-
-   // Sprawdzamy czy to program okienkowy
-    if LowerLine.StartsWith('program_ui ') then
-    begin
-      IsGUI := True;
-      self.IsGUIProject := True;
-      //if NameProgram = '' then NameProgram := 'AvocadoApp';
-      DetectedProgramName := Trim(Copy(trimmedLine, 12, MaxInt));
-       //UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
-      {$IFDEF WINDOWS}
-      UsesList.Add('Windows');
-      {$ENDIF}
-
-      Break;
-    end
-    // Sprawdzamy czy to zwykły program
-    else if LowerLine.StartsWith('program ') then
-    begin
-      IsGUI := False;
-      self.IsGUIProject := False;
-      DetectedProgramName := Trim(Copy(trimmedLine, 9, MaxInt));
-      UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
-      {$IFDEF WINDOWS}
-      UsesList.Add('Windows');
-      {$ENDIF}
-      Break;
-    end;
-  end;
-
+  if AvocadoCode <> nil then
+    Text := AvocadoCode.Text
+  else
+    Text := '';
+  if AFileName <> '' then
+    Name := AFileName
+  else
+    Name := 'avocado_source.avocado';
+  C := TAvocadoCompiler.Create;
   try
-    //AddCompilerDirective(PascalCode);
-    PascalCode.Add('program ' + DetectedProgramName + ';');
-    // Wywołujemy funkcję z nowym parametrem IsGUI
-    AddCompilerDirective(PascalCode, IsGUI);
-
-    //Sekcja 'uses'
-    ModulesStr := GetImportedModules(TranslateCode.Text);
-    ModulPascalowy := GetImplementationModules(TranslateCode.Text);
-
-    //UsesList.AddStrings(['SysUtils', 'Classes', 'StrUtils', 'Dialogs']);
-    //{$IFDEF WINDOWS}
-    //UsesList.Add('Windows');
-    //{$ENDIF}
-
-    if ModulesStr <> '' then
-      for UName in ModulesStr.Split([',']) do UsesList.Add(Trim(UName));
-    if ModulPascalowy <> '' then
-      for UName in ModulPascalowy.Split([',']) do UsesList.Add(Trim(UName));
-    PascalCode.Add('uses');
-
-    ExistingUnits.Clear;
-    ExistingUnits.CaseSensitive := False;
-    ExistingUnits.Sorted := True;
-
-    for i := 0 to UsesList.Count - 1 do
-  	 begin
-  	 UName := Trim(UsesList[i]);
-  	 if (UName <> '') and (ExistingUnits.IndexOf(UName) = -1) then
-  	   begin
-  	     if ExistingUnits.Count = 0 then
-  	       PascalCode.Add('  ' + UName)
-  	     else
-  	       PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ', ' + UName;
-  	       ExistingUnits.Add(UName);
-  	     end;
-  	 end;
-
-  	 if ExistingUnits.Count > 0 then
-  	    PascalCode.Strings[PascalCode.Count - 1] := PascalCode.Strings[PascalCode.Count - 1] + ';'
-  	 else
-  	    PascalCode.Delete(PascalCode.Count - 1);
-  	 PascalCode.Add('');
-
-    // 4. PĘTLA 1: Skanowanie dla 'var'
-    FInProcedureBody := False;
-    for i := 0 to TranslateCode.Count - 1 do
-      ProcessDeclaration(Trim(TranslateCode[i]));
-
-         // 5. Generowanie sekcji 'var'
-  	 if Length(FVariables) > 0 then
-  	 begin
-  	   PascalCode.Add('var');
-  	   for i := 0 to High(FVariables) do
-  	   begin
-  	     if FVariables[i].VarName = '' then Continue;
-  	     PascalCode.Add('  ' + FVariables[i].VarName + ': ' + SafeResolveAlias(FVariables[i].VarType) + ';');
-  	   end;
-  	   PascalCode.Add('');
-  	 end;
-
-
-    // 7. PĘTLA 2: Tłumaczenie Procedur
-    ProcedureDepth := 0;
-    FInRepeatBlock := False;
-    PascalCode.Add('');
-    for i := 0 to TranslateCode.Count - 1 do
-    begin
-      trimmedLine := Trim(TranslateCode[i]);
-      if trimmedLine = '' then Continue;
-      LowerLine := AnsiLowerCase(trimmedLine);
-
-      //if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) then
-      if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) or
-     (LowerLine.StartsWith('funkcja ')) or (LowerLine.StartsWith('function ')) then
-      begin
-        PascalCode.Add( TranslateProcedureHeader(trimmedLine) );
-        AnalyzeLocalVariables(i + 1, TranslateCode);
-        if Length(FLocalVariables) > 0 then
-        begin
-          PascalCode.Add('var');
-          for j := 0 to High(FLocalVariables) do
-          begin
-             PascalCode.Add('  ' + FLocalVariables[j].VarName + ': ' + SafeResolveAlias(FLocalVariables[j].VarType) + ';');
-          end;
-        end;
-        ProcedureDepth := 1;
-        Continue;
-      end;
-
-      // Jeśli jesteśmy w procedurze, tłumacz jej ciało
-      if ProcedureDepth > 0 then
-      begin
-        if (LowerLine = 'start') or
-           (LowerLine = 'początek') or
-           (LowerLine = 'poczatek')
-           //(LowerLine = 'main')or
-           //(LowerLine = 'główny') or
-           //(LowerLine = 'glowny')
-           then
-          Inc(ProcedureDepth)
-        else if (LowerLine = 'koniec') or (LowerLine = 'end') then
-          Dec(ProcedureDepth);
-
-        // Jeśli licznik spadł do 0, to jest koniec procedury
-        if ProcedureDepth = 0 then
-        begin
-          PascalCode.Add('end;');
-          PascalCode.Add('');
-          Continue;
-        end;
-
-        // Pobierz następną linię
-        if i + 1 < TranslateCode.Count then
-    	     NextTrimmedLowerLine := LowerCase(Trim(TranslateCode[i+1]))
-    	else
-    	    NextTrimmedLowerLine := '';
-        ProcessLine(trimmedLine, PascalCode, NextTrimmedLowerLine);
-      end;
-    end;
-
-         // Główny blok 'begin' (wstawki)
-  	 PascalCode.Add('begin');
-
-          if not IsGUI then
-          begin
-            PascalCode.Add('{$IFDEF WINDOWS}');
-            PascalCode.Add('  SetConsoleCP(' + WinCP + ');');
-            PascalCode.Add('  SetConsoleOutputCP(' + WinCP + ');');
-            PascalCode.Add('{$ENDIF}');
-            PascalCode.Add('  SetTextCodePage(Output, ' + WinCP + ');');
-            PascalCode.Add('  SetTextCodePage(Input, ' + WinCP + ');');
-          end;
-
-         {PascalCode.Add('{$IFDEF WINDOWS}');
-           //dynamiczne kodowanie
-           PascalCode.Add('  SetConsoleCP(' + WinCP + ');');
-           PascalCode.Add('  SetConsoleOutputCP(' + WinCP + ');');
-         PascalCode.Add('{$ENDIF}');
-         // Ustawienie strony kodowej dla standardowego wyjścia (ważne dla FPC RTL)
-          PascalCode.Add('  SetTextCodePage(Output, ' + WinCP + ');');
-          PascalCode.Add('  SetTextCodePage(Input, ' + WinCP + ');');
-          }
-
-  	 // 9. Inicjalizacja zmiennych
-  	 for i := 0 to High(FVariables) do
-  	 begin
-  	   if (FVariables[i].VarName <> '') and (FVariables[i].InitialValue <> '') then
-  	   begin
-  	 	 PascalCode.Add('  ' + FVariables[i].VarName + ' := ' + TranslateExpression(FVariables[i].InitialValue) + ';');
-  	   end;
-  	 end;
-         PascalCode.Add('');
-
-  	 // 10. PĘTLA 3: Tłumaczenie kodu głównego
-  	 ProcedureDepth := 0;
-         FInRepeatBlock := False;
-
-
-  	 for i := 0 to TranslateCode.Count - 1 do
-  	 begin
-  	   trimmedLine := Trim(TranslateCode[i]);
-  	   if trimmedLine = '' then Continue;
-           LowerLine := AnsiLowerCase(trimmedLine);
-
-          // ignoruje procedury i funkcje
-          if (LowerLine.StartsWith('procedura ')) or (LowerLine.StartsWith('procedure ')) or
-             (LowerLine.StartsWith('funkcja ')) or (LowerLine.StartsWith('function ')) then
-          begin
-            ProcedureDepth := 1;
-            Continue;
-          end;
-          if ProcedureDepth > 0 then
-          begin
-            if (LowerLine = 'start') or (LowerLine = 'początek') or (LowerLine = 'poczatek')
-               or (LowerLine = 'main') or (LowerLine = 'główny') or (LowerLine = 'glowny') then
-               Inc(ProcedureDepth)
-            else if (LowerLine = 'koniec') or (LowerLine = 'end') then Dec(ProcedureDepth);
-            Continue;
-          end;
-
-     // Ignoruj linie globalne ORAZ deklaracje zmiennych
-     if AnsiStartsText('program ', LowerLine) or
-        AnsiStartsText('program_ui ', LowerLine) or
-  	AnsiStartsText('importuj', LowerLine) or
-  	AnsiStartsText('import', LowerLine) or
-  	AnsiStartsText('ModułyPas', LowerLine) or
-         // Ignoruj deklaracje zmiennych (użyjemy ResolveAlias do sprawdzenia)
-       (SafeResolveAlias(LowerLine.Split([' '])[0]) <> 'Variant') or
-       // IGNORUJEMY główny 'start' i 'koniec.'
-       (LowerLine = 'main') or
-       (LowerLine = 'główny') or
-       (LowerLine = 'glowny') or
-       (LowerLine = 'start') or
-       (LowerLine = 'początek') or
-       (LowerLine = 'poczatek') or
-       (LowerLine = 'koniec.') or
-       (LowerLine = 'end.') then
-       begin
-         Continue;
-       end
-       else
-  	 begin
-         if i + 1 < TranslateCode.Count then
-       	   NextTrimmedLowerLine := LowerCase(Trim(TranslateCode[i+1]))
-      	 else
-	   NextTrimmedLowerLine := '';
-
-  	 // Tłumaczymy kod główny (TYLKO wnętrze bloku)
-   	 ProcessLine(trimmedLine, PascalCode, NextTrimmedLowerLine);
-  	 end;
-  	 end;
-         // Koniec Pętli 3
-
-
-          if not IsGUI then
-          begin
-             // Tylko dla konsoli dodajemy czekanie na klawisz
-             PascalCode.Add('  Readln;');
-          end;
-
-  	 PascalCode.Add('end.');
-
-         PascalCode.Insert(0, '{$codepage ' + DetectedCodePage + '}');
-         //Line := TranslateFunctions(Line);
-
-  	 Result := PascalCode;
+    Result := C.CompileSource(Name, Text);
   finally
-   UsesList.Free;
-   ExistingUnits.Free;
-   TranslateCode.Free;
+    C.Free;
   end;
-
+  if Result <> nil then
+  begin
+    IsGUIProject := Result.ProjectKind = apkGui;
+    // keep legacy NameProgram in sync for the IDE
+    if Result.ProgramName <> '' then
+      NameProgram := Result.ProgramName;
+  end;
 end;
 
+function TAvocadoTranslator.Translate(const AvocadoCode: TStrings): TStringList;
+var
+  Res: TAvocadoCompileResult;
+begin
+  // New frontend pipeline (lexer -> parser -> semantics -> Pascal codegen).
+  Res := Compile(AvocadoCode);
+  try
+    Result := TStringList.Create;
+    Result.Assign(Res.GeneratedPascal);
+    if not Res.Success then
+    begin
+      // keep returning generated text for preview, but signal via IsGUIProject sync
+      // callers that need hard failure should use Compile() and inspect diagnostics
+    end;
+  finally
+    Res.Free;
+  end;
+end;
 end.

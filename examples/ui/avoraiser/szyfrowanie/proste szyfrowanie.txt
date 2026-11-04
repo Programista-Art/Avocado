@@ -1,0 +1,47 @@
+procedure SzyfrujPlikXOR(const SciezkaWe, SciezkaWy, Klucz: String);
+var
+  PlikWe, PlikWy: file;
+  Bufor: array[1..4096] of Byte; // Zwykła, prosta tablica (czytamy po 4 KB)
+  Przeczytano, i, PozKlucza: Integer;
+begin
+  // Zabezpieczenie przed pustym kluczem
+  if Length(Klucz) = 0 then Exit;
+
+  // 1. Otwieramy stary plik do odczytu
+  AssignFile(PlikWe, SciezkaWe);
+  Reset(PlikWe, 1); // '1' oznacza, że czytamy bajt po bajcie
+
+  // 2. Tworzymy nowy plik do zapisu
+  AssignFile(PlikWy, SciezkaWy);
+  Rewrite(PlikWy, 1);
+
+  PozKlucza := 1; // Zaczynamy od pierwszej litery hasła
+
+  // 3. Główna pętla - czytamy plik, dopóki się nie skończy
+  while not EOF(PlikWe) do
+  begin
+    // Czytamy porcję danych do Bufora
+    BlockRead(PlikWe, Bufor, SizeOf(Bufor), Przeczytano);
+
+    // Szyfrujemy tylko to, co udało się przeczytać
+    for i := 1 to Przeczytano do
+    begin
+      // Ord() zamienia literę klucza na liczbę (bajt), aby zrobić XOR
+      Bufor[i] := Bufor[i] xor Ord(Klucz[PozKlucza]);
+      
+      // Przesuwamy się do kolejnej litery w kluczu
+      PozKlucza := PozKlucza + 1;
+      
+      // Jeśli hasło się skończyło, wracamy do pierwszej litery (zapętlamy)
+      if PozKlucza > Length(Klucz) then 
+        PozKlucza := 1; 
+    end;
+
+    // Zapisujemy zaszyfrowany Bufor do nowego pliku
+    BlockWrite(PlikWy, Bufor, Przeczytano);
+  end;
+
+  // 4. Zamykamy oba pliki zwalniając je dla systemu
+  CloseFile(PlikWe);
+  CloseFile(PlikWy);
+end;

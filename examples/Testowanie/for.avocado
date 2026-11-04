@@ -1,0 +1,16 @@
+program fortobreak
+główny
+  test
+koniec.
+
+procedura test
+początek
+liczba_calkowita i = 0
+dla i = 1 do 4 wykonaj
+początek
+   jeżeli i = 3 wtedy
+   kontynuuj
+   pisz_linie(i)
+koniec
+koniec
+//wynik 1,2,4

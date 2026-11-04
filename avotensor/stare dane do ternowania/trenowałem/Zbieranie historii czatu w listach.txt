@@ -1,0 +1,8 @@
+﻿
+//Zbieranie historii czatu w listach
+zmienna historia_czatu = []; // tworzy pustą tablicę
+dodaj_do_listy(historia_czatu, "Witaj w AvocadoNet!");
+dodaj_do_listy(historia_czatu, "Serwer działa poprawnie.");
+
+zmienna ilosc_wiadomosci = rozmiar_listy(historia_czatu);
+// ilosc_wiadomosci wynosi teraz 2

@@ -1,0 +1,22 @@
+program zapisywnaie
+glowny 
+lista_tekstów a
+twórz_lista_tekstów(a)
+dodaj_lista(a,1)
+dodaj_lista(a,2)
+dodaj_lista(a,3)
+
+uwzglednia_wielkosc_liter(a,True)
+
+uwzględnia_wielkość_liter(a,True)
+ignoruj_duplikaty(a)
+ignore_duplicates(a)
+akceptuj_duplikaty(a)
+accept_duplicates(a)
+
+dodaj_lista(a,Avocado IDE)
+//załaduj_z_pliku(a,'test.txt')
+zapisz_do_pliku(a,'nowy.txt')
+pisz_linie('Zamknij plik i uruchom plik zapisywnaie.exe a potem sprawdź plik nowy.txt')
+a.zwolnij
+koniec.

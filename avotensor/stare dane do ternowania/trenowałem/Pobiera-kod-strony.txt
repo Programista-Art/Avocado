@@ -1,0 +1,14 @@
+program pobierastrone
+importuj internet
+main
+  print_line('Witaj w programie pobierania kodu strony memoria.bn.gov.br' )
+  string linkstr = 'https://memoria.bn.gov.br/DocReader/DocReader.aspx?bib=030015_02&id=2014800353052&pagfis=2'
+  string pathstr = 'D:\bazy\info\strona.html'
+  //użycie procedury pobierania
+  download_web_site(linkstr,pathstr)
+end.
+
+procedure download_web_site(link:string; path:string)
+start
+  download_page(link, path)
+end

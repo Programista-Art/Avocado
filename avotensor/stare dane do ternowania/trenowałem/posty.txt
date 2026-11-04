@@ -1,0 +1,1679 @@
+﻿Drodzy Panowie i Panie!
+Znowu to się stało...
+Musicie przepisać cały swój kod w Avocado 
+Dlaczego? Bo od wersji 1.0.1.4 wchodzi nowa, duża zmiana  procedury!
+A bez tego wasz dotychczasowy kod po prostu nie będzie już działać 
+Ale spokojnie  to zmiana na lepsze 
+Teraz Avocado obsługuje własne procedury, co pozwala pisać czystszy, bardziej 
+modularny kod.
+To kolejny krok w stronę bardziej dojrzałego i profesjonalnego języka.
+Aktualizujcie do wersji 1.0.1.4
+Przepiszcie kod
+I bawcie się dalej w programowanie po Avocadowemu 
+
+Nowości w Avocado v. 2.0.0.0
+Nowa wersja przynosi ważną zmianę  możesz teraz uruchamiać kod bez 
+kompilacji!
+To świetne rozwiązanie do testowania i eksperymentowania z kodem  nie tworzy 
+się wtedy plik .exe, a wynik działania pojawia się od razu.
+Oczywiście, nadal pozostaje możliwość klasycznej kompilacji kodu do pliku 
+wykonywalnego, jeśli chcesz stworzyć gotowy program.
+Ta funkcja sprawia, że praca z Avocado jest jeszcze szybsza i bardziej 
+elastyczna 
+Jeśli podoba Ci się projekt, zostaw gwiazdkę na GitHubie! 
+To naprawdę pomaga w jego dalszym rozwoju i motywuje do pracy
+
+Zrobiłem kolejną aktualizację Avocado i wpadło parę fajnych rzeczy:
+Własne funkcje (function)
+W końcu można pisać swoje funkcje! Kod wygląda teraz jak w „prawdziwych” 
+językach 
+Lokalne zmienne w procedurach i funkcjach
+Nie trzeba już wszystkiego wrzucać do globali - można normalnie deklarować 
+zmienne lokalne.
+zwróć / return
+Funkcje mogą zwracać wartości, także wszystko działa tak jak powinno.
+Automatyczne wykrywanie kodowania + UTF-8
+IDE samo ogarnia kodowanie plików, więc nie będzie już problemów z polskimi 
+znakami i innymi cudami.
+Avocado rośnie jak na drożdżach 
+Jak projekt Ci się podoba, to zostaw gwiazdkę na GitHubie - mega pomaga! 
+
+Aktualizacja Avocado 2.2.0.0 już dostępna! 
+W tej wersji pojawiło się mnóstwo nowości i usprawnień:
+Nowe funkcje i ulepszenia
+6 nowych funkcji
+29 nowych aliasów angielskich
+Dodane polskie aliasy (bez polskich znaków)
+Łącznie Avocado ma teraz:
+258 funkcji
+255 aliasów angielskich
+Ulepszenia funkcji
+Do każdej funkcji dodałem:
+podpowiedzi,
+wyjątki,
+szczegółowe sprawdzanie składni (np. brak nawiasu),
+a niektóre funkcje uniemożliwiają użycie nawiasów, jeśli nie są wymagane.
+Nowe możliwości języka
+Własne funkcje i procedury
+Słowa kluczowe: function / funkcja, procedure / procedura
+return / zwróć w funkcjach
+Lokalne zmienne w procedurach i funkcjach
+Co zostało usunięte?
+System etykiet label
+Skoki skocz / jump (zbyt kontrowersyjne - wywaliłem
+Kodowanie i kompilacja
+ Automatyczne wykrywanie kodowania
+Wszystkie pliki są UTF-8
+IDE samo ogarnia format plików
+Tymczasowe pliki kompilacji zapisują się teraz w:
+C:\Users\User\AppData\Local\Temp\Avocado
+Po kompilacji usuwają się automatycznie. Jeśli nie  dodałem przycisk do 
+szybkiego otwarcia folderu.
+Nowość: Interpretator Avocado!
+Możesz teraz uruchamiać kod bez kompilacji.
+Nie powstaje plik .exe
+Wynik wyświetla się natychmiast
+Idealne do testowania kodu! 
+Zmiany w słowach kluczowych
+przerwać przerwij
+kontynuować kontynuuj
+podczas dopóki
+tablicaliczb  tablica_liczb
+Języki IDE  porządki
+Usunąłem 24 języki, zostawiłem 6 najważniejszych:
+ angielski
+ hiszpański
+ niemiecki
+ francuski
+ rosyjski
+polski
+Całe IDE i wszystkie wyjątki zostały przetłumaczone w całości na te 6 języków.
+Pliki .po mają teraz 325 linii (wcześniej 235)  dodałem 90 linii nowych wyjątków i 
+komunikatów.
+Nowa domena Avocado!
+Projekt ma teraz własną domenę:
+avocado-code(.)com
+(koniec z subdomenami!)
+Aktualizacja jest dostępna na SourceForge! 
+Zrobiłem też Instalator dla Avocado 
+
+Statystyki pobrań Avocado za listopad  2025
+W listopadzie Avocado zostało pobrane 103 razy z sourceforge!
+Najwięcej pobrań pochodziło z:
+1. Stany Zjednoczone 25 pobrań
+2. Polska 17 pobrań
+3. Niemcy 8 pobrań
+Dzięki wszystkim, którzy testują i wspierają rozwój Avocado! 
+
+Nowa dokumentacja Avocado - już dostępna w MkDocs!
+Przez ostatnie kilka dni intensywnie pracowałem nad czymś, co od dawna było 
+potrzebne - porządną, wygodną i łatwą w utrzymaniu dokumentacją Avocado.
+I w końcu jest! 
+Cała dokumentacja została przepisana do MkDocs
+W całości po polsku - bo Avocado to polski język programowania, stworzony w 
+Polsce, dla Polaków
+Wbudowana wyszukiwarka umożliwia szybkie znajdowanie funkcji, słów 
+kluczowych, przykładów - ogromna poprawa wygody
+Struktura jest teraz przejrzysta, łatwa w aktualizacji i gotowa na dalszy rozwój
+Dlaczego tylko po polsku?
+Bo Avocado jest przede wszystkim językiem polskojęzycznym - daje możliwość 
+programowania po polsku i chcę, żeby dokumentacja odzwierciedlała tę ideę.
+Dla wersji angielskiej planuję w przyszłości osobny moduł lub tłumaczenie, jeśli 
+będzie na to zapotrzebowanie.
+Cieszę się, że mogę w końcu udostępnić dokumentację w formie, która 
+naprawdę pomaga podczas nauki i pracy z Avocado.
+Jeśli chcesz, żebym dodał jakiś rozdział, przykład lub opis konkretnej funkcji - 
+pisz śmiało!
+W razie czego oczyść cookies w przeglądarce, żeby załadowała się aktualna 
+dokumentacja.
+Czasem przeglądarka potrafi trzymać starą wersję.
+Dokumentacja na nowej domenie (https://doc.avocado-code.com/)
+Oficjalna strona Avocado na nowej domenie (https://avocado-code.com/)
+Stara dokumentacja jest tu (https://avocado.doc.dimitalart.pl/)
+
+Wprowadzam do Avocado obsługę obiektu listy tekstów odpowiednika 
+TStringList z Pascala.
+Działa w dwóch wersjach:
+po polsku: lista_tekstów / lista_tekstow
+po angielsku: string_list
+Obsługiwane funkcje (aktualnie)
+tworz_lista_tekstów(s) - Tworzy nową listę
+dodaj_lista(h, x) - Dodaje element do listy
+ilosc(h) - Liczba elementów
+teksty(h, i) - Pobiera jeden element
+h.zwolnij - Zwalnia obiekt z pamięci
+h.tekst - Do wypisania całej listy
+Pozostałe metody niebawem zrealizuje. 
+usuwanie z listy elementów, wstawienie do listy, sortowanie, znajdywanie 
+elementu i inne.
+Również są angielskie aliasy do tego.
+W języku Avocado możesz pisać po polsku zarówno z polskimi znakami 
+diakrytycznymi, jak i bez nich.
+
+Avocado przekroczyło 300 pobrań. Codziennie ktoś pobiera i testuje język, co 
+pokazuje, że projekt wzbudza zainteresowanie wśród programistów.
+   Na GitHubie projekt ma już 26 gwiazdek. Dziękuję wszystkim, którzy pobierają 
+Avocado, testują, zgłaszają uwagi i wspierają rozwój języka.
+   Pracuję dalej nad kolejnymi aktualizacjami i ulepszeniami. Jeśli macie pomysły 
+lub propozycje zmian, chętnie je przeczytam.
+Jeśli chcesz wspierać rozwój języka programowania Avocado, możesz zostać 
+moim patronem na platformie patronite.pl.
+Wsparcie projektu jest możliwe poprzez wybór dowolnego progu subskrypcji.
+Każda forma wsparcia pomaga w dalszym rozwoju Avocado, utrzymaniu 
+projektu oraz tworzeniu nowych funkcji i modułów.
+Link https://patronite.pl/programista-art
+
+Zacząłem pracę nad modułem Avocado UI, który pozwoli tworzyć aplikacje z GUI 
+na Windowsie.
+To duży i czasochłonny etap rozwoju projektu.
+   Biblioteka Avocado UI będzie dostępna tylko dla patronów
+Innej formy udostępnienia nie planuję.
+Jeśli chcesz wspierać rozwój języka programowania Avocado, możesz zostać 
+moim patronem na platformie patronite.pl.
+Wsparcie projektu jest możliwe poprzez wybór dowolnego progu subskrypcji.
+Każda forma wsparcia pomaga w dalszym rozwoju Avocado, utrzymaniu 
+projektu oraz tworzeniu nowych funkcji i modułów.
+Link https://patronite.pl/programista-art
+Dziękuję za wsparcie projektu Avocado.
+
+Pracuję nad kolejną wersją Avocado i chciałem podzielić się tym, co już jest 
+gotowe/
+Ta aktualizacja skupia się głównie na wygodzie pracy i rozwoju obiektów.
+Nowości w obiekcie lista_tekstów
+Dodałem 10 nowych metod, które znacznie ułatwiają pracę z listami
+1.Wstawianie elementu na konkretną pozycję
+ wstaw_do_listy / insert_to_list
+ Przykład:
+ wstaw_do_listy(h, 2, 'Nowy tekst')
+ 2.Usuwanie elementu po indeksie
+ usuń_z_listy / usun_z_listy / delete_to_list
+ Definicja:
+ usuń_z_listy(lista, indeks)
+3.Usuwanie elementu po wartości
+usuń_z_listy_id / usun_z_listy_id / delete_to_list_id
+Definicja:
+usuń_z_listy_id(lista, 'wartość')
+4.Czyszczenie całej listy
+wyczyść_listę / wyczysc_liste / clear_list
+Definicja:
+wyczyść_listę(nazwa_listy)
+5.Ustawianie nowej wartości elementu
+ustaw_tekst / set_text
+Definicja:
+ustaw_tekst(nazwa_listy, indeks, 'nowa wartość')
+6.Włączenie automatycznego sortowania
+sortuj_liste
+sortuj_listę
+sort_list
+przykład
+sort_list(lista,prawda lub falsz)
+7.Ręczne sortowanie
+ręcznie_sortuj_listę
+recznie_sortuj_liste
+manually_sort_list
+przykład
+ręcznie_sortuj_listę(lista)
+Wyszukiwanie 
+8.Znajdowanie indeksu tekstu 
+znajdź_indeks_lista
+znajdz_indeks_lista
+find_index_list
+przykład
+znajdź_indeks_lista(zmienna int, lista, ‘wartość’)
+9.Szybkie wyszukiwanie w posortowanej liście
+szukaj_wartość_w_liście
+szukaj_wartosc_w_liscie
+search_value_in_list
+przykład
+jeżeli szukaj_wartość_w_liście(h,'Hi',a) wtedy
+początek
+    pisz_linie('Znaleziono!')
+koniec
+10.Wczytanie z pliku
+załaduj_z_pliku
+zaladuj_z_pliku
+load_from_file
+definicja
+załaduj_z_pliku(lista,‘nazwa_pliku.txt’)
+Zmiany w IDE Avocado
+Dodałem w zakładce Widok:
+Tryb „Zawsze na górze”- żadne inne okno nie zasłoni IDE Avocado
+Tryb standardowy- normalne zachowanie okien
+W zakładce Pomoc pojawił się nowy punkt „Patroni Avocado”- będą tam 
+wyświetlane osoby wspierające projekt
+Dodałem szablon podstawowego programu konsolowego, żeby szybciej 
+zaczynać pisanie kodu:
+Plik - Nowy - Program konsolowy
+To jeszcze nie jest wersja do pobrania  wszystko jest w trakcie dopinania i 
+testów.
+Jak zawsze: dzięki za wsparcie i feedback. Patroni mają realny wpływ na rozwój 
+Avocado i dostęp do informacji wcześniej.
+Jeśli Avocado jest dla Ciebie wartościowe i chcesz pomóc w rozwoju  wsparcie 
+na Patronite bardzo 
+
+Nowości w Avocado - ruszyły prace nad Avoraiser
+Od jakiegoś czasu intensywnie pracuję nad nowym modułem avocado_ui, który 
+pozwoli tworzyć aplikacje z graficznym interfejsem użytkownika na Windowsie. 
+To wrapper na WinAPI napisany w Free Pascalu, a następnie udostępniany w 
+Avocado w postaci prostych, czytelnych funkcji.
+Na ten moment działa już ponad 40 funkcji, m.in.:
+- tworzenie, zamykanie i wyświetlanie okien
+- okna bez ramek, przeciąganie za tło, przezroczystość
+- centrowanie okna, zmiana pozycji i rozmiaru
+- zawsze na wierzchu, fokus, minimalizacja, maksymalizacja,     przywracanie
+- zmiana tytułu okna, kolorów nagłówka i tła
+- rysowanie tekstu na środku okna oraz prosta grafika (GDI)
+- kontrolki: Memo, Button, Label, Input, Checkbox
+- obsługa tekstu w Memo (append, pobieranie treści)
+- okna dialogowe (MessageBox, pytanie Tak/Nie)
+- pobieranie pozycji i rozmiaru okna, obszar klienta
+- możliwość dokładnego sterowania zachowaniem okna (ramki, rozmiar, 
+przyciski)
+Celem jest prosty, spójny i lekki interfejs, bez kopiowania LCL czy innych 
+ciężkich frameworków. Avocado ma pozwalać szybko tworzyć narzędzia i 
+aplikacje desktopowe bez walki z WinAPI.
+To dopiero początek - moduł będzie dalej rozwijany i porządkowany.
+Jeśli interesuje Cię kierunek rozwoju Avocado albo chcesz mieć realny wpływ na 
+to API, daj znać w komentarzu.
+
+Nowości w Avocado - ruszyły prace nad Avoraiser
+Od jakiegoś czasu intensywnie pracuję nad nowym modułem avocado_ui, który 
+pozwoli tworzyć aplikacje z graficznym interfejsem użytkownika na Windowsie. 
+To wrapper na WinAPI napisany w Free Pascalu, a następnie udostępniany w 
+Avocado w postaci prostych, czytelnych funkcji.
+Na ten moment działa już ponad 40 funkcji, m.in.:
+- tworzenie, zamykanie i wyświetlanie okien
+-  okna bez ramek, przeciąganie za tło, przezroczystość
+-  centrowanie okna, zmiana pozycji i rozmiaru
+-  zawsze na wierzchu, fokus, minimalizacja, maksymalizacja,     przywracanie
+-  zmiana tytułu okna, kolorów nagłówka i tła
+- rysowanie tekstu na środku okna oraz prosta grafika (GDI)
+-  kontrolki: Memo, Button, Label, Input, Checkbox
+-  obsługa tekstu w Memo (append, pobieranie treści)
+-  okna dialogowe (MessageBox, pytanie Tak/Nie)
+-  pobieranie pozycji i rozmiaru okna, obszar klienta
+-  możliwość dokładnego sterowania zachowaniem okna (ramki, rozmiar, 
+przyciski)
+Celem jest prosty, spójny i lekki interfejs, bez kopiowania LCL czy innych 
+ciężkich frameworków. Avocado ma pozwalać szybko tworzyć narzędzia i 
+aplikacje desktopowe bez walki z WinAPI.
+To dopiero początek - moduł będzie dalej rozwijany i porządkowany.
+Jeśli interesuje Cię kierunek rozwoju Avocado albo chcesz mieć realny wpływ na 
+to API, daj znać w komentarzu.
+Poniżej zdjęcia UI.
+
+Avoraiser  +20 nowych funkcji!
+Rozwój Avocado UI mocno przyspieszył. Do biblioteki właśnie doszło 20 nowych 
+funkcji i zdarzeń, które dają jeszcze większą kontrolę nad oknami, interakcją z 
+użytkownikiem i zachowaniem aplikacji na Windows. 
+Łącznie Avocado UI ma już 62 funkcje.
+Co nowego?
+Zdarzenia i interakcje
+obsługa kliknięć (SetOnClick)
+reakcja na zmianę rozmiaru okna (SetOnResize)
+obsługa klawiatury: wciśnięcie i puszczenie klawisza (SetOnKeyDown, 
+SetOnKeyUp)
+kontrolowane zamykanie okna (OnCloseQuery- decydujesz, czy okno ma się 
+zamknąć)
+Zarządzanie oknami
+wyciąganie okna na wierzch bez kradzieży fokusu (BringToTop)
+wysyłanie okna na spód (SendToBack)
+pokazywanie i ukrywanie okien (Show, Hide)
+pełne wsparcie dla okien głównych i podrzędnych (child windows)
+blokowanie i odblokowywanie okna (tryb modalny)
+Informowanie użytkownika
+miganie okna na pasku zadań (FlashWindow)
+określona liczba mrugnięć
+mruganie w nieskończoność
+zatrzymanie efektu
+Pełna kontrola nad geometrią
+minimalny rozmiar okna (SetMinWindowSize)
+reakcja na przesuwanie okna (SetOnMove)
+reakcja na zmianę rozmiaru w trakcie przeciągania (SetOnSizing)
+obsługa przesuwania „na żywo” (SetOnMoving)
+najpotężniejsze zdarzenie: SetOnWindowPosChanging
+przyciąganie do siatki (Grid Snap)
+blokada zmiany rozmiaru
+blokada Z-Order
+pełna kontrola nad pozycją i rozmiarem  nawet gdy zmienia je kod lub system
+Dlaczego to ważne?
+Te funkcje pozwalają tworzyć
+nowoczesne aplikacje desktopowe na Windows
+własne systemy okien, dialogi modalne i narzędzia
+zaawansowane UI bez używania ciężkich frameworków
+Avoraiser to lekki wrapper na WinAPI, pisany w Free Pascalu i wywoływany 
+bezpośrednio z języka Avocado.
+To dopiero początek  kolejne elementy UI są już w planach 
+
+Avoraiser  kolejne nowości! +10 funkcji
+Aby tworzyć aplikacje z interfejsem graficznym w Avocado, na początku 
+programu należy użyć.
+program_ui nazwaprogramu najlepiej z małych liter bez polskich znaków i liczb 
+bez spacji w środku, najlepiej jedno słowo, może być podkreślnik _ między 
+słowami.
+To włącza tryb UI i pozwala kompilować aplikacje okienkowe.
+Następnie trzeba zaimportować bibliotekę UI:
+importuj avocado_ui lub import avocado_ui
+Ważne: biblioteka avocado_ui musi znajdować się w folderze moduly - to 
+właśnie tam trafiają wszystkie biblioteki używane przez Avocado.
+Dziś do avocado_ui doszło 10 nowych funkcji, które jeszcze bardziej zbliżają 
+Avocado do pełnoprawnego środowiska do tworzenia nowoczesnych aplikacji 
+na Windows 
+Łącznie biblioteka zawiera teraz 72 funkcji.
+Nowe możliwości:
+WM_WINDOWPOSCHANGED
+Jedno miejsce zawierające wszystkie informacje o zmianie okna:
+pozycja
+rozmiar
+flagi systemowe
+Idealne do:
+debugowania zachowania okna
+aktualizacji wewnętrznego stanu aplikacji
+reagowania na zmiany wywołane myszką, systemem lub kodem
+System Anchors (Kotwice)
+Pierwszy krok do automatycznych layoutów:
+SetAnchor(hMemo, [akLeft, akTop, akRight, akBottom])
+Dzięki UpdateLayout elementy UI same dopasowują się do rozmiaru okna  bez 
+ręcznego liczenia pozycji.
+Uniwersalne funkcje tekstu
+Działają na: Window, Button, Label, Edit
+GetText
+SetText
+Nowoczesne efekty wizualne
+Rozmycie tła (Acrylic / Blur)
+Zaokrąglone rogi okna (Windows 11)
+Cień pod oknem (idealne dla okien bezramkowych)
+Stan okna
+sprawdzenie, czy okno jest zminimalizowane
+sprawdzenie, czy okno jest zmaksymalizowane
+pobieranie tytułu okna (GetWindowTitle)
+Avocado UI to:
+lekka biblioteka około 55 kb
+nowoczesne efekty bez ciężkich frameworków
+logiczna, czytelna biblioteka
+możliwość pisania aplikacji okienkowych bezpośrednio w Avocado
+
+Avocado UI - kolejne duże rozszerzenie frameworka!
+Framework avocado_ui cały czas się rozwija i coraz bardziej przypomina 
+pełnoprawne środowisko do tworzenia nowoczesnych aplikacji okienkowych na 
+Windows w języku Avocado.
+Co nowego?
+Informacje o monitorze
+Możliwość pobrania danych o monitorze, na którym znajduje się okno 
+(rozdzielczość, obszar roboczy bez paska zadań). Idealne do centrowania i 
+obsługi wielu monitorów.
+„Przyklejanie” okien (Snapping)
+Okno może automatycznie przyciągać się do krawędzi ekranu z określoną 
+tolerancją- dokładnie jak w nowoczesnych systemach.
+Sprawdzanie długości tekstu
+Szybkie sprawdzenie, czy kontrolka zawiera tekst, bez pobierania całej 
+zawartości do pamięci.
+Dynamiczne usuwanie kontrolek
+Możliwość natychmiastowego niszczenia przycisków, etykiet, paneli czy okien w 
+trakcie działania programu- bez pytań i bez zdarzeń zamykania.
+Czyszczenie kontrolek
+Jedna funkcja do czyszczenia zawartości:
+Memo - usuwa tekst
+Checkbox - odznacza
+działa poprawnie zależnie od typu kontrolki
+Obsługa schowka systemowego
+Kopiowanie, wycinanie i wklejanie zaznaczonego tekstu w Edit, Memo, RichEdit 
+i ComboBox- pełna integracja z systemem.
+Cofanie operacji (Undo)
+Wsparcie dla cofania ostatniej akcji oraz sprawdzania, czy cofnięcie jest 
+możliwe (np. do aktywowania przycisku „Cofnij”).
+Przypomnienie techniczne:
+aplikacje z interfejsem zaczynamy od program_ui
+framework importujemy przez importuj avocado_ui
+biblioteka znajduje się w folderze moduly
+Nowość:
+Równolegle tworzę Avocado UI Editor - wizualny edytor interfejsów, który będzie 
+korzystał bezpośrednio z frameworka avocado_ui.
+Celem jest projektowanie okien i kontrolek wizualnie, a nie tylko w kodzie.
+Avocado zmierza w stronę kompletnej platformy do tworzenia nowoczesnych 
+aplikacji desktopowych na Windows.
+Jeśli masz pomysły na kolejne elementy UI albo funkcje edytora - daj znać.
+
+
+osiągnięcia twórcy języka programowania Avocado w dziedzinie 
+programowania w roku 2025
+Udało mi się stworzyć trzy języki programowania:
+Avocado -polski język programowania będący transpilatorem do Free Pascala. 
+Obecnie posiada 271 funkcji. Obsługuje składnię zarówno w języku polskim, jak 
+i angielskim.
+Tomato - język programowania typu interpreter ze składnią angielską, 
+zawierający 12 najważniejszych funkcji.
+Plumbra - język programowania, który jest 23,3 razy szybszy od Tomato, ale 5,5 
+razy wolniejszy od Pythona. Posiada własny bajtkod, stosową maszynę wirtualną 
+oraz kompilator.
+Stworzyłem również:
+Translator PO - program do tłumaczenia plików .po oraz ich kompilacji do plików 
+.mo, wykorzystywanych w tłumaczeniach programów.
+Avoraiser- framework UI dla języka Avocado, przeznaczony do tworzenia 
+nowoczesnych interfejsów na Windows 11.
+Avocado UI Editor - wizualny edytor dla frameworka Avocado UI.
+Dodatkowo:
+Avocado zostało pobrane ponad 345 razy na SourceForge.
+Repozytorium Avocado na GitHubie zdobyło 30 gwiazdek.
+Rozwinąłem swój fanpage z 20 do 180 obserwujących.
+Zyskałem jednego Patrona na Patronite
+Postanowienia noworoczne
+Dalszy rozwój języka Avocado.
+Ulepszanie frameworka Avocado UI oraz wizualnego edytora opartego na tym 
+frameworku.
+
+Aktualizacja Avocado 2.2.1.0 już dostępna do pobrania!
+Avocado - aktualizacja
+Avocado posiada już 271 funkcji.
+W tej aktualizacji dodałem obsługę obiektu listy tekstów, będącego 
+odpowiednikiem TStringList z Pascala.
+Zmiany w nazewnictwie
+Wcześniej funkcja  / teraz
+wykonać - wykonaj
+descending - downto
+Obiekt dostępny jest w dwóch wersjach:
+polska: lista_tekstów / lista_tekstow
+angielska: string_list
+W języku Avocado można pisać po polsku z użyciem polskich znaków 
+diakrytycznych lub bez nich. Wszystkie funkcje posiadają również angielskie 
+aliasy.
+Obiekt lista_tekstów- dostępne funkcje
+Tworzenie i podstawowa obsługa:
+tworz_lista_tekstów(s)- tworzy nową listę
+dodaj_lista(h, x)- dodaje element do listy
+ilosc(h) - zwraca liczbę elementów
+teksty(h, i) - pobiera element po indeksie
+h.tekst - wypisuje całą zawartość listy
+h.zwolnij - zwalnia obiekt z pamięci
+Nowości - 10 nowych metod
+Modyfikacja zawartości listy:
+wstaw_do_listy / insert_to_list - wstawianie elementu na określoną pozycję
+usuń_z_listy / usun_z_listy / delete_from_list - usuwanie elementu po indeksie
+usuń_z_listy_id / usun_z_listy_id / delete_from_list_id - usuwanie elementu po 
+wartości
+wyczyść_listę / wyczysc_liste / clear_list - czyszczenie całej listy
+ustaw_tekst / set_text - zmiana wartości elementu
+Sortowanie:
+sortuj_listę / sort_list - sortowanie automatyczne
+ręcznie_sortuj_listę / manually_sort_list - sortowanie ręczne
+Wyszukiwanie:
+znajdź_indeks_lista / find_index_list - znalezienie indeksu elementu
+szukaj_wartość_w_liście / search_value_in_list - szybkie wyszukiwanie w 
+posortowanej liście
+Operacje na plikach:
+załaduj_z_pliku / load_from_file - wczytanie listy z pliku
+Zmiany w IDE Avocado
+Zakładka Widok:
+Tryb „Zawsze na górze” - IDE nie jest zasłaniane przez inne okna
+Tryb standardowy - normalne zachowanie okien
+Zakładka Pomoc:
+Nowy punkt „Patroni Avocado” - lista osób wspierających projekt
+Nowe szablony:
+Dodany podstawowy szablon programu konsolowego
+Plik - Nowy - Program konsolowy
+Projekt rozwijany jest konsekwentnie - kolejne funkcje i usprawnienia są w 
+trakcie realizacji.
+Dziękuję wszystkim za wsparcie i feedback.
+
+Avocado - duża aktualizacja frameworka UI
+W ostatnim czasie dodałem 56 nowych funkcji, a łącznie framework Avocado UI 
+posiada już 138 funkcji 
+To jedna z największych aktualizacji, skupiona głównie na wydajności, edycji 
+tekstu oraz pełnej kontroli nad interfejsem użytkownika w Windows.
+Co się zmieniło i dlaczego to ważne?
+Zaawansowana praca z tekstem (Edit / Memo)
+Avocado dostało komplet narzędzi do:
+precyzyjnego zaznaczania tekstu i sterowania kursorem,
+pracy na liniach (numery linii, długości, tekst linii),
+budowy edytorów, konsol logów i narzędzi developerskich.
+Wydajność i płynność interfejsu
+Dodane zostały mechanizmy, które eliminują migotanie okien i „lagi”:
+wstrzymywanie i wznawianie odświeżania kontrolek,
+ręczne sterowanie repaintem,
+obsługa długich operacji (np. dodawanie tysięcy linii do Memo).
+To realny game changer przy większych aplikacjach.
+Pełna obsługa myszy (Client + Non-Client)
+Framework oferuje teraz:
+komplet zdarzeń myszy (kliknięcia, dwukliki, kółko),
+obsługę paska tytułu, ramek, przycisków systemowych (X, minimalizacja),
+możliwość reagowania dokładnie na to, gdzie użytkownik kliknął.
+Rozbudowana obsługa klawiatury
+Idealna pod:
+gry,
+edytory tekstu,
+zaawansowane formularze.
+Obsługiwane są klawisze fizyczne, systemowe, znaki Unicode oraz zdarzenia 
+specjalne.
+Menu i komunikaty systemowe Windows
+Możliwość:
+dynamicznego menu (aktywne/nieaktywne opcje),
+własnych wpisów w menu systemowym okna,
+reagowania na zamykanie, minimalizację, tryb menu,
+wyświetlania opisów w pasku statusu.
+Kontrola okna aplikacji
+Nowe opcje pozwalają m.in.:
+włączać/wyłączać przycisk maksymalizacji,
+korzystać z gotowych domyślnych parametrów okna,
+szybciej tworzyć spójne interfejsy.
+ Avocado coraz mocniej zmierza w stronę pełnoprawnego narzędzia do 
+tworzenia nowoczesnych aplikacji Windows, z niskopoziomową kontrolą i 
+wysoką wydajnością — ale nadal prostego w użyciu.
+Kolejne funkcje już w trakcie 
+Dzięki wszystkim za feedback i wsparcie 
+Jeśli Avocado jest dla Ciebie wartościowe i chcesz pomóc w rozwoju  wsparcie 
+na Patronite bardzo 
+
+Avocado UI Framework - kolejna duża aktualizacja
+Avocado UI Framework osiągnął 173 stabilne funkcje, a w najnowszej 
+aktualizacji dodałem kolejne 21 nowych API, skupionych na profesjonalnym 
+zachowaniu aplikacji Windows, zaawansowanej obsłudze tekstu oraz pełnej 
+integracji z systemem operacyjnym.
+Co przynosi ta aktualizacja?
+Poprawne zamykanie systemu i sesji użytkownika
+Framework obsługuje teraz kluczowe komunikaty:
+zapytanie systemu o zgodę na zamknięcie (np. niezapisane dane),
+finalne zamykanie sesji i sprzątanie zasobów.
+Dzięki temu aplikacje napisane w Avocado zachowują się tak, jak oczekuje tego 
+Windows- bez utraty danych i „brutalnego” zamykania.
+Reakcja na zmianę czasu systemowego
+Aplikacje mogą natychmiast reagować na:
+ręczną zmianę zegara,
+synchronizację czasu,
+zmianę strefy czasowej.
+Idealne rozwiązanie dla zegarów, planerów, logów i narzędzi systemowych.
+Kontrola rozmiaru okna i menu kontekstowe
+Dodana została obsługa:
+ograniczeń minimalnego i maksymalnego rozmiaru okna,
+menu kontekstowego wywoływanego prawym przyciskiem myszy.
+Zaawansowana obsługa kursora myszy
+Framework umożliwia:
+szybkie przypisanie kursora (np. „rączki” dla przycisków),
+pełną, dynamiczną kontrolę kursora w zależności od strefy okna (HitTest),
+używanie zarówno kursorów systemowych, jak i własnych plików .cur / .ani.
+Ikony aplikacji (Taskbar, Alt+Tab, pasek tytułu)
+Aplikacje mogą teraz poprawnie ustawiać:
+małą i dużą ikonę okna,
+ikonę widoczną na pasku zadań i przy przełączaniu okien.
+Efekt: brak „pustej kartki”- aplikacja wygląda jak pełnoprawny program 
+Windows.
+Rozbudowane sterowanie Memo / Edit (w tym RichEdit)
+Nowe funkcje pozwalają m.in. na:
+programowe przewijanie tekstu,
+automatyczne śledzenie kursora,
+wstawianie tekstu w miejscu kursora,
+sprawdzanie, czy dokument został zmodyfikowany,
+liczenie linii i znaków,
+zmianę limitu tekstu nawet do gigabajtów,
+tryb tylko do odczytu,
+własne paski przewijania i ukrywanie systemowych scrollbarów.
+To solidna baza pod:
+edytory tekstu,
+logi systemowe,
+konsole,
+IDE i narzędzia developerskie.
+Reakcja na zmianę rozmiaru okna
+Dodana obsługa zdarzeń zmiany rozmiaru umożliwia dynamiczne layouty i 
+responsywne UI.
+Podsumowanie
+173 funkcje bazowe
++21 nowych funkcji
+Silny nacisk na zgodność z Windows API
+Framework gotowy do tworzenia profesjonalnych aplikacji desktopowych
+Avocado UI Framework coraz wyraźniej wchodzi w segment narzędzi 
+niskopoziomowych, ale wygodnych, dając programiście pełną kontrolę nad 
+zachowaniem aplikacji w systemie Windows.
+Kolejne usprawnienia są już w trakcie prac.
+
+Aktualizacja Avocado UI Framework.
+Dodałem dużo funkcji aż 58 sztuk. Teraz Avocado UI zawiera łącznie 214 funkcji. 
+Najwięcej funkcji dotyczą komponentu RichText - zaawansowany Memo. 
+Obsługuje wszystkie metody związane z nim różne zdarzenia.
+Inne komponenty które dodałem to:
+CheckBox, GroupBox , RadioButton - można zmieniać kolor tekstu, tła, kolor 
+ramki, i inne potrzebne metody, obsługuje zdarzenia kliknięcia.
+Poniżej przedstawiam jak to wygląda wizualnie.
+
+
+Avoraiser vs Qt / WinUI / Electron- w skrócie
+Avoraiser  to framework UI tworzony w Lazarus (Pascal) bezpośrednio dla 
+mojego języka Avocado.
+Bez Chromium. Bez XAML. Bez magii.
+Dlaczego Avocado UI?
+Prawdziwe kontrolki Windows (WinAPI, nie emulacja)
+Pełna obsługa komunikatów systemowych (WM_QUERYENDSESSION, 
+WM_ENDSESSION, WM_SETCURSOR itd.)
+Idealne do IDE, edytorów, narzędzi systemowych
+Bardzo małe EXE, szybki start, niski RAM
+Pełna kontrola nad oknem, kursorem, ikoną, zamykaniem systemu
+UI + logika w jednym języku
+W porównaniu:
+Qt - cięższe, dużo abstrakcji
+WinUI - XAML + ograniczona kontrola niskopoziomowa
+Electron - Chromium, duży RAM, brak natywności
+Avocado UI nie próbuje być „cross-platform”.
+Avocado UI robi prawdziwe aplikacje Windows.
+Framework jest aktywnie rozwijany - ostatnio +58 nowych funkcji.
+Jeśli tworzysz IDE, edytory lub narzędzia systemowe - to dokładnie ten kierunek.
+
+Dlaczego prosta aplikacja na Windowsa musi ważyć 300 MB i potrzebować 
+własnej przeglądarki? 
+Mnie to pytanie nie dawało spokoju, dlatego z Avocado UI poszedłem zupełnie 
+„pod prąd”. 
+Większość dzisiejszych frameworków desktopowych to w rzeczywistości „web 
+udający desktop”. Efekt? Setki megabajtów zależności, ogromne zużycie RAM-u 
+i powolny start. Postanowiłem wrócić do korzeni, ale na nowoczesnych 
+zasadach.
+Co wyróżnia Avocado UI i mój język programowania? Szybkość natywna - 
+Żadnych pośredników. Avocado gada bezpośrednio z WinAPI, dzięki czemu 
+aplikacje startują w mgnieniu oka.  Jeden plik EXE - Zapomnij o instalowaniu 
+.NET-a, Javy czy runtime’ów. Kopiujesz plik i działa.  Pełna swoboda wizualna  
+WinAPI kojarzy się z latami 90., ale w Avocado to ja kontroluję każdy piksel, 
+zaokrąglenie i animację. Bez migotania i bez „systemowego” nudnego stylu.  
+Pełna kontrola - Zero czarnych skrzynek i tysięcy cudzych paczek. Wiem, co robi 
+każda procedura w moim kodzie.
+To nie jest kolejny ciężki framework. To projekt dla tych, którzy cenią lekkość, 
+przenośność (portable) i maksymalną wydajność.
+   W nowym wideo na YouTube pokazuję, jak to wszystko działa „pod maską” i 
+dlaczego warto czasem zrezygnować z mainstreamu na rzecz czystej, natywnej 
+mocy.
+
+Zrobiłem sobie ostatnio proste porównanie wag aplikacji i szczerze? Różnica 
+jest większa, niż się spodziewałem.
+  Tryb DEBUG
+• Lazarus (LCL): 26,8 MB
+• Avocado: 1,1 MB
+Aplikacja w Avocado jest ok. 23× mniejsza.
+Tryb RELEASE
+• Lazarus (LCL): 2,6 MB
+• Avocado: 400 KB
+Tutaj Avocado jest nadal ponad 6× mniejsze.
+Skąd ta różnica?
+Avocado nie ciągnie za sobą całego LCL, widgetsetów, stylów i warstw 
+abstrakcji. To czyste, natywne WinAPI, własne procedury okien i własne UI — 
+bez balastu.
+Efekt jest prosty:
+- mniejszy plik EXE
+- szybszy start
+- idealne pod aplikacje portable
+- zero runtime, zero zależności
+Nie twierdzę, że Lazarus jest zły — do wielu rzeczy jest świetny.
+Ale jeśli ktoś chce lekki, szybki, nowoczesny interfejs na Windows, to Avocado 
+pokazuje, jak dużo da się jeszcze „odchudzić”.
+I to jest dokładnie kierunek, w którym chcę iść 
+Mała aktualizacja z frontu Avoraiser 
+Jeszcze niedawno proste okno frameworka ważyło ~400 KB.
+Po przerobieniu kodu na w pełni modularny, wywaleniu zbędnych zależności i 
+przejściu na lekkie mechanizmy WinAPI:
+dziś: 63 KB w trybie release.
+To oznacza:
+~6,35 raza mniejszy plik EXE
+~84% mniej “wagi” niż wcześniej
+Bez LCL, bez .NET, bez runtime’ów, bez setek DLL.
+Jedno małe .exe, które po prostu działa.
+Mój cel? Zejść jeszcze niżej - do ~30 KB dla aplikacji.
+Nie dla sportu, tylko po to, żeby pokazać, jak daleko da się dojść, gdy naprawdę 
+kontrolujesz każdy moduł i każdą linijkę kodu.
+To dokładnie ten kierunek, w którym chcę rozwijać Avoraiser:
+
+krótki update z prac nad Avoraiserem.
+Ostatnio intensywnie optymalizuje kod i udało się zejść jeszcze niżej z 
+rozmiarem pliku.
+Waga aplikacji w trybie Release to teraz 62 KB (wcześniej 63 KB).
+Dodanie do projektu jednego przycisku zwiększa wagę aplikacji o 1 kb.
+Porównanie rozmiaru EXE (Release)
+Lazarus (LCL): 2628 KB
+Avoraiser: 62 KB
+Różnica
+Avoraiser jest ~42,4× mniejszy
+to ~97,6% mniej w porównaniu do aplikacji zbudowanej w Lazarusie
+Co to oznacza w praktyce?
+To nie jest kosmetyczna zmiana, tylko realna różnica architektoniczna:
+brak LCL = brak tysięcy linii abstrakcji
+czyste WinAPI + modularny kod
+zero runtime, zero bloatu
+W skrócie:
+Lazarus - wygoda i uniwersalność
+Avoraiser - ekstremalna lekkość i pełna kontrola
+Dodatkowo:
+aktywnie przepisuję i upraszczam API
+z 277 funkcji przepisałem już 134
+zmieniam konwencję nazewnictwa z PascalCase na snake_case,
+np. CreateAvocadoWindow- create_window
+Kierunek pozostaje ten sam:
+maksymalnie lekki, natywny i przewidywalny framework UI na Windows.
+
+Wielka aktualizacja Avoraisera! 
+Licznik funkcji właśnie dobił do 299! Dodałem 22 nowe funkcje, które dają pełną 
+kontrolę nad wyglądem i działaniem aplikacji.
+Oto kompletna lista funkcji:
+    create_panel - Rysuje zamalowany kształt panelu.
+    draw_rectangle - Rysuje sam obrys prostokąta.
+    draw_fill_rectangle - Wypełniony prostokąt bez obrysu.
+    draw_line - Szybkie rysowanie linii w oknie.
+    create_frame - Tworzy trwałą, pustą w środku ramkę.
+    create_line - Tworzy trwałą linię (również ukośną).
+    create_circle_filled - Pełne koło z wygładzaniem (antialiasing).
+    create_circle_outline - Sam obrys koła z regulacją grubości.
+    set_component_text_color - Zmienia kolor tekstu komponentu.
+    set_component_transparent - Ustawia przezroczystość elementu.
+    int_to_wide - Zamienia liczbę na UnicodeString (dla WinAPI).
+    rgb- Konwertuje kolory RGB na format BGR.
+    int_to_str - Szybka zamiana liczby na zwykły string.
+    create_image_box - Obsługa PNG (z kanałem alfa), JPG, BMP, GIF.
+    create_gradient_panel - Panele z gradientem (pion, poziom, skos).
+    create_rounded_panel - Nowoczesne panele z zaokrąglonymi rogami.
+    create_circle_image - Automatyczne wycinanie obrazka w koło (awatary).
+    create_rotated_image - Wstawianie obrazka z określonym kątem.
+    set_image_angle - Dynamiczna zmiana obrotu obrazka w locie.
+    delete_object - Usuwa obiekt graficzny i zwalnia pamięć.
+    show_component - Ukrywa lub pokazuje dowolny element.
+    show_toggle_component - Przełącza widoczność (on/off) jednym 
+wywołaniem.
+Avoraiser staje się kompletnym kombajnem do tworzenia nowoczesnych 
+interfejsów! 
+
+Avoraiser: framework UI oferuje obecnie 333 funkcje wspierające tworzenie 
+zaawansowanych aplikacji w języku Avocado.
+Zaimplementowałem 33 nowych funkcji. Poniżej zestawienie kluczowych funkcji z 
+podziałem na moduły:
+Zaawansowana Geometria i GDI i GDI+
+create_polygon_box- Obsługa dowolnych wielokątów. Co to daje w praktyce: 
+Możliwość tworzenia niestandardowych przycisków i kształtów, jak np. trójkątny 
+przycisk "Play".
+draw_smooth_rounded_rect- Zaokrąglone kształty z antialiasingiem. Co to daje 
+w praktyce: Idealnie gładkie krawędzie interfejsu, bez efektu "schodkowania".
+color_to_argb- Konwerter barw dla GDI+. Co to daje w praktyce: Łatwe 
+zarządzanie przezroczystością (kanał Alpha) przy użyciu standardowych kolorów 
+Avocado.
+gdiplus_init / gdiplus_shutdown- Inicjalizacja silnika graficznego. Co to daje w 
+praktyce: Stabilny fundament pod nowoczesne renderowanie obrazów i efektów 
+wizualnych.
+Zarządzanie Buforowaniem i Pikselami
+begin_double_buffer / end_double_buffer- Mechanizm podwójnego 
+buforowania. Co to daje w praktyce: Całkowite wyeliminowanie migotania 
+obrazu podczas odświeżania okna.
+copy_pixels / stretch_pixels- Manipulacja blokami danych graficznych. Co to 
+daje w praktyce: Błyskawiczne kopiowanie i skalowanie grafik bez obciążania 
+procesora.
+fill_pattern - Wypełnianie wzorami bitowymi. Co to daje w praktyce: Tworzenie 
+ciekawych tekstur i teł przy minimalnym nakładzie kodu.
+get_pixel / set_pixel- Operacje na pojedynczych punktach. Co to daje w 
+praktyce: Narzędzia do budowy "pipet" kolorów lub renderowania precyzyjnych 
+efektów cząsteczkowych.
+Interakcja i Dialogi 
+show_custom_dialog- W pełni personalizowane okno modalne. Co to daje w 
+praktyce: Pełna kontrola nad kolorystyką (tło, akcenty, tekst) okna komunikatów.
+input_box / password_box- Pobieranie danych od użytkownika. Co to daje w 
+praktyce: Gotowe, bezpieczne okna do wprowadzania tekstów i haseł (z 
+maskowaniem znaków).
+show_toast- Lekkie powiadomienia efemeryczne. Co to daje w praktyce: 
+Nieinwazyjne komunikaty, które znikają automatycznie po określonym czasie.
+show_action_sheet- Nowoczesne menu akcji. Co to daje w praktyce: Wygodna 
+nawigacja w formie listy dużych przycisków, idealna do przejrzystych interfejsów.
+show_progress_dialog- Wizualizacja postępu zadań. Co to daje w praktyce: 
+Informowanie użytkownika o trwających operacjach w tle za pomocą paska 
+postępu.
+set_dialog_language- Lokalizacja biblioteki (PL/EN). Co to daje w praktyce: 
+Szybkie dostosowanie komunikatów frameworka do wybranego języka.
+Typografia i System
+draw_text_advanced- Zaawansowane rysowanie tekstu. Co to daje w praktyce: 
+Automatyczne zawijanie wierszy i inteligentne skracanie tekstu (wielokropek).
+get_text_size- Precyzyjny pomiar łańcuchów znaków. Co to daje w praktyce: 
+Możliwość idealnego wycentrowania napisów niezależnie od użytej czcionki.
+create_image_button- Przycisk oparty na grafice. Co to daje w praktyce: 
+Implementacja profesjonalnych przycisków z plików PNG , bmp z zachowaniem 
+przezroczystości i możliwość zaokrąglenie rogów z ich wygładzeniem.
+get_app_path / file_exists_win- Funkcje systemowe. Co to daje w praktyce: 
+Łatwe zarządzanie ścieżkami do plików aplikacji i zasobów graficznych.
+Wprowadzone zmiany znacząco podnoszą komfort pracy w języku Avocado, 
+zbliżając framework Avoraiser do standardów znanych z najpopularniejszych 
+bibliotek UI.
+
+Wielka aktualizacja frameworka Avoraiser! 351 funkcji! 
+Dodałem 18 nowych funkcji do frameworka Avoraiser, dzięki którym Twoje 
+programy będą jeszcze lepiej reagować na to, co robi użytkownik. Teraz 
+tworzenie profesjonalnych aplikacji jest jeszcze prostsze!
+Oto co nowego możesz zrobić:
+Lepiej obsłużysz myszkę
+Reagowanie na ruch - Twój program "widzi", kiedy myszka przesuwa się nad 
+przyciskiem. Możesz wtedy np. zmienić jego kolor.
+Kliknięcia i dwukliki - Jedną prostą linią kodu ustawisz, co ma się stać po 
+kliknięciu lewym, prawym lub środkowym przyciskiem myszy.
+Kręcenie kółkiem - Pełna obsługa przewijania (rolki) w pionie i poziomie.
+Większa kontrola nad oknem
+Inteligentna zmiana rozmiaru - Gdy użytkownik rozciąga okno, Twój program od 
+razu wie, jakie są nowe wymiary. Dzięki temu łatwo wyśrodkujesz guziki lub 
+napisy.
+Blokowanie przycisków - Możesz wyłączyć przycisk "X" (zamknij) lub 
+minimalizację, jeśli nie chcesz, by użytkownik przerywał pracę programu w 
+danym momencie.
+Własne paski tytułu - Możesz stworzyć miejsce, za które da się złapać i 
+przesuwać okno w dowolny sposób.
+Menu i pliki
+Menu pod prawym przyciskiem - Szybkie tworzenie list opcji, które pojawiają się 
+dokładnie tam, gdzie kliknął użytkownik.
+Wybieranie plików - Jedna prosta funkcja do otwierania i zapisywania plików na 
+dysku (Open/Save Dialog).
+Dlaczego to ważne?
+Zamiast pisać dziesiątki linii skomplikowanego kodu, w Avoraiserze większość 
+tych rzeczy robisz jednym poleceniem. To ogromna oszczędność czasu!
+
+Cześć ostatnio integrowałem framework Avoraiser do Avocado  dodałem 380 
+funkcji z Avoraisera, łącznie IDE Avocado posiada 671 funkcji i tyle samo 
+aliasów angielskich.
+Najciekawsze co udało mi się zrobić to że, teraz jest system podpowiedzi z 
+opisem typu nazwa_funkcji(parametry) = Opis funkcji wcześniej były tylko nazwy 
+funkcji, ten nowy system  podpowiedzi jest wywoływany jak się ma kursor na 
+końcu funkcji i naciśniesz CTRL+ spacje klikając 2 razy na element z listy funkcja 
+uzupełnia się w edytorze kodu, lub Enter taki sam efekt.
+Te podpowiedzi przetłumaczyłem na 6 języków, en, pl, ru, fr, es, en, wczytywanie 
+odpowiednich językowo podpowiedzi zależy od wybranego języka IDE, czyli dla 
+wszystkich języków oprócz polskiego ładują się nazwy funkcji angielskie z 
+parametrami angielskimi ale tłumaczenie odpowiednie dla języka, a dla polskiej 
+lokali tylko polskie nazwy funkcij  „utworz_okno=utworz_okno(uchwyt, 
+parametry_ui) - Tworzy główne okno programu.”
+To dotyczy aplikacji z GUI, jeżeli utworzyć aplikację konsolową to wtedy wczytają 
+się inne funkcje potrzebne do takich aplikacji 271 funkcji a te od GUI nie będą 
+wczytane 🙂
+Nowa wersja Avocado będzie miała wersję (2.3.0.0) - zmiany są widoczne w 
+repo na githubie.
+Framework Avoraiser ma teraz 381 funkcji.
+
+Dodałem kolejne 31 funkcji do Avoraisera! Mamy już łącznie 382.
+Przez ostatnie dni mocno rozbudowałem framework UI dla polskiego języka 
+programowania Avocado. Tym razem skupiłem się głównie na ułatwieniu pracy z 
+tekstem, plikami i nowymi zdarzeniami w oknach. Zrobiłem to po to, by każdy z 
+Was mógł łatwo napisać np. własny notatnik czy prosty edytor kodu w Avocado.
+Oto co konkretnie dodałem i do czego Wam się to przyda:
+Kontrola nad ramkami GroupBox
+set_group_box_text - Zmienia tytuł ramki z opcjami podczas działania 
+programu.
+get_group_box_text - Pobiera aktualny tytuł ramki.
+enable_group_box - Włącza lub wyłącza całą ramkę (np. gdy chcecie 
+zablokować część ustawień przed użytkownikiem).
+set_group_box_font - Szybka zmiana czcionki w samej ramce.
+Funkcje do RichEdit i Memo
+create_ui_font - Pozwala łatwo stworzyć czcionkę (np. Segoe UI) gotową do 
+użycia.
+select_rich_text - Zaznacza konkretny fragment tekstu (must-have do 
+wyszukiwarki "Znajdź/Zamień").
+set_rich_text_font_size_all - Błyskawicznie zmienia rozmiar liter w całym 
+dokumencie.
+reset_to_standard_font - Przywraca tekst do domyślnego wyglądu.
+goto_rich_text_line - Skacze do podanej linii w tekście. Co ważne: kursor nie 
+tylko tam idzie, ale ekran sam się przewija we właściwe miejsce.
+get_rich_text_line_count - Sprawdza, ile wierszy ma otwarty dokument.
+get_rich_text_selection_length - Sprawdza, ile znaków aktualnie zaznaczył 
+użytkownik.
+av_adjust_line_breaks - Automatycznie poprawia znaki końca linii, żeby tekst z 
+Windowsa nie miał "krzaczków".
+set_rich_text_text - Podmienia cały tekst w ułamku sekundy (przydatne przy 
+wczytywaniu nowego pliku).
+set_rich_text_color - Zmienia kolor całego tekstu na ekranie.
+install_avocado_rich_edit_subclass - Funkcja wewnętrzna, która pozwala łapać 
+specyficzne wciśnięcia klawiszy.
+set_memo_text - Zastępuje całą treść w prostym okienku tekstowym (Memo).
+Szybka praca na plikach 
+load_memo_from_file - Wczytuje tekst z pliku prosto do kontrolki jednym 
+poleceniem.
+read_file_to_string - Bezpiecznie odczytuje plik i radzi sobie z polskimi znakami 
+(Unicode).
+write_string_to_file - Zapisuje tekst na dysk (np. po kliknięciu "Zapisz jako").
+get_file_name_only - Wyciąga samą nazwę pliku z długiej ścieżki (fajne, by 
+ustawić tytuł okna: "Avocado - mojplik.txt").
+get_file_extension / extract_file_ext - Dwie funkcje, które wyciągają tylko 
+rozszerzenie pliku (np. txt, pas). Świetnie się sprawdzą, jeśli chcecie zrobić 
+prosty system kolorowania składni.
+Narzędzia systemowe i nowości w interfejsie
+same_text - Zrobiłem potężne porównywanie tekstów (korzystając z jądra 
+Windowsa), które jest szybkie i radzi sobie z polskimi znakami.
+open_url - Otwiera link w domyślnej przeglądarce użytkownika.
+str_to_int - Bezpieczna zmiana tekstu na liczbę. Jeśli ktoś w pole z wiekiem 
+wpisze "abc", program nie wywali błędu, tylko zwróci domyślne zero.
+set_on_time_change - Zdarzenie, które odpala się, gdy użytkownik zmieni czas 
+w systemie.
+set_on_init_popup - Zdarzenie, które wywołuje się ułamek sekundy przed 
+otwarciem menu. Pozwala to "wyszarzyć" opcję Kopiuj, jeśli ktoś nie zaznaczył 
+tekstu.
+set_on_menu_select - Wykrywa najechanie myszką na pozycję w menu (np. 
+żeby wyświetlić jej opis na pasku stanu).
+clear_timepicker_props - Czyści ustawienia kontrolki wyboru czasu.
+run_app - To moja najważniejsza nowość! Ukryłem całą skomplikowaną pętlę 
+WinAPI przed programistą. Teraz żeby uruchomić program, wystarczy użyć tylko 
+tego jednego słowa.
+Avocado staje się pełnoprawnym i kompletnym narzędziem. Dajcie znać, do 
+czego wy użyjecie nowych funkcji w swoich aplikacjach!
+
+Zbudowałem ultra-lekki kalkulator w Avocado przy użyciu frameworka Avoraiser! 
+Cały program waży... tylko 86 KB! 
+W erze aplikacji, które często "ważą" gigabajty, to powiew natywnej lekkości. 
+Bez zbędnych bibliotek, bez obciążania systemu, sam czysty kod Avocado. Tak 
+wygląda moc bezpośredniego dostępu do WinAPI.
+
+Często pytacie, co właściwie można napisać w moim autorskim języku 
+programowania Avocado. Skoro framework UI, czyli Avoraiser, ma już 
+wbudowane 382 funkcje, możliwości są naprawdę ogromne.
+Zbudowałem ten framework tak, aby dawał pełny dostęp do potęgi natywnego 
+WinAPI i silnika GDI+, ale bez pisania setek linijek skomplikowanego kodu. 
+Wszystko jest ujednolicone i korzysta z czytelnego standardu snake_case.
+Oto co możecie w nim stworzyć:
+1. Własne edytory tekstu i kodu
+Dzięki obsłudze zaawansowanych kontrolek tekstowych (RichEdit), możecie 
+wczytywać pliki tekstowe prosto do programu jednym poleceniem. Skakanie do 
+konkretnej linii kodu, zmiana kolorów czcionki czy budowa własnego Notatnika 
+to kwestia kilkunastu minut.
+2. Ultraszybkie narzędzia systemowe
+Programy okienkowe w Avocado są niesamowicie lekkie. Mój ostatni projekt 
+kalkulatora waży zaledwie 86 KB. Możecie pisać menedżery plików, monitory 
+zasobów czy instalatory, które uruchamiają się natychmiast i zajmują ułamek 
+megabajta w pamięci RAM.
+3. Nowoczesne dashboardy i launchery do gier
+Koniec z szarymi, kwadratowymi oknami z lat 90. Avoraiser pozwala na 
+tworzenie zaokrąglonych paneli, płynnych przejść, graficznych przycisków i 
+interfejsów całkowicie pozbawionych standardowych ramek systemowych.
+4. Aplikacje biurowe i formularze
+Dzięki gotowym elementom takim jak ramki grupujące opcje (GroupBox), 
+bezpieczne wprowadzanie haseł, obsługa menu kontekstowych czy system 
+powiadomień, bez problemu zbudujecie panele logowania oraz programy 
+narzędziowe dla firm.
+5. Programy sieciowe
+Łącząc okienka z wbudowanym w Avocado modułem internetowym, możecie 
+napisać własny program do pobierania zdjęć, plików czy komunikowania się z 
+serwerami (tzw. Image Downloader), na bieżąco wyświetlając pasek postępu.
+Jeśli macie dość aplikacji, które ważą gigabajty i chcecie poczuć, jak działa 
+prawdziwy, natywny kod, zapraszam do testów.
+
+
+Pracuję nad finalizacją modelu biznesowego dla frameworka Avoraiser. 
+Zdecydowałem, że projekt będzie działał w oparciu o podwójną licencję (Dual 
+License). Kod źródłowy będzie dostępny do wglądu (source-available), ale 
+ważne zastrzeżenie: Avoraiser nie jest oprogramowaniem open source.
+W skrócie, zasady licencji prezentują się następująco:
+    Użytek darmowy: Pełne prawo do korzystania z frameworka w celach 
+edukacyjnych, do eksperymentów, projektów hobbystycznych oraz aplikacji 
+niekomercyjnych (takich, które nie są sprzedawane i nie generują żadnego 
+przychodu).
+    Użytek komercyjny: Wymaga wykupienia licencji. Dotyczy to sprzedaży 
+własnych aplikacji, tworzenia programów na zlecenie dla klientów, 
+oprogramowania wewnątrzfirmowego, SaaS i każdego projektu generującego 
+przychód.
+    Model licencjonowania: Licencja "per developer". Kupujesz ją na siebie jako 
+programistę i możesz używać Avoraisera w nieskończonej liczbie projektów 
+komercyjnych. Nie jest przypisana do jednej firmy czy jednej aplikacji.
+    Ochrona własności intelektualnej: Obowiązuje całkowity zakaz tworzenia 
+forków, udostępniania kodu źródłowego osobom trzecim oraz tworzenia 
+konkurencyjnych frameworków UI na bazie mojego kodu. Za naruszenie tych 
+zasad oraz próby obejścia licencji przewidziałem surowe kary umowne (50 000 
+PLN). Modyfikować kod można tylko lokalnie na własny użytek.
+Zbliżam się do ustalenia ostatecznego cennika i tutaj mam do Was ważne 
+pytanie. Jako programiści, którzy widzą potencjał i szybkość tworzenia 
+natywnych aplikacji w Avocado (ponad 380 gotowych funkcji WinAPI i GDI+):
+Jaką kwotę uważacie za uczciwą za komercyjny dostęp do Avoraisera?
+Napiszcie w komentarzach, ile Waszym zdaniem powinna kosztować:
+A. Licencja na 1 rok (możliwość komercyjnego tworzenia projektów oraz 
+aktualizacje przez 12 miesięcy).
+B. Licencja wieczysta (kupujesz raz, używasz w komercji na zawsze, w cenie 
+wliczone są aktualizacje).
+Dajcie znać w komentarzach. Wasz feedback pomoże mi uczciwie wycenić te 
+kilka miesięcy mojej intensywnej pracy nad tym frameworkiem.
+
+Wielka aktualizacja w drodze! Przedstawiam AvocadoNet - potężny silnik 
+sieciowy dla języka Avocado! 
+Przez ostatni czas intensywnie pracowałem nad tym, aby nasz polski język 
+programowania zyskał pełne okno na świat. Koniec z ograniczeniami - 
+tworzenie nowoczesnych aplikacji internetowych w Avocado staje się faktem! 
+Właśnie wdrażam do języka natywny framework AvocadoNet, który pozwala na 
+niesamowicie szybką komunikację w sieci. Co dokładnie dodaję i co będziecie 
+mogli dzięki temu stworzyć? Zobaczcie sami:
+1. Klient i Serwer HTTP (Żądania GET i POST)
+Język Avocado od teraz potrafi "rozmawiać" z przeglądarkami i serwerami.
+👉 Co z tego zbudujesz? Własnego bota pobierającego informacje ze stron (np. 
+kursy walut, pogodę), programy wysyłające formularze, narzędzia łączące się z 
+API (np. integracja z ChatGPT!) lub... własny, lekki serwer WWW do hostowania 
+stron!
+2. Pełna obsługa WebSockets
+Zaimplementowałem zaawansowane szyfrowanie ramek i autoryzację połączeń 
+stałych.
+Co z tego zbudujesz? Aplikacje działające w czasie rzeczywistym! Marzy Ci się 
+własny komunikator tekstowy w stylu Discorda lub system powiadomień na 
+żywo? A może własny serwer do gry multiplayer? Z WebSockets to wszystko 
+będzie możliwe! 
+3. Niskopoziomowa moc (TCP, UDP i DNS)
+Dodaję bezpośredni dostęp do gniazd sieciowych (Sockets) i rozwiązywania 
+nazw domen (np. zamiana "google.pl" na adres IP).
+Co z tego zbudujesz? Szybkie programy P2P do przesyłania plików między 
+komputerami, własne aplikacje diagnostyczne (np. sprawdzanie pingu) czy gry 
+sieciowe oparte na szybkim protokole UDP.
+Wszystko to buduję "od zera" na szybkich, natywnych bibliotekach Windowsa, 
+dzięki czemu wasze polskie programy w Avocado będą działać błyskawicznie i 
+nie będą wymagać ciężkich bibliotek zewnętrznych. W następnej kolejności 
+celuję w dodanie bezpiecznego szyfrowania (HTTPS/SSL)! 
+Piszcie w komentarzach - jaką pierwszą aplikację sieciową chcielibyście 
+napisać po polsku w Avocado? 
+
+Cześć! Zapraszam Was na nietypowy test. Połączyłem polski model AI Bielik 
+11B z moim autorskim językiem programowania Avocado IDE! 
+Zobaczcie, jak AI radzi sobie z polską składnią. W wideo pokazuję:
+Co działa świetnie i zaskakuje (proste funkcje).
+Gdzie Bielik popełnia błędy.
+Jak System Prompt wpływa na wyniki.
+Wszystko offline, bez kosztów API i z pełną prywatnością! W opisie filmu 
+znajdziecie darmowy System Prompt do przetestowania.
+
+Electron i Tauri 2 idą w "szerokość". Ja poszedłem w "głębię". Dlaczego w 2026 
+roku wciąż opłaca się pisać prawdziwie natywne aplikacje pod Windows?
+​Nowoczesne frameworki, takie jak wydane niedawno Tauri 2, robią imponującą 
+robotę w dostarczaniu aplikacji na Windows, macOS, Androida i iOS z jednej 
+bazy kodu. To świetne narzędzia do szybkiego prototypowania. Ale jako 
+inżynierowie musimy być szczerzy co do kosztów tej wygody.
+​Pójście "w szerokość" oznacza, że pod maską Twoja aplikacja desktopowa to 
+de facto strona internetowa.
+​Użytkownik klika przycisk. Co się dzieje w architekturze WebView 
+(Tauri/Electron)?
+​System ładuje ciężki silnik przeglądarki (np. WebView2, który sam potrafi ważyć 
+>100 MB).
+​Przetwarza HTML i CSS.
+​Wykonuje JavaScript na frontendzie.
+​Przepycha żądanie przez warstwę IPC do backendu (np. w Rust).
+​Dopiero wtedy komunikuje się z systemem operacyjnym.
+​Efekt? Ogromny narzut pamięci RAM i pliki instalacyjne rosnące w oczach.
+​Jako twórca Avocado (polskiego języka programowania) i frameworka 
+Avoraiser, obrałem zupełnie inną filozofię: ekstremalną "głębię" i powrót do 
+korzeni. Zamiast budować kolejne warstwy abstrakcji, uderzam bezpośrednio w 
+serce Windowsa - czyste WinAPI oraz GDI+.
+Jak to wygląda w liczbach?
+​400 ujednoliconych funkcji dedykowanych wyłącznie do budowania UI (wszystko 
+w czytelnym standardzie snake_case). Koniec z toną boilerplate'u.
+​700 funkcji w całym ekosystemie Avocado.
+​62 -100 KB - tyle waży skompilowany, w pełni funkcjonalny plik .exe.
+​Brak zależności: Nie wymagasz od użytkownika instalowania środowisk .NET, 
+Javy czy silników WebView.
+​Kiedy w Avoraiserze wywołujesz funkcję create_button, system operacyjny 
+natychmiast rysuje przycisk na ekranie. Zero renderowania HTML. Zero warstw 
+pośrednich.
+Już niedługo opublikuję kod źródłowy na moim GitHubie w modelu Source 
+Available (podwójna licencja). Wraz z nim wypuszczę najnowszą, jeszcze 
+potężniejszą wersję ekosystemu Avocado. Będziecie mogli sami zajrzeć "pod 
+maskę" i zobaczyć, jak ten silnik działa od środka, a w przypadku projektów 
+komercyjnych - płynnie przejść na licencję biznesową.
+​Tworzę to narzędzie dla inżynierów i software house'ów, którzy mają dość 
+"puchnących" programów i chcą dostarczać oprogramowanie o 
+bezkompromisowej wydajności.
+​Wolicie pisać aplikacje desktopowe w technologiach webowych (HTML/JS), czy 
+tęsknicie za czystą wydajnością natywnych rozwiązań? Zostawcie follow, żeby 
+nie przegapić premiery na GitHubie, i dajcie znać w komentarzach!
+
+
+Przełomowa aktualizacja w moim frameworku Avoraiser! Okno na świat otwarte 
+na oścież! 
+Z dumą ogłaszam, że po intensywnych pracach inżynieryjnych, oficjalnie dodaję 
+do ekosystemu Avoraiser nowy, potężny moduł: avoraiser.webview! 
+Udało mi się zintegrować CAŁY silnik Chromium od Microsoftu 
+(CoreWebView2) bezpośrednio z moim frameworkiem. I co w tym najbardziej 
+niezwykłego? Zrobiłem to w 100% w czystym, natywnym WinAPI! 
+Całkowicie zrzuciłem ciężki balast tradycyjnych, wizualnych frameworków (takich 
+jak LCL czy VCL). Mój Avoraiser zachowuje swoją legendarną lekkość i 
+błyskawiczne działanie, a jednocześnie zyskuje teraz możliwości na miarę 
+nowoczesnej przeglądarki Edge/Chrome.
+Co teraz potrafi Avoraiser i mój autorski język Avocado? Nowoczesny Web: 
+Pełne renderowanie współczesnych stron (HTML5, CSS3, zaawansowany JS). 
+Wstrzykiwanie JavaScript: Pełna kontrola nad stroną z poziomu kodu! Mogę 
+dynamicznie klikać przyciski, wyciągać dane (web scraping) i manipulować 
+drzewem DOM. 
+Automatyzacja i Boty: Dzięki ominięciu blokad i natywnej obsłudze ciasteczek 
+oraz sesji, tworzenie zaawansowanych botów i skryptów automatyzujących to 
+teraz czysta przyjemność. 
+Hybrydowe UI: Możliwość płynnego łączenia lekkich, systemowych kontrolek 
+WinAPI z pięknymi, nowoczesnymi panelami rysowanymi w technologii 
+webowej.
+Co kryje się pod maską? Na ten moment zaimplementowałem 3 fundamentalne 
+funkcje, które już teraz pozwalają na potężne operacje: webview_create, 
+webview_navigate oraz webview_execute_js. To jednak zaledwie wierzchołek 
+góry lodowej! Architektura, którą zbudowałem, daje potencjał na dodanie kilku 
+tysięcy kolejnych funkcji prosto z oryginalnego API Microsoftu. Będę teraz 
+sukcesywnie rozbudowywać ten moduł i dodawać nowe komendy do języka 
+Avocado!
+Mój natywny, proceduralny kod właśnie spotkał się z najnowszą technologią 
+internetową. Silnik działa u mnie perfekcyjnie.
+Kto nie może się doczekać, żeby przetestować nowe możliwości mojego 
+języka? Dajcie znać w komentarzach!
+Taki program z przeglądarką w trybie release waży 769 kb a bez przeglądarki 
+od 68 kb.
+
+Jak połączyć nowoczesną ergonomię z rygorem low-levelu? (Pod maską 
+Avocado)
+Wiele osób pyta, jak to możliwe, że Avocado generuje pliki .exe o wadze 62 KB, 
+zachowując przy tym czystą i nowoczesną składnię. Sekret tkwi w architekturze 
+naszego transpilatora, który sprytnie omija historyczne ograniczenia 
+kompilatorów.
+Świetnym przykładem jest zarządzanie zmiennymi.
+Jako backendu kompilującego używam potężnego silnika Free Pascal (FPC). 
+Daje on niesamowitą wydajność, ale ma jedną, bardzo rygorystyczną wadę 
+archaicznych języków: we Free Pascalu nie można definiować zmiennych 
+wewnątrz procedury - zawsze muszą zostać zadeklarowane w specjalnej sekcji 
+przed blokiem begin.
+Dla współczesnego programisty, który chce zainicjować zmienną dokładnie w 
+miejscu jej użycia, to ogromny bloker. Jak Avocado to rozwiązuje?
+Mój transpilator wykonuje tzw. inteligentny "hoisting" (podnoszenie). Pisząc kod 
+w Avocado, po prostu deklarujesz zmienną w locie, używając czytelnego 
+standardu snake_case.
+Pod maską, Avocado analizuje strukturę Twojego kodu, "wyciąga" wszystkie 
+zmienne i automatycznie buduje dla nich prawidłową sekcję definicji, zanim 
+przekaże kod do kompilatora FPC.
+W praktyce programista dostaje to, co najlepsze z dwóch światów:
+1.Wygodę i czystość: Piszesz kod tak elastycznie, jak w nowoczesnych językach 
+skryptowych, trzymając się spójnego nazewnictwa (np. stworz_okno, a nie 
+chaotycznego CreateWindowEx).
+2.Ekstremalną wydajność: Transpilator zamienia to na rygorystyczny, w 100% 
+poprawny kod natywny, który system operacyjny kompiluje do ułamków 
+megabajta.
+W ten sposób zdejmuję z Was ciężar walki z przestarzałą składnią, zostawiając 
+samą czystą moc WinAPI. Kto z Was miał kiedyś do czynienia z podobnymi 
+ograniczeniami w starszych językach systemowych? Dajcie znać w 
+komentarzach! 
+
+Drodzy programiści! Walka z ociężałymi frameworkami i budowa polskiego, 
+ekstremalnie lekkiego języka programowania z natywnym wsparciem WinAPI 
+pochłania setki godzin.
+Obecnie piszę cały ten system w wolnym czasie. Szykuję się do wydania 
+Avoraisera - frameworka, który pozwoli na wygodne tworzenie natywnego GUI. 
+Aby projekt był uczciwy, przyjąłem model Dual License: korporacje i firmy będą 
+kupować licencje komercyjne, ale dla Was - hobbystów i projektów 
+niekomercyjnych - framework będzie w 100% darmowy.
+Zanim jednak pierwsze firmy kupią licencje, muszę przetrwać fazę budowy 
+silnika. Uruchomiłem profil na Patronite z celem przejścia na pełen etat. Jeśli 
+podoba Wam się idea lekkich apek (62 KB) i chcecie wesprzeć rozwój 
+polskiego R&D symboliczną "dyszką" miesięcznie, będę ogromnie wdzięczny!
+
+Aktualnie Avoraiser ma 427 funkcji. A dzisiejsza nowość ucieszy każdego, kto 
+musiał kiedyś pisać moduł faktur czy raportów.
+Wjeżdża avoraiser.printer natywne wsparcie dla drukarek i cichego 
+generowania wektorowych plików PDF. 
+Zamiast uczyć się nowych, ciężkich bibliotek do raportów, używasz dokładnie 
+tych samych, prostych funkcji snake_case, którymi rysujesz okienka. Wskazujesz 
+tylko, czy płótnem ma być ekran, fizyczna drukarka HP, czy plik PDF na pulpicie.
+Dodatkowo wbudowałem automatyczne przeliczanie proporcji dla obrazków 
+(żegnajcie rozciągnięte logotypy!) i centrowanie tekstów. PDF-y są idealnie 
+ostre, a aplikacja... wciąż waży do 100 KB.
+Powrót do wydajnych korzeni IT to świetna zabawa. Kto chciałby to przetestować 
+u siebie?
+
+Pamiętacie moduł avoraiser.webview, w którym podpinałem silnik 
+Edge/Chromium pod okienka Avocado? Właśnie dostał potężną aktualizację! 
+Do modułu wjechały funkcje, które całkowicie odmieniają zasady gry, jeśli lubicie 
+automatyzować rzeczy w sieci. Mój framework potrafi teraz dokładnie to samo, 
+co ciężkie narzędzia do web-scrapingu, zachowując swoją natywną lekkość.
+Co możecie teraz zrobić kilkoma linijkami kodu?
+Przede wszystkim - "wstrzykiwać" własny kod JavaScript bezpośrednio do 
+otwartej strony internetowej. To pozwala Wam zautomatyzować pobieranie 
+plików, wypełnianie formularzy czy omijanie zabezpieczeń.
+Dodatkowo możecie wyciszać irytujące dźwięki na stronach, zablokować 
+klikanie prawym przyciskiem myszy (świetne do apek typu Kiosk), a co 
+najlepsze - korzystać z systemowego "usypiania" przeglądarki 
+(webview_suspend), żeby Wasz bot nie pożerał pamięci RAM, gdy cicho czeka 
+sobie w tle na kolejne zadanie.
+Pełna kontrola nad stronami WWW z poziomu natywnego .exe ważącego ułamki 
+megabajta.
+Kto chętny na testy? 
+
+Skoro Avocado potrafi już bez problemu integrować silnik Chromium, czas 
+rzucić wyzwanie gigantom. 
+Planuję zbudować od podstaw własną, polską przeglądarkę internetową, 
+napisaną oczywiście w 100% w Avocado z użyciem frameworka Avoraiser! Cel: 
+natywna prędkość i zero zbędnego balastu.
+Ale narzędzia robi się dla ludzi, więc pytanie do Was:
+Jaka nazwa najlepiej by do niej pasowała?
+O jaką jedną "killer-funkcję" byście ją wzbogacili, której brakuje Wam w Chrome, 
+Edge czy Firefoxie?
+Sekcja komentarzy jest Wasza! Czekam na propozycje.
+
+Po dokładnie 102 dniach pracy (3 miesiące, 1 tydzień i 5 dni kodowania!) z 
+ogromną dumą oddaję w Wasze ręce potężną aktualizację. 
+Oficjalnie wydaję nową wersję Avocado IDE 2.3.0.0! 
+Przez ten czas skupiłem się na drastycznym rozszerzeniu możliwości polskiego 
+języka programowania Avocado oraz samego środowiska. Z małego narzędzia 
+konsolowego wyrasta nam coś naprawdę wielkiego!
+Oto co na Was czeka w nowej wersji:
+Potężny framework GUI - Avoraiser: Zintegrowałem autorski silnik, który oddaje 
+w Wasze ręce aż 426 nowych funkcji do tworzenia lekkich, natywnych aplikacji 
+okienkowych!
+Ulepszony statyczny analizator kodu: Silnik w Avocado IDE jest teraz znacznie 
+mądrzejszy i potrafi w locie sprawdzać poprawność zasięgu zmiennych.
+Wielojęzyczne podpowiedzi funkcji: Znacznie ułatwiają pisanie kodu zarówno dla 
+aplikacji konsolowych, jak i GUI. Środowisko i podpowiedzi są przetłumaczone 
+na 6 języków: 
+PL, EN, RU, FR, DE, ES.
+Opublikowałem dokumentację wygenerowaną w PasDoc, która idealnie nadaje 
+się dla programistów chcących używać frameworka bezpośrednio w środowisku 
+Lazarus IDE (Free Pascal).
+Odświeżyłem główną stronę projektu, a oficjalna dokumentacja Avoraisera dla 
+Avocado jest systematycznie rozbudowywana!
+To był maraton, ale widząc, jak Avocado rozwija się, wiem, że było warto. 
+Dziękuję wszystkim za wsparcie i motywację! 
+Linki do pobrania nowej wersji i dokumentacji znajdziecie tutaj:
+Instalatora Avocado IDE (https://tiny.pl/77-hm34y1)
+Oficjalna strona (avocado-code.com)
+Kod Avoraisera (https://github.com/Programista-Art/Avoraiser)
+Avoraiser dokumentacja (https://documentation-english.avocado-code.com/)
+Dajcie znać, jak Wam się podoba nowy Avoraiser i jak działa nowe IDE! 
+Czekam na Wasze opinie i pierwsze okienkowe programy napisane w 
+Avocado! 
+
+Przedstawiam nową wersję Avocado IDE - 2.3.0.1! 
+Kolejna aktualizacja już jest, a w niej sporo nowości, poprawek i potężna dawka 
+optymalizacji. Zobaczcie, co się zmieniło: 
+Analizator kodu i nowe aliasy
+Dodałem aż 122 nowe konwersje (łącznie z aliasami) do statycznego 
+analizatora kodu. Pojawiło się też mnóstwo nowych, polskich aliasów 
+obsługujących znaki diakrytyczne (przestałem je liczyć, ale jest tego naprawdę 
+sporo! ).
+Bezpieczniejsza składnia kolorów
+Zmieniłem sposób zapisywania argumentów w funkcjach kolor_tekstu i 
+tło_tekstu.
+Wcześniej pisaliśmy tak: kolor_tekstu(niebieski)
+Teraz dodajemy gwiazdkę i pojedynczy cudzysłów (apostrof): kolor_tekstu
+('*niebieski') oraz tło_tekstu('*niebieski')
+Dlaczego? Poprzedni zapis powodował błędy w transpilacji w miejscach, w 
+których słowa te nie oznaczały koloru. Dzięki tej małej zmianie kod jest teraz w 
+100% bezpieczny!
+Poprawki błędów i mobilność IDE
+• Udoskonaliłem tłumaczenia nazw wewnątrz Avocado IDE.
+• Poprawiłem funkcje zapisywania i odczytywania ścieżek do kompilatora. Teraz 
+Avocado jest w pełni przenośne (portable) - kompilacja zadziała u każdego bez 
+konieczności ręcznej zmiany ścieżek w ustawieniach!
+Wielkie odchudzanie - kompilator i pliki wynikowe na diecie!
+Zrobiłem ogromne porządki w plikach i bibliotekach. Efekty?
+• Sam kompilator FPC ważył 664 MB, a teraz tylko 397 MB! Zaoszczędziłem aż 
+267 MB (jest o 40,21% lżejszy).
+• Pliki po kompilacji (.exe) są teraz domyślnie o 3-6% mniejsze! Przykłady z 
+testów:
+Proste okno GUI (Avoraiser): Było 68 KB  Jest 64 KB (lżejszy o 5,88%)
+Aplikacja z przeglądarką (WebView2): Było 754 KB Jest 731 KB (lżejszy o 
+3,05%)
+Aktualizacja jest już dostępna do pobrania na SourceForge! Dajcie znać, jak 
+Wam się pracuje w nowej wersji.
+
+Cześć. Wrzuciłem na YouTube nowy film z instalacją Avocado IDE 2.3.0.1. Od 
+razu uprzedzam w tle leci tylko muzyka, nic nie mówię, ale po kolei pokazuję 
+krok po kroku, jak zainstalować IDE i prezentuję kilka przykładowych aplikacji 
+napisanych w Avocado i w Avoraiser.
+Co do samej wersji (2.3.0.1), to jest to spora aktualizacja. Mocno odchudziłem 
+kompilator (z 664 MB na 397 MB), więc pobiera się znacznie szybciej. 
+Naprawiłem też system ścieżek, dzięki czemu Avocado jest wreszcie w 100% 
+przenośne i można je odpalać na każdym komputerze prosto z pendrive'a.
+Z nowości w samym kodowaniu: wprowadziłem nową, bezpieczną składnię dla 
+kolorów (od teraz piszemy kolor_tekstu('*niebieski')) oraz dorzuciłem ponad 120 
+nowych polskich aliasów do analizatora.
+Link do filmu i do pobrania nowej wersji zostawiam poniżej. Miłego oglądania i 
+dajcie znać, jak wam śmiga.
+
+
+AVOCADO POGROMCA WSZYSTKICH JĘZYKÓW PROGRAMOWANIA 
+WJEŻDŻA NA PEŁNEJ! 
+Zróbcie miejsce, bo Ekosystem Avocado właśnie stał się faktem.
+Zbudowałem od absolutnego zera kompletny Full-Stack Desktop Framework, 
+który został stworzony specjalnie dla mojego autorskiego, polskiego języka 
+programowania - Avocado! Kontroluję w nim wszystko - od najniższego poziomu 
+pamięci RAM i gniazd sieciowych (TCP), aż po renderowanie nowoczesnych, 
+animowanych przycisków na ekranie.
+Spójrzmy prawdzie w oczy: właśnie stworzyłem polski odpowiednik potężnych 
+technologii takich jak Electron czy Tauri! 
+Oto co dokładnie siedzi pod maską mojego stosu technologicznego (trzy filary 
+tworzące samowystarczalny obieg):
+1. Avoraiser (Rdzeń Natywny / Host)
+    Kompiluje się do ultraszybkiego, natywnego pliku .exe (zero maszyn 
+wirtualnych!).
+    Zarządza oknami Windowsa (WinAPI) i wbudowanym silnikiem Edge 
+(WebView2).
+    Posiada autorski most komunikacyjny. Z poziomu interfejsu (UI) mogę 
+odpalać procesy systemowe - zapisywać pliki na dysku czy czytać temperaturę 
+procesora.
+2. AvoRender (Mój własny Frontend DSL)
+    Autorski, POLSKOJĘZYCZNY język, który w locie transpiluje się do 
+JavaScriptu!
+    Dynamicznie buduje drzewo DOM i obsługuje pełen CSS (animacje, cienie, 
+zaokrąglenia).
+    Posiada własną logikę proceduralną: pętle powtarzaj, warunki jesli, czy 
+deklaracje funkcja().
+    Asynchronicznie ssie dane z sieci (pobierz_z_sieci, parsuj_json) i nasłuchuje 
+zdarzeń.
+3. AvocadoNet (Backend / Sieć)
+    Asynchroniczny, wielowątkowy serwer i klient napisany przeze mnie w czystym 
+Pascalu!
+    Obsługuje wszystko: HTTP, HTTPS, WebSockets, TCP, UDP, FTP, DNS.
+    Ma pełną obsługę szyfrowania (TLS/SSL) i architekturę opartą na delegatach.
+4. Co mogę w tym zbudować? (Desktop Apps)
+Wszystko, co wymaga pięknego interfejsu webowego (HTML/CSS), ale 
+potrzebuje surowej mocy i dostępu do zasobów komputera.
+    Komunikatory (klony Discorda): AvoRender rysuje UI, AvocadoNet trzyma 
+WebSockety, a wiadomości latają w czasie rzeczywistym.
+    Narzędzia systemowe (np. antywirusy): Skanuję dysk na poziomie szybkiego 
+Pascala, a pasek postępu płynnie ładuje się w interfejsie.
+    Panele CRM, odtwarzacze muzyki i menedżery plików.
+5. Webówki? Też to potrafię! (Write Once, Run Anywhere)
+Jak zrobić z tego klasyczną stronę lub aplikację WWW? Prościzna! Wystarczy, 
+że w moim kompilatorze wygeneruję ten sam plik widoku z wbudowanym JS, ale 
+zamiast pakować go w natywne okno Avoraisera, zapiszę jako zwykły 
+index.html.
+Taki plik mogę:
+    Wrzucić na DOWOLNY serwer WWW na świecie (darmowy hosting, Apache, 
+Nginx).
+    Serwować bezpośrednio z mojego własnego serwera AvocadoNet 
+(dopisałem logikę: jeśli zapytanie to /, serwer czyta plik index.html z dysku i 
+wysyła do użytkownika).
+    Otworzyć po prostu klikając w niego dwukrotnie na pulpicie.
+Osiągnąłem w ten sposób Izomorfizm!
+Piszę piękny widok w moim autorskim pliku .avo i sam decyduję:
+Chcę program na PC? Pakuję to w Avoraisera i daję znajomemu plik .exe. Apka 
+używa sygnałów systemowych.
+Chcę aplikację webową (SaaS)? Biorę ten sam widok, wywalam sygnały, 
+opieram logikę na sieci i wrzucam na serwer AvocadoNet. Każdy może wejść 
+na moją apkę z telefonu!
+To otwiera gigantyczne możliwości - w AvoRenderze mogę nawet napisać 
+własne portfolio w internecie. Mam pełną kontrolę zarówno nad Desktopem, jak i 
+Webem!
+Na ten moment AvocadoNet i AvoRender nie są jeszcze publicznie dostępne 
+pracuję nad dokumentacją i intensywnie je testuję.
+Natomiast Avoraiser jest już dostępny, więc można tworzyć desktopowe 
+aplikacje na Windows.
+Link do pobrania Avocado IDE znajdziesz w moim profilu.
+Poniżej wrzucam screeny przykładowej aplikacji hybrydowej:
+działa na lokalnym mini-serwerze AvocadoNet,
+GUI obsługuje Avoraiser,
+interfejs renderowany jest przez AvoRender,
+dane pobierane są z pliku JSON użytkowników i wyświetlane w wbudowanej 
+przeglądarce Microsoft Edge WebView2.
+
+ Zbudowałem własnego "ChatGPT" od zera, używając w 100% autorskiego 
+języka programowania! 
+Czy da się napisać komunikator AI w architekturze Full-Stack, nie korzystając z 
+gotowych komercyjnych rozwiązań? Udowadniam, że tak! Właśnie wypuściłem 
+materiał, w którym pokazuję mojego autorskiego klienta AI połączonego z 
+potężnym polskim modelem Bielik 11B v3.
+Co jest w tym najbardziej niesamowite? Całość napisałem w moim własnym 
+ekosystemie:
+Język Avocado - polski język programowania z polskimi słowami kluczowymi!
+AvocadoNet - mój własny lokalny serwer HTTP (Backend), który ogarnia logikę i 
+dba o omijanie blokad CORS.
+AvoRender - Framework dla Weba renderuje czat (Frontend).
+Avoraiser - Framework  GUI opraty o WinAPI, łączący potęgę desktopu z 
+silnikiem WebView2.
+Wszystko działa w 100% lokalnie przez LM Studio, co oznacza całkowitą 
+prywatność danych. Twój kod nigdy nie opuszcza Twojego komputera!
+W najnowszym filmie na YouTube pokazuję, jak dokładnie wygląda komunikacja 
+Klient-Serwer w tym środowisku, jak poradziłem sobie z asynchronicznością i 
+jak na żywo działa mój ekosystem
+Zobacz film tutaj: (https://youtu.be/fYemjKcgZEA)
+Koniecznie dajcie znać w komentarzach, co myślicie o takiej architekturze i jakie 
+funkcje powinienem dodać do języka Avocado w następnej kolejności! Z góry 
+dziękuję za każde udostępnienie i wsparcie polskiej myśli technologicznej!
+
+Zbudowałem własny komunikator i serwer sieciowy całkowicie od zera.
+W najnowszym filmie pokazuję mój projekt: Avocado Chat Live. To działająca 
+aplikacja typu Klient-Serwer, którą stworzyłem bez korzystania z gotowych, 
+komercyjnych rozwiązań.
+Całość opiera się na moim autorskim ekosystemie Full-Stack i polskim języku 
+programowania:
+    AvocadoNet (Backend): mój własny lokalny serwer HTTP, który obsługuje 
+żądania i synchronizuje wiadomości w czasie rzeczywistym.
+    AvoRender (Frontend): transpilator, który w locie zamienia polski kod 
+Avocado na JavaScript.
+    Avoraiser (Native): ultra-lekki framework UI zbudowany od podstaw w oparciu 
+o czyste, natywne WinAPI. Został zaprojektowany dla deweloperów, którzy 
+stawiają na maksymalną wydajność, minimalny rozmiar pliku .exe oraz brak 
+zewnętrznych zależności (Zero-Runtime).
+Żadnych gotowców, 100% polskiej myśli technologicznej i autorskiego kodu. 
+Zobaczcie wideo, aby sprawdzić, jak zaprojektowałem taki chat.
+Wideo: (https://youtu.be/0sVeKgP1Qkc)
+Dajcie znać w komentarzach, co powinienem dodać do tego komunikatora w 
+następnej kolejności. Przesyłanie plików? Pokoje prywatne? Czekam na Wasze 
+pomysły. Z góry dziękuję za udostępnienia! 
+
+Zbudowałem własny system CAPTCHA od zera - bez gotowców i ciężkich 
+bibliotek!
+Cześć wszystkim!  Zapraszam Was na krótkie wideo, w którym pokazuję w akcji 
+mój najnowszy projekt: natywną Avocado Captchę.
+Zamiast korzystać z gotowego kodu czy Google reCAPTCHA, napisałem to we 
+własnym środowisku. Całość napędza mój autorski ekosystem:
+AvoRender - mój własny kompilator, który tłumaczy polskie komendy na 
+błyskawiczny JavaScript.
+AvocadoNet - wbudowany serwer do weryfikacji użytkowników.
+Avoraiser - bardzo lekki interfejs oparty na czystym Windows API.
+Ciekawostka: Ponieważ odciąłem się od ciężkich, gotowych rozwiązań (jak VCL 
+czy LCL), mój wygenerowany program waży zaledwie... 64 KB! Dla porównania 
+standardowe aplikacje potrafią ważyć ponad 26 MB.
+Wideo to szybkie demo (tylko kod i muzyka). Zobaczycie w nim, jak działa 
+dynamiczne losowanie zagadek, 10-sekundowa blokada dla botów i 
+komunikacja z systemem Windows.
+Link do wideo: (https://youtu.be/tRNwJ18vjuA)
+Będę wdzięczny za każdą opinię i łapkę w górę! Dajcie też znać w 
+komentarzach, co powinienem napisać w moim języku jako następne - prosty 
+komunikator (Czat) czy listę zadań?
+
+Avoraiser wchodzi na nowy poziom! Nowy silnik kryptograficzny i pancerny 
+RichEdit są już gotowe 
+Cześć wszystkim
+Ostatnie dni to był konkretny deep dive w WinAPI, pamięć i niskopoziomową 
+kryptografię Windowsa. Efekt? Duże zmiany w ekosystemie Avocado.
+Nowość nr 1: moduł kryptograficzny avoraiser.cryptography
+Zbudowałem od podstaw system szyfrowania plików oparty na sprawdzonych 
+standardach:
+AES-256-GCM + PBKDF2 (SHA-256).
+Co go wyróżnia:
+Brak zewnętrznych zależności
+Moduł korzysta bezpośrednio z CNG (Cryptography Next Generation) w 
+Windows.
+Efekt: bardzo małe binarki + sprzętowa akceleracja AES.
+Strumieniowe szyfrowanie (Chunked GCM)
+Możesz szyfrować ogromne pliki (dziesiątki / setki GB) przy minimalnym zużyciu 
+RAM (~ kilka MB).
+Ochrona hasła (PBKDF2)
+500 000 iteracji znacząco utrudnia ataki słownikowe.
+Integralność danych (GCM + AAD)
+Każdy fragment pliku jest uwierzytelniany.
+Zmiana choćby jednego bitu - natychmiastowy błąd przy odszyfrowaniu.
+Nowość nr 2: przebudowany avoraiser.richedit
+Pełny refactor pod kątem stabilności i bezpieczeństwa:
+wyrównanie struktur do ABI Windows
+eliminacja potencjalnych wycieków pamięci
+bezpieczny subclassing (SetProp zamiast globalnych hooków)
+Efekt: nawet dziesiątki edytorów w jednym oknie działają stabilnie.
+Budowanie własnego frameworka od zera, bez ciężkich zależności, daje 
+ogromną kontrolę i satysfakcję.
+Kto z Was używał natywnego WinAPI do kryptografii albo GDI? 
+Sprawdzić kod modułu kryptografii można na github plik avoraiser.cryptography 
+(https://github.com/Programista-Art/Avoraiser)
+
+Przegląd możliwości AvoRender 36 instrukcji do budowy aplikacji Full-Stack 
+AvoRender, czyli natywny, polskojęzyczny język skryptowy transpilowany w locie 
+do JavaScriptu, posiada obecnie zdefiniowane 36 instrukcji. To kompletny 
+zestaw pozwalający na budowę w pełni asynchronicznych i bezpiecznych 
+aplikacji desktopowo-webowych.
+Oto techniczne zestawienie tego, co potrafi obecnie framework:
+Manipulacja interfejsem (DOM) - 12 instrukcji
+Pełna kontrola nad strukturą i zachowaniem elementów okna:
+    pobierz_cialo() i wyszukaj_element(selektor) do nawigacji po drzewie,
+    stworz_element(tag), dodaj_dziecko() i usun_element() do dynamicznej 
+zmiany komponentów,
+    ustaw_styl() i ustaw_tekst() do manipulacji widokiem,
+    Bezpieczna obsługa pól wejściowych: ustaw_wartosc() oraz pobierz_wartosc
+(),
+    Blokowanie interakcji i modyfikacja właściwości za pomocą ustaw_atrybut().
+Zdarzenia i Asynchroniczność - 5 instrukcji
+Reagowanie na działania użytkownika bez blokowania głównego wątku:
+    nasluchuj_zdarzenia() z przekazywaniem pełnego obiektu zdarzenia (co 
+pozwala np. sprawdzić, który klawisz wciska użytkownik),
+    Zaawansowana obsługa czasu: za_czas() (timeout) oraz asynchroniczne pętle 
+wykonuj_co() wraz z możliwością ich przerwania za pomocą 
+zatrzymaj_wykonywanie(),
+    Wyciąganie szczegółowych parametrów z przeglądarki, takich jak 
+pobierz_pole(event, "keyCode").
+Komunikacja z Serwerem i Systemem (API) - 3 instrukcje
+Silnik sieciowy bez tajemnic:
+    pobierz_z_sieci() oraz wyslij_do_sieci() - do asynchronicznej komunikacji i 
+wymiany danych z serwerem,
+    wyslij_sygnal(dane) - natywny, bezpieczny most łączący widok w przeglądarce 
+bezpośrednio z kodem WinAPI we Free Pascalu (hostem okna).
+Przetwarzanie Danych i Bezpieczeństwo - 3 instrukcje
+    parsuj_json() i pobierz_pole() do zarządzania strukturami obiektowymi z 
+serwera,
+    bezpieczny_tekst() - funkcja uciekająca znaki specjalne, chroniąca aplikację 
+przed atakami typu JSON Injection.
+Słowa Kluczowe (Sterowanie) - 8 instrukcji
+Budowa logiki proceduralnej:
+    Deklaracje: zmienna, stala, funkcja,
+    Struktury warunkowe: jesli, w_przeciwnym_razie,
+    Pętle: powtarzaj,
+    Polskie bloki kodu: start (lub poczatek) oraz end (lub koniec).
+Nowe Moduły Zaawansowane - 5 funkcji
+Do języka dodane zostały nowe możliwości:
+    Matematyka: losuj_liczbe(min, max) - niezbędna m.in. do tworzenia losowych 
+liczb
+    Pamięć Lokalna (Local Storage): zapisz_lokalnie(klucz, wartosc) i 
+odczytaj_lokalnie(klucz) do przetrzymywania tokenów logowania, ustawień trybu 
+ciemnego lub historii czatu na dysku, nawet po wyłączeniu programu.
+    Tablice i Listy: dodaj_do_listy() i rozmiar_listy() do efektywnego zarządzania 
+masowymi zbiorami danych, takimi jak na przykład dziesiątki wiadomości w 
+komunikatorze.
+Poniżej kod który wyświetla przycisk a po kliknięciu wypisuję tekst Siemanko 
+Avorender!
+poczatek
+    zmienna cialo = pobierz_cialo();
+    zmienna przycisk = stworz_element("button");
+    ustaw_tekst(przycisk, "Przycisk!");
+    ustaw_styl(przycisk, "padding: 12px 24px; background-color: #4CAF50; color: 
+white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; 
+transition: 0.3s;");
+    dodaj_dziecko(cialo, przycisk);
+    nasluchuj_zdarzenia(przycisk, "click", funkcja(zdarzenie)
+    poczatek
+        usun_element(przycisk);
+        zmienna powitanie = stworz_element("h2");
+        ustaw_tekst(powitanie, "Siemano Avorender!");
+        ustaw_styl(powitanie, "color: #2E8B57; font-family: 'Segoe UI', sans-serif; 
+margin-top: 20px;");
+        dodaj_dziecko(cialo, powitanie);
+        ustaw_styl(przycisk, "background-color: #cccccc; cursor: not-allowed;");
+    koniec);
+koniec
+Jak to uruchomić
+Najpierw uruchom server w folderze jest plik main.exe
+Można w przeglądarce uruchomić program wpisz adres
+(http://localhost:8080/app)
+uruchom program avoraisermain.exe 
+Link do pobrania programu testowego (https://tiny.pl/rph9vy6mp)
+Antywirus aktualnie nie lubi Avoraisera dlatego trzeba zrobić wyjątek aby nie 
+usuwał plik .exe w wideo pokazuję jak to zrobić.
+Poniżej wideo  (https://youtu.be/-8c10nEeccg)
+
+Dziś zrobiłem dużą aktualizację IDE dla Avocado v 2.4.0.0. Poprawiłem 
+wydajność. Całość działa teraz szybciej i stabilniej, szczególnie jeśli chodzi o 
+zarządzanie pamięcią i procesy w tle.
+Najważniejsza zmiana usunąłem tryb interpretacji. Zostawiłem tylko kompilację 
+do natywnych plików .exe. Skupiam się na wydajności, bez kombinowania.
+Uprościłem też interfejs. Usunąłem przyciski transpilacji, interpretacji. Panele 
+boczne są teraz ukryte, żeby było więcej miejsca na kod. Jak trzeba, można je 
+włączyć z menu.
+Kod źródłowy który wcześniej był z prawej strony IDE teraz schowałem, bo on 
+jest tylko dla mnie dla debugowania, dałem tam hasło więc mam nadzieję że nikt 
+nie dowie się jakie to hasło i nie będzie podglądał transpilowany kod.
+Avocado (2.4.0.0) jeszcze nie opublikowałem.
+
+Duża aktualizacja Avoraiser - wchodzi Argon2id
+Dodałem do frameworka natywny moduł do bezpiecznego hashowania haseł 
+oparty o Argon2id (czyli aktualny standard w branży).
+Nie chciałem kolejnego wrappera, więc powstało coś bardziej kompletnego - 
+moduł, który realnie ogarnia temat bezpieczeństwa, a nie tylko “robi hash”.
+Co jest w środku:
+Hashowanie i weryfikacja haseł (Argon2id)
+Automatyczne wykrywanie, kiedy hash jest już za słaby (NeedsRehash)
+Obsługa peppera (ładowanie z env + bezpieczne czyszczenie)
+CSPRNG do generowania soli (Windows BCrypt)
+Ochrona danych w pamięci (m.in. blokowanie i zerowanie buforów)
+Plusy:
+większa kontrola nad bezpieczeństwem niż w typowych wrapperach
+przygotowane pod realne użycie (np. aktualizacja hashy w tle)
+Minusy:
+- zależność od natywnej biblioteki (argon2.dll)
+- skupienie na Windows (VirtualLock)
+Rdzeń Argon2 pochodzi bezpośrednio z oficjalnych źródeł (kompilowany przeze 
+mnie), więc nie ma tu żadnych losowych binarek z internetu.
+Jeśli ktoś buduje auth albo backend w Avocado - to jest już sensowna baza pod 
+produkcję.
+Wideo w tle leci muzyczka.
+https://youtu.be/ySxTYbHva-8
+
+Avocado zmienia się w platformę do tworzenia hybrydowych aplikacji
+Przez ostatni czas Avocado przestało być tylko językiem programowania. 
+Projekt ewoluuje w coś większego w platformę do budowania hybrydowych 
+aplikacji, który łączy różne światy: desktop, web, serwery i AI.
+Co się zmienia?
+Wspólny model UI (AUC / IR)
+Tworzę jednolitą warstwę pośrednią (UI Core), która będzie fundamentem 
+całego ekosystemu Avocado. Dzięki temu:
+jeden model aplikacji,
+wspólna struktura UI,
+brak różnic między platformami.
+Wizualny edytor GUI
+W Avocado IDE powstaje wizualny edytor aplikacji:
+drag & drop komponentów,
+edycja właściwości (kolory, stany, widoczność, eventy),
+live preview aplikacji,
+zapis do kodu Avocado.
+To pozwoli tworzyć aplikacje bez ręcznego pisania UI.
+Avorender i Avoraiser
+Wprowadzam wspólny system renderowania:
+Avorender - tworzy web aplikację
+Avoraiser - natywny runtime dla Windows i aplikacji desktopowych
+Oba systemy będą korzystać z tego samego IR, co zapewni spójność aplikacji 
+na różnych platformach.
+Avotensor - AI w ekosystemie Avocado
+Rozwijam także Avotensor, czyli framework do trenowania modeli AI:
+obsługa CPU i GPU,
+własne pipeline’y treningowe,
+integracja z aplikacjami Avocado.
+Avocado nie jest już tylko językiem.
+To staje się: pełnym ekosystemem do tworzenia aplikacji i systemów AI jednym 
+środowiskiem dla wszystkiego
+Prace są w toku, ale kierunek jest jasny:
+jedna platforma, wiele możliwości od UI, przez backend, aż po sztuczną 
+inteligencję.
+
+Tworzę AvoTensor framework AI do budowy i trenowania własnych modeli 
+językowych oraz sieci neuronowych dla polskiego języka programowania 
+Avocado.
+Projekt rozwijam z myślą o lokalnej i prywatnej sztucznej inteligencji działającej 
+bez chmury i bez wysyłania danych na zewnętrzne serwery.
+AvoTensor posiada już między innymi:
+własny system tensorów i autograd
+obsługę Transformerów
+Multi-Head Attention
+LayerNorm i FeedForward
+tokenizację tekstu
+trenowanie modeli AI
+generowanie tekstu i inferencję
+Aktualnie testuję trenowanie modeli na własnych danych tekstowych. Framework 
+potrafi już samodzielnie generować tekst po treningu.
+AvoTensor nie powstaje jako konkurent dla dużych modeli AI czy ChatGPT. 
+Kierunek projektu to małe, lokalne modele AI do konkretnych zastosowań.
+Wiem, że istnieją już rozwiązania takie jak Ollama czy LM Studio i sam uważam, 
+że to bardzo dobre projekty.
+AvoTensor rozwijam jednak w trochę innym kierunku.
+Nie chodzi o uruchamianie dużych gotowych modeli, ale o możliwość tworzenia i 
+trenowania małych, wyspecjalizowanych modeli AI pod konkretne zastosowania:
+embedded AI
+Raspberry Pi
+IoT
+monitoring
+robotyka
+automatyka
+edge AI
+systemy offline
+Czyli bardziej własne lekkie modele działające lokalnie niż duże uniwersalne 
+LLM-y wymagające mocnego sprzętu.
+To dopiero początek rozwoju projektu.
+Na ten moment projekt jest jeszcze w fazie intensywnego rozwoju i testów, 
+dlatego nie publikuję jeszcze wersji do pobrania ani publicznych repozytoriów.
+Aktualnie skupiam się na rozwijaniu architektury frameworka, trenowaniu modeli 
+i stabilizacji całego systemu. Gdy projekt będzie bardziej gotowy, wtedy pokażę 
+publiczne testy i więcej materiałów.

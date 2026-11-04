@@ -1,0 +1,22 @@
+﻿//Program w Avorender system logów
+// Nie musisz już trzymać ciala w zmiennej na górze! Wyszukujemy po tagu.
+zmienna cialo = wyszukaj_element("body");
+ustaw_styl(cialo, "background: #111; color: #0f0; padding: 20px;");
+
+zmienna konsola = stworz_element("div");
+ustaw_atrybut(konsola, "id", "okno-czatu");
+dodaj_dziecko(cialo, konsola);
+
+// Magia: co 2 sekundy (2000 ms) odpytujemy serwer
+wykonuj_co(2000, funkcja()
+poczatek
+    // Wyszukujemy element po ID! Nie musimy przekazywać go w zmiennej.
+    zmienna moje_okno = wyszukaj_element("#okno-czatu");
+    
+    pobierz_z_sieci("http://localhost:8080/api/status", funkcja(dane)
+    poczatek
+        zmienna linia = stworz_element("div");
+        ustaw_tekst(linia, "Nowy odczyt: " + dane);
+        dodaj_dziecko(moje_okno, linia);
+    koniec);
+koniec);

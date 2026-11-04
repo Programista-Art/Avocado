@@ -1,0 +1,26 @@
+﻿//Plywajacy Przycisk Akcji
+zmienna cialo = pobierz_cialo();
+
+zmienna fab = stworz_element('button');
+ustaw_tekst(fab, '+');
+ustaw_atrybut(fab, 'title', 'Dodaj nowy element');
+
+// Kluczowe jest pozycjonowanie: fixed oraz wyrównanie (bottom, right)
+ustaw_styl(fab, 'position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #00FF4842; color: white; border: none; font-size: 30px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 255, 72, 0.4); display: flex; justify-content: center; align-items: center; transition: 0.2s;');
+
+nasluchuj_zdarzenia(fab, 'mouseover', funkcja()
+poczatek
+    ustaw_styl(fab, 'transform: scale(1.1); background: #00CC3A;');
+koniec);
+
+nasluchuj_zdarzenia(fab, 'mouseout', funkcja()
+poczatek
+    ustaw_styl(fab, 'transform: scale(1); background: #00FF4842;');
+koniec);
+
+nasluchuj_zdarzenia(fab, 'klikniecie', funkcja()
+poczatek
+    wyslij_sygnal('otworz_okno_dodawania');
+koniec);
+
+dodaj_dziecko(cialo, fab);

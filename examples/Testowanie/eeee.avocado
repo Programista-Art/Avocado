@@ -1,0 +1,6 @@
+﻿program alamakota
+główny
+tekst a  = 'Ala ma kota'
+wstaw(' czarnego',a,7)
+pisz_linie(a)
+koniec.

@@ -1,0 +1,20 @@
+﻿program fortobreak
+glowny
+  test
+koniec.
+
+procedura test
+start
+liczba_całkowita a = 0
+a = czytaj_linie('Podaj liczbę: ')
+
+jezeli a < 0 wtedy
+początek
+exit
+koniec
+inaczej
+początek
+pisz_linie('Podana liczba to: ', a)
+pisz_linie('Program nie zamyka się od razu')
+koniec
+koniec

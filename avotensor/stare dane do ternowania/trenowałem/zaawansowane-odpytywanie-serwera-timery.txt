@@ -1,0 +1,48 @@
+﻿//Odpytywanie serwera program w Avorender
+// 1. Używamy NOWEJ funkcji wyszukiwania! Od razu łapiemy <body>.
+zmienna cialo = wyszukaj_element("body");
+ustaw_styl(cialo, "background: #0a0a0a; color: #10b981; font-family: 'Courier New', monospace; padding: 30px;");
+
+zmienna naglowek = stworz_element("h2");
+ustaw_tekst(naglowek, "Inicjalizacja Systemu Monitorowania...");
+dodaj_dziecko(cialo, naglowek);
+
+zmienna konsola_logow = stworz_element("div");
+ustaw_styl(konsola_logow, "margin-top: 20px; border: 1px solid #333; padding: 15px; height: 400px; overflow-y: auto; background: #000;");
+dodaj_dziecko(cialo, konsola_logow);
+
+// ==========================================
+// NOWOŚĆ #1: Opóźnienie (setTimeout)
+// ==========================================
+za_czas(2000, funkcja()
+poczatek
+    ustaw_tekst(naglowek, "Monitor Serwera: AKTYWNY");
+    ustaw_styl(naglowek, "color: #00FF4842; border-bottom: 2px solid #00FF4842; padding-bottom: 10px;");
+    
+    zmienna start_log = stworz_element("div");
+    ustaw_tekst(start_log, "> Rozpoczynam nasłuch portu 8080...");
+    ustaw_styl(start_log, "color: #aaa; margin-bottom: 10px;");
+    dodaj_dziecko(konsola_logow, start_log);
+koniec);
+
+// ==========================================
+// NOWOŚĆ #2: Pętla czasowa (setInterval)
+// ==========================================
+// Odpytujemy serwer co 3 sekundy (3000 ms)
+wykonuj_co(3000, funkcja()
+poczatek
+    // Asynchroniczny strzał do Twojego backendu w AvocadoNet!
+    pobierz_z_sieci("http://localhost:8080/api/status", funkcja(surowy_tekst)
+    poczatek
+        // Parsujemy JSON
+        zmienna odpowiedz = parsuj_json(surowy_tekst);
+        zmienna tresc = pobierz_pole(odpowiedz, "wiadomosc");
+        
+        // Dodajemy nową linię do naszej konsoli
+        zmienna nowy_wpis = stworz_element("div");
+        ustaw_tekst(nowy_wpis, "[LIVE] " + tresc);
+        ustaw_styl(nowy_wpis, "margin-top: 5px; border-left: 3px solid #10b981; padding-left: 10px;");
+        
+        dodaj_dziecko(konsola_logow, nowy_wpis);
+    koniec);
+koniec);

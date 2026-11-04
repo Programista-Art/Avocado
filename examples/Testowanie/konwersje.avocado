@@ -1,0 +1,14 @@
+program sss
+glowny 
+ liczba_całkowita a
+ tekst b
+
+ str_bool(b)
+ pisz(str_bool(b))
+kolor_tekstu('*niebieski')
+text_background('*niebieski')
+
+pisz_linie('niebieski')
+
+
+koniec.

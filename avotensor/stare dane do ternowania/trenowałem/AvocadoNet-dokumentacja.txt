@@ -1,0 +1,132 @@
+﻿Co posiada framework AvocadoNet? (Analiza modułów)
+Z nazw plików wynika, że framework obsługuje szeroki wachlarz protokołów i technologii sieciowych:
+    • Niskopoziomowa komunikacja sieciowa: * Protokoły TCP i UDP (zarówno z perspektywy klienta, jak i serwera: avocado_tcp_client.pas, avocado_udp_server.pas, itd.).
+        ◦ Obsługa adresacji IP oraz zapytań DNS (avocado_address.pas, avocado_dns.pas).
+    • Protokoły wyższego poziomu (Aplikacyjne):
+        ◦ HTTP/HTTPS: Pełna obsługa sieci Web (zarówno serwery jak i klienci: avocado_http_server.pas, avocado_http_client.pas), obsługa nagłówków, ciasteczek (avocado_cookie.pas), transferu strumieniowego (avocado_chunked.pas) i kompresji (avocado_compression.pas).
+        ◦ WebSockets: Dwukierunkowa, stała komunikacja (avocado_websocket.pas), idealna do aplikacji czasu rzeczywistego.
+        ◦ Protokoły pocztowe: Wysyłanie i odbieranie e-maili (avocado_smtp.pas, avocado_pop3.pas) wraz z obsługą załączników i formatów MIME (avocado_mime.pas).
+        ◦ Transfer plików: Klasyczny protokół FTP (avocado_ftp.pas).
+    • Bezpieczeństwo i Szyfrowanie:
+        ◦ Obsługa SSL / TLS (avocado_ssl.pas, avocado_tls.pas) oraz integracja z natywnym mechanizmem Windows SChannel (avocado_schannel.pas). Dzięki temu aplikacje mogą bezpiecznie szyfrować ruch bez konieczności ciągnięcia za sobą ciężkich bibliotek zewnętrznych takich jak np. OpenSSL.
+    • Wielowątkowość i Asynchroniczność (Wydajność):
+        ◦ Pula wątków (avocado_threadpool.pas) oraz pętle zdarzeń (avocado_eventloop.pas, avocado_async.pas). Oznacza to, że framework potrafi obsłużyć wiele tysięcy połączeń jednocześnie bez "zawieszania" programu.
+    • Zarządzanie danymi:
+        ◦ Narzędzia do obsługi buforów i strumieni (avocado_buffer.pas, avocado_stream.pas) oraz kodowanie danych (avocado_base64.pas).
+2. Jakie aplikacje można stworzyć za jego pomocą?
+Mając tak potężny zasób komponentów w Lazarusie, możesz (lub użytkownicy Twojego polskiego języka programowania mogą) stworzyć niemal wszystko, co wymaga dostępu do sieci. Oto konkretne przykłady:
+    1. Własne Serwery WWW i API (REST/JSON): Wykorzystując avocado_http_server.pas, możesz napisać własny, lekki serwer HTTP, który będzie serwował strony internetowe, pliki HTML/CSS lub działał jako backend API, z którym komunikują się aplikacje mobilne.
+    2. Aplikacje czasu rzeczywistego (Chaty, Komunikatory, Gry): Dzięki modułom WebSockets (avocado_websocket_server.pas) oraz serwerom TCP/UDP możesz stworzyć komunikator tekstowy (jak Discord), system powiadomień na żywo lub serwer do prostej gry wieloosobowej w trybie multiplayer.
+    3. Klienty usług sieciowych (Scrapery, Boty): Z użyciem avocado_http_client.pas oraz wsparcia dla SSL/TLS, łatwo pobierzesz zawartość dowolnej strony WWW, napiszesz bota, który automatycznie wysyła formularze, pobiera kursy walut lub korzysta z publicznych API (np. API do sprawdzania pogody czy integracja z systemem ChatGPT).
+    4. Klienci i Serwery Poczty E-mail: Moduły SMTP i POP3 pozwalają na napisanie aplikacji do masowej wysyłki biuletynów (newsletterów) lub niestandardowego klienta e-mail zintegrowanego z własnym systemem operacyjnym czy programem biurowym.
+    5. Aplikacje do wymiany plików (P2P / FTP): Możesz stworzyć własnego klienta FTP do synchronizacji plików z serwerem lub prostą aplikację P2P (Peer-to-Peer) opartą o bezpośrednie połączenia TCP do przesyłania plików między komputerami w sieci lokalnej.
+Podsumowanie
+Framework AvocadoNet ma architekturę bardzo zbliżoną do popularnych, profesjonalnych bibliotek (takich jak Indy czy Synapse, ale z nowoczesnym asynchronicznym podejściem). Jeżeli planujesz zintegrować to ze swoim tłumaczem polskiego języka programowania, dasz swoim użytkownikom ogromną moc do tworzenia nowoczesnych, podłączonych do Internetu aplikacji, zachowując jednocześnie wysoką wydajność, którą gwarantuje natywnie kompilowany kod Avocado
+
+
+
+
+DOKUMENTACJA WINSOCK2 - UŻYTE W FRAMEWORKU AVOCADONET
+
+
+1. INICJALIZACJA I ZAMYKANIE (Użyte w: avocado_socket.pas)
+
+Funkcja: WSAStartup
+Użycie w kodzie: Res := WSAStartup($0202, WSAData);
+Opis: Uruchamia bibliotekę sieciową Windows. U Ciebie żąda wersji 2.2 ($0202). Musi być wywołana raz przed pracą z siecią.
+
+Funkcja: WSACleanup
+Użycie w kodzie: WSACleanup;
+Opis: Zwalnia pamięć i wyłącza bibliotekę WinSock, gdy framework kończy działanie.
+
+Funkcja: WSAGetLastError
+Użycie w kodzie: raise EAvocadoSocketError.CreateFmt('... %d', [WSAGetLastError]);
+Opis: Zwraca kod ostatniego błędu sieciowego. Używasz jej w procedurze CheckSocketError do informowania użytkownika, co poszło nie tak.
+
+
+2. ZARZĄDZANIE GNIAZDEM (Użyte w: avocado_socket.pas)
+
+Funkcja: socket
+Użycie w kodzie: FSocket := socket(FAddressFamily, FSocketType, FProtocol);
+Opis: Tworzy uchwyt (Handle) nowego gniazda. U Ciebie domyślnie tworzy gniazdo TCP dla IPv4 (AF_INET, SOCK_STREAM, IPPROTO_TCP).
+
+Funkcja: closesocket
+Użycie w kodzie: closesocket(FSocket);
+Opis: Bezpiecznie zamyka i niszczy gniazdo. Używane w metodzie Close.
+
+
+3. FUNKCJE KLIENTA TCP (Użyte w: avocado_tcp.pas)
+
+Funkcja: connect
+Użycie w kodzie: Res := WinSock2.connect(Handle, @SockAddr, SizeOf(SockAddr));
+Opis: Łączy stworzone gniazdo (Handle) z adresem i portem docelowym (zapisanym w strukturze SockAddr). 
+
+Funkcja: send
+Użycie w kodzie: Result := WinSock2.send(Handle, @Buffer, Count, 0);
+Opis: Wysyła surowe dane (Buffer) o określonej długości (Count) przez połączone gniazdo. Zwraca ilość wysłanych bajtów.
+
+Funkcja: recv
+Użycie w kodzie: Result := WinSock2.recv(Handle, @Buffer, Count, 0);
+Opis: Czeka na dane z sieci i zapisuje je do bufora (@Buffer). Zwraca ilość odebranych bajtów.
+
+
+4. FUNKCJE SERWERA TCP (Użyte w: avocado_tcp_server.pas)
+
+Funkcja: bind
+Użycie w kodzie: Res := bind(Handle, @SockAddr, SizeOf(SockAddr));
+Opis: Rezerwuje (przypisuje) lokalny port i adres IP (np. '0.0.0.0' - wszystkie interfejsy) do gniazda serwera. Bez tego serwer nie wie, gdzie nasłuchiwać.
+
+Funkcja: listen
+Użycie w kodzie: Res := WinSock2.listen(Handle, SOMAXCONN);
+Opis: Uruchamia tryb nasłuchiwania na gnieździe. SOMAXCONN mówi systemowi Windows, aby ustawił maksymalną dopuszczalną kolejkę oczekujących klientów.
+
+Funkcja: accept
+Użycie w kodzie: ClientSock := WinSock2.accept(Handle, @Addr, @AddrLen);
+Opis: Czeka na nowe połączenie od klienta. Gdy klient się połączy, funkcja tworzy i zwraca CAŁKIEM NOWE gniazdo (ClientSock) przeznaczone tylko dla tego konkretnego klienta. U Ciebie to nowe gniazdo jest pakowane w obiekt: Result := TavocadoSocket.CreateFromHandle(...).
+
+
+1. Klient TCP (Moduł avocado_tcp_client.pas)
+Klasa TAvocadoTCPClient rozszerza podstawowe gniazda o wygodną obsługę tekstu.
+    • SendString(const S: string);
+        ◦ Zastosowanie: Służy do wysyłania łańcuchów znaków (tekstu) do połączonego serwera. Idealne do tworzenia klientów chatu lub wysyłania komend tekstowych.
+    • ReceiveString: string;
+        ◦ Zastosowanie: Odbiera dane od serwera i automatycznie konwertuje bufor (do 4096 znaków) na typ string.
+    • (Odziedziczone z wcześniejszego TAvocadoTCP): Connect(AHost, APort), Disconnect.
+2. Serwer i Klient HTTP (Moduły avocado_http_server.pas i avocado_http_client.pas)
+Te klasy to wysokopoziomowe obudowy pozwalające na interakcję z siecią Web.
+Klasa TAvocadoHTTPClient (Klient do pobierania stron/API):
+    • Get(const URL: string): string;
+        ◦ Zastosowanie: Wykonuje żądanie HTTP GET pod wskazany adres URL i zwraca odpowiedź serwera (np. kod HTML strony). Obecnie przygotowałeś dla niej atrapę zwracającą "Not Implemented Yet".
+    • Post(const URL: string; const Data: string): string;
+        ◦ Zastosowanie: Służy do wysyłania danych na serwer (np. formularzy, plików JSON do API REST).
+Klasa TAvocadoHTTPServer (Serwer do hostowania stron):
+    • Start(APort: Word);
+        ◦ Zastosowanie: Uruchamia serwer WWW na podanym porcie (np. 80 dla standardowego HTTP) pod spodem używając nasłuchu TCP.
+    • Stop;
+        ◦ Zastosowanie: Zatrzymuje działanie serwera i zamyka połączenia (wywołuje FTCPServer.Close).
+3. Komunikacja UDP (Moduły avocado_udp_server.pas i avocado_udp_client.pas)
+Protokół bezpołączeniowy, świetny do gier multiplayer, streamingu wideo czy zapytań DNS.
+Klasa TAvocadoUDPServer:
+    • Listen(APort: Word; const AHost: string = '0.0.0.0');
+        ◦ Zastosowanie: Rezerwuje port UDP i przypisuje go do interfejsu sieciowego za pomocą funkcji bind.
+Klasa TAvocadoUDPClient:
+    • Obecnie udostępnia jedynie konstruktor Create oparty o TAvocadoUDP. Zapewne na klasie bazowej znajdują się odpowiednie metody SendTo i ReceiveFrom.
+4. WebSockets (avocado_websocket_server.pas i avocado_websocket_client.pas)
+    • Obecnie w plikach zadeklarowałeś jedynie puste moduły (sama sekcja interface i implementation) bez zdefiniowanych klas i funkcji.
+Jak wdrożyć to w Twoim własnym języku (Avocado)?
+Jako twórca języka, powinieneś napisać w translatorze polecenia, które wywołają ten Pascalowy kod. Na przykład dla klienta HTTP:
+    1. Użytkownik wpisuje w Avocado: tekst odpowiedz = HTTP_Pobierz("http://google.pl")
+    2. Twój translator (Lazarus) zamienia to na kod Free Pascala, używając komponentów frameworka:
+       Delphi
+       var
+         Klient: TAvocadoHTTPClient;
+         odpowiedz: string;
+       begin
+         Klient := TAvocadoHTTPClient.Create(nil);
+         try
+           odpowiedz := Klient.Get('http://google.pl');
+         finally
+           Klient.Free;
+         end;
+       end;
+Dzięki hermetyzacji poprzez klasy (TAvocadoTCPClient, TAvocadoHTTPClient), tworzenie zaawansowanych aplikacji przez użytkowników Twojego języka będzie ograniczało się do wywołania jednej lub dwóch polskojęzycznych funkcji!

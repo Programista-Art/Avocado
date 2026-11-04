@@ -1,0 +1,281 @@
+﻿Grafika i Druk (Graphics, PDF & Drawing)
+
+Framework Avoraiser, korzystając z silników GDI oraz GDI+, pozwala na błyskawiczne i zaawansowane rysowanie kształtów, obrazów PNG (z kanałem Alpha) i gradientów, a także generowanie profesjonalnych raportów i eksport do plików PDF.
+
+
+Obrazki
+create_image_box  - Ładuje obraz graficzny (w tym PNG z obsługą 
+przezroczystości/kanału Alpha) i wyświetla go w oknie.
+
+  PL:    utworz_pole_obrazu  |   EN:    create_image_box 
+
+    Parametry:
+
+  rodzic / parent - Okno rodzica.
+  sciezka_pliku / file_path - Ścieżka do pliku (PNG, JPG, BMP).
+  x, y, szerokosc, wysokosc / x, y, w, h - Wymiary i pozycja.
+
+Przykład użycia nazwa polska:
+
+utworz_pole_obrazu(rodzic, sciezka_pliku, x, y, szerokosc, wysokosc)
+
+Przykład użycia nazwa angielska:
+create_image_box(parent, file_path, x, y, w, h)
+
+   
+
+create_rounded_panel  - Rysuje zaokrąglony panel (kartę/card) z 
+użyciem wygładzania krawędzi (antialiasing).
+
+  PL:    utworz_zaokraglony_panel  |   EN:    create_rounded_panel 
+
+  Parametry:
+  rodzic / parent - Okno rodzica.
+  x, y, szerokosc, wysokosc / x, y, w, h - Wymiary i pozycja.
+  kolor / color - Kolor tła panelu.
+  promien / radius - Promień zaokrąglenia.
+  Przykład użycia nazwa polska:
+
+utworz_zaokraglony_panel(rodzic, x, y, szerokosc, wysokosc, kolor, promien)
+Przykład użycia nazwa angielska:
+create_rounded_panel(parent, x, y, w, h, color, radius)
+
+1. Rysowanie Podstawowych Kształtów (Shapes)
+draw_rectangle 
+  PL:   Rysuj obrys prostokąta |   EN:   Draw rectangle
+Rysuje prostokąt (pusty w środku, sam obrys) na wybranym urządzeniu (okno, drukarka lub PDF). Opcjonalny argument  TargetDC  (domyślnie 0, co oznacza ekran).
+   pascal
+draw_rectangle(Window: HWND; X, Y, W, H: Integer; Color: DWORD; TargetDC: HDC = 0);
+   
+
+draw_fill_rectangle 
+PL:   Rysuj wypełniony prostokąt |   EN:   Draw fill rectangle
+Rysuje prostokąt zamalowany wewnątrz podanym kolorem.
+   pascal
+draw_fill_rectangle(Window: HWND; X, Y, W, H: Integer; Color: DWORD; TargetDC: HDC = 0);
+   
+draw_line 
+PL:   Rysuj linię |   EN:   Draw line
+Rysuje prostą lub ukośną linię pomiędzy punktami (X1, Y1) a (X2, Y2). Rysunek ten "znika" po przerysowaniu okna, chyba że użyty jest na DC drukarki/PDF.
+   pascal
+draw_line(Window: HWND; X1, Y1, X2, Y2: Integer; Color: DWORD; TargetDC: HDC = 0);
+   
+
+draw_polyline 
+PL:   Rysuj łamaną linię (Zygzak) |   EN:   Draw polyline
+Rysuje linię łączącą tablicę podanych punktów. Idealne do tworzenia wykresów. (Znika po przerysowaniu).
+   pascal
+draw_polyline(Window: HWND; const Points: array of TPoint; Color: DWORD; Thickness: Integer; TargetDC: HDC = 0);
+// Użycie funkcji pomocniczej point(X, Y)
+// draw_polyline(Okno, [ point(10, 100), point(50, 20), point(100, 150) ], $00FF965F, 3);
+   
+
+     point 
+  PL:   Utwórz punkt (TPoint) |   EN:   Point
+Pomocnicza funkcja tworząca obiekt punktu 2D do wykorzystania w np.  draw_polyline .
+   pascal
+function point(X, Y: Integer): TPoint;
+   
+
+   2. Tworzenie Trwałych Obiektów (GDI+ Panels & Boxes)
+
+W przeciwieństwie do funkcji  draw_ , obiekty typu  create_  zostają na stałe "przyklejone" do okna jako niezależne kontrolki. Silnik GDI+ obsługuje je automatycznie.
+
+     create_panel 
+  PL:   Utwórz kolorowy panel |   EN:   Create panel
+Tworzy zamalowany prostokąt (panel). Może służyć jako tło dla innych kontrolek.
+   pascal
+create_panel(Parent: HWND; X, Y, W, H: Integer; Color: DWORD): HWND;
+// Np: create_panel(Okno, 10, 10, 200, 100, $00FF0000); // Czerwony prostokąt
+   
+
+     create_rounded_panel 
+  PL:   Utwórz zaokrąglony panel |   EN:   Create rounded panel
+Tworzy prostokąt z gładko zaokrąglonymi krawędziami (np. karta powiadomienia lub nowoczesny przycisk w stylu Windows 11).
+   pascal
+create_rounded_panel(Parent: HWND; X, Y, W, H: Integer; Color: DWORD; Radius: Integer): HWND;
+// Np. wysoka karta z zaokrągleniem 10px:
+// create_rounded_panel(Okno, 50, 50, 300, 200, $252525, 10);
+   
+create_gradient_panel 
+  PL:   Utwórz panel z gradientem |   EN:   Create gradient panel
+Rysuje płynne przejście między dwoma kolorami. Kierunek (Direction): 0 = poziomo, 1 = pionowo, 2 = po skosie.
+   pascal
+create_gradient_panel(Parent: HWND; X, Y, W, H: Integer; ColorStart, ColorEnd: DWORD; Direction: Integer = 1): HWND;
+   
+
+create_frame 
+PL:   Utwórz pustą ramkę (Trwałą) |   EN:   Create frame
+Tworzy trwały obiekt obrysu prostokątnego z możliwością ustalenia grubości linii.
+   pascal
+create_frame(Parent: HWND; X, Y, W, H: Integer; Color: DWORD; Thickness: Integer = 1): HWND;
+   
+
+create_line 
+PL:   Utwórz trwałą linię |   EN:   Create line
+Tworzy trwały obiekt linii (również ukośnej) pomiędzy punktami.
+   pascal
+create_line(Parent: HWND; X1, Y1, X2, Y2: Integer; Color: DWORD; Thickness: Integer = 1): HWND;
+   
+
+create_circle_filled  /  create_circle_outline 
+PL:   Utwórz kolorowe koło / pusty okrąg |   EN:   Create circle filled / outline
+Tworzy trwały obiekt koła z antyaliasingiem (gładkie krawędzie GDI+).
+   pascal
+create_circle_filled(Parent: HWND; X, Y, Diameter: Integer; Color: DWORD): HWND;
+create_circle_outline(Parent: HWND; X, Y, Diameter: Integer; Color: DWORD; Thickness: Integer = 1): HWND;
+   
+
+create_polyline_box 
+  PL:   Utwórz trwały zygzak |   EN:   Create polyline box
+Tworzy pudełko-obszar, wewnątrz którego narysowana jest trwała łamana linia względem jego punktu (0,0).
+   pascal
+create_polyline_box(Parent: HWND; X, Y, W, H: Integer; const Points: array of TPoint; Color: DWORD; Thickness: Integer = 1): HWND;
+   
+
+3. Praca z Obrazami (Images & GDI+)
+Silnik GDI+ automatycznie rozpoznaje i dekoduje obrazy w formatach  .png ,  .jpg ,  .bmp ,  .gif  i  .ico  wraz z ich kanałem przezroczystości!
+
+     gdiplus_init  /  gdiplus_shutdown 
+  PL:   Start/Stop silnika GDI+ |   EN:   GDI+ init / shutdown
+Funkcje niezbędne do włączenia i wyłączenia zaawansowanej grafiki w aplikacji. Wywoływane zwykle zaraz przed startem głównego okna i po jego zamknięciu.
+   pascal
+function gdiplus_init: Boolean;
+procedure gdiplus_shutdown;
+   
+
+create_image_box 
+PL:   Wyświetl obrazek |   EN:   Create image box
+Wczytuje obraz z dysku i wyświetla go w oknie w podanych wymiarach. Domyślnie używa silnika GDI+.
+   pascal
+create_image_box(Parent: HWND; FilePath: UnicodeString; X, Y, W, H: Integer): HWND;
+// Np. create_image_box(MyWindow, 'grafika.png', 640, 350, 70, 70);
+   
+
+create_circle_image 
+PL:   Obraz wycięty w koło (Awatar) |   EN:   Create circle image
+Idealne do tworzenia zdjęć profilowych użytkowników, wpisujących się w idealne koło.
+   pascal
+create_circle_image(Parent: HWND; FilePath: UnicodeString; X, Y, Size: Integer): HWND;
+   
+
+create_rotated_image  /  set_image_angle 
+PL:   Utwórz obrócony obraz / Zmień kąt |   EN:   Create rotated image / Set image angle
+Pozwala na renderowanie obrazów pod wskazanym kątem oraz dynamiczne zmienianie obrotu w kodzie.
+   pascal
+create_rotated_image(Parent: HWND; FilePath: UnicodeString; X, Y, W, H: Integer; Angle: Integer): HWND;
+set_image_angle(hImg: HWND; Angle: Integer);
+   
+
+draw_image 
+  PL:   Narysuj obraz na wybranym urządzeniu |   EN:   Draw image
+Używane często do drukowania logo firmy na dokumencie (PDF/Drukarka). Funkcja uniwersalnie rozpoznaje typ pliku.
+   pascal
+procedure draw_image(h_dc: HDC; x, y, width, height: Integer; const image_path: UnicodeString);
+   
+
+get_image_size 
+PL:   Pobierz rzeczywiste wymiary obrazu z dysku |   EN:   Get image size
+Pobiera rozmiar (Width, Height) bez jego renderowania na ekran.
+   pascal
+function get_image_size(const file_path: UnicodeString; out width, height: Integer): Boolean;
+   
+
+calculate_aspect_ratio 
+  PL:   Przelicz idealne proporcje (Aspect Ratio) |   EN:   Calculate aspect ratio
+Oblicza nowe wymiary, aby obraz zmieścił się w zadanym pudełku (MaxW, MaxH) bez deformacji.
+   pascal
+procedure calculate_aspect_ratio(OrigW, OrigH, MaxW, MaxH: Integer; out NewW, NewH: Integer);
+   
+   4. Zarządzanie Obiektami i Renderowaniem
+delete_object 
+PL:   Zniszcz obiekt graficzny |   EN:   Delete object
+Usuwa dowolny utworzony obiekt trwały (obraz, koło, linię, panel) i zwalnia po nim pamięć.
+   pascal
+function delete_object(hObject: HWND): Boolean;
+   
+copy_pixels  /  stretch_pixels 
+PL:   Kopiowanie i skalowanie bloków pikseli |   EN:   Copy pixels / Stretch pixels
+Szybkie metody kopiowania fragmentów ekranu z jednego DC na drugie (odpowiedniki  BitBlt  i  StretchBlt ).
+   pascal
+function copy_pixels(DestDC: HDC; DestX, DestY, W, H: Integer; SrcDC: HDC; SrcX, SrcY: Integer): Boolean;
+function stretch_pixels(DestDC: HDC; DestX, DestY, DestW, DestH: Integer; SrcDC: HDC; SrcX, SrcY, SrcW, SrcH: Integer): Boolean;
+   
+fill_pattern 
+PL:   Wypełnienie z użyciem operacji bitowych (PatBlt) |   EN:   Fill pattern
+ pascal
+procedure fill_pattern(DC: HDC; X, Y, W, H: Integer; Rop: DWORD = PATCOPY);
+   
+
+     get_pixel  /  set_pixel 
+  PL:   Pobierz / Ustaw kolor jednego piksela |   EN:   Get pixel / Set pixel
+Do tworzenia narzędzi typu "Pipeta" (Color Picker) lub generowania gwiazdek (drobnych punktów).
+   pascal
+function get_pixel(DC: HDC; X, Y: Integer): DWORD;
+procedure set_pixel(DC: HDC; X, Y: Integer; Color: DWORD);
+   
+
+begin_double_buffer  /  end_double_buffer 
+  PL:   Buforowanie (Double Buffering) |   EN:   Begin / End double buffer
+Zatrzymuje miganie rysunków. Najpierw wszystko rysuje się "po cichu" w pamięci RAM, a przy end_ zostaje wrzucone na ekran w mgnieniu oka.
+   pascal
+// (Zwracają i operują na strukturach TDoubleBufferState)
+   
+
+ 
+
+   5. Raporty, Drukarki i Eksport do PDF (avoraiser.printer)
+
+Cały mechanizm eksportu PDF opiera się na wektorowym silniku. Nie traci ostrości przy powiększaniu, a wygenerowane teksty i tabele na raporcie (PDF) można zaznaczać myszką.
+
+     printer_show_dialog 
+  PL:   Pokaż okno wyboru drukarki systemu Windows |   EN:   Printer show dialog
+Wysuwa domyślne systemowe okienko wyboru drukarki. Jeśli użytkownik kliknie OK, funkcja zwraca kontekst (HDC) tej konkretnej drukarki (lub sterownika PDF np. "Microsoft Print to PDF").
+   pascal
+function printer_show_dialog(h_owner: HWND; out h_printer_dc: HDC): Boolean;
+   
+
+     printer_export_to_pdf 
+  PL:   Generuj plik PDF w tle |   EN:   Printer export to pdf
+Bez pytań tworzy od razu fizyczny plik  .pdf  na dysku pod wskazaną ścieżką i oddaje do niego dostępnika HDC do rysowania.
+   pascal
+function printer_export_to_pdf(const file_path: UnicodeString; out h_printer_dc: HDC): Boolean;
+   
+
+     printer_begin_doc  /  printer_end_doc 
+  PL:   Rozpocznij i zakończ dokument |   EN:   Printer begin doc / end doc
+Każde zadanie drukowania na HDC zaczyna się od nadania mu tytułu, a kończy zamknięciem i wypuszczeniem pliku/kartki (Flush).
+   pascal
+procedure printer_begin_doc(h_dc: HDC; const document_name: UnicodeString);
+procedure printer_end_doc(h_dc: HDC);
+   
+
+     printer_draw_text 
+  PL:   Rysuj wektorowy tekst na PDF/Karcie |   EN:   Printer draw text
+   pascal
+procedure printer_draw_text(h_dc: HDC; x, y: Integer; const text_to_draw: UnicodeString);
+   
+
+     printer_draw_line 
+  PL:   Rysuj wektorową linię na PDF/Karcie (Tabelki itp) |   EN:   Printer draw line
+   pascal
+procedure printer_draw_line(h_dc: HDC; x1, y1, x2, y2: Integer);
+   
+
+    Narzędzia PDF (Wymiary i Wyśrodkowywanie)
+
+Gdy rysujesz w dokumencie PDF, urządzenie może mieć zupełnie inną gęstość DPI niż monitor (np. obszar ma 4000x5000 punktów zamiast ekranowych 1920x1080). Poniższe funkcje służą rozeznaniu przestrzeni.
+
+      get_device_width  /  get_device_height 
+Zwraca fizyczną szerokość płótna (w pikselach/punktach drukarki). Zapewnia dokładne umieszczanie elementów na prawej czy dolnej krawędzi wydruku.
+   pascal
+function get_device_width(DC: HDC): Integer;
+function get_device_height(DC: HDC): Integer;
+   
+
+      set_text_align_center  /  set_text_align_left 
+Ustawia wewnętrzne flagi tak, by wypisywany w przyszłości tekst na HDC wyrównał się równo względem swojej osi X do wskazanego punktu na płótnie, a nie zaczynał się dopiero od X w prawo.
+   pascal
+procedure set_text_align_center(DC: HDC);
+procedure set_text_align_left(DC: HDC); // Domyślnie
+   

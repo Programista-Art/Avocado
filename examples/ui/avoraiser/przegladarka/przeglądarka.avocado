@@ -1,0 +1,34 @@
+program_ui web
+import avoraiser.window, avoraiser.utils, avoraiser.webview,avoraiser.gdi
+hwnd my_window
+hwnd my_panel
+main
+  my_win
+  run_app
+end.
+ 
+procedure my_win
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Przęglądarka w Avocado'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = True
+  ui.allowmaximize = TRue
+  
+  //Tworzenie Okna Main
+  my_window = create_window(ui)
+  
+  if my_window <> 0 then
+  start
+    center_window(my_window)
+    maximize_window(my_window)
+    //Tworzenie przeglądarki
+    my_panel = create_panel(my_window, 10, 50, 1820, 980, $121212 )
+    webview_navigate('https://google.com')
+    webview_create(my_panel)
+  end
+end

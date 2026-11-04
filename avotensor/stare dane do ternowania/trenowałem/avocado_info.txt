@@ -1,0 +1,37 @@
+﻿Avocado - Polski język programowania.
+
+Kompilowany bezpośrednio do szybkiego kodu maszynowego. Oferuje prędkość C i Rust, połączoną z niesamowicie prostą składnią inspirowaną Pythonem. 
+Avocado to innowacyjny projekt, którego rozwój przyspieszył na początku 2025 roku. Unikalną cechą tego języka jest możliwość pisania komend zarówno w języku polskim, jak i angielskim.
+Pod maską, kod Avocado jest inteligentnie transpilowany do języka Free Pascal, a następnie kompilowany przez zoptymalizowany kompilator FPC bezpośrednio do natywnego pliku .exe. Nie potrzebujesz maszyny wirtualnej Javy ani środowiska .NET.
+    Błyskawiczna kompilacja: Zmiany w kodzie testujesz w ułamku sekundy.
+    Własne, szybkie IDE: Dostępne w 6 językach, z inteligentnym podpowiadaniem składni.
+    Licencja MIT: Rdzeń kompilatora dostępny całkowicie za darmo na GitHubie.
+
+// Przykładowa aplikacja konsolowa w Avocado
+program powitanie
+
+główny
+    tekst imie = 'Programisto'
+    pisz_linie('Witaj ', imie, ' w świecie Avocado!')
+koniec.
+
+Wbudowane Frameworki
+
+Avocado to nie tylko język konsolowy. Ekosystem dostarcza potężne narzędzia do tworzenia profesjonalnych, okienkowych aplikacji desktopowych oraz systemów sieciowych.
+Avoraiser
+ Ultranowoczesny, lekki framework do budowy interfejsów graficznych (GUI), napisany w oparciu o czyste, natywne WinAPI oraz GDI+. Zastępuje ociężałe rozwiązania.
+
+    Natywne okna o wadze od
+    ~62 KB
+    Wbudowane wsparcie dla
+    Dark Mode
+    i trybu bezramkowego
+    Natywny generator profesjonalnych plików
+    PDF
+
+AvocadoNet -  Zaawansowany moduł sieciowy stworzony do szybkiej komunikacji. Ukrywa złożoność protokołów sieciowych pod intuicyjnymi, polskojęzycznymi komendami.
+
+    Błyskawiczna komunikacja TCP oraz UDP
+    Proste tworzenie architektur Klient - Serwer
+    Idealny do lekkich mikrousług i narzędzi IoT
+

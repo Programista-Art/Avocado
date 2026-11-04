@@ -1,0 +1,100 @@
+program_ui kalkulator
+importuj avoraiser.core, avoraiser.utils
+main
+hwnd my_window
+hwnd my_btn
+hwnd btn0
+hwnd btn1
+hwnd btn2
+hwnd btn3
+hwnd btn4
+hwnd btn5
+hwnd btn6
+hwnd btn7
+hwnd btn8
+hwnd btn9
+hwnd btnadd
+hwnd btnmultiply
+hwnd btnsubtract
+hwnd divide
+hwnd my_edit
+hwnd btnclearall
+parametry_ui ui
+string suma
+
+start_app
+run_app
+end.
+
+
+procedure delete_all(sender: HWND)
+start
+clear_control(my_edit)
+end
+
+procedure get_number(sender: HWND)
+start
+suma = 's'
+get_text(btn1)
+end
+
+procedure calculate(sender: HWND)
+start
+show_message(my_window,'Suma','Wynik: ' + suma)
+end
+
+procedure number_buttons(name: HWND;text: string;x,y:int; width, height:int; Event: avoraiser_event)
+start
+ name = create_image_button(my_window, text,'', x, y, width,height)
+ set_component_rounding(name,5)
+ set_button_colors(name,$2D2D2D,$00FF4842,$00FFB77D,$00FFFC72,$00FFFC72)
+ set_on_click(name, Event);
+end
+procedure start_app
+start
+  ui.title = 'Kalkulator'
+  ui.width = 275
+  ui.height = 400
+  ui.visible = true
+
+
+  my_window = create_window(ui)
+  if my_window <> 0 then
+  start
+   //ustawienie okna
+   center_window(my_window)
+   set_window_maximize_button(my_window, False);
+
+
+   //Pole edit
+   my_edit = create_edit(my_window,'0',4,5,249,40)
+   set_edit_vertical_center(my_edit)
+   set_edit_focus_color(my_edit, rgb(6,83,52))
+   set_edit_math_only(my_edit)
+
+  // read_num
+   //Przyciski od 0-9
+   //set_on_click(btn_img, @test_postepu)
+   number_buttons(btn8,'7',20,60,40,40,@get_number)
+   number_buttons(btn8,'8',70,60,40,40,@get_number)
+   number_buttons(btn9,'9',120,60,40,40,@get_number)
+   number_buttons(btn4,'4',20,110,40,40,@get_number)
+   number_buttons(btn5,'5',70,110,40,40,@get_number)
+   number_buttons(btn6,'6',120,110,40,40,@get_number)
+   number_buttons(btn1,'1',20,160,40,40,@get_number)
+   number_buttons(btn2,'2',70,160,40,40,@get_number)
+   number_buttons(btn3,'3',120,160,40,40,@get_number)
+   //Funkccyjne klawisze
+   number_buttons(divide,'/',170,60,70,40,@get_number)
+   number_buttons(btnmultiply,'*',170,110,70,40,@get_number)
+   number_buttons(btnsubtract,'-',170,160,70,40,@get_number)
+   number_buttons(btnadd,'+',170,210,70,40,@get_number)
+   number_buttons(btn0,'0',20,210,70,40,@get_number)
+   number_buttons(btn0,'=',120,210,70,40,@calculate)
+
+   number_buttons(btnclearall,'C',120,260,70,40,@delete_all)
+
+
+  end
+end
+

@@ -1,0 +1,20 @@
+program matematyka
+główny
+  // Liczba całkowita
+  liczba_całkowita wiek = 25
+
+  // Liczba zmiennoprzecinkowa
+  liczba_zm temperatura = 22.5
+
+  // Wartość logiczna
+  logiczny a = prawda
+
+  // Tekst
+  tekst imie = 'Anna'
+
+  pisz_linie('Imię: ', imie)
+  pisz_linie('Wiek: ', wiek, ' lat')
+  pisz_linie('Temperatura: ', zmiennoprzecinkowa_na_tekst(temperatura), ' temperatura')
+  pisz_linie('Logiczna wartość: ', logiczny_na_tekst(a))
+
+koniec.

@@ -1,0 +1,11 @@
+﻿program_ui MojProgram;
+liczba_całkowita i;
+początek
+  pisz_linie('Witaj w Avocado!');
+
+  dla i = 1 do 5 wykonaj
+  start
+    pisz_linie('To jest pętla numer: ' + liczba_na_tekst(i));
+  koniec;
+  czytaj_klawisz;
+koniec.

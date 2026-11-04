@@ -1,0 +1,66 @@
+﻿//Capthca w Avorender
+// 1. Generujemy proste zadanie matematyczne (tutaj używamy statycznych zmiennych dla przykładu, 
+// w pełnej wersji możesz dodać do kompilatora obsługę np. losuj_liczbe(1, 10))
+zmienna liczba1 = 7; 
+zmienna liczba2 = 4;
+zmienna poprawny_wynik = liczba1 + liczba2;
+
+// 2. Tworzymy główny kontener dla naszej CAPTCHY
+zmienna widget_captcha = stworz_element("div");
+ustaw_styl(widget_captcha, "background: #1e1e1e; padding: 20px; border: 2px solid #10b981; border-radius: 8px; width: 320px; text-align: center; color: white; font-family: sans-serif;");
+
+// 3. Dodajemy tekst z poleceniem
+zmienna tekst_zagadki = stworz_element("p");
+ustaw_tekst(tekst_zagadki, "Weryfikacja: Ile to jest " + liczba1 + " + " + liczba2 + "?");
+dodaj_dziecko(widget_captcha, tekst_zagadki);
+
+// 4. Tworzymy pole tekstowe (input) na wpisanie wyniku
+zmienna pole_wyniku = stworz_element("input");
+ustaw_atrybut(pole_wyniku, "type", "number");
+ustaw_styl(pole_wyniku, "background: #2d2d2d; color: white; border: 1px solid #555; padding: 8px; border-radius: 4px; width: 80px; text-align: center; font-size: 16px; margin-bottom: 15px;");
+dodaj_dziecko(widget_captcha, pole_wyniku);
+
+// 5. Tworzymy przycisk "Pobierz"
+zmienna przycisk_pobierz = stworz_element("button");
+ustaw_tekst(przycisk_pobierz, "Weryfikuj i Pobierz");
+ustaw_styl(przycisk_pobierz, "background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;");
+dodaj_dziecko(widget_captcha, przycisk_pobierz);
+
+// 6. Ukryty komunikat o błędzie (domyślnie pusty)
+zmienna komunikat_bledu = stworz_element("p");
+ustaw_styl(komunikat_bledu, "color: #ef4444; margin-top: 10px; font-weight: bold;");
+dodaj_dziecko(widget_captcha, komunikat_bledu);
+
+// Wyświetlamy cały widget na ekranie (zakładając, że masz główny kontener np. ekran_strony)
+dodaj_dziecko(ekran_strony, widget_captcha);
+
+// 7. Logika weryfikacji po kliknięciu
+nasluchuj_zdarzenia(przycisk_pobierz, "klikniecie", funkcja()
+poczatek
+    // Pobieramy wpisany wynik (korzystając z Twojej nowej funkcji z poprzednich rozmów!)
+    zmienna odpowiedz_usera = pobierz_wartosc(pole_wyniku);
+    
+    // Konwersja tekstu na liczbę (jeśli Twój transpilator tego wymaga w JS, ew. podwójne == w JS załatwia sprawę)
+    jesli (odpowiedz_usera == poprawny_wynik)
+    poczatek
+        // Jeśli człowiek wpisał poprawny wynik:
+        ustaw_tekst(komunikat_bledu, "");
+        ustaw_tekst(przycisk_pobierz, "Rozpoczynam pobieranie...");
+        ustaw_styl(przycisk_pobierz, "background: #FFCC00; color: black; cursor: wait;");
+        ustaw_atrybut(przycisk_pobierz, "disabled", "true");
+        
+        // MIEJSCE NA STRZAŁ DO AVOCADONET
+        // Tutaj wysyłasz żądanie do swojego serwera, serwer podbija licznik o +1 
+        // i zwraca link do pliku .exe
+        
+        // Przykład:
+        // wyslij_do_sieci("http://127.0.0.1:8080/api/pobierz_avoraiser", "", funkcja(odpowiedz) ... );
+    koniec
+    w_przeciwnym_razie
+    poczatek
+        // Jeśli bot (lub człowiek) wpisał zły wynik:
+        ustaw_tekst(komunikat_bledu, "Błędny wynik! Spróbuj ponownie.");
+        ustaw_wartosc(pole_wyniku, ""); // Czyścimy pole za pomocą dodanej przez Ciebie instrukcji
+        ustaw_styl(pole_wyniku, "border: 1px solid #ef4444;"); // Zmieniamy ramkę na czerwoną
+    koniec
+koniec);

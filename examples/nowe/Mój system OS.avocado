@@ -1,0 +1,66 @@
+program bigos
+główny
+pisz_linie('=== Mini-OS Avocado z ASM ===')
+pokaz_menu
+lc wybor = 0
+dopóki prawda
+        pokazMenu()
+        wybor = czytaj_klawisz
+
+        jeżeli wybor = '1' wtedy
+            pokaz_czas()
+        inaczej
+        jeżeli wybor = '2' wtedy
+            pokaz_ram()
+        inaczej
+        jeżeli wybor = '3' wtedy
+            pokaz_cpu
+        inaczej
+        jeżeli wybor = '0' wtedy
+            print('Zamykanie Mini-OS...')
+            break
+        inaczej
+            print('Nieznana opcja')
+        koniec
+    koniec
+koniec.
+
+
+procedura pokaz_cpu
+początek
+pisz_linie('Informacj o CPU:  ')
+asm{
+asm
+ mov eax, 0
+ cpuid
+end;
+}
+koniec
+
+
+procedura pokaz_menu
+początek
+    pisz_linie('\nWybierz opcję: ')
+    pisz_linie('1. Pokaż czas systemowy')
+    pisz_linie('2. Pokaż dostęp RAM')
+    pisz_linie('3. Pokaż info CPU')
+    pisz_linie('0. Wyjdź')
+koniec
+
+procedura pokaz_czas
+początek
+Pisz_linie('Czas systemowy: ', czas_na_tekst(Time));
+koniec
+
+procedura pokaz_ram
+początek
+MemStatus = THeapStatus
+pascal{
+
+        MemStatus := GetHeapStatus;
+        writeln('Dostępna pamięć RAM: ', MemStatus.TotalAvail div 1024, ' KB');
+    }
+koniec
+
+
+

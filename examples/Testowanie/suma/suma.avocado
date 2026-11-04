@@ -1,0 +1,12 @@
+program sumowanie
+glowny
+liczba_zm a
+liczba_zm b
+liczba_zm c
+pisz_linie('Podaj liczbę A:')
+czytaj_linie(a)
+pisz_linie('Podaj liczbę B:')
+czytaj_linie(b)
+c = a + b
+pisz_linie('Wyrażenie ', a:0:1,' + ', b:0:1, ' = ', c:0:1)
+koniec.

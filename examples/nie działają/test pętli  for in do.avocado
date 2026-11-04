@@ -1,0 +1,15 @@
+program fortobreak
+poczatek
+  test
+koniec.
+
+procedura test
+poczatek
+tekst n = ''
+tekst s = 'Ala ma kota'
+dla n w s wykonać
+pisz_linie(n)
+pisz_linie(s)
+koniec
+
+

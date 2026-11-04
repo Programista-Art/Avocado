@@ -1,0 +1,38 @@
+program_ui projekt
+import avocado_ui
+main
+  uchwyt_okna mainwindow
+  uchwyt_okna AvocadoButton1
+  uchwyt_okna AvocadoButton2
+  uchwyt_okna Label1
+
+  parametry_ui params
+  msg message
+  test_okno
+end.
+
+procedure test_okno
+start
+  params.title = 'Avocado App 2.2.2 śććż'
+  params.width = 288
+  params.height = 300
+  params.x = 42
+  params.y = 42
+  params.visible = true
+  params.Frameless = False
+  params.BackgroundColor = $202020
+
+  utwórz_okno(mainwindow, params)
+  if mainwindow <> 0 then
+  start
+    SetCaptionColor(mainwindow, $303030)
+  AvocadoButton1 = CreateCustomButton(mainwindow, 'Button', 67, 48, 150, 40)
+  SetButtonColors(AvocadoButton1, $008000, $404040, $00AA00, $FFFFFF)
+  AvocadoButton2 = CreateCustomButton(mainwindow, 'Button', 57, 113, 150, 40)
+  SetButtonColors(AvocadoButton2, $FFFF00, $404040, $00AA00, $FFFFFF)
+  Label1 = CreateAvocadoLabel(mainwindow, 'Label1', 119, 19, 34, 15)
+  SetComponentColor(Label1, $00FF00, params.BackgroundColor)
+
+    pokaz_okno(message)
+  end
+end

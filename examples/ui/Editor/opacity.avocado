@@ -1,0 +1,36 @@
+program_ui projekt
+import avocado_ui
+main
+  uchwyt_okna mainwindow
+  uchwyt_okna AvocadoButton1
+  uchwyt_okna AvocadoButton2
+
+  parametry_ui params
+  msg message
+  test_okno
+end.
+
+procedure test_okno
+start
+  params.title = 'Avocado App'
+  params.width = 400
+  params.height = 508
+  params.x = 66
+  params.y = 25
+  params.visible = true
+  params.Frameless = False
+  params.BackgroundColor = $202020
+
+  utwórz_okno(mainwindow, params)
+  if mainwindow <> 0 then
+  start
+    SetCaptionColor(mainwindow, $303030)
+    SetOpacity(mainwindow, 150)
+  AvocadoButton1 = CreateCustomButton(mainwindow, 'Button', 112, 90, 150, 40)
+  SetButtonColors(AvocadoButton1, $2D2D2D, $404040, $00AA00, $FFFFFF)
+  AvocadoButton2 = CreateCustomButton(mainwindow, 'Button', 108, 169, 150, 40)
+  SetButtonColors(AvocadoButton2, $2D2D2D, $404040, $00AA00, $FFFFFF)
+
+    pokaz_okno(message)
+  end
+end

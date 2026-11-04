@@ -1,0 +1,60 @@
+// Avoraiser - pole edycji, przycisk i obsługa kliknięcia
+program_ui przycisk_edycja
+
+import avoraiser.window
+import avoraiser.edit
+import avoraiser.button
+import avoraiser.dialogs
+
+hwnd my_window
+hwnd pole_tekstowe
+hwnd przycisk_hello
+hwnd przycisk_wyczysc
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure po_kliknieciu_hello(sender: hwnd)
+start
+  tekst zawartosc
+  zawartosc = pobierz_tekst(pole_tekstowe)
+  pokaz_wiadomosc(my_window, 'Powitanie', 'Wpisano: ' + zawartosc)
+end
+
+procedure po_kliknieciu_wyczysc(sender: hwnd)
+start
+  wyczysc_kontrolke(pole_tekstowe)
+  ustaw_tekst(pole_tekstowe, 'Wpisz tekst...')
+end
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+
+  ui.title = 'Pole edycji i przycisk'
+  ui.width = 420
+  ui.height = 220
+  ui.visible = true
+
+  my_window = utworz_okno(ui)
+
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+
+    pole_tekstowe = utworz_pole_edycji(my_window, 'Wpisz tekst...', 20, 20, 360, 36)
+    ustaw_wyrownanie_pionowe_pola_edycji(pole_tekstowe)
+    ustaw_kolor_fokusu_pola_edycji(pole_tekstowe, rgb(6, 83, 52))
+
+    przycisk_hello = utworz_przycisk(my_window, 'Powitaj', 20, 80, 160, 40)
+    ustaw_promien_przycisku(przycisk_hello, 8)
+    reaguj_na_klikniecie(przycisk_hello, @po_kliknieciu_hello)
+
+    przycisk_wyczysc = utworz_przycisk(my_window, 'Wyczyść', 220, 80, 160, 40)
+    ustaw_promien_przycisku(przycisk_wyczysc, 8)
+    reaguj_na_klikniecie(przycisk_wyczysc, @po_kliknieciu_wyczysc)
+  end
+end

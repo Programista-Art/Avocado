@@ -1,0 +1,7 @@
+program malelitery
+główny
+tekst a = 'SIEMA'
+a = małe_litery(a)
+pisz_linie(a)
+koniec.
+

@@ -1,0 +1,40 @@
+﻿//Program w Avorender pobiera danych z serwera
+zmienna cialo = pobierz_cialo();
+ustaw_styl(cialo, 'background: #0f172a; color: white; font-family: "Segoe UI", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;');
+
+zmienna panel = stworz_element('div');
+ustaw_styl(panel, 'background: #1e293b; padding: 40px; border-radius: 16px; width: 450px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; transition: 0.3s;');
+dodaj_dziecko(cialo, panel);
+
+// Zamiast tekstu o połączeniu, dajemy ładny tytuł listy
+zmienna tytul = stworz_element('h2');
+ustaw_tekst(tytul, 'Użytkownicy AvocadoNet');
+ustaw_styl(tytul, 'color: #94a3b8; margin-bottom: 20px;');
+dodaj_dziecko(panel, tytul);
+
+pobierz_z_sieci("http://localhost:8080/api/uzytkownicy", funkcja(surowy_tekst)
+poczatek
+    // 1. Parsujemy JSON z serwera na tablicę
+    zmienna lista_osob = parsuj_json(surowy_tekst);
+    
+    // 2. Wyciągamy wszystkie 3 osoby używając indeksów
+    zmienna osoba_1 = pobierz_pole(lista_osob, 0);
+    zmienna osoba_2 = pobierz_pole(lista_osob, 1);
+    zmienna osoba_3 = pobierz_pole(lista_osob, 2);
+    
+    // 3. Tworzymy i stylujemy kafelki dla każdej osoby (dodajemy je do PANELA, nie do ciała)
+    zmienna kafelek_1 = stworz_element('div');
+    ustaw_tekst(kafelek_1, osoba_1); 
+    ustaw_styl(kafelek_1, 'background: #334155; padding: 12px; margin-bottom: 10px; border-radius: 8px; color: #10b981; font-weight: bold; font-size: 18px;');
+    dodaj_dziecko(panel, kafelek_1);
+
+    zmienna kafelek_2 = stworz_element('div');
+    ustaw_tekst(kafelek_2, osoba_2); 
+    ustaw_styl(kafelek_2, 'background: #334155; padding: 12px; margin-bottom: 10px; border-radius: 8px; color: #10b981; font-weight: bold; font-size: 18px;');
+    dodaj_dziecko(panel, kafelek_2);
+
+    zmienna kafelek_3 = stworz_element('div');
+    ustaw_tekst(kafelek_3, osoba_3); 
+    ustaw_styl(kafelek_3, 'background: #334155; padding: 12px; margin-bottom: 10px; border-radius: 8px; color: #10b981; font-weight: bold; font-size: 18px;');
+    dodaj_dziecko(panel, kafelek_3);
+koniec);

@@ -1,0 +1,17 @@
+program listatekstoww
+main 
+ test 
+end.
+
+procedura test
+poczatek
+lista_tekstów s
+tekst a
+twórz_lista_tekstów(s)
+dodaj_lista(s,Ala)
+dodaj_lista(s,ma)
+dodaj_lista(s,kota)
+
+dla a w s wykonaj
+pisz_linie(a)
+koniec

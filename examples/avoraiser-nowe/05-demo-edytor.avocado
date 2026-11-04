@@ -1,0 +1,59 @@
+// Wygenerowano przez Edytor UI Avoraiser (podgląd)
+program_ui demo_edytor
+
+import avoraiser.window
+import avoraiser.layout
+import avoraiser.button
+import avoraiser.edit
+import avoraiser.labels
+import avoraiser.listbox
+import avoraiser.chekbox
+import avoraiser.radiobutton
+import avoraiser.groupbutton
+import avoraiser.utils
+import avoraiser.progressbar
+import avoraiser.trackbar
+import avoraiser.core
+
+hwnd my_window
+hwnd przycisk_1
+hwnd pole_2
+hwnd etykieta_3
+hwnd lista_4
+hwnd ptaszek_5
+hwnd opcja_6
+hwnd postep_7
+hwnd suwak_8
+hwnd panel_9
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Demo edytora UI'
+  ui.width = 640
+  ui.height = 480
+  ui.visible = true
+
+  my_window = utworz_okno(ui)
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+
+    etykieta_3 = utworz_etykiete(my_window, 'Formularz testowy', 20, 16, 200, 20)
+    pole_2 = utworz_pole_edycji(my_window, 'Wpisz tekst', 20, 48, 220, 26)
+    przycisk_1 = utworz_przycisk(my_window, 'OK', 260, 46, 100, 30)
+    lista_4 = utworz_liste_wyboru(my_window, 20, 90, 220, 120)
+    ptaszek_5 = utworz_pole_wyboru(my_window, 'Zgoda', 20, 230, 140, 22, 0)
+    opcja_6 = utworz_przycisk_opcji(my_window, 'Opcja A', 20, 260, 140, 22, 1)
+    suwak_8 = utworz_suwak(my_window, 20, 300, 200, 28)
+    postep_7 = utworz_pasek_postepu(my_window, 20, 340, 200, 22)
+    panel_9 = utworz_panel(my_window, 280, 90, 300, 200, $F0F0F0)
+  end
+end
+

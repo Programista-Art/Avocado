@@ -1,0 +1,13 @@
+program repeattest
+main
+  test
+end.
+
+procedure test
+start
+int a = 1
+  repeat
+    print_line('a: ', a)
+    a = a + 1
+  until a >5
+end

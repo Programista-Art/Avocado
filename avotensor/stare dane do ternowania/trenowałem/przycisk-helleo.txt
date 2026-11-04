@@ -1,0 +1,31 @@
+﻿//Program w Avorender przycisk w Hello
+poczatek
+    // 1. Pobieramy główne ciało dokumentu (odpowiednik document.body)
+    zmienna cialo = pobierz_cialo();
+
+    // 2. Tworzymy nowy przycisk i ustawiamy jego tekst
+    zmienna przycisk = stworz_element("button");
+    ustaw_tekst(przycisk, "Przywitaj się z frameworkiem!");
+    
+    // 3. Dodajemy nowoczesny wygląd za pomocą CSS
+    ustaw_styl(przycisk, "padding: 12px 24px; background-color: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s;");
+    
+    // 4. Wstawiamy przycisk do okna naszej aplikacji
+    dodaj_dziecko(cialo, przycisk);
+
+    // 5. Dodajemy asynchroniczną obsługę zdarzeń (kliknięcie)
+    nasluchuj_zdarzenia(przycisk, "click", funkcja(zdarzenie)
+    poczatek
+        // Tworzymy nowy element tekstowy (nagłówek)
+        zmienna powitanie = stworz_element("h2");
+        ustaw_tekst(powitanie, "Hello Avorender! 🥑");
+        ustaw_styl(powitanie, "color: #2E8B57; font-family: 'Segoe UI', sans-serif; margin-top: 20px;");
+        
+        // Dodajemy napis do okna
+        dodaj_dziecko(cialo, powitanie);
+        
+        // Zabezpieczamy przed wielokrotnym klikaniem
+        ustaw_atrybut(przycisk, "disabled", "true");
+        ustaw_styl(przycisk, "background-color: #cccccc; cursor: not-allowed;");
+    koniec);
+koniec

@@ -4,6 +4,7 @@ print_line
 read_key
 set_length
 randomize
+exit
 random
 main
 randomize 
@@ -1430,3 +1431,6 @@ cardinal
 single
 extended
 byte_bool_Ord
+liczba_podwójna
+piszf
+printf

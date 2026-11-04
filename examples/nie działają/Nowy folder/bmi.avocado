@@ -1,0 +1,36 @@
+program BMIkalkulator
+główny
+    tekst masa_tekst
+    tekst wzrost_tekst
+    liczba_podwójna masa
+    liczba_podwojna wzrost
+    liczba_podwójna bmi
+
+
+    pisz_linie('=== KALKULATOR BMI AWOKADO ===')
+    pisz('Podaj masę awokado [kg]: ')
+    czytaj_linie(masa_tekst)
+    pisz('Podaj wysokość awokado [m]: ')
+    czytaj_linie(wzrost_tekst)
+
+    masa := tekst_na_zmiennoprzecinkową(masa_tekst)
+    wzrost := tekst_na_zmiennoprzecinkową(wzrost_tekst)
+
+    jeżeli masa <= 0 inaczej wzrost <= 0 wtedy
+        pisz_linie('Awokado nie może mieć ujemnej masy ani wzrostu!')
+    inaczej
+        bmi := masa / (wzrost * wzrost)
+        piszf('Twoje BMI awokado wynosi: %.2f', [bmi])
+
+        jeżeli bmi < 18.5 wtedy
+            pisz_linie('🥑 Awokado niedojrzałe (niedowaga)')
+        inaczej jeżeli bmi < 25 wtedy
+            pisz_linie('🥑 Awokado idealnie dojrzałe (waga prawidłowa)')
+        inaczej jeżeli bmi < 30 wtedy
+            pisz_linie('🥑 Awokado przejrzałe (nadwaga)')
+        inaczej
+            pisz_linie('🥑 Awokado z przerośniętą pestką (otyłość)')
+        koniec
+    koniec
+koniec.
+

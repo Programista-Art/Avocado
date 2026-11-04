@@ -1,0 +1,9 @@
+program powitanie_avocado
+główny
+  pisz_linie('Wynik: ', dodawanie(3,5))
+koniec.
+
+funkcja dodawanie(a: lc; b: lc): lc
+początek
+  zwróć a + b
+koniec

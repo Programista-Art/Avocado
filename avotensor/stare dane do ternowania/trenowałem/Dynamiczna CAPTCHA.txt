@@ -1,0 +1,5 @@
+﻿zmienna liczba1 = losuj_liczbe(1, 10);
+zmienna liczba2 = losuj_liczbe(1, 10);
+zmienna poprawny_wynik = liczba1 + liczba2;
+
+ustaw_tekst(tekst_zagadki, "Ile to jest " + liczba1 + " + " + liczba2 + "?");

@@ -1,0 +1,6 @@
+﻿program usuwnanietekstu
+główny
+tekst a  = 'Ala ma kota'
+usuń(a,1,3)
+pisz_linie(a)
+koniec.

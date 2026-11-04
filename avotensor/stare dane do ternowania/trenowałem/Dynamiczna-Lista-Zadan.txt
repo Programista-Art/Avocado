@@ -1,0 +1,40 @@
+﻿//Dynamiczna Lista zadań w Avorender
+zmienna cialo = pobierz_cialo();
+ustaw_styl(cialo, 'background: #121212; font-family: "Segoe UI", sans-serif; padding: 40px;');
+
+stala ilosc_zadan = 4;
+
+zmienna panel = stworz_element('div');
+ustaw_styl(panel, 'background: #1E1E1E; border-radius: 12px; padding: 20px; width: 400px; color: white; border: 1px solid #333;');
+
+zmienna naglowek = stworz_element('h3');
+ustaw_tekst(naglowek, 'Twoje Zadania Systemowe');
+ustaw_styl(naglowek, 'margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 15px;');
+dodaj_dziecko(panel, naglowek);
+
+// Używamy naszej nowej pętli!
+powtarzaj(ilosc_zadan)
+poczatek
+    zmienna wiersz = stworz_element('div');
+    ustaw_styl(wiersz, 'display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #2A2A2A;');
+    
+    zmienna tekst_zadania = stworz_element('span');
+    ustaw_tekst(tekst_zadania, 'Zadanie procesowe');
+    dodaj_dziecko(wiersz, tekst_zadania);
+    
+    zmienna btn_usun = stworz_element('button');
+    ustaw_tekst(btn_usun, 'Usuń');
+    ustaw_styl(btn_usun, 'background: transparent; color: #FF4444; border: 1px solid #FF4444; border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: 0.2s;');
+    
+    nasluchuj_zdarzenia(btn_usun, 'klikniecie', funkcja()
+    poczatek
+        // Magia AvoRender: Ukrywamy wiersz i powiadamiamy Avoraiser
+        ustaw_styl(wiersz, 'display: none;'); 
+        wyslij_sygnal('usunieto_zadanie');
+    koniec);
+    
+    dodaj_dziecko(wiersz, btn_usun);
+    dodaj_dziecko(panel, wiersz);
+koniec
+
+dodaj_dziecko(cialo, panel);

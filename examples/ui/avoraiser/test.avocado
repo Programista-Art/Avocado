@@ -1,0 +1,29 @@
+program_ui okno
+import avoraiser.window
+hwnd my_window
+
+main
+  my_win
+  run_app
+end.
+
+procedure my_win
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Okno w Avoraiser - Avocado'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = True
+
+  // Tworzenie Okna Main
+  my_window = create_window(ui)
+
+  if my_window <> 0 then
+  start
+    // Główny kod Twojej aplikacji
+  end
+end
+

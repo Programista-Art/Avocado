@@ -1,0 +1,11 @@
+program vvv
+glowny
+liczba_calkowita a = 11
+   test
+koniec.
+
+procedure test
+start
+lc b = 12
+pisz_linie(IntToStr(b)
+end

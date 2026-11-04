@@ -1,0 +1,6 @@
+program kopiowanie
+główny
+tekst a = 'Ala'
+tekst b = kopiuj(a,1,2)
+pisz_linie(b)
+koniec.

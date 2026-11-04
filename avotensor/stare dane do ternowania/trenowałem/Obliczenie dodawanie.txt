@@ -1,0 +1,13 @@
+program testdodawanie
+main
+  int a = 5
+  int b = 5
+  add(a,b)
+end.
+
+function add(a: int; b: int): int
+start
+  print_line('Wynik: ', a + b)
+end
+
+

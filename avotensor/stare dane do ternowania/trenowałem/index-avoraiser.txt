@@ -1,0 +1,90 @@
+﻿Wstęp do Avoraiser
+
+Witamy w dokumentacji biblioteki  Avoraiser !
+
+Avoraiser to lekki, błyskawiczny framework ułatwiający tworzenie natywnych aplikacji na systemy Windows za pomocą WinAPI. Zapewnia on potężny zestaw funkcji z konwencją nazewnictwa `snake_case`, co umożliwia tworzenie nowoczesnych, wydajnych interfejsów użytkownika.
+
+Co znajdziesz w dokumentacji?
+
+W tej dokumentacji znajdziesz opis wszystkich 426 funkcji Avoraisera z podziałem na kategorie, m.in.:
+
+ Okna i Zarządzanie : Tworzenie okien, zarządzanie nimi (maksymalizacja, minimalizacja, przezroczystość).
+ Pola Tekstowe : Wszystko o `Edit`, `Memo` i potężnym `RichEdit`.
+ Kontrolki Interfejsu : Przyciski (`Button`), Checkboxy (`Checkbox`), Paski postępu (`ProgressBar`) oraz inne.
+ Listy i Pola Wyboru : `ListBox`, `ComboBox`, `RadioButton`.
+ Grafika i PDF : Rysowanie kształtów (prostokąty, koła), integracja obrazów PNG/JPG oraz funkcje drukowania (w tym eksport do PDF).
+ Zdarzenia : Obsługa myszy i klawiatury (`OnMouseMove`, `OnKeyDown`, itp.).
+ Okna Dialogowe i Menu : Tworzenie customowych okien (MessageBox), menu kontekstowe (ContextMenu).
+ WebView : Integracja w pełni funkcjonalnego silnika przeglądarki opartego na Chromium (WebView2).
+ Narzędzia i Inne : Operacje na plikach, schowek systemowy.
+
+Konwencja Nazewnictwa
+
+Wszystkie funkcje we frameworku używają czytelnej konwencji  `snake_case`  (np. `create_window` zamiast dawnego `CreateWindow`). To upraszcza pisanie i dba o spójność w kodzie.
+
+Prosta apliakcja GUI w Avoraiser kod po polsku
+program_ui okno
+import avoraiser.window
+uchwyt_okna moje_okno
+glowny
+  glowna_funkcja
+  uruchom_aplikacje()
+koniec.
+ 
+procedura glowna_funkcja
+poczatek
+  parametry_ui ui
+  ui = Default(TAvocadoWindowParams)
+  ui.tytul = 'Okno w Avocado'
+  ui.szerokosc = 400
+  ui.wysokosc = 600
+  ui.x = 200
+  ui.y = 200
+  ui.widoczne = prawda
+  ui.maksymalizacja = prawda
+  
+  
+  //Tworzenie Okna Main
+  moje_okno = utworz_okno(ui)
+  
+  jezeli moje_okno <> 0 wtedy
+  poczatek
+    wysrodkuj_okno(moje_okno)
+    //Kod aplikacji
+   
+  koniec
+koniec
+
+Prosta apliakcja GUI w Avoraiser kod po angielsku
+
+program_ui test
+import avoraiser.window
+hwnd my_window
+main
+  my_win
+  run_app
+end.
+ 
+procedure my_win
+start
+  ui_parameters ui
+  ui = default(TAvocadoWindowParams)
+  ui.title = 'Hello Avoraiser'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = true
+  ui.allowmaximize = true
+  
+  
+  //Creating a Window Main
+  my_window = create_window(ui)
+  
+  if my_window <> 0 then
+  start
+    center_window(my_window)
+    //Application code
+   
+  end
+end

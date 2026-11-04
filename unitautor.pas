@@ -21,6 +21,7 @@ type
     SpeedButton3: TSpeedButton;
     SpeedButton4: TSpeedButton;
     SpeedButton5: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
@@ -48,6 +49,11 @@ implementation
 procedure TFormAutor.SpeedButton1Click(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TFormAutor.FormCreate(Sender: TObject);
+begin
+
 end;
 
 

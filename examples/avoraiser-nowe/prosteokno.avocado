@@ -1,0 +1,32 @@
+program_ui prosteokno
+
+import avoraiser.window
+import avoraiser.layout
+
+hwnd my_window
+
+main
+  utworz_glowne_okno
+  uruchom_aplikacje
+end.
+
+procedure utworz_glowne_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+
+  ui.title = 'Witaj w Avoraiser'
+  ui.width = 480
+  ui.height = 320
+  ui.x = 100
+  ui.y = 100
+  ui.visible = true
+  ui.allowmaximize = true
+
+  my_window = utworz_okno(ui)
+
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+  end
+end

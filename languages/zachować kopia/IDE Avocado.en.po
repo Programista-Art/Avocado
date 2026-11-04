@@ -1,0 +1,1371 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#: avocadotranslator.errorprint
+msgid "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
+msgstr "Incorrect syntax of the insert function. Expected: insert(source, target, index)"
+
+#: avocadotranslator.functioninsert
+msgid "The insert function requires three arguments: source, target, index."
+msgstr "The insert function requires three arguments: source, target, index."
+
+#: avocadotranslator.functiontrim
+msgid "Incorrect syntax of the trim function. Expected: trim(s)"
+msgstr "Incorrect syntax of the trim function. Expected: trim(s)"
+
+#: avocadotranslator.functiontrimleft
+msgid "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
+msgstr "Incorrect syntax of the function trim_from_left. Expected: trim_left(s)"
+
+#: avocadotranslator.functiontrimright
+msgid "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
+msgstr "Incorrect syntax of the trim_right function. Expected: trim_right(s)"
+
+#: avocadotranslator.incorrectorderbracketstrimleft
+msgid "Incorrect order of brackets in trim_left()."
+msgstr "Incorrect order of brackets in trim_left()."
+
+#: avocadotranslator.invalidvariabledeclaration
+msgid "Incorrect variable declaration: "
+msgstr "Invalid variable declaration: "
+
+#: avocadotranslator.translateassignfilefunctionargumentscannotbeempty
+msgid "The arguments of the assign_file function cannot be empty."
+msgstr "The arguments of the assign_file function cannot be empty."
+
+#: avocadotranslator.translateassignfilefunctionincorrectnumberofarguments
+msgid "Incorrect number of arguments for the assign_file function. Two arguments were expected."
+msgstr "Incorrect number of arguments for the assign_file function. Two arguments were expected."
+
+#: avocadotranslator.translateassignmentexpectedreadkey
+msgid "Syntax error: Assignment expected (variable = read_key)."
+msgstr "Syntax error: Assignment expected (variable = read_key)."
+
+#: avocadotranslator.translateazoruntil
+msgid "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
+msgstr "Error: \"aż / az\" or \"until\" found without a matching \"repeat\""
+
+#: avocadotranslator.translatecalcformatfunctionrequiresoneortwoarguments
+msgid "Error: The calc_format function requires 1 or 2 arguments."
+msgstr "Error: The calc_format function requires 1 or 2 arguments."
+
+#: avocadotranslator.translatecalculatefunctionrequiresexpression
+msgid "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
+msgstr "Error: The calculate/calc function must contain a mathematical expression, e.g. calculate(2 * 5)."
+
+#: avocadotranslator.translateclosingbracketbeforeopening
+msgid "Incorrect syntax: closing bracket before opening bracket"
+msgstr "Incorrect syntax: closing bracket before opening bracket"
+
+#: avocadotranslator.translateclosingbracketbeforeopeningbracket
+msgid "Syntax error: The closing bracket appears before the opening bracket."
+msgstr "Syntax error: The closing bracket appears before the opening bracket."
+
+#: avocadotranslator.translatecomparetextfunctionrequirestwoarguments
+msgid "The compare_text function requires two arguments: s1 and s2."
+msgstr "The compare_text function requires two arguments: s1 and s2."
+
+#: avocadotranslator.translatecopyfunctionrequiresthreearguments
+msgid "The copy function requires three arguments: text, start, how many"
+msgstr "The copy function requires three arguments: text, start, how many"
+
+#: avocadotranslator.translatecursorpositionfunctionrequirestwoarguments
+msgid "The cursor_position function requires exactly 2 arguments (X, Y). Found:"
+msgstr "The cursor_position function requires exactly 2 arguments (X, Y). Found:"
+
+#: avocadotranslator.translatedeletefunctionrequires
+msgid "The delete function requires three arguments: s, index, count."
+msgstr "The delete function requires three arguments: s, index, count."
+
+#: avocadotranslator.translateerrfoundrepeatinsideanotherrepeat
+msgid "Error: Found \"repeat\" inside another \"repeat\""
+msgstr "Error: Found \"repeat\" inside another \"repeat\""
+
+#: avocadotranslator.translateerrmissingconditionafteuntil
+msgid "Error: Missing condition after \"aż / az\" / \"until\""
+msgstr "Error: Missing condition after \"aż / az\" / \"until\""
+
+#: avocadotranslator.translateerrorprocessingargumentswritefunction
+msgid "Error while processing function arguments write: "
+msgstr "Error while processing function arguments write: "
+
+#: avocadotranslator.translateerrorprocessingargumentswritelines
+msgid "Error processing arguments for write_lines: "
+msgstr "Error processing arguments for write_lines: "
+
+#: avocadotranslator.translateerrorprocessingcalculatefunction
+msgid "Error during processing of the calculate function: "
+msgstr "Error during processing of the calculate function: "
+
+#: avocadotranslator.translateerrorprocessinggetargumentfunction
+msgid "Error while processing the get_argument function: "
+msgstr "Error while processing the get_argument function: "
+
+#: avocadotranslator.translateerrorprocessinggetenvironmentvariablefunction
+msgid "Error while processing the get_environment_variable function: "
+msgstr "Error while processing the get_environment_variable function: "
+
+#: avocadotranslator.translateerrorprocessingpingcommand
+msgid "Error while processing the PING command: "
+msgstr "Error while processing the PING command: "
+
+#: avocadotranslator.translateerrorprocessingpingfunction
+msgid "Error while processing the PING function: "
+msgstr "Error while processing the PING function: "
+
+#: avocadotranslator.translateerrorprocessingreadfunction
+msgid "Error during processing of the read function: "
+msgstr "Error during processing of the read function: "
+
+#: avocadotranslator.translateerrorprocessingreadlinesfunction
+msgid "Error while processing the read_lines function: "
+msgstr "Error while processing the read_lines function: "
+
+#: avocadotranslator.translateerrorprocessingsetlengthfunction
+msgid "Error while processing the set_length function: "
+msgstr "Error while processing the set_length function: "
+
+#: avocadotranslator.translatefirstargumentcannotbeempty
+msgid "Error: The first argument (variable name) cannot be empty."
+msgstr "Error: The first argument (variable name) cannot be empty."
+
+#: avocadotranslator.translategetargumentfunctionrequiresindex
+msgid "Error: The get_argument function requires an index (number) to be specified."
+msgstr "Error: The get_argument function requires an index (number) to be specified."
+
+#: avocadotranslator.translategetenvironmentvariablerequiresname
+msgid "Error: The function requires an environment variable name to be specified."
+msgstr "Error: The function requires an environment variable name to be specified."
+
+#: avocadotranslator.translateincompleteassignment
+msgid "Syntax error: Incomplete assignment."
+msgstr "Syntax error: Incomplete assignment."
+
+#: avocadotranslator.translateincorrectbracketsinfunction
+msgid "Error: incorrect brackets in the function."
+msgstr "Error: incorrect brackets in the function."
+
+#: avocadotranslator.translateincorrectorderbracketstrim
+msgid "Incorrect order of brackets in trim()."
+msgstr "Incorrect order of brackets in trim()."
+
+#: avocadotranslator.translateincorrectorderbracketstrimright
+msgid "Incorrect order of brackets in trim_right() / trim_right"
+msgstr "Incorrect order of brackets in trim_right() / trim_right"
+
+#: avocadotranslator.translateincorrectorderofbrackets
+msgid "Syntax error: Incorrect order of brackets."
+msgstr "Syntax error: Incorrect order of brackets."
+
+#: avocadotranslator.translateincorrectsyntaxappendfunction
+msgid "Incorrect syntax append(f)"
+msgstr "Incorrect syntax append(f)"
+
+#: avocadotranslator.translateincorrectsyntaxassignfilefunction
+msgid "Incorrect syntax assign_file(file_variable, file_name)"
+msgstr "Incorrect syntax assign_file(file_variable, file_name)"
+
+#: avocadotranslator.translateincorrectsyntaxassignfilefunctionexpected
+msgid "Incorrect syntax of the assign_file function. Expected: assign_file(file_variable, file_name)"
+msgstr "Incorrect syntax of the assign_file function. Expected: assign_file(file_variable, file_name)"
+
+#: avocadotranslator.translateincorrectsyntaxchangedirfunction
+msgid "Incorrect syntax change_dir(...)"
+msgstr "Incorrect syntax change_dir(...)"
+
+#: avocadotranslator.translateincorrectsyntaxclosefilefunction
+msgid "Incorrect syntax close_file(f)"
+msgstr "Incorrect syntax close_file(f)"
+
+#: avocadotranslator.translateincorrectsyntaxcomparetextfunction
+msgid "Incorrect syntax of the compare_text function. Expected: compare_text(s1, s2)"
+msgstr "Incorrect syntax of the compare_text function. Expected: compare_text(s1, s2)"
+
+#: avocadotranslator.translateincorrectsyntaxcopyfunction
+msgid "Incorrect syntax for copy. Expected: copy(text, start, how many)"
+msgstr "Incorrect syntax for copy. Expected: copy(text, start, how many)"
+
+#: avocadotranslator.translateincorrectsyntaxcreatedirfunction
+msgid "Incorrect syntax create_dir(...)"
+msgstr "Incorrect syntax create_dir(...)"
+
+#: avocadotranslator.translateincorrectsyntaxdirectoryexistsfunction
+msgid "Incorrect syntax directory_exists(...)"
+msgstr "Incorrect syntax directory_exists(...)"
+
+#: avocadotranslator.translateincorrectsyntaxeoffunction
+msgid "Incorrect syntax eof(f)"
+msgstr "Incorrect syntax eof(f)"
+
+#: avocadotranslator.translateincorrectsyntaxfileexistsfunction
+msgid "Incorrect syntax of file_exists(...)"
+msgstr "Incorrect syntax of file_exists(...)"
+
+#: avocadotranslator.translateincorrectsyntaxgetcurrentdirfunction
+msgid "Incorrect syntax get_current_dir(...)"
+msgstr "Incorrect syntax get_current_dir(...)"
+
+#: avocadotranslator.translateincorrectsyntaxlengthfunction
+msgid "Incorrect syntax length. Expected: length(text)"
+msgstr "Incorrect syntax length. Expected: length(text)"
+
+#: avocadotranslator.translateincorrectsyntaxloadfilefunction
+msgid "Incorrect syntax load_file(f)"
+msgstr "Incorrect syntax load_file(f)"
+
+#: avocadotranslator.translateincorrectsyntaxlowercasefunction
+msgctxt "avocadotranslator.translateincorrectsyntaxlowercasefunction"
+msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
+msgstr "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
+
+#: avocadotranslator.translateincorrectsyntaxopensavefunction
+msgid "Incorrect syntax open_save(f)"
+msgstr "Incorrect syntax open_save(f)"
+
+#: avocadotranslator.translateincorrectsyntaxremovedirfunction
+msgid "Incorrect syntax remove_dir(...)"
+msgstr "Incorrect syntax remove_dir(...)"
+
+#: avocadotranslator.translateincorrectsyntaxremovefunction
+msgid "Incorrect syntax of the remove/delete function. Expected: remove(s, index, count)"
+msgstr "Incorrect syntax of the remove/delete function. Expected: remove(s, index, count)"
+
+#: avocadotranslator.translateincorrectsyntaxrepeatcharacterfunction
+msgid "Incorrect syntax of the repeat_character function."
+msgstr "Incorrect syntax of the repeat_character function."
+
+#: avocadotranslator.translateincorrectsyntaxreplacetextfunction
+msgid "Incorrect syntax for replace_text. Expected: replace_text(text, from, to"
+msgstr "Incorrect syntax for replace_text. Expected: replace_text(text, from, to"
+
+#: avocadotranslator.translateincorrectsyntaxsearchfunction
+msgid "Incorrect syntax for search. Expected: search(substring, text)"
+msgstr "Incorrect syntax for search. Expected: search(substring, text)"
+
+#: avocadotranslator.translateincorrectsyntaxuppercasefunction
+msgid "Incorrect syntax of the uppercase function. Expected: duże_litery(s) or duze_litery(s) or upper_case(s)"
+msgstr "Incorrect syntax of the uppercase function. Expected: duże_litery(s) or duze_litery(s) or upper_case(s)"
+
+#: avocadotranslator.translateincorrectsyntaxutf8lowercasefunction
+msgid "Incorrect syntax of the utf8_lower_case function."
+msgstr "Incorrect syntax of the utf8_lower_case function."
+
+#: avocadotranslator.translateincorrectsyntaxutf8uppercaseansifunction
+msgid "Incorrect syntax of the utf8_upper_case function."
+msgstr "Incorrect syntax of the utf8_upper_case function."
+
+#: avocadotranslator.translatelowercasefunctionsyntaxerror
+msgctxt "avocadotranslator.translatelowercasefunctionsyntaxerror"
+msgid "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
+msgstr "Incorrect syntax of the lowercase function. Expected: małe_litery(s) / male_litery(s) / lower_case(s)"
+
+#: avocadotranslator.translatemissingbracketscursorpositionfunction
+msgid "Syntax error: Missing brackets in the cursor_position function."
+msgstr "Syntax error: Missing brackets in the cursor_position function."
+
+#: avocadotranslator.translatemissingbracketsgetargumentfunction
+msgid "Syntax error: The get_argument function requires brackets, e.g. programme_parameter(1)"
+msgstr "Syntax error: The get_argument function requires brackets, e.g. programme_parameter(1)"
+
+#: avocadotranslator.translatemissingbracketspiszliniefunction
+msgid "Syntax error: The pisz_linie function requires brackets, e.g. pisz_linie('text')"
+msgstr "Syntax error: The pisz_linie function requires brackets, e.g. pisz_linie('text')"
+
+#: avocadotranslator.translatemissingbracketsreadfunction
+msgid "Syntax error: The read function requires brackets."
+msgstr "Syntax error: The read function requires brackets."
+
+#: avocadotranslator.translatemissingbracketswriteprintfunction
+msgid "Syntax error: The write/print function requires brackets, e.g. write('text')"
+msgstr "Syntax error: The write/print function requires brackets, e.g. write('text')"
+
+#: avocadotranslator.translatemissingclosingbracketreadkeyfunction
+msgid "Syntax error: Missing closing bracket in the read_key function."
+msgstr "Syntax error: Missing closing bracket in the read_key function."
+
+#: avocadotranslator.translatemissingparenthesescalculateformatfunction
+msgid "Syntax error: The function requires parentheses, e.g. calculate_format(\"'2+2\"', 2)"
+msgstr "Syntax error: The function requires parentheses, e.g. calculate_format(\"'2+2\"', 2)"
+
+#: avocadotranslator.translatemissingparenthesescalculatefunction
+msgid "Syntax error: The calculate/calc function requires parentheses, e.g. calculate(2 + 2)"
+msgstr "Syntax error: The calculate/calc function requires parentheses, e.g. calculate(2 + 2)"
+
+#: avocadotranslator.translatemissingparenthesesgetenvironmentvariablefunction
+msgid "Syntax error: The function requires parentheses, e.g. get_environment_variable('PATH')"
+msgstr "Syntax error: The function requires parentheses, e.g. get_environment_variable('PATH')"
+
+#: avocadotranslator.translatemissingparenthesesrandomfunction
+msgid "Syntax error: The random function requires parentheses, e.g. random(100) or random()."
+msgstr "Syntax error: The random function requires parentheses, e.g. random(100) or random()."
+
+#: avocadotranslator.translatenobracketstrimfunction
+msgid "No brackets in the trim function."
+msgstr "No brackets in the trim function."
+
+#: avocadotranslator.translatenobracketstrimleftfunction
+msgid "No brackets in the trim_left function."
+msgstr "No brackets in the trim_left function."
+
+#: avocadotranslator.translatenobracketstrimrightfunction
+msgid "No brackets in the trim_right function."
+msgstr "No brackets in the trim_right function."
+
+#: avocadotranslator.translateparentheseserrorreadkeyfunction
+msgid "Syntax error in parentheses in read_key."
+msgstr "Syntax error in parentheses in read_key."
+
+#: avocadotranslator.translatepingcommandrequiresurlorvariable
+msgid "Syntax error: The PING command requires a URL or variable, e.g. ping \"google.com\""
+msgstr "Syntax error: The PING command requires a URL or variable, e.g. ping \"google.com\""
+
+#: avocadotranslator.translatepingfunctionrequiresbrackets
+msgid "Syntax error: The PING function requires brackets, e.g. ping('google.com', 'OK!')."
+msgstr "Syntax error: The PING function requires brackets, e.g. ping('google.com', 'OK!')."
+
+#: avocadotranslator.translatepingfunctionrequirestwoarguments
+msgid "Error: The PING function requires EXACTLY TWO arguments (address, success message)."
+msgstr "Error: The PING function requires EXACTLY TWO arguments (address, success message)."
+
+#: avocadotranslator.translaterandomisefunctiondoesnotacceptbrackets
+msgid "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
+msgstr "Syntax error: The ‘randomise’ function does not accept brackets or arguments. Use just the word ‘randomise’."
+
+#: avocadotranslator.translatereadfunctionrequiresvariablename
+msgid "Error: The read function requires a variable name to be specified."
+msgstr "Error: The read function requires a variable name to be specified."
+
+#: avocadotranslator.translatereadlinesparenthesesrequired
+msgctxt "avocadotranslator.translatereadlinesparenthesesrequired"
+msgid "Syntax error: The read_lines function requires parentheses."
+msgstr "Syntax error: The read_lines function requires parentheses."
+
+#: avocadotranslator.translatereadlinesrequiresparentheses
+msgctxt "avocadotranslator.translatereadlinesrequiresparentheses"
+msgid "Syntax error: The read_lines function requires parentheses."
+msgstr "Syntax error: The read_lines function requires parentheses."
+
+#: avocadotranslator.translaterepeatcharacterfunctionrequirestwoarguments
+msgid "The repeat_char function requires two arguments."
+msgstr "The repeat_char function requires two arguments."
+
+#: avocadotranslator.translatereplacetextfunctionrequiresthreearguments
+msgid "The replace_text function requires three arguments: text, from, to."
+msgstr "The replace_text function requires three arguments: text, from, to."
+
+#: avocadotranslator.translatesearchfunctionrequirestwoarguments
+msgid "The search function requires two arguments: substring, text"
+msgstr "The search function requires two arguments: substring, text"
+
+#: avocadotranslator.translatesetlengthrequiresparentheses
+msgid "Syntax error: The set_length function requires parentheses, e.g., set_length(Array, 10)."
+msgstr "Syntax error: The set_length function requires parentheses, e.g., set_length(Array, 10)."
+
+#: avocadotranslator.translatesetlengthrequirestwoarguments
+msgid "Error: The set_length function requires EXACTLY TWO arguments (variable, new length)."
+msgstr "Error: The set_length function requires EXACTLY TWO arguments (variable, new length)."
+
+#: avocadotranslator.translatesyntaxerrorassignmentreadline
+msgid "Syntax error in assignment in read_line."
+msgstr "Syntax error in assignment in read_line."
+
+#: avocadotranslator.translatesyntaxerrorreadfunctionassignment
+msgid "Syntax error in the assignment in the read function."
+msgstr "Syntax error in the assignment in the read function."
+
+#: avocadotranslator.translateunknownaliastype
+msgid "Unknown alias type: "
+msgstr "Unknown alias type: "
+
+#: avocadotranslator.translateunknownfiletype
+msgid "Unknown file variable type: "
+msgstr "Unknown file variable type: "
+
+#: avocadotranslator.translateunknownvariabletype
+msgid "Unknown variable type: "
+msgstr "Unknown variable type: "
+
+#: taiassistant.caption
+msgid "AI Helper"
+msgstr "AI Helper"
+
+#: taiassistant.editaskpromt.texthint
+msgctxt "taiassistant.editaskpromt.texthint"
+msgid "Wpisz zapytanie"
+msgstr "Enter your query"
+
+#: taiassistant.menuitemcopyallpascalzcode.caption
+msgctxt "taiassistant.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "Copy everything"
+
+#: taiassistant.menuitemcopypascalcode.caption
+msgctxt "taiassistant.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "Copy"
+
+#: taiassistant.menuitemoutputcodeclear.caption
+msgctxt "taiassistant.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "Delete"
+
+#: taiassistant.sbzapytaj.caption
+msgctxt "taiassistant.sbzapytaj.caption"
+msgid " >"
+msgstr " >"
+
+#: tfinformacjaide.caption
+msgid "Information about the Avocado IDE"
+msgstr "Information about IDE Avocado"
+
+#: tfinformacjaide.speedbutton1.caption
+msgctxt "tfinformacjaide.speedbutton1.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tformautor.caption
+msgctxt "tformautor.caption"
+msgid "Author"
+msgstr "Author"
+
+#: tformautor.speedbutton1.caption
+msgctxt "tformautor.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformmain.bottompaneltab.caption
+msgctxt "tformmain.bottompaneltab.caption"
+msgid "Functions"
+msgstr "Functions"
+
+#: tformmain.butcompilecode.caption
+msgctxt "tformmain.butcompilecode.caption"
+msgid "Kompiluj i zapisz"
+msgstr "Compile and save"
+
+#: tformmain.butcompilecode.hint
+msgctxt "tformmain.butcompilecode.hint"
+msgid "Kompiluj"
+msgstr "Compile"
+
+#: tformmain.documentation.caption
+msgctxt "tformmain.documentation.caption"
+msgid "Documentation"
+msgstr "Documentation"
+
+#: tformmain.editsearchcomments.texthint
+msgid "filter comments"
+msgstr "filter comments"
+
+#: tformmain.editsearchdocumentation.texthint
+msgid "Enter the name of the function"
+msgstr "Enter the name of the function"
+
+#: tformmain.editsearchfunctions.texthint
+msgctxt "tformmain.editsearchfunctions.texthint"
+msgid "filter functions"
+msgstr "filter functions"
+
+#: tformmain.editsearchmistakes.texthint
+msgid "filter errors"
+msgstr "filter errors"
+
+#: tformmain.editsearchresults.texthint
+msgctxt "tformmain.editsearchresults.texthint"
+msgid "filter functions"
+msgstr "filter functions"
+
+#: tformmain.editsearchvariables.texthint
+msgid "filter variables"
+msgstr "filter variables"
+
+#: tformmain.fpccode.caption
+msgctxt "tformmain.fpccode.caption"
+msgid "Free Pascal Code"
+msgstr "Free Pascal Code"
+
+#: tformmain.itemjaponski.caption
+msgid "日本語"
+msgstr "日本語"
+
+#: tformmain.itemtools.caption
+msgid "Tools"
+msgstr "Tools"
+
+#: tformmain.kompiluj.caption
+msgctxt "tformmain.kompiluj.caption"
+msgid "Kompiluj"
+msgstr "Compile"
+
+#: tformmain.label1.caption
+msgid "Console Log"
+msgstr "Console Log"
+
+#: tformmain.label4.caption
+msgid "Rozmiar"
+msgstr "Size"
+
+#: tformmain.label5.caption
+msgctxt "tformmain.label5.caption"
+msgid "Free Pascal Code"
+msgstr "Free Pascal Code"
+
+#: tformmain.label6.caption
+msgid "Definition"
+msgstr "Definition"
+
+#: tformmain.lrozmiarzccionkiedytora.caption
+msgid "0"
+msgstr "0"
+
+#: tformmain.menuaboutprogram.caption
+msgctxt "tformmain.menuaboutprogram.caption"
+msgid "O programie"
+msgstr "About program"
+
+#: tformmain.menuautor.caption
+msgctxt "tformmain.menuautor.caption"
+msgid "Autor"
+msgstr "Author"
+
+#: tformmain.menuchinski.caption
+msgctxt "tformmain.menuchinski.caption"
+msgid "中國人"
+msgstr "中國人"
+
+#: tformmain.menuclose.caption
+msgid "Zamknij"
+msgstr "Close"
+
+#: tformmain.menuexamples.caption
+msgid "Przykłady"
+msgstr "Examples"
+
+#: tformmain.menuhindi.caption
+msgctxt "tformmain.menuhindi.caption"
+msgid "हिंदी"
+msgstr "हिंदी"
+
+#: tformmain.menuinformacjaide.caption
+msgid "Informacja o IDE"
+msgstr "Information about IDE"
+
+#: tformmain.menuirosyjski.caption
+msgctxt "tformmain.menuirosyjski.caption"
+msgid "Русский"
+msgstr "Русский"
+
+#: tformmain.menuitaiasystant.caption
+msgid "AI Assistant"
+msgstr "AI Assistant"
+
+#: tformmain.menuitem1.caption
+msgid "Plik"
+msgstr "File"
+
+#: tformmain.menuitem10.caption
+msgid "English"
+msgstr "English"
+
+#: tformmain.menuitem11.caption
+msgid "Español"
+msgstr "Español"
+
+#: tformmain.menuitem12.caption
+msgid "Français"
+msgstr "Français"
+
+#: tformmain.menuitem13.caption
+msgid "Deutsch"
+msgstr "Deutsch"
+
+#: tformmain.menuitem15.caption
+msgid "Português"
+msgstr "Português"
+
+#: tformmain.menuitem19.caption
+msgctxt "tformmain.menuitem19.caption"
+msgid "Theme"
+msgstr "Theme"
+
+#: tformmain.menuitem2.caption
+msgctxt "tformmain.menuitem2.caption"
+msgid "Settings"
+msgstr "Settings"
+
+#: tformmain.menuitem20.caption
+msgid "Program"
+msgstr "Program"
+
+#: tformmain.menuitem3.caption
+msgid "Pomoc"
+msgstr "Help"
+
+#: tformmain.menuitem3clearcode.caption
+msgid "Usuń "
+msgstr "Delete "
+
+#: tformmain.menuitem4.caption
+msgid "AI Helper Settings"
+msgstr "AI Helper Settings"
+
+#: tformmain.menuitem5.caption
+msgctxt "tformmain.menuitem5.caption"
+msgid "Kopiuj"
+msgstr "Copy"
+
+#: tformmain.menuitem6.caption
+msgctxt "tformmain.menuitem6.caption"
+msgid "Kopiuj wszystko"
+msgstr "Copy everything"
+
+#: tformmain.menuitem7.caption
+msgid "Sprawdź kod [AI]"
+msgstr "Check the code [AI]"
+
+#: tformmain.menuitem8.caption
+msgid "Język"
+msgstr "Language"
+
+#: tformmain.menuitem9.caption
+msgid "Polski"
+msgstr "Polski"
+
+#: tformmain.menuitemcompile.caption
+msgid "Compile"
+msgstr "Compile"
+
+#: tformmain.menuitemconsoleprogram.caption
+msgid "Console program"
+msgstr "Console program"
+
+#: tformmain.menuitemcopyallpascalzcode.caption
+msgctxt "tformmain.menuitemcopyallpascalzcode.caption"
+msgid "Kopiuj wszystko"
+msgstr "Copy everything"
+
+#: tformmain.menuitemcopycode.caption
+msgctxt "tformmain.menuitemcopycode.caption"
+msgid "Kopiuj"
+msgstr "Copy"
+
+#: tformmain.menuitemcopypascalcode.caption
+msgctxt "tformmain.menuitemcopypascalcode.caption"
+msgid "Kopiuj"
+msgstr "Copy"
+
+#: tformmain.menuitemcutcode.caption
+msgctxt "tformmain.menuitemcutcode.caption"
+msgid "Wytnij"
+msgstr "Cut"
+
+#: tformmain.menuitemdeleteallcode.caption
+msgid "Usuń kod "
+msgstr "Remove code "
+
+#: tformmain.menuitemdeletememologs.caption
+msgctxt "tformmain.menuitemdeletememologs.caption"
+msgid "Usuń"
+msgstr "Delete"
+
+#: tformmain.menuitemdokumentacja.caption
+msgid "Dokumentacja online"
+msgstr "Online documentation"
+
+#: tformmain.menuitemopenfolder.caption
+msgid "Open folder"
+msgstr "Open folder"
+
+#: tformmain.menuitemoutputcodeclear.caption
+msgctxt "tformmain.menuitemoutputcodeclear.caption"
+msgid "Usuń"
+msgstr "Delete"
+
+#: tformmain.menuitempastecode.caption
+msgctxt "tformmain.menuitempastecode.caption"
+msgid "Wklej"
+msgstr "Paste"
+
+#: tformmain.menuitemrun.caption
+msgid "Run"
+msgstr "Run"
+
+#: tformmain.menuitemrunwithoutcompilation.caption
+msgid "Run without compilation"
+msgstr "Run without compilation"
+
+#: tformmain.menuitemsavefile.caption
+msgctxt "tformmain.menuitemsavefile.caption"
+msgid "Zapisz"
+msgstr "Save"
+
+#: tformmain.menuitemsearch.caption
+msgid "Search"
+msgstr "Search"
+
+#: tformmain.menuitemwsparcieprojektu.caption
+msgid "Wesprzyj"
+msgstr "Support"
+
+#: tformmain.menunewfile.caption
+msgid "Nowy"
+msgstr "New"
+
+#: tformmain.menuopcjeprojektu.caption
+msgid "Opcje projektu"
+msgstr "Design options"
+
+#: tformmain.menuopen.caption
+msgid "Otwórz"
+msgstr "Open"
+
+#: tformmain.menuprojekt.caption
+msgid "Projekt"
+msgstr "Project"
+
+#: tformmain.menusaveas.caption
+msgid "Zapisz jak"
+msgstr "Save As"
+
+#: tformmain.menuustawinia.caption
+msgctxt "tformmain.menuustawinia.caption"
+msgid "Settings"
+msgstr "Settings"
+
+#: tformmain.nowyplik.caption
+msgid "NowyPLik"
+msgstr "NewFile"
+
+#: tformmain.nowyplik.hint
+msgid "Nowy Plik"
+msgstr "New File"
+
+#: tformmain.panellewy.caption
+msgid "PanelLewy"
+msgstr "PanelLewy"
+
+#: tformmain.taberrors.caption
+msgctxt "tformmain.taberrors.caption"
+msgid "Mistakes"
+msgstr "Mistakes"
+
+#: tformmain.tabsheet1.caption
+msgctxt "tformmain.tabsheet1.caption"
+msgid "Variables"
+msgstr "Variables"
+
+#: tformmain.tabsheetcomments.caption
+msgid "Comments"
+msgstr "Comments"
+
+#: tformmain.tabsheetlog.caption
+msgctxt "tformmain.tabsheetlog.caption"
+msgid "Logs"
+msgstr "Logs"
+
+#: tformmain.tabsheetsearch.caption
+msgid "Search results"
+msgstr "Search results"
+
+#: tformmain.toolbar1.caption
+msgid "ToolBar1"
+msgstr "ToolBar1"
+
+#: tformmain.toolbutton1.caption
+msgid "ToolButton1"
+msgstr "ToolButton1"
+
+#: tformmain.toolbutton1.hint
+msgctxt "tformmain.toolbutton1.hint"
+msgid "Transpiluj"
+msgstr "Transpile"
+
+#: tformmain.toolbutton2.caption
+msgid "ToolButton2"
+msgstr "ToolButton2"
+
+#: tformmain.toolbutton2.hint
+msgid "Interpret"
+msgstr "Interpret"
+
+#: tformmain.toolbuttondebug.caption
+msgid "ToolButtonDebug"
+msgstr "ToolButtonDebug"
+
+#: tformmain.toolbuttondebug.hint
+msgid "Check the code"
+msgstr "Check the code"
+
+#: tformmain.transpiluj.caption
+msgctxt "tformmain.transpiluj.caption"
+msgid "Transpiluj"
+msgstr "Transpile"
+
+#: tformmain.zapiszplik.caption
+msgid "ZapiszPlik"
+msgstr "SaveFile"
+
+#: tformopcjeprojektu.button1.caption
+msgid "Open the folder"
+msgstr "Open the folder"
+
+#: tformopcjeprojektu.caption
+msgid "Project Options"
+msgstr "Project Options"
+
+#: tformopcjeprojektu.groupbox1.caption
+msgid "Temporary project files"
+msgstr "Temporary project files"
+
+#: tformopcjeprojektu.sbok.caption
+msgctxt "tformopcjeprojektu.sbok.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformoprogramie.caption
+msgctxt "tformoprogramie.caption"
+msgid "O programie"
+msgstr "About the program"
+
+#: tformoprogramie.panel1.caption
+msgctxt "tformoprogramie.panel1.caption"
+msgid "Panel1"
+msgstr "Panel1"
+
+#: tformoprogramie.speedbutton1.caption
+msgctxt "tformoprogramie.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformprzyklady.caption
+msgid "Application examples"
+msgstr "Application examples"
+
+#: tformprzyklady.speedbutton1.caption
+msgctxt "tformprzyklady.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformsettingintepreter.bitbtn1.caption
+msgctxt "tformsettingintepreter.bitbtn1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: tformsettingintepreter.caption
+msgctxt "tformsettingintepreter.caption"
+msgid "Settings"
+msgstr "Settings"
+
+#: tformsettingintepreter.comboboboxplatforms.text
+msgid "x86_64-win64"
+msgstr "x86_64-win64"
+
+#: tformsettingintepreter.groupbox1.caption
+msgid "Platform"
+msgstr "Platform"
+
+#: tformsettingintepreter.groupbox2.caption
+msgid "Link to fpc.exe"
+msgstr "Link to fpc.exe"
+
+#: tformsettingintepreter.groupbox3.caption
+msgid "Link to Instant FPC"
+msgstr "Link to Instant FPC"
+
+#: tformsettingintepreter.spbsavefolderfpc.caption
+msgid "Link to FPC folder"
+msgstr "Link to FPC folder"
+
+#: tsettingai.caption
+msgid "Ustawienia Pomocnika AI"
+msgstr "AI Assistant Settings"
+
+#: tsettingai.edittokengpt.text
+msgid "EditTokenGPT"
+msgstr "EditTokenGPT"
+
+#: tsettingai.label1.caption
+msgid "Model językowy"
+msgstr "Language model"
+
+#: tsettingai.label2.caption
+msgid "Klucz API"
+msgstr "API key"
+
+#: tsettingai.menuitemcopy.caption
+msgctxt "tsettingai.menuitemcopy.caption"
+msgid "Kopiuj"
+msgstr "Copy"
+
+#: tsettingai.menuitemdelete.caption
+msgctxt "tsettingai.menuitemdelete.caption"
+msgid "Usuń"
+msgstr "Delete"
+
+#: tsettingai.menuitemhidekey.caption
+msgid "Ukryj klucz"
+msgstr "Hide key"
+
+#: tsettingai.menuitempaste.caption
+msgid "Wstaw"
+msgstr "Insert"
+
+#: tsettingai.menuitemshowkey.caption
+msgid "Pokaż klucz"
+msgstr "Show key"
+
+#: tsettingai.speedbutsave.caption
+msgctxt "tsettingai.speedbutsave.caption"
+msgid "Zapisz"
+msgstr "Save"
+
+#: tsettingai.speedbuttonok.caption
+msgid "Anuluj"
+msgstr "Cancel"
+
+#: tsettingtheme.btnsave.caption
+msgctxt "tsettingtheme.btnsave.caption"
+msgid "Save"
+msgstr "Save"
+
+#: tsettingtheme.caption
+msgid "Theme Settings"
+msgstr "Theme Settings"
+
+#: tsettingtheme.groupbox1.caption
+msgctxt "tsettingtheme.groupbox1.caption"
+msgid "Theme"
+msgstr "Theme"
+
+#: tsettingtheme.speedbutton1.caption
+msgctxt "tsettingtheme.speedbutton1.caption"
+msgid "Ok"
+msgstr "Ok"
+
+#: twsparcie.caption
+msgid "Wsparcie"
+msgstr "Support"
+
+#: twsparcie.speedbutton1.caption
+msgctxt "twsparcie.speedbutton1.caption"
+msgid "OK"
+msgstr "OK"
+
+#: twsparcie.speedbutton2.caption
+msgid "Wesprzyj projekt"
+msgstr "Support the project"
+
+#: unit1.countchars
+msgctxt "unit1.countchars"
+msgid " Signs"
+msgstr " Signs"
+
+#: unit1.countline
+msgctxt "unit1.countline"
+msgid " Lines of Code"
+msgstr " Lines of Code"
+
+#: unit1.errwritingtemporaryfile
+msgid "Error writing temporary file: "
+msgstr "Error writing temporary file: "
+
+#: unit1.interpretationcompleted
+msgid "Interpretation completed."
+msgstr "Interpretation completed."
+
+#: unit1.newnamezprogram
+msgid "Enter the name of the program:"
+msgstr "Enter the name of the program:"
+
+#: unit1.newprogramfile
+msgid "New file"
+msgstr "New file"
+
+#: unit1.nocodeopenfileorwritecodeeditor
+msgid "No code. Open the file or write code in the editor."
+msgstr "No code. Open the file or write code in the editor."
+
+#: unit1.openprojecttranslate
+msgid "Open project: "
+msgstr "Open project: "
+
+#: unit1.processstartuperr
+msgid "Process startup error: "
+msgstr "Process startup error: "
+
+#: unit1.runinterpreterseparatewindow
+msgid "Running the interpreter in a separate window.."
+msgstr "Running the interpreter in a separate window.."
+
+#: unit1.translateaddcustommodulespath
+msgid " - Added custom IDE modules path: "
+msgstr " - Added custom IDE modules path: "
+
+#: unit1.translateaddusermodulespath
+msgid " - Added user modules path: "
+msgstr " - Added user modules path: "
+
+#: unit1.translateaihelperapikeyadded
+msgid "AI Helper API Key Added"
+msgstr "AI Helper API Key Added"
+
+#: unit1.translateaihelpermodel
+msgid "AI Helper Model: "
+msgstr "AI Helper Model: "
+
+#: unit1.translateanswer
+msgid "Answer!"
+msgstr "Answer!"
+
+#: unit1.translateattention
+msgctxt "unit1.translateattention"
+msgid "Attention!"
+msgstr "Attention!"
+
+#: unit1.translateattentionmsg
+msgctxt "unit1.translateattentionmsg"
+msgid "Attention!"
+msgstr "Attention!"
+
+#: unit1.translatecannotcreatetemporarydirectory
+msgid "Error: Cannot create temporary directory: "
+msgstr "Error: Cannot create temporary directory: "
+
+#: unit1.translatechackexamplesfolderexists
+msgctxt "unit1.translatechackexamplesfolderexists"
+msgid "Check that the \"examples\" folder exists and contains the appropriate files."
+msgstr "Check that the \"examples\" folder exists and contains the appropriate files."
+
+#: unit1.translatecheckapitokeninternetcon
+msgid "Check API token and internet connection"
+msgstr "Check API token and internet connection"
+
+#: unit1.translatecheckmodulesdir
+msgid "Checking the IDE s own modules directory: "
+msgstr "Checking the IDE s own modules directory: "
+
+#: unit1.translatecodecorrect
+msgid "Code correct!"
+msgstr "Code correct!"
+
+#: unit1.translatecodeerrorscompilationstopped
+msgid "Code errors. Compilation stopped!"
+msgstr "Code errors. Compilation stopped!"
+
+#: unit1.translatecomilationsuccessoutputfile
+msgctxt "unit1.translatecomilationsuccessoutputfile"
+msgid "Compilation successful! Output file: "
+msgstr "Compilation successful! Output file: "
+
+#: unit1.translatecompilationsuccses
+msgctxt "unit1.translatecompilationsuccses"
+msgid "Compilation successful! Output file: "
+msgstr "Compilation successful! Output file: "
+
+#: unit1.translatecompilersettloaded
+msgid "Compiler settings loaded"
+msgstr "Compiler settings loaded"
+
+#: unit1.translatecompilingdebugmode
+msgid "Compiling in Debug mode..."
+msgstr "Compiling in Debug mode..."
+
+#: unit1.translatecompilingreleasemode
+msgid "Compiling in Release mode."
+msgstr "Compiling in Release mode."
+
+#: unit1.translateconferrfpcbasepath
+msgid "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
+msgstr "CONFIGURATION ERROR: The configured FPC base path (FpcBasePath) does not exist: "
+
+#: unit1.translateconferrmodulepath
+msgid "CONFIGURATION ERROR: no module path set "
+msgstr "CONFIGURATION ERROR: no module path set "
+
+#: unit1.translateconferrtargetplatform
+msgid "CONFIGURATION ERROR: Target platform not set in "
+msgstr "CONFIGURATION ERROR: Target platform not set in "
+
+#: unit1.translatecreatenewfile
+msgid "Create a new file?"
+msgstr "Create a new file?"
+
+#: unit1.translatecustmodulesdirnotfound
+msgid "Info: IDE custom modules directory not found: "
+msgstr "Info: IDE custom modules directory not found: "
+
+#: unit1.translatedebuggerfilenotfound
+msgid "Debugger.txt file not found"
+msgstr "Debugger.txt file not found"
+
+#: unit1.translateeditorfontsizeloaded
+msgid "Editor font size loaded: "
+msgstr "Editor font size loaded: "
+
+#: unit1.translateeditorfontsizenoloaded
+msgid "Editor font size not loaded: "
+msgstr "Editor font size not loaded: "
+
+#: unit1.translateenterquestion
+msgid "Please enter your question!"
+msgstr "Please enter your question!"
+
+#: unit1.translateerrcompilation
+msgid "Compilation error: "
+msgstr "Compilation error: "
+
+#: unit1.translateerrcompilationcode
+msgid "Compilation error. Code: "
+msgstr "Compilation error. Code: "
+
+#: unit1.translateerremptyresponsereceived
+msgid "Error: Empty response received"
+msgstr "Error: Empty response received"
+
+#: unit1.translateerrfpcbasepathnotconfigure
+msgid "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!"
+msgstr "FATAL ERROR: The FPC base path (FpcBasePath) is not configured correctly or does not exist!"
+
+#: unit1.translateerroccurred
+msgctxt "unit1.translateerroccurred"
+msgid "An error occurred: "
+msgstr "An error occurred: "
+
+#: unit1.translateerrorsinthecode
+msgid "Errors in the code!"
+msgstr "Errors in the code!"
+
+#: unit1.translateerrpacalcodecompile
+msgid "Error: No Pascal code to compile (PascalCode parameter is empty). "
+msgstr "Error: No Pascal code to compile (PascalCode parameter is empty). "
+
+#: unit1.translateerrpathtofpc
+msgid "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
+msgstr "FATAL ERROR: The path to the FPC compiler (FpcPath) is not configured correctly!"
+
+#: unit1.translateerrrequiredfpcstandardunitdirfound
+msgid "ERROR: Required FPC standard unit directory not found: "
+msgstr "ERROR: Required FPC standard unit directory not found: "
+
+#: unit1.translateerrusermodulespath
+msgid "WARNING: Configured user modules path (FModulsPath: "
+msgstr "WARNING: Configured user modules path (FModulsPath: "
+
+#: unit1.translatefailstartprogram
+msgid "Failed to start program: "
+msgstr "Failed to start program: "
+
+#: unit1.translatefiledoesnotexist
+msgctxt "unit1.translatefiledoesnotexist"
+msgid "File does not exist: "
+msgstr "File does not exist: "
+
+#: unit1.translatefilenotfound
+msgid "File not found: "
+msgstr "File not found: "
+
+#: unit1.translatefilenotsaved
+msgid "File not saved. Compilation canceled."
+msgstr "File not saved. Compilation canceled."
+
+#: unit1.translatefilenotsavedbuildcancel
+msgid "Project not saved. Build canceled."
+msgstr "Project not saved. Build canceled."
+
+#: unit1.translatefound
+msgid "Found"
+msgstr "Found"
+
+#: unit1.translatefpccompilernotexist
+msgid "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
+msgstr "FATAL ERROR: The path to the FPC compiler does not exist or is not set in "
+
+#: unit1.translatefpcconfigureerrpathtofpc
+msgid "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
+msgstr "CONFIGURATION ERROR: Base path to FPC compiler folder is not set in "
+
+#: unit1.translatefunctionnotfound
+msgid "Function not found."
+msgstr "Function not found."
+
+#: unit1.translateidemodulespathskipduplicate
+msgid " - Info: IDE modules path is same as user modules, skipping duplicate."
+msgstr " - Info: IDE modules path is same as user modules, skipping duplicate."
+
+#: unit1.translateitemselected
+msgid "Empty item selected."
+msgstr "Empty item selected."
+
+#: unit1.translatelinktofpc
+msgid "Link to fpc.exe compiler: "
+msgstr "Link to fpc.exe compiler: "
+
+#: unit1.translatelinktofpcfolder
+msgid "Link to compiler folder: "
+msgstr "Link to compiler folder: "
+
+#: unit1.translateloadingsettings
+msgid "Loading settings "
+msgstr "Loading settings "
+
+#: unit1.translatemistake
+msgid "Mistake"
+msgstr "Mistake"
+
+#: unit1.translatemodules
+msgid "Modules: "
+msgstr "Modules: "
+
+#: unit1.translatenocommentsfound
+msgid "No comments found."
+msgstr "No comments found."
+
+#: unit1.translatenodatacode
+msgid "No data in the code!"
+msgstr "No data in the code!"
+
+#: unit1.translatenoerrorscodereadytocompile
+msgid "No errors. Code ready to compile."
+msgstr "No errors. Code ready to compile."
+
+#: unit1.translatenoitemselected
+msgid "No item selected."
+msgstr "No item selected."
+
+#: unit1.translatenoprefixestosearch
+msgid "No prefixes to search!"
+msgstr "No prefixes to search!"
+
+#: unit1.translatenotexist
+msgid " ) does not exist! "
+msgstr " ) does not exist! "
+
+#: unit1.translatenotokenaiassistant
+msgid "No token from AI Assistant"
+msgstr "No token from AI Assistant"
+
+#: unit1.translatenovariablesfound
+msgid "No variables found."
+msgstr "No variables found."
+
+#: unit1.translateoccurrenceszerofound
+msgid "0 occurrences found"
+msgstr "0 occurrences found"
+
+#: unit1.translateplatform
+msgid "Platform: "
+msgstr "Platform: "
+
+#: unit1.translatesaveproject
+msgid "Project not saved. Save project before compiling?"
+msgstr "Project not saved. Save project before compiling?"
+
+#: unit1.translatespeeches
+msgid "speeches"
+msgstr "speeches"
+
+#: unit1.translatestandardfpcunits
+msgid " .Standard FPC units will not be found!"
+msgstr " .Standard FPC units will not be found!"
+
+#: unit1.translatestartcomilation
+msgid "Starting compilation..."
+msgstr "Starting compilation..."
+
+#: unit1.translatestartcomilationparam
+msgid "Starting compilation with parameters: "
+msgstr "Starting compilation with parameters: "
+
+#: unit1.translatesyneditcodenotcreated
+msgid "NOTE: SynEditCode not created!"
+msgstr "NOTE: SynEditCode not created!"
+
+#: unit1.translatetranslationerror
+msgid "Translation Error: "
+msgstr "Translation Error: "
+
+#: unit1.translateunableunitdirectory
+msgid " .Unable to determine unit directory!"
+msgstr " .Unable to determine unit directory!"
+
+#: unit1.translateunknownname
+msgid "Unknown name"
+msgstr "Unknown name"
+
+#: unit1.translatevaluelookingfound
+msgid "The value you were looking for has been found!"
+msgstr "The value you were looking for has been found!"
+
+#: unitautor.translatecannotopenlink
+msgctxt "unitautor.translatecannotopenlink"
+msgid "The link cannot be opened: "
+msgstr "The link cannot be opened: "
+
+#: unitautor.translateerrccannotopenlink
+msgctxt "unitautor.translateerrccannotopenlink"
+msgid "Error code: "
+msgstr "Error code: "
+
+#: unitopcjeprojektu.translateerrorcode
+msgctxt "unitopcjeprojektu.translateerrorcode"
+msgid "Error code: "
+msgstr "Error code: "
+
+#: unitopcjeprojektu.translatelinkcannotbeopened
+msgctxt "unitopcjeprojektu.translatelinkcannotbeopened"
+msgid "The link cannot be opened: "
+msgstr "The link cannot be opened: "
+
+#: uprzyklady.translateanerroroccurred
+msgctxt "uprzyklady.translateanerroroccurred"
+msgid "An error occurred: "
+msgstr "An error occurred: "
+
+#: uprzyklady.translatecheckexamples
+msgctxt "uprzyklady.translatecheckexamples"
+msgid "Check that the \"examples\" folder exists and contains the appropriate files."
+msgstr "Check that the \"examples\" folder exists and contains the appropriate files."
+
+#: uprzyklady.translatedoesntexist
+msgid "\"does not exist!\""
+msgstr "\"does not exist!\""
+
+#: uprzyklady.translateemptyitemselected
+msgid "Empty item selected"
+msgstr "Empty item selected"
+
+#: uprzyklady.translateerrfolder
+msgid "Error: Folder \""
+msgstr "Error: Folder \""
+
+#: uprzyklady.translateerrobjectnotavailable
+msgid "Error: The FuSettingsChatGPT object is not available."
+msgstr "Error: The FuSettingsChatGPT object is not available."
+
+#: uprzyklady.translatefilenotexist
+msgctxt "uprzyklady.translatefilenotexist"
+msgid "File does not exist: "
+msgstr "File does not exist: "
+
+#: uprzyklady.translatenoitemselected
+msgid "No item selected"
+msgstr "No item selected"
+
+#: usettings.translatedatasaved
+msgid "Data saved"
+msgstr "Data saved"
+
+#: usettings.translateinformation
+msgid "Information"
+msgstr "Information"
+

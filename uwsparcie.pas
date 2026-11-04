@@ -48,7 +48,7 @@ end;
 
 procedure TWsparcie.Button1Click(Sender: TObject);
 begin
-   FormAutor.OpenLink('https://ko-fi.com/programistaart');
+   FormAutor.OpenLink('https://suppi.pl/programista-art?utm_source=avocado_ide&utm_medium=wsparcie&utm_campaign=ide&utm_id=1&utm_term=avocado_ide');
 end;
 
 procedure TWsparcie.SpeedButton1Click(Sender: TObject);
@@ -58,7 +58,7 @@ end;
 
 procedure TWsparcie.SpeedButton2Click(Sender: TObject);
 begin
-  FormAutor.OpenLink('https://patronite.pl/programista-art');
+  FormAutor.OpenLink('https://patronite.pl/programista-art?utm_source=avocado_ide&utm_medium=wsparcie&utm_campaign=patronite&utm_id=1&utm_term=avocado_ide');
 end;
 
 

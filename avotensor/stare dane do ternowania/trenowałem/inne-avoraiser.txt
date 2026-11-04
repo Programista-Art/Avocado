@@ -1,0 +1,120 @@
+﻿Narzędzia i Inne (Utilities & Others)
+
+Zestaw funkcji ułatwiających manipulowanie plikami, formatowaniem tekstów, schowkiem i środowiskiem Windows.
+
+
+ 1. Narzędzia Plikowe (File Utilities)
+
+Podstawowe mechanizmy do interakcji z systemem plików i operacji wycinania samych rozszerzeń z długich ścieżek  C:\... 
+
+file_exists_win 
+ PL:  Czy plik istnieje |  EN:  File exists win
+Zamiennik dla tradycyjnego  FileExists  z Pascala, zoptymalizowany dla sprawdzania atrybutów pliku w sposób natywny.
+   pascal
+function file_exists_win(const filename: UnicodeString): Boolean;
+   
+
+get_app_path 
+ PL:  Pobierz ścieżkę uruchomienia |  EN:  Get app path
+Zwraca absolutną lokalizację folderu z Twoją aplikacją (kończąc się backslashem).
+   pascal
+function get_app_path: UnicodeString;
+   
+
+get_file_name_only 
+PL:  Wyciągnij samą nazwę pliku |  EN:  Get file name only
+Przydatna w momentach ładowania na pasku tytułowym pliku np. z "C:\Projekt\notatki.txt" zwróci samo  "notatki.txt" .
+   pascal
+function get_file_name_only(const file_path: UnicodeString): UnicodeString;
+   
+
+get_file_extension 
+PL:  Pobierz samo rozszerzenie z nazwy |  EN:  Get file extension
+Pomaga zidentyfikować po co programista odpalił ten plik np. do parsowania Pascala z  "plik.pas"  odda  "pas" .
+   pascal
+function get_file_extension(const file_path: UnicodeString): UnicodeString;
+   
+
+extract_file_ext 
+PL:  Wyciągnięcie końcówki pliku (Alias z systemu na użycie natywne) |  EN:  Extract file ext
+   pascal
+function extract_file_ext(const file_path: UnicodeString): UnicodeString;
+   
+ 2. Obsługa Ładowania Skryptów / Tekstu do Stringów i Systemów RTF / Memo (IO String Operations)
+
+Te metody nie tylko czytają pliki z dysku bajt po bajcie, ale też konwertują poprawnie teksty pomiędzy Unicodem dla Memo i RichEdita a plikami klasycznymi (np. dodając znaki CRLF #13#10).
+
+read_file_to_string 
+ PL:  Ładowanie Surowych Bajtów Pliku Tekstowego do Formatu Odczytywanego Stringem przez Memo |  EN:  Read file to string
+Rozpoczyna cykl podania ścieżki (zwykle C:) i oddaje poprawnie "sformatowany" od ręki UTF-16 tekst bez tzw. "krzaczków".
+   pascal
+function read_file_to_string(const file_path: UnicodeString): UnicodeString;
+   
+
+write_string_to_file 
+PL:  Zapis Pliku Tekstu w Unicode z Zabezpieczonym Wyjątkiem na Zapis na Dysk (z C:/) |  EN:  Write string to file
+Podaje zawartość wygenerowanej zawartości wprost do stworzonego fizycznego pliku na HDD (Zwraca fałsz, jeśli błąd / Zablokowany Odczyt Admina).
+   pascal
+function write_string_to_file(const file_path: UnicodeString; const content: UnicodeString): Boolean;
+// W połączeniu z get_memo_text wyśle od razu zapis z notatnika.
+   
+
+load_memo_from_file 
+ PL:  Rozszerzona metoda dla standardowego Notatnika  Edit  w Windows z obsługą korekty zakończeń Linii (Z użyciem AvAdjust...) |  EN:  Load memo from file
+   pascal
+function load_memo_from_file(h_memo: HWND; const file_path: UnicodeString): Boolean;
+   
+
+av_adjust_line_breaks 
+ PL:  Naprawa i wyrównywanie standardowych  Enterów  po pobranym pliku |  EN:  Adjust line breaks
+Wszędzie tam, gdzie znalazł się CR, dopisuje w parę LF, by nie gubić na ekranie formatowania przy zapisie.
+   pascal
+function av_adjust_line_breaks(const s: UnicodeString): UnicodeString;
+   
+ 3. Formaty String i Matematyczne Odpowiedniki WinAPI (Data Parsing)
+
+int_to_str 
+PL:  Zamień Integer na Zwykły String (ANSI) |  EN:  Int to str
+pascal
+function int_to_str(value: Integer): String;
+   
+
+int_to_wide 
+PL:  Bezpieczny Skok do formatu używanego np w WinAPI  SetWindowTextW  u Kontrolek z Unicode! |  EN:  Int to wide
+   pascal
+function int_to_wide(value: Integer): UnicodeString;
+   
+
+  str_to_int 
+ PL:  Bezpieczna (Bez Wywalań Exception i Zawieszek Programu) Transformacja Tekstu pod Liczbę! |  EN:  Str to int
+Jeśli ktoś w polu numerycznym przy dodawaniu 5 + 5 wpisze "D", to ta funkcja zwróci zadeklarowany domyślny DefaultVal np.  1 , zamiast zawiesić system jak standardowe w Pascalu funkcje.
+   pascal
+function str_to_int(const s: UnicodeString; default_val: Integer): Integer;
+   
+  same_text 
+ PL:  Ręczne porównanie Wielkości Liter |  EN:  Same text
+Wyjątkowo zoptymalizowana komenda wyjęta prosto z serca jądra systemu operacyjnego Windows:  CompareStringW . Jest profesjonalna do polskich znaków i dużo szybsza od klasycznych, ciężkich pętli.
+   pascal
+function same_text(const s1, s2: UnicodeString): Boolean;
+   
+
+  rgb 
+ PL:  Dekoder RGB do WinAPI |  EN:  RGB to BGR
+Ponieważ parametry używane w Avocado to standard BGR u systemu Microsoftu, często przy przenoszeniu kolorów (np. Czerwony:  255, 0, 0 ) ta funkcja odwróci je i stworzy odpowiedni wpis bez mozolnego liczenia w HEX ($).
+   pascal
+function rgb(R, G, B: Byte): DWORD;
+   
+
+ 4. Dodatkowe Narzędzia Drag And Drop oraz Zdarzenia Interfejsu Pomocnicze
+
+handle_drop_files 
+PL:  Umożliwia przejęcie pliku od systemowego ujętego upuszczenia przez Użytkownika Kursorem nad obszarem programu. |  EN:  Handle drop files
+Skrypt obsługujący tzw:  Drag And Drop  wywołany przez API WM_DROPFILES, oddający całe ścieżki i nazwy ujętych z pulpitu przeciągniętych np 10 na raz fotografii.
+   pascal
+handle_drop_files(Handle: HWND; wParam: WPARAM);
+   
+ clear_timepicker_props 
+ PL:  Wyrzuca parametry ustawień opcjonalnych / śmietnik z czasomierza po dacie (Oczyszczenie). |  EN:  Clear timepicker props
+   pascal
+clear_timepicker_props(h_wnd: HWND);
+   

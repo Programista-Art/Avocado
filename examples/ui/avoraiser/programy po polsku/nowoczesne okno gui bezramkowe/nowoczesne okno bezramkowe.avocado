@@ -1,0 +1,34 @@
+program_ui test
+import avoraiser.window
+uchwyt_okna moje_okno
+glowny
+  glowna_funkcja
+  uruchom_aplikacje()
+koniec.
+ 
+procedura glowna_funkcja
+poczatek
+  parametry_ui ui
+  ui = default(TAvocadoWindowParams)
+  ui.tytul = 'Okno w Avocado'
+  ui.szerokosc = 400
+  ui.wysokosc = 600
+  ui.x = 200
+  ui.y = 200
+  ui.widoczne = prawda
+  ui.przeciaganie = prawda
+  ui.bezramkowe = prawda
+
+  ui.kolor_tla = $000000
+  
+  
+  //Tworzenie Okna Main
+  moje_okno = utworz_okno(ui)
+  
+  jezeli moje_okno <> 0 wtedy
+  poczatek
+    wysrodkuj_okno(moje_okno)
+    //Kod aplikacji
+   
+  koniec
+koniec

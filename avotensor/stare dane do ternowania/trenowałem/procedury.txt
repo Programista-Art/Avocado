@@ -1,0 +1,29 @@
+program test
+
+start
+  pisz_linie('Jestem w głównym programie.')
+  // Wywołanie procedur
+  suma(5)
+  hello
+koniec.
+
+
+procedura hello
+start
+liczba_całkowita b = 10
+  pisz_linie('Hello World! ', b)
+koniec
+
+//Procedura która zawiera deklarację lokalnych zmiennych
+procedura suma(liczba1: liczba_całkowita)
+start
+  //deklaruje zmienne
+  liczba_całkowita a = 10
+  pisz_linie('Wynik obliczenia: ',  liczba1 + a)
+koniec
+
+
+
+
+
+

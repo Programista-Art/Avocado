@@ -1,0 +1,14 @@
+program testkodupascala
+główny
+liczba_całkowita liczba = 0
+pascal{
+  if liczba > 0 then
+  WriteLn('Liczba jest dodatnia.')
+  else if liczba < 0 then
+  WriteLn('Liczba jest ujemna.')
+  else
+  WriteLn('Liczba jest równa zero.');
+}
+koniec.
+
+

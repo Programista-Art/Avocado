@@ -1,0 +1,12 @@
+﻿program mojrogram
+liczba_całkowita i
+logiczny Prawda
+początek
+  pisz_linie('Witaj w Avocado!')
+
+  dla i = 1 do 5 wykonaj
+  początek
+    pisz_linie('Numer: ' + IntToStr(i))
+    pisz_linie('Prawda')
+  czytaj_klawisz
+koniec.

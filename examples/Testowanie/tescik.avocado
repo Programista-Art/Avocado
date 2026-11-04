@@ -1,0 +1,5 @@
+﻿program hello_avocado
+main
+  pisz_linie('Hello Avocado!')
+end.
+

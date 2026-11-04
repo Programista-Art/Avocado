@@ -1,0 +1,5 @@
+﻿program test
+main
+string a = get_current_dir
+print(a)
+end.

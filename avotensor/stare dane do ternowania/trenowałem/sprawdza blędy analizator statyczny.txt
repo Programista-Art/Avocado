@@ -1,0 +1,29 @@
+﻿program test_zmiennych
+glowny
+  licz_wiek()
+  wypisz_wiek()
+koniec.
+
+// Pierwsza procedura
+procedura licz_wiek
+poczatek
+  // Deklarujemy zmienną LOKALNĄ
+liczba_całkowita moj_wiek
+  moj_wiek = 25
+
+  pisz_linie(moj_wiek)
+koniec
+
+// Druga procedura
+procedura wypisz_wiek
+poczatek
+liczba_całkowita inny_wiek
+  inny_wiek = 30
+
+  // TUTAJ ANALIZATOR ZGŁOSI BŁĄD!
+  // Zmienna 'moj_wiek' istnieje tylko w procedurze 'licz_wiek'
+  moj_wiek = 50
+koniec
+
+
+

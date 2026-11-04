@@ -1,0 +1,28 @@
+﻿Komponent Memo w Avoraiser
+create_memo` - Tworzy wieloliniowe pole tekstowe (notatnik).
+
+ PL:  utworz_notatnik` |  EN:  create_memo`
+
+Parametry:
+rodzic / parent - Uchwyt okna rodzica.
+x, y, szerokosc, wysokosc / x, y, width, height - Pozycja i wymiary.
+Przykład użycia nazwa polska:
+ 
+utworz_notatnik(rodzic, x, y, szerokosc, wysokosc)
+Przykład użycia nazwa angielska:
+create_memo(parent, x, y, width, height)
+
+append_memo_text` - Dodaje nową linię tekstu na samym końcu pola Memo bez usuwania poprzedniej zawartości. Idealne do tworzenia logów.
+ PL:  dopisz_tekst_notatnika` |  EN:  append_memo_text`
+
+Parametry:
+uchwyt_memo / h_memo - Uchwyt kontrolki Memo.
+tekst / text - Tekst do dopisania.
+Przykład użycia nazwa polska:
+
+dopisz_tekst_notatnika(uchwyt_memo, tekst)
+
+Przykład użycia nazwa angielska:
+append_memo_text(h_memo, text)
+
+ 

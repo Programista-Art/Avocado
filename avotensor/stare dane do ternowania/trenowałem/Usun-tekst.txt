@@ -1,0 +1,13 @@
+program usuwanie
+glowny
+ test
+koniec.
+
+procedura test
+poczatek
+tekst a = 'Witaj Avocado'
+tekst b = a
+delete(b,1,6)
+pisz_linie(b)
+koniec
+

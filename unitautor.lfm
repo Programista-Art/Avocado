@@ -1,34 +1,36 @@
 object FormAutor: TFormAutor
   Left = 350
-  Height = 152
+  Height = 190
   Top = 250
-  Width = 342
+  Width = 428
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Author'
-  ClientHeight = 152
-  ClientWidth = 342
+  ClientHeight = 190
+  ClientWidth = 428
   Color = 2697513
+  DesignTimePPI = 120
   Position = poMainFormCenter
   LCLVersion = '4.4.0.0'
+  OnCreate = FormCreate
   object Panel1: TPanel
     Left = 0
-    Height = 32
-    Top = 120
-    Width = 342
+    Height = 40
+    Top = 150
+    Width = 428
     Align = alBottom
     BevelColor = clBlack
-    ClientHeight = 32
-    ClientWidth = 342
+    ClientHeight = 40
+    ClientWidth = 428
     Color = clBlack
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object SpeedButton1: TSpeedButton
-      Left = 311
-      Height = 30
+      Left = 389
+      Height = 38
       Top = 1
-      Width = 30
+      Width = 38
       Align = alRight
       Caption = 'Ok'
       ImageIndex = 1
@@ -37,15 +39,15 @@ object FormAutor: TFormAutor
   end
   object Memo1: TMemo
     Left = 0
-    Height = 94
+    Height = 118
     Top = 0
-    Width = 342
+    Width = 428
     Align = alClient
     Alignment = taCenter
     Color = clBlack
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite
-    Font.Height = -16
+    Font.Height = -20
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Lines.Strings = (
@@ -58,26 +60,26 @@ object FormAutor: TFormAutor
   end
   object Panel2: TPanel
     Left = 0
-    Height = 26
-    Top = 94
-    Width = 342
+    Height = 32
+    Top = 118
+    Width = 428
     Align = alBottom
     BevelColor = clWindow
-    ClientHeight = 26
-    ClientWidth = 342
+    ClientHeight = 32
+    ClientWidth = 428
     Color = clWindow
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
     object SpeedButton2: TSpeedButton
       Cursor = crHandPoint
-      Left = 6
-      Height = 24
+      Left = 7
+      Height = 30
       Top = 1
-      Width = 24
+      Width = 30
       Align = alLeft
-      BorderSpacing.Left = 5
-      BorderSpacing.Right = 5
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
       Glyph.Data = {
         36090000424D3609000000000000360000002800000018000000180000000100
         20000000000000090000640000006400000000000000000000000000DB000000
@@ -158,14 +160,14 @@ object FormAutor: TFormAutor
     end
     object SpeedButton3: TSpeedButton
       Cursor = crHandPoint
-      Left = 35
-      Height = 24
+      Left = 43
+      Height = 30
       Top = 1
-      Width = 24
+      Width = 30
       Align = alLeft
       Alignment = taLeftJustify
-      BorderSpacing.Left = 5
-      BorderSpacing.Right = 5
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
       Glyph.Data = {
         36090000424D3609000000000000360000002800000018000000180000000100
         20000000000000090000640000006400000000000000000000007F7F48007C82
@@ -246,10 +248,10 @@ object FormAutor: TFormAutor
     end
     object SpeedButton4: TSpeedButton
       Cursor = crHandPoint
-      Left = 64
-      Height = 24
+      Left = 79
+      Height = 30
       Top = 1
-      Width = 24
+      Width = 30
       Align = alLeft
       Glyph.Data = {
         36090000424D3609000000000000360000002800000018000000180000000100
@@ -331,12 +333,12 @@ object FormAutor: TFormAutor
     end
     object SpeedButton5: TSpeedButton
       Cursor = crHandPoint
-      Left = 93
-      Height = 24
+      Left = 115
+      Height = 30
       Top = 1
-      Width = 23
+      Width = 29
       Align = alLeft
-      BorderSpacing.Left = 5
+      BorderSpacing.Left = 6
       Glyph.Data = {
         36090000424D3609000000000000360000002800000018000000180000000100
         2000000000000009000064000000640000000000000000000000FFFF9000FFFF

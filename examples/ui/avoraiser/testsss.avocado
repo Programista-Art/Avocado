@@ -1,0 +1,36 @@
+program_ui test
+import avoraiser.window, avoraiser.utils, avoraiser.webview,avoraiser.gdi
+hwnd my_window
+hwnd my_panel
+main
+  my_win
+  run_app
+end.
+ 
+procedure my_win
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Okno w Avoraiser - Avocado'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = True
+  ui.allowmaximize = TRue
+  //ui.BackgroundColor := $121212;
+  
+  //Tworzenie Okna Main
+  my_window = create_window(ui)
+  
+  if my_window <> 0 then
+  start
+    ustaw_minimalny_rozmiar_okna(my_window,500,500)
+    center_window(my_window)
+    my_panel = create_panel(my_window, 10, 50, 1820, 980, $121212 )
+    webview_navigate('https://google.com')
+(*webview_navigate('(*https://google.com*)')*)
+    webview_create(my_panel)
+
+  end
+end

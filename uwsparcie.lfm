@@ -1,32 +1,34 @@
 object Wsparcie: TWsparcie
   Left = 350
-  Height = 297
+  Height = 371
   Top = 250
-  Width = 418
+  Width = 522
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Wsparcie'
-  ClientHeight = 297
-  ClientWidth = 418
+  ClientHeight = 371
+  ClientWidth = 522
+  DesignTimePPI = 120
   Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   object Panel2: TPanel
     Left = 0
-    Height = 32
-    Top = 265
-    Width = 418
+    Height = 40
+    Top = 331
+    Width = 522
     Align = alBottom
     BevelColor = clWindowFrame
-    ClientHeight = 32
-    ClientWidth = 418
+    ClientHeight = 40
+    ClientWidth = 522
     Color = clWindowFrame
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object LabelStatus: TLabel
       Left = 1
-      Height = 30
+      Height = 38
       Top = 1
-      Width = 386
+      Width = 482
       Align = alClient
       Alignment = taCenter
       Color = clWindow
@@ -38,10 +40,10 @@ object Wsparcie: TWsparcie
       ParentFont = False
     end
     object SpeedButton1: TSpeedButton
-      Left = 387
-      Height = 30
+      Left = 483
+      Height = 38
       Top = 1
-      Width = 30
+      Width = 38
       Align = alRight
       Caption = 'OK'
       OnClick = SpeedButton1Click
@@ -49,35 +51,35 @@ object Wsparcie: TWsparcie
   end
   object PanelDolny: TPanel
     Left = 0
-    Height = 129
-    Top = 136
-    Width = 418
+    Height = 161
+    Top = 170
+    Width = 522
     Align = alBottom
-    ClientHeight = 129
-    ClientWidth = 418
+    ClientHeight = 161
+    ClientWidth = 522
     ParentBackground = False
     TabOrder = 1
     object SpeedButton2: TSpeedButton
-      Left = 32
-      Height = 40
-      Top = 24
-      Width = 344
+      Left = 40
+      Height = 50
+      Top = 30
+      Width = 430
       Caption = 'Support Avocado on Patronite'
       Font.CharSet = EASTEUROPE_CHARSET
-      Font.Height = -21
+      Font.Height = -26
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
       OnClick = SpeedButton2Click
     end
     object Button1: TButton
-      Left = 32
-      Height = 40
-      Top = 72
-      Width = 344
+      Left = 40
+      Height = 50
+      Top = 90
+      Width = 430
       Caption = 'Buy me a coffee'
       Font.CharSet = EASTEUROPE_CHARSET
-      Font.Height = -21
+      Font.Height = -26
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
@@ -86,12 +88,12 @@ object Wsparcie: TWsparcie
     end
   end
   object Memo1: TMemo
-    Left = 5
-    Height = 126
-    Top = 5
-    Width = 408
+    Left = 6
+    Height = 158
+    Top = 6
+    Width = 510
     Align = alClient
-    BorderSpacing.Around = 5
+    BorderSpacing.Around = 6
     Color = clBlack
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clWhite

@@ -1,0 +1,493 @@
+﻿Pola Tekstowe (Text Controls)
+Funkcje z rodziny Edit , Memo  oraz RichEdit  umożliwiają wczytywanie tekstu jedno i wielowierszowego oraz formatowania RTF.
+
+ 1. Edit (Jednowierszowe Pole Tekstowe)
+create_edit 
+ PL:  Utwórz pole tekstowe |  EN:  Create edit
+Tworzy prosty komponent typu TextBox do wpisywania krótkich napisów bez tzw. "tłustej szarej ramki".
+ pascal
+create_edit(Parent: HWND; const Text: UnicodeString; X, Y, Width, Height: Integer): HWND;
+ 
+set_edit_placeholder 
+ PL:  Podpowiedź (Placeholder) |  EN:  Set edit placeholder
+Ustawia tekst-wskazówkę znikającą po kliknięciu.
+ pascal
+set_edit_placeholder(hEdit: HWND; const PlaceholderText: UnicodeString; StayOnFocus: Boolean = True);
+ 
+set_edit_alignment 
+ PL:  Wyrównanie w poziomie |  EN:  Set edit alignment
+Zmienia to czy wprowadzony napis ma być ułożony do lewej ( ES_LEFT ), do środka ( ES_CENTER ), lub do prawej ( ES_RIGHT ).
+ pascal
+set_edit_alignment(hEdit: HWND; Alignment: DWORD);
+ 
+
+set_edit_vertical_center 
+ PL:  Środek w pionie |  EN:  Set edit vertical center
+Wyrównuje napis pionowo wewnątrz utworzonego okienka.
+ pascal
+set_edit_vertical_center(hEdit: HWND);
+ 
+
+set_edit_color 
+ PL:  Kolor pola |  EN:  Set edit color
+Ustawia podstawowe kolory Edit .
+ pascal
+set_edit_color(hEdit: HWND; Color: COLORREF);
+ 
+
+set_edit_focus_color 
+ PL:  Kolor aktywnej ramki |  EN:  Set edit focus color
+Oznacza Edit wybranym kolorem w chwili, gdy zyska Focus .
+ pascal
+set_edit_focus_color(hEdit: HWND; Color: COLORREF);
+ 
+
+set_edit_password_char 
+ PL:  Znak maskujący hasła |  EN:  Set edit password char
+Maskuje litery (np. kropkami   lub gwiazdkami  ). Użycie znaku  0  wyłącza maskowanie.
+ pascal
+set_edit_password_char(Handle: HWND; C: WideChar);
+ 
+
+   set_edit_numbers_only  - Blokuje pole Edit (TextBox) tak, aby użytkownik mógł wpisywać w nim wyłącznie cyfry.
+
+ PL:  ustaw_w_polu_edycji_tylko_liczby  |  EN:  set_edit_numbers_only 
+Parametry:
+uchwyt_edycji / h_edit - Uchwyt pola Edit.
+wlacz / enable - True  aby zablokować na same liczby, False  aby odblokować.
+
+Przykład użycia nazwa polska:
+ustaw_w_polu_edycji_tylko_liczby(uchwyt_edycji, wlacz)
+Przykład użycia nazwa angielska:
+set_edit_numbers_only(h_edit, enable)
+
+set_edit_math_only 
+ PL:  Tylko matematyka |  EN:  Set edit math only
+Aktywuje tryb kalkulatora dla pola (akceptuje cyfry, kropki i znaki operatorów matematycznych).
+ pascal
+set_edit_math_only(h_wnd: HWND);
+ 
+
+add_to_edit 
+ PL:  Dopisz do edita |  EN:  Add to edit
+Dopisuje ciąg znaków (Append) na koniec edita.
+ pascal
+add_to_edit(h_wnd: HWND; const text_to_add: UnicodeString);
+ 
+
+2. Memo (Wielowierszowy Notatnik)
+create_memo 
+ PL:  Utwórz notatnik (Memo) |  EN:  Create memo
+Tworzy wielowierszowe pole tekstowe.
+ pascal
+hMemo := create_memo(a, 10, 10, ui.width - 40, ui.height - 80);
+ 
+
+get_memo_text 
+PL:  Pobierz cały tekst Memo |  EN:  Get memo text
+Pobiera wielowierszowy układ i zapisuje jako UnicodeString.
+ pascal
+function get_memo_text(hMemo: HWND): UnicodeString;
+ 
+
+set_memo_text 
+PL:  Ustaw (podmień) cały tekst Memo |  EN:  Set memo text
+Zastępuje całą treść nowym tekstem.
+ pascal
+set_memo_text(h_memo: HWND; const a_text: UnicodeString);
+ 
+append_memo_text 
+PL:  Dopisz do nowej linii |  EN:  Append memo text
+Dodaje nową linię tekstu na końcu Memo.
+ pascal
+append_memo_text(hMemo: HWND; const Text: UnicodeString);
+ 
+clear_control 
+ PL:  Wyczyść Memo |  EN:  Clear control
+Czyści całą obecną zawartość (odświeża widok na pusty).
+pascal
+clear_control(hMemo: HWND);
+ 
+get_memo_line_count 
+ PL:  Liczba linii Memo |  EN:  Get memo line count
+Bardzo użyteczne w przypadku tworzenia pasków stanu (Status Bar).
+ pascal
+function get_memo_line_count(hMemo: HWND): Integer;
+ 
+
+get_memo_text_length 
+PL:  Całkowita długość znaków w Memo |  EN:  Get memo text length
+Zwraca liczbę wpisanych w Memo znaków (dokładniejsze dla długiego tekstu).
+ pascal
+function get_memo_text_length(hMemo: HWND): Integer;
+ 
+
+set_memo_limit 
+PL:  Ustaw maksymalny limit znaków |  EN:  Set memo limit
+Domyślnie Memo dla Windows to ok 32 KB, wartość 0 powiększa rozmiar aż do 2 GB (maksymalny format).
+ pascal
+set_memo_limit(hMemo: HWND; MaxChars: DWORD);
+ 
+
+set_memo_read_only  / set_control_read_only 
+ PL:  Zablokuj edycję (Tylko do odczytu) |  EN:  Set memo read only
+Ustawia obszar wyłącznie do kopiowania lub wyłącza możliwość ręcznego pisania.
+ pascal
+set_control_read_only(Handle: HWND; ReadOnly: Boolean);
+ 
+
+avo_set_memo_fmt_lines 
+ PL:  Zmiana formatu końcówek wierszy |  EN:  Set memo format lines
+Opcja decydująca, czy miękkie załamywanie tekstów generuje końcówki (CR/LF) w treści pamięci.
+ pascal
+avo_set_memo_fmt_lines(Handle: HWND; AddBreaks: Boolean);
+ 
+
+is_memo_modified  / set_memo_modified 
+ PL:  Czy treść uległa modyfikacji / Ustaw modyfikację |  EN:  Is memo modified / Set modified
+Sprawdzenie, czy tekst uległ zmianom wewnątrz okienka - po to by spytać użytkownika przy wyjściu z aplikacji o konieczność zapisu edycji pliku na dysku.
+ pascal
+function is_memo_modified(hMemo: HWND): Boolean;
+set_memo_modified(hMemo: HWND; Modified: Boolean);
+ 
+
+   scroll_memo 
+ PL:  Programowe przewinięcie widoku |  EN:  Scroll memo
+Przesuwa widok z użyciem parametrów WinAPI (SB_LINEDOWN, SB_LINEUP, SB_PAGEDOWN).
+ pascal
+scroll_memo(hMemo: HWND; Direction: Integer);
+ 
+
+   scroll_memo_to_caret 
+ PL:  Doganianie paska za kursorem |  EN:  Scroll memo to caret
+Przydatne podczas pisania nowych linii, tak aby notatnik zjechał na dół edytowanego miejsca na bieżąco.
+ pascal
+scroll_memo_to_caret(hMemo: HWND);
+ 
+
+   scroll_memo_to_end 
+ PL:  Przejście na koniec zawartości |  EN:  Scroll memo to end
+Skacze z widokiem (Scroll Bar) na zupełny koniec otworzonego i wyświetlanego pliku.
+ pascal
+scroll_memo_to_end(hMemo: HWND);
+ 
+
+ 
+
+  3. RichEdit (Zaawansowane formatowanie RTF)
+
+RichEdit to znacznie bardziej potężny zamiennik dla Memo. Pozwala na stylowanie poszczególnych partii tekstów (np. wytłuszczenie jednego wyrazu, barwienie drugiego na inny kolor itp.).
+
+   create_rich_edit 
+ PL:  Utwórz RichEdit |  EN:  Create rich edit
+ pascal
+create_rich_edit(Parent: HWND; X, Y, Width, Height: Integer): HWND;
+ 
+
+   set_rich_text_text 
+ PL:  Całkowite wczytanie RTF lub Unicode |  EN:  Set rich text text
+Podmienia wszystko. Uwaga: wymazuje historię (Undo/Ctrl+Z) poprzednich wycofań.
+ pascal
+set_rich_text_text(handle: HWND; const text: UnicodeString);
+ 
+
+   get_rich_text_text 
+ PL:  Pobieranie pliku źródłowego RTF/tekstu z RichEdit |  EN:  Get rich text text
+Wyciąga kod źródłowy z całego formatowania (w formacie tekstowym/Plain Text).
+ pascal
+function get_rich_text_text(Handle: HWND): UnicodeString;
+ 
+
+   set_rich_text_background_color 
+ PL:  Zmiana koloru tła całego pola |  EN:  Set rich text background color
+Ustawia podstawowy (statyczny) kolor całej kontrolki w locie.
+ pascal
+set_rich_text_background_color(Handle: HWND; Color: Integer);
+ 
+
+   set_rich_text_color 
+ PL:  Zmiana koloru zaznaczonego ciągu w RichEdit |  EN:  Set rich text color
+Ustawia kolor pojedynczego fragmentu zaznaczonej wartości (Foreground/Czcionka).
+ pascal
+set_rich_text_color(Handle: HWND; Color: DWORD);
+ 
+
+   set_rich_text_bold  / set_rich_text_italic  / set_rich_text_underline 
+ PL:  Zastosuj pogrubienie / Kursywę / Podkreślenie |  EN:  Set rich text bold / italic / underline
+Zastosowanie opcji formatowania dla wybranego (ZAZNACZONEGO!) obszaru tekstu.
+ pascal
+set_rich_text_bold(Handle: HWND; Enable: Boolean);
+set_rich_text_italic(Handle: HWND; Enable: Boolean);
+set_rich_text_underline(Handle: HWND; Enable: Boolean);
+ 
+
+   is_rich_text_bold 
+ PL:  Sprawdzanie czy pod kursorem znajduje się pogrubiony znak |  EN:  Is rich text bold
+Zwraca boola jeśli w obrębie danego zaznaczenia istnieje użycie pogrubienia.
+ pascal
+function is_rich_text_bold(Handle: HWND): Boolean;
+ 
+
+   is_rich_text_style_active 
+ PL:  Sprawdź uaktywniony styl pod myszką |  EN:  Is rich text style active
+To najważniejsza opcja w synchronizacji UX (Kiedy klikniemy na tekst RTF który jest pogrubiony to przycisk [B]  na górnym pasku w edytorze musi zaznaczyć się jako wciśnięty).
+ pascal
+function is_rich_text_style_active(Handle: HWND; StyleToCheck: Integer): Boolean;
+ 
+
+   set_rich_text_size  / set_rich_text_font_size 
+ PL:  Zmień wielkość kroju w RichEdit |  EN:  Set rich text font size
+Funkcje WinAPI używają jednostki 20 Twipsów na 1 punkt. Zatem np. 12 punktów trzeba wymnożyć przez dwadzieścia i przesłać argument = 240.
+ pascal
+set_rich_text_font_size(Handle: HWND; SizePoints: Integer);
+ 
+
+   set_rich_text_font_size_all 
+ PL:  Modyfikacja rozmiaru czcionki globalna |  EN:  Set rich text font size all
+Pomija obecne opcje pojedynczego kliknięcia dla zaznaczenia a powiększa całkowity styl domyślnie załadowany.
+ pascal
+set_rich_text_font_size_all(handle: HWND; size_points: Integer; all_text: Boolean = False);
+ 
+
+   reset_to_standard_font 
+ PL:  Zresetowanie formatowań RTF domyślnym stanem |  EN:  Reset to standard font
+Domyślne wyczyszczenie formatu z pola RichEdit.
+ pascal
+reset_to_standard_font(handle: HWND);
+ 
+
+   set_rich_text_alignment 
+ PL:  Wyrównanie całego paragrafu (akapitu) w dokumencie RTF |  EN:  Set rich text alignment
+Ustawia opcję: 1-Lewa krawędź; 2-Prawa; 3-Środek; 4-Justowanie po krawędzi.
+ pascal
+set_rich_text_alignment(Handle: HWND; Align: Integer);
+ 
+
+   set_rich_text_border 
+ PL:  3D Systemowe Wyłączanie (Ramka Windowsowa 3D) |  EN:  Set rich text border
+Rozszerzenie opcji usuwających efekt 3D starych motywów Windows na korzyść płaskich pól WinAPI.
+ pascal
+set_rich_text_border(Handle: HWND; Enable: Boolean);
+ 
+
+   set_rich_text_word_wrap 
+ PL:  Pasek Poziomy Scrollbar z długimi linkami czy odcięcie na ekranie długości okna? |  EN:  Set rich text word wrap
+Jeśli ustawimy Enable jako False, funkcja rozbudza poziomą ramkę ES_AUTOHSCROLL  (Przydatne w momencie umieszczenia na niej dużego logu z jakiejś usterki).
+ pascal
+set_rich_text_word_wrap(Handle: HWND; Enable: Boolean);
+ 
+
+   set_rich_text_read_only 
+ PL:  Zamrożenie dokumentu RichEdit |  EN:  Set rich text read only
+Ustala pole typu Tylko do Odczytu.
+ pascal
+set_rich_text_read_only(Handle: HWND; ReadOnly: Boolean);
+ 
+
+   rich_text_undo  / rich_text_redo 
+ PL:  Zintegrowany RTF Undo Redo |  EN:  Rich text undo / redo
+Wykorzystuje ukryte buforowanie historii cofnięć RTF i jego powtórzenia (Redo).
+ pascal
+rich_text_undo(Handle: HWND);
+rich_text_redo(Handle: HWND);
+ 
+
+   set_rich_text_bullets 
+ PL:  Aktywator kropek list punktowanych |  EN:  Set rich text bullets
+ pascal
+set_rich_text_bullets(Handle: HWND; Enable: Boolean);
+ 
+
+   change_rich_text_indent 
+ PL:  Przesunięcia Tabulatorów RTF (Zwiększ / Zmniejsz Wcięcie w prawo / w lewo) |  EN:  Change rich text indent
+Umożliwia stworzenie tabulowanych wyliczeń dla paragrafów na listach.
+ pascal
+change_rich_text_indent(Handle: HWND; ...); // (Wewnętrzna sygnatura zależy od API przesunięcia)
+ 
+
+   set_rich_text_zoom  / set_rich_text_zoom_percent 
+ PL:  Powiększanie Dokumentu RichEdit (%) |  EN:  Set rich text zoom percent
+Jeśli Numerator to 1 i Denominator to 1 to 100%. Przy set_rich_text_zoom_percent  przekazujemy z reguły (100, 150, 200... jako Percent).
+ pascal
+set_rich_text_zoom_percent(Handle: HWND; Percent: Integer);
+ 
+
+   set_rich_text_auto_url 
+ PL:  Automatyczne rozpoznanie kolorów linku www  jako kolor Niebieski podklikalny |  EN:  Set rich text auto url
+Ustawienie aby edytor podmieniał ciągi linkowe w link. Dalsze procesy po stronie rodziców wykonają powiadomienia typu EN_LINK .
+ pascal
+set_rich_text_auto_url(Handle: HWND; Enable: Boolean);
+ 
+
+   open_url 
+ PL:  Otwarte linki globalnie |  EN:  Open URL
+Użyte jako złączenie z systemem operacyjnym Windows, które reaguje w logice aplikacji na skok linkowy i przeglądarkę pod domyślnym procesem WinExec.
+ pascal
+open_url(URL: UnicodeString);
+ 
+
+   goto_rich_text_line 
+ PL:  Skakanie (Scrolowanie kursora) w locie RTF po numerze linii ze zjedzeniem przez AutoScroll paska |  EN:  Goto rich text line
+Najważniejsza rzecz budowania np. IDE. Zamienia ID linii na ciąg znaków, potem podąża tam kursor i wymusza opcję SCROLLCARET z użyciem WM_EM... 
+ pascal
+goto_rich_text_line(Handle: HWND; target: Integer);
+ 
+
+   get_rich_text_line_count 
+ PL:  Całkowite wczytane Linie z okna IDE Edit |  EN:  Get rich text line count
+Szybkie zbadanie całościowego buforu Linii RTF przed skokiem w wybrane miejsce od wskazanego polecenia od użytkownika.
+ pascal
+function get_rich_text_line_count(handle: HWND): Integer;
+ 
+
+   get_rich_text_caret_pos 
+ PL:  Lokalizacja XY kolumn z karetki (Wewnątrz StatusBar / Paska stanu do logów z IDE) |  EN:  Get rich text caret pos
+Oblicza Ln:  i Col:  (Numer wiersza i pozycję na której aktualnie kursor mruga).
+ pascal
+get_rich_text_caret_pos(Handle: HWND; var Line, Col: Integer);
+ 
+
+   get_rich_text_selection_length 
+ PL:  Różnica zaznaczonych parametrów matematyki cp_max - cp_min = ?  |  EN:  Get rich text selection length
+Jeśli stoi to 0, jeśli jest na Avocado to zlicza literkę w różnicę "A...o" = długość 7.
+ pascal
+function get_rich_text_selection_length(handle: HWND): Integer;
+ 
+
+   insert_rich_text_at_cursor 
+ PL:  Umieszczenie (szablonowania tekstowego w miejscu mrugania edita) bez skasowania z Ctrl+Z |  EN:  Insert rich text at cursor
+W przeciwieństwie do WM_SETTEXT (co wymazuje historię), tu używa opcji REPLACESEL.
+ pascal
+insert_rich_text_at_cursor(Handle: HWND; const AText: UnicodeString);
+ 
+
+   select_rich_text 
+ PL:  Oznacza odcinek jako zaznaczony kolorystycznie (Find Function / Znajdź następne) |  EN:  Select rich text
+Ogranicza na kontrolce pole Start i End z zagnieżdżonego wyniku wyszukiwania.
+ pascal
+select_rich_text(h_rich: HWND; start_pos, len: Integer);
+ 
+
+   find_rich_text 
+ PL:  Szuka wystąpienia wyrażenia (Fraza String) do zagnieżdżenia RTF |  EN:  Find rich text
+Ustawia index pierwszego wyniku (Brak = -1 ). Możesz sprawdzać po WholeWord / MatchCase z flagami od 0 odgórnie dół.
+ pascal
+function find_rich_text(Handle: HWND; const SearchStr: UnicodeString; StartPos: Integer; MatchCase, WholeWord: Boolean): Integer;
+ 
+
+   save_rich_text_to_file 
+ PL:  Fizyczny plik wypluty w formacie kodowania RTF (Z całym stylem) |  EN:  Save rich text to file
+Zapisuje stan wraz z nagłówkami {\rtf1\ansi...}  z pamięci do fizycznego wolumenu HDD na wskazanym stringu lokalizacji.
+ pascal
+save_rich_text_to_file(Handle: HWND; const Filename: UnicodeString);
+ 
+
+   load_rich_text_from_file 
+ PL:  Fizyczny plik wczytany w strukturę |  EN:  Load rich text from file
+Ładuje zawartość pliku .rtf  i ładnie ją formuje od ręki pod maską.
+ pascal
+load_rich_text_from_file(Handle: HWND; const Filename: UnicodeString);
+ 
+
+   apply_char_format 
+ PL:  Procedura wspierająca w rdzeniu API do maskowania (Wysyła dane z WinAPI po structach CHARFORMAT2 ) |  EN:  Apply char format
+Wewnętrzna komenda obsługująca całe drzewa opcji koloryzująco-krojowych.
+ pascal
+apply_char_format(Handle: HWND; Mask, Effects: DWORD; Color: DWORD = 0; Size: Integer = 0);
+ 
+Uniwersalne Funkcje Tekstowe, Selekcje i Clipboard (Operacje)
+Te funkcje możesz wywołać praktycznie na każdej kontrolce z wpisywaniem tekstowym ( Edit , Memo , RichEdit , Label ).
+
+   get_text  / set_text 
+ PL:  Uniwersalne aliasy ustawiające ciągi pod Window/Edit/Button z WinAPI SetWindowTextW |  EN:  Get text / Set text
+ pascal
+function get_text(Handle: HWND): UnicodeString;
+set_text(Handle: HWND; const Text: UnicodeString);
+ 
+
+get_window_text_length 
+ PL:  Waga liter w ciągu zminimalizowana z obciążeniem dla pamięci komputera przed wyciągnięciem go całego |  EN:  Get window text length
+Umożliwia wykrycie pustki u wpisywanego paska / kontrolek poprzez odczyt samego rejestru rozmiarów znakowych (szybka weryfikacja pustego formularza).
+ pascal
+function get_window_text_length(Handle: HWND): Integer;
+ 
+
+select_text  / select_all_text 
+ PL:  Obsługa położeń myszki z przytrzymanym z zaznaczeniem do schowków (Skróty i EndPos) |  EN:  Select text / Select all text
+Wykonuje to samo co komenda myszką skrótowa [Ctrl] + [A].
+ pascal
+select_text(Handle: HWND; StartPos, EndPos: Integer);
+select_all_text(Handle: HWND);
+ 
+
+get_selection 
+ PL:  Zwrot Zaznaczonej sekcji od kontrolki tekstu |  EN:  Get selection
+Odczytuje obszar po skrótowym zaznaczeniu (Indeksy znaków na które rozkłada sie opcja myszki użytkownika / Shift+Strzałka).
+ pascal
+function get_selection(Handle: HWND): TTextSelection;
+ 
+
+set_cursor_position  / move_cursor_to_end 
+ PL:  Ustawienia położeniowe od strony Logu konsoli z kursorami |  EN:  Set cursor position / Move cursor to end
+Ustawienie skrajnie przy logach konsoli (gdzie ostatnie wydarzenie leci z góry do skraju u dołu dla szybkiego odczytu).
+ pascal
+set_cursor_position(Handle: HWND; Position: Integer);
+move_cursor_to_end(Handle: HWND);
+ 
+
+   replace_selection 
+ PL:  Ulepszona logika Ctrl+Z z "Wklej" czy Zmodyfikowaniem obszaru |  EN:  Replace selection
+Cofanie i modyfikacja nową partią informacji - Domyślnie używa opcji bool = True aby powrót działał po podmienionym z API obszarze.
+ pascal
+replace_selection(Handle: HWND; const NewText: UnicodeString; CanUndo: Boolean = True);
+ 
+
+   copy_to_clipboard  / cut_to_clipboard  / paste_from_clipboard 
+ PL:  Schowek Systemu Windows z Editami i ComboBoxami i Memos |  EN:  Copy to clipboard / Cut to clipboard / Paste from clipboard
+ pascal
+copy_to_clipboard(Handle: HWND); // Ctrl + C
+cut_to_clipboard(Handle: HWND);  // Ctrl + X
+paste_from_clipboard(Handle: HWND); // Ctrl + V w miejsce kursora
+ 
+
+   undo_last_action  / can_undo 
+ PL:  Zabezpieczony wstrzyknięciem w stos opcji "Cofnięcia" przed wysypaniem pustych stosów systemowych po Ctrl+Z |  EN:  Undo last action / Can undo
+Zbadanie i Zaimplementowanie z API opcji cofnięcia zmian w notatnikach.
+ pascal
+undo_last_action(Handle: HWND);
+function can_undo(Handle: HWND): Boolean;
+ 
+
+   insert_text_at_cursor 
+ PL:  Zlokalizowanie strzałki myszy / pisaka z klawiatury i dorzucenie emotki czy tagów bez modyfikacji bocznych obrysów wyrazowych i bez usuwania (Cofnięć / Ctrl+Z wspierane od zaraz z Replacesel = True parametr wewnętrzny na WinApi EM Message) |  EN:  Insert text at cursor
+ pascal
+insert_text_at_cursor(hMemo: HWND; const Text: UnicodeString);
+ 
+
+ 
+
+  4. Analiza Poszczególnych Linii w (Memo/Edit)
+
+   get_line_count 
+ PL:  Całkowite wiersze tekstu |  EN:  Get line count
+ pascal
+function get_line_count(Handle: HWND): Integer;
+ 
+
+   get_line_index 
+ PL:  Indeks i początkowe znaki przy podaniu wiersza u początku danej linii |  EN:  Get line index
+ pascal
+function get_line_index(Handle: HWND; LineIndex: Integer): Integer;
+ 
+
+   get_line_length 
+ PL:  Wielkość objętości znakowej używając dla bieżącej opcji -1 (Długość liter u danego konkretnego elementu wierszowanego bez enterów poniżej i powyżej elementu) |  EN:  Get line length
+ pascal
+function get_line_length(Handle: HWND; CharIndex: Integer): Integer;
+ 
+
+   get_line_text 
+ PL:  Tekst Konkretnej Linii bez formatowania Stringów |  EN:  Get line text
+ pascal
+function get_line_text(Handle: HWND; LineIndex: Integer): UnicodeString;
+ 

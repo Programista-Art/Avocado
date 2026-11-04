@@ -1,0 +1,4 @@
+﻿program test
+początek
+pisz_linie('Witam Jak żyć!')
+koniec.

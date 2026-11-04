@@ -1,0 +1,10 @@
+program test
+glowny
+  pisz_linie('wynik: ', dodaj(5,5))
+koniec.
+
+funkcja dodaj (a: lc; b: lc): lc
+początek
+lc n = 10
+zwróć a + b + n
+koniec

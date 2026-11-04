@@ -1,0 +1,72 @@
+program SzyfrXor;
+
+{$mode objfpc}{$H+}
+
+uses
+  SysUtils; // Używamy tylko do obsługi konsoli (Writeln) i konwersji ciągów znaków (TBytes)
+
+// Nasza uniwersalna funkcja do szyfrowania i deszyfrowania (XOR jest symetryczny)
+procedure XorEncodeDecode(var Buffer: TBytes; const Key: TBytes);
+var
+  i: Integer;
+  DataSize, KeyLength: Integer;
+begin
+  DataSize := Length(Buffer);
+  KeyLength := Length(Key);
+  
+  // Zabezpieczenie na wypadek pustego klucza (aby nie było błędu dzielenia przez zero)
+  if KeyLength = 0 then Exit; 
+
+  // Główna pętla szyfrująca
+  for i := 0 to DataSize - 1 do
+  begin
+    // i mod KeyLength sprawia, że jeśli klucz jest krótszy niż dane, 
+    // to program po prostu "zapętla" klucz i czyta go od nowa
+    Buffer[i] := Buffer[i] xor Key[i mod KeyLength];
+  end;
+end;
+
+// Zmienne do naszego testu
+var
+  OryginalnyTekst: String;
+  KluczTekstowy: String;
+  DaneWajtach: TBytes;
+  KluczWBajtach: TBytes;
+  i: Integer;
+begin
+  // 1. Przygotowujemy dane do zakodowania i nasz klucz
+  OryginalnyTekst := 'Avoraiser to niesamowity framework!';
+  KluczTekstowy := 'TajnyKlucz123';
+  
+  Writeln('=== TEST SZYFROWANIA XOR ===');
+  Writeln('Oryginal: ', OryginalnyTekst);
+  Writeln('Klucz:    ', KluczTekstowy);
+  Writeln;
+
+  // 2. Zamieniamy teksty na czyste tablice bajtów (tak komputer widzi pliki)
+  DaneWajtach := TEncoding.UTF8.GetBytes(OryginalnyTekst);
+  KluczWBajtach := TEncoding.UTF8.GetBytes(KluczTekstowy);
+
+  // 3. SZYFROWANIE
+  XorEncodeDecode(DaneWajtach, KluczWBajtach);
+  
+  // Wypiszmy zaszyfrowane bajty na ekran jako liczby Hex (szesnastkowe)
+  Write('Zaszyfrowane (Hex): ');
+  for i := 0 to High(DaneWajtach) do
+    Write(IntToHex(DaneWajtach[i], 2), ' ');
+  Writeln;
+  Writeln;
+
+  // 4. DESZYFROWANIE
+  // Ponieważ XOR działa w dwie strony (1 xor 1 = 0, 0 xor 1 = 1), 
+  // aby odszyfrować dane, wystarczy po prostu przepuścić je przez tę samą funkcję 
+  // z dokładnie tym samym kluczem!
+  XorEncodeDecode(DaneWajtach, KluczWBajtach);
+  
+  // Odtwarzamy z powrotem czytelny tekst z odszyfrowanych bajtów
+  Writeln('Odszyfrowane: ', TEncoding.UTF8.GetString(DaneWajtach));
+  
+  Writeln;
+  Writeln('Nacisnij ENTER, aby zakonczyc...');
+  Readln;
+end.

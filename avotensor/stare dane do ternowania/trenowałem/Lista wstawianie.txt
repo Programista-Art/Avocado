@@ -1,0 +1,15 @@
+program wstawianielisty
+glowny
+test
+koniec.
+
+procedura test
+poczatek
+lista_tekstów a
+twórz_lista_tekstów(a)
+dodaj_lista(a,tekst1)
+dodaj_lista(a,tekst2)
+wstaw_do_listy(a,1,'Nowy tekst')
+pisz_linie(a.tekst)
+a.zwolnij
+koniec

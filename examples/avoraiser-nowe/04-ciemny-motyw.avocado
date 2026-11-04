@@ -1,0 +1,53 @@
+// Avoraiser - ciemny motyw i wygląd okna
+program_ui ciemny_motyw
+
+import avoraiser.window
+import avoraiser.button
+import avoraiser.labels
+import avoraiser.core
+
+hwnd my_window
+hwnd etykieta
+hwnd przycisk_zamknij
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure po_kliknieciu_zamknij(sender: hwnd)
+start
+  zamknij_okno(my_window)
+end
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+
+  ui.title = 'Ciemny motyw Avoraiser'
+  ui.width = 520
+  ui.height = 280
+  ui.visible = true
+  ui.allowmaximize = false
+  ui.allowdrag = true
+  ui.frameless = true
+  ui.backgroundcolor = $2D2D2D
+
+  my_window = utworz_okno(ui)
+
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+    ustaw_ciemny_motyw(my_window, true)
+    ustaw_cien_okna(my_window, true)
+
+    etykieta = utworz_etykiete(my_window, 'Nowoczesne okno bez ramki systemowej', 40, 90, 440, 32)
+    ustaw_kolor_tekstu_komponentu(etykieta, $00FFFC72)
+
+    przycisk_zamknij = utworz_przycisk(my_window, 'Zamknij', 180, 160, 160, 44)
+    ustaw_promien_przycisku(przycisk_zamknij, 12)
+    ustaw_kolory_przycisku(przycisk_zamknij, $2D2D2D, $00FF4842, $00FFB77D, $00FFFC72, $00FFFC72)
+    reaguj_na_klikniecie(przycisk_zamknij, @po_kliknieciu_zamknij)
+  end
+end

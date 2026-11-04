@@ -1,0 +1,48 @@
+// Wygenerowano przez wizualny edytor UI Avocado
+program_ui test
+
+import avoraiser.window
+import avoraiser.layout
+import avoraiser.core
+import avoraiser.progressbar
+import avoraiser.trackbar
+import avoraiser.memo
+import avoraiser.chekbox
+import avoraiser.utils
+
+hwnd my_window
+hwnd panel_1
+hwnd postep_2
+hwnd suwak_3
+hwnd notatnik_4
+hwnd wybor_5
+
+main
+  buduj_okno
+  uruchom_aplikacje
+end.
+
+procedure buduj_okno
+start
+  ui_parameters ui
+  ui = Default(TAvocadoWindowParams)
+  ui.title = 'Moja aplikacja'
+  ui.width = 480
+  ui.height = 320
+  ui.visible = true
+  ui.frameless = true
+
+  my_window = utworz_okno(ui)
+  if my_window <> 0 then
+  start
+    wysrodkuj_okno(my_window)
+    ustaw_ciemny_motyw(my_window, true)
+    ustaw_cien_okna(my_window, true)
+
+    panel_1 = utworz_panel(my_window, 181, 204, 160, 80)
+    postep_2 = utworz_pasek_postepu(my_window, 184, 164, 160, 22)
+    suwak_3 = utworz_suwak(my_window, 182, 299, 160, 28)
+    notatnik_4 = utworz_notatnik(my_window, 394, 199, 120, 28)
+    wybor_5 = utworz_pole_wyboru(my_window, 'Pole wyboru', 186, 134, 120, 24)
+  end
+end

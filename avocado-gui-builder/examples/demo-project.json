@@ -1,0 +1,128 @@
+{
+  "formatVersion": 1,
+  "framework": "Avoraraiser/Avocado",
+  "projectName": "DemoForm",
+  "forms": [
+    {
+      "id": "form-main",
+      "name": "MainForm",
+      "className": "TMainForm",
+      "width": 520,
+      "height": 360,
+      "title": "Avocado Demo",
+      "backgroundColor": "#202020",
+      "frameless": false,
+      "allowMaximize": true,
+      "centerWindow": true,
+      "darkMode": false,
+      "opacity": 255,
+      "components": [
+        {
+          "id": "c-label-1",
+          "typeId": "label",
+          "name": "label_tytul",
+          "parentId": null,
+          "x": 24,
+          "y": 24,
+          "w": 280,
+          "h": 24,
+          "props": { "Caption": "Witaj w Avoraiser", "TextColor": "#FFFC72" },
+          "events": {},
+          "zIndex": 1
+        },
+        {
+          "id": "c-edit-1",
+          "typeId": "edit",
+          "name": "pole_imie",
+          "parentId": null,
+          "x": 24,
+          "y": 56,
+          "w": 240,
+          "h": 28,
+          "props": { "Text": "Wpisz imię", "ReadOnly": false },
+          "events": { "OnChange": "po_zmianie_imienia" },
+          "zIndex": 2
+        },
+        {
+          "id": "c-button-1",
+          "typeId": "button",
+          "name": "przycisk_ok",
+          "parentId": null,
+          "x": 280,
+          "y": 54,
+          "w": 120,
+          "h": 32,
+          "props": {
+            "Caption": "OK",
+            "Color": "#2D2D2D",
+            "ColorHover": "#404040",
+            "ColorPressed": "#00AA00",
+            "ColorText": "#FFFFFF",
+            "Radius": 8
+          },
+          "events": { "OnClick": "po_kliknieciu_ok" },
+          "zIndex": 3
+        },
+        {
+          "id": "c-check-1",
+          "typeId": "checkbox",
+          "name": "ptaszek_zgoda",
+          "parentId": null,
+          "x": 24,
+          "y": 110,
+          "w": 180,
+          "h": 24,
+          "props": { "Caption": "Akceptuję", "Checked": false, "TextColor": "#FFFFFF" },
+          "events": {},
+          "zIndex": 4
+        },
+        {
+          "id": "c-list-1",
+          "typeId": "listbox",
+          "name": "lista_opcje",
+          "parentId": null,
+          "x": 24,
+          "y": 150,
+          "w": 220,
+          "h": 120,
+          "props": { "Items": "Jabłko\nGruszka\nŚliwka" },
+          "events": {},
+          "zIndex": 5
+        },
+        {
+          "id": "c-progress-1",
+          "typeId": "progressbar",
+          "name": "postep_1",
+          "parentId": null,
+          "x": 270,
+          "y": 150,
+          "w": 200,
+          "h": 24,
+          "props": { "Value": 45, "Color": "#66C2FF" },
+          "events": {},
+          "zIndex": 6
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "language": "en",
+    "theme": "dark",
+    "gridSize": 8,
+    "snapToGrid": true,
+    "showGrid": true,
+    "showNames": true,
+    "zoom": 1,
+    "codegenMode": "full",
+    "projectName": "DemoForm",
+    "unitName": "MainForm",
+    "formClassName": "TMainForm",
+    "namePrefix": "",
+    "emitDefaultProps": false
+  },
+  "userCode": {
+    "po_kliknieciu_ok": "show_message(my_window, 'OK', 'Kliknięto OK')",
+    "po_zmianie_imienia": "// pole_imie zmienione"
+  },
+  "assets": []
+}

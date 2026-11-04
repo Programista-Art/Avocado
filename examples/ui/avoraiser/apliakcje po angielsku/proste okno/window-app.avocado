@@ -1,0 +1,31 @@
+﻿program_ui test
+import avoraiser.window
+hwnd my_window
+main
+  my_win
+  run_app
+end.
+ 
+procedure my_win
+start
+  ui_parameters ui
+  ui = default(TAvocadoWindowParams)
+  ui.title = 'Okno w Avoraiser - Avocado'
+  ui.width = 400
+  ui.height = 600
+  ui.x = 200
+  ui.y = 200
+  ui.visible = true
+  ui.allowmaximize = true
+  
+  
+  //Creating a Window Main
+  my_window = create_window(ui)
+  
+  if my_window <> 0 then
+  start
+    center_window(my_window)
+    //Application code
+   
+  end
+end

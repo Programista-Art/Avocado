@@ -1,0 +1,6 @@
+﻿program test
+główny
+    znak a = 's'
+    czytaj_linie(a)
+    pisz_linie('Wynik: ',a )
+koniec.

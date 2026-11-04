@@ -1,0 +1,46 @@
+﻿ 1. Przyciski (Buttons) w Avoraiser
+create_button` - Tworzy standardowy przycisk systemowy lub rysowany przez framework.
+PL:   utworz_przycisk` |   EN:   create_button`
+Parametry:
+rodzic / parent - Uchwyt okna rodzica.
+tekst / text - Tekst na przycisku.
+x, y, szerokosc, wysokosc / x, y, width, height - Pozycja i wymiary.
+Przykład użycia nazwa polska:
+utworz_przycisk(rodzic, tekst, x, y, szerokosc, wysokosc)
+Przykład użycia nazwa angielska:
+create_button(parent, text, x, y, width, height)
+
+
+create_image_button`
+PL:   Utwórz przycisk z tłem obrazkowym |   EN:   Create image button
+Tworzy przycisk, którego tłem jest plik PNG, JPG lub BMP. Silnik GDI+ obsługuje formaty z zachowaniem pełnej przezroczystości (kanał Alpha), co umożliwia idealne zaokrąglenia bez "czarnych rogów".
+pascal
+create_image_button(Parent: HWND; const Text: UnicodeString; const ImagePath: UnicodeString; X, Y, W, H: Integer): HWND;
+// Przykład użycia:
+// HBtnMain := create_image_button(H_Parent, 'START', 'gfx\button_bg.png', 50, 50, 200, 60);
+
+set_button_colors`
+PL:   Ustaw kolory przycisku |   EN:   Set button colors
+Zmienia kolory dla standardowego przycisku, umożliwiając stworzenie niestandardowych gradientów dla trybu normalnego, po najechaniu myszką i wciśniętego.
+ pascal
+set_button_colors(Handle: HWND; ...); // (Parametry zależą od definicji funkcji ustawiającej schemat barw)
+ 
+
+ set_button_radius`
+ PL:   Ustaw promień zaokrąglenia przycisku |   EN:   Set button radius
+Zmienia promień zaokrąglenia rogów dla natywnego przycisku (nie dla obrazka, bo GDI+ załatwia to od strony tekstury).
+ pascal
+set_button_radius(Handle: HWND; Radius: Integer);
+ 
+
+set_button_id`
+PL:   Ustaw ID kontrolki (przycisku) |   EN:   Set button id
+Ustawia wewnętrzny numer ID dla przycisku w hierarchii WinAPI`.
+pascal
+set_button_id(ButtonHandle: HWND; NewID: Integer);
+ 
+load_button_icon`
+PL:   Ładowanie małej ikony na przycisku (BMP 32-bit) |   EN:   Load button icon
+ pascal
+function load_button_icon(const filename: UnicodeString): HBITMAP;
+ 

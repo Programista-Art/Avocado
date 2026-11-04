@@ -1,0 +1,2 @@
+Aby skrypt mógł czytać pliki PDF, musisz zainstalować w systemie bibliotekę pypdf. Otwórz wiersz poleceń (CMD / Terminal) i wpisz:
+pip install pypdf

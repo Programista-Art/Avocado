@@ -1,0 +1,34 @@
+﻿//Program w Avorender pobieranie danych z serwera
+zmienna cialo = pobierz_cialo();
+ustaw_styl(cialo, 'background: #0f172a; color: white; font-family: "Segoe UI", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;');
+
+zmienna panel = stworz_element('div');
+ustaw_styl(panel, 'background: #1e293b; padding: 40px; border-radius: 16px; width: 450px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; transition: 0.3s;');
+dodaj_dziecko(cialo, panel);
+
+zmienna naglowek = stworz_element('h2');
+ustaw_tekst(naglowek, 'Nawiązywanie połączenia...');
+ustaw_styl(naglowek, 'color: #94a3b8;');
+dodaj_dziecko(panel, naglowek);
+
+// Wywołujemy naszą asynchroniczną komendę
+pobierz_z_sieci("http://localhost:8080/api/status", funkcja(surowy_tekst)
+poczatek
+    // 1. Używamy nowych funkcji z PR Julesa!
+    zmienna dane = parsuj_json(surowy_tekst);
+    zmienna stan = pobierz_pole(dane, "status");
+    zmienna wiadomosc = pobierz_pole(dane, "wiadomosc");
+    
+    // 2. Dynamiczna logika decyzyjna na podstawie struktury JSON
+    jesli (stan == "OK")
+    poczatek
+        ustaw_styl(panel, 'background: #1e293b; border-top: 6px solid #10b981; padding: 34px 40px 40px 40px;'); // Zielony pasek!
+        ustaw_tekst(naglowek, 'Serwer Online');
+        ustaw_styl(naglowek, 'color: #10b981;');
+        
+        zmienna tresc_pola = stworz_element('p');
+        ustaw_tekst(tresc_pola, wiadomosc);
+        ustaw_styl(tresc_pola, 'font-size: 18px; color: #f8fafc; line-height: 1.5; margin-top: 20px;');
+        dodaj_dziecko(panel, tresc_pola);
+    koniec
+koniec);

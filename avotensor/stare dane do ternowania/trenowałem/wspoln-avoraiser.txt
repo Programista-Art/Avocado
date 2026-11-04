@@ -1,0 +1,296 @@
+﻿Kontrolki Interfejsu (UI Controls) w Avoraiser
+Zestaw funkcji służący do tworzenia i modyfikowania standardowych kontrolek wewnątrz okien, takich jak przyciski, paski postępu, suwaki (trackbar), spin edit, labele, checkboxy, comboboxy i inne.
+
+set_component_visible  - Ukrywa lub pokazuje dowolny komponent UI (przycisk, pole tekstowe, panel).
+PL:   ustaw_widocznosc_komponentu  |   EN:   set_component_visible 
+Parametry:
+uchwyt_komponentu / h_component - Uchwyt komponentu.
+widoczny / visible - True  (pokazuje), False  (ukrywa).
+Przykład użycia nazwa polska:
+ustaw_widocznosc_komponentu(uchwyt_komponentu, widoczny)
+Przykład użycia nazwa angielska:
+set_component_visible(h_component, visible)
+
+set_component_rounding  - Ustawia promień zaokrąglenia rogów dla danego komponentu (np. przycisku lub panelu).
+PL:   ustaw_zaokraglenie_komponentu  |   EN:   set_component_rounding 
+Parametry:
+uchwyt_komponentu / h_component - Uchwyt komponentu.
+promien / radius - Promień zaokrąglenia w pikselach.
+
+Przykład użycia nazwa polska:
+ustaw_zaokraglenie_komponentu(uchwyt_komponentu, promien)
+
+Przykład użycia nazwa angielska:
+set_component_rounding(h_component, radius)
+
+ 2. Etykiety i Podstawowe Formularze (Labels & Checkboxes & GroupBoxes)
+
+create_label
+  PL:   Utwórz etykietę tekstową |   EN:   Create label
+Tworzy standardową ramkę z napisem (tzw. Static  control), domyślnie używaną jako podpis do pól lub instrukcja.
+ pascal
+create_label(Parent: HWND; const Text: UnicodeString; X, Y, Width, Height: Integer): HWND;
+ 
+
+    create_checkbox 
+  PL:   Utwórz kwadracik z opcją do zaznaczenia (Checkbox) |   EN:   Create checkbox
+Tworzy pole, które może być odhaczone przez użytkownika ("ptaszek").
+ pascal
+create_checkbox(Parent: HWND; const Text: UnicodeString; X, Y, Width, Height: Integer): HWND;
+// Dostępny też jako AvocadoStdCheckbox
+ 
+
+is_checkbox_checked  / get_checkbox_checked 
+PL:   Sprawdź stan zaznaczenia Checkboxa |   EN:   Is checkbox checked
+Zwraca True , jeśli element posiada zaznaczenie.
+ pascal
+function is_checkbox_checked(Handle: HWND): Boolean;
+ 
+
+create_radio_button 
+PL:   Kółeczko wyboru jednokrotnego (RadioButton) |   EN:   Create radio button
+Używane z reguły do opcji gdzie można wybrać tylko jedną zmienną w kontenerze.
+ pascal
+create_radio_button(Parent: HWND; const Caption: UnicodeString; X, Y, Width, Height: Integer; ID: Integer): HWND;
+ 
+
+is_radio_button_checked 
+PL:   Sprawdzenie stanu (Radio) |   EN:   Is radio button checked
+ pascal
+function is_radio_button_checked(hRadio: HWND): Boolean;
+ 
+
+set_radio_button_check 
+PL:   Ręczne włączanie zaznaczenia koła |   EN:   Set radio button check
+ pascal
+set_radio_button_check(hRadio: HWND; Checked: Boolean);
+ 
+
+create_group_box 
+PL:   Ramka grupująca kontrole |   EN:   Create group box
+Klasyczna ramka ( GroupBox ) okalająca logiczny ciąg opcji z podpisem na górnej krawędzi.
+ pascal
+create_group_box(Parent: HWND; const Caption: UnicodeString; X, Y, Width, Height: Integer; ...): HWND;
+// Przykład: hGroup := create_group_box(GlowneOkno, 'Motyw edytora', 790, 0, 160, 100, $00FFE19D, $2D2D2D);
+ 
+
+set_group_box_text  / get_group_box_text 
+PL:   Manipulacja tytułem na ramce grupy |   EN:   Set / Get group box text
+Zarządzanie tekstem nagłówkowym pola ramkowego w czasie działania.
+ pascal
+set_group_box_text(h_wnd: HWND; const text: UnicodeString);
+function get_group_box_text(h_wnd: HWND): UnicodeString;
+ 
+
+enable_group_box 
+PL:   Wyłącz i Zablokuj Grupę Kontrolek |   EN:   Enable group box
+Aktywacja / Dezaktywacja GroupBoxa (w przyszłości również wyłączająca wszystkie podkontrolki wewnątrz na raz).
+ pascal
+enable_group_box(h_wnd: HWND; enabled: Boolean);
+ 
+
+set_group_box_font 
+PL:   Zmiana czcionki "w locie" dla GroupBoxa |   EN:   Set group box font
+Zmienia wygląd podpisu na ramce przy użyciu uchwytu nowej struktury HFONT  z żądaniem opcjonalnego odrysowania ramki na ekran.
+ pascal
+set_group_box_font(h_wnd: HWND; h_font: HFONT; redraw: Boolean);
+ 
+3. Paski Postępu (ProgressBar)
+create_progressbar 
+PL:   Utwórz pasek postępu ładowania / wskaźnik |   EN:   Create progressbar
+Rysuje Avocado Progress Bar oparty na WinAPI, wykorzystywany zazwyczaj podczas przetwarzania długich procesów systemowych lub jako Health Bar (Pasek zdrowia w grach).
+ pascal
+create_progressbar(Parent: HWND; X, Y, W, H: Integer): HWND;
+ 
+
+set_progressbar_value  / get_progressbar_value 
+PL:   Pytanie / Podmienienie skali paska (Zazwyczaj Procenty %) |   EN:   Set / Get progressbar value
+Przekazuje / Pyta o ułamek wypełnionego prostokąta paska.
+ pascal
+set_progressbar_value(hProgress: HWND; Value: Integer);
+function get_progressbar_value(hProg: HWND): Integer;
+ 
+
+progressbar_step 
+PL:   Dodanie z kroku różnicy do obecnego stanu na pasku |   EN:   Progressbar step
+Idealnie zastępuje ręczne wzory z dodawaniem do zmiennej globalnej z postępem operacji. Podanie 10  – dodaje postęp, -5  – pomniejsza pasek.
+ pascal
+progressbar_step(hProg: HWND; Delta: Integer);
+ 
+
+set_progressbar_from_max 
+PL:   Automatyczne przeliczanie z innej proporcji pod postęp Progres Baru (Wielkie Wolumeny/Kalkulacja z % za Ciebie) |   EN:   Set progressbar from max
+Przydatny matematyczny pomocnik. Zamiast liczyć ułamki dla paska postępu z użyciem float/dzielenia ((150 / 600)   100)  – wystarczy załączyć to polecenie z całkowitą liczbą i przetworzonymi zrzutami (Pliki, Rozmiary Bytów HDD itp.).
+ pascal
+set_progressbar_from_max(hProg: HWND; Current, Max: Integer);
+// Przykład: Pobrane 5 MB z 20 MB z pliku (SetProgressBarFromMax(MyBar, 5242880, 20971520)) i pasek narysuje idealnie 25% postępu.
+ 
+
+    set_progressbar_color 
+  PL:   Zamalowanie Barwy (Postępu Linii na pasku) |   EN:   Set progressbar color
+Ustawienie tła u rosnącego wewnątrz wartości elementu na wskazanym komponencie.
+ pascal
+set_progressbar_color(hProgress: HWND; BarColor: DWORD);
+ 
+
+    set_progressbar_show_text 
+  PL:   Napis postępu ukrywany w locie na pasku procentów |   EN:   Set progressbar show text
+Opcja określająca czy pośrodku rysowania mają istnieć liczby postępu (np. '25%').
+ pascal
+set_progressbar_show_text(hProg: HWND; Enable: Boolean);
+ 
+
+    set_progressbar_text_color 
+  PL:   Zmiana wyglądu tekstu we wskaźniku postępu (% Postępu) |   EN:   Set progressbar text color
+Ustala styl / widoczność barwową od cyferek rosnących na wskaźniku.
+ pascal
+set_progressbar_text_color(hProg: HWND; Color: DWORD);
+ 
+
+    set_progressbar_border_color 
+  PL:   Styl i obrys z barwą krawędzi do pasków procentowych bez wpływania na teksty na nim |   EN:   Set progressbar border color
+Uniezależnienie widoczności od barwy w polu na korzyść rysowanych zewnętrznych granic od kontrolki ProgressBar w UI.
+ pascal
+set_progressbar_border_color(hProg: HWND; Color: DWORD);
+ 
+4. TrackBar (Suwak Systemowy - np. Poziom Głośności)
+Kontrolka służąca do wprowadzania precyzyjnych wartości poprzez przeciągnięcie pokrętła / kciuka po linii.
+
+create_trackbar 
+PL:   Tworzy pasek głośności/suwak (Avocado TrackBar domyślnie od 0-100 na pasku suwaków) |   EN:   Create trackbar
+Rejestracja wewnętrzna specjalnej klasy i rysowanie ułożonego odpowiednio paska.
+ pascal
+create_trackbar(Parent: HWND; X, Y, Width, Height: Integer): HWND;
+ 
+
+set_trackbar_pos  / get_trackbar_pos 
+PL:   Ustalenie położenia punktów w suwaku na ekranie/Odczyt pozycji |   EN:   Set / Get trackbar pos
+Operacje w oparciu o procentowy wycinek zakresu.
+ pascal
+set_trackbar_pos(hTrack: HWND; Pos: Integer);
+function get_trackbar_pos(hTrack: HWND): Integer;
+ 
+
+set_trackbar_range 
+PL:   Skala Zakresu (Min/Max Opcje od Krawędzi lewej do Prawej dla kciuka) |   EN:   Set trackbar range
+ pascal
+set_trackbar_range(hTrack: HWND; Min, Max: Integer); // Np. od 0 do 255 jasności z monitora.
+ 
+
+set_trackbar_colors 
+PL:   Pełne Kolorowanie Opcji u Suwaków (Track/Background/Kciuk na Suwaku Tła z Lewej i Prawej strony po zjeździe opcji rosnącej u elementu) |   EN:   Set trackbar colors
+ pascal
+set_trackbar_colors(hTrack: HWND; clTrack, clProgress, clThumb: DWORD);
+ 
+
+set_trackbar_step 
+PL:   Częstotliwość przyciągnięcia o tzw. 'skok' np. (Ustawienia Głośności w Windows co 2 lub 5 punktów zamiast 1 na obrót kółkiem) |   EN:   Set trackbar step
+ pascal
+set_trackbar_step(hTrack: HWND; Step: Integer);
+ 
+
+set_trackbar_show_value 
+PL:   Aktywator Labela Live (Pokaż wartość nad paskiem przesuwanym u kciuka podczas ruszania suwakiem - np. Live Percentage) |   EN:   Set trackbar show value
+Przestrzeń nad suwakiem winna uwzględnić trochę większy H  (Wysokość), by litery procentowe były wygenerowane nad pokrętłem głośności.
+ pascal
+set_trackbar_show_value(hTrack: HWND; Show: Boolean);
+
+5. SpinEdit (Licznik Strzałkowy - Przycisk Góra/Dół Numeryczny)
+
+Kontrolka ułatwiająca zmianę liczb w panelach ustawień za pomocą klikania w strzałki + lub - zamiast ich mozolnego wpisywania cyfr po cyfrze na klawiaturze (np. wybór rozmiaru czcionki lub liczby kopii do druku).
+
+create_spin_edit 
+PL:   Utwórz licznik ze strzałkami (+ / -) na panelu numerycznym |   EN:   Create spin edit
+Funkcja WinApi AvocadoSpinEdit  implementowana dla ulepszonego UI kontrolek podnoszenia wartości.
+ pascal
+create_spin_edit(Parent: HWND; X, Y, Width, Height: Integer): HWND;
+// Przykład: hSpin := create_spin_edit(OknoGlowne, 50, 150, 100, 35);
+// Potem można podpiąć tekst u niego: set_text(hSpin, '0');
+ 
+
+get_spin_value 
+PL:   Zwrot obecnego ułamka kliknięć z SpinEdita z ekranu |   EN:   Get spin value
+Przekazanie na podstawie operacji numerycznych z kontrolki jako typ całkowity Integer zamiast tekstu.
+ pascal
+function get_spin_value(hSpin: HWND): Integer;
+ 
+
+set_spin_arrow_color 
+PL:   Malowanie trójkątów / Strzałek Góra i Dół w komponencie numerycznym UI na dowolny kolor |   EN:   Set spin arrow color
+Opcja dla Avocado UI.
+ pascal
+set_spin_arrow_color(hSpin: HWND; Color: DWORD);
+ 
+
+set_spin_background_color 
+PL:   Zmiana Tła na prawym panelu pobocznym od obszaru na same Strzałki UI na Spin Edicie |   EN:   Set spin background color
+Zmienia kolor poboczny na ten z resztą elementu od Edit.
+ pascal
+set_spin_background_color(hSpin: HWND; Color: DWORD);
+ 
+6. Ustawienia Uniwersalne Kontrolek i Zmiana Wyglądu Opcji z Komponentami UI
+Te funkcje można używać uniwersalnie do praktycznie wszystkich klas opcji.
+
+get_prop_color  / set_component_color 
+PL:   Uniwersalne Kolorowanie UI u Wewnętrznych Elementów Windows na własne kolory Avocado / Pobranie Barwy Zapisanej |   EN:   Get prop color / Set component color
+Obsługuje ListBox, Edit, ComboBox z tłem u kontrolek, i Checkboxy na samych małych napisach statycznych obok pudełeczka checkbox, etc. (Funkcje od obsługi wywołań zwrotnych z WM_CTLCOLOR... )
+pascal
+function get_prop_color(Handle: HWND; const PropName: PChar): COLORREF;
+set_component_color(Control: HWND; TextColor, BgColor: DWORD);
+// Zapis rgb / BGR bez problemów ze spłaszczeniem funkcji (Można też wstawić np RGB(255, 255, 255)).
+ 
+
+set_component_transparent 
+PL:   Pełna Przezroczystość Elementów Graficznych u Kontrolek (Brak Wypełnienia Tłem u Napisów w Label / Obok Opcji itp.) |   EN:   Set component transparent
+Nakazuje nakładanie kontrolek na grafiki jako przezroczyste komponenty interfejsu (np. przy napisie Label  bez czarnych czy białych ramkowych poświat z tyłu).
+ pascal
+set_component_transparent(Handle: HWND; Transparent: Boolean);
+ 
+
+set_component_text_color 
+PL:   Narzucenie Koloru Od Ręki Dla Tekstów Z Kontrolek W Ujednoliceniu Konwencji |   EN:   Set component text color
+Rozszerzona zmiana koloru od wyciągniętych obiektów na komponent (Szybka Zmiana do Ciemnego Tła po kliknięciu Opcji Dark Mode).
+ pascal
+set_component_text_color(Handle: HWND; Color: DWORD);
+ 
+
+set_component_auto_font 
+PL:   Generacja Globalnego Skalowania Czcionek i Ustalania z Pamięcią po ID elementów i Systemowych CreateFont  Wyrównań |   EN:   Set component auto font
+Zarządza strukturą (Ograniczenie wycieków pamięci systemu na powielonych fontach u wielkich tabel z opcjami po listach list).
+ pascal
+set_component_auto_font(Handle: HWND; const FontName: PChar; Size: Integer);
+ 
+
+    set_component_size_font 
+  PL:   Szybka zmiana rozmiarów i Nazwy kroju Czcionki od Opcji u kontrolek dla Przycisku czy Paska od Notatnika np. Roboto (Bold / Regular) na WinAPI do zmiany u każdego Komponentu. |   EN:   Set component size font
+ pascal
+set_component_size_font(Handle: HWND; FontName: UnicodeString; Size: Integer);
+ 
+
+    set_component_visible 
+  PL:   Uniwersalna Opcja Do Pojawiania się Elementu Kontrolki Bądź Zniknięcia Na Ekrany np.(Tylko po najechaniu lub Skompletowaniu questa) |   EN:   Set component visible
+Działa z Labelami, Checkboxami, Przyciskami.
+ pascal
+set_component_visible(hComponent: HWND; Visible: Boolean);
+ 
+
+    toggle_component_visible 
+  PL:   Przełącznik Od Kontrolki Z Niewidzialności (Switch Toggle Opcji Pokaż/Ukryj) dla elementów u Zminimalizowanego Systemu np. w Grach Opcje Ekranowe (Pokaż Menu z Boku/Zamknij Bok Ekranu) |   EN:   Toggle component visible
+W zależności od starych wartości odwraca opcję i zmazuje w API widoczność i klikałność na pole.
+ pascal
+toggle_component_visible(hComponent: HWND);
+ 
+
+set_component_rounding  / rounding 
+PL:   Dodanie Efektu "Tabletki" do opcji Przycisku, albo Promienia Zaokrągleń pod Kwadratowe Kontrolki u nowoczesnych systemów Design UI Windows 11 od Frameworka |   EN:   Set component rounding
+ pascal
+set_component_rounding(hComponent: HWND; Radius: Integer);
+ 
+
+create_ui_font 
+PL:   Potężna funkcja systemowa wyciągnięta i podpięta od tworzenia struktur globalnych dla użytych znaków (Np. Segoe UI  o rozmiarze standardowym systemu domyślnego). |   EN:   Create ui font
+Służy zwalnianiu pamięci od wycieków przed zamknięciami programów przez framework i odpinania starych po użyciu w SendMessageW(..WM_SETFONT..) .
+ pascal
+function create_ui_font(const font_name: PWideChar; size: Integer): HFONT;
+// Przykład h_font := create_ui_font(PWideChar('Segoe UI'), 9);
+ 
